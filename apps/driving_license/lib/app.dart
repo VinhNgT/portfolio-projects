@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/routing/app_router.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
+import 'package:driving_license/routing/router_reevaluate_notifier.dart';
 import 'package:driving_license/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,7 +11,8 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appRouter = ref.read(appRouterProvider);
+    final appRouter = ref.watch(appRouterProvider);
+    final routerGuardReevaluate = ref.watch(routerReevaluateNotifierProvider);
 
     return MaterialApp.router(
       title: 'Driving License App',
@@ -19,6 +21,7 @@ class MyApp extends ConsumerWidget {
       routerConfig: appRouter.config(
         // Initial route
         deepLinkBuilder: (_) => DeepLink([MyHomeRoute(title: 'test')]),
+        reevaluateListenable: routerGuardReevaluate,
       ),
     );
   }
