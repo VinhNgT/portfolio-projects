@@ -3,9 +3,10 @@
 import "package:flutter/material.dart";
 
 class MaterialTheme {
-  final TextTheme textTheme;
+  // final TextTheme textTheme;
 
-  const MaterialTheme(this.textTheme);
+  // const MaterialTheme(this.textTheme);
+  const MaterialTheme();
 
   static MaterialScheme lightScheme() {
     return const MaterialScheme(
@@ -361,17 +362,32 @@ class MaterialTheme {
     return theme(darkHighContrastScheme().toColorScheme());
   }
 
-  ThemeData theme(ColorScheme colorScheme) => ThemeData(
-        useMaterial3: true,
-        brightness: colorScheme.brightness,
-        colorScheme: colorScheme,
-        textTheme: textTheme.apply(
-          bodyColor: colorScheme.onSurface,
-          displayColor: colorScheme.onSurface,
-        ),
-        scaffoldBackgroundColor: colorScheme.background,
-        canvasColor: colorScheme.surface,
-      );
+  // ThemeData theme(ColorScheme colorScheme) => ThemeData(
+  //       useMaterial3: true,
+  //       brightness: colorScheme.brightness,
+  //       colorScheme: colorScheme,
+  //       textTheme: textTheme.apply(
+  //         bodyColor: colorScheme.onSurface,
+  //         displayColor: colorScheme.onSurface,
+  //       ),
+  //       scaffoldBackgroundColor: colorScheme.background,
+  //       canvasColor: colorScheme.surface,
+  //     );
+
+  ThemeData theme(ColorScheme colorScheme) {
+    final m3Theme = ThemeData(useMaterial3: true);
+
+    return m3Theme.copyWith(
+      brightness: colorScheme.brightness,
+      colorScheme: colorScheme,
+      textTheme: m3Theme.textTheme.apply(
+        bodyColor: colorScheme.onSurface,
+        displayColor: colorScheme.onSurface,
+      ),
+      scaffoldBackgroundColor: colorScheme.background,
+      canvasColor: colorScheme.surface,
+    );
+  }
 
   List<ExtendedColor> get extendedColors => [];
 }
