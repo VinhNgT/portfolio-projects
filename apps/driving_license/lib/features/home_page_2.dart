@@ -1,28 +1,23 @@
-import 'dart:async';
-
-import 'package:auto_route/auto_route.dart';
-import 'package:driving_license/routing/router.gr.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class MyHomePage2 extends StatefulWidget {
+  const MyHomePage2({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage2> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _MyHomePageState extends State<MyHomePage2> {
+  int _counter = 432143214;
 
-  void _incrementCounter() async {
+  void _incrementCounter() {
     setState(() {
       _counter++;
     });
-
-    unawaited(context.router.push(MyHomeRoute2(title: 'Home page 2 !!!')));
   }
 
   @override
