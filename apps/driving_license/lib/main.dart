@@ -1,5 +1,5 @@
 import 'package:driving_license/features/home_page.dart';
-import 'package:driving_license/theme.dart';
+import 'package:driving_license/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
