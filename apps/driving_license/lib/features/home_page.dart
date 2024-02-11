@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:driving_license/routing/router.gr.dart';
+import 'package:driving_license/routing/app_router.gr.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
