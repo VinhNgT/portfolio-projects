@@ -44,6 +44,7 @@ linter:
     - unnecessary_parenthesis
     - only_throw_errors
     - avoid_returning_this
+    - lines_longer_than_80_chars
 
     # Class Rules
     - use_super_parameters
