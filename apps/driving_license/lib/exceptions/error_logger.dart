@@ -8,11 +8,11 @@ part 'error_logger.g.dart';
 // Generic error logger that logs errors
 sealed class ErrorLogger {
   void logError(Object error, StackTrace? stackTrace);
-  void logAppException(AppException exception);
+  void logAppException(AppException exception, StackTrace? stackTrace);
 }
 
 // A console error logger that logs errors to the console
-class ConsoleErrorLogger implements ErrorLogger {
+class ConsoleErrorLogger extends ErrorLogger {
   @override
   void logError(Object error, StackTrace? stackTrace) {
     debugPrint('Error: $error');
@@ -20,8 +20,9 @@ class ConsoleErrorLogger implements ErrorLogger {
   }
 
   @override
-  void logAppException(AppException exception) {
+  void logAppException(AppException exception, StackTrace? stackTrace) {
     debugPrint('AppException: $exception');
+    debugPrint('Stack trace: $stackTrace');
   }
 }
 
