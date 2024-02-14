@@ -5,21 +5,40 @@ import 'package:driving_license/features/home/presentation/donate_card.dart';
 import 'package:driving_license/features/home/presentation/feature_card.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:gap/gap.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 @RoutePage()
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     const licenseName = 'Giấy phép lái xe A1';
+
+    final appBarSurfaceColor = context.materialScheme.surface;
+    final appBarScrolledUnderColor = context.materialScheme.surfaceContainer;
+    final scrollController = useScrollController();
+    final appBarBackgroundColor = useListenableSelector(scrollController, () {
+      try {
+        final newColor = Color.lerp(
+          appBarSurfaceColor,
+          appBarScrolledUnderColor,
+          (scrollController.offset / (context.appBarHeight / 4)).clamp(0, 1),
+        )!;
+
+        return newColor;
+      } on AssertionError {
+        return appBarSurfaceColor;
+      }
+    });
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppBarBackgroundColor(context),
+        backgroundColor: appBarBackgroundColor,
         leading: IconButton(
           icon: const Icon(
             Symbols.menu,
@@ -35,8 +54,9 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: const SingleChildScrollView(
-        child: Padding(
+      body: SingleChildScrollView(
+        controller: scrollController,
+        child: const Padding(
           padding: EdgeInsets.only(
             left: SizeConstant.p16,
             right: SizeConstant.p16,
@@ -59,6 +79,8 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+/// Deprecated, keeping for historical purposes when Flutter team decides to add
+/// AppBar color transition animation when MaterialState.scrolledUnder
 class AppBarBackgroundColor extends MaterialStateColor {
   final BuildContext context;
   AppBarBackgroundColor(this.context)
