@@ -45,6 +45,7 @@ dependencies:
   gap: ^3.0.1
   flutter_svg: ^2.0.9
   flutter_layout_grid: ^2.0.5
+  vector_graphics: ^1.1.10+1
 
 dev_dependencies:
   flutter_test:
@@ -83,7 +84,7 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-    - assets/icons/home_screen/
+    - assets/icons/home_screen/complied/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

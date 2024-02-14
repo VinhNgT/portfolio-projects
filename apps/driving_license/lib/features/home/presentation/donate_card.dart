@@ -3,6 +3,7 @@ import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 class DonateCard extends StatelessWidget {
   const DonateCard({
@@ -26,8 +27,10 @@ class DonateCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                SvgPicture.asset(
-                  'assets/icons/home_screen/heart.svg',
+                const SvgPicture(
+                  AssetBytesLoader(
+                    'assets/icons/home_screen/complied/heart.svg.vec',
+                  ),
                 ),
                 const Gap(PaddingSize.p16),
                 Expanded(
