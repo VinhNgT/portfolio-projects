@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:driving_license/common_widgets/hooks/use_app_bar_scrolled_under_background_color.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/features/home/presentation/chapter_card.dart';
 import 'package:driving_license/features/home/presentation/donate_card.dart';
@@ -18,27 +19,12 @@ class HomeScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     const licenseName = 'Giấy phép lái xe A1';
-
-    final appBarSurfaceColor = context.materialScheme.surface;
-    final appBarScrolledUnderColor = context.materialScheme.surfaceContainer;
     final scrollController = useScrollController();
-    final appBarBackgroundColor = useListenableSelector(scrollController, () {
-      try {
-        final newColor = Color.lerp(
-          appBarSurfaceColor,
-          appBarScrolledUnderColor,
-          (scrollController.offset / (context.appBarHeight / 4)).clamp(0, 1),
-        )!;
-
-        return newColor;
-      } on AssertionError {
-        return appBarSurfaceColor;
-      }
-    });
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: appBarBackgroundColor,
+        backgroundColor:
+            useAppBarScrolledUnderBackgroundColor(context, scrollController),
         leading: IconButton(
           icon: const Icon(
             Symbols.menu,
