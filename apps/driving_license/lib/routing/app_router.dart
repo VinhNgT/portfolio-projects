@@ -4,12 +4,11 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_router.g.dart';
 
-@AutoRouterConfig(replaceInRouteName: 'Page,Route')
+@AutoRouterConfig(replaceInRouteName: 'Page|Screen,Route')
 class AppRouter extends $AppRouter {
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: MyHomeRoute.page),
-        AutoRoute(page: MyHomeRoute2.page),
+        AutoRoute(page: HomeRoute.page),
       ];
 }
 

@@ -16,11 +16,12 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp.router(
       title: 'Driving License App',
+      debugShowCheckedModeBanner: false,
       theme: const MaterialTheme().light(),
       darkTheme: const MaterialTheme().dark(),
       routerConfig: appRouter.config(
         // Initial route
-        deepLinkBuilder: (_) => DeepLink([MyHomeRoute(title: 'test')]),
+        deepLinkBuilder: (_) => const DeepLink([HomeRoute()]),
         reevaluateListenable: routerGuardReevaluate,
       ),
     );
