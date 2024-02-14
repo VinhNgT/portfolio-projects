@@ -36,7 +36,8 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   # Riverpod
-  flutter_riverpod: ^2.4.10
+  hooks_riverpod: ^2.4.10
+  flutter_hooks: ^0.20.5
   riverpod_annotation: ^2.3.4
 
   # Auto Route
