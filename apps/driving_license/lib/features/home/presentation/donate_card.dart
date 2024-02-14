@@ -13,15 +13,13 @@ class DonateCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 0,
       color: context.materialScheme.surfaceContainer,
-      margin: EdgeInsets.zero,
       child: Padding(
         padding: const EdgeInsets.only(
-          left: PaddingSize.p20,
-          right: PaddingSize.p20,
-          top: PaddingSize.p12,
-          bottom: PaddingSize.p16,
+          left: SizeConstant.p20,
+          right: SizeConstant.p20,
+          top: SizeConstant.p12,
+          bottom: SizeConstant.p16,
         ),
         child: Column(
           children: [
@@ -32,7 +30,7 @@ class DonateCard extends StatelessWidget {
                     'assets/icons/home_screen/complied/heart.svg.vec',
                   ),
                 ),
-                const Gap(PaddingSize.p16),
+                const Gap(SizeConstant.p16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +39,7 @@ class DonateCard extends StatelessWidget {
                         'Đóng góp',
                         style: context.textTheme.titleMedium,
                       ),
-                      const Gap(PaddingSize.p2),
+                      const Gap(SizeConstant.p2),
                       Text(
                         'Ủng hộ nhà phát triển phần mềm',
                         style: context.textTheme.bodyMedium!.copyWith(
@@ -53,7 +51,7 @@ class DonateCard extends StatelessWidget {
                 ),
               ],
             ),
-            const Gap(PaddingSize.p16),
+            const Gap(SizeConstant.p16),
             SizedBox(
               width: double.infinity,
               child: FilledButton.tonal(

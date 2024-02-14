@@ -1,5 +1,5 @@
 /// Constant sizes to be used in the app (paddings, gaps, rounded corners etc.)
-class PaddingSize {
+class SizeConstant {
   static const p2 = 2.0;
   static const p4 = 4.0;
   static const p8 = 8.0;

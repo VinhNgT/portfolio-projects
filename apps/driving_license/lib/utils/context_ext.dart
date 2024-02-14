@@ -17,6 +17,7 @@ extension ContextExtension on BuildContext {
   double get height => MediaQuery.of(this).size.height;
   double get statusBarHeight => MediaQuery.of(this).padding.top;
   double get bottomBarHeight => MediaQuery.of(this).padding.bottom;
+  double get appBarHeight => AppBarTheme.of(this).toolbarHeight!;
 
   // double get textScaleFactor => MediaQuery.of(this).textScaleFactor;
 

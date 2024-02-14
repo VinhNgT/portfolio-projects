@@ -1,9 +1,7 @@
+import 'package:driving_license/constants/app_sizes.dart';
 import 'package:flutter/material.dart';
 
 class MaterialTheme {
-  // final TextTheme textTheme;
-
-  // const MaterialTheme(this.textTheme);
   const MaterialTheme();
 
   static MaterialScheme lightScheme() {
@@ -360,21 +358,11 @@ class MaterialTheme {
     return theme(darkHighContrastScheme().toColorScheme());
   }
 
-  // ThemeData theme(ColorScheme colorScheme) => ThemeData(
-  //       useMaterial3: true,
-  //       brightness: colorScheme.brightness,
-  //       colorScheme: colorScheme,
-  //       textTheme: textTheme.apply(
-  //         bodyColor: colorScheme.onSurface,
-  //         displayColor: colorScheme.onSurface,
-  //       ),
-  //       scaffoldBackgroundColor: colorScheme.background,
-  //       canvasColor: colorScheme.surface,
-  //     );
-
   ThemeData theme(ColorScheme colorScheme) {
+    // Generate Material3 theme with all of the default settings
     final m3Theme = ThemeData(useMaterial3: true);
 
+    // Customize the Material3 theme
     return m3Theme.copyWith(
       brightness: colorScheme.brightness,
       colorScheme: colorScheme,
@@ -384,6 +372,18 @@ class MaterialTheme {
       ),
       scaffoldBackgroundColor: colorScheme.background,
       canvasColor: colorScheme.surface,
+      iconTheme: m3Theme.iconTheme.copyWith(
+        opticalSize: SizeConstant.p24,
+      ),
+      appBarTheme: m3Theme.appBarTheme.copyWith(
+        toolbarHeight: 64,
+        titleSpacing: 0,
+        scrolledUnderElevation: 0,
+      ),
+      cardTheme: m3Theme.cardTheme.copyWith(
+        elevation: 0,
+        margin: EdgeInsets.zero,
+      ),
     );
   }
 

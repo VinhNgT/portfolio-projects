@@ -17,10 +17,8 @@ class ButtonCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 0,
       color: surfaceColor,
-      margin: EdgeInsets.zero,
-      clipBehavior: Clip.hardEdge,
+      clipBehavior: Clip.antiAlias,
       child: InkWell(
         overlayColor: ButtonCardBackgroundColor(onSurfaceColor),
         onTap: onTap,

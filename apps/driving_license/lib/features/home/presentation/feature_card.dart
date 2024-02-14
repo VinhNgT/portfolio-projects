@@ -21,8 +21,8 @@ class FeatureCard extends StatelessWidget {
       onSurfaceColor: context.materialScheme.onSurface,
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: PaddingSize.p16,
-          vertical: PaddingSize.p12,
+          horizontal: SizeConstant.p16,
+          vertical: SizeConstant.p12,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,7 +31,7 @@ class FeatureCard extends StatelessWidget {
               title,
               style: context.textTheme.titleMedium,
             ),
-            const Gap(PaddingSize.p2),
+            const Gap(SizeConstant.p2),
             Text(
               subhead,
               style: context.textTheme.bodyMedium!.copyWith(
