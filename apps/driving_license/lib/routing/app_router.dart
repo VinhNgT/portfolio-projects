@@ -1,24 +1,10 @@
+import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_router.g.dart';
-
-Route<T> myCustomRouteBuilder<T>(
-  BuildContext context,
-  Widget child,
-  AutoRoutePage<T> page,
-) {
-  return PageTransition(
-    child: child,
-    type: PageTransitionType.rightToLeft,
-    settings: page,
-    duration: const Duration(milliseconds: 100),
-    reverseDuration: const Duration(milliseconds: 100),
-  );
-}
 
 @AutoRouterConfig(replaceInRouteName: 'Page|Screen,Route')
 class AppRouter extends $AppRouter {
@@ -30,14 +16,13 @@ class AppRouter extends $AppRouter {
 
   @override
   RouteType get defaultRouteType => RouteType.custom(
-        customRouteBuilder: <T>(context, child, page) {
-          return PageTransition(
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SharedAxisTransition(
+            fillColor: Theme.of(context).scaffoldBackgroundColor,
+            animation: animation,
+            secondaryAnimation: secondaryAnimation,
+            transitionType: SharedAxisTransitionType.horizontal,
             child: child,
-            settings: page,
-            curve: Curves.bounceInOut,
-            type: PageTransitionType.size,
-            duration: const Duration(milliseconds: 300),
-            reverseDuration: const Duration(milliseconds: 250),
           );
         },
       );
