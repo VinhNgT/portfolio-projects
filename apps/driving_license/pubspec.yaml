@@ -43,10 +43,16 @@ dependencies:
   # Auto Route
   auto_route: ^7.8.4
   material_symbols_icons: ^4.2719.1
+
+  # UI
   gap: ^3.0.1
-  flutter_svg: ^2.0.9
   flutter_layout_grid: ^2.0.5
+  flutter_svg: ^2.0.9
   vector_graphics: ^1.1.10+1
+
+  # Domain (Model)
+  freezed_annotation: ^2.4.1
+  json_annotation: ^4.8.1
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +75,10 @@ dev_dependencies:
 
   # Auto Route
   auto_route_generator: ^7.3.2
+
+  # Domain (Model)
+  freezed: ^2.4.7
+  json_serializable: ^6.7.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
