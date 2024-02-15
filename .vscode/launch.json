@@ -9,20 +9,20 @@
       "cwd": "apps\\driving_license",
       "request": "launch",
       "type": "dart"
+    },
+    {
+      "name": "driving_license (profile mode)",
+      "cwd": "apps\\driving_license",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "driving_license (release mode)",
+      "cwd": "apps\\driving_license",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
     }
-    // {
-    //   "name": "driving_license (profile mode)",
-    //   "cwd": "apps\\driving_license",
-    //   "request": "launch",
-    //   "type": "dart",
-    //   "flutterMode": "profile"
-    // },
-    // {
-    //   "name": "driving_license (release mode)",
-    //   "cwd": "apps\\driving_license",
-    //   "request": "launch",
-    //   "type": "dart",
-    //   "flutterMode": "release"
-    // }
   ]
 }
