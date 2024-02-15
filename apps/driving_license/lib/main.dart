@@ -4,7 +4,7 @@ import 'package:driving_license/app.dart';
 import 'package:driving_license/exceptions/async_error_logger.dart';
 import 'package:driving_license/exceptions/error_logger.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void main() async {
   // Firebase needs this to be called before runApp

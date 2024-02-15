@@ -7,20 +7,21 @@ Color useAppBarScrolledUnderBackgroundColor(
   ScrollController scrollController,
 ) {
   final appBarSurfaceColor = context.materialScheme.surface;
-  final appBarScrolledUnderColor = context.materialScheme.surfaceContainer;
-  final appBarBackgroundColor = useListenableSelector(scrollController, () {
-    try {
-      final newColor = Color.lerp(
-        appBarSurfaceColor,
-        appBarScrolledUnderColor,
-        (scrollController.offset / (context.appBarHeight / 4)).clamp(0, 1),
-      )!;
+  final appBarScrolledUnderColor = context.materialScheme.surfaceContainerLow;
 
-      return newColor;
-    } on AssertionError {
+  return useListenableSelector(scrollController, () {
+    /// If the scroll controller has not been attached to a scroll view yet,
+    /// return the default color
+    if (!scrollController.hasClients) {
       return appBarSurfaceColor;
     }
-  });
 
-  return appBarBackgroundColor;
+    final newColor = Color.lerp(
+      appBarSurfaceColor,
+      appBarScrolledUnderColor,
+      (scrollController.offset / (context.appBarHeight / 4)).clamp(0, 1),
+    )!;
+
+    return newColor;
+  });
 }

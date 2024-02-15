@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:driving_license/theme/theme.dart';
 import 'package:flutter/material.dart';
 

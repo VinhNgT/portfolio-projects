@@ -1,6 +1,6 @@
 import 'package:driving_license/exceptions/app_exception.dart';
 import 'package:driving_license/exceptions/error_logger.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /// Error logger class to keep track of all AsyncError states that are set
 /// by the controllers in the app
