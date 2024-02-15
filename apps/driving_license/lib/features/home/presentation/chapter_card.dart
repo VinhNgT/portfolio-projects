@@ -11,12 +11,14 @@ class ChapterCard extends StatelessWidget {
   final String iconAssetPath;
   final String title;
   final String subhead;
+  final VoidCallback? onTap;
 
   const ChapterCard({
     super.key,
     required this.iconAssetPath,
     required this.title,
     required this.subhead,
+    this.onTap,
   });
 
   @override
@@ -24,6 +26,7 @@ class ChapterCard extends StatelessWidget {
     return ButtonCard(
       surfaceColor: context.materialScheme.surfaceContainerHigh,
       onSurfaceColor: context.materialScheme.onSurface,
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: SizeConstant.p16,
@@ -60,9 +63,6 @@ class ChapterCard extends StatelessWidget {
           ],
         ),
       ),
-      onTap: () {
-        // debugPrint(IconTheme.of(context).opticalSize.toString());
-      },
     );
   }
 }

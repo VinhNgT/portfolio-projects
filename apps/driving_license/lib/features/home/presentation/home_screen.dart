@@ -4,6 +4,7 @@ import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/features/home/presentation/chapter_card.dart';
 import 'package:driving_license/features/home/presentation/donate_card.dart';
 import 'package:driving_license/features/home/presentation/feature_card.dart';
+import 'package:driving_license/routing/app_router.gr.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -131,48 +132,64 @@ class ChapterSelection extends StatelessWidget {
       children: [
         Text('Ôn tập câu hỏi', style: context.textTheme.titleLarge),
         const Gap(SizeConstant.p16),
-        LayoutGrid(
-          // 1 column
-          columnSizes: [1.fr],
-          // 6 rows
-          rowSizes: List.generate(6, (_) => auto),
-          rowGap: SizeConstant.p12,
-          children: const [
+        ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          separatorBuilder: (BuildContext context, int index) =>
+              const Gap(SizeConstant.p12),
+          itemCount: 6,
+          itemBuilder: (BuildContext _, int index) => [
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/danger_fire.svg.vec',
               title: 'Câu hỏi điểm liệt',
               subhead: 'Đã hoàn thành 0 / 20',
+              onTap: () async => context.pushRoute(
+                QuestionRoute(chapterDatabaseKey: 'diemLiet'),
+              ),
             ),
             ChapterCard(
               iconAssetPath: 'assets/icons/home_screen/complied/books.svg.vec',
               title: 'Khái niệm và quy tắc',
               subhead: 'Đã hoàn thành 0 / 83 - Sai 5 câu',
+              onTap: () async => context.pushRoute(
+                QuestionRoute(chapterDatabaseKey: 'khaiNiemVaQuyTac'),
+              ),
             ),
             ChapterCard(
               iconAssetPath: 'assets/icons/home_screen/complied/person.svg.vec',
               title: 'Văn hoá và đạo đức',
               subhead: 'Đã hoàn thành 0 / 5',
+              onTap: () async => context.pushRoute(
+                QuestionRoute(chapterDatabaseKey: 'vanHoaVaDaoDuc'),
+              ),
             ),
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/steering_wheel.svg.vec',
               title: 'Kỹ thuật lái xe',
               subhead: 'Đã hoàn thành 0 / 12',
+              onTap: () async => context
+                  .pushRoute(QuestionRoute(chapterDatabaseKey: 'kyThuatLaiXe')),
             ),
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/turn_right_sign.svg.vec',
               title: 'Biển báo đường bộ',
               subhead: 'Đã hoàn thành 0 / 65',
+              onTap: () async => context.pushRoute(
+                QuestionRoute(chapterDatabaseKey: 'bienBaoDuongBo'),
+              ),
             ),
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/traffic_light.svg.vec',
               title: 'Sa hình',
               subhead: 'Đã hoàn thành 0 / 35',
+              onTap: () async => context
+                  .pushRoute(QuestionRoute(chapterDatabaseKey: 'saHinh')),
             ),
-          ],
+          ][index],
         ),
       ],
     );
