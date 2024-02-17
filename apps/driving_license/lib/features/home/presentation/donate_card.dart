@@ -1,8 +1,8 @@
 import 'package:driving_license/constants/app_sizes.dart';
+import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gap/gap.dart';
 import 'package:vector_graphics/vector_graphics.dart';
 
 class DonateCard extends StatelessWidget {
@@ -16,10 +16,10 @@ class DonateCard extends StatelessWidget {
       color: context.materialScheme.surfaceContainer,
       child: Padding(
         padding: const EdgeInsets.only(
-          left: SizeConstant.p20,
-          right: SizeConstant.p20,
-          top: SizeConstant.p12,
-          bottom: SizeConstant.p16,
+          left: kSize_20,
+          right: kSize_20,
+          top: kSize_12,
+          bottom: kSize_16,
         ),
         child: Column(
           children: [
@@ -30,7 +30,7 @@ class DonateCard extends StatelessWidget {
                     'assets/icons/home_screen/complied/heart.svg.vec',
                   ),
                 ),
-                const Gap(SizeConstant.p16),
+                kGap_16,
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,7 +39,7 @@ class DonateCard extends StatelessWidget {
                         'Đóng góp',
                         style: context.textTheme.titleMedium,
                       ),
-                      const Gap(SizeConstant.p2),
+                      kGap_2,
                       Text(
                         'Ủng hộ nhà phát triển phần mềm',
                         style: context.textTheme.bodyMedium!.copyWith(
@@ -51,7 +51,7 @@ class DonateCard extends StatelessWidget {
                 ),
               ],
             ),
-            const Gap(SizeConstant.p16),
+            kGap_16,
             SizedBox(
               width: double.infinity,
               child: FilledButton.tonal(

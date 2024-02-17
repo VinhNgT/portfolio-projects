@@ -1,10 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/common_widgets/hooks/use_app_bar_scrolled_under_background_color.dart';
-import 'package:driving_license/constants/app_sizes.dart';
+import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/question/domain/question.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -28,7 +27,7 @@ class QuestionScreen extends HookConsumerWidget {
         ),
         // leadingWidth: 48,
         actions: [
-          const Gap(SizeConstant.p12),
+          kGap_12,
           IconButton(
             icon: const Icon(Symbols.bookmark),
             onPressed: () {},
@@ -37,7 +36,7 @@ class QuestionScreen extends HookConsumerWidget {
             icon: const Icon(Symbols.restart_alt),
             onPressed: () {},
           ),
-          const Gap(SizeConstant.p4),
+          kGap_4,
         ],
       ),
     );

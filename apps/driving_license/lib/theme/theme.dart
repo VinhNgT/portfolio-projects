@@ -373,15 +373,15 @@ class MaterialTheme {
       scaffoldBackgroundColor: colorScheme.background,
       canvasColor: colorScheme.surface,
       iconTheme: m3Theme.iconTheme.copyWith(
-        opticalSize: SizeConstant.p24,
+        opticalSize: kSize_24,
       ),
       appBarTheme: m3Theme.appBarTheme.copyWith(
-        toolbarHeight: 64,
-        titleSpacing: 4,
-        scrolledUnderElevation: 0,
+        toolbarHeight: kSize_64,
+        titleSpacing: kSize_4,
+        scrolledUnderElevation: kSize_0,
       ),
       cardTheme: m3Theme.cardTheme.copyWith(
-        elevation: 0,
+        elevation: kSize_0,
         margin: EdgeInsets.zero,
       ),
       // iconButtonTheme: const IconButtonThemeData(

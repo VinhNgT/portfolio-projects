@@ -1,8 +1,8 @@
 import 'package:driving_license/common_widgets/button_card.dart';
 import 'package:driving_license/constants/app_sizes.dart';
+import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 
 class FeatureCard extends StatelessWidget {
   final String title;
@@ -21,8 +21,8 @@ class FeatureCard extends StatelessWidget {
       onSurfaceColor: context.materialScheme.onSurface,
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: SizeConstant.p16,
-          vertical: SizeConstant.p12,
+          horizontal: kSize_16,
+          vertical: kSize_12,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,7 +31,7 @@ class FeatureCard extends StatelessWidget {
               title,
               style: context.textTheme.titleMedium,
             ),
-            const Gap(SizeConstant.p2),
+            kGap_2,
             Text(
               subhead,
               style: context.textTheme.bodyMedium!.copyWith(

@@ -1,9 +1,9 @@
 import 'package:driving_license/common_widgets/button_card.dart';
 import 'package:driving_license/constants/app_sizes.dart';
+import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gap/gap.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:vector_graphics/vector_graphics.dart';
 
@@ -29,13 +29,13 @@ class ChapterCard extends StatelessWidget {
       onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: SizeConstant.p16,
-          vertical: SizeConstant.p12,
+          horizontal: kSize_16,
+          vertical: kSize_12,
         ),
         child: Row(
           children: [
             SvgPicture(AssetBytesLoader(iconAssetPath)),
-            const Gap(SizeConstant.p16),
+            kGap_16,
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +44,7 @@ class ChapterCard extends StatelessWidget {
                     title,
                     style: context.textTheme.titleMedium,
                   ),
-                  const Gap(SizeConstant.p2),
+                  kGap_2,
                   Text(
                     subhead,
                     style: context.textTheme.bodyMedium!.copyWith(
@@ -54,10 +54,10 @@ class ChapterCard extends StatelessWidget {
                 ],
               ),
             ),
-            const Gap(SizeConstant.p16),
+            kGap_16,
             Icon(
               Symbols.arrow_forward_ios,
-              size: SizeConstant.p20,
+              size: kSize_20,
               color: context.colorScheme.secondary,
             ),
           ],

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/common_widgets/hooks/use_app_bar_scrolled_under_background_color.dart';
 import 'package:driving_license/constants/app_sizes.dart';
+import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/home/presentation/chapter_card.dart';
 import 'package:driving_license/features/home/presentation/donate_card.dart';
 import 'package:driving_license/features/home/presentation/feature_card.dart';
@@ -9,7 +10,6 @@ import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -33,7 +33,7 @@ class HomeScreen extends HookConsumerWidget {
         title: const Text(licenseName),
         actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: SizeConstant.p12),
+            padding: const EdgeInsets.symmetric(horizontal: kSize_12),
             child: TextButton(onPressed: () {}, child: const Text('Báo lỗi')),
           ),
         ],
@@ -42,18 +42,18 @@ class HomeScreen extends HookConsumerWidget {
         controller: scrollController,
         child: const Padding(
           padding: EdgeInsets.only(
-            left: SizeConstant.p16,
-            right: SizeConstant.p16,
-            top: SizeConstant.p4,
-            bottom: SizeConstant.p48,
+            left: kSize_16,
+            right: kSize_16,
+            top: kSize_4,
+            bottom: kSize_48,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               DonateCard(),
-              Gap(SizeConstant.p20),
+              kGap_20,
               FeatureSelection(),
-              Gap(SizeConstant.p32),
+              kGap_32,
               ChapterSelection(),
             ],
           ),
@@ -87,8 +87,8 @@ class FeatureSelection extends StatelessWidget {
     return LayoutGrid(
       columnSizes: [1.fr, 1.fr],
       rowSizes: const [auto, auto],
-      rowGap: SizeConstant.p12,
-      columnGap: SizeConstant.p12,
+      rowGap: kSize_12,
+      columnGap: kSize_12,
       children: const [
         SizedBox.expand(
           child: FeatureCard(
@@ -128,12 +128,11 @@ class ChapterSelection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Ôn tập câu hỏi', style: context.textTheme.titleLarge),
-        const Gap(SizeConstant.p16),
+        kGap_16,
         ListView.separated(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          separatorBuilder: (BuildContext context, int index) =>
-              const Gap(SizeConstant.p12),
+          separatorBuilder: (BuildContext context, int index) => kGap_12,
           itemCount: 6,
           itemBuilder: (BuildContext _, int index) => [
             ChapterCard(
