@@ -377,13 +377,18 @@ class MaterialTheme {
       ),
       appBarTheme: m3Theme.appBarTheme.copyWith(
         toolbarHeight: 64,
-        titleSpacing: 0,
+        titleSpacing: 4,
         scrolledUnderElevation: 0,
       ),
       cardTheme: m3Theme.cardTheme.copyWith(
         elevation: 0,
         margin: EdgeInsets.zero,
       ),
+      // iconButtonTheme: const IconButtonThemeData(
+      //   style: ButtonStyle(
+      //     minimumSize: MaterialStatePropertyAll(Size(48, 48)),
+      //   ),
+      // ),
     );
   }
 

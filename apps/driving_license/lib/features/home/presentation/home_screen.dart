@@ -27,10 +27,7 @@ class HomeScreen extends HookConsumerWidget {
         backgroundColor:
             useAppBarScrolledUnderBackgroundColor(context, scrollController),
         leading: IconButton(
-          icon: const Icon(
-            Symbols.menu,
-            size: SizeConstant.p20,
-          ),
+          icon: const Icon(Symbols.menu),
           onPressed: () {},
         ),
         title: const Text(licenseName),
@@ -145,7 +142,7 @@ class ChapterSelection extends StatelessWidget {
               title: 'Câu hỏi điểm liệt',
               subhead: 'Đã hoàn thành 0 / 20',
               onTap: () async => context.pushRoute(
-                QuestionRoute(chapterDatabaseKey: 'diemLiet'),
+                QuestionRoute(chapterDatabaseKey: 0),
               ),
             ),
             ChapterCard(
@@ -153,7 +150,7 @@ class ChapterSelection extends StatelessWidget {
               title: 'Khái niệm và quy tắc',
               subhead: 'Đã hoàn thành 0 / 83 - Sai 5 câu',
               onTap: () async => context.pushRoute(
-                QuestionRoute(chapterDatabaseKey: 'khaiNiemVaQuyTac'),
+                QuestionRoute(chapterDatabaseKey: 1),
               ),
             ),
             ChapterCard(
@@ -161,7 +158,7 @@ class ChapterSelection extends StatelessWidget {
               title: 'Văn hoá và đạo đức',
               subhead: 'Đã hoàn thành 0 / 5',
               onTap: () async => context.pushRoute(
-                QuestionRoute(chapterDatabaseKey: 'vanHoaVaDaoDuc'),
+                QuestionRoute(chapterDatabaseKey: 2),
               ),
             ),
             ChapterCard(
@@ -169,8 +166,8 @@ class ChapterSelection extends StatelessWidget {
                   'assets/icons/home_screen/complied/steering_wheel.svg.vec',
               title: 'Kỹ thuật lái xe',
               subhead: 'Đã hoàn thành 0 / 12',
-              onTap: () async => context
-                  .pushRoute(QuestionRoute(chapterDatabaseKey: 'kyThuatLaiXe')),
+              onTap: () async =>
+                  context.pushRoute(QuestionRoute(chapterDatabaseKey: 2)),
             ),
             ChapterCard(
               iconAssetPath:
@@ -178,7 +175,7 @@ class ChapterSelection extends StatelessWidget {
               title: 'Biển báo đường bộ',
               subhead: 'Đã hoàn thành 0 / 65',
               onTap: () async => context.pushRoute(
-                QuestionRoute(chapterDatabaseKey: 'bienBaoDuongBo'),
+                QuestionRoute(chapterDatabaseKey: 4),
               ),
             ),
             ChapterCard(
@@ -186,8 +183,8 @@ class ChapterSelection extends StatelessWidget {
                   'assets/icons/home_screen/complied/traffic_light.svg.vec',
               title: 'Sa hình',
               subhead: 'Đã hoàn thành 0 / 35',
-              onTap: () async => context
-                  .pushRoute(QuestionRoute(chapterDatabaseKey: 'saHinh')),
+              onTap: () async =>
+                  context.pushRoute(QuestionRoute(chapterDatabaseKey: 2)),
             ),
           ][index],
         ),

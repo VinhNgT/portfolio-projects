@@ -58,7 +58,7 @@ class HomeRoute extends _i3.PageRouteInfo<void> {
 class QuestionRoute extends _i3.PageRouteInfo<QuestionRouteArgs> {
   QuestionRoute({
     _i4.Key? key,
-    required String chapterDatabaseKey,
+    required int chapterDatabaseKey,
     List<_i3.PageRouteInfo>? children,
   }) : super(
           QuestionRoute.name,
@@ -83,7 +83,7 @@ class QuestionRouteArgs {
 
   final _i4.Key? key;
 
-  final String chapterDatabaseKey;
+  final int chapterDatabaseKey;
 
   @override
   String toString() {

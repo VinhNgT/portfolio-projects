@@ -4,11 +4,13 @@ import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/features/question/domain/question.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 @RoutePage()
 class QuestionScreen extends HookConsumerWidget {
-  final String chapterDatabaseKey;
+  final int chapterDatabaseKey;
   const QuestionScreen({super.key, required this.chapterDatabaseKey});
 
   @override
@@ -19,12 +21,23 @@ class QuestionScreen extends HookConsumerWidget {
       appBar: AppBar(
         backgroundColor:
             useAppBarScrolledUnderBackgroundColor(context, scrollController),
-        title: const Text(''),
+        title: Text('Câu hỏi ${chapterDatabaseKey + 1}'),
+        leading: IconButton(
+          icon: const Icon(Symbols.arrow_back),
+          onPressed: () {},
+        ),
+        // leadingWidth: 48,
         actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: SizeConstant.p12),
-            child: TextButton(onPressed: () {}, child: const Text('Báo lỗi')),
+          const Gap(SizeConstant.p12),
+          IconButton(
+            icon: const Icon(Symbols.bookmark),
+            onPressed: () {},
           ),
+          IconButton(
+            icon: const Icon(Symbols.restart_alt),
+            onPressed: () {},
+          ),
+          const Gap(SizeConstant.p4),
         ],
       ),
     );
