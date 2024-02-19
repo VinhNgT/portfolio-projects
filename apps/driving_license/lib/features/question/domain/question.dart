@@ -5,11 +5,11 @@ part 'question.freezed.dart';
 @freezed
 class Question with _$Question {
   const factory Question({
-    required int questionId,
-    required String question,
+    required String title,
     String? questionImagePath,
     required List<String> answers,
     required bool isDanger,
+    required int correctAnswerIndex,
     String? tip,
     String? rememberTip,
   }) = _Question;
