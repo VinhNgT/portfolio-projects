@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:driving_license/common_widgets/hooks/use_app_bar_scrolled_under_background_color.dart';
+import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/home/presentation/chapter_card.dart';
@@ -23,20 +23,17 @@ class HomeScreen extends HookConsumerWidget {
     final scrollController = useScrollController();
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor:
-            useAppBarScrolledUnderBackgroundColor(context, scrollController),
+      appBar: CommonAppBar(
         leading: IconButton(
           icon: const Icon(Symbols.menu),
           onPressed: () {},
         ),
         title: const Text(licenseName),
         actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kSize_12),
-            child: TextButton(onPressed: () {}, child: const Text('Báo lỗi')),
-          ),
+          TextButton(onPressed: () {}, child: const Text('Báo lỗi')),
         ],
+        rightPadding: AppBarRightPadding.normalButton,
+        scaffoldBodyScrollController: scrollController,
       ),
       body: SingleChildScrollView(
         controller: scrollController,

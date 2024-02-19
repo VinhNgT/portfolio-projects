@@ -1,4 +1,5 @@
 import 'package:driving_license/constants/app_sizes.dart';
+import 'package:driving_license/constants/widget_sizes.dart';
 import 'package:flutter/material.dart';
 
 class MaterialTheme {
@@ -376,7 +377,7 @@ class MaterialTheme {
         opticalSize: kSize_24,
       ),
       appBarTheme: m3Theme.appBarTheme.copyWith(
-        toolbarHeight: kSize_64,
+        toolbarHeight: kAppBarHeight,
         titleSpacing: kSize_4,
         scrolledUnderElevation: kSize_0,
       ),
