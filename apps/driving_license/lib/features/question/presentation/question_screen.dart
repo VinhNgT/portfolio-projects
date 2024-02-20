@@ -18,8 +18,21 @@ class QuestionScreen extends HookConsumerWidget {
         ref.watch(questionRepositoryProvider).getQuestionCount();
     final pageController = usePageController();
     final currentPageIndex = useState<int>(0);
-    final currentPageScrollController = ref.watch(
+    final currentPageScrollController = useState<ScrollController?>(null);
+
+    ref.listen(
       questionPageScrollControllerProvider(currentPageIndex.value),
+      (_, next) {
+        currentPageScrollController.value = next;
+      },
+    );
+    ref.listen(
+      questionPageScrollControllerProvider(currentPageIndex.value + 1),
+      (_, __) {},
+    );
+    ref.listen(
+      questionPageScrollControllerProvider(currentPageIndex.value - 1),
+      (_, __) {},
     );
 
     return Scaffold(
@@ -35,13 +48,16 @@ class QuestionScreen extends HookConsumerWidget {
             onPressed: () {},
           ),
         ],
-        scaffoldBodyScrollController: currentPageScrollController,
+        scaffoldBodyScrollController: currentPageScrollController.value,
       ),
       body: PageView.builder(
         controller: pageController,
         itemCount: questionCount,
-        onPageChanged: (index) {
-          currentPageIndex.value = index;
+        onPageChanged: (nextPageIndex) {
+          currentPageIndex.value = nextPageIndex;
+          currentPageScrollController.value = ref.read(
+            questionPageScrollControllerProvider(nextPageIndex),
+          );
         },
         physics: const FastPageViewScrollPhysics(),
         itemBuilder: (context, index) {
