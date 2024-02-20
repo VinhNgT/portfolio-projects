@@ -22,6 +22,7 @@ class CommonAppBar extends HookConsumerWidget implements PreferredSizeWidget {
   final Widget? leading;
   final List<Widget> actions;
   final AppBarRightPadding rightPadding;
+  final Color? backgroundColor;
   final ScrollController? scaffoldBodyScrollController;
 
   const CommonAppBar({
@@ -30,16 +31,18 @@ class CommonAppBar extends HookConsumerWidget implements PreferredSizeWidget {
     this.leading,
     this.actions = const [],
     this.rightPadding = AppBarRightPadding.iconButton,
+    this.backgroundColor,
     this.scaffoldBodyScrollController,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AppBar(
-      backgroundColor: useAppBarScrolledUnderBackgroundColor(
-        context,
-        scaffoldBodyScrollController,
-      ),
+      backgroundColor: backgroundColor ??
+          useAppBarScrolledUnderBackgroundColor(
+            context,
+            scaffoldBodyScrollController,
+          ),
       title: title,
       leading: Align(
         alignment: Alignment.centerRight,
