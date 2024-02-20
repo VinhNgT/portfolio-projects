@@ -1,7 +1,7 @@
 import 'package:driving_license/constants/gap_sizes.dart';
+import 'package:driving_license/features/question/data/question_repository.dart';
 import 'package:driving_license/features/question/presentation/answer/answer_card.dart';
 import 'package:driving_license/features/question/presentation/answer/answer_state_checkbox.dart';
-import 'package:driving_license/features/question/presentation/question_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -18,7 +18,8 @@ class AnswerCardList extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final question = questions[questionIndex];
+    final question =
+        ref.watch(questionRepositoryProvider).getQuestion(questionIndex);
     final selectedAnswerIndex =
         ref.watch(selectedAnswerIndexProvider(questionIndex));
 
