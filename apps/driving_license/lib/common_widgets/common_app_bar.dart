@@ -58,6 +58,22 @@ class CommonAppBar extends HookConsumerWidget implements PreferredSizeWidget {
   final Size preferredSize = const Size.fromHeight(kAppBarHeight);
 }
 
+/// Deprecated, keeping for historical purposes when Flutter team decides to add
+/// AppBar color transition animation when MaterialState.scrolledUnder
+class AppBarBackgroundColor extends MaterialStateColor {
+  final BuildContext context;
+  AppBarBackgroundColor(this.context)
+      : super(context.materialScheme.surface.value);
+
+  @override
+  Color resolve(Set<MaterialState> states) {
+    if (states.contains(MaterialState.scrolledUnder)) {
+      return context.materialScheme.surfaceContainerLow;
+    }
+    return context.materialScheme.surface;
+  }
+}
+
 extension CommonAppBarX on CommonAppBar {
   Color useAppBarScrolledUnderBackgroundColor(
     BuildContext context,
