@@ -43,6 +43,7 @@ class QuestionScreen extends HookConsumerWidget {
         onPageChanged: (index) {
           currentPageIndex.value = index;
         },
+        physics: const FastPageViewScrollPhysics(),
         itemBuilder: (context, index) {
           return QuestionPage(
             questionIndex: index,
@@ -51,4 +52,20 @@ class QuestionScreen extends HookConsumerWidget {
       ),
     );
   }
+}
+
+class FastPageViewScrollPhysics extends ScrollPhysics {
+  const FastPageViewScrollPhysics({super.parent});
+
+  @override
+  FastPageViewScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return FastPageViewScrollPhysics(parent: buildParent(ancestor));
+  }
+
+  @override
+  SpringDescription get spring => const SpringDescription(
+        mass: 80,
+        stiffness: 100,
+        damping: 1,
+      );
 }
