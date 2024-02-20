@@ -53,7 +53,7 @@ extension AnswerCardX on AnswerCard {
   ) {
     return switch (state) {
       AnswerState.unchecked => (
-          containerSurfaceColor: context.materialScheme.surfaceContainerHigh,
+          containerSurfaceColor: context.materialScheme.surfaceContainer,
           containerOnSurfaceColor: context.materialScheme.onSurface
         ),
       AnswerState.checked => (
