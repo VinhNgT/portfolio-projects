@@ -1,11 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/common_widgets/common_app_bar.dart';
-import 'package:driving_license/constants/app_sizes.dart';
-import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/question/domain/question.dart';
-import 'package:driving_license/features/question/presentation/answer_card.dart';
-import 'package:driving_license/features/question/presentation/answer_state_checkbox.dart';
-import 'package:driving_license/utils/context_ext.dart';
+import 'package:driving_license/features/question/presentation/question_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -18,11 +14,15 @@ class QuestionScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final scrollController = useScrollController();
+    final pageController = usePageController();
+    final currentPageIndex = useState<int>(0);
+    final currentPageScrollController = ref.watch(
+      questionPageScrollControllerProvider(currentPageIndex.value),
+    );
 
     return Scaffold(
       appBar: CommonAppBar(
-        title: Text('Câu hỏi ${chapterDatabaseKey + 1}'),
+        title: Text('Câu hỏi ${currentPageIndex.value + 1}'),
         actions: [
           IconButton(
             icon: const Icon(Symbols.bookmark),
@@ -33,82 +33,21 @@ class QuestionScreen extends HookConsumerWidget {
             onPressed: () {},
           ),
         ],
-        scaffoldBodyScrollController: scrollController,
+        scaffoldBodyScrollController: currentPageScrollController,
       ),
-      body: SingleChildScrollView(
-        controller: scrollController,
-        child: const QuestionPage(questionIndex: 0),
-      ),
-    );
-  }
-}
-
-class QuestionPage extends HookConsumerWidget {
-  final int questionIndex;
-  const QuestionPage({super.key, required this.questionIndex});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final question = questions[questionIndex];
-    final selectedAnswerIndex = useState<int?>(null);
-
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: kSize_16,
-        right: kSize_16,
-        bottom: kSize_48,
-      ),
-      child: Column(
-        children: [
-          Text(
-            question.title,
-            style: context.textTheme.titleMedium,
-          ),
-          kGap_16,
-          ListView.separated(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            separatorBuilder: (_, __) => kGap_12,
-            itemCount: question.answers.length,
-            itemBuilder: (_, int answerIndex) => AnswerCard(
-              answer: question.answers[answerIndex],
-              state: evaluateAnswerCardState(
-                answerIndex,
-                selectedAnswerIndex.value,
-                question.correctAnswerIndex,
-              ),
-
-              // Only allow tap if user has not yet selected an answer
-              onTap: selectedAnswerIndex.value == null
-                  ? () => selectedAnswerIndex.value = answerIndex
-                  : null,
-            ),
-          ),
-        ],
+      body: PageView.builder(
+        controller: pageController,
+        itemCount: questions.length,
+        onPageChanged: (index) {
+          currentPageIndex.value = index;
+        },
+        itemBuilder: (context, index) {
+          return QuestionPage(
+            questionIndex: index,
+          );
+        },
       ),
     );
-  }
-}
-
-extension QuestionPageX on QuestionPage {
-  AnswerState evaluateAnswerCardState(
-    int answerIndex,
-    int? selectedAnswerIndex,
-    int correctAnswerIndex,
-  ) {
-    final bool noAnswerSelected = (selectedAnswerIndex == null);
-    final bool isSelected = (answerIndex == selectedAnswerIndex);
-    final bool isCorrect = (answerIndex == correctAnswerIndex);
-
-    if (noAnswerSelected) {
-      return AnswerState.unchecked;
-    }
-
-    if (isSelected) {
-      return isCorrect ? AnswerState.correct : AnswerState.incorrect;
-    }
-
-    return isCorrect ? AnswerState.correct : AnswerState.unchecked;
   }
 }
 

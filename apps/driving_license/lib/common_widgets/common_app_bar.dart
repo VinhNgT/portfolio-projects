@@ -30,7 +30,7 @@ class CommonAppBar extends HookConsumerWidget implements PreferredSizeWidget {
     this.leading,
     this.actions = const [],
     this.rightPadding = AppBarRightPadding.iconButton,
-    required this.scaffoldBodyScrollController,
+    this.scaffoldBodyScrollController,
   });
 
   @override
