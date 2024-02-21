@@ -10,7 +10,7 @@ class Question with _$Question {
     required List<String> answers,
     required bool isDanger,
     required int correctAnswerIndex,
-    String? tip,
+    String? explanation,
     String? rememberTip,
   }) = _Question;
 }

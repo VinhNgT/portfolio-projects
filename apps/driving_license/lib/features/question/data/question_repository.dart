@@ -30,7 +30,7 @@ List<Question> _testQuestions = [
     ],
     isDanger: true,
     correctAnswerIndex: 3,
-    tip:
+    explanation:
         '''Pirate ipsum arrgh bounty warp jack. Shiver her topgallant yard chase fleet me.''',
     rememberTip:
         '''Pirate ipsum arrgh bounty warp jack. Crack pirate bounty smartly jack yer cog fluke. Coffer locker on hempen or. Locker the spyglass jack red.''',
@@ -41,7 +41,7 @@ List<Question> _testQuestions = [
     answers: ['Vạch 1', 'Vạch 2', 'Vạch 3', 'Cả 3 vạch'],
     isDanger: false,
     correctAnswerIndex: 1,
-    tip:
+    explanation:
         '''Pirate ipsum arrgh bounty warp jack. Shiver her topgallant yard chase fleet me.''',
     rememberTip:
         '''Pirate ipsum arrgh bounty warp jack. Crack pirate bounty smartly jack yer cog fluke. Coffer locker on hempen or. Locker the spyglass jack red.''',
@@ -55,7 +55,7 @@ List<Question> _testQuestions = [
     ],
     correctAnswerIndex: 0,
     isDanger: false,
-    tip:
+    explanation:
         '''Pirate ipsum arrgh bounty warp jack. Shiver her topgallant yard chase fleet me.''',
     rememberTip:
         '''Pirate ipsum arrgh bounty warp jack. Crack pirate bounty smartly jack yer cog fluke. Coffer locker on hempen or. Locker the spyglass jack red.''',

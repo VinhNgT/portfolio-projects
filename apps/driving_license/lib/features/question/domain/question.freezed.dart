@@ -21,7 +21,7 @@ mixin _$Question {
   List<String> get answers => throw _privateConstructorUsedError;
   bool get isDanger => throw _privateConstructorUsedError;
   int get correctAnswerIndex => throw _privateConstructorUsedError;
-  String? get tip => throw _privateConstructorUsedError;
+  String? get explanation => throw _privateConstructorUsedError;
   String? get rememberTip => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -40,7 +40,7 @@ abstract class $QuestionCopyWith<$Res> {
       List<String> answers,
       bool isDanger,
       int correctAnswerIndex,
-      String? tip,
+      String? explanation,
       String? rememberTip});
 }
 
@@ -62,7 +62,7 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? answers = null,
     Object? isDanger = null,
     Object? correctAnswerIndex = null,
-    Object? tip = freezed,
+    Object? explanation = freezed,
     Object? rememberTip = freezed,
   }) {
     return _then(_value.copyWith(
@@ -86,9 +86,9 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.correctAnswerIndex
           : correctAnswerIndex // ignore: cast_nullable_to_non_nullable
               as int,
-      tip: freezed == tip
-          ? _value.tip
-          : tip // ignore: cast_nullable_to_non_nullable
+      explanation: freezed == explanation
+          ? _value.explanation
+          : explanation // ignore: cast_nullable_to_non_nullable
               as String?,
       rememberTip: freezed == rememberTip
           ? _value.rememberTip
@@ -112,7 +112,7 @@ abstract class _$$QuestionImplCopyWith<$Res>
       List<String> answers,
       bool isDanger,
       int correctAnswerIndex,
-      String? tip,
+      String? explanation,
       String? rememberTip});
 }
 
@@ -132,7 +132,7 @@ class __$$QuestionImplCopyWithImpl<$Res>
     Object? answers = null,
     Object? isDanger = null,
     Object? correctAnswerIndex = null,
-    Object? tip = freezed,
+    Object? explanation = freezed,
     Object? rememberTip = freezed,
   }) {
     return _then(_$QuestionImpl(
@@ -156,9 +156,9 @@ class __$$QuestionImplCopyWithImpl<$Res>
           ? _value.correctAnswerIndex
           : correctAnswerIndex // ignore: cast_nullable_to_non_nullable
               as int,
-      tip: freezed == tip
-          ? _value.tip
-          : tip // ignore: cast_nullable_to_non_nullable
+      explanation: freezed == explanation
+          ? _value.explanation
+          : explanation // ignore: cast_nullable_to_non_nullable
               as String?,
       rememberTip: freezed == rememberTip
           ? _value.rememberTip
@@ -177,7 +177,7 @@ class _$QuestionImpl implements _Question {
       required final List<String> answers,
       required this.isDanger,
       required this.correctAnswerIndex,
-      this.tip,
+      this.explanation,
       this.rememberTip})
       : _answers = answers;
 
@@ -198,13 +198,13 @@ class _$QuestionImpl implements _Question {
   @override
   final int correctAnswerIndex;
   @override
-  final String? tip;
+  final String? explanation;
   @override
   final String? rememberTip;
 
   @override
   String toString() {
-    return 'Question(title: $title, questionImagePath: $questionImagePath, answers: $answers, isDanger: $isDanger, correctAnswerIndex: $correctAnswerIndex, tip: $tip, rememberTip: $rememberTip)';
+    return 'Question(title: $title, questionImagePath: $questionImagePath, answers: $answers, isDanger: $isDanger, correctAnswerIndex: $correctAnswerIndex, explanation: $explanation, rememberTip: $rememberTip)';
   }
 
   @override
@@ -220,7 +220,8 @@ class _$QuestionImpl implements _Question {
                 other.isDanger == isDanger) &&
             (identical(other.correctAnswerIndex, correctAnswerIndex) ||
                 other.correctAnswerIndex == correctAnswerIndex) &&
-            (identical(other.tip, tip) || other.tip == tip) &&
+            (identical(other.explanation, explanation) ||
+                other.explanation == explanation) &&
             (identical(other.rememberTip, rememberTip) ||
                 other.rememberTip == rememberTip));
   }
@@ -233,7 +234,7 @@ class _$QuestionImpl implements _Question {
       const DeepCollectionEquality().hash(_answers),
       isDanger,
       correctAnswerIndex,
-      tip,
+      explanation,
       rememberTip);
 
   @JsonKey(ignore: true)
@@ -250,7 +251,7 @@ abstract class _Question implements Question {
       required final List<String> answers,
       required final bool isDanger,
       required final int correctAnswerIndex,
-      final String? tip,
+      final String? explanation,
       final String? rememberTip}) = _$QuestionImpl;
 
   @override
@@ -264,7 +265,7 @@ abstract class _Question implements Question {
   @override
   int get correctAnswerIndex;
   @override
-  String? get tip;
+  String? get explanation;
   @override
   String? get rememberTip;
   @override
