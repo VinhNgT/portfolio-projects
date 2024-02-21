@@ -14,25 +14,17 @@ class QuestionScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currentPageIndex = useState<int>(0);
+    final pageController = usePageController();
+
     final questionCount =
         ref.watch(questionRepositoryProvider).getQuestionCount();
-    final pageController = usePageController();
-    final currentPageIndex = useState<int>(0);
-    final currentPageScrollController = useState<ScrollController?>(null);
+    final currentPageScrollController =
+        ref.watch(questionPageScrollControllerProvider(currentPageIndex.value));
 
-    ref.listen(
-      questionPageScrollControllerProvider(currentPageIndex.value),
-      (_, next) {
-        currentPageScrollController.value = next;
-      },
-    );
-    ref.listen(
-      questionPageScrollControllerProvider(currentPageIndex.value + 1),
-      (_, __) {},
-    );
-    ref.listen(
-      questionPageScrollControllerProvider(currentPageIndex.value - 1),
-      (_, __) {},
+    keepAliveNearbyQuestionPageScrollControllerProviders(
+      ref,
+      currentPageIndex.value,
     );
 
     return Scaffold(
@@ -48,16 +40,13 @@ class QuestionScreen extends HookConsumerWidget {
             onPressed: () {},
           ),
         ],
-        scaffoldBodyScrollController: currentPageScrollController.value,
+        scaffoldBodyScrollController: currentPageScrollController,
       ),
       body: PageView.builder(
         controller: pageController,
         itemCount: questionCount,
         onPageChanged: (nextPageIndex) {
           currentPageIndex.value = nextPageIndex;
-          currentPageScrollController.value = ref.read(
-            questionPageScrollControllerProvider(nextPageIndex),
-          );
         },
         physics: const FastPageViewScrollPhysics(),
         itemBuilder: (context, index) {
@@ -66,6 +55,31 @@ class QuestionScreen extends HookConsumerWidget {
           );
         },
       ),
+    );
+  }
+}
+
+extension QuestionScreenX on QuestionScreen {
+  // Because riverpod will auto dispose any provider that is not being listened,
+  // QuestionPageScrollControllerProvider of nearby pages will not save their
+  // scroll controller, causing them to be null when being accessed.
+  //
+  // To workaroud this, we need to keep all nearby
+  // QuestionPageScrollControllerProvider alive by listening to them.
+  //
+  // This is a feature of riverpod, not a bug. Otherwise it will cause memory
+  // leak if we keep all providers alive.
+  void keepAliveNearbyQuestionPageScrollControllerProviders(
+    WidgetRef ref,
+    int currentPageIndex,
+  ) {
+    ref.listen(
+      questionPageScrollControllerProvider(currentPageIndex + 1),
+      (_, __) {},
+    );
+    ref.listen(
+      questionPageScrollControllerProvider(currentPageIndex - 1),
+      (_, __) {},
     );
   }
 }

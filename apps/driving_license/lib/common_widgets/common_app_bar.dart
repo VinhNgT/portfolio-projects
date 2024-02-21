@@ -57,7 +57,7 @@ class CommonAppBar extends HookConsumerWidget implements PreferredSizeWidget {
         title: title,
         leading: Align(
           alignment: Alignment.centerRight,
-          child: leading ?? getImplyLeadingButton(context),
+          child: leading ?? getImplyLeadingButton(),
         ),
         leadingWidth: kSize_48 + kSize_4,
         actions: [
@@ -125,7 +125,8 @@ extension CommonAppBarX on CommonAppBar {
   }
 
   // This is based on AppBar implementation in the Flutter SDK
-  Widget? getImplyLeadingButton(BuildContext context) {
+  Widget? getImplyLeadingButton() {
+    final context = useContext();
     final hasDrawer = Scaffold.maybeOf(context)?.hasDrawer ?? false;
     final parentRoute = ModalRoute.of(context);
     final useCloseButton =
