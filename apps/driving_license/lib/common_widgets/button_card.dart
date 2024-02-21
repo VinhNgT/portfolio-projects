@@ -1,3 +1,4 @@
+import 'package:driving_license/common_widgets/misc/ink_well_overlay_color.dart';
 import 'package:flutter/material.dart';
 
 class ButtonCard extends StatelessWidget {
@@ -20,29 +21,10 @@ class ButtonCard extends StatelessWidget {
       color: surfaceColor,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        overlayColor: ButtonCardBackgroundColor(onSurfaceColor),
+        overlayColor: InkWellBackgroundColor(onSurfaceColor),
         onTap: onTap,
         child: child,
       ),
     );
-  }
-}
-
-class ButtonCardBackgroundColor implements MaterialStateProperty<Color?> {
-  final Color onSurfaceColor;
-  ButtonCardBackgroundColor(this.onSurfaceColor);
-
-  @override
-  Color? resolve(Set<MaterialState> states) {
-    if (states.contains(MaterialState.pressed)) {
-      return onSurfaceColor.withOpacity(0.12);
-    }
-    if (states.contains(MaterialState.hovered)) {
-      return onSurfaceColor.withOpacity(0.08);
-    }
-    if (states.contains(MaterialState.focused)) {
-      return onSurfaceColor.withOpacity(0.12);
-    }
-    return null;
   }
 }
