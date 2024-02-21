@@ -37,23 +37,35 @@ class CommonAppBar extends HookConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return AppBar(
-      backgroundColor: backgroundColor ??
-          useAppBarScrolledUnderBackgroundColor(
-            context,
-            scaffoldBodyScrollController,
-          ),
-      title: title,
-      leading: Align(
-        alignment: Alignment.centerRight,
-        child: leading ?? getImplyLeadingButton(context),
+    final hasNewScrollController =
+        useHasNewScrollController(scaffoldBodyScrollController);
+
+    // Prioritize backgroundColor if it's provided, otherwise use
+    // scaffoldBodyScrollController to calculate the color
+    final appBarColor = backgroundColor ??
+        useAppBarScrolledUnderBackgroundColor(
+          scaffoldBodyScrollController,
+        );
+
+    return AnimatedContainer(
+      // We should only animate the color change if we are changing to
+      // a different scroll controller
+      duration: hasNewScrollController ? Durations.short4 : Duration.zero,
+      color: appBarColor,
+      child: AppBar(
+        backgroundColor: Colors.transparent,
+        title: title,
+        leading: Align(
+          alignment: Alignment.centerRight,
+          child: leading ?? getImplyLeadingButton(context),
+        ),
+        leadingWidth: kSize_48 + kSize_4,
+        actions: [
+          kGap_12,
+          ...actions,
+          rightPadding.gap,
+        ],
       ),
-      leadingWidth: kSize_48 + kSize_4,
-      actions: [
-        kGap_12,
-        ...actions,
-        rightPadding.gap,
-      ],
     );
   }
 
@@ -78,10 +90,15 @@ class AppBarBackgroundColor extends MaterialStateColor {
 }
 
 extension CommonAppBarX on CommonAppBar {
+  bool useHasNewScrollController(ScrollController? scrollController) {
+    final oldScrollController = usePrevious(scrollController);
+    return oldScrollController != scrollController;
+  }
+
   Color useAppBarScrolledUnderBackgroundColor(
-    BuildContext context,
     ScrollController? scaffoldBodyScrollController,
   ) {
+    final context = useContext();
     final appBarSurfaceColor = context.materialScheme.surface;
     final appBarScrolledUnderColor = context.materialScheme.surfaceContainerLow;
 
