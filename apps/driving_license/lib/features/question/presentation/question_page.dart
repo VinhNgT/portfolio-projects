@@ -22,9 +22,13 @@ class QuestionPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final scrollController = useScrollController();
+
     final question =
         ref.watch(questionRepositoryProvider).getQuestion(questionIndex);
-    final scrollController = useScrollController();
+    final answerSelected =
+        ref.watch(selectedAnswerIndexProvider(questionIndex)) != null;
+
     updateQuestionPageScrollController(ref, scrollController);
 
     return SingleChildScrollView(
@@ -43,7 +47,7 @@ class QuestionPage extends HookConsumerWidget {
             ),
             kGap_16,
             AnswerCardList(questionIndex: questionIndex),
-            QuestionNotes(questionIndex: questionIndex),
+            if (answerSelected) QuestionNotes(questionIndex: questionIndex),
             kGap_48,
           ],
         ),

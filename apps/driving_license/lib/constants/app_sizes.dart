@@ -5,6 +5,7 @@ const kSize_0 = 0.0;
 const kSize_2 = 2.0;
 const kSize_4 = 4.0;
 const kSize_8 = 8.0;
+const kSize_10 = 12.0;
 const kSize_12 = 12.0;
 const kSize_16 = 16.0;
 const kSize_20 = 20.0;
