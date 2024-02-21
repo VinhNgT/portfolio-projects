@@ -47,6 +47,9 @@ class CommonAppBar extends HookConsumerWidget implements PreferredSizeWidget {
           scaffoldBodyScrollController,
         );
 
+    // We only need to find the implyLeadingButton once
+    final implyLeadingButton = useCallback(getImplyLeadingButton, [leading]);
+
     return AnimatedContainer(
       // We should only animate the color change if we are changing to
       // a different scroll controller
@@ -57,7 +60,7 @@ class CommonAppBar extends HookConsumerWidget implements PreferredSizeWidget {
         title: title,
         leading: Align(
           alignment: Alignment.centerRight,
-          child: leading ?? getImplyLeadingButton(),
+          child: leading ?? implyLeadingButton(),
         ),
         leadingWidth: kSize_48 + kSize_4,
         actions: [
@@ -102,11 +105,11 @@ extension CommonAppBarX on CommonAppBar {
     final appBarSurfaceColor = context.materialScheme.surface;
     final appBarScrolledUnderColor = context.materialScheme.surfaceContainerLow;
 
-    if (scaffoldBodyScrollController == null) {
-      return appBarSurfaceColor;
-    }
-
     return useListenableSelector(scaffoldBodyScrollController, () {
+      if (scaffoldBodyScrollController == null) {
+        return appBarSurfaceColor;
+      }
+
       /// If the scroll controller has not been attached to a scroll view yet,
       /// return the default color
       if (!scaffoldBodyScrollController.hasClients) {
