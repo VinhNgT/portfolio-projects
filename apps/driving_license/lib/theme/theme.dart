@@ -61,7 +61,7 @@ class MaterialTheme {
   }
 
   ThemeData light() {
-    return theme(lightScheme().toColorScheme());
+    return theme(lightScheme());
   }
 
   static MaterialScheme lightMediumContrastScheme() {
@@ -120,7 +120,7 @@ class MaterialTheme {
   }
 
   ThemeData lightMediumContrast() {
-    return theme(lightMediumContrastScheme().toColorScheme());
+    return theme(lightMediumContrastScheme());
   }
 
   static MaterialScheme lightHighContrastScheme() {
@@ -179,7 +179,7 @@ class MaterialTheme {
   }
 
   ThemeData lightHighContrast() {
-    return theme(lightHighContrastScheme().toColorScheme());
+    return theme(lightHighContrastScheme());
   }
 
   static MaterialScheme darkScheme() {
@@ -238,7 +238,7 @@ class MaterialTheme {
   }
 
   ThemeData dark() {
-    return theme(darkScheme().toColorScheme());
+    return theme(darkScheme());
   }
 
   static MaterialScheme darkMediumContrastScheme() {
@@ -297,7 +297,7 @@ class MaterialTheme {
   }
 
   ThemeData darkMediumContrast() {
-    return theme(darkMediumContrastScheme().toColorScheme());
+    return theme(darkMediumContrastScheme());
   }
 
   static MaterialScheme darkHighContrastScheme() {
@@ -356,12 +356,13 @@ class MaterialTheme {
   }
 
   ThemeData darkHighContrast() {
-    return theme(darkHighContrastScheme().toColorScheme());
+    return theme(darkHighContrastScheme());
   }
 
-  ThemeData theme(ColorScheme colorScheme) {
+  ThemeData theme(MaterialScheme materialScheme) {
     // Generate Material3 theme with all of the default settings
     final m3Theme = ThemeData(useMaterial3: true);
+    final colorScheme = materialScheme.toColorScheme();
 
     // Customize the Material3 theme
     return m3Theme.copyWith(
