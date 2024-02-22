@@ -1,6 +1,7 @@
 import 'package:driving_license/common_widgets/misc/ink_well_overlay_color.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
+import 'package:driving_license/constants/widget_sizes.dart';
 import 'package:driving_license/features/question/data/question_repository.dart';
 import 'package:driving_license/features/question/presentation/question_screen.dart';
 import 'package:driving_license/utils/context_ext.dart';
@@ -36,24 +37,28 @@ class QuestionBottomNavigationBar extends HookConsumerWidget {
           .select((currentPageIndex) => currentPageIndex < lastQuestionIndex),
     );
 
-    return Row(
-      children: [
-        Flexible(
-          flex: 1,
-          child: _PreviousQuestion(
-            onPressed: previousButtonActive ? onPreviousPressed : null,
+    return BottomAppBar(
+      height: kBottomAppBarHeight,
+      padding: const EdgeInsets.all(kSize_0),
+      child: Row(
+        children: [
+          Flexible(
+            flex: 1,
+            child: _PreviousQuestion(
+              onPressed: previousButtonActive ? onPreviousPressed : null,
+            ),
           ),
-        ),
-        _ShowAllQuestion(
-          onPressed: onShowAllPressed,
-        ),
-        Flexible(
-          flex: 1,
-          child: _NextQuestion(
-            onPressed: nextButtonActive ? onNextPressed : null,
+          _ShowAllQuestion(
+            onPressed: onShowAllPressed,
           ),
-        ),
-      ],
+          Flexible(
+            flex: 1,
+            child: _NextQuestion(
+              onPressed: nextButtonActive ? onNextPressed : null,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

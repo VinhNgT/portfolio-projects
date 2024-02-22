@@ -1,16 +1,13 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:driving_license/common_widgets/common_app_bar.dart';
-import 'package:driving_license/constants/app_sizes.dart';
-import 'package:driving_license/constants/widget_sizes.dart';
 import 'package:driving_license/features/question/data/question_repository.dart';
-import 'package:driving_license/features/question/presentation/bottom_nav_bar/question_bottom_navigation_bar.dart';
+import 'package:driving_license/features/question/presentation/appbar_navbar/question_app_bar.dart';
+import 'package:driving_license/features/question/presentation/appbar_navbar/question_bottom_navigation_bar.dart';
 import 'package:driving_license/features/question/presentation/question/question_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'question_screen.g.dart';
@@ -26,27 +23,11 @@ class QuestionScreen extends HookConsumerWidget {
 
     final questionCount =
         ref.watch(questionRepositoryProvider).getQuestionCount();
-    final currentPageIndex = ref.watch(currentPageIndexProvider);
-    final currentPageScrollController =
-        ref.watch(questionPageScrollControllerProvider(currentPageIndex));
 
     keepAliveNearbyQuestionPageScrollControllerProviders(ref);
 
     return Scaffold(
-      appBar: CommonAppBar(
-        title: Text('Câu hỏi ${currentPageIndex + 1}'),
-        actions: [
-          IconButton(
-            icon: const Icon(Symbols.bookmark),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const Icon(Symbols.restart_alt),
-            onPressed: () {},
-          ),
-        ],
-        scaffoldBodyScrollController: currentPageScrollController,
-      ),
+      appBar: const QuestionAppBar(),
       body: PageView.builder(
         controller: pageController,
         itemCount: questionCount,
@@ -58,24 +39,20 @@ class QuestionScreen extends HookConsumerWidget {
           return QuestionPage(questionIndex: index);
         },
       ),
-      bottomNavigationBar: BottomAppBar(
-        height: kBottomAppBarHeight,
-        padding: const EdgeInsets.all(kSize_0),
-        child: QuestionBottomNavigationBar(
-          onNextPressed: () => unawaited(
-            pageController.nextPage(
-              duration: Durations.short4,
-              curve: Curves.easeOut,
-            ),
+      bottomNavigationBar: QuestionBottomNavigationBar(
+        onNextPressed: () => unawaited(
+          pageController.nextPage(
+            duration: Durations.short4,
+            curve: Curves.easeOut,
           ),
-          onPreviousPressed: () => unawaited(
-            pageController.previousPage(
-              duration: Durations.short4,
-              curve: Curves.easeOut,
-            ),
-          ),
-          onShowAllPressed: () {},
         ),
+        onPreviousPressed: () => unawaited(
+          pageController.previousPage(
+            duration: Durations.short4,
+            curve: Curves.easeOut,
+          ),
+        ),
+        onShowAllPressed: () {},
       ),
     );
   }
