@@ -24,7 +24,9 @@ class QuestionScreen extends HookConsumerWidget {
     final questionCount =
         ref.watch(questionRepositoryProvider).getQuestionCount();
 
-    keepAliveNearbyQuestionPageScrollControllerProviders(ref);
+    // Register QuestionScreen as the one keeping all of the
+    // QuestionPageScrollControllerProviders alive
+    ref.watch(keepQuestionPageScrollControllerAliveProvider);
 
     return Scaffold(
       appBar: const QuestionAppBar(),
@@ -59,28 +61,6 @@ class QuestionScreen extends HookConsumerWidget {
 }
 
 extension QuestionScreenX on QuestionScreen {
-  // Because riverpod will auto dispose any provider that is not being listened,
-  // QuestionPageScrollControllerProvider of nearby pages will not save their
-  // scroll controller, causing them to be null when being accessed.
-  //
-  // To workaroud this, we need to keep all nearby
-  // QuestionPageScrollControllerProvider alive by listening to them.
-  //
-  // This is a feature of riverpod, not a bug. Otherwise it will cause memory
-  // leak if we keep all providers alive.
-  void keepAliveNearbyQuestionPageScrollControllerProviders(WidgetRef ref) {
-    final currentPageIndex = ref.watch(currentPageIndexProvider);
-
-    ref.listen(
-      questionPageScrollControllerProvider(currentPageIndex + 1),
-      (_, __) {},
-    );
-    ref.listen(
-      questionPageScrollControllerProvider(currentPageIndex - 1),
-      (_, __) {},
-    );
-  }
-
   void setNewCurrentPageIndex(WidgetRef ref, int newPageIndex) {
     ref.read(currentPageIndexProvider.notifier).value = newPageIndex;
   }

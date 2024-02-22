@@ -6,6 +6,23 @@ part of 'question_page.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$keepQuestionPageScrollControllerAliveHash() =>
+    r'22ab37648a90c654e7f8280ffcc7a5903a0961e0';
+
+/// See also [keepQuestionPageScrollControllerAlive].
+@ProviderFor(keepQuestionPageScrollControllerAlive)
+final keepQuestionPageScrollControllerAliveProvider =
+    AutoDisposeProvider<void>.internal(
+  keepQuestionPageScrollControllerAlive,
+  name: r'keepQuestionPageScrollControllerAliveProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$keepQuestionPageScrollControllerAliveHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef KeepQuestionPageScrollControllerAliveRef = AutoDisposeProviderRef<void>;
 String _$questionPageScrollControllerHash() =>
     r'91fb436d0a3748eb1678a739410e3d54c5b5ffea';
 
