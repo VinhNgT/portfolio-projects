@@ -65,9 +65,14 @@ extension QuestionPageX on QuestionPage {
     ScrollController scrollController,
   ) {
     Future.microtask(() {
-      ref
-          .read(questionPageScrollControllerProvider(questionIndex).notifier)
-          .value = scrollController;
+      // The the QuestionPage of which this scroll controller is associated
+      // with might be disposed before this microtask is executed. So we need
+      // to check if it is still mounted first
+      if (ref.context.mounted) {
+        ref
+            .read(questionPageScrollControllerProvider(questionIndex).notifier)
+            .value = scrollController;
+      }
     });
   }
 }
