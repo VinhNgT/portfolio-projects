@@ -39,6 +39,7 @@ List<Question> _testQuestions = [
     title:
         '''Vạch kẻ đường nào dưới đây là vạch phân chia hai chiều xe chạy (vạch tim đường), xe không được lấn làn, không được đè lên vạch?''',
     answers: ['Vạch 1', 'Vạch 2', 'Vạch 3', 'Cả 3 vạch'],
+    questionImagePath: 'assets/images/question_images/question_2.jpg',
     isDanger: false,
     correctAnswerIndex: 1,
     explanation:
@@ -53,6 +54,7 @@ List<Question> _testQuestions = [
       'Xe tải, xe con, mô tô',
       'Xe khách, xe con, mô tô',
     ],
+    questionImagePath: 'assets/images/question_images/question_3.jpg',
     correctAnswerIndex: 0,
     isDanger: false,
     explanation:
