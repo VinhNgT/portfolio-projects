@@ -382,6 +382,10 @@ class MaterialTheme {
         titleSpacing: kSize_4,
         scrolledUnderElevation: kSize_0,
       ),
+      bottomAppBarTheme: m3Theme.bottomAppBarTheme.copyWith(
+        color: materialScheme.surfaceContainerHigh,
+        elevation: kSize_0,
+      ),
       cardTheme: m3Theme.cardTheme.copyWith(
         elevation: kSize_0,
         margin: EdgeInsets.zero,

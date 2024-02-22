@@ -62,4 +62,19 @@ List<Question> _testQuestions = [
     rememberTip:
         '''Pirate ipsum arrgh bounty warp jack. Crack pirate bounty smartly jack yer cog fluke. Coffer locker on hempen or. Locker the spyglass jack red.''',
   ),
+  const Question(
+    title: 'Các xe đi theo hướng mũi tên, xe nào vi phạm quy tắc giao thông?',
+    answers: [
+      'Xe khách, xe tải, mô tô',
+      'Xe tải, xe con, mô tô',
+      'Xe khách, xe con, mô tô',
+    ],
+    questionImagePath: 'assets/images/question_images/question_3.jpg',
+    correctAnswerIndex: 0,
+    isDanger: false,
+    explanation:
+        '''Pirate ipsum arrgh bounty warp jack. Shiver her topgallant yard chase fleet me.''',
+    rememberTip:
+        '''Pirate ipsum arrgh bounty warp jack. Crack pirate bounty smartly jack yer cog fluke. Coffer locker on hempen or. Locker the spyglass jack red.''',
+  ),
 ];

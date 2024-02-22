@@ -1,11 +1,19 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/common_widgets/common_app_bar.dart';
+import 'package:driving_license/constants/app_sizes.dart';
+import 'package:driving_license/constants/widget_sizes.dart';
 import 'package:driving_license/features/question/data/question_repository.dart';
+import 'package:driving_license/features/question/presentation/bottom_nav_bar/question_bottom_navigation_bar.dart';
 import 'package:driving_license/features/question/presentation/question/question_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'question_screen.g.dart';
 
 @RoutePage()
 class QuestionScreen extends HookConsumerWidget {
@@ -14,22 +22,19 @@ class QuestionScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentPageIndex = useState<int>(0);
     final pageController = usePageController();
 
     final questionCount =
         ref.watch(questionRepositoryProvider).getQuestionCount();
+    final currentPageIndex = ref.watch(currentPageIndexProvider);
     final currentPageScrollController =
-        ref.watch(questionPageScrollControllerProvider(currentPageIndex.value));
+        ref.watch(questionPageScrollControllerProvider(currentPageIndex));
 
-    keepAliveNearbyQuestionPageScrollControllerProviders(
-      ref,
-      currentPageIndex.value,
-    );
+    keepAliveNearbyQuestionPageScrollControllerProviders(ref);
 
     return Scaffold(
       appBar: CommonAppBar(
-        title: Text('Câu hỏi ${currentPageIndex.value + 1}'),
+        title: Text('Câu hỏi ${currentPageIndex + 1}'),
         actions: [
           IconButton(
             icon: const Icon(Symbols.bookmark),
@@ -46,14 +51,31 @@ class QuestionScreen extends HookConsumerWidget {
         controller: pageController,
         itemCount: questionCount,
         onPageChanged: (nextPageIndex) {
-          currentPageIndex.value = nextPageIndex;
+          setNewCurrentPageIndex(ref, nextPageIndex);
         },
         physics: const FastPageViewScrollPhysics(),
         itemBuilder: (context, index) {
-          return QuestionPage(
-            questionIndex: index,
-          );
+          return QuestionPage(questionIndex: index);
         },
+      ),
+      bottomNavigationBar: BottomAppBar(
+        height: kBottomAppBarHeight,
+        padding: const EdgeInsets.all(kSize_0),
+        child: QuestionBottomNavigationBar(
+          onNextPressed: () => unawaited(
+            pageController.nextPage(
+              duration: Durations.short4,
+              curve: Curves.easeOut,
+            ),
+          ),
+          onPreviousPressed: () => unawaited(
+            pageController.previousPage(
+              duration: Durations.short4,
+              curve: Curves.easeOut,
+            ),
+          ),
+          onShowAllPressed: () {},
+        ),
       ),
     );
   }
@@ -69,10 +91,9 @@ extension QuestionScreenX on QuestionScreen {
   //
   // This is a feature of riverpod, not a bug. Otherwise it will cause memory
   // leak if we keep all providers alive.
-  void keepAliveNearbyQuestionPageScrollControllerProviders(
-    WidgetRef ref,
-    int currentPageIndex,
-  ) {
+  void keepAliveNearbyQuestionPageScrollControllerProviders(WidgetRef ref) {
+    final currentPageIndex = ref.watch(currentPageIndexProvider);
+
     ref.listen(
       questionPageScrollControllerProvider(currentPageIndex + 1),
       (_, __) {},
@@ -81,6 +102,10 @@ extension QuestionScreenX on QuestionScreen {
       questionPageScrollControllerProvider(currentPageIndex - 1),
       (_, __) {},
     );
+  }
+
+  void setNewCurrentPageIndex(WidgetRef ref, int newPageIndex) {
+    ref.read(currentPageIndexProvider.notifier).value = newPageIndex;
   }
 }
 
@@ -98,4 +123,19 @@ class FastPageViewScrollPhysics extends ScrollPhysics {
         stiffness: 100,
         damping: 1,
       );
+}
+
+// This provider is used to keep track of the index of the page in the
+// middle of the screen.
+// It should change when the user scrolled halfway through a new page
+@riverpod
+class CurrentPageIndex extends _$CurrentPageIndex {
+  @override
+  int build() {
+    return 0;
+  }
+
+  set value(int newValue) {
+    state = newValue;
+  }
 }
