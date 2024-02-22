@@ -4,6 +4,7 @@ import 'package:driving_license/app.dart';
 import 'package:driving_license/exceptions/async_error_logger.dart';
 import 'package:driving_license/exceptions/error_logger.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void main() async {
@@ -23,6 +24,12 @@ void main() async {
   final errorLogger = container.read(consoleErrorLoggerProvider);
   container.observers.add(AsyncErrorLogger(errorLogger));
   registerErrorHandlers(errorLogger);
+
+  // Lock device orientation
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 
   // Start the app
   runApp(
