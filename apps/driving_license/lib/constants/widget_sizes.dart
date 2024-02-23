@@ -4,4 +4,4 @@ library;
 import 'package:driving_license/constants/app_sizes.dart';
 
 const kAppBarHeight = kSize_64;
-const kBottomAppBarHeight = kSize_60;
+const kBottomAppBarHeight = kSize_56;
