@@ -109,7 +109,7 @@ class _QuestionNavBarButton extends StatelessWidget {
         ),
         child: Opacity(
           // Lower the opacity when button is disabled (when onPressed == null)
-          opacity: onPressed != null ? kFullOpacity : kDisabledOpacity,
+          opacity: onPressed != null ? kOpacityFull : kOpacityDisabled,
           child: Row(
             mainAxisAlignment: mainAxisAlignment,
             children: content,

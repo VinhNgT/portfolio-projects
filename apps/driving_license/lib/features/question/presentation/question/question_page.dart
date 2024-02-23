@@ -57,7 +57,7 @@ class QuestionPage extends HookConsumerWidget {
             Visibility(
               visible: scrollingAnimationPlaying ? true : answerSelected,
               child: Opacity(
-                opacity: answerSelected ? kFullOpacity : kHiddenOpacity,
+                opacity: answerSelected ? kOpacityFull : kOpacityZero,
                 child: QuestionNotes(questionIndex: questionIndex),
               ),
             ),
