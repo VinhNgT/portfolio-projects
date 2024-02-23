@@ -25,13 +25,8 @@ void main() async {
   container.observers.add(AsyncErrorLogger(errorLogger));
   registerErrorHandlers(errorLogger);
 
-  // Lock device orientation
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
-
   // Start the app
+  await setSystemChrome();
   runApp(
     UncontrolledProviderScope(
       container: container,
@@ -63,4 +58,23 @@ void registerErrorHandlers(ErrorLogger errorLogger) {
       body: Center(child: Text(details.toString())),
     );
   };
+}
+
+Future<void> setSystemChrome() async {
+  // Lock device orientation
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
+  // SystemChrome.setSystemUIOverlayStyle(
+  //   const SystemUiOverlayStyle(
+  //     statusBarBrightness: Brightness.light,
+  //     statusBarIconBrightness: Brightness.dark,
+  //     statusBarColor: Colors.transparent,
+  //     systemNavigationBarColor: Colors.transparent,
+  //   ),
+  // );
+
+  // await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 }
