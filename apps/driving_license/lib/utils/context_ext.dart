@@ -4,6 +4,7 @@ import 'package:driving_license/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 extension ContextExtension on BuildContext {
+  Brightness get brightness => Theme.of(this).brightness;
   bool get isDarkMode => Theme.of(this).brightness == Brightness.dark;
   bool get isLightMode => Theme.of(this).brightness == Brightness.light;
   ThemeData get theme => Theme.of(this);

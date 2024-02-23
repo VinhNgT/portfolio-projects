@@ -4,7 +4,6 @@ import 'package:driving_license/app.dart';
 import 'package:driving_license/exceptions/async_error_logger.dart';
 import 'package:driving_license/exceptions/error_logger.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void main() async {
@@ -26,7 +25,6 @@ void main() async {
   registerErrorHandlers(errorLogger);
 
   // Start the app
-  await setSystemChrome();
   runApp(
     UncontrolledProviderScope(
       container: container,
@@ -58,23 +56,4 @@ void registerErrorHandlers(ErrorLogger errorLogger) {
       body: Center(child: Text(details.toString())),
     );
   };
-}
-
-Future<void> setSystemChrome() async {
-  // Lock device orientation
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
-
-  // SystemChrome.setSystemUIOverlayStyle(
-  //   const SystemUiOverlayStyle(
-  //     statusBarBrightness: Brightness.light,
-  //     statusBarIconBrightness: Brightness.dark,
-  //     statusBarColor: Colors.transparent,
-  //     systemNavigationBarColor: Colors.transparent,
-  //   ),
-  // );
-
-  // await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 }

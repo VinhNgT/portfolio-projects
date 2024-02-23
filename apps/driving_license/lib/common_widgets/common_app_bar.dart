@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/constants/widget_sizes.dart';
+import 'package:driving_license/utils/app_ui_overlay.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -57,6 +58,8 @@ class CommonAppBar extends HookConsumerWidget implements PreferredSizeWidget {
       color: appBarColor,
       child: AppBar(
         backgroundColor: Colors.transparent,
+        systemOverlayStyle:
+            AppUiOverlay(context.brightness).statusBarOverlayStyle,
         title: title,
         leading: Align(
           alignment: Alignment.centerRight,
