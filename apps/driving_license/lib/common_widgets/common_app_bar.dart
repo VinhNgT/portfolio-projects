@@ -54,7 +54,7 @@ class CommonAppBar extends HookConsumerWidget implements PreferredSizeWidget {
     return AnimatedContainer(
       // We should only animate the color change if we are changing to
       // a different scroll controller
-      duration: hasNewScrollController ? Durations.short4 : Duration.zero,
+      duration: hasNewScrollController ? Durations.short3 : Duration.zero,
       color: appBarColor,
       child: AppBar(
         backgroundColor: Colors.transparent,
@@ -106,7 +106,8 @@ extension CommonAppBarX on CommonAppBar {
   ) {
     final context = useContext();
     final appBarSurfaceColor = context.materialScheme.surface;
-    final appBarScrolledUnderColor = context.materialScheme.surfaceContainerLow;
+    final appBarScrolledUnderColor =
+        context.materialScheme.surfaceContainerHigh;
 
     return useListenableSelector(scaffoldBodyScrollController, () {
       if (scaffoldBodyScrollController == null) {
