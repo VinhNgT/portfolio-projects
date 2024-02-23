@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
+import 'package:driving_license/constants/opacity.dart';
 import 'package:driving_license/features/question/data/question_repository.dart';
 import 'package:driving_license/features/question/presentation/answer/answer_card_list.dart';
 import 'package:driving_license/features/question/presentation/question/question_image.dart';
@@ -24,13 +27,14 @@ class QuestionPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scrollController = useScrollController();
+    updateQuestionPageScrollController(ref, scrollController);
 
     final question =
         ref.watch(questionRepositoryProvider).getQuestion(questionIndex);
     final answerSelected =
         ref.watch(selectedAnswerIndexProvider(questionIndex)) != null;
-
-    updateQuestionPageScrollController(ref, scrollController);
+    final scrollingAnimationPlaying =
+        ref.watch(questionPageScrollingAnimationPlayingProvider);
 
     return SingleChildScrollView(
       controller: scrollController,
@@ -50,7 +54,13 @@ class QuestionPage extends HookConsumerWidget {
               QuestionImage(path: question.questionImagePath!),
             kGap_16,
             AnswerCardList(questionIndex: questionIndex),
-            if (answerSelected) QuestionNotes(questionIndex: questionIndex),
+            Visibility(
+              visible: scrollingAnimationPlaying ? true : answerSelected,
+              child: Opacity(
+                opacity: answerSelected ? kFullOpacity : kHiddenOpacity,
+                child: QuestionNotes(questionIndex: questionIndex),
+              ),
+            ),
             kGap_48,
           ],
         ),
@@ -119,4 +129,30 @@ void keepQuestionPageScrollControllerAlive(
   );
 
   return;
+}
+
+// When QuestionPageScrollController.animateTo is called, all content inside
+// QuestionPage SingleChildScrollView need to keep it size until the animation
+// is completed, other wise there will be an ugly jump in the UI.
+//
+// This provider is used to provide a way for other page to notify QuestionPage
+// about upcoming animation, so QuestionPage can prepare before it and ensure
+// the size of its content is kept until the animation is completed.
+//
+// This is popably a bug in Flutter ¯\_(ツ)_/¯
+@riverpod
+class QuestionPageScrollingAnimationPlaying
+    extends _$QuestionPageScrollingAnimationPlaying {
+  @override
+  bool build() {
+    return false;
+  }
+
+  void begin() {
+    state = true;
+  }
+
+  void end() {
+    state = false;
+  }
 }

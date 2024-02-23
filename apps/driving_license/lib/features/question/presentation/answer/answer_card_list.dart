@@ -81,7 +81,7 @@ class SelectedAnswerIndex extends _$SelectedAnswerIndex {
     return null;
   }
 
-  set value(int newValue) {
+  set value(int? newValue) {
     state = newValue;
   }
 }

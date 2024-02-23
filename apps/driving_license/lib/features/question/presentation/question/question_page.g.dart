@@ -194,5 +194,24 @@ class _QuestionPageScrollControllerProviderElement
   int get pageIndex =>
       (origin as QuestionPageScrollControllerProvider).pageIndex;
 }
+
+String _$questionPageScrollingAnimationPlayingHash() =>
+    r'8b477d79409f8479853a3671f26b50c763878a8c';
+
+/// See also [QuestionPageScrollingAnimationPlaying].
+@ProviderFor(QuestionPageScrollingAnimationPlaying)
+final questionPageScrollingAnimationPlayingProvider =
+    AutoDisposeNotifierProvider<QuestionPageScrollingAnimationPlaying,
+        bool>.internal(
+  QuestionPageScrollingAnimationPlaying.new,
+  name: r'questionPageScrollingAnimationPlayingProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$questionPageScrollingAnimationPlayingHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$QuestionPageScrollingAnimationPlaying = AutoDisposeNotifier<bool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

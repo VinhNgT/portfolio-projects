@@ -7,7 +7,7 @@ part of 'answer_card_list.dart';
 // **************************************************************************
 
 String _$selectedAnswerIndexHash() =>
-    r'1a322b798a32557c1e613dad74dad2f65522444a';
+    r'6a4bb59e1c57c3714e11437f2c4331b9294adca2';
 
 /// Copied from Dart SDK
 class _SystemHash {
