@@ -1,6 +1,7 @@
 import 'package:driving_license/common_widgets/misc/ink_well_overlay_color.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
+import 'package:driving_license/constants/opacity.dart';
 import 'package:driving_license/constants/widget_sizes.dart';
 import 'package:driving_license/features/question/data/question_repository.dart';
 import 'package:driving_license/features/question/presentation/question_screen.dart';
@@ -43,16 +44,19 @@ class QuestionBottomNavigationBar extends HookConsumerWidget {
       child: Row(
         children: [
           Flexible(
-            flex: 1,
+            flex: 2,
             child: _PreviousQuestion(
               onPressed: previousButtonActive ? onPreviousPressed : null,
             ),
           ),
-          _ShowAllQuestion(
-            onPressed: onShowAllPressed,
+          Flexible(
+            flex: 3,
+            child: _ShowAllQuestion(
+              onPressed: onShowAllPressed,
+            ),
           ),
           Flexible(
-            flex: 1,
+            flex: 2,
             child: _NextQuestion(
               onPressed: nextButtonActive ? onNextPressed : null,
             ),
@@ -64,14 +68,14 @@ class QuestionBottomNavigationBar extends HookConsumerWidget {
 }
 
 class _QuestionNavBarButton extends StatelessWidget {
-  final Icon icon;
+  final Icon? icon;
   final Widget label;
   final _IconPosition iconPosition;
   final MainAxisAlignment mainAxisAlignment;
   final VoidCallback? onPressed;
 
   const _QuestionNavBarButton({
-    required this.icon,
+    this.icon,
     required this.label,
     this.iconPosition = _IconPosition.left,
     this.mainAxisAlignment = MainAxisAlignment.start,
@@ -80,26 +84,35 @@ class _QuestionNavBarButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final content = [icon, kGap_8, label];
+    var content = [
+      if (icon != null) ...[icon!, kGap_8],
+      label,
+    ];
+
+    if (iconPosition == _IconPosition.right) {
+      content = content.reversed.toList();
+    }
 
     return InkWell(
       overlayColor: InkWellBackgroundColor(context.materialScheme.onSurface),
       onTap: onPressed,
       child: Padding(
         padding: EdgeInsets.only(
-          left: (iconPosition == _IconPosition.left) ? kSize_12 : kSize_16,
-          right: (iconPosition == _IconPosition.left) ? kSize_16 : kSize_12,
+          left: (iconPosition == _IconPosition.left && icon != null)
+              ? kSize_12
+              : kSize_16,
+          right: (iconPosition == _IconPosition.right && icon != null)
+              ? kSize_12
+              : kSize_16,
           top: kSize_10,
           bottom: kSize_10,
         ),
         child: Opacity(
           // Lower the opacity when button is disabled (when onPressed == null)
-          opacity: onPressed != null ? 1.0 : 0.38,
+          opacity: onPressed != null ? kFullOpacity : kDisabledOpacity,
           child: Row(
             mainAxisAlignment: mainAxisAlignment,
-            children: iconPosition == _IconPosition.left
-                ? content
-                : content.reversed.toList(),
+            children: content,
           ),
         ),
       ),
@@ -165,13 +178,7 @@ class _ShowAllQuestion extends StatelessWidget {
     return SizedBox(
       height: double.infinity,
       child: _QuestionNavBarButton(
-        icon: Icon(
-          Symbols.expand_all,
-          size: kSize_24,
-          color: context.materialScheme.onSurface,
-        ),
-        label: Text('Các câu hỏi', style: context.textTheme.titleMedium),
-        iconPosition: _IconPosition.left,
+        label: Text('Tất cả câu hỏi', style: context.textTheme.titleMedium),
         mainAxisAlignment: MainAxisAlignment.center,
         onPressed: onPressed,
       ),
