@@ -378,6 +378,7 @@ class MaterialTheme {
         opticalSize: kSize_24,
       ),
       appBarTheme: m3Theme.appBarTheme.copyWith(
+        color: materialScheme.surfaceContainerHigh,
         toolbarHeight: kAppBarHeight,
         titleSpacing: kSize_4,
         scrolledUnderElevation: kSize_0,
