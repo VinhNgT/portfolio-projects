@@ -109,21 +109,19 @@ extension CommonAppBarX on CommonAppBar {
     final appBarScrolledUnderColor =
         context.materialScheme.surfaceContainerHigh;
 
+    // If the scroll controller has not been attached to a scroll view yet or
+    // is disposed, is null, return the default color
+    final scrollControllerDisposed =
+        !(scaffoldBodyScrollController?.hasClients ?? false);
+    if (scrollControllerDisposed) {
+      return useListenableSelector(null, () => appBarSurfaceColor);
+    }
+
     return useListenableSelector(scaffoldBodyScrollController, () {
-      if (scaffoldBodyScrollController == null) {
-        return appBarSurfaceColor;
-      }
-
-      /// If the scroll controller has not been attached to a scroll view yet,
-      /// return the default color
-      if (!scaffoldBodyScrollController.hasClients) {
-        return appBarSurfaceColor;
-      }
-
       final newColor = Color.lerp(
         appBarSurfaceColor,
         appBarScrolledUnderColor,
-        (scaffoldBodyScrollController.offset / (context.appBarHeight / 4))
+        (scaffoldBodyScrollController!.offset / (context.appBarHeight / 4))
             .clamp(0, 1),
       )!;
 

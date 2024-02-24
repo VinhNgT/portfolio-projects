@@ -54,7 +54,27 @@ class QuestionScreen extends HookConsumerWidget {
             curve: Curves.easeOut,
           ),
         ),
-        onShowAllPressed: () {},
+        onShowAllPressed: () => unawaited(
+          showModalBottomSheet(
+            context: context,
+            showDragHandle: true,
+            builder: (_) => Column(
+              children: [
+                for (var i = 0; i < questionCount; i++)
+                  ListTile(
+                    title: Text('Câu hỏi ${i + 1}'),
+                    onTap: () {
+                      pageController.animateToPage(
+                        i,
+                        duration: Durations.short4,
+                        curve: Curves.easeOut,
+                      );
+                    },
+                  ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

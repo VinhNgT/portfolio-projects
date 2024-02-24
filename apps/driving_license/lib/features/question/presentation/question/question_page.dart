@@ -77,7 +77,7 @@ class QuestionPage extends HookConsumerWidget {
 }
 
 extension QuestionPageX on QuestionPage {
-  // Notify QuestionScreen about new scroll controller
+  // Notify AppBar about new scroll controller
   void updateQuestionPageScrollController(
     WidgetRef ref,
     ScrollController scrollController,
@@ -95,6 +95,7 @@ extension QuestionPageX on QuestionPage {
   }
 }
 
+// Scroll controller for AppBar to use to calculate its background color
 @riverpod
 class QuestionPageScrollController extends _$QuestionPageScrollController {
   @override
