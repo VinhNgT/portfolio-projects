@@ -49,17 +49,20 @@ extension QuestionAppBarX on QuestionAppBar {
 
   Future<void> resetQuestionPageScrollPosition(WidgetRef ref) async {
     final currentPageIndex = ref.read(currentPageIndexProvider);
+    final scrollController =
+        ref.read(questionPageScrollControllerProvider(currentPageIndex));
+    final animationNotifier = ref.read(
+      questionPageScrollingAnimationPlayingProvider(currentPageIndex).notifier,
+    );
 
-    ref.read(questionPageScrollingAnimationPlayingProvider.notifier).begin();
+    animationNotifier.begin();
 
-    await ref
-        .read(questionPageScrollControllerProvider(currentPageIndex))
-        ?.animateTo(
-          0,
-          duration: Durations.short3,
-          curve: Curves.easeOut,
-        );
+    await scrollController?.animateTo(
+      0,
+      duration: Durations.short3,
+      curve: Curves.easeOut,
+    );
 
-    ref.read(questionPageScrollingAnimationPlayingProvider.notifier).end();
+    animationNotifier.end();
   }
 }

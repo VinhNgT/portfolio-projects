@@ -10,6 +10,7 @@ import 'package:driving_license/features/question/presentation/question/question
 import 'package:driving_license/features/question/presentation/question_screen.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -34,7 +35,13 @@ class QuestionPage extends HookConsumerWidget {
     final answerSelected =
         ref.watch(selectedAnswerIndexProvider(questionIndex)) != null;
     final scrollingAnimationPlaying =
-        ref.watch(questionPageScrollingAnimationPlayingProvider);
+        ref.watch(questionPageScrollingAnimationPlayingProvider(questionIndex));
+
+    // When this widget rebuilt, the scroll controller will not notify listeners
+    // about SingleChildScrollView size changes, so we need to do it manually
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      scrollController.position.notifyListeners();
+    });
 
     return SingleChildScrollView(
       controller: scrollController,
@@ -135,7 +142,7 @@ void keepQuestionPageScrollControllerAlive(
 // QuestionPage SingleChildScrollView need to keep it size until the animation
 // is completed, other wise there will be an ugly jump in the UI.
 //
-// This provider is used to provide a way for other page to notify QuestionPage
+// This provider is used to provide a way for other pages to notify QuestionPage
 // about upcoming animation, so QuestionPage can prepare before it and ensure
 // the size of its content is kept until the animation is completed.
 //
@@ -144,7 +151,7 @@ void keepQuestionPageScrollControllerAlive(
 class QuestionPageScrollingAnimationPlaying
     extends _$QuestionPageScrollingAnimationPlaying {
   @override
-  bool build() {
+  bool build(int pageIndex) {
     return false;
   }
 
