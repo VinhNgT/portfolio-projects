@@ -1,4 +1,5 @@
 import 'package:driving_license/constants/app_sizes.dart';
+import 'package:driving_license/constants/opacity.dart';
 import 'package:driving_license/constants/widget_sizes.dart';
 import 'package:flutter/material.dart';
 
@@ -390,6 +391,11 @@ class MaterialTheme {
       cardTheme: m3Theme.cardTheme.copyWith(
         elevation: kSize_0,
         margin: EdgeInsets.zero,
+      ),
+      scrollbarTheme: m3Theme.scrollbarTheme.copyWith(
+        thumbColor: MaterialStateProperty.all(
+          materialScheme.outline.withOpacity(kOpacityQuarter),
+        ),
       ),
       // iconButtonTheme: const IconButtonThemeData(
       //   style: ButtonStyle(
