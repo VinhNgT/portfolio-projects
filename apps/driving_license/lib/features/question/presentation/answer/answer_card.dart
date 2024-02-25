@@ -24,7 +24,7 @@ class AnswerCard extends StatelessWidget {
     return ButtonCard(
       surfaceColor: containerSurfaceColor,
       onSurfaceColor: containerOnSurfaceColor,
-      onTap: onTap,
+      onPressed: onTap,
       child: Padding(
         padding: const EdgeInsets.all(kSize_16),
         child: Row(

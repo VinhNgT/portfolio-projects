@@ -26,7 +26,7 @@ class ChapterCard extends StatelessWidget {
     return ButtonCard(
       surfaceColor: context.materialScheme.surfaceContainerHigh,
       onSurfaceColor: context.materialScheme.onSurface,
-      onTap: onTap,
+      onPressed: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: kSize_16,

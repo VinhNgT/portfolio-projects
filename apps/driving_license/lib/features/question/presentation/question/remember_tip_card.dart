@@ -27,7 +27,7 @@ class RememberTipCard extends HookConsumerWidget {
             ? CrossFadeState.showSecond
             : CrossFadeState.showFirst,
       ),
-      onTap: () {
+      onPressed: () {
         isExpanded.value = !isExpanded.value;
       },
     );
