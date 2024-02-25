@@ -5,7 +5,6 @@ import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/constants/opacity.dart';
 import 'package:driving_license/features/question/data/question_repository.dart';
 import 'package:driving_license/features/question/presentation/answer/answer_card_list.dart';
-import 'package:driving_license/features/question/presentation/question/question_image.dart';
 import 'package:driving_license/features/question/presentation/question/question_notes.dart';
 import 'package:driving_license/features/question/presentation/question_screen.dart';
 import 'package:driving_license/utils/context_ext.dart';
@@ -57,8 +56,11 @@ class QuestionPage extends HookConsumerWidget {
               question.title,
               style: context.textTheme.titleMedium,
             ),
-            if (question.questionImagePath != null)
-              QuestionImage(path: question.questionImagePath!),
+            if (question.questionImagePath != null) ...[
+              kGap_12,
+              Image.asset(question.questionImagePath!),
+              kGap_8,
+            ],
             kGap_16,
             AnswerCardList(questionIndex: questionIndex),
             Visibility(
