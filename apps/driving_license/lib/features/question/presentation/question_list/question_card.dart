@@ -63,8 +63,9 @@ class QuestionCard extends HookConsumerWidget {
                 borderRadius: BorderRadius.circular(4),
                 child: Image.asset(
                   question.questionImagePath!,
-                  width: 66,
+                  cacheHeight: (66 * context.devicePixelRatio).floor(),
                   height: 66,
+                  width: 66,
                   fit: BoxFit.fitHeight,
                 ),
               ),
