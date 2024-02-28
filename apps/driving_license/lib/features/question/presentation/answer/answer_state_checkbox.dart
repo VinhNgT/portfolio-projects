@@ -6,7 +6,8 @@ enum AnswerState { unchecked, checked, correct, incorrect }
 
 class AnswerStateCheckbox extends StatelessWidget {
   final AnswerState state;
-  const AnswerStateCheckbox({super.key, required this.state});
+  final double? iconSize;
+  const AnswerStateCheckbox({super.key, required this.state, this.iconSize});
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +25,9 @@ class AnswerStateCheckbox extends StatelessWidget {
         ),
         Icon(
           iconData,
-          color: iconSurfaceColor,
           fill: 1,
+          color: iconSurfaceColor,
+          size: iconSize,
         ),
       ],
     );
