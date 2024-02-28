@@ -5,7 +5,7 @@ import 'package:driving_license/features/question/data/question_repository.dart'
 import 'package:driving_license/features/question/presentation/appbar_navbar/question_app_bar.dart';
 import 'package:driving_license/features/question/presentation/appbar_navbar/question_bottom_navigation_bar.dart';
 import 'package:driving_license/features/question/presentation/question/question_page.dart';
-import 'package:driving_license/features/question/presentation/question_list/question_list.dart';
+import 'package:driving_license/features/question/presentation/question_list/question_bottom_sheet.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -58,24 +58,20 @@ class QuestionScreen extends HookConsumerWidget {
         ),
         onShowAllPressed: () => unawaited(
           showModalBottomSheet(
-            isScrollControlled: true,
             context: context,
+            elevation: 0,
             constraints: BoxConstraints.tightFor(
-              // BottomSheet will be 40% of the screen height
+              // BottomSheet will be 60% of the screen height
               height: context.height * 0.6,
             ),
-            showDragHandle: true,
-            builder: (_) => Scrollbar(
-              child: QuestionList(
-                initialPageIndex: ref.read(currentPageIndexProvider),
-                onQuestionCardPressed: (questionIndex) {
-                  pageController.animateToPage(
-                    questionIndex,
-                    duration: Durations.short4,
-                    curve: Curves.easeOut,
-                  );
-                },
-              ),
+            builder: (_) => QuestionBottomSheet(
+              onQuestionCardPressed: (questionIndex) {
+                pageController.animateToPage(
+                  questionIndex,
+                  duration: Durations.short4,
+                  curve: Curves.easeOut,
+                );
+              },
             ),
           ),
         ),

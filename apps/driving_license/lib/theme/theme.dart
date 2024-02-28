@@ -397,6 +397,9 @@ class MaterialTheme {
           materialScheme.outline.withOpacity(kOpacityQuarter),
         ),
       ),
+      bottomSheetTheme: m3Theme.bottomSheetTheme.copyWith(
+        backgroundColor: materialScheme.surfaceContainerLow,
+      ),
       // iconButtonTheme: const IconButtonThemeData(
       //   style: ButtonStyle(
       //     minimumSize: MaterialStatePropertyAll(Size(48, 48)),
