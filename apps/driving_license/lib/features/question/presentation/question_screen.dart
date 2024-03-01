@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:driving_license/common_widgets/async_value/async_value_scaffold.dart';
 import 'package:driving_license/features/question/data/question_repository.dart';
 import 'package:driving_license/features/question/presentation/appbar_navbar/question_app_bar.dart';
 import 'package:driving_license/features/question/presentation/appbar_navbar/question_bottom_navigation_bar.dart';
@@ -22,56 +23,59 @@ class QuestionScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pageController = usePageController();
-
-    final questionCount =
-        ref.watch(questionRepositoryProvider).getQuestionCount();
+    final questionCount = ref.watch(questionCountFutureProvider);
 
     // Register QuestionScreen as the one keeping all of the
     // QuestionPageScrollControllerProviders alive
     ref.watch(keepQuestionPageScrollControllerAliveProvider);
 
-    return Scaffold(
-      appBar: const QuestionAppBar(),
-      body: PageView.builder(
-        controller: pageController,
-        itemCount: questionCount,
-        onPageChanged: (nextPageIndex) {
-          setNewCurrentPageIndex(ref, nextPageIndex);
-        },
-        physics: const FastPageViewScrollPhysics(),
-        itemBuilder: (context, index) {
-          return QuestionPage(questionIndex: index);
-        },
-      ),
-      bottomNavigationBar: QuestionBottomNavigationBar(
-        onNextPressed: () => unawaited(
-          pageController.nextPage(
-            duration: Durations.short4,
-            curve: Curves.easeOut,
-          ),
+    return AsyncValueScaffold(
+      value: questionCount,
+      scaffold: (questionCountValue) => Scaffold(
+        appBar: const QuestionAppBar(),
+        body: PageView.builder(
+          controller: pageController,
+          itemCount: questionCountValue,
+          onPageChanged: (nextPageIndex) {
+            setNewCurrentPageIndex(ref, nextPageIndex);
+          },
+          physics: const FastPageViewScrollPhysics(),
+          itemBuilder: (context, index) {
+            return QuestionPage(questionIndex: index);
+          },
         ),
-        onPreviousPressed: () => unawaited(
-          pageController.previousPage(
-            duration: Durations.short4,
-            curve: Curves.easeOut,
-          ),
-        ),
-        onShowAllPressed: () => unawaited(
-          showModalBottomSheet(
-            context: context,
-            elevation: 0,
-            constraints: BoxConstraints.tightFor(
-              // BottomSheet will be 60% of the screen height
-              height: context.height * 0.6,
+        bottomNavigationBar: QuestionBottomNavigationBar(
+          questionCount: questionCountValue,
+          onNextPressed: () => unawaited(
+            pageController.nextPage(
+              duration: Durations.short4,
+              curve: Curves.easeOut,
             ),
-            builder: (_) => QuestionBottomSheet(
-              onQuestionCardPressed: (questionIndex) {
-                pageController.animateToPage(
-                  questionIndex,
-                  duration: Durations.short4,
-                  curve: Curves.easeOut,
-                );
-              },
+          ),
+          onPreviousPressed: () => unawaited(
+            pageController.previousPage(
+              duration: Durations.short4,
+              curve: Curves.easeOut,
+            ),
+          ),
+          onShowAllPressed: () => unawaited(
+            showModalBottomSheet(
+              context: context,
+              elevation: 0,
+              constraints: BoxConstraints.tightFor(
+                // BottomSheet will be 60% of the screen height
+                height: context.height * 0.6,
+              ),
+              builder: (_) => QuestionBottomSheet(
+                questionCount: questionCountValue,
+                onQuestionCardPressed: (questionIndex) {
+                  pageController.animateToPage(
+                    questionIndex,
+                    duration: Durations.short4,
+                    curve: Curves.easeOut,
+                  );
+                },
+              ),
             ),
           ),
         ),

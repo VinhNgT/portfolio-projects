@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/constants/app_sizes.dart';
-import 'package:driving_license/features/question/data/question_repository.dart';
 import 'package:driving_license/features/question/presentation/question_list/question_list.dart';
 import 'package:driving_license/features/question/presentation/question_screen.dart';
 import 'package:driving_license/utils/context_ext.dart';
@@ -9,9 +8,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class QuestionBottomSheet extends HookConsumerWidget {
+  final int questionCount;
   final void Function(int index)? onQuestionCardPressed;
 
-  const QuestionBottomSheet({super.key, this.onQuestionCardPressed});
+  const QuestionBottomSheet({
+    super.key,
+    required this.questionCount,
+    this.onQuestionCardPressed,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,20 +34,21 @@ class QuestionBottomSheet extends HookConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(
+            SizedBox(
               width: double.infinity,
               child: Padding(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   vertical: kSize_12,
                   horizontal: kSize_16,
                 ),
-                child: _Title(),
+                child: _Title(questionCount: questionCount),
               ),
             ),
             const Divider(height: 0),
             Expanded(
               child: Scrollbar(
                 child: QuestionList(
+                  questionCount: questionCount,
                   initialPageIndex: ref.read(currentPageIndexProvider),
                   onQuestionCardPressed: onQuestionCardPressed,
                 ),
@@ -67,14 +72,12 @@ class QuestionBottomSheet extends HookConsumerWidget {
   }
 }
 
-class _Title extends HookConsumerWidget {
-  const _Title();
+class _Title extends StatelessWidget {
+  final int questionCount;
+  const _Title({required this.questionCount});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final questionCount =
-        ref.watch(questionRepositoryProvider).getQuestionCount();
-
+  Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
         style: context.defaultTextStyle,

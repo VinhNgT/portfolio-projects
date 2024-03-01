@@ -3,22 +3,21 @@ import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/constants/opacity.dart';
 import 'package:driving_license/constants/widget_sizes.dart';
-import 'package:driving_license/features/question/data/question_repository.dart';
 import 'package:driving_license/features/question/presentation/question_screen.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
-enum _IconPosition { left, right }
-
 class QuestionBottomNavigationBar extends HookConsumerWidget {
+  final int questionCount;
   final VoidCallback? onPreviousPressed;
   final VoidCallback? onNextPressed;
   final VoidCallback? onShowAllPressed;
 
   const QuestionBottomNavigationBar({
     super.key,
+    required this.questionCount,
     this.onPreviousPressed,
     this.onNextPressed,
     this.onShowAllPressed,
@@ -26,16 +25,13 @@ class QuestionBottomNavigationBar extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final lastQuestionIndex =
-        ref.watch(questionRepositoryProvider).getQuestionCount() - 1;
-
     final previousButtonActive = ref.watch(
       currentPageIndexProvider
           .select((currentPageIndex) => currentPageIndex > 0),
     );
     final nextButtonActive = ref.watch(
       currentPageIndexProvider
-          .select((currentPageIndex) => currentPageIndex < lastQuestionIndex),
+          .select((currentPageIndex) => currentPageIndex < questionCount - 1),
     );
 
     return BottomAppBar(
@@ -66,6 +62,8 @@ class QuestionBottomNavigationBar extends HookConsumerWidget {
     );
   }
 }
+
+enum _IconPosition { left, right }
 
 class _QuestionNavBarButton extends StatelessWidget {
   final Icon? icon;
