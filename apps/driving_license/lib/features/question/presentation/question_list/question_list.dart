@@ -6,19 +6,19 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class QuestionList extends HookConsumerWidget {
   final int questionCount;
-  final int initialPageIndex;
+  final int initialCurrentPageIndex;
   final void Function(int index)? onQuestionCardPressed;
 
   const QuestionList({
     super.key,
     required this.questionCount,
-    required this.initialPageIndex,
+    required this.initialCurrentPageIndex,
     this.onQuestionCardPressed,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedCardIndex = useState(initialPageIndex);
+    final selectedCardIndex = useState(initialCurrentPageIndex);
     final userInteracted = useState(false);
 
     // If current page index is changed before user interacted with the list,

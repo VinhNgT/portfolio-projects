@@ -49,7 +49,7 @@ class QuestionBottomSheet extends HookConsumerWidget {
               child: Scrollbar(
                 child: QuestionList(
                   questionCount: questionCount,
-                  initialPageIndex: ref.read(currentPageIndexProvider),
+                  initialCurrentPageIndex: ref.read(currentPageIndexProvider),
                   onQuestionCardPressed: onQuestionCardPressed,
                 ),
               ),
