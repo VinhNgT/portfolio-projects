@@ -19,8 +19,8 @@ void main() async {
     overrides: [
       questionRepositoryProvider.overrideWithValue(
         TestQuestionRepository(
-          artificialDelay: const Duration(milliseconds: 1000),
-        ),
+            // artificialDelay: const Duration(milliseconds: 1000),
+            ),
       ),
     ],
   );
