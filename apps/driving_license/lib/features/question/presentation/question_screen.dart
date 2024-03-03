@@ -31,7 +31,7 @@ class QuestionScreen extends HookConsumerWidget {
 
     return AsyncValueScaffold(
       value: questionCount,
-      scaffold: (questionCountValue) => Scaffold(
+      builder: (questionCountValue) => Scaffold(
         appBar: const QuestionAppBar(),
         body: PageView.builder(
           controller: pageController,
@@ -41,7 +41,7 @@ class QuestionScreen extends HookConsumerWidget {
           },
           physics: const FastPageViewScrollPhysics(),
           itemBuilder: (context, index) {
-            return QuestionPage(questionIndex: index);
+            return QuestionPage(questionPageIndex: index);
           },
         ),
         bottomNavigationBar: QuestionBottomNavigationBar(
@@ -68,9 +68,9 @@ class QuestionScreen extends HookConsumerWidget {
               ),
               builder: (_) => QuestionBottomSheet(
                 questionCount: questionCountValue,
-                onQuestionCardPressed: (questionIndex) {
+                onQuestionCardPressed: (questionPageIndex) {
                   pageController.animateToPage(
-                    questionIndex,
+                    questionPageIndex,
                     duration: Durations.short4,
                     curve: Curves.easeOut,
                   );

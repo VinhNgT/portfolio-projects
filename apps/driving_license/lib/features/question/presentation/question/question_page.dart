@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/constants/opacity.dart';
@@ -17,62 +18,68 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'question_page.g.dart';
 
 class QuestionPage extends HookConsumerWidget {
-  final int questionIndex;
+  final int questionPageIndex;
 
   const QuestionPage({
     super.key,
-    required this.questionIndex,
+    required this.questionPageIndex,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scrollController = useScrollController();
-    updateQuestionPageScrollController(ref, scrollController);
+    final question = ref.watch(questionFutureProvider(questionPageIndex));
 
-    final question =
-        ref.watch(questionRepositoryProvider).getQuestion(questionIndex);
-    final answerSelected =
-        ref.watch(selectedAnswerIndexProvider(questionIndex)) != null;
-    final scrollingAnimationPlaying =
-        ref.watch(questionPageScrollingAnimationPlayingProvider(questionIndex));
+    return AsyncValueWidget(
+      value: question,
+      builder: (questionValue) => Consumer(
+        builder: (context, ref, child) {
+          updateQuestionPageScrollController(ref, scrollController);
+          notifyScrollControllerWidgetRebuilt(scrollController);
 
-    // When this widget rebuilt, the scroll controller will not notify listeners
-    // about SingleChildScrollView size changes, so we need to do it manually
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      scrollController.position.notifyListeners();
-    });
+          final answerSelected =
+              ref.watch(selectedAnswerIndexProvider(questionPageIndex)) != null;
+          final scrollingAnimationPlaying = ref.watch(
+            questionPageScrollingAnimationPlayingProvider(questionPageIndex),
+          );
 
-    return SingleChildScrollView(
-      controller: scrollController,
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: kSize_16,
-          right: kSize_16,
-          bottom: kSize_48,
-        ),
-        child: Column(
-          children: [
-            Text(
-              question.title,
-              style: context.textTheme.titleMedium,
-            ),
-            if (question.questionImagePath != null) ...[
-              kGap_12,
-              Image.asset(question.questionImagePath!),
-              kGap_8,
-            ],
-            kGap_16,
-            AnswerCardList(questionIndex: questionIndex),
-            Visibility(
-              visible: scrollingAnimationPlaying ? true : answerSelected,
-              child: Opacity(
-                opacity: answerSelected ? kOpacityFull : kOpacityZero,
-                child: QuestionNotes(questionIndex: questionIndex),
+          return SingleChildScrollView(
+            controller: scrollController,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: kSize_16,
+                right: kSize_16,
+                bottom: kSize_48,
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    questionValue.title,
+                    style: context.textTheme.titleMedium,
+                  ),
+                  if (questionValue.questionImagePath != null) ...[
+                    kGap_12,
+                    Image.asset(questionValue.questionImagePath!),
+                    kGap_8,
+                  ],
+                  kGap_16,
+                  AnswerCardList(
+                    questionPageIndex: questionPageIndex,
+                    question: questionValue,
+                  ),
+                  Visibility(
+                    visible: scrollingAnimationPlaying ? true : answerSelected,
+                    child: Opacity(
+                      opacity: answerSelected ? kOpacityFull : kOpacityZero,
+                      child: QuestionNotes(question: questionValue),
+                    ),
+                  ),
+                  kGap_48,
+                ],
               ),
             ),
-            kGap_48,
-          ],
-        ),
+          );
+        },
       ),
     );
   }
@@ -90,8 +97,21 @@ extension QuestionPageX on QuestionPage {
       // to check if it is still mounted first
       if (ref.context.mounted) {
         ref
-            .read(questionPageScrollControllerProvider(questionIndex).notifier)
+            .read(
+              questionPageScrollControllerProvider(questionPageIndex).notifier,
+            )
             .value = scrollController;
+      }
+    });
+  }
+
+  // When this widget rebuilt, the scroll controller will not notify
+  // listeners about SingleChildScrollView size changes, so we need to
+  // do it manually
+  void notifyScrollControllerWidgetRebuilt(ScrollController scrollController) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if (scrollController.hasClients) {
+        scrollController.position.notifyListeners();
       }
     });
   }

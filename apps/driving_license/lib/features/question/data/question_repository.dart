@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'question_repository.g.dart';
 
 abstract class QuestionRepository {
-  Question getQuestion(int index);
+  FutureOr<Question> getQuestion(int index);
   FutureOr<int> getQuestionCount();
 }
 
@@ -15,7 +15,7 @@ QuestionRepository questionRepository(QuestionRepositoryRef ref) {
 }
 
 @riverpod
-Question questionFuture(QuestionFutureRef ref, int index) {
+FutureOr<Question> questionFuture(QuestionFutureRef ref, int index) {
   final questionRepository = ref.watch(questionRepositoryProvider);
   return questionRepository.getQuestion(index);
 }

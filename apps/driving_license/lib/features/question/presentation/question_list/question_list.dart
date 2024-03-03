@@ -35,7 +35,7 @@ class QuestionList extends HookConsumerWidget {
       itemCount: questionCount,
       itemBuilder: (context, index) {
         return QuestionCard(
-          questionIndex: index,
+          questionPageIndex: index,
           isSelected: index == selectedCardIndex.value,
           onPressed: () {
             userInteracted.value = true;

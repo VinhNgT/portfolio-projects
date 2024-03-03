@@ -1,3 +1,4 @@
+import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/common_widgets/button_card.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
@@ -10,78 +11,81 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class QuestionCard extends HookConsumerWidget {
-  final int questionIndex;
+  final int questionPageIndex;
   final bool isSelected;
   final VoidCallback? onPressed;
 
   const QuestionCard({
     super.key,
-    required this.questionIndex,
+    required this.questionPageIndex,
     required this.isSelected,
     this.onPressed,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final question =
-        ref.watch(questionRepositoryProvider).getQuestion(questionIndex);
+    final question = ref.watch(questionFutureProvider(questionPageIndex));
 
-    return ButtonCard(
-      surfaceColor: isSelected
-          ? context.materialScheme.surfaceVariant
-          : Colors.transparent,
-      onSurfaceColor: isSelected
-          ? context.materialScheme.onSurfaceVariant
-          : context.materialScheme.onSurface,
-      borderRadius: 0,
-      onPressed: onPressed,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: kSize_16,
-          vertical: kSize_12,
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Câu ${questionIndex + 1}',
-                        style: context.textTheme.titleMedium,
-                      ),
-                      kGap_4,
-                      _QCAnswerStateCheckbox(
-                        questionIndex: questionIndex,
-                      ),
-                    ],
-                  ),
-                  kGap_2,
-                  Text(
-                    question.title,
-                    style: context.textTheme.bodyMedium,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ),
-            if (question.questionImagePath != null) ...[
-              kGap_12,
-              ClipRRect(
-                borderRadius: BorderRadius.circular(4),
-                child: Image.asset(
-                  question.questionImagePath!,
-                  cacheHeight: (66 * context.devicePixelRatio).floor(),
-                  height: 66,
-                  width: 66,
-                  fit: BoxFit.fitHeight,
+    return AsyncValueWidget(
+      value: question,
+      builder: (questionValue) => ButtonCard(
+        surfaceColor: isSelected
+            ? context.materialScheme.surfaceVariant
+            : Colors.transparent,
+        onSurfaceColor: isSelected
+            ? context.materialScheme.onSurfaceVariant
+            : context.materialScheme.onSurface,
+        borderRadius: 0,
+        onPressed: onPressed,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: kSize_16,
+            vertical: kSize_12,
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Câu ${questionPageIndex + 1}',
+                          style: context.textTheme.titleMedium,
+                        ),
+                        kGap_4,
+                        _QCAnswerStateCheckbox(
+                          question: questionValue,
+                          questionPageIndex: questionPageIndex,
+                        ),
+                      ],
+                    ),
+                    kGap_2,
+                    Text(
+                      questionValue.title,
+                      style: context.textTheme.bodyMedium,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
               ),
+              if (questionValue.questionImagePath != null) ...[
+                kGap_12,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: Image.asset(
+                    questionValue.questionImagePath!,
+                    cacheHeight: (66 * context.devicePixelRatio).floor(),
+                    height: 66,
+                    width: 66,
+                    fit: BoxFit.fitHeight,
+                  ),
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
@@ -90,16 +94,18 @@ class QuestionCard extends HookConsumerWidget {
 
 // QC stands for QuestionCard
 class _QCAnswerStateCheckbox extends HookConsumerWidget {
-  final int questionIndex;
+  final Question question;
+  final int questionPageIndex;
 
-  const _QCAnswerStateCheckbox({required this.questionIndex});
+  const _QCAnswerStateCheckbox({
+    required this.question,
+    required this.questionPageIndex,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final question =
-        ref.watch(questionRepositoryProvider).getQuestion(questionIndex);
     final selectedAnswerIndex =
-        ref.watch(selectedAnswerIndexProvider(questionIndex));
+        ref.watch(selectedAnswerIndexProvider(questionPageIndex));
 
     final state = evaluateAnswerState(question, selectedAnswerIndex);
 

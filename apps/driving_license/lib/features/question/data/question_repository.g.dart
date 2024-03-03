@@ -23,7 +23,7 @@ final questionRepositoryProvider =
 );
 
 typedef QuestionRepositoryRef = AutoDisposeProviderRef<QuestionRepository>;
-String _$questionFutureHash() => r'd86b7f04442c13a1f253dd1bbfb814f477752629';
+String _$questionFutureHash() => r'cd12b41c1979b1ddc1f0c70c0a35e873fa1c71bf';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -51,7 +51,7 @@ class _SystemHash {
 const questionFutureProvider = QuestionFutureFamily();
 
 /// See also [questionFuture].
-class QuestionFutureFamily extends Family<Question> {
+class QuestionFutureFamily extends Family<AsyncValue<Question>> {
   /// See also [questionFuture].
   const QuestionFutureFamily();
 
@@ -89,7 +89,7 @@ class QuestionFutureFamily extends Family<Question> {
 }
 
 /// See also [questionFuture].
-class QuestionFutureProvider extends AutoDisposeProvider<Question> {
+class QuestionFutureProvider extends AutoDisposeFutureProvider<Question> {
   /// See also [questionFuture].
   QuestionFutureProvider(
     int index,
@@ -124,7 +124,7 @@ class QuestionFutureProvider extends AutoDisposeProvider<Question> {
 
   @override
   Override overrideWith(
-    Question Function(QuestionFutureRef provider) create,
+    FutureOr<Question> Function(QuestionFutureRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -141,7 +141,7 @@ class QuestionFutureProvider extends AutoDisposeProvider<Question> {
   }
 
   @override
-  AutoDisposeProviderElement<Question> createElement() {
+  AutoDisposeFutureProviderElement<Question> createElement() {
     return _QuestionFutureProviderElement(this);
   }
 
@@ -159,13 +159,13 @@ class QuestionFutureProvider extends AutoDisposeProvider<Question> {
   }
 }
 
-mixin QuestionFutureRef on AutoDisposeProviderRef<Question> {
+mixin QuestionFutureRef on AutoDisposeFutureProviderRef<Question> {
   /// The parameter `index` of this provider.
   int get index;
 }
 
 class _QuestionFutureProviderElement
-    extends AutoDisposeProviderElement<Question> with QuestionFutureRef {
+    extends AutoDisposeFutureProviderElement<Question> with QuestionFutureRef {
   _QuestionFutureProviderElement(super.provider);
 
   @override

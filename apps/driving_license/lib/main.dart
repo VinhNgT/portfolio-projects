@@ -17,7 +17,11 @@ void main() async {
   // during development
   final container = ProviderContainer(
     overrides: [
-      questionRepositoryProvider.overrideWithValue(TestQuestionRepository()),
+      questionRepositoryProvider.overrideWithValue(
+        TestQuestionRepository(
+          artificialDelay: const Duration(milliseconds: 1000),
+        ),
+      ),
     ],
   );
 

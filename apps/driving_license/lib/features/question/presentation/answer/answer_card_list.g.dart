@@ -7,7 +7,7 @@ part of 'answer_card_list.dart';
 // **************************************************************************
 
 String _$selectedAnswerIndexHash() =>
-    r'6a4bb59e1c57c3714e11437f2c4331b9294adca2';
+    r'3cbfa34f79dd609fd1c294e50e30182ead864b51';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -32,10 +32,10 @@ class _SystemHash {
 
 abstract class _$SelectedAnswerIndex
     extends BuildlessAutoDisposeNotifier<int?> {
-  late final int questionIndex;
+  late final int questionPageIndex;
 
   int? build(
-    int questionIndex,
+    int questionPageIndex,
   );
 }
 
@@ -50,10 +50,10 @@ class SelectedAnswerIndexFamily extends Family<int?> {
 
   /// See also [SelectedAnswerIndex].
   SelectedAnswerIndexProvider call(
-    int questionIndex,
+    int questionPageIndex,
   ) {
     return SelectedAnswerIndexProvider(
-      questionIndex,
+      questionPageIndex,
     );
   }
 
@@ -62,7 +62,7 @@ class SelectedAnswerIndexFamily extends Family<int?> {
     covariant SelectedAnswerIndexProvider provider,
   ) {
     return call(
-      provider.questionIndex,
+      provider.questionPageIndex,
     );
   }
 
@@ -86,9 +86,9 @@ class SelectedAnswerIndexProvider
     extends AutoDisposeNotifierProviderImpl<SelectedAnswerIndex, int?> {
   /// See also [SelectedAnswerIndex].
   SelectedAnswerIndexProvider(
-    int questionIndex,
+    int questionPageIndex,
   ) : this._internal(
-          () => SelectedAnswerIndex()..questionIndex = questionIndex,
+          () => SelectedAnswerIndex()..questionPageIndex = questionPageIndex,
           from: selectedAnswerIndexProvider,
           name: r'selectedAnswerIndexProvider',
           debugGetCreateSourceHash:
@@ -98,7 +98,7 @@ class SelectedAnswerIndexProvider
           dependencies: SelectedAnswerIndexFamily._dependencies,
           allTransitiveDependencies:
               SelectedAnswerIndexFamily._allTransitiveDependencies,
-          questionIndex: questionIndex,
+          questionPageIndex: questionPageIndex,
         );
 
   SelectedAnswerIndexProvider._internal(
@@ -108,17 +108,17 @@ class SelectedAnswerIndexProvider
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.questionIndex,
+    required this.questionPageIndex,
   }) : super.internal();
 
-  final int questionIndex;
+  final int questionPageIndex;
 
   @override
   int? runNotifierBuild(
     covariant SelectedAnswerIndex notifier,
   ) {
     return notifier.build(
-      questionIndex,
+      questionPageIndex,
     );
   }
 
@@ -127,13 +127,13 @@ class SelectedAnswerIndexProvider
     return ProviderOverride(
       origin: this,
       override: SelectedAnswerIndexProvider._internal(
-        () => create()..questionIndex = questionIndex,
+        () => create()..questionPageIndex = questionPageIndex,
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        questionIndex: questionIndex,
+        questionPageIndex: questionPageIndex,
       ),
     );
   }
@@ -147,21 +147,21 @@ class SelectedAnswerIndexProvider
   @override
   bool operator ==(Object other) {
     return other is SelectedAnswerIndexProvider &&
-        other.questionIndex == questionIndex;
+        other.questionPageIndex == questionPageIndex;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, questionIndex.hashCode);
+    hash = _SystemHash.combine(hash, questionPageIndex.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin SelectedAnswerIndexRef on AutoDisposeNotifierProviderRef<int?> {
-  /// The parameter `questionIndex` of this provider.
-  int get questionIndex;
+  /// The parameter `questionPageIndex` of this provider.
+  int get questionPageIndex;
 }
 
 class _SelectedAnswerIndexProviderElement
@@ -170,8 +170,8 @@ class _SelectedAnswerIndexProviderElement
   _SelectedAnswerIndexProviderElement(super.provider);
 
   @override
-  int get questionIndex =>
-      (origin as SelectedAnswerIndexProvider).questionIndex;
+  int get questionPageIndex =>
+      (origin as SelectedAnswerIndexProvider).questionPageIndex;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

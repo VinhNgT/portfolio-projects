@@ -1,19 +1,15 @@
 import 'package:driving_license/constants/gap_sizes.dart';
-import 'package:driving_license/features/question/data/question_repository.dart';
+import 'package:driving_license/features/question/domain/question.dart';
 import 'package:driving_license/features/question/presentation/question/explanation_card.dart';
 import 'package:driving_license/features/question/presentation/question/remember_tip_card.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class QuestionNotes extends HookConsumerWidget {
-  final int questionIndex;
-  const QuestionNotes({super.key, required this.questionIndex});
+class QuestionNotes extends StatelessWidget {
+  final Question question;
+  const QuestionNotes({super.key, required this.question});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final question =
-        ref.watch(questionRepositoryProvider).getQuestion(questionIndex);
-
+  Widget build(BuildContext context) {
     final content = [
       if (question.explanation != null)
         ExplanationCard(content: question.explanation!),

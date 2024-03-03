@@ -1,5 +1,5 @@
 import 'package:driving_license/constants/gap_sizes.dart';
-import 'package:driving_license/features/question/data/question_repository.dart';
+import 'package:driving_license/features/question/domain/question.dart';
 import 'package:driving_license/features/question/presentation/answer/answer_card.dart';
 import 'package:driving_license/features/question/presentation/answer/answer_state_checkbox.dart';
 import 'package:flutter/material.dart';
@@ -9,19 +9,19 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'answer_card_list.g.dart';
 
 class AnswerCardList extends HookConsumerWidget {
+  final Question question;
+  final int questionPageIndex;
+
   const AnswerCardList({
     super.key,
-    required this.questionIndex,
+    required this.question,
+    required this.questionPageIndex,
   });
-
-  final int questionIndex;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final question =
-        ref.watch(questionRepositoryProvider).getQuestion(questionIndex);
     final selectedAnswerIndex =
-        ref.watch(selectedAnswerIndexProvider(questionIndex));
+        ref.watch(selectedAnswerIndexProvider(questionPageIndex));
 
     return ListView.separated(
       physics: const NeverScrollableScrollPhysics(),
@@ -35,7 +35,7 @@ class AnswerCardList extends HookConsumerWidget {
           selectedAnswerIndex,
           question.correctAnswerIndex,
         ),
-        onTap: () => selectAnswer(ref, questionIndex, answerOptionIndex),
+        onTap: () => selectAnswer(ref, questionPageIndex, answerOptionIndex),
       ),
     );
   }
@@ -62,13 +62,14 @@ extension AnswerCardListX on AnswerCardList {
     return isCorrect ? AnswerState.correct : AnswerState.unchecked;
   }
 
-  void selectAnswer(WidgetRef ref, int questionIndex, int selectedAnswerIndex) {
+  void selectAnswer(
+      WidgetRef ref, int questionPageIndex, int selectedAnswerIndex) {
     final answerSelected =
-        ref.read(selectedAnswerIndexProvider(questionIndex)) != null;
+        ref.read(selectedAnswerIndexProvider(questionPageIndex)) != null;
 
     // Only allow selecting an answer if no answer has been selected
     if (!answerSelected) {
-      ref.read(selectedAnswerIndexProvider(questionIndex).notifier).value =
+      ref.read(selectedAnswerIndexProvider(questionPageIndex).notifier).value =
           selectedAnswerIndex;
     }
   }
@@ -77,7 +78,7 @@ extension AnswerCardListX on AnswerCardList {
 @riverpod
 class SelectedAnswerIndex extends _$SelectedAnswerIndex {
   @override
-  int? build(int questionIndex) {
+  int? build(int questionPageIndex) {
     return null;
   }
 

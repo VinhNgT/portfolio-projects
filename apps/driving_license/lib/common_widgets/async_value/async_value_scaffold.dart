@@ -5,27 +5,27 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AsyncValueScaffold<T> extends StatelessWidget {
   final AsyncValue<T> value;
-  final Scaffold Function(T) scaffold;
+  final Scaffold Function(T) builder;
 
   const AsyncValueScaffold({
     super.key,
     required this.value,
-    required this.scaffold,
+    required this.builder,
   });
 
   @override
   Widget build(BuildContext context) {
     return value.maybeWhen(
-      data: scaffold,
+      data: builder,
       orElse: () => PlaceholderScaffold(
         // The reason why we use AsyncValueWidget here is because we want to
-        // ensure the loading indicator and error message behavior is consistent
-        // across our app
+        // ensure the loading indicator and error message behavior are
+        // consistent across our app
         content: AsyncValueWidget(
           value: value,
           // We don't care about the data here, it is handled by
           // 'data: scaffold' above and will never be called
-          data: (_) => const SizedBox.shrink(),
+          builder: (_) => const SizedBox.shrink(),
         ),
       ),
     );
