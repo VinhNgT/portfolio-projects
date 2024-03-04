@@ -4,6 +4,7 @@ import 'package:driving_license/app.dart';
 import 'package:driving_license/exceptions/async_error_logger.dart';
 import 'package:driving_license/exceptions/error_logger.dart';
 import 'package:driving_license/features/question/data/question_repository.dart';
+import 'package:driving_license/features/question/data/sqlite_question_repository.dart';
 import 'package:driving_license/features/question/data/test_question_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -15,13 +16,13 @@ void main() async {
   // Create custom provider container
   // This can be used to override repositories with fake ones for testing or
   // during development
+  final testQuestionRepository = TestQuestionRepository();
+  final sqliteQuestionRepository =
+      await SqliteQuestionRepository.createDefaultRepository();
+
   final container = ProviderContainer(
     overrides: [
-      questionRepositoryProvider.overrideWithValue(
-        TestQuestionRepository(
-            // artificialDelay: const Duration(milliseconds: 1000),
-            ),
-      ),
+      questionRepositoryProvider.overrideWithValue(sqliteQuestionRepository),
     ],
   );
 

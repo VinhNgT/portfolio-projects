@@ -53,9 +53,12 @@ class QuestionPage extends HookConsumerWidget {
               ),
               child: Column(
                 children: [
-                  Text(
-                    questionValue.title,
-                    style: context.textTheme.titleMedium,
+                  SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      questionValue.title,
+                      style: context.textTheme.titleMedium,
+                    ),
                   ),
                   if (questionValue.questionImagePath != null) ...[
                     kGap_12,

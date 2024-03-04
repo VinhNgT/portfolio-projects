@@ -14,16 +14,21 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+Question _$QuestionFromJson(Map<String, dynamic> json) {
+  return _Question.fromJson(json);
+}
+
 /// @nodoc
 mixin _$Question {
   String get title => throw _privateConstructorUsedError;
   String? get questionImagePath => throw _privateConstructorUsedError;
-  List<String> get answers => throw _privateConstructorUsedError;
   bool get isDanger => throw _privateConstructorUsedError;
+  List<String> get answers => throw _privateConstructorUsedError;
   int get correctAnswerIndex => throw _privateConstructorUsedError;
   String? get explanation => throw _privateConstructorUsedError;
   String? get rememberTip => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $QuestionCopyWith<Question> get copyWith =>
       throw _privateConstructorUsedError;
@@ -37,8 +42,8 @@ abstract class $QuestionCopyWith<$Res> {
   $Res call(
       {String title,
       String? questionImagePath,
-      List<String> answers,
       bool isDanger,
+      List<String> answers,
       int correctAnswerIndex,
       String? explanation,
       String? rememberTip});
@@ -59,8 +64,8 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
   $Res call({
     Object? title = null,
     Object? questionImagePath = freezed,
-    Object? answers = null,
     Object? isDanger = null,
+    Object? answers = null,
     Object? correctAnswerIndex = null,
     Object? explanation = freezed,
     Object? rememberTip = freezed,
@@ -74,14 +79,14 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.questionImagePath
           : questionImagePath // ignore: cast_nullable_to_non_nullable
               as String?,
-      answers: null == answers
-          ? _value.answers
-          : answers // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       isDanger: null == isDanger
           ? _value.isDanger
           : isDanger // ignore: cast_nullable_to_non_nullable
               as bool,
+      answers: null == answers
+          ? _value.answers
+          : answers // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       correctAnswerIndex: null == correctAnswerIndex
           ? _value.correctAnswerIndex
           : correctAnswerIndex // ignore: cast_nullable_to_non_nullable
@@ -109,8 +114,8 @@ abstract class _$$QuestionImplCopyWith<$Res>
   $Res call(
       {String title,
       String? questionImagePath,
-      List<String> answers,
       bool isDanger,
+      List<String> answers,
       int correctAnswerIndex,
       String? explanation,
       String? rememberTip});
@@ -129,8 +134,8 @@ class __$$QuestionImplCopyWithImpl<$Res>
   $Res call({
     Object? title = null,
     Object? questionImagePath = freezed,
-    Object? answers = null,
     Object? isDanger = null,
+    Object? answers = null,
     Object? correctAnswerIndex = null,
     Object? explanation = freezed,
     Object? rememberTip = freezed,
@@ -144,14 +149,14 @@ class __$$QuestionImplCopyWithImpl<$Res>
           ? _value.questionImagePath
           : questionImagePath // ignore: cast_nullable_to_non_nullable
               as String?,
-      answers: null == answers
-          ? _value._answers
-          : answers // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       isDanger: null == isDanger
           ? _value.isDanger
           : isDanger // ignore: cast_nullable_to_non_nullable
               as bool,
+      answers: null == answers
+          ? _value._answers
+          : answers // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       correctAnswerIndex: null == correctAnswerIndex
           ? _value.correctAnswerIndex
           : correctAnswerIndex // ignore: cast_nullable_to_non_nullable
@@ -169,22 +174,27 @@ class __$$QuestionImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$QuestionImpl implements _Question {
   const _$QuestionImpl(
       {required this.title,
       this.questionImagePath,
-      required final List<String> answers,
       required this.isDanger,
+      required final List<String> answers,
       required this.correctAnswerIndex,
       this.explanation,
       this.rememberTip})
       : _answers = answers;
 
+  factory _$QuestionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$QuestionImplFromJson(json);
+
   @override
   final String title;
   @override
   final String? questionImagePath;
+  @override
+  final bool isDanger;
   final List<String> _answers;
   @override
   List<String> get answers {
@@ -194,8 +204,6 @@ class _$QuestionImpl implements _Question {
   }
 
   @override
-  final bool isDanger;
-  @override
   final int correctAnswerIndex;
   @override
   final String? explanation;
@@ -204,7 +212,7 @@ class _$QuestionImpl implements _Question {
 
   @override
   String toString() {
-    return 'Question(title: $title, questionImagePath: $questionImagePath, answers: $answers, isDanger: $isDanger, correctAnswerIndex: $correctAnswerIndex, explanation: $explanation, rememberTip: $rememberTip)';
+    return 'Question(title: $title, questionImagePath: $questionImagePath, isDanger: $isDanger, answers: $answers, correctAnswerIndex: $correctAnswerIndex, explanation: $explanation, rememberTip: $rememberTip)';
   }
 
   @override
@@ -215,9 +223,9 @@ class _$QuestionImpl implements _Question {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.questionImagePath, questionImagePath) ||
                 other.questionImagePath == questionImagePath) &&
-            const DeepCollectionEquality().equals(other._answers, _answers) &&
             (identical(other.isDanger, isDanger) ||
                 other.isDanger == isDanger) &&
+            const DeepCollectionEquality().equals(other._answers, _answers) &&
             (identical(other.correctAnswerIndex, correctAnswerIndex) ||
                 other.correctAnswerIndex == correctAnswerIndex) &&
             (identical(other.explanation, explanation) ||
@@ -226,13 +234,14 @@ class _$QuestionImpl implements _Question {
                 other.rememberTip == rememberTip));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       title,
       questionImagePath,
-      const DeepCollectionEquality().hash(_answers),
       isDanger,
+      const DeepCollectionEquality().hash(_answers),
       correctAnswerIndex,
       explanation,
       rememberTip);
@@ -242,26 +251,36 @@ class _$QuestionImpl implements _Question {
   @pragma('vm:prefer-inline')
   _$$QuestionImplCopyWith<_$QuestionImpl> get copyWith =>
       __$$QuestionImplCopyWithImpl<_$QuestionImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$QuestionImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Question implements Question {
   const factory _Question(
       {required final String title,
       final String? questionImagePath,
-      required final List<String> answers,
       required final bool isDanger,
+      required final List<String> answers,
       required final int correctAnswerIndex,
       final String? explanation,
       final String? rememberTip}) = _$QuestionImpl;
+
+  factory _Question.fromJson(Map<String, dynamic> json) =
+      _$QuestionImpl.fromJson;
 
   @override
   String get title;
   @override
   String? get questionImagePath;
   @override
-  List<String> get answers;
-  @override
   bool get isDanger;
+  @override
+  List<String> get answers;
   @override
   int get correctAnswerIndex;
   @override
