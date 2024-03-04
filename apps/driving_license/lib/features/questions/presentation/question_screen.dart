@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_scaffold.dart';
+import 'package:driving_license/common_widgets/misc/fast_scroll_physics.dart';
 import 'package:driving_license/features/questions/data/question_repository.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/question_app_bar.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/question_bottom_navigation_bar.dart';
@@ -87,20 +88,4 @@ extension QuestionScreenX on QuestionScreen {
   void setNewCurrentPageIndex(WidgetRef ref, int newPageIndex) {
     ref.read(currentPageIndexProvider.notifier).value = newPageIndex;
   }
-}
-
-class FastPageViewScrollPhysics extends ScrollPhysics {
-  const FastPageViewScrollPhysics({super.parent});
-
-  @override
-  FastPageViewScrollPhysics applyTo(ScrollPhysics? ancestor) {
-    return FastPageViewScrollPhysics(parent: buildParent(ancestor));
-  }
-
-  @override
-  SpringDescription get spring => const SpringDescription(
-        mass: 80,
-        stiffness: 100,
-        damping: 1,
-      );
 }
