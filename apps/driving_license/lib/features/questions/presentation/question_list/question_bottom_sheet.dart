@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/features/questions/presentation/question_list/question_list.dart';
-import 'package:driving_license/features/questions/presentation/question_screen.dart';
+import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

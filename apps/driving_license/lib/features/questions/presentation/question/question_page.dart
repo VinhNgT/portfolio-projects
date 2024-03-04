@@ -7,7 +7,7 @@ import 'package:driving_license/constants/opacity.dart';
 import 'package:driving_license/features/questions/data/question_repository.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_card_list.dart';
 import 'package:driving_license/features/questions/presentation/question/question_notes.dart';
-import 'package:driving_license/features/questions/presentation/question_screen.dart';
+import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';

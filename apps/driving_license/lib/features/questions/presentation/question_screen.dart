@@ -7,13 +7,11 @@ import 'package:driving_license/features/questions/presentation/appbar_navbar/qu
 import 'package:driving_license/features/questions/presentation/appbar_navbar/question_bottom_navigation_bar.dart';
 import 'package:driving_license/features/questions/presentation/question/question_page.dart';
 import 'package:driving_license/features/questions/presentation/question_list/question_bottom_sheet.dart';
+import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'question_screen.g.dart';
 
 @RoutePage()
 class QuestionScreen extends HookConsumerWidget {
@@ -104,19 +102,4 @@ class FastPageViewScrollPhysics extends ScrollPhysics {
         stiffness: 100,
         damping: 1,
       );
-}
-
-// This provider is used to keep track of the index of the page in the
-// middle of the screen.
-// It should change when the user scrolled halfway through a new page
-@riverpod
-class CurrentPageIndex extends _$CurrentPageIndex {
-  @override
-  int build() {
-    return 0;
-  }
-
-  set value(int newValue) {
-    state = newValue;
-  }
 }
