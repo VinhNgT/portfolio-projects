@@ -8,7 +8,7 @@ abstract class QuestionRepository {
 
   FutureOr<Question> getQuestion(int index);
   FutureOr<int> getQuestionCount();
-  FutureOr<List<Question>> getQuestionsPage(int pageKey);
+  FutureOr<List<Question>> getQuestionsPage(int pageNumber);
 }
 
 @riverpod

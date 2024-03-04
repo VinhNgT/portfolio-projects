@@ -23,10 +23,10 @@ class TestQuestionRepository implements QuestionRepository {
   }
 
   @override
-  FutureOr<List<Question>> getQuestionsPage(int pageKey) async {
+  FutureOr<List<Question>> getQuestionsPage(int pageNumber) async {
     await Future.delayed(artificialDelay);
 
-    final int start = QuestionRepository.pageSize * pageKey;
+    final int start = QuestionRepository.pageSize * pageNumber;
     final int end = start + QuestionRepository.pageSize > kTestQuestions.length
         ? kTestQuestions.length
         : start + QuestionRepository.pageSize;

@@ -73,11 +73,11 @@ class SqliteQuestionRepository implements QuestionRepository {
   }
 
   @override
-  Future<List<Question>> getQuestionsPage(int pageKey) async {
+  Future<List<Question>> getQuestionsPage(int pageNumber) async {
     final List<Map<String, dynamic>> maps = await database.query(
       'question',
       limit: QuestionRepository.pageSize,
-      offset: pageKey * QuestionRepository.pageSize,
+      offset: pageNumber * QuestionRepository.pageSize,
     );
 
     return List.generate(maps.length, (i) {
