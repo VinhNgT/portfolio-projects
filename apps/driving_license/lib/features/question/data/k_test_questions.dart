@@ -21,7 +21,7 @@ List<Question> kTestQuestions = [
     title:
         '''Vạch kẻ đường nào dưới đây là vạch phân chia hai chiều xe chạy (vạch tim đường), xe không được lấn làn, không được đè lên vạch?''',
     answers: ['Vạch 1', 'Vạch 2', 'Vạch 3', 'Cả 3 vạch'],
-    questionImagePath: 'assets/images/question_images/question_2.jpg',
+    questionImagePath: 'assets/images/question_images/question_479.jpg',
     isDanger: false,
     correctAnswerIndex: 1,
     explanation:
@@ -36,7 +36,7 @@ List<Question> kTestQuestions = [
       'Xe tải, xe con, mô tô',
       'Xe khách, xe con, mô tô',
     ],
-    questionImagePath: 'assets/images/question_images/question_3.jpg',
+    questionImagePath: 'assets/images/question_images/question_503.jpg',
     correctAnswerIndex: 0,
     isDanger: false,
     explanation:
@@ -45,14 +45,15 @@ List<Question> kTestQuestions = [
         '''Pirate ipsum arrgh bounty warp jack. Crack pirate bounty smartly jack yer cog fluke. Coffer locker on hempen or. Locker the spyglass jack red.''',
   ),
   const Question(
-    title: 'Các xe đi theo hướng mũi tên, xe nào vi phạm quy tắc giao thông?',
+    title: 'Bạn được dừng xe ở vị trí nào trong tình huống này?',
     answers: [
-      'Xe khách, xe tải, mô tô',
-      'Xe tải, xe con, mô tô',
-      'Xe khách, xe con, mô tô',
+      'Được phép dừng ở vị trí A',
+      'Được phép dừng ở vị trí B',
+      'Được phép dừng ở vị trí A và B',
+      'Không được dùng',
     ],
-    questionImagePath: 'assets/images/question_images/question_3.jpg',
-    correctAnswerIndex: 0,
+    questionImagePath: 'assets/images/question_images/question_558.jpg',
+    correctAnswerIndex: 3,
     isDanger: false,
     explanation:
         '''Pirate ipsum arrgh bounty warp jack. Shiver her topgallant yard chase fleet me.''',
