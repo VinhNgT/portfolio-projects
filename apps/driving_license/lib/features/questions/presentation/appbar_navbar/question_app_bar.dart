@@ -1,8 +1,8 @@
 import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/constants/widget_sizes.dart';
-import 'package:driving_license/features/question/presentation/answer/answer_card_list.dart';
-import 'package:driving_license/features/question/presentation/question/question_page.dart';
-import 'package:driving_license/features/question/presentation/question_screen.dart';
+import 'package:driving_license/features/questions/presentation/answer/answer_card_list.dart';
+import 'package:driving_license/features/questions/presentation/question/question_page.dart';
+import 'package:driving_license/features/questions/presentation/question_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';

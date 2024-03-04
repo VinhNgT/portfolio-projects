@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_scaffold.dart';
-import 'package:driving_license/features/question/data/question_repository.dart';
-import 'package:driving_license/features/question/presentation/appbar_navbar/question_app_bar.dart';
-import 'package:driving_license/features/question/presentation/appbar_navbar/question_bottom_navigation_bar.dart';
-import 'package:driving_license/features/question/presentation/question/question_page.dart';
-import 'package:driving_license/features/question/presentation/question_list/question_bottom_sheet.dart';
+import 'package:driving_license/features/questions/data/question_repository.dart';
+import 'package:driving_license/features/questions/presentation/appbar_navbar/question_app_bar.dart';
+import 'package:driving_license/features/questions/presentation/appbar_navbar/question_bottom_navigation_bar.dart';
+import 'package:driving_license/features/questions/presentation/question/question_page.dart';
+import 'package:driving_license/features/questions/presentation/question_list/question_bottom_sheet.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';

@@ -1,4 +1,4 @@
-import 'package:driving_license/features/question/domain/question.dart';
+import 'package:driving_license/features/questions/domain/question.dart';
 
 List<Question> kTestQuestions = [
   const Question(

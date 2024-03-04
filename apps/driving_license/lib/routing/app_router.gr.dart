@@ -11,7 +11,7 @@
 import 'package:auto_route/auto_route.dart' as _i3;
 import 'package:driving_license/features/home/presentation/home_screen.dart'
     as _i1;
-import 'package:driving_license/features/question/presentation/question_screen.dart'
+import 'package:driving_license/features/questions/presentation/question_screen.dart'
     as _i2;
 import 'package:flutter/material.dart' as _i4;
 

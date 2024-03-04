@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:driving_license/features/question/data/k_test_questions.dart';
-import 'package:driving_license/features/question/data/question_repository.dart';
-import 'package:driving_license/features/question/domain/question.dart';
+import 'package:driving_license/features/questions/data/k_test_questions.dart';
+import 'package:driving_license/features/questions/data/question_repository.dart';
+import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';

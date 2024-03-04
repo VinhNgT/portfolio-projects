@@ -3,7 +3,7 @@ import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/constants/opacity.dart';
 import 'package:driving_license/constants/widget_sizes.dart';
-import 'package:driving_license/features/question/presentation/question_screen.dart';
+import 'package:driving_license/features/questions/presentation/question_screen.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
