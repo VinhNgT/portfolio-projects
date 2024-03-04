@@ -1,12 +1,10 @@
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_card.dart';
+import 'package:driving_license/features/questions/presentation/answer/answer_card_list_controller.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_state_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'answer_card_list.g.dart';
 
 class AnswerCardList extends HookConsumerWidget {
   final Question question;
@@ -75,17 +73,5 @@ extension AnswerCardListX on AnswerCardList {
       ref.read(selectedAnswerIndexProvider(questionPageIndex).notifier).value =
           selectedAnswerIndex;
     }
-  }
-}
-
-@riverpod
-class SelectedAnswerIndex extends _$SelectedAnswerIndex {
-  @override
-  int? build(int questionPageIndex) {
-    return null;
-  }
-
-  set value(int? newValue) {
-    state = newValue;
   }
 }
