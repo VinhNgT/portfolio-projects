@@ -79,6 +79,7 @@ class _Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RichText(
+      textScaler: MediaQuery.of(context).textScaler,
       text: TextSpan(
         style: context.defaultTextStyle,
         children: [
