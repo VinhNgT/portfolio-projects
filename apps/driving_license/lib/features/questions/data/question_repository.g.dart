@@ -23,7 +23,7 @@ final questionRepositoryProvider =
 );
 
 typedef QuestionRepositoryRef = AutoDisposeProviderRef<QuestionRepository>;
-String _$questionFutureHash() => r'cd12b41c1979b1ddc1f0c70c0a35e873fa1c71bf';
+String _$questionFutureHash() => r'8a4eea02257e7827177921b8bbadeaf2ea57a3c9';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -172,8 +172,140 @@ class _QuestionFutureProviderElement
   int get index => (origin as QuestionFutureProvider).index;
 }
 
+String _$questionsPageFutureHash() =>
+    r'b7ae152723228a69a67860d4f7e87e655effe1e5';
+
+/// See also [questionsPageFuture].
+@ProviderFor(questionsPageFuture)
+const questionsPageFutureProvider = QuestionsPageFutureFamily();
+
+/// See also [questionsPageFuture].
+class QuestionsPageFutureFamily extends Family<AsyncValue<List<Question>>> {
+  /// See also [questionsPageFuture].
+  const QuestionsPageFutureFamily();
+
+  /// See also [questionsPageFuture].
+  QuestionsPageFutureProvider call(
+    int pageNumber,
+  ) {
+    return QuestionsPageFutureProvider(
+      pageNumber,
+    );
+  }
+
+  @override
+  QuestionsPageFutureProvider getProviderOverride(
+    covariant QuestionsPageFutureProvider provider,
+  ) {
+    return call(
+      provider.pageNumber,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'questionsPageFutureProvider';
+}
+
+/// See also [questionsPageFuture].
+class QuestionsPageFutureProvider
+    extends AutoDisposeFutureProvider<List<Question>> {
+  /// See also [questionsPageFuture].
+  QuestionsPageFutureProvider(
+    int pageNumber,
+  ) : this._internal(
+          (ref) => questionsPageFuture(
+            ref as QuestionsPageFutureRef,
+            pageNumber,
+          ),
+          from: questionsPageFutureProvider,
+          name: r'questionsPageFutureProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$questionsPageFutureHash,
+          dependencies: QuestionsPageFutureFamily._dependencies,
+          allTransitiveDependencies:
+              QuestionsPageFutureFamily._allTransitiveDependencies,
+          pageNumber: pageNumber,
+        );
+
+  QuestionsPageFutureProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.pageNumber,
+  }) : super.internal();
+
+  final int pageNumber;
+
+  @override
+  Override overrideWith(
+    FutureOr<List<Question>> Function(QuestionsPageFutureRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: QuestionsPageFutureProvider._internal(
+        (ref) => create(ref as QuestionsPageFutureRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        pageNumber: pageNumber,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List<Question>> createElement() {
+    return _QuestionsPageFutureProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is QuestionsPageFutureProvider &&
+        other.pageNumber == pageNumber;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, pageNumber.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin QuestionsPageFutureRef on AutoDisposeFutureProviderRef<List<Question>> {
+  /// The parameter `pageNumber` of this provider.
+  int get pageNumber;
+}
+
+class _QuestionsPageFutureProviderElement
+    extends AutoDisposeFutureProviderElement<List<Question>>
+    with QuestionsPageFutureRef {
+  _QuestionsPageFutureProviderElement(super.provider);
+
+  @override
+  int get pageNumber => (origin as QuestionsPageFutureProvider).pageNumber;
+}
+
 String _$questionCountFutureHash() =>
-    r'ee54f753c0789e6d4f07c716daec6e416862b05b';
+    r'8a6b844ca7860742805bb0fcfc1aacef55593e3d';
 
 /// See also [questionCountFuture].
 @ProviderFor(questionCountFuture)

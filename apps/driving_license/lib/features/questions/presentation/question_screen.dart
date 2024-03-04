@@ -17,8 +17,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()
 class QuestionScreen extends HookConsumerWidget {
-  final int chapterDatabaseKey;
-  const QuestionScreen({super.key, required this.chapterDatabaseKey});
+  const QuestionScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

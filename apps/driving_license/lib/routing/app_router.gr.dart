@@ -13,7 +13,6 @@ import 'package:driving_license/features/home/presentation/home_screen.dart'
     as _i1;
 import 'package:driving_license/features/questions/presentation/question_screen.dart'
     as _i2;
-import 'package:flutter/material.dart' as _i4;
 
 abstract class $AppRouter extends _i3.RootStackRouter {
   $AppRouter({super.navigatorKey});
@@ -27,13 +26,9 @@ abstract class $AppRouter extends _i3.RootStackRouter {
       );
     },
     QuestionRoute.name: (routeData) {
-      final args = routeData.argsAs<QuestionRouteArgs>();
       return _i3.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i2.QuestionScreen(
-          key: args.key,
-          chapterDatabaseKey: args.chapterDatabaseKey,
-        ),
+        child: const _i2.QuestionScreen(),
       );
     },
   };
@@ -55,38 +50,14 @@ class HomeRoute extends _i3.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.QuestionScreen]
-class QuestionRoute extends _i3.PageRouteInfo<QuestionRouteArgs> {
-  QuestionRoute({
-    _i4.Key? key,
-    required int chapterDatabaseKey,
-    List<_i3.PageRouteInfo>? children,
-  }) : super(
+class QuestionRoute extends _i3.PageRouteInfo<void> {
+  const QuestionRoute({List<_i3.PageRouteInfo>? children})
+      : super(
           QuestionRoute.name,
-          args: QuestionRouteArgs(
-            key: key,
-            chapterDatabaseKey: chapterDatabaseKey,
-          ),
           initialChildren: children,
         );
 
   static const String name = 'QuestionRoute';
 
-  static const _i3.PageInfo<QuestionRouteArgs> page =
-      _i3.PageInfo<QuestionRouteArgs>(name);
-}
-
-class QuestionRouteArgs {
-  const QuestionRouteArgs({
-    this.key,
-    required this.chapterDatabaseKey,
-  });
-
-  final _i4.Key? key;
-
-  final int chapterDatabaseKey;
-
-  @override
-  String toString() {
-    return 'QuestionRouteArgs{key: $key, chapterDatabaseKey: $chapterDatabaseKey}';
-  }
+  static const _i3.PageInfo<void> page = _i3.PageInfo<void>(name);
 }

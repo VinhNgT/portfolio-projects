@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:driving_license/features/chapters/data/user_chapter_selection_repository.dart';
 import 'package:driving_license/features/questions/data/k_test_questions.dart';
 import 'package:driving_license/features/questions/data/question_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
@@ -84,6 +85,60 @@ class SqliteQuestionRepository implements QuestionRepository {
       final questionMap = convertDatabaseMapToQuestionObjectMap(maps[i]);
       return Question.fromJson(questionMap);
     });
+  }
+
+  @override
+  Future<Question> getQuestionByChapter(Chapter chapter, int index) async {
+    final chapterQuestionOffset = await database
+        .query(
+          'question',
+          where: 'chapter_index = ?',
+          whereArgs: [chapter.chapterDbIndex],
+          orderBy: 'question_index ASC',
+          limit: 1,
+        )
+        .then((value) => value.first['question_index'] as int);
+
+    final List<Map<String, dynamic>> maps = await database.query(
+      'question',
+      where: 'chapter_index = ? AND question_index = ?',
+      whereArgs: [chapter.chapterDbIndex, chapterQuestionOffset + index],
+    );
+
+    if (maps.isNotEmpty) {
+      final questionMap = convertDatabaseMapToQuestionObjectMap(maps.first);
+      return Question.fromJson(questionMap);
+    } else {
+      throw Exception('question_index ${index + 1} not found');
+    }
+  }
+
+  @override
+  Future<List<Question>> getQuestionsPageByChapter(
+    Chapter chapter,
+    int pageNumber,
+  ) async {
+    final List<Map<String, dynamic>> maps = await database.query(
+      'question',
+      where: 'chapter_index = ?',
+      whereArgs: [chapter.chapterDbIndex],
+      limit: QuestionRepository.pageSize,
+      offset: pageNumber * QuestionRepository.pageSize,
+    );
+
+    return List.generate(maps.length, (i) {
+      final questionMap = convertDatabaseMapToQuestionObjectMap(maps[i]);
+      return Question.fromJson(questionMap);
+    });
+  }
+
+  @override
+  Future<int> getQuestionCountByChapter(Chapter chapter) async {
+    final List<Map<String, dynamic>> result = await database.rawQuery(
+      'SELECT COUNT(*) AS count FROM question WHERE chapter_index = ?',
+      [chapter.chapterDbIndex],
+    );
+    return result.first['count'] as int;
   }
 }
 

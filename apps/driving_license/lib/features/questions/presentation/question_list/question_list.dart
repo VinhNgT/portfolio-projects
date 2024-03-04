@@ -81,9 +81,8 @@ extension QuestionListX on QuestionList {
       //* Reminder: pageNumber is 'Page Number', while pageKey is 'Item Index',
       //* stupid, isn't it?
       final pageNumber = pageKey ~/ QuestionRepository.pageSize;
-      final newItems = await ref
-          .read(questionRepositoryProvider)
-          .getQuestionsPage(pageNumber);
+      final newItems =
+          await ref.read(questionsPageFutureProvider(pageNumber).future);
 
       final isLastPage = newItems.length < QuestionRepository.pageSize;
       if (isLastPage) {

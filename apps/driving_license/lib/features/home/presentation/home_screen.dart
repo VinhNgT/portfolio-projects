@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
+import 'package:driving_license/features/chapters/data/user_chapter_selection_repository.dart';
 import 'package:driving_license/features/home/presentation/chapter_card.dart';
 import 'package:driving_license/features/home/presentation/donate_card.dart';
 import 'package:driving_license/features/home/presentation/feature_card.dart';
@@ -100,11 +101,11 @@ class FeatureSelection extends StatelessWidget {
   }
 }
 
-class ChapterSelection extends StatelessWidget {
+class ChapterSelection extends HookConsumerWidget {
   const ChapterSelection({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -114,57 +115,96 @@ class ChapterSelection extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           separatorBuilder: (BuildContext context, int index) => kGap_12,
-          itemCount: 6,
+          itemCount: 7,
           itemBuilder: (BuildContext _, int index) => [
-            ChapterCard(
-              iconAssetPath:
-                  'assets/icons/home_screen/complied/danger_fire.svg.vec',
-              title: 'Câu hỏi điểm liệt',
-              subhead: 'Đã hoàn thành 0 / 20',
-              onTap: () async => context.pushRoute(
-                QuestionRoute(chapterDatabaseKey: 0),
-              ),
-            ),
             ChapterCard(
               iconAssetPath: 'assets/icons/home_screen/complied/books.svg.vec',
               title: 'Khái niệm và quy tắc',
               subhead: 'Đã hoàn thành 0 / 83 - Sai 5 câu',
-              onTap: () async => context.pushRoute(
-                QuestionRoute(chapterDatabaseKey: 1),
-              ),
+              onTap: () async {
+                ref
+                    .read(userChapterSelectionRepositoryProvider.notifier)
+                    .value = Chapter.khaiNiemVaQuyTac;
+
+                await context.pushRoute(const QuestionRoute());
+              },
+            ),
+            ChapterCard(
+              iconAssetPath:
+                  'assets/icons/home_screen/complied/danger_fire.svg.vec',
+              title: 'Nghiệp vụ vận tải',
+              subhead: 'Đã hoàn thành 0 / 20',
+              onTap: () async {
+                ref
+                    .read(userChapterSelectionRepositoryProvider.notifier)
+                    .value = Chapter.nghiepVuVanTai;
+
+                await context.pushRoute(const QuestionRoute());
+              },
             ),
             ChapterCard(
               iconAssetPath: 'assets/icons/home_screen/complied/person.svg.vec',
               title: 'Văn hoá và đạo đức',
               subhead: 'Đã hoàn thành 0 / 5',
-              onTap: () async => context.pushRoute(
-                QuestionRoute(chapterDatabaseKey: 2),
-              ),
+              onTap: () async {
+                ref
+                    .read(userChapterSelectionRepositoryProvider.notifier)
+                    .value = Chapter.vanHoaVaDaoDuc;
+
+                await context.pushRoute(const QuestionRoute());
+              },
             ),
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/steering_wheel.svg.vec',
               title: 'Kỹ thuật lái xe',
               subhead: 'Đã hoàn thành 0 / 12',
-              onTap: () async =>
-                  context.pushRoute(QuestionRoute(chapterDatabaseKey: 2)),
+              onTap: () async {
+                ref
+                    .read(userChapterSelectionRepositoryProvider.notifier)
+                    .value = Chapter.kyThuatLaiXe;
+
+                await context.pushRoute(const QuestionRoute());
+              },
+            ),
+            ChapterCard(
+              iconAssetPath:
+                  'assets/icons/home_screen/complied/danger_fire.svg.vec',
+              title: 'Cấu taọ và sửa chữa',
+              subhead: 'Đã hoàn thành 0 / 20',
+              onTap: () async {
+                ref
+                    .read(userChapterSelectionRepositoryProvider.notifier)
+                    .value = Chapter.cauTaoVaSuaChua;
+
+                await context.pushRoute(const QuestionRoute());
+              },
             ),
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/turn_right_sign.svg.vec',
               title: 'Biển báo đường bộ',
               subhead: 'Đã hoàn thành 0 / 65',
-              onTap: () async => context.pushRoute(
-                QuestionRoute(chapterDatabaseKey: 4),
-              ),
+              onTap: () async {
+                ref
+                    .read(userChapterSelectionRepositoryProvider.notifier)
+                    .value = Chapter.bienBaoDuongBo;
+
+                await context.pushRoute(const QuestionRoute());
+              },
             ),
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/traffic_light.svg.vec',
               title: 'Sa hình',
               subhead: 'Đã hoàn thành 0 / 35',
-              onTap: () async =>
-                  context.pushRoute(QuestionRoute(chapterDatabaseKey: 2)),
+              onTap: () async {
+                ref
+                    .read(userChapterSelectionRepositoryProvider.notifier)
+                    .value = Chapter.saHinhVaTinhHuong;
+
+                await context.pushRoute(const QuestionRoute());
+              },
             ),
           ][index],
         ),
