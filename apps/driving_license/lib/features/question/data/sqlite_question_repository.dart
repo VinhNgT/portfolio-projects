@@ -58,19 +58,7 @@ class SqliteQuestionRepository implements QuestionRepository {
     );
 
     if (maps.isNotEmpty) {
-      // Convert the Map into a format compatible with the Question object
-      final Map<String, dynamic> questionMap = {
-        'title': maps.first['question_text'],
-        'questionImagePath': maps.first['question_image'] == null
-            ? null
-            : join('assets/images', maps.first['question_image']),
-        'answers': jsonDecode(maps.first['answers']),
-        'correctAnswerIndex': maps.first['correct_index'] - 1,
-        'isDanger': kTestQuestions[0].isDanger,
-        'explanation': kTestQuestions[0].explanation,
-        'rememberTip': kTestQuestions[0].rememberTip,
-      };
-
+      final questionMap = convertDatabaseMapToQuestionObjectMap(maps.first);
       return Question.fromJson(questionMap);
     } else {
       throw Exception('question_index ${index + 1} not found');
@@ -82,5 +70,37 @@ class SqliteQuestionRepository implements QuestionRepository {
     final List<Map<String, dynamic>> result =
         await database.rawQuery('SELECT COUNT(*) AS count FROM question');
     return result.first['count'] as int;
+  }
+
+  @override
+  Future<List<Question>> getQuestionsPage(int pageKey) async {
+    final List<Map<String, dynamic>> maps = await database.query(
+      'question',
+      limit: QuestionRepository.pageSize,
+      offset: pageKey * QuestionRepository.pageSize,
+    );
+
+    return List.generate(maps.length, (i) {
+      final questionMap = convertDatabaseMapToQuestionObjectMap(maps[i]);
+      return Question.fromJson(questionMap);
+    });
+  }
+}
+
+extension QuestionRepositoryX on QuestionRepository {
+  Map<String, dynamic> convertDatabaseMapToQuestionObjectMap(
+    Map<String, dynamic> databaseMap,
+  ) {
+    return {
+      'title': databaseMap['question_text'],
+      'questionImagePath': databaseMap['question_image'] == null
+          ? null
+          : join('assets/images', databaseMap['question_image']),
+      'answers': jsonDecode(databaseMap['answers']),
+      'correctAnswerIndex': databaseMap['correct_index'] - 1,
+      'isDanger': kTestQuestions[0].isDanger,
+      'explanation': kTestQuestions[0].explanation,
+      'rememberTip': kTestQuestions[0].rememberTip,
+    };
   }
 }

@@ -4,8 +4,11 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'question_repository.g.dart';
 
 abstract class QuestionRepository {
+  static int pageSize = 20;
+
   FutureOr<Question> getQuestion(int index);
   FutureOr<int> getQuestionCount();
+  FutureOr<List<Question>> getQuestionsPage(int pageKey);
 }
 
 @riverpod
