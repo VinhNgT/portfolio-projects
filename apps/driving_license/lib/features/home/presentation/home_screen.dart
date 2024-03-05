@@ -70,7 +70,9 @@ class FeatureSelection extends StatelessWidget {
       columnSizes: [1.fr, 1.fr],
       rowSizes: const [auto, auto],
       rowGap: kSize_12,
-      columnGap: kSize_12,
+      // This weird looking columnGap value is for fixing a random LayoutGrid
+      // bug happens during app launched while screen is off
+      columnGap: context.width > kSize_12 ? kSize_12 : 0,
       children: const [
         SizedBox.expand(
           child: FeatureCard(
