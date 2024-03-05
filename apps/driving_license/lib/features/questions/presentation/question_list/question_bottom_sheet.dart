@@ -19,20 +19,54 @@ class QuestionBottomSheet extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    return DraggableScrollableSheet(
+      initialChildSize: 0.6,
+      minChildSize: 0.2,
+      maxChildSize: 1,
+      expand: false,
+      snap: true,
+      snapSizes: const [0.6],
+      shouldCloseOnMinExtent: true,
+      builder: (context, scrollController) {
+        return CustomScrollView(
+          controller: scrollController,
+          slivers: [
+            SliverFillRemaining(
+              child: Column(
+                children: [
+                  _TitleBar(questionCount: questionCount),
+                  Expanded(
+                    child: Scrollbar(
+                      child: QuestionList(
+                        initialCurrentPageIndex:
+                            ref.read(currentPageIndexProvider),
+                        onQuestionCardPressed: onQuestionCardPressed,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _TitleBar extends StatelessWidget {
+  final int questionCount;
+  const _TitleBar({required this.questionCount});
+
+  @override
+  Widget build(BuildContext context) {
     return Stack(
       children: [
         Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: kSize_8),
-              child: Container(
-                width: 32,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: context.materialScheme.outline,
-                  borderRadius: const BorderRadius.all(Radius.circular(100)),
-                ),
-              ),
+            const Padding(
+              padding: EdgeInsets.only(top: kSize_8),
+              child: _Handle(),
             ),
             SizedBox(
               width: double.infinity,
@@ -45,29 +79,30 @@ class QuestionBottomSheet extends HookConsumerWidget {
               ),
             ),
             const Divider(height: 0),
-            Expanded(
-              child: Scrollbar(
-                child: QuestionList(
-                  questionCount: questionCount,
-                  initialCurrentPageIndex: ref.read(currentPageIndexProvider),
-                  onQuestionCardPressed: onQuestionCardPressed,
-                ),
-              ),
-            ),
           ],
         ),
-        Positioned(
+        const Positioned(
           top: 12,
           right: 4,
-          child: IconButton(
-            icon: Icon(
-              Symbols.close,
-              color: context.materialScheme.onSurfaceVariant,
-            ),
-            onPressed: () async => context.popRoute(),
-          ),
+          child: _CloseButton(),
         ),
       ],
+    );
+  }
+}
+
+class _Handle extends StatelessWidget {
+  const _Handle();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 32,
+      height: 4,
+      decoration: BoxDecoration(
+        color: context.materialScheme.outline,
+        borderRadius: const BorderRadius.all(Radius.circular(100)),
+      ),
     );
   }
 }
@@ -98,6 +133,21 @@ class _Title extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _CloseButton extends StatelessWidget {
+  const _CloseButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(
+        Symbols.close,
+        color: context.materialScheme.onSurfaceVariant,
+      ),
+      onPressed: () async => context.popRoute(),
     );
   }
 }

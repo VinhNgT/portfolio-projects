@@ -8,13 +8,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class QuestionList extends HookConsumerWidget {
-  final int questionCount;
   final int initialCurrentPageIndex;
   final void Function(int index)? onQuestionCardPressed;
 
   const QuestionList({
     super.key,
-    required this.questionCount,
     required this.initialCurrentPageIndex,
     this.onQuestionCardPressed,
   });
@@ -35,18 +33,21 @@ class QuestionList extends HookConsumerWidget {
       }
     });
 
-    return PagedListView<int, Question>(
-      pagingController: pagingController,
-      builderDelegate: PagedChildBuilderDelegate<Question>(
-        itemBuilder: (context, item, index) => QuestionCard(
-          questionPageIndex: index,
-          question: item,
-          isSelected: index == selectedCardIndex.value,
-          onPressed: () {
-            userInteracted.value = true;
-            selectedCardIndex.value = index;
-            onQuestionCardPressed?.call(index);
-          },
+    return Scrollbar(
+      child: PagedListView<int, Question>(
+        itemExtent: 90, // Height of each question card in Figma
+        pagingController: pagingController,
+        builderDelegate: PagedChildBuilderDelegate<Question>(
+          itemBuilder: (context, item, index) => QuestionCard(
+            questionPageIndex: index,
+            question: item,
+            isSelected: index == selectedCardIndex.value,
+            onPressed: () {
+              userInteracted.value = true;
+              selectedCardIndex.value = index;
+              onQuestionCardPressed?.call(index);
+            },
+          ),
         ),
       ),
     );
