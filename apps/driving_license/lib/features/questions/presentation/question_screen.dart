@@ -35,15 +35,15 @@ class QuestionScreen extends HookConsumerWidget {
         body: Stack(
           children: [
             PageView.builder(
-          controller: pageController,
-          itemCount: questionCountValue,
-          onPageChanged: (nextPageIndex) {
-            setNewCurrentPageIndex(ref, nextPageIndex);
-          },
-          physics: const FastPageViewScrollPhysics(),
-          itemBuilder: (context, index) {
-            return QuestionPage(questionPageIndex: index);
-          },
+              controller: pageController,
+              itemCount: questionCountValue,
+              onPageChanged: (nextPageIndex) {
+                setNewCurrentPageIndex(ref, nextPageIndex);
+              },
+              physics: const FastPageViewScrollPhysics(),
+              itemBuilder: (context, index) {
+                return QuestionPage(questionPageIndex: index);
+              },
             ),
             ...ignoreGestureAreas(context.systemGestureInsets),
           ],
@@ -66,6 +66,7 @@ class QuestionScreen extends HookConsumerWidget {
             showModalBottomSheet(
               context: context,
               elevation: 0,
+              isScrollControlled: true,
               constraints: BoxConstraints.tightFor(
                 // BottomSheet will be 60% of the screen height
                 height: context.height * 0.6,
