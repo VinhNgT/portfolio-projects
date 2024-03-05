@@ -22,6 +22,7 @@ extension ContextExtension on BuildContext {
   double get bottomBarHeight => MediaQuery.of(this).padding.bottom;
   double get appBarHeight => AppBarTheme.of(this).toolbarHeight!;
   double get devicePixelRatio => MediaQuery.of(this).devicePixelRatio;
+  EdgeInsets get systemGestureInsets => MediaQuery.of(this).systemGestureInsets;
 
   TextStyle get defaultTextStyle => DefaultTextStyle.of(this).style;
   // double get textScaleFactor => MediaQuery.of(this).textScaleFactor;

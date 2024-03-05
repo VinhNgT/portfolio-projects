@@ -32,7 +32,9 @@ class QuestionScreen extends HookConsumerWidget {
       value: questionCount,
       builder: (questionCountValue) => Scaffold(
         appBar: const QuestionAppBar(),
-        body: PageView.builder(
+        body: Stack(
+          children: [
+            PageView.builder(
           controller: pageController,
           itemCount: questionCountValue,
           onPageChanged: (nextPageIndex) {
@@ -42,6 +44,9 @@ class QuestionScreen extends HookConsumerWidget {
           itemBuilder: (context, index) {
             return QuestionPage(questionPageIndex: index);
           },
+            ),
+            ...ignoreGestureAreas(context.systemGestureInsets),
+          ],
         ),
         bottomNavigationBar: QuestionBottomNavigationBar(
           questionCount: questionCountValue,
@@ -86,5 +91,29 @@ class QuestionScreen extends HookConsumerWidget {
 extension QuestionScreenX on QuestionScreen {
   void setNewCurrentPageIndex(WidgetRef ref, int newPageIndex) {
     ref.read(currentPageIndexProvider.notifier).value = newPageIndex;
+  }
+
+  // Ignore the system gesture insets on the left and right of the screen
+  List<Widget> ignoreGestureAreas(EdgeInsets systemGestureInsets) {
+    return [
+      Align(
+        alignment: Alignment.centerLeft,
+        child: AbsorbPointer(
+          child: SizedBox(
+            width: systemGestureInsets.left,
+            height: double.infinity,
+          ),
+        ),
+      ),
+      Align(
+        alignment: Alignment.centerRight,
+        child: AbsorbPointer(
+          child: SizedBox(
+            width: systemGestureInsets.right,
+            height: double.infinity,
+          ),
+        ),
+      ),
+    ];
   }
 }
