@@ -68,6 +68,10 @@ class QuestionScreen extends HookConsumerWidget {
               elevation: 0,
               isScrollControlled: true,
               useSafeArea: true,
+              constraints: BoxConstraints.tightFor(
+                // BottomSheet will be 80% of the screen height
+                height: context.height * 0.8,
+              ),
               builder: (_) => QuestionBottomSheet(
                 questionCount: questionCountValue,
                 onQuestionCardPressed: (questionPageIndex) {

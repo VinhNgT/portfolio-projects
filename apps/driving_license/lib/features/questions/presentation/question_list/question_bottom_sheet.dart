@@ -19,37 +19,18 @@ class QuestionBottomSheet extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return DraggableScrollableSheet(
-      initialChildSize: 0.6,
-      minChildSize: 0.2,
-      maxChildSize: 1,
-      expand: false,
-      snap: true,
-      snapSizes: const [0.6],
-      shouldCloseOnMinExtent: true,
-      builder: (context, scrollController) {
-        return CustomScrollView(
-          controller: scrollController,
-          slivers: [
-            SliverFillRemaining(
-              child: Column(
-                children: [
-                  _TitleBar(questionCount: questionCount),
-                  Expanded(
-                    child: Scrollbar(
-                      child: QuestionList(
-                        initialCurrentPageIndex:
-                            ref.read(currentPageIndexProvider),
-                        onQuestionCardPressed: onQuestionCardPressed,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+    return Column(
+      children: [
+        _TitleBar(questionCount: questionCount),
+        Expanded(
+          child: Scrollbar(
+            child: QuestionList(
+              initialCurrentPageIndex: ref.read(currentPageIndexProvider),
+              onQuestionCardPressed: onQuestionCardPressed,
             ),
-          ],
-        );
-      },
+          ),
+        ),
+      ],
     );
   }
 }
