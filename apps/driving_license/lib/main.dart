@@ -28,7 +28,10 @@ void main() async {
 
   // Register the error logger and the error handlers
   final errorLogger = container.read(consoleErrorLoggerProvider);
-  container.observers.add(AsyncErrorLogger(errorLogger));
+  container.observers.addAll([
+    AsyncErrorLogger(errorLogger),
+    // ProviderDebugObserver(),
+  ]);
   registerErrorHandlers(errorLogger);
 
   // Start the app
