@@ -23,11 +23,10 @@ class QuestionBottomSheet extends HookConsumerWidget {
       children: [
         _TitleBar(questionCount: questionCount),
         Expanded(
-          child: Scrollbar(
-            child: QuestionList(
-              initialCurrentPageIndex: ref.read(currentPageIndexProvider),
-              onQuestionCardPressed: onQuestionCardPressed,
-            ),
+          child: QuestionList(
+            questionCount: questionCount,
+            initialCurrentPageIndex: ref.read(currentPageIndexProvider),
+            onQuestionCardPressed: onQuestionCardPressed,
           ),
         ),
       ],

@@ -1,6 +1,8 @@
+import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/common_widgets/button_card.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
+import 'package:driving_license/features/questions/data/question_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_card_list_controller.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_state_checkbox.dart';
@@ -9,15 +11,15 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class QuestionCard extends StatelessWidget {
-  final Question question;
   final int questionPageIndex;
+  final Question question;
   final bool isSelected;
   final VoidCallback? onPressed;
 
   const QuestionCard({
     super.key,
-    required this.question,
     required this.questionPageIndex,
+    required this.question,
     required this.isSelected,
     this.onPressed,
   });
@@ -83,6 +85,56 @@ class QuestionCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class AsyncValueQuestionCard extends HookConsumerWidget {
+  final int questionPageIndex;
+  final bool isSelected;
+  final VoidCallback? onPressed;
+  final bool isPrototype;
+
+  const AsyncValueQuestionCard({
+    super.key,
+    required this.questionPageIndex,
+    required this.isSelected,
+    this.onPressed,
+    this.isPrototype = false,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final question =
+        ref.watch(questionPreloadPagesFutureProvider(questionPageIndex));
+
+    return AsyncValueWidget(
+      value: question,
+      builder: (questionValue) => QuestionCard(
+        questionPageIndex: questionPageIndex,
+        question: questionValue,
+        isSelected: isSelected,
+        onPressed: onPressed,
+      ),
+    );
+  }
+}
+
+class PrototypeQuestionCard extends StatelessWidget {
+  const PrototypeQuestionCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return QuestionCard(
+      questionPageIndex: 0,
+      question: const Question(
+        title: 'Prototype\nPrototype',
+        isDanger: false,
+        correctAnswerIndex: 0,
+        answers: ['0'],
+      ),
+      isSelected: false,
+      onPressed: () {},
     );
   }
 }

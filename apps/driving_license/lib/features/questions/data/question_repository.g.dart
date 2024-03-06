@@ -320,5 +320,135 @@ final questionCountFutureProvider = AutoDisposeFutureProvider<int>.internal(
 );
 
 typedef QuestionCountFutureRef = AutoDisposeFutureProviderRef<int>;
+String _$questionPreloadPagesFutureHash() =>
+    r'06b3c5c89f0350fe51b55be423ec5e945f827dcd';
+
+/// See also [questionPreloadPagesFuture].
+@ProviderFor(questionPreloadPagesFuture)
+const questionPreloadPagesFutureProvider = QuestionPreloadPagesFutureFamily();
+
+/// See also [questionPreloadPagesFuture].
+class QuestionPreloadPagesFutureFamily extends Family<AsyncValue<Question>> {
+  /// See also [questionPreloadPagesFuture].
+  const QuestionPreloadPagesFutureFamily();
+
+  /// See also [questionPreloadPagesFuture].
+  QuestionPreloadPagesFutureProvider call(
+    int index,
+  ) {
+    return QuestionPreloadPagesFutureProvider(
+      index,
+    );
+  }
+
+  @override
+  QuestionPreloadPagesFutureProvider getProviderOverride(
+    covariant QuestionPreloadPagesFutureProvider provider,
+  ) {
+    return call(
+      provider.index,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'questionPreloadPagesFutureProvider';
+}
+
+/// See also [questionPreloadPagesFuture].
+class QuestionPreloadPagesFutureProvider
+    extends AutoDisposeFutureProvider<Question> {
+  /// See also [questionPreloadPagesFuture].
+  QuestionPreloadPagesFutureProvider(
+    int index,
+  ) : this._internal(
+          (ref) => questionPreloadPagesFuture(
+            ref as QuestionPreloadPagesFutureRef,
+            index,
+          ),
+          from: questionPreloadPagesFutureProvider,
+          name: r'questionPreloadPagesFutureProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$questionPreloadPagesFutureHash,
+          dependencies: QuestionPreloadPagesFutureFamily._dependencies,
+          allTransitiveDependencies:
+              QuestionPreloadPagesFutureFamily._allTransitiveDependencies,
+          index: index,
+        );
+
+  QuestionPreloadPagesFutureProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.index,
+  }) : super.internal();
+
+  final int index;
+
+  @override
+  Override overrideWith(
+    FutureOr<Question> Function(QuestionPreloadPagesFutureRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: QuestionPreloadPagesFutureProvider._internal(
+        (ref) => create(ref as QuestionPreloadPagesFutureRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        index: index,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Question> createElement() {
+    return _QuestionPreloadPagesFutureProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is QuestionPreloadPagesFutureProvider && other.index == index;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, index.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin QuestionPreloadPagesFutureRef on AutoDisposeFutureProviderRef<Question> {
+  /// The parameter `index` of this provider.
+  int get index;
+}
+
+class _QuestionPreloadPagesFutureProviderElement
+    extends AutoDisposeFutureProviderElement<Question>
+    with QuestionPreloadPagesFutureRef {
+  _QuestionPreloadPagesFutureProviderElement(super.provider);
+
+  @override
+  int get index => (origin as QuestionPreloadPagesFutureProvider).index;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
