@@ -28,7 +28,20 @@ QuestionRepository questionRepository(QuestionRepositoryRef ref) {
 }
 
 @riverpod
-FutureOr<Question> questionFuture(QuestionFutureRef ref, int index) {
+FutureOr<Question> questionFuture(QuestionFutureRef ref, int index) async {
+  final pageNumber = index ~/ QuestionRepository.pageSize;
+
+  // Typically, when questionPreloadPagesFuture is used, the page
+  // (questionsPageFutureProvider(pageNumber)) which contains the question
+  // is already loaded, so we can just get the question from it directly without
+  // making additional requests to the database.
+  if (ref.exists(questionsPageFutureProvider(pageNumber))) {
+    final questionPage =
+        await ref.watch(questionsPageFutureProvider(pageNumber).future);
+
+    return questionPage[index % QuestionRepository.pageSize];
+  }
+
   final questionRepository = ref.watch(questionRepositoryProvider);
   final chapterRepository = ref.watch(userChapterSelectionRepositoryProvider);
 
