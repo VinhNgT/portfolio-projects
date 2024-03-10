@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_scaffold.dart';
 import 'package:driving_license/common_widgets/misc/fast_scroll_physics.dart';
+import 'package:driving_license/common_widgets/widget_deadzone.dart';
 import 'package:driving_license/features/questions/data/question_repository.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/question_app_bar.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/question_bottom_navigation_bar.dart';
@@ -32,21 +33,22 @@ class QuestionScreen extends HookConsumerWidget {
       value: questionCount,
       builder: (questionCountValue) => Scaffold(
         appBar: const QuestionAppBar(),
-        body: Stack(
-          children: [
-            PageView.builder(
-              controller: pageController,
-              itemCount: questionCountValue,
-              onPageChanged: (nextPageIndex) {
-                setNewCurrentPageIndex(ref, nextPageIndex);
-              },
-              physics: const FastPageViewScrollPhysics(),
-              itemBuilder: (context, index) {
-                return QuestionPage(questionPageIndex: index);
-              },
-            ),
-            ...ignoreGestureAreas(context.systemGestureInsets),
-          ],
+        body: WidgetDeadzone(
+          deadzone: EdgeInsets.only(
+            left: context.systemGestureInsets.left,
+            right: context.systemGestureInsets.right,
+          ),
+          child: PageView.builder(
+            controller: pageController,
+            itemCount: questionCountValue,
+            onPageChanged: (nextPageIndex) {
+              setNewCurrentPageIndex(ref, nextPageIndex);
+            },
+            physics: const FastPageViewScrollPhysics(),
+            itemBuilder: (context, index) {
+              return QuestionPage(questionPageIndex: index);
+            },
+          ),
         ),
         bottomNavigationBar: QuestionBottomNavigationBar(
           questionCount: questionCountValue,
@@ -93,29 +95,5 @@ class QuestionScreen extends HookConsumerWidget {
 extension QuestionScreenX on QuestionScreen {
   void setNewCurrentPageIndex(WidgetRef ref, int newPageIndex) {
     ref.read(currentPageIndexProvider.notifier).value = newPageIndex;
-  }
-
-  // Ignore the system gesture insets on the left and right of the screen
-  List<Widget> ignoreGestureAreas(EdgeInsets systemGestureInsets) {
-    return [
-      Align(
-        alignment: Alignment.centerLeft,
-        child: AbsorbPointer(
-          child: SizedBox(
-            width: systemGestureInsets.left,
-            height: double.infinity,
-          ),
-        ),
-      ),
-      Align(
-        alignment: Alignment.centerRight,
-        child: AbsorbPointer(
-          child: SizedBox(
-            width: systemGestureInsets.right,
-            height: double.infinity,
-          ),
-        ),
-      ),
-    ];
   }
 }

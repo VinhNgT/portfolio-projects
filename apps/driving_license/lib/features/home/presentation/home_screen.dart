@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/common_widgets/common_app_bar.dart';
+import 'package:driving_license/common_widgets/widget_deadzone.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/chapters/data/user_chapter_selection_repository.dart';
@@ -36,24 +37,29 @@ class HomeScreen extends HookConsumerWidget {
         rightPadding: AppBarRightPadding.normalButton,
         scaffoldBodyScrollController: scrollController,
       ),
-      body: SingleChildScrollView(
-        controller: scrollController,
-        child: const Padding(
-          padding: EdgeInsets.only(
-            left: kSize_16,
-            right: kSize_16,
-            top: kSize_4,
-            bottom: kSize_48,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              DonateCard(),
-              kGap_20,
-              FeatureSelection(),
-              kGap_32,
-              ChapterSelection(),
-            ],
+      body: WidgetDeadzone(
+        deadzone: EdgeInsets.only(
+          bottom: context.systemGestureInsets.bottom,
+        ),
+        child: SingleChildScrollView(
+          controller: scrollController,
+          child: const Padding(
+            padding: EdgeInsets.only(
+              left: kSize_16,
+              right: kSize_16,
+              top: kSize_4,
+              bottom: kSize_48,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DonateCard(),
+                kGap_20,
+                FeatureSelection(),
+                kGap_32,
+                ChapterSelection(),
+              ],
+            ),
           ),
         ),
       ),

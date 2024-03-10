@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:driving_license/common_widgets/widget_deadzone.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/features/questions/presentation/question_list/question_list.dart';
 import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
@@ -23,10 +24,15 @@ class QuestionBottomSheet extends HookConsumerWidget {
       children: [
         _TitleBar(questionCount: questionCount),
         Expanded(
-          child: QuestionList(
-            questionCount: questionCount,
-            initialCurrentPageIndex: ref.read(currentPageIndexProvider),
-            onQuestionCardPressed: onQuestionCardPressed,
+          child: WidgetDeadzone(
+            deadzone: EdgeInsets.only(
+              bottom: context.systemGestureInsets.bottom,
+            ),
+            child: QuestionList(
+              questionCount: questionCount,
+              initialCurrentPageIndex: ref.read(currentPageIndexProvider),
+              onQuestionCardPressed: onQuestionCardPressed,
+            ),
           ),
         ),
       ],
