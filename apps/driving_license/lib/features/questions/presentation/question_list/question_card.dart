@@ -6,8 +6,10 @@ import 'package:driving_license/features/questions/data/question_repository.dart
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_card_list_controller.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_state_checkbox.dart';
+import 'package:driving_license/features/questions/presentation/question_list/question_card_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class QuestionCard extends StatelessWidget {
@@ -46,6 +48,7 @@ class QuestionCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Row(
                     children: [
@@ -121,21 +124,54 @@ class AsyncValueQuestionCard extends HookConsumerWidget {
   }
 }
 
-class PrototypeQuestionCard extends StatelessWidget {
+class PrototypeQuestionCard extends HookConsumerWidget {
   const PrototypeQuestionCard({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return QuestionCard(
-      questionPageIndex: 0,
-      question: const Question(
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(questionCardPrototypeHeightProvider, (_, __) {});
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final widgetHeight = context.size?.height ?? 0;
+      ref.read(questionCardPrototypeHeightProvider.notifier).value =
+          widgetHeight;
+    });
+
+    return const QuestionCard(
+      questionPageIndex: -1,
+      question: Question(
         title: 'Prototype\nPrototype',
         isDanger: false,
         correctAnswerIndex: 0,
         answers: ['0'],
       ),
       isSelected: false,
-      onPressed: () {},
+      onPressed: null,
+    );
+  }
+
+  /// Builds an invisible PrototypeQuestionCard to calculate the height of
+  /// QuestionCard for QuestionCardPrototypeHeightProvider.
+  static void buildOffstageOverlay() {
+    final context = useContext();
+
+    useEffect(
+      () {
+        final overlaysEntry = OverlayEntry(
+          builder: (_) {
+            return const Align(
+              child: Offstage(child: PrototypeQuestionCard()),
+            );
+          },
+        );
+
+        Future.microtask(() {
+          Overlay.of(context).insert(overlaysEntry);
+        });
+
+        return overlaysEntry.remove;
+      },
+      [],
     );
   }
 }

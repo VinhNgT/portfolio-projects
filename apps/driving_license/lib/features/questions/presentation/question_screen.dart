@@ -10,6 +10,7 @@ import 'package:driving_license/features/questions/presentation/appbar_navbar/qu
 import 'package:driving_license/features/questions/presentation/question/question_page.dart';
 import 'package:driving_license/features/questions/presentation/question/question_page_controller.dart';
 import 'package:driving_license/features/questions/presentation/question_list/question_bottom_sheet.dart';
+import 'package:driving_license/features/questions/presentation/question_list/question_card.dart';
 import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,10 @@ class QuestionScreen extends HookConsumerWidget {
     // Register QuestionScreen as the one keeping all of the
     // QuestionPageScrollControllerProviders alive
     ref.watch(keepQuestionPageScrollControllerAliveProvider);
+
+    // We must call this so QuestionList in QuestionBottomSheet can layout its
+    // QuestionCards correctly
+    PrototypeQuestionCard.buildOffstageOverlay();
 
     return AsyncValueScaffold(
       value: questionCount,

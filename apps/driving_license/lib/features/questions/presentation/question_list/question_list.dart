@@ -1,4 +1,5 @@
 import 'package:driving_license/features/questions/presentation/question_list/question_card.dart';
+import 'package:driving_license/features/questions/presentation/question_list/question_card_controller.dart';
 import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -20,6 +21,10 @@ class QuestionList extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedCardIndex = useState(initialCurrentPageIndex);
     final userInteracted = useState(false);
+    final questionCardHeight = ref.watch(questionCardPrototypeHeightProvider);
+    final scrollController = useScrollControllerCorrectOffset(
+      initialScrollOffset: questionCardHeight * (selectedCardIndex.value - 2),
+    );
 
     // If current page index is changed before user interacted with the list,
     // update the list accordingly
@@ -33,7 +38,8 @@ class QuestionList extends HookConsumerWidget {
 
     return Scrollbar(
       child: ListView.builder(
-        prototypeItem: const PrototypeQuestionCard(),
+        controller: scrollController,
+        itemExtent: questionCardHeight,
         itemCount: questionCount,
         itemBuilder: (context, index) {
           return AsyncValueQuestionCard(
@@ -48,5 +54,32 @@ class QuestionList extends HookConsumerWidget {
         },
       ),
     );
+  }
+}
+
+extension QuestionListX on QuestionList {
+  ScrollController useScrollControllerCorrectOffset({
+    required double initialScrollOffset,
+  }) {
+    final scrollController =
+        useScrollController(initialScrollOffset: initialScrollOffset);
+
+    useEffect(() {
+      // Correct the initial scroll offset if it's out of bounds
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (scrollController.offset <
+            scrollController.position.minScrollExtent) {
+          scrollController.jumpTo(scrollController.position.minScrollExtent);
+        }
+
+        if (scrollController.offset >
+            scrollController.position.maxScrollExtent) {
+          scrollController.jumpTo(scrollController.position.maxScrollExtent);
+        }
+      });
+      return null;
+    });
+
+    return scrollController;
   }
 }
