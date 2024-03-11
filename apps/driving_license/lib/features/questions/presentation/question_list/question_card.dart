@@ -93,6 +93,42 @@ class QuestionCard extends StatelessWidget {
   }
 }
 
+// QC stands for QuestionCard
+class _QCAnswerStateCheckbox extends HookConsumerWidget {
+  final Question question;
+  final int questionPageIndex;
+
+  const _QCAnswerStateCheckbox({
+    required this.question,
+    required this.questionPageIndex,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedAnswerIndex =
+        ref.watch(selectedAnswerIndexProvider(questionPageIndex));
+
+    final state = evaluateAnswerState(question, selectedAnswerIndex);
+
+    return state != AnswerState.unchecked
+        ? AnswerStateCheckbox(state: state, iconSize: 20)
+        : const SizedBox();
+  }
+}
+
+extension _QCAnswerStateCheckboxX on _QCAnswerStateCheckbox {
+  AnswerState evaluateAnswerState(Question question, int? selectedAnswerIndex) {
+    final bool noAnswerSelected = (selectedAnswerIndex == null);
+    final bool isCorrect = (selectedAnswerIndex == question.correctAnswerIndex);
+
+    if (noAnswerSelected) {
+      return AnswerState.unchecked;
+    }
+
+    return isCorrect ? AnswerState.correct : AnswerState.incorrect;
+  }
+}
+
 class AsyncValueQuestionCard extends HookConsumerWidget {
   final int questionPageIndex;
   final bool isSelected;
@@ -124,6 +160,8 @@ class AsyncValueQuestionCard extends HookConsumerWidget {
   }
 }
 
+/// PrototypeQuestionCard serves no other purpose than to calculate the height
+/// of QuestionCard for QuestionCardPrototypeHeightProvider.
 class PrototypeQuestionCard extends HookConsumerWidget {
   const PrototypeQuestionCard({super.key});
 
@@ -173,41 +211,5 @@ class PrototypeQuestionCard extends HookConsumerWidget {
       },
       [],
     );
-  }
-}
-
-// QC stands for QuestionCard
-class _QCAnswerStateCheckbox extends HookConsumerWidget {
-  final Question question;
-  final int questionPageIndex;
-
-  const _QCAnswerStateCheckbox({
-    required this.question,
-    required this.questionPageIndex,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final selectedAnswerIndex =
-        ref.watch(selectedAnswerIndexProvider(questionPageIndex));
-
-    final state = evaluateAnswerState(question, selectedAnswerIndex);
-
-    return state != AnswerState.unchecked
-        ? AnswerStateCheckbox(state: state, iconSize: 20)
-        : const SizedBox();
-  }
-}
-
-extension _QCAnswerStateCheckboxX on _QCAnswerStateCheckbox {
-  AnswerState evaluateAnswerState(Question question, int? selectedAnswerIndex) {
-    final bool noAnswerSelected = (selectedAnswerIndex == null);
-    final bool isCorrect = (selectedAnswerIndex == question.correctAnswerIndex);
-
-    if (noAnswerSelected) {
-      return AnswerState.unchecked;
-    }
-
-    return isCorrect ? AnswerState.correct : AnswerState.incorrect;
   }
 }
