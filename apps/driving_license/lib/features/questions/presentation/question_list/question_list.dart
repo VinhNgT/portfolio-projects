@@ -1,6 +1,7 @@
 import 'package:driving_license/features/questions/presentation/question_list/question_card.dart';
 import 'package:driving_license/features/questions/presentation/question_list/question_card_controller.dart';
 import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
+import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -8,12 +9,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class QuestionList extends HookConsumerWidget {
   final int initialCurrentPageIndex;
   final int questionCount;
+  final double viewPortHeight;
   final void Function(int index)? onQuestionCardPressed;
 
   const QuestionList({
     super.key,
     required this.initialCurrentPageIndex,
     required this.questionCount,
+    required this.viewPortHeight,
     this.onQuestionCardPressed,
   });
 
@@ -22,8 +25,13 @@ class QuestionList extends HookConsumerWidget {
     final selectedCardIndex = useState(initialCurrentPageIndex);
     final userInteracted = useState(false);
     final questionCardHeight = ref.watch(questionCardPrototypeHeightProvider);
-    final scrollController = useScrollControllerCorrectOffset(
-      initialScrollOffset: questionCardHeight * (selectedCardIndex.value - 2),
+
+    final scrollController = useScrollController(
+      initialScrollOffset: calculateInitialScrollOffset(
+        questionCardHeight: questionCardHeight,
+        initialTargeItemIndex: selectedCardIndex.value,
+        targetItemTopOffsetCount: 2,
+      ),
     );
 
     // If current page index is changed before user interacted with the list,
@@ -37,49 +45,47 @@ class QuestionList extends HookConsumerWidget {
     });
 
     return Scrollbar(
-      child: ListView.builder(
-        controller: scrollController,
-        itemExtent: questionCardHeight,
-        itemCount: questionCount,
-        itemBuilder: (context, index) {
-          return AsyncValueQuestionCard(
-            questionPageIndex: index,
-            isSelected: index == selectedCardIndex.value,
-            onPressed: () {
-              userInteracted.value = true;
-              selectedCardIndex.value = index;
-              onQuestionCardPressed?.call(index);
-            },
-          );
+      child: NotificationListener(
+        onNotification: (notification) {
+          // if (notification is ScrollNotification) {
+          //   debugPrint('Scrolling');
+          // }
+          return false;
         },
+        child: ListView.builder(
+          controller: scrollController,
+          itemExtent: questionCardHeight,
+          itemCount: questionCount,
+          itemBuilder: (context, index) {
+            return AsyncValueQuestionCard(
+              questionPageIndex: index,
+              isSelected: index == selectedCardIndex.value,
+              onPressed: () {
+                userInteracted.value = true;
+                selectedCardIndex.value = index;
+                onQuestionCardPressed?.call(index);
+              },
+            );
+          },
+        ),
       ),
     );
   }
 }
 
 extension QuestionListX on QuestionList {
-  ScrollController useScrollControllerCorrectOffset({
-    required double initialScrollOffset,
+  double calculateInitialScrollOffset({
+    required double questionCardHeight,
+    required int initialTargeItemIndex,
+    required int targetItemTopOffsetCount,
   }) {
-    final scrollController =
-        useScrollController(initialScrollOffset: initialScrollOffset);
+    final scrollOffset =
+        questionCardHeight * (initialTargeItemIndex - targetItemTopOffsetCount);
 
-    useEffect(() {
-      // Correct the initial scroll offset if it's out of bounds
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (scrollController.offset <
-            scrollController.position.minScrollExtent) {
-          scrollController.jumpTo(scrollController.position.minScrollExtent);
-        }
+    final maxScrollExtent = questionCardHeight * questionCount -
+        viewPortHeight +
+        useContext().bottomBarHeight;
 
-        if (scrollController.offset >
-            scrollController.position.maxScrollExtent) {
-          scrollController.jumpTo(scrollController.position.maxScrollExtent);
-        }
-      });
-      return null;
-    });
-
-    return scrollController;
+    return scrollOffset.clamp(0, maxScrollExtent);
   }
 }

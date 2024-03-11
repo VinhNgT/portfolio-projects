@@ -28,10 +28,13 @@ class QuestionBottomSheet extends HookConsumerWidget {
             deadzone: EdgeInsets.only(
               bottom: context.systemGestureInsets.bottom,
             ),
-            child: QuestionList(
-              questionCount: questionCount,
-              initialCurrentPageIndex: ref.read(currentPageIndexProvider),
-              onQuestionCardPressed: onQuestionCardPressed,
+            child: LayoutBuilder(
+              builder: (context, constraints) => QuestionList(
+                questionCount: questionCount,
+                initialCurrentPageIndex: ref.read(currentPageIndexProvider),
+                viewPortHeight: constraints.maxHeight,
+                onQuestionCardPressed: onQuestionCardPressed,
+              ),
             ),
           ),
         ),
