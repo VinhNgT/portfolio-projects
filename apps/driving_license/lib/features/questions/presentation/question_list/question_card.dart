@@ -161,7 +161,8 @@ class AsyncValueQuestionCard extends HookConsumerWidget {
 }
 
 /// PrototypeQuestionCard serves no other purpose than to calculate the height
-/// of QuestionCard for QuestionCardPrototypeHeightProvider.
+/// of QuestionCard for QuestionCardPrototypeHeightProvider. You should not use
+/// it unless you know what you are doing.
 class PrototypeQuestionCard extends HookConsumerWidget {
   const PrototypeQuestionCard({super.key});
 
