@@ -79,13 +79,17 @@ extension QuestionListX on QuestionList {
     required int initialTargeItemIndex,
     required int targetItemTopOffsetCount,
   }) {
+    final scrollContentHeight =
+        questionCardHeight * questionCount + useContext().bottomBarHeight;
+
+    if (scrollContentHeight <= viewPortHeight) {
+      return 0;
+    }
+
     final scrollOffset =
         questionCardHeight * (initialTargeItemIndex - targetItemTopOffsetCount);
 
-    final maxScrollExtent = questionCardHeight * questionCount -
-        viewPortHeight +
-        useContext().bottomBarHeight;
-
+    final maxScrollExtent = scrollContentHeight - viewPortHeight;
     return scrollOffset.clamp(0, maxScrollExtent);
   }
 }
