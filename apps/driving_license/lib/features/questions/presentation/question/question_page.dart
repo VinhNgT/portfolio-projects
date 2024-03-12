@@ -11,7 +11,6 @@ import 'package:driving_license/features/questions/presentation/question/questio
 import 'package:driving_license/features/questions/presentation/question/question_page_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -33,7 +32,6 @@ class QuestionPage extends HookConsumerWidget {
       builder: (questionValue) => Consumer(
         builder: (context, ref, child) {
           updateQuestionPageScrollController(ref, scrollController);
-          notifyScrollControllerWidgetRebuilt(scrollController);
 
           final answerSelected =
               ref.watch(selectedAnswerIndexProvider(questionPageIndex)) != null;
@@ -41,42 +39,55 @@ class QuestionPage extends HookConsumerWidget {
             questionPageScrollingAnimationPlayingProvider(questionPageIndex),
           );
 
-          return SingleChildScrollView(
-            controller: scrollController,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                left: kSize_16,
-                right: kSize_16,
-                bottom: kSize_48,
-              ),
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                      questionValue.title,
-                      style: context.textTheme.titleMedium,
+          return NotificationListener(
+            onNotification: (notification) {
+              if (notification is ScrollMetricsNotification) {
+                // Content size is changing, notify the listeners about new
+                // position
+                if (scrollController.hasClients) {
+                  scrollController.position.notifyListeners();
+                }
+              }
+              return false;
+            },
+            child: SingleChildScrollView(
+              controller: scrollController,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: kSize_16,
+                  right: kSize_16,
+                  bottom: kSize_48,
+                ),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        questionValue.title,
+                        style: context.textTheme.titleMedium,
+                      ),
                     ),
-                  ),
-                  if (questionValue.questionImagePath != null) ...[
-                    kGap_12,
-                    Image.asset(questionValue.questionImagePath!),
-                    kGap_8,
+                    if (questionValue.questionImagePath != null) ...[
+                      kGap_12,
+                      Image.asset(questionValue.questionImagePath!),
+                      kGap_8,
+                    ],
+                    kGap_16,
+                    AnswerCardList(
+                      questionPageIndex: questionPageIndex,
+                      question: questionValue,
+                    ),
+                    Visibility(
+                      visible:
+                          scrollingAnimationPlaying ? true : answerSelected,
+                      child: Opacity(
+                        opacity: answerSelected ? kOpacityFull : kOpacityZero,
+                        child: QuestionNotes(question: questionValue),
+                      ),
+                    ),
+                    kGap_48,
                   ],
-                  kGap_16,
-                  AnswerCardList(
-                    questionPageIndex: questionPageIndex,
-                    question: questionValue,
-                  ),
-                  Visibility(
-                    visible: scrollingAnimationPlaying ? true : answerSelected,
-                    child: Opacity(
-                      opacity: answerSelected ? kOpacityFull : kOpacityZero,
-                      child: QuestionNotes(question: questionValue),
-                    ),
-                  ),
-                  kGap_48,
-                ],
+                ),
               ),
             ),
           );
@@ -102,17 +113,6 @@ extension QuestionPageX on QuestionPage {
               questionPageScrollControllerProvider(questionPageIndex).notifier,
             )
             .value = scrollController;
-      }
-    });
-  }
-
-  // When this widget rebuilt, the scroll controller will not notify
-  // listeners about SingleChildScrollView size changes, so we need to
-  // do it manually
-  void notifyScrollControllerWidgetRebuilt(ScrollController scrollController) {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      if (scrollController.hasClients) {
-        scrollController.position.notifyListeners();
       }
     });
   }
