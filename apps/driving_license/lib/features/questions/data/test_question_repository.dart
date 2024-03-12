@@ -36,9 +36,8 @@ class TestQuestionRepository implements QuestionRepository {
   }
 
   @override
-  FutureOr<Question> getQuestionByChapter(Chapter chapter, int index) {
-    // TODO: implement getQuestionByChapter
-    throw UnimplementedError();
+  FutureOr<Question> getQuestionByChapter(Chapter chapter, int index) async {
+    return getQuestion(index);
   }
 
   @override
@@ -46,13 +45,11 @@ class TestQuestionRepository implements QuestionRepository {
     Chapter chapter,
     int pageNumber,
   ) {
-    // TODO: implement getQuestionsPageByChapter
-    throw UnimplementedError();
+    return getQuestionsPage(pageNumber);
   }
 
   @override
   FutureOr<int> getQuestionCountByChapter(Chapter chapter) {
-    // TODO: implement getQuestionCountByChapter
-    throw UnimplementedError();
+    return getQuestionCount();
   }
 }
