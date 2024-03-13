@@ -58,7 +58,9 @@ dependencies:
 
   # Database / File System
   sqflite: ^2.3.2
+  sembast: ^3.6.0
   path: ^1.9.0
+  path_provider: ^2.1.2
 
 dev_dependencies:
   flutter_test:
