@@ -17,7 +17,7 @@ class Bootstrap {
   static Future<ProviderContainer> _createProviderContainer() async {
     // Load question database
     final sqliteQuestionRepository =
-        await SqliteQuestionRepository.createDefaultRepository();
+        await SqliteQuestionRepository.makeDefault();
 
     final container = ProviderContainer(
       overrides: [

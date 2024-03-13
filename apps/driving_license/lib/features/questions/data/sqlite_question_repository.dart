@@ -15,7 +15,7 @@ class SqliteQuestionRepository implements QuestionRepository {
   final Database database;
   SqliteQuestionRepository(this.database);
 
-  static Future<SqliteQuestionRepository> createDefaultRepository() async {
+  static Future<SqliteQuestionRepository> makeDefault() async {
     return SqliteQuestionRepository(await _initDatabase());
   }
 
