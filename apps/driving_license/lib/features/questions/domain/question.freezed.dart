@@ -20,6 +20,8 @@ Question _$QuestionFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Question {
+  int get questionIndex => throw _privateConstructorUsedError;
+  int get chapterIndex => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String? get questionImagePath => throw _privateConstructorUsedError;
   bool get isDanger => throw _privateConstructorUsedError;
@@ -40,7 +42,9 @@ abstract class $QuestionCopyWith<$Res> {
       _$QuestionCopyWithImpl<$Res, Question>;
   @useResult
   $Res call(
-      {String title,
+      {int questionIndex,
+      int chapterIndex,
+      String title,
       String? questionImagePath,
       bool isDanger,
       List<String> answers,
@@ -62,6 +66,8 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? questionIndex = null,
+    Object? chapterIndex = null,
     Object? title = null,
     Object? questionImagePath = freezed,
     Object? isDanger = null,
@@ -71,6 +77,14 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? rememberTip = freezed,
   }) {
     return _then(_value.copyWith(
+      questionIndex: null == questionIndex
+          ? _value.questionIndex
+          : questionIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      chapterIndex: null == chapterIndex
+          ? _value.chapterIndex
+          : chapterIndex // ignore: cast_nullable_to_non_nullable
+              as int,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -112,7 +126,9 @@ abstract class _$$QuestionImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String title,
+      {int questionIndex,
+      int chapterIndex,
+      String title,
       String? questionImagePath,
       bool isDanger,
       List<String> answers,
@@ -132,6 +148,8 @@ class __$$QuestionImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? questionIndex = null,
+    Object? chapterIndex = null,
     Object? title = null,
     Object? questionImagePath = freezed,
     Object? isDanger = null,
@@ -141,6 +159,14 @@ class __$$QuestionImplCopyWithImpl<$Res>
     Object? rememberTip = freezed,
   }) {
     return _then(_$QuestionImpl(
+      questionIndex: null == questionIndex
+          ? _value.questionIndex
+          : questionIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      chapterIndex: null == chapterIndex
+          ? _value.chapterIndex
+          : chapterIndex // ignore: cast_nullable_to_non_nullable
+              as int,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -177,7 +203,9 @@ class __$$QuestionImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$QuestionImpl implements _Question {
   const _$QuestionImpl(
-      {required this.title,
+      {required this.questionIndex,
+      required this.chapterIndex,
+      required this.title,
       this.questionImagePath,
       required this.isDanger,
       required final List<String> answers,
@@ -189,6 +217,10 @@ class _$QuestionImpl implements _Question {
   factory _$QuestionImpl.fromJson(Map<String, dynamic> json) =>
       _$$QuestionImplFromJson(json);
 
+  @override
+  final int questionIndex;
+  @override
+  final int chapterIndex;
   @override
   final String title;
   @override
@@ -212,7 +244,7 @@ class _$QuestionImpl implements _Question {
 
   @override
   String toString() {
-    return 'Question(title: $title, questionImagePath: $questionImagePath, isDanger: $isDanger, answers: $answers, correctAnswerIndex: $correctAnswerIndex, explanation: $explanation, rememberTip: $rememberTip)';
+    return 'Question(questionIndex: $questionIndex, chapterIndex: $chapterIndex, title: $title, questionImagePath: $questionImagePath, isDanger: $isDanger, answers: $answers, correctAnswerIndex: $correctAnswerIndex, explanation: $explanation, rememberTip: $rememberTip)';
   }
 
   @override
@@ -220,6 +252,10 @@ class _$QuestionImpl implements _Question {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$QuestionImpl &&
+            (identical(other.questionIndex, questionIndex) ||
+                other.questionIndex == questionIndex) &&
+            (identical(other.chapterIndex, chapterIndex) ||
+                other.chapterIndex == chapterIndex) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.questionImagePath, questionImagePath) ||
                 other.questionImagePath == questionImagePath) &&
@@ -238,6 +274,8 @@ class _$QuestionImpl implements _Question {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      questionIndex,
+      chapterIndex,
       title,
       questionImagePath,
       isDanger,
@@ -262,7 +300,9 @@ class _$QuestionImpl implements _Question {
 
 abstract class _Question implements Question {
   const factory _Question(
-      {required final String title,
+      {required final int questionIndex,
+      required final int chapterIndex,
+      required final String title,
       final String? questionImagePath,
       required final bool isDanger,
       required final List<String> answers,
@@ -273,6 +313,10 @@ abstract class _Question implements Question {
   factory _Question.fromJson(Map<String, dynamic> json) =
       _$QuestionImpl.fromJson;
 
+  @override
+  int get questionIndex;
+  @override
+  int get chapterIndex;
   @override
   String get title;
   @override

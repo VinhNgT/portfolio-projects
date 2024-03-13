@@ -5,6 +5,7 @@ import 'package:driving_license/exceptions/async_error_logger.dart';
 import 'package:driving_license/exceptions/error_logger.dart';
 import 'package:driving_license/features/questions/data/question_repository.dart';
 import 'package:driving_license/features/questions/data/sqlite_question_repository.dart';
+import 'package:driving_license/features/questions/data/user_answer_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -18,10 +19,12 @@ class Bootstrap {
     // Load question database
     final sqliteQuestionRepository =
         await SqliteQuestionRepository.makeDefault();
+    final userAnswerRepository = await UserAnswerRepository.makeDefault();
 
     final container = ProviderContainer(
       overrides: [
         questionRepositoryProvider.overrideWithValue(sqliteQuestionRepository),
+        userAnswerRepositoryProvider.overrideWithValue(userAnswerRepository),
       ],
     );
 

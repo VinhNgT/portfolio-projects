@@ -179,6 +179,8 @@ class PrototypeQuestionCard extends HookConsumerWidget {
     return const QuestionCard(
       questionPageIndex: -1,
       question: Question(
+        questionIndex: -1,
+        chapterIndex: -1,
         title: 'Prototype\nPrototype',
         isDanger: false,
         correctAnswerIndex: 0,

@@ -2,6 +2,8 @@ import 'package:driving_license/features/questions/domain/question.dart';
 
 List<Question> kTestQuestions = [
   const Question(
+    questionIndex: 0,
+    chapterIndex: 1,
     title:
         '''Khi tránh xe đi ngược chiều, các xe phải nhường đường như thế nào là đúng quy tắc giao thông?''',
     answers: [
@@ -18,6 +20,8 @@ List<Question> kTestQuestions = [
         '''Pirate ipsum arrgh bounty warp jack. Crack pirate bounty smartly jack yer cog fluke. Coffer locker on hempen or. Locker the spyglass jack red.''',
   ),
   const Question(
+    questionIndex: 1,
+    chapterIndex: 2,
     title:
         '''Vạch kẻ đường nào dưới đây là vạch phân chia hai chiều xe chạy (vạch tim đường), xe không được lấn làn, không được đè lên vạch?''',
     answers: ['Vạch 1', 'Vạch 2', 'Vạch 3', 'Cả 3 vạch'],
@@ -30,6 +34,8 @@ List<Question> kTestQuestions = [
         '''Pirate ipsum arrgh bounty warp jack. Crack pirate bounty smartly jack yer cog fluke. Coffer locker on hempen or. Locker the spyglass jack red.''',
   ),
   const Question(
+    questionIndex: 2,
+    chapterIndex: 3,
     title: 'Các xe đi theo hướng mũi tên, xe nào vi phạm quy tắc giao thông?',
     answers: [
       'Xe khách, xe tải, mô tô',
@@ -45,6 +51,8 @@ List<Question> kTestQuestions = [
         '''Pirate ipsum arrgh bounty warp jack. Crack pirate bounty smartly jack yer cog fluke. Coffer locker on hempen or. Locker the spyglass jack red.''',
   ),
   const Question(
+    questionIndex: 3,
+    chapterIndex: 4,
     title: 'Bạn được dừng xe ở vị trí nào trong tình huống này?',
     answers: [
       'Được phép dừng ở vị trí A',
