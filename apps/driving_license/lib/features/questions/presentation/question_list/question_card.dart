@@ -3,8 +3,8 @@ import 'package:driving_license/common_widgets/button_card.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/questions/data/question_repository.dart';
+import 'package:driving_license/features/questions/data/user_answer_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
-import 'package:driving_license/features/questions/presentation/answer/answer_card_list_controller.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_state_checkbox.dart';
 import 'package:driving_license/features/questions/presentation/question_list/question_card_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
@@ -106,13 +106,18 @@ class _QCAnswerStateCheckbox extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedAnswerIndex =
-        ref.watch(selectedAnswerIndexProvider(questionPageIndex));
+        ref.watch(userSelectedAnswerIndexProvider(question.questionIndex));
 
-    final state = evaluateAnswerState(question, selectedAnswerIndex);
+    return AsyncValueWidget(
+      value: selectedAnswerIndex,
+      builder: (selectedAnswerIndexValue) {
+        final state = evaluateAnswerState(question, selectedAnswerIndexValue);
 
-    return state != AnswerState.unchecked
-        ? AnswerStateCheckbox(state: state, iconSize: 20)
-        : const SizedBox();
+        return state != AnswerState.unchecked
+            ? AnswerStateCheckbox(state: state, iconSize: 20)
+            : const SizedBox();
+      },
+    );
   }
 }
 

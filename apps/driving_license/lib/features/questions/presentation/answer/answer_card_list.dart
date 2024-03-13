@@ -1,4 +1,6 @@
+import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
+import 'package:driving_license/features/questions/data/user_answer_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_card.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_card_list_controller.dart';
@@ -19,21 +21,27 @@ class AnswerCardList extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedAnswerIndex =
-        ref.watch(selectedAnswerIndexProvider(questionPageIndex));
+        ref.watch(userSelectedAnswerIndexProvider(question.questionIndex));
+    final controllerState = ref.watch(answerCardListControllerProvider);
 
-    return ListView.separated(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      separatorBuilder: (_, __) => kGap_12,
-      itemCount: question.answers.length,
-      itemBuilder: (_, int answerOptionIndex) => AnswerCard(
-        answer: question.answers[answerOptionIndex],
-        state: evaluateAnswerCardState(
-          answerOptionIndex,
-          selectedAnswerIndex,
-          question.correctAnswerIndex,
+    return AsyncValueWidget(
+      value: selectedAnswerIndex,
+      builder: (selectedAnswerIndexValue) => ListView.separated(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        separatorBuilder: (_, __) => kGap_12,
+        itemCount: question.answers.length,
+        itemBuilder: (_, int answerOptionIndex) => AnswerCard(
+          answer: question.answers[answerOptionIndex],
+          state: evaluateAnswerCardState(
+            answerOptionIndex,
+            selectedAnswerIndexValue,
+            question.correctAnswerIndex,
+          ),
+          onTap: controllerState.isLoading
+              ? null
+              : () => selectAnswer(ref, question, answerOptionIndex),
         ),
-        onTap: () => selectAnswer(ref, questionPageIndex, answerOptionIndex),
       ),
     );
   }
@@ -62,16 +70,20 @@ extension AnswerCardListX on AnswerCardList {
 
   void selectAnswer(
     WidgetRef ref,
-    int questionPageIndex,
+    Question question,
     int selectedAnswerIndex,
-  ) {
-    final answerSelected =
-        ref.read(selectedAnswerIndexProvider(questionPageIndex)) != null;
+  ) async {
+    final answerSelected = await ref.read(
+          userSelectedAnswerIndexProvider(question.questionIndex).future,
+        ) !=
+        null;
 
     // Only allow selecting an answer if no answer has been selected
     if (!answerSelected) {
-      ref.read(selectedAnswerIndexProvider(questionPageIndex).notifier).value =
-          selectedAnswerIndex;
+      await ref.read(answerCardListControllerProvider.notifier).selectAnswer(
+            question.questionIndex,
+            selectedAnswerIndex,
+          );
     }
   }
 }

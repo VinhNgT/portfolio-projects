@@ -64,6 +64,10 @@ UserAnswerRepository userAnswerRepository(UserAnswerRepositoryRef ref) {
 }
 
 @riverpod
-Stream<int?> userSelectedAnswerIndex(UserSelectedAnswerIndexRef ref) {
-  return Stream.value(null);
+Stream<int?> userSelectedAnswerIndex(
+  UserSelectedAnswerIndexRef ref,
+  int questionIndex,
+) {
+  final userAnswerRepository = ref.watch(userAnswerRepositoryProvider);
+  return userAnswerRepository.watchUserSelectedAnswerIndex(questionIndex);
 }
