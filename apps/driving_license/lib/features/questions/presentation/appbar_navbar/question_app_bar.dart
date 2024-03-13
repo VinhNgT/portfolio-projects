@@ -1,6 +1,7 @@
 import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/constants/widget_sizes.dart';
-import 'package:driving_license/features/questions/presentation/answer/answer_card_list_controller.dart';
+import 'package:driving_license/features/questions/data/question_repository.dart';
+import 'package:driving_license/features/questions/presentation/appbar_navbar/question_app_bar_controller.dart';
 import 'package:driving_license/features/questions/presentation/question/question_page_controller.dart';
 import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class QuestionAppBar extends HookConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final controllerState = ref.watch(questionAppBarControllerProvider);
     final currentPageIndex = ref.watch(currentPageIndexProvider);
     final currentPageScrollController =
         ref.watch(questionPageScrollControllerProvider(currentPageIndex));
@@ -25,10 +27,12 @@ class QuestionAppBar extends HookConsumerWidget implements PreferredSizeWidget {
         ),
         IconButton(
           icon: const Icon(Symbols.restart_alt),
-          onPressed: () async {
-            resetSelectedAnswer(ref);
-            await resetQuestionPageScrollPosition(ref);
-          },
+          onPressed: controllerState.isLoading
+              ? null
+              : () async {
+                  resetSelectedAnswer(ref);
+                  await resetQuestionPageScrollPosition(ref);
+                },
         ),
       ],
       scaffoldBodyScrollController: currentPageScrollController,
@@ -40,11 +44,14 @@ class QuestionAppBar extends HookConsumerWidget implements PreferredSizeWidget {
 }
 
 extension QuestionAppBarX on QuestionAppBar {
-  void resetSelectedAnswer(WidgetRef ref) {
+  void resetSelectedAnswer(WidgetRef ref) async {
     final currentPageIndex = ref.read(currentPageIndexProvider);
+    final currentQuestion =
+        await ref.read(questionFutureProvider(currentPageIndex).future);
 
-    ref.read(selectedAnswerIndexProvider(currentPageIndex).notifier).value =
-        null;
+    await ref.read(questionAppBarControllerProvider.notifier).deleteAnswer(
+          currentQuestion.questionIndex,
+        );
   }
 
   Future<void> resetQuestionPageScrollPosition(WidgetRef ref) async {
