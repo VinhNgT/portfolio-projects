@@ -21,7 +21,7 @@ abstract class QuestionRepository {
   FutureOr<int> getQuestionCountByChapter(Chapter chapter);
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 QuestionRepository questionRepository(QuestionRepositoryRef ref) {
   //* Override this in the main method to select the correct implementation
   throw UnimplementedError();
