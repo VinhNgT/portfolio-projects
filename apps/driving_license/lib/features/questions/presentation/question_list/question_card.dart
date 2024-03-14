@@ -2,7 +2,7 @@ import 'package:driving_license/common_widgets/async_value/async_value_widget.da
 import 'package:driving_license/common_widgets/button_card.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
-import 'package:driving_license/features/questions/data/question_repository.dart';
+import 'package:driving_license/features/questions/application/question_service.dart';
 import 'package:driving_license/features/questions/data/user_answer_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_state_checkbox.dart';
