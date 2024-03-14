@@ -5,8 +5,8 @@ import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/constants/opacity.dart';
 import 'package:driving_license/features/questions/data/question_repository.dart';
+import 'package:driving_license/features/questions/data/user_answer_repository.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_card_list.dart';
-import 'package:driving_license/features/questions/presentation/answer/answer_card_list_controller.dart';
 import 'package:driving_license/features/questions/presentation/question/question_notes.dart';
 import 'package:driving_license/features/questions/presentation/question/question_page_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
@@ -33,8 +33,10 @@ class QuestionPage extends HookConsumerWidget {
         builder: (context, ref, child) {
           updateQuestionPageScrollController(ref, scrollController);
 
-          final answerSelected =
-              ref.watch(selectedAnswerIndexProvider(questionPageIndex)) != null;
+          final selectedAnswerIndex = ref.watch(
+            userSelectedAnswerIndexProvider(questionValue.questionIndex),
+          );
+
           final scrollingAnimationPlaying = ref.watch(
             questionPageScrollingAnimationPlayingProvider(questionPageIndex),
           );
@@ -77,13 +79,21 @@ class QuestionPage extends HookConsumerWidget {
                       questionPageIndex: questionPageIndex,
                       question: questionValue,
                     ),
-                    Visibility(
-                      visible:
-                          scrollingAnimationPlaying ? true : answerSelected,
-                      child: Opacity(
-                        opacity: answerSelected ? kOpacityFull : kOpacityZero,
-                        child: QuestionNotes(question: questionValue),
-                      ),
+                    AsyncValueWidget(
+                      value: selectedAnswerIndex,
+                      builder: (selectedAnswerIndexValue) {
+                        final answerSelected = selectedAnswerIndexValue != null;
+
+                        return Visibility(
+                          visible:
+                              scrollingAnimationPlaying ? true : answerSelected,
+                          child: Opacity(
+                            opacity:
+                                answerSelected ? kOpacityFull : kOpacityZero,
+                            child: QuestionNotes(question: questionValue),
+                          ),
+                        );
+                      },
                     ),
                     kGap_48,
                   ],
