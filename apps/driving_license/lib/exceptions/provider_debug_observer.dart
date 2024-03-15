@@ -17,7 +17,7 @@ class ProviderDebugObserver extends ProviderObserver {
       case const (QuestionsPageFutureProvider):
         final questionPageFutureProvider =
             provider as QuestionsPageFutureProvider;
-        activePageNumbers.add(questionPageFutureProvider.pageNumber);
+        activePageNumbers.add(questionPageFutureProvider.pageIndex);
 
         activePageNumbers.sort();
         debugPrint(activePageNumbers.toString());
@@ -35,7 +35,7 @@ class ProviderDebugObserver extends ProviderObserver {
       case const (QuestionsPageFutureProvider):
         final questionPageFutureProvider =
             provider as QuestionsPageFutureProvider;
-        activePageNumbers.remove(questionPageFutureProvider.pageNumber);
+        activePageNumbers.remove(questionPageFutureProvider.pageIndex);
 
         activePageNumbers.sort();
         debugPrint(activePageNumbers.toString());

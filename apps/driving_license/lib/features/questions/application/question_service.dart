@@ -1,57 +1,49 @@
 import 'package:driving_license/features/chapters/data/user_chapter_selection_repository.dart';
+import 'package:driving_license/features/questions/application/question_loader.dart';
 import 'package:driving_license/features/questions/data/question_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'question_service.g.dart';
 
 class QuestionService {
-  QuestionService(this.ref);
-  final Ref ref;
+  QuestionService(this.questionLoader);
+  final QuestionLoader questionLoader;
 
-  QuestionRepository get questionRepository =>
-      ref.read(questionRepositoryProvider);
+  Future<Question> getQuestion(int questionIndex) async =>
+      questionLoader.load(questionIndex);
 
-  Future<Question> getQuestion(
-    Chapter? chapter,
-    int chapterQuestionIndex,
-  ) async {
-    if (chapter == null) {
-      return questionRepository.getQuestion(chapterQuestionIndex);
-    }
-    return questionRepository.getQuestionByChapter(
-      chapter,
-      chapterQuestionIndex,
-    );
-  }
+  Future<List<Question>> getQuestionsPage(int pageIndex) async =>
+      questionLoader.loadPage(pageIndex);
 
-  Future<List<Question>> getQuestionsPage(
-    Chapter? chapter,
-    int pageNumber,
-  ) async {
-    if (chapter == null) {
-      return questionRepository.getQuestionsPage(pageNumber);
-    }
-    return questionRepository.getQuestionsPageByChapter(chapter, pageNumber);
-  }
-
-  Future<int> getQuestionCount(Chapter? chapter) async {
-    if (chapter == null) {
-      return questionRepository.getQuestionCount();
-    }
-    return questionRepository.getQuestionCountByChapter(chapter);
-  }
+  Future<int> getQuestionCount() async => questionLoader.loadQuestionCount();
 }
 
 @Riverpod(keepAlive: true)
 QuestionService questionService(QuestionServiceRef ref) {
-  return QuestionService(ref);
+  final questionRepository = ref.watch(questionRepositoryProvider);
+  final userChapterSelection =
+      ref.watch(userChapterSelectionRepositoryProvider);
+
+  QuestionLoader questionLoader;
+  if (userChapterSelection != null) {
+    questionLoader = ChapterQuestionLoader(
+      questionRepository: questionRepository,
+      chapter: userChapterSelection,
+    );
+  } else {
+    questionLoader = FullQuestionLoader(questionRepository: questionRepository);
+  }
+
+  return QuestionService(questionLoader);
 }
 
 @riverpod
-FutureOr<Question> questionFuture(QuestionFutureRef ref, int index) async {
-  final pageNumber = index ~/ QuestionRepository.pageSize;
+FutureOr<Question> questionFuture(
+  QuestionFutureRef ref,
+  int questionIndex,
+) async {
+  final pageNumber = questionIndex ~/ QuestionRepository.pageSize;
 
   // Typically, when questionPreloadPagesFuture is used, the page
   // (questionsPageFutureProvider(pageNumber)) which contains the question
@@ -62,36 +54,27 @@ FutureOr<Question> questionFuture(QuestionFutureRef ref, int index) async {
         await ref.watch(questionsPageFutureProvider(pageNumber).future);
 
     // debugPrint('Fetching question from cache...');
-    return questionPage[index % QuestionRepository.pageSize];
+    return questionPage[questionIndex % QuestionRepository.pageSize];
   }
 
-  final questionService = ref.watch(questionServiceProvider);
-  final userChapterSelection =
-      ref.watch(userChapterSelectionRepositoryProvider);
-
   // debugPrint('Fetching question from database...');
-  return questionService.getQuestion(userChapterSelection, index);
+  final questionService = ref.watch(questionServiceProvider);
+  return questionService.getQuestion(questionIndex);
 }
 
 @riverpod
 FutureOr<List<Question>> questionsPageFuture(
   QuestionsPageFutureRef ref,
-  int pageNumber,
+  int pageIndex,
 ) {
   final questionService = ref.watch(questionServiceProvider);
-  final userChapterSelection =
-      ref.watch(userChapterSelectionRepositoryProvider);
-
-  return questionService.getQuestionsPage(userChapterSelection, pageNumber);
+  return questionService.getQuestionsPage(pageIndex);
 }
 
 @riverpod
 FutureOr<int> questionCountFuture(QuestionCountFutureRef ref) {
   final questionService = ref.watch(questionServiceProvider);
-  final userChapterSelection =
-      ref.watch(userChapterSelectionRepositoryProvider);
-
-  return questionService.getQuestionCount(userChapterSelection);
+  return questionService.getQuestionCount();
 }
 
 // Leverage Riverpod caching system to build "lazy-load/pagination" data
@@ -110,9 +93,9 @@ FutureOr<int> questionCountFuture(QuestionCountFutureRef ref) {
 @riverpod
 FutureOr<Question> questionPreloadPagesFuture(
   QuestionPreloadPagesFutureRef ref,
-  int index,
+  int questionIndex,
 ) async {
-  final pageNumber = index ~/ QuestionRepository.pageSize;
+  final pageNumber = questionIndex ~/ QuestionRepository.pageSize;
   final questionPage =
       await ref.watch(questionsPageFutureProvider(pageNumber).future);
   final questionCount = await ref.watch(questionCountFutureProvider.future);
@@ -134,5 +117,5 @@ FutureOr<Question> questionPreloadPagesFuture(
   }
 
   // Return the question
-  return questionPage[index % QuestionRepository.pageSize];
+  return questionPage[questionIndex % QuestionRepository.pageSize];
 }

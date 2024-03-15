@@ -6,7 +6,7 @@ part of 'question_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$questionServiceHash() => r'13fc2bab5c1c4cb9be934f42961dddd51565b770';
+String _$questionServiceHash() => r'5e6316c86113b5cac738099d1064fd50767af797';
 
 /// See also [questionService].
 @ProviderFor(questionService)
@@ -21,7 +21,7 @@ final questionServiceProvider = Provider<QuestionService>.internal(
 );
 
 typedef QuestionServiceRef = ProviderRef<QuestionService>;
-String _$questionFutureHash() => r'74532d3d1b1c6a1aa499c403b40c1c97347ae6ce';
+String _$questionFutureHash() => r'35e6041f5c1e5b1564c2a427e851417197c7adbc';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -55,10 +55,10 @@ class QuestionFutureFamily extends Family<AsyncValue<Question>> {
 
   /// See also [questionFuture].
   QuestionFutureProvider call(
-    int index,
+    int questionIndex,
   ) {
     return QuestionFutureProvider(
-      index,
+      questionIndex,
     );
   }
 
@@ -67,7 +67,7 @@ class QuestionFutureFamily extends Family<AsyncValue<Question>> {
     covariant QuestionFutureProvider provider,
   ) {
     return call(
-      provider.index,
+      provider.questionIndex,
     );
   }
 
@@ -90,11 +90,11 @@ class QuestionFutureFamily extends Family<AsyncValue<Question>> {
 class QuestionFutureProvider extends AutoDisposeFutureProvider<Question> {
   /// See also [questionFuture].
   QuestionFutureProvider(
-    int index,
+    int questionIndex,
   ) : this._internal(
           (ref) => questionFuture(
             ref as QuestionFutureRef,
-            index,
+            questionIndex,
           ),
           from: questionFutureProvider,
           name: r'questionFutureProvider',
@@ -105,7 +105,7 @@ class QuestionFutureProvider extends AutoDisposeFutureProvider<Question> {
           dependencies: QuestionFutureFamily._dependencies,
           allTransitiveDependencies:
               QuestionFutureFamily._allTransitiveDependencies,
-          index: index,
+          questionIndex: questionIndex,
         );
 
   QuestionFutureProvider._internal(
@@ -115,10 +115,10 @@ class QuestionFutureProvider extends AutoDisposeFutureProvider<Question> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.index,
+    required this.questionIndex,
   }) : super.internal();
 
-  final int index;
+  final int questionIndex;
 
   @override
   Override overrideWith(
@@ -133,7 +133,7 @@ class QuestionFutureProvider extends AutoDisposeFutureProvider<Question> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        index: index,
+        questionIndex: questionIndex,
       ),
     );
   }
@@ -145,21 +145,22 @@ class QuestionFutureProvider extends AutoDisposeFutureProvider<Question> {
 
   @override
   bool operator ==(Object other) {
-    return other is QuestionFutureProvider && other.index == index;
+    return other is QuestionFutureProvider &&
+        other.questionIndex == questionIndex;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, index.hashCode);
+    hash = _SystemHash.combine(hash, questionIndex.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin QuestionFutureRef on AutoDisposeFutureProviderRef<Question> {
-  /// The parameter `index` of this provider.
-  int get index;
+  /// The parameter `questionIndex` of this provider.
+  int get questionIndex;
 }
 
 class _QuestionFutureProviderElement
@@ -167,11 +168,11 @@ class _QuestionFutureProviderElement
   _QuestionFutureProviderElement(super.provider);
 
   @override
-  int get index => (origin as QuestionFutureProvider).index;
+  int get questionIndex => (origin as QuestionFutureProvider).questionIndex;
 }
 
 String _$questionsPageFutureHash() =>
-    r'87753c3ef5f81e5ec38ba251bfcfe4d2989a7a41';
+    r'f25e10c8af8543145542988e7728ffba51635716';
 
 /// See also [questionsPageFuture].
 @ProviderFor(questionsPageFuture)
@@ -184,10 +185,10 @@ class QuestionsPageFutureFamily extends Family<AsyncValue<List<Question>>> {
 
   /// See also [questionsPageFuture].
   QuestionsPageFutureProvider call(
-    int pageNumber,
+    int pageIndex,
   ) {
     return QuestionsPageFutureProvider(
-      pageNumber,
+      pageIndex,
     );
   }
 
@@ -196,7 +197,7 @@ class QuestionsPageFutureFamily extends Family<AsyncValue<List<Question>>> {
     covariant QuestionsPageFutureProvider provider,
   ) {
     return call(
-      provider.pageNumber,
+      provider.pageIndex,
     );
   }
 
@@ -220,11 +221,11 @@ class QuestionsPageFutureProvider
     extends AutoDisposeFutureProvider<List<Question>> {
   /// See also [questionsPageFuture].
   QuestionsPageFutureProvider(
-    int pageNumber,
+    int pageIndex,
   ) : this._internal(
           (ref) => questionsPageFuture(
             ref as QuestionsPageFutureRef,
-            pageNumber,
+            pageIndex,
           ),
           from: questionsPageFutureProvider,
           name: r'questionsPageFutureProvider',
@@ -235,7 +236,7 @@ class QuestionsPageFutureProvider
           dependencies: QuestionsPageFutureFamily._dependencies,
           allTransitiveDependencies:
               QuestionsPageFutureFamily._allTransitiveDependencies,
-          pageNumber: pageNumber,
+          pageIndex: pageIndex,
         );
 
   QuestionsPageFutureProvider._internal(
@@ -245,10 +246,10 @@ class QuestionsPageFutureProvider
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.pageNumber,
+    required this.pageIndex,
   }) : super.internal();
 
-  final int pageNumber;
+  final int pageIndex;
 
   @override
   Override overrideWith(
@@ -263,7 +264,7 @@ class QuestionsPageFutureProvider
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        pageNumber: pageNumber,
+        pageIndex: pageIndex,
       ),
     );
   }
@@ -275,22 +276,21 @@ class QuestionsPageFutureProvider
 
   @override
   bool operator ==(Object other) {
-    return other is QuestionsPageFutureProvider &&
-        other.pageNumber == pageNumber;
+    return other is QuestionsPageFutureProvider && other.pageIndex == pageIndex;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, pageNumber.hashCode);
+    hash = _SystemHash.combine(hash, pageIndex.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin QuestionsPageFutureRef on AutoDisposeFutureProviderRef<List<Question>> {
-  /// The parameter `pageNumber` of this provider.
-  int get pageNumber;
+  /// The parameter `pageIndex` of this provider.
+  int get pageIndex;
 }
 
 class _QuestionsPageFutureProviderElement
@@ -299,11 +299,11 @@ class _QuestionsPageFutureProviderElement
   _QuestionsPageFutureProviderElement(super.provider);
 
   @override
-  int get pageNumber => (origin as QuestionsPageFutureProvider).pageNumber;
+  int get pageIndex => (origin as QuestionsPageFutureProvider).pageIndex;
 }
 
 String _$questionCountFutureHash() =>
-    r'31bf42196d5d3affb65d774c071918af93ac8b7a';
+    r'170dd1031490d526f7245c95851a2b07e8987835';
 
 /// See also [questionCountFuture].
 @ProviderFor(questionCountFuture)
@@ -319,7 +319,7 @@ final questionCountFutureProvider = AutoDisposeFutureProvider<int>.internal(
 
 typedef QuestionCountFutureRef = AutoDisposeFutureProviderRef<int>;
 String _$questionPreloadPagesFutureHash() =>
-    r'06b3c5c89f0350fe51b55be423ec5e945f827dcd';
+    r'7e62f4117d792d5a3d2be462bb234d6fba06e859';
 
 /// See also [questionPreloadPagesFuture].
 @ProviderFor(questionPreloadPagesFuture)
@@ -332,10 +332,10 @@ class QuestionPreloadPagesFutureFamily extends Family<AsyncValue<Question>> {
 
   /// See also [questionPreloadPagesFuture].
   QuestionPreloadPagesFutureProvider call(
-    int index,
+    int questionIndex,
   ) {
     return QuestionPreloadPagesFutureProvider(
-      index,
+      questionIndex,
     );
   }
 
@@ -344,7 +344,7 @@ class QuestionPreloadPagesFutureFamily extends Family<AsyncValue<Question>> {
     covariant QuestionPreloadPagesFutureProvider provider,
   ) {
     return call(
-      provider.index,
+      provider.questionIndex,
     );
   }
 
@@ -368,11 +368,11 @@ class QuestionPreloadPagesFutureProvider
     extends AutoDisposeFutureProvider<Question> {
   /// See also [questionPreloadPagesFuture].
   QuestionPreloadPagesFutureProvider(
-    int index,
+    int questionIndex,
   ) : this._internal(
           (ref) => questionPreloadPagesFuture(
             ref as QuestionPreloadPagesFutureRef,
-            index,
+            questionIndex,
           ),
           from: questionPreloadPagesFutureProvider,
           name: r'questionPreloadPagesFutureProvider',
@@ -383,7 +383,7 @@ class QuestionPreloadPagesFutureProvider
           dependencies: QuestionPreloadPagesFutureFamily._dependencies,
           allTransitiveDependencies:
               QuestionPreloadPagesFutureFamily._allTransitiveDependencies,
-          index: index,
+          questionIndex: questionIndex,
         );
 
   QuestionPreloadPagesFutureProvider._internal(
@@ -393,10 +393,10 @@ class QuestionPreloadPagesFutureProvider
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.index,
+    required this.questionIndex,
   }) : super.internal();
 
-  final int index;
+  final int questionIndex;
 
   @override
   Override overrideWith(
@@ -411,7 +411,7 @@ class QuestionPreloadPagesFutureProvider
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        index: index,
+        questionIndex: questionIndex,
       ),
     );
   }
@@ -423,21 +423,22 @@ class QuestionPreloadPagesFutureProvider
 
   @override
   bool operator ==(Object other) {
-    return other is QuestionPreloadPagesFutureProvider && other.index == index;
+    return other is QuestionPreloadPagesFutureProvider &&
+        other.questionIndex == questionIndex;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, index.hashCode);
+    hash = _SystemHash.combine(hash, questionIndex.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin QuestionPreloadPagesFutureRef on AutoDisposeFutureProviderRef<Question> {
-  /// The parameter `index` of this provider.
-  int get index;
+  /// The parameter `questionIndex` of this provider.
+  int get questionIndex;
 }
 
 class _QuestionPreloadPagesFutureProviderElement
@@ -446,7 +447,8 @@ class _QuestionPreloadPagesFutureProviderElement
   _QuestionPreloadPagesFutureProviderElement(super.provider);
 
   @override
-  int get index => (origin as QuestionPreloadPagesFutureProvider).index;
+  int get questionIndex =>
+      (origin as QuestionPreloadPagesFutureProvider).questionIndex;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
