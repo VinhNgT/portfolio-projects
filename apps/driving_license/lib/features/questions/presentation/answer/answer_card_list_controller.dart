@@ -1,4 +1,5 @@
-import 'package:driving_license/features/questions/data/user_answer_repository.dart';
+import 'package:driving_license/features/questions/application/user_answer_service.dart';
+import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'answer_card_list_controller.g.dart';
@@ -8,19 +9,13 @@ class AnswerCardListController extends _$AnswerCardListController {
   @override
   FutureOr<void> build() {}
 
-  UserAnswerRepository get _userAnswerRepository =>
-      ref.read(userAnswerRepositoryProvider);
+  UserAnswerService get _userAnswerService =>
+      ref.read(userAnswerServiceProvider);
 
-  Future<void> selectAnswer(
-    int questionPageIndex,
-    int answerOptionIndex,
-  ) async {
+  Future<void> selectAnswer(Question question, int answerOptionIndex) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(
-      () => _userAnswerRepository.saveUserAnswer(
-        questionPageIndex,
-        answerOptionIndex,
-      ),
+      () => _userAnswerService.saveUserAnswer(question, answerOptionIndex),
     );
   }
 }

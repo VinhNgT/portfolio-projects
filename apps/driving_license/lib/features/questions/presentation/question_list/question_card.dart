@@ -145,23 +145,25 @@ class AsyncValueQuestionCard extends HookConsumerWidget {
     final question =
         ref.watch(questionPreloadPagesFutureProvider(questionPageIndex));
 
-    final selectedAnswerIndex =
-        ref.watch(userSelectedAnswerIndexProvider(questionPageIndex)).value;
-
     return AsyncValueWidget(
       value: question,
-      builder: (questionValue) {
-        final answerState =
-            evaluateAnswerState(questionValue, selectedAnswerIndex);
+      builder: (questionValue) => Consumer(
+        builder: (context, ref, child) {
+          final selectedAnswerIndex =
+              ref.watch(userSelectedAnswerIndexProvider(questionValue)).value;
 
-        return QuestionCard(
-          questionPageIndex: questionPageIndex,
-          question: questionValue,
-          answerState: answerState,
-          isSelected: isSelected,
-          onPressed: onPressed,
-        );
-      },
+          final answerState =
+              evaluateAnswerState(questionValue, selectedAnswerIndex);
+
+          return QuestionCard(
+            questionPageIndex: questionPageIndex,
+            question: questionValue,
+            answerState: answerState,
+            isSelected: isSelected,
+            onPressed: onPressed,
+          );
+        },
+      ),
     );
   }
 }

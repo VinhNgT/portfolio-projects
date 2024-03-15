@@ -49,9 +49,9 @@ extension QuestionAppBarX on QuestionAppBar {
     final currentQuestion =
         await ref.read(questionFutureProvider(currentPageIndex).future);
 
-    await ref.read(questionAppBarControllerProvider.notifier).deleteAnswer(
-          currentQuestion.questionDbIndex,
-        );
+    await ref
+        .read(questionAppBarControllerProvider.notifier)
+        .deleteAnswer(currentQuestion);
   }
 
   Future<void> resetQuestionPageScrollPosition(WidgetRef ref) async {

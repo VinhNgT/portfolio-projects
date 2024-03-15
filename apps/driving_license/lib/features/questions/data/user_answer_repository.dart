@@ -11,7 +11,7 @@ class UserAnswerRepository {
   UserAnswerRepository(this.db);
 
   final Database db;
-  final store = intMapStoreFactory.store('user_answers');
+  final allAnswersStore = intMapStoreFactory.store('all_answers');
 
   static Future<UserAnswerRepository> makeDefault() async {
     return UserAnswerRepository(await _createDatabase('user_answers.db'));
@@ -23,27 +23,30 @@ class UserAnswerRepository {
   }
 
   Future<void> saveUserAnswer(
-    int questionDbIndex,
+    Question question,
     int selectedAnswerIndex,
   ) async {
     final userAnswer = UserAnswer(
-      questionIndex: questionDbIndex,
+      questionDbIndex: question.questionDbIndex,
       selectedAnswerIndex: selectedAnswerIndex,
     );
 
-    await store.record(questionDbIndex).put(db, userAnswer.toJson());
+    await allAnswersStore
+        .record(question.questionDbIndex)
+        .put(db, userAnswer.toJson());
   }
 
-  Future<void> deleteUserAnswer(int questionDbIndex) async {
-    await store.record(questionDbIndex).delete(db);
+  Future<void> deleteUserAnswer(Question question) async {
+    await allAnswersStore.record(question.questionDbIndex).delete(db);
   }
 
   Future<void> deleteAllUserAnswers() async {
-    await store.delete(db);
+    await allAnswersStore.delete(db);
   }
 
-  Stream<int?> watchUserSelectedAnswerIndex(int questionDbIndex) {
-    final recordSnapshot = store.record(questionDbIndex).onSnapshot(db);
+  Stream<int?> watchUserSelectedAnswerIndex(Question question) {
+    final recordSnapshot =
+        allAnswersStore.record(question.questionDbIndex).onSnapshot(db);
 
     return recordSnapshot.map((snapshot) {
       if (snapshot == null) {

@@ -10,18 +10,16 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AnswerCardList extends HookConsumerWidget {
   final Question question;
-  final int questionPageIndex;
 
   const AnswerCardList({
     super.key,
     required this.question,
-    required this.questionPageIndex,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedAnswerIndex =
-        ref.watch(userSelectedAnswerIndexProvider(questionPageIndex));
+        ref.watch(userSelectedAnswerIndexProvider(question));
     final controllerState = ref.watch(answerCardListControllerProvider);
 
     return AsyncValueWidget(
@@ -74,14 +72,14 @@ extension AnswerCardListX on AnswerCardList {
     int selectedAnswerIndex,
   ) async {
     final answerSelected = await ref.read(
-          userSelectedAnswerIndexProvider(questionPageIndex).future,
+          userSelectedAnswerIndexProvider(question).future,
         ) !=
         null;
 
     // Only allow selecting an answer if no answer has been selected
     if (!answerSelected) {
       await ref.read(answerCardListControllerProvider.notifier).selectAnswer(
-            question.questionDbIndex,
+            question,
             selectedAnswerIndex,
           );
     }

@@ -34,7 +34,7 @@ class QuestionPage extends HookConsumerWidget {
           updateQuestionPageScrollController(ref, scrollController);
 
           final selectedAnswerIndex = ref.watch(
-            userSelectedAnswerIndexProvider(questionPageIndex),
+            userSelectedAnswerIndexProvider(questionValue),
           );
 
           final scrollingAnimationPlaying = ref.watch(
@@ -76,7 +76,6 @@ class QuestionPage extends HookConsumerWidget {
                     ],
                     kGap_16,
                     AnswerCardList(
-                      questionPageIndex: questionPageIndex,
                       question: questionValue,
                     ),
                     AsyncValueWidget(

@@ -22,7 +22,7 @@ final userAnswerServiceProvider = Provider<UserAnswerService>.internal(
 
 typedef UserAnswerServiceRef = ProviderRef<UserAnswerService>;
 String _$userSelectedAnswerIndexHash() =>
-    r'07303eb114735702e9ccce40351a1e9561a5a148';
+    r'aa526c21d0c7701dd8779b59cb9f5c5aa3df7723';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -56,10 +56,10 @@ class UserSelectedAnswerIndexFamily extends Family<AsyncValue<int?>> {
 
   /// See also [userSelectedAnswerIndex].
   UserSelectedAnswerIndexProvider call(
-    int questionIndex,
+    Question question,
   ) {
     return UserSelectedAnswerIndexProvider(
-      questionIndex,
+      question,
     );
   }
 
@@ -68,7 +68,7 @@ class UserSelectedAnswerIndexFamily extends Family<AsyncValue<int?>> {
     covariant UserSelectedAnswerIndexProvider provider,
   ) {
     return call(
-      provider.questionIndex,
+      provider.question,
     );
   }
 
@@ -91,11 +91,11 @@ class UserSelectedAnswerIndexFamily extends Family<AsyncValue<int?>> {
 class UserSelectedAnswerIndexProvider extends AutoDisposeStreamProvider<int?> {
   /// See also [userSelectedAnswerIndex].
   UserSelectedAnswerIndexProvider(
-    int questionIndex,
+    Question question,
   ) : this._internal(
           (ref) => userSelectedAnswerIndex(
             ref as UserSelectedAnswerIndexRef,
-            questionIndex,
+            question,
           ),
           from: userSelectedAnswerIndexProvider,
           name: r'userSelectedAnswerIndexProvider',
@@ -106,7 +106,7 @@ class UserSelectedAnswerIndexProvider extends AutoDisposeStreamProvider<int?> {
           dependencies: UserSelectedAnswerIndexFamily._dependencies,
           allTransitiveDependencies:
               UserSelectedAnswerIndexFamily._allTransitiveDependencies,
-          questionIndex: questionIndex,
+          question: question,
         );
 
   UserSelectedAnswerIndexProvider._internal(
@@ -116,10 +116,10 @@ class UserSelectedAnswerIndexProvider extends AutoDisposeStreamProvider<int?> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.questionIndex,
+    required this.question,
   }) : super.internal();
 
-  final int questionIndex;
+  final Question question;
 
   @override
   Override overrideWith(
@@ -134,7 +134,7 @@ class UserSelectedAnswerIndexProvider extends AutoDisposeStreamProvider<int?> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        questionIndex: questionIndex,
+        question: question,
       ),
     );
   }
@@ -147,21 +147,21 @@ class UserSelectedAnswerIndexProvider extends AutoDisposeStreamProvider<int?> {
   @override
   bool operator ==(Object other) {
     return other is UserSelectedAnswerIndexProvider &&
-        other.questionIndex == questionIndex;
+        other.question == question;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, questionIndex.hashCode);
+    hash = _SystemHash.combine(hash, question.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin UserSelectedAnswerIndexRef on AutoDisposeStreamProviderRef<int?> {
-  /// The parameter `questionIndex` of this provider.
-  int get questionIndex;
+  /// The parameter `question` of this provider.
+  Question get question;
 }
 
 class _UserSelectedAnswerIndexProviderElement
@@ -170,8 +170,7 @@ class _UserSelectedAnswerIndexProviderElement
   _UserSelectedAnswerIndexProviderElement(super.provider);
 
   @override
-  int get questionIndex =>
-      (origin as UserSelectedAnswerIndexProvider).questionIndex;
+  Question get question => (origin as UserSelectedAnswerIndexProvider).question;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
