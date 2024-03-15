@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+const double _kQuestionCardImageSize = 66.0;
+
 class QuestionCard extends StatelessWidget {
   final int questionPageIndex;
   final Question question;
@@ -79,9 +81,11 @@ class QuestionCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4),
                 child: Image.asset(
                   question.questionImagePath!,
-                  cacheWidth: (66 * context.devicePixelRatio).floor(),
-                  height: 66,
-                  width: 66,
+                  cacheWidth:
+                      (_kQuestionCardImageSize * context.devicePixelRatio)
+                          .floor(),
+                  height: _kQuestionCardImageSize,
+                  width: _kQuestionCardImageSize,
                   fit: BoxFit.fitHeight,
                 ),
               ),
