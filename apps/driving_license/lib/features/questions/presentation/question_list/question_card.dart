@@ -19,6 +19,7 @@ const double _kQuestionCardImageSize = 66.0;
 class QuestionCard extends StatelessWidget {
   final int questionPageIndex;
   final Question question;
+  final AnswerState answerState;
   final bool isSelected;
   final VoidCallback? onPressed;
 
@@ -26,6 +27,7 @@ class QuestionCard extends StatelessWidget {
     super.key,
     required this.questionPageIndex,
     required this.question,
+    required this.answerState,
     required this.isSelected,
     this.onPressed,
   });
@@ -73,10 +75,7 @@ class QuestionCard extends StatelessWidget {
                         style: context.textTheme.titleMedium,
                       ),
                       kGap_4,
-                      _QCAnswerStateCheckbox(
-                        question: question,
-                        questionPageIndex: questionPageIndex,
-                      ),
+                      _QCAnswerStateCheckbox(answerState: answerState),
                     ],
                   ),
                   kGap_2,
@@ -114,43 +113,18 @@ class QuestionCard extends StatelessWidget {
 }
 
 // QC stands for QuestionCard
-class _QCAnswerStateCheckbox extends HookConsumerWidget {
-  final Question question;
-  final int questionPageIndex;
+class _QCAnswerStateCheckbox extends StatelessWidget {
+  final AnswerState answerState;
 
   const _QCAnswerStateCheckbox({
-    required this.question,
-    required this.questionPageIndex,
+    required this.answerState,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final selectedAnswerIndex =
-        ref.watch(userSelectedAnswerIndexProvider(questionPageIndex));
-
-    return AsyncValueWidget(
-      value: selectedAnswerIndex,
-      builder: (selectedAnswerIndexValue) {
-        final state = evaluateAnswerState(question, selectedAnswerIndexValue);
-
-        return state != AnswerState.unchecked
-            ? AnswerStateCheckbox(state: state, iconSize: 20)
-            : const SizedBox();
-      },
-    );
-  }
-}
-
-extension _QCAnswerStateCheckboxX on _QCAnswerStateCheckbox {
-  AnswerState evaluateAnswerState(Question question, int? selectedAnswerIndex) {
-    final bool noAnswerSelected = (selectedAnswerIndex == null);
-    final bool isCorrect = (selectedAnswerIndex == question.correctAnswerIndex);
-
-    if (noAnswerSelected) {
-      return AnswerState.unchecked;
-    }
-
-    return isCorrect ? AnswerState.correct : AnswerState.incorrect;
+  Widget build(BuildContext context) {
+    return answerState != AnswerState.unchecked
+        ? AnswerStateCheckbox(state: answerState, iconSize: 20)
+        : const SizedBox();
   }
 }
 
@@ -171,15 +145,37 @@ class AsyncValueQuestionCard extends HookConsumerWidget {
     final question =
         ref.watch(questionPreloadPagesFutureProvider(questionPageIndex));
 
+    final selectedAnswerIndex =
+        ref.watch(userSelectedAnswerIndexProvider(questionPageIndex)).value;
+
     return AsyncValueWidget(
       value: question,
-      builder: (questionValue) => QuestionCard(
-        questionPageIndex: questionPageIndex,
-        question: questionValue,
-        isSelected: isSelected,
-        onPressed: onPressed,
-      ),
+      builder: (questionValue) {
+        final answerState =
+            evaluateAnswerState(questionValue, selectedAnswerIndex);
+
+        return QuestionCard(
+          questionPageIndex: questionPageIndex,
+          question: questionValue,
+          answerState: answerState,
+          isSelected: isSelected,
+          onPressed: onPressed,
+        );
+      },
     );
+  }
+}
+
+extension _AsyncValueQuestionCardX on AsyncValueQuestionCard {
+  AnswerState evaluateAnswerState(Question question, int? selectedAnswerIndex) {
+    final bool noAnswerSelected = (selectedAnswerIndex == null);
+    final bool isCorrect = (selectedAnswerIndex == question.correctAnswerIndex);
+
+    if (noAnswerSelected) {
+      return AnswerState.unchecked;
+    }
+
+    return isCorrect ? AnswerState.correct : AnswerState.incorrect;
   }
 }
 
@@ -209,6 +205,7 @@ class PrototypeQuestionCard extends HookConsumerWidget {
         correctAnswerIndex: 0,
         answers: ['0'],
       ),
+      answerState: AnswerState.checked,
       isSelected: false,
       onPressed: null,
     );
