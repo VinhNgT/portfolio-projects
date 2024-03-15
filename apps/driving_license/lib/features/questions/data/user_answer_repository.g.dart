@@ -23,7 +23,7 @@ final userAnswerRepositoryProvider = Provider<UserAnswerRepository>.internal(
 
 typedef UserAnswerRepositoryRef = ProviderRef<UserAnswerRepository>;
 String _$userSelectedAnswerIndexHash() =>
-    r'707b40a14dd5cfb744a15c1df5cb1a673e2f3fa8';
+    r'8745bfb7da0c11e803fab7d0e71dcc771bc107be';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -57,10 +57,10 @@ class UserSelectedAnswerIndexFamily extends Family<AsyncValue<int?>> {
 
   /// See also [userSelectedAnswerIndex].
   UserSelectedAnswerIndexProvider call(
-    int questionIndex,
+    int questionDbIndex,
   ) {
     return UserSelectedAnswerIndexProvider(
-      questionIndex,
+      questionDbIndex,
     );
   }
 
@@ -69,7 +69,7 @@ class UserSelectedAnswerIndexFamily extends Family<AsyncValue<int?>> {
     covariant UserSelectedAnswerIndexProvider provider,
   ) {
     return call(
-      provider.questionIndex,
+      provider.questionDbIndex,
     );
   }
 
@@ -92,11 +92,11 @@ class UserSelectedAnswerIndexFamily extends Family<AsyncValue<int?>> {
 class UserSelectedAnswerIndexProvider extends AutoDisposeStreamProvider<int?> {
   /// See also [userSelectedAnswerIndex].
   UserSelectedAnswerIndexProvider(
-    int questionIndex,
+    int questionDbIndex,
   ) : this._internal(
           (ref) => userSelectedAnswerIndex(
             ref as UserSelectedAnswerIndexRef,
-            questionIndex,
+            questionDbIndex,
           ),
           from: userSelectedAnswerIndexProvider,
           name: r'userSelectedAnswerIndexProvider',
@@ -107,7 +107,7 @@ class UserSelectedAnswerIndexProvider extends AutoDisposeStreamProvider<int?> {
           dependencies: UserSelectedAnswerIndexFamily._dependencies,
           allTransitiveDependencies:
               UserSelectedAnswerIndexFamily._allTransitiveDependencies,
-          questionIndex: questionIndex,
+          questionDbIndex: questionDbIndex,
         );
 
   UserSelectedAnswerIndexProvider._internal(
@@ -117,10 +117,10 @@ class UserSelectedAnswerIndexProvider extends AutoDisposeStreamProvider<int?> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.questionIndex,
+    required this.questionDbIndex,
   }) : super.internal();
 
-  final int questionIndex;
+  final int questionDbIndex;
 
   @override
   Override overrideWith(
@@ -135,7 +135,7 @@ class UserSelectedAnswerIndexProvider extends AutoDisposeStreamProvider<int?> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        questionIndex: questionIndex,
+        questionDbIndex: questionDbIndex,
       ),
     );
   }
@@ -148,21 +148,21 @@ class UserSelectedAnswerIndexProvider extends AutoDisposeStreamProvider<int?> {
   @override
   bool operator ==(Object other) {
     return other is UserSelectedAnswerIndexProvider &&
-        other.questionIndex == questionIndex;
+        other.questionDbIndex == questionDbIndex;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, questionIndex.hashCode);
+    hash = _SystemHash.combine(hash, questionDbIndex.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin UserSelectedAnswerIndexRef on AutoDisposeStreamProviderRef<int?> {
-  /// The parameter `questionIndex` of this provider.
-  int get questionIndex;
+  /// The parameter `questionDbIndex` of this provider.
+  int get questionDbIndex;
 }
 
 class _UserSelectedAnswerIndexProviderElement
@@ -171,8 +171,8 @@ class _UserSelectedAnswerIndexProviderElement
   _UserSelectedAnswerIndexProviderElement(super.provider);
 
   @override
-  int get questionIndex =>
-      (origin as UserSelectedAnswerIndexProvider).questionIndex;
+  int get questionDbIndex =>
+      (origin as UserSelectedAnswerIndexProvider).questionDbIndex;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -23,27 +23,27 @@ class UserAnswerRepository {
   }
 
   Future<void> saveUserAnswer(
-    int questionIndex,
+    int questionDbIndex,
     int selectedAnswerIndex,
   ) async {
     final userAnswer = UserAnswer(
-      questionIndex: questionIndex,
+      questionIndex: questionDbIndex,
       selectedAnswerIndex: selectedAnswerIndex,
     );
 
-    await store.record(questionIndex).put(db, userAnswer.toJson());
+    await store.record(questionDbIndex).put(db, userAnswer.toJson());
   }
 
-  Future<void> deleteUserAnswer(int questionIndex) async {
-    await store.record(questionIndex).delete(db);
+  Future<void> deleteUserAnswer(int questionDbIndex) async {
+    await store.record(questionDbIndex).delete(db);
   }
 
   Future<void> deleteAllUserAnswers() async {
     await store.delete(db);
   }
 
-  Stream<int?> watchUserSelectedAnswerIndex(int questionIndex) {
-    final recordSnapshot = store.record(questionIndex).onSnapshot(db);
+  Stream<int?> watchUserSelectedAnswerIndex(int questionDbIndex) {
+    final recordSnapshot = store.record(questionDbIndex).onSnapshot(db);
 
     return recordSnapshot.map((snapshot) {
       if (snapshot == null) {
@@ -66,8 +66,8 @@ UserAnswerRepository userAnswerRepository(UserAnswerRepositoryRef ref) {
 @riverpod
 Stream<int?> userSelectedAnswerIndex(
   UserSelectedAnswerIndexRef ref,
-  int questionIndex,
+  int questionDbIndex,
 ) {
   final userAnswerRepository = ref.watch(userAnswerRepositoryProvider);
-  return userAnswerRepository.watchUserSelectedAnswerIndex(questionIndex);
+  return userAnswerRepository.watchUserSelectedAnswerIndex(questionDbIndex);
 }
