@@ -5,7 +5,7 @@ import 'package:driving_license/common_widgets/button_card.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/questions/application/question_service.dart';
-import 'package:driving_license/features/questions/data/user_answer_repository.dart';
+import 'package:driving_license/features/questions/application/user_answer_service.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_state_checkbox.dart';
 import 'package:driving_license/features/questions/presentation/question_list/question_card_controller.dart';
@@ -126,7 +126,7 @@ class _QCAnswerStateCheckbox extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedAnswerIndex =
-        ref.watch(userSelectedAnswerIndexProvider(question.questionDbIndex));
+        ref.watch(userSelectedAnswerIndexProvider(questionPageIndex));
 
     return AsyncValueWidget(
       value: selectedAnswerIndex,
@@ -158,14 +158,12 @@ class AsyncValueQuestionCard extends HookConsumerWidget {
   final int questionPageIndex;
   final bool isSelected;
   final VoidCallback? onPressed;
-  final bool isPrototype;
 
   const AsyncValueQuestionCard({
     super.key,
     required this.questionPageIndex,
     required this.isSelected,
     this.onPressed,
-    this.isPrototype = false,
   });
 
   @override

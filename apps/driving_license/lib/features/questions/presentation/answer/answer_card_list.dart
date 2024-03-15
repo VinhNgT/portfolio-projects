@@ -1,6 +1,6 @@
 import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
-import 'package:driving_license/features/questions/data/user_answer_repository.dart';
+import 'package:driving_license/features/questions/application/user_answer_service.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_card.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_card_list_controller.dart';
@@ -21,7 +21,7 @@ class AnswerCardList extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedAnswerIndex =
-        ref.watch(userSelectedAnswerIndexProvider(question.questionDbIndex));
+        ref.watch(userSelectedAnswerIndexProvider(questionPageIndex));
     final controllerState = ref.watch(answerCardListControllerProvider);
 
     return AsyncValueWidget(
@@ -74,7 +74,7 @@ extension AnswerCardListX on AnswerCardList {
     int selectedAnswerIndex,
   ) async {
     final answerSelected = await ref.read(
-          userSelectedAnswerIndexProvider(question.questionDbIndex).future,
+          userSelectedAnswerIndexProvider(questionPageIndex).future,
         ) !=
         null;
 

@@ -62,12 +62,3 @@ UserAnswerRepository userAnswerRepository(UserAnswerRepositoryRef ref) {
   //* Override this in the main method to select the correct implementation
   throw UnimplementedError();
 }
-
-@riverpod
-Stream<int?> userSelectedAnswerIndex(
-  UserSelectedAnswerIndexRef ref,
-  int questionDbIndex,
-) {
-  final userAnswerRepository = ref.watch(userAnswerRepositoryProvider);
-  return userAnswerRepository.watchUserSelectedAnswerIndex(questionDbIndex);
-}

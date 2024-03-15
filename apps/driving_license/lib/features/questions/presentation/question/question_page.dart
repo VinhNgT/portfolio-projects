@@ -5,7 +5,7 @@ import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/constants/opacity.dart';
 import 'package:driving_license/features/questions/application/question_service.dart';
-import 'package:driving_license/features/questions/data/user_answer_repository.dart';
+import 'package:driving_license/features/questions/application/user_answer_service.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_card_list.dart';
 import 'package:driving_license/features/questions/presentation/question/question_notes.dart';
 import 'package:driving_license/features/questions/presentation/question/question_page_controller.dart';
@@ -34,7 +34,7 @@ class QuestionPage extends HookConsumerWidget {
           updateQuestionPageScrollController(ref, scrollController);
 
           final selectedAnswerIndex = ref.watch(
-            userSelectedAnswerIndexProvider(questionValue.questionDbIndex),
+            userSelectedAnswerIndexProvider(questionPageIndex),
           );
 
           final scrollingAnimationPlaying = ref.watch(
