@@ -34,7 +34,7 @@ class QuestionPage extends HookConsumerWidget {
           updateQuestionPageScrollController(ref, scrollController);
 
           final selectedAnswerIndex = ref.watch(
-            userSelectedAnswerIndexProvider(questionValue.questionIndex),
+            userSelectedAnswerIndexProvider(questionValue.questionDbIndex),
           );
 
           final scrollingAnimationPlaying = ref.watch(

@@ -147,7 +147,7 @@ extension QuestionRepositoryX on QuestionRepository {
     Map<String, dynamic> databaseMap,
   ) {
     return {
-      'questionIndex': databaseMap['question_index'] - 1,
+      'questionDbIndex': databaseMap['question_index'] - 1,
       'chapterIndex': databaseMap['chapter_index'] - 1,
       'title': databaseMap['question_text'],
       'questionImagePath': databaseMap['question_image'] == null

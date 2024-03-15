@@ -50,7 +50,7 @@ extension QuestionAppBarX on QuestionAppBar {
         await ref.read(questionFutureProvider(currentPageIndex).future);
 
     await ref.read(questionAppBarControllerProvider.notifier).deleteAnswer(
-          currentQuestion.questionIndex,
+          currentQuestion.questionDbIndex,
         );
   }
 

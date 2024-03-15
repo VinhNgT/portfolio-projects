@@ -21,7 +21,7 @@ class AnswerCardList extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedAnswerIndex =
-        ref.watch(userSelectedAnswerIndexProvider(question.questionIndex));
+        ref.watch(userSelectedAnswerIndexProvider(question.questionDbIndex));
     final controllerState = ref.watch(answerCardListControllerProvider);
 
     return AsyncValueWidget(
@@ -74,14 +74,14 @@ extension AnswerCardListX on AnswerCardList {
     int selectedAnswerIndex,
   ) async {
     final answerSelected = await ref.read(
-          userSelectedAnswerIndexProvider(question.questionIndex).future,
+          userSelectedAnswerIndexProvider(question.questionDbIndex).future,
         ) !=
         null;
 
     // Only allow selecting an answer if no answer has been selected
     if (!answerSelected) {
       await ref.read(answerCardListControllerProvider.notifier).selectAnswer(
-            question.questionIndex,
+            question.questionDbIndex,
             selectedAnswerIndex,
           );
     }

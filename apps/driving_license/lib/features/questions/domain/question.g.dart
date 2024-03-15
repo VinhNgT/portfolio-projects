@@ -8,7 +8,7 @@ part of 'question.dart';
 
 _$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
     _$QuestionImpl(
-      questionIndex: json['questionIndex'] as int,
+      questionDbIndex: json['questionDbIndex'] as int,
       chapterIndex: json['chapterIndex'] as int,
       title: json['title'] as String,
       questionImagePath: json['questionImagePath'] as String?,
@@ -22,7 +22,7 @@ _$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$QuestionImplToJson(_$QuestionImpl instance) =>
     <String, dynamic>{
-      'questionIndex': instance.questionIndex,
+      'questionDbIndex': instance.questionDbIndex,
       'chapterIndex': instance.chapterIndex,
       'title': instance.title,
       'questionImagePath': instance.questionImagePath,

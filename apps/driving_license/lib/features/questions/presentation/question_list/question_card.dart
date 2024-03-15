@@ -126,7 +126,7 @@ class _QCAnswerStateCheckbox extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedAnswerIndex =
-        ref.watch(userSelectedAnswerIndexProvider(question.questionIndex));
+        ref.watch(userSelectedAnswerIndexProvider(question.questionDbIndex));
 
     return AsyncValueWidget(
       value: selectedAnswerIndex,
@@ -204,7 +204,7 @@ class PrototypeQuestionCard extends HookConsumerWidget {
     return const QuestionCard(
       questionPageIndex: -1,
       question: Question(
-        questionIndex: -1,
+        questionDbIndex: -1,
         chapterIndex: -1,
         title: 'Prototype\nPrototype',
         isDanger: false,
