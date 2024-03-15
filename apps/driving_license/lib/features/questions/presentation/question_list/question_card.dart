@@ -81,7 +81,7 @@ class QuestionCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4),
                 child: Image.asset(
                   question.questionImagePath!,
-                  cacheWidth:
+                  cacheHeight:
                       (_kQuestionCardImageSize * context.devicePixelRatio)
                           .floor(),
                   height: _kQuestionCardImageSize,
