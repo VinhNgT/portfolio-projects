@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/common_widgets/button_card.dart';
 import 'package:driving_license/constants/app_sizes.dart';
@@ -30,6 +32,18 @@ class QuestionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final questionImage = question.questionImagePath != null
+        ? _buildQuestionImage(context)
+        : null;
+
+    // Force the image to load when the question card is built.
+    // This is a workaround for the issue where the image is not loaded when
+    // user scrolls the QuestionList too fast. Causing the image loading process
+    // to be cancelled.
+    if (questionImage != null) {
+      unawaited(precacheImage(questionImage.image, context));
+    }
+
     return ButtonCard(
       surfaceColor: isSelected
           ? context.materialScheme.surfaceVariant
@@ -75,24 +89,26 @@ class QuestionCard extends StatelessWidget {
                 ],
               ),
             ),
-            if (question.questionImagePath != null) ...[
+            if (questionImage != null) ...[
               kGap_12,
               ClipRRect(
                 borderRadius: BorderRadius.circular(4),
-                child: Image.asset(
-                  question.questionImagePath!,
-                  cacheHeight:
-                      (_kQuestionCardImageSize * context.devicePixelRatio)
-                          .floor(),
-                  height: _kQuestionCardImageSize,
-                  width: _kQuestionCardImageSize,
-                  fit: BoxFit.fitHeight,
-                ),
+                child: questionImage,
               ),
             ],
           ],
         ),
       ),
+    );
+  }
+
+  Image _buildQuestionImage(BuildContext context) {
+    return Image.asset(
+      question.questionImagePath!,
+      cacheHeight: (_kQuestionCardImageSize * context.devicePixelRatio).floor(),
+      height: _kQuestionCardImageSize,
+      width: _kQuestionCardImageSize,
+      fit: BoxFit.fitHeight,
     );
   }
 }
