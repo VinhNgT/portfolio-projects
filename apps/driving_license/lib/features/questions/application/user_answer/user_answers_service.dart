@@ -32,9 +32,9 @@ class UserAnswersService {
     yield* userAnswersRepository.watchUserSelectedAnswerIndex(question);
   }
 
-  Stream<List<UserAnswer>> watchAllWrongAnswers() {
-    return userAnswersRepository.watchAllWrongAnswers();
-  }
+  // Stream<List<UserAnswer>> watchAllWrongAnswers() {
+  //   return userAnswersRepository.watchAllWrongAnswers();
+  // }
 
   Future<List<UserAnswer>> getAllWrongAnswers() {
     return userAnswersRepository.getAllWrongAnswers();

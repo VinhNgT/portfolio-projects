@@ -1,3 +1,4 @@
+import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answer.dart';
 import 'package:path/path.dart';
@@ -8,7 +9,7 @@ import 'package:sembast/sembast_io.dart';
 
 part 'sembast_user_answers_repository.g.dart';
 
-class SembastUserAnswersRepository {
+class SembastUserAnswersRepository implements UserAnswersRepository {
   SembastUserAnswersRepository(this.db);
 
   final Database db;
@@ -26,6 +27,7 @@ class SembastUserAnswersRepository {
     return databaseFactoryIo.openDatabase(join(appDocDir.path, filename));
   }
 
+  @override
   Future<void> saveUserAnswer(
     Question question,
     int selectedAnswerIndex,
@@ -48,16 +50,19 @@ class SembastUserAnswersRepository {
     });
   }
 
+  @override
   Future<void> deleteUserAnswer(Question question) async {
     await allAnswersStore.record(question.questionDbIndex).delete(db);
     await answeredWrongStore.record(question.questionDbIndex).delete(db);
   }
 
+  @override
   Future<void> deleteAllUserAnswers() async {
     await allAnswersStore.delete(db);
     await answeredWrongStore.delete(db);
   }
 
+  @override
   Stream<int?> watchUserSelectedAnswerIndex(Question question) {
     final recordSnapshot =
         allAnswersStore.record(question.questionDbIndex).onSnapshot(db);
@@ -73,16 +78,7 @@ class SembastUserAnswersRepository {
     });
   }
 
-  Stream<List<UserAnswer>> watchAllWrongAnswers() {
-    final recordSnapshot = answeredWrongStore.query().onSnapshots(db);
-
-    return recordSnapshot.map((snapshot) {
-      return snapshot
-          .map((e) => UserAnswer.fromJson(e.value as Map<String, dynamic>))
-          .toList();
-    });
-  }
-
+  @override
   Future<List<UserAnswer>> getAllWrongAnswers() {
     return answeredWrongStore.find(db).then((records) {
       return records
@@ -90,6 +86,16 @@ class SembastUserAnswersRepository {
           .toList();
     });
   }
+
+  // Stream<List<UserAnswer>> watchAllWrongAnswers() {
+  //   final recordSnapshot = answeredWrongStore.query().onSnapshots(db);
+
+  //   return recordSnapshot.map((snapshot) {
+  //     return snapshot
+  //         .map((e) => UserAnswer.fromJson(e.value as Map<String, dynamic>))
+  //         .toList();
+  //   });
+  // }
 }
 
 @Riverpod(keepAlive: true)
