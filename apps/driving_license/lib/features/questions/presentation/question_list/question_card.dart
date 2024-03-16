@@ -201,7 +201,7 @@ class PrototypeQuestionCard extends HookConsumerWidget {
       questionPageIndex: -1,
       question: Question(
         questionDbIndex: -1,
-        chapterIndex: -1,
+        chapterDbIndex: -1,
         title: 'Prototype\nPrototype',
         isDanger: false,
         correctAnswerIndex: 0,

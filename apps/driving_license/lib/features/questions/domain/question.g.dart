@@ -9,7 +9,7 @@ part of 'question.dart';
 _$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
     _$QuestionImpl(
       questionDbIndex: json['questionDbIndex'] as int,
-      chapterIndex: json['chapterIndex'] as int,
+      chapterDbIndex: json['chapterDbIndex'] as int,
       title: json['title'] as String,
       questionImagePath: json['questionImagePath'] as String?,
       isDanger: json['isDanger'] as bool,
@@ -23,7 +23,7 @@ _$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$QuestionImplToJson(_$QuestionImpl instance) =>
     <String, dynamic>{
       'questionDbIndex': instance.questionDbIndex,
-      'chapterIndex': instance.chapterIndex,
+      'chapterDbIndex': instance.chapterDbIndex,
       'title': instance.title,
       'questionImagePath': instance.questionImagePath,
       'isDanger': instance.isDanger,

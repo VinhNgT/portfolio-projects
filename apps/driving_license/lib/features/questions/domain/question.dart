@@ -7,7 +7,7 @@ part 'question.g.dart';
 class Question with _$Question {
   const factory Question({
     required int questionDbIndex,
-    required int chapterIndex,
+    required int chapterDbIndex,
     required String title,
     String? questionImagePath,
     required bool isDanger,
