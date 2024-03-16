@@ -1,5 +1,5 @@
 import 'package:driving_license/features/chapters/domain/chapter.dart';
-import 'package:driving_license/features/questions/application/questions_loader.dart';
+import 'package:driving_license/features/questions/application/questions_handler.dart';
 import 'package:driving_license/features/questions/application/user_answer_service.dart';
 import 'package:driving_license/features/questions/data/question_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
@@ -8,16 +8,16 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'question_service.g.dart';
 
 class QuestionService {
-  QuestionService(this.questionLoader);
-  final QuestionsLoader questionLoader;
+  QuestionService(this.questionHandler);
+  final QuestionsHandler questionHandler;
 
   Future<Question> getQuestion(int questionIndex) async =>
-      questionLoader.load(questionIndex);
+      questionHandler.load(questionIndex);
 
   Future<List<Question>> getQuestionsPage(int pageIndex) async =>
-      questionLoader.loadPage(pageIndex);
+      questionHandler.loadPage(pageIndex);
 
-  Future<int> getQuestionCount() async => questionLoader.loadQuestionCount();
+  Future<int> getQuestionCount() async => questionHandler.loadQuestionCount();
 }
 
 @Riverpod(keepAlive: true)
@@ -30,32 +30,32 @@ class QuestionServiceController extends _$QuestionServiceController {
 
   @override
   QuestionService build() {
-    // Default to full loader (loads from 600 questions) unless specified
+    // Default to full handler (loads from 600 questions) unless specified
     // otherwise
     return QuestionService(
-      FullQuestionsLoader(questionRepository: _questionRepository),
+      FullQuestionsHandler(questionRepository: _questionRepository),
     );
   }
 
-  void setToFullLoader() {
+  void setupAllQuestions() {
     state = QuestionService(
-      FullQuestionsLoader(questionRepository: _questionRepository),
+      FullQuestionsHandler(questionRepository: _questionRepository),
     );
   }
 
-  void setToChapterLoader(Chapter chapter) {
+  void setupChapterQuestions(Chapter chapter) {
     state = QuestionService(
-      ChapterQuestionsLoader(
+      ChapterQuestionsHandler(
         questionRepository: _questionRepository,
         chapter: chapter,
       ),
     );
   }
 
-  Future<void> setToWrongAnswerLoader() async {
+  Future<void> setupWrongAnswerQuestions() async {
     final wrongAnswers = await _userAnswerService.getAllWrongAnswers();
     state = QuestionService(
-      WrongAnswerQuestionsLoader(
+      WrongAnswerQuestionsHandler(
         questionRepository: _questionRepository,
         wrongAnswers: wrongAnswers,
       ),

@@ -5,14 +5,14 @@ import 'package:driving_license/features/questions/data/question_repository.dart
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answer.dart';
 
-abstract class QuestionsLoader {
+abstract class QuestionsHandler {
   FutureOr<Question> load(int questionIndex);
   FutureOr<List<Question>> loadPage(int pageIndex);
   FutureOr<int> loadQuestionCount();
 }
 
-class FullQuestionsLoader implements QuestionsLoader {
-  FullQuestionsLoader({required this.questionRepository});
+class FullQuestionsHandler implements QuestionsHandler {
+  FullQuestionsHandler({required this.questionRepository});
   final QuestionRepository questionRepository;
 
   @override
@@ -31,8 +31,8 @@ class FullQuestionsLoader implements QuestionsLoader {
   }
 }
 
-class ChapterQuestionsLoader implements QuestionsLoader {
-  ChapterQuestionsLoader({
+class ChapterQuestionsHandler implements QuestionsHandler {
+  ChapterQuestionsHandler({
     required this.questionRepository,
     required this.chapter,
   });
@@ -55,8 +55,8 @@ class ChapterQuestionsLoader implements QuestionsLoader {
   }
 }
 
-class WrongAnswerQuestionsLoader implements QuestionsLoader {
-  WrongAnswerQuestionsLoader({
+class WrongAnswerQuestionsHandler implements QuestionsHandler {
+  WrongAnswerQuestionsHandler({
     required this.questionRepository,
     required this.wrongAnswers,
   });

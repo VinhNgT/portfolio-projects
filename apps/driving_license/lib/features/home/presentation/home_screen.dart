@@ -109,7 +109,7 @@ class FeatureSelection extends HookConsumerWidget {
             onPressed: () async {
               await ref
                   .read(questionServiceControllerProvider.notifier)
-                  .setToWrongAnswerLoader();
+                  .setupWrongAnswerQuestions();
 
               if (context.mounted) {
                 await context.pushRoute(const QuestionRoute());
@@ -145,7 +145,7 @@ class ChapterSelection extends HookConsumerWidget {
               onTap: () async {
                 ref
                     .read(questionServiceControllerProvider.notifier)
-                    .setToChapterLoader(Chapter.khaiNiemVaQuyTac);
+                    .setupChapterQuestions(Chapter.khaiNiemVaQuyTac);
 
                 await context.pushRoute(const QuestionRoute());
               },
@@ -158,7 +158,7 @@ class ChapterSelection extends HookConsumerWidget {
               onTap: () async {
                 ref
                     .read(questionServiceControllerProvider.notifier)
-                    .setToChapterLoader(Chapter.nghiepVuVanTai);
+                    .setupChapterQuestions(Chapter.nghiepVuVanTai);
 
                 await context.pushRoute(const QuestionRoute());
               },
@@ -170,7 +170,7 @@ class ChapterSelection extends HookConsumerWidget {
               onTap: () async {
                 ref
                     .read(questionServiceControllerProvider.notifier)
-                    .setToChapterLoader(Chapter.vanHoaVaDaoDuc);
+                    .setupChapterQuestions(Chapter.vanHoaVaDaoDuc);
 
                 await context.pushRoute(const QuestionRoute());
               },
@@ -183,7 +183,7 @@ class ChapterSelection extends HookConsumerWidget {
               onTap: () async {
                 ref
                     .read(questionServiceControllerProvider.notifier)
-                    .setToChapterLoader(Chapter.kyThuatLaiXe);
+                    .setupChapterQuestions(Chapter.kyThuatLaiXe);
 
                 await context.pushRoute(const QuestionRoute());
               },
@@ -196,7 +196,7 @@ class ChapterSelection extends HookConsumerWidget {
               onTap: () async {
                 ref
                     .read(questionServiceControllerProvider.notifier)
-                    .setToChapterLoader(Chapter.cauTaoVaSuaChua);
+                    .setupChapterQuestions(Chapter.cauTaoVaSuaChua);
 
                 await context.pushRoute(const QuestionRoute());
               },
@@ -209,7 +209,7 @@ class ChapterSelection extends HookConsumerWidget {
               onTap: () async {
                 ref
                     .read(questionServiceControllerProvider.notifier)
-                    .setToChapterLoader(Chapter.bienBaoDuongBo);
+                    .setupChapterQuestions(Chapter.bienBaoDuongBo);
 
                 await context.pushRoute(const QuestionRoute());
               },
@@ -222,7 +222,7 @@ class ChapterSelection extends HookConsumerWidget {
               onTap: () async {
                 ref
                     .read(questionServiceControllerProvider.notifier)
-                    .setToChapterLoader(Chapter.saHinhVaTinhHuong);
+                    .setupChapterQuestions(Chapter.saHinhVaTinhHuong);
 
                 await context.pushRoute(const QuestionRoute());
               },
