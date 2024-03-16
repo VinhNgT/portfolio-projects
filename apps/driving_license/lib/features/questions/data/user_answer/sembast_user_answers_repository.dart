@@ -43,6 +43,8 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
         await answeredWrongStore
             .record(question.questionDbIndex)
             .put(txn, userAnswer.toJson());
+      } else {
+        await answeredWrongStore.record(question.questionDbIndex).delete(txn);
       }
     });
   }
