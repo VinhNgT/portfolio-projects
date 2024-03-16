@@ -7,7 +7,7 @@ import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/home/presentation/chapter_card.dart';
 import 'package:driving_license/features/home/presentation/donate_card.dart';
 import 'package:driving_license/features/home/presentation/feature_card.dart';
-import 'package:driving_license/features/questions/application/question_service.dart';
+import 'package:driving_license/features/questions/application/question/question_service.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';

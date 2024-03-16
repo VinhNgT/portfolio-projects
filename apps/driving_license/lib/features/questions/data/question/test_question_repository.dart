@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:driving_license/features/chapters/domain/chapter.dart';
-import 'package:driving_license/features/questions/data/k_test_questions.dart';
-import 'package:driving_license/features/questions/data/question_repository.dart';
+import 'package:driving_license/features/questions/data/question/k_test_questions.dart';
+import 'package:driving_license/features/questions/data/question/question_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 
 class TestQuestionRepository implements QuestionRepository {

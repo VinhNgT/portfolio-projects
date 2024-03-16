@@ -1,4 +1,4 @@
-import 'package:driving_license/features/questions/data/user_answer_repository.dart';
+import 'package:driving_license/features/questions/data/user_answer/user_answer_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answer.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

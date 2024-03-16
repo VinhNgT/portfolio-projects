@@ -1,6 +1,6 @@
 import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/constants/widget_sizes.dart';
-import 'package:driving_license/features/questions/application/question_service.dart';
+import 'package:driving_license/features/questions/application/question/question_service.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/question_app_bar_controller.dart';
 import 'package:driving_license/features/questions/presentation/question/question_page_controller.dart';
 import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';

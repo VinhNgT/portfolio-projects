@@ -1,7 +1,7 @@
 import 'package:driving_license/features/chapters/domain/chapter.dart';
-import 'package:driving_license/features/questions/application/questions_handler.dart';
-import 'package:driving_license/features/questions/application/user_answer_service.dart';
-import 'package:driving_license/features/questions/data/question_repository.dart';
+import 'package:driving_license/features/questions/application/question/questions_handler.dart';
+import 'package:driving_license/features/questions/application/user_answer/user_answer_service.dart';
+import 'package:driving_license/features/questions/data/question/question_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
