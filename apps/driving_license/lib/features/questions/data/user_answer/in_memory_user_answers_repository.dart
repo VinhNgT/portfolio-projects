@@ -12,7 +12,10 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   final answeredWrongStore = InMemoryStore<List<UserAnswer>>(List.empty());
 
   @override
-  FutureOr<void> saveUserAnswer(Question question, int selectedAnswerIndex) {
+  Future<void> saveUserAnswer(
+    Question question,
+    int selectedAnswerIndex,
+  ) async {
     final userAnswer = UserAnswer(
       questionDbIndex: question.questionDbIndex,
       selectedAnswerIndex: selectedAnswerIndex,
@@ -25,13 +28,13 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  FutureOr<void> deleteAllUserAnswers() {
+  Future<void> deleteAllUserAnswers() async {
     allAnswersStore.value = List.empty();
     answeredWrongStore.value = List.empty();
   }
 
   @override
-  FutureOr<void> deleteUserAnswer(Question question) {
+  Future<void> deleteUserAnswer(Question question) async {
     allAnswersStore.value.removeWhere(
       (answer) => answer.questionDbIndex == question.questionDbIndex,
     );
@@ -51,8 +54,8 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  FutureOr<List<UserAnswer>> getAllWrongAnswers() {
-    return answeredWrongStore.value;
+  Future<List<UserAnswer>> getAllWrongAnswers() {
+    return Future.value(answeredWrongStore.value);
   }
 }
 

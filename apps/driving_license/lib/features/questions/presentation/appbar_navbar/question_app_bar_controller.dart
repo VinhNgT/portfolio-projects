@@ -1,4 +1,4 @@
-import 'package:driving_license/features/questions/data/user_answer/sembast_user_answers_repository.dart';
+import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -9,8 +9,8 @@ class QuestionAppBarController extends _$QuestionAppBarController {
   @override
   FutureOr<void> build() {}
 
-  SembastUserAnswersRepository get _userAnswersRepository =>
-      ref.read(sembastUserAnswersRepositoryProvider);
+  UserAnswersRepository get _userAnswersRepository =>
+      ref.read(userAnswersRepositoryProvider);
 
   Future<void> deleteAnswer(Question question) async {
     state = const AsyncLoading();

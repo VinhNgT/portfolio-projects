@@ -3,11 +3,8 @@ import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answer.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
-
-part 'sembast_user_answers_repository.g.dart';
 
 class SembastUserAnswersRepository implements UserAnswersRepository {
   SembastUserAnswersRepository(this.db);
@@ -98,10 +95,10 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   // }
 }
 
-@Riverpod(keepAlive: true)
-SembastUserAnswersRepository sembastUserAnswersRepository(
-  SembastUserAnswersRepositoryRef ref,
-) {
-  //* Override this in the main method to select the correct implementation
-  throw UnimplementedError();
-}
+// @Riverpod(keepAlive: true)
+// SembastUserAnswersRepository sembastUserAnswersRepository(
+//   SembastUserAnswersRepositoryRef ref,
+// ) {
+//   //* Override this in the main method to select the correct implementation
+//   throw UnimplementedError();
+// }
