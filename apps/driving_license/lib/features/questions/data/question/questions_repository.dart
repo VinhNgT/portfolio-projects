@@ -7,12 +7,12 @@ part 'questions_repository.g.dart';
 abstract class QuestionsRepository {
   static int pageSize = 20;
 
-  // Get questions by it index
+  // Get questions by its index
   FutureOr<Question> getQuestion(int index);
   FutureOr<int> getQuestionCount();
   FutureOr<List<Question>> getQuestionsPage(int pageNumber);
 
-  // Get questions by it index and chapter
+  // Get questions by its index and chapter
   FutureOr<Question> getQuestionByChapter(Chapter chapter, int index);
   FutureOr<List<Question>> getQuestionsPageByChapter(
     Chapter chapter,
@@ -20,7 +20,7 @@ abstract class QuestionsRepository {
   );
   FutureOr<int> getQuestionCountByChapter(Chapter chapter);
 
-  // Get questions by it DB index
+  // Get questions by its DB index
   FutureOr<Question> getQuestionByDbIndex(int dbIndex);
   FutureOr<List<Question>> getQuestionsPageByDbIndexes(
     List<int> dbIndexes,
