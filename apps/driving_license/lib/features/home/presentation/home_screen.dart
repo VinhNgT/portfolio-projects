@@ -68,11 +68,11 @@ class HomeScreen extends HookConsumerWidget {
   }
 }
 
-class FeatureSelection extends StatelessWidget {
+class FeatureSelection extends HookConsumerWidget {
   const FeatureSelection({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return LayoutGrid(
       columnSizes: [1.fr, 1.fr],
       rowSizes: const [auto, auto],
@@ -80,29 +80,41 @@ class FeatureSelection extends StatelessWidget {
       // This weird looking columnGap value is for fixing a random LayoutGrid
       // bug happens during app launched while screen is off
       columnGap: context.width > kSize_12 ? kSize_12 : 0,
-      children: const [
+      children: [
         SizedBox.expand(
           child: FeatureCard(
             title: 'Thi thử',
             subhead: 'Bộ đề được tạo ra ngẫu nhiên',
+            onPressed: () {},
           ),
         ),
         SizedBox.expand(
           child: FeatureCard(
             title: 'Các câu khó',
             subhead: '50 câu hỏi dễ bị nhầm lẫn',
+            onPressed: () {},
           ),
         ),
         SizedBox.expand(
           child: FeatureCard(
             title: 'Đã lưu',
             subhead: 'Những câu hỏi được đánh dấu lưu',
+            onPressed: () {},
           ),
         ),
         SizedBox.expand(
           child: FeatureCard(
             title: 'Đã làm sai',
             subhead: 'Những câu hỏi bạn đã làm sai',
+            onPressed: () async {
+              await ref
+                  .read(questionServiceControllerProvider.notifier)
+                  .setToWrongAnswerLoader();
+
+              if (context.mounted) {
+                await context.pushRoute(const QuestionRoute());
+              }
+            },
           ),
         ),
       ],

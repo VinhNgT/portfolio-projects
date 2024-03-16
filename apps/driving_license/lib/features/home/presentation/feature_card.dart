@@ -7,11 +7,13 @@ import 'package:flutter/material.dart';
 class FeatureCard extends StatelessWidget {
   final String title;
   final String subhead;
+  final VoidCallback onPressed;
 
   const FeatureCard({
     super.key,
     required this.title,
     required this.subhead,
+    required this.onPressed,
   });
 
   @override
@@ -19,6 +21,7 @@ class FeatureCard extends StatelessWidget {
     return ButtonCard(
       surfaceColor: context.materialScheme.surfaceContainerHigh,
       onSurfaceColor: context.materialScheme.onSurface,
+      onPressed: onPressed,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: kSize_16,
@@ -41,7 +44,6 @@ class FeatureCard extends StatelessWidget {
           ],
         ),
       ),
-      onPressed: () {},
     );
   }
 }
