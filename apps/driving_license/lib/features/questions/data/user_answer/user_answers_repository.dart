@@ -1,10 +1,11 @@
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answer.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 abstract class UserAnswersRepository {
-  Future<void> saveUserAnswer(Question question, int selectedAnswerIndex);
-  Future<void> deleteUserAnswer(Question question);
-  Future<void> deleteAllUserAnswers();
+  FutureOr<void> saveUserAnswer(Question question, int selectedAnswerIndex);
+  FutureOr<void> deleteUserAnswer(Question question);
+  FutureOr<void> deleteAllUserAnswers();
   Stream<int?> watchUserSelectedAnswerIndex(Question question);
-  Future<List<UserAnswer>> getAllWrongAnswers();
+  FutureOr<List<UserAnswer>> getAllWrongAnswers();
 }
