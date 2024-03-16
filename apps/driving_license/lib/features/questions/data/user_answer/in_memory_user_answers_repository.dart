@@ -33,7 +33,12 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
     );
 
     allAnswersStore.value[question.questionDbIndex] = userAnswer;
-    answeredWrongStore.value[question.questionDbIndex] = userAnswer;
+
+    if (question.correctAnswerIndex != selectedAnswerIndex) {
+      answeredWrongStore.value[question.questionDbIndex] = userAnswer;
+    } else {
+      answeredWrongStore.value.remove(question.questionDbIndex);
+    }
     notifyListeners();
   }
 
