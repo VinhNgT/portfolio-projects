@@ -1,28 +1,29 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_answer_service.dart';
+part of 'user_answers_service.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$userAnswerServiceHash() => r'c0740097aac54d9d652386d821edba9372aca161';
+String _$userAnswersServiceHash() =>
+    r'1467ee473ceda1e71fbe1caeff4c8e7c2bba423d';
 
-/// See also [userAnswerService].
-@ProviderFor(userAnswerService)
-final userAnswerServiceProvider = Provider<UserAnswerService>.internal(
-  userAnswerService,
-  name: r'userAnswerServiceProvider',
+/// See also [userAnswersService].
+@ProviderFor(userAnswersService)
+final userAnswersServiceProvider = Provider<UserAnswersService>.internal(
+  userAnswersService,
+  name: r'userAnswersServiceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$userAnswerServiceHash,
+      : _$userAnswersServiceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef UserAnswerServiceRef = ProviderRef<UserAnswerService>;
+typedef UserAnswersServiceRef = ProviderRef<UserAnswersService>;
 String _$userSelectedAnswerIndexHash() =>
-    r'aa526c21d0c7701dd8779b59cb9f5c5aa3df7723';
+    r'1e9653788f86dc193c67d9c78f0bb6cc7cb694e1';
 
 /// Copied from Dart SDK
 class _SystemHash {

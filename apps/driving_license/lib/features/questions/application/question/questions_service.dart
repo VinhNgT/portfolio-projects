@@ -1,6 +1,6 @@
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/questions/application/question/questions_handler.dart';
-import 'package:driving_license/features/questions/application/user_answer/user_answer_service.dart';
+import 'package:driving_license/features/questions/application/user_answer/user_answers_service.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -25,8 +25,8 @@ class QuestionsServiceController extends _$QuestionsServiceController {
   QuestionsRepository get _questionsRepository =>
       ref.read(questionsRepositoryProvider);
 
-  UserAnswerService get _userAnswerService =>
-      ref.read(userAnswerServiceProvider);
+  UserAnswersService get _userAnswersService =>
+      ref.read(userAnswersServiceProvider);
 
   @override
   QuestionsService build() {
@@ -53,7 +53,7 @@ class QuestionsServiceController extends _$QuestionsServiceController {
   }
 
   Future<void> setupWrongAnswerQuestions() async {
-    final wrongAnswers = await _userAnswerService.getAllWrongAnswers();
+    final wrongAnswers = await _userAnswersService.getAllWrongAnswers();
     state = QuestionsService(
       WrongAnswerQuestionsHandler(
         questionsRepository: _questionsRepository,

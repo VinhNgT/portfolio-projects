@@ -7,7 +7,7 @@ part of 'question_app_bar_controller.dart';
 // **************************************************************************
 
 String _$questionAppBarControllerHash() =>
-    r'c5338dedc1b11cedebc6a7d16676605c9d435886';
+    r'daf2fa084bfe167c7e11ab0cf71486406111f5e3';
 
 /// See also [QuestionAppBarController].
 @ProviderFor(QuestionAppBarController)

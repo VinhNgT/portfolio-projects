@@ -7,7 +7,7 @@ part of 'answer_card_list_controller.dart';
 // **************************************************************************
 
 String _$answerCardListControllerHash() =>
-    r'8ba9d51e0dac9836e8b13c4062d1a40f7cf6d7b0';
+    r'882e966752363815dec3f142f71e881db4db5b25';
 
 /// See also [AnswerCardListController].
 @ProviderFor(AnswerCardListController)
