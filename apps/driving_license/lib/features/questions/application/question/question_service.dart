@@ -12,12 +12,12 @@ class QuestionService {
   final QuestionsHandler questionHandler;
 
   Future<Question> getQuestion(int questionIndex) async =>
-      questionHandler.load(questionIndex);
+      questionHandler.getQuestion(questionIndex);
 
   Future<List<Question>> getQuestionsPage(int pageIndex) async =>
-      questionHandler.loadPage(pageIndex);
+      questionHandler.getQuestionsPage(pageIndex);
 
-  Future<int> getQuestionCount() async => questionHandler.loadQuestionCount();
+  Future<int> getQuestionCount() async => questionHandler.getQuestionCount();
 }
 
 @Riverpod(keepAlive: true)

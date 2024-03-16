@@ -6,9 +6,9 @@ import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answer.dart';
 
 abstract class QuestionsHandler {
-  FutureOr<Question> load(int questionIndex);
-  FutureOr<List<Question>> loadPage(int pageIndex);
-  FutureOr<int> loadQuestionCount();
+  FutureOr<Question> getQuestion(int questionIndex);
+  FutureOr<List<Question>> getQuestionsPage(int pageIndex);
+  FutureOr<int> getQuestionCount();
 }
 
 class FullQuestionsHandler implements QuestionsHandler {
@@ -16,17 +16,17 @@ class FullQuestionsHandler implements QuestionsHandler {
   final QuestionRepository questionRepository;
 
   @override
-  FutureOr<Question> load(int questionIndex) {
+  FutureOr<Question> getQuestion(int questionIndex) {
     return questionRepository.getQuestion(questionIndex);
   }
 
   @override
-  FutureOr<List<Question>> loadPage(int pageIndex) {
+  FutureOr<List<Question>> getQuestionsPage(int pageIndex) {
     return questionRepository.getQuestionsPage(pageIndex);
   }
 
   @override
-  FutureOr<int> loadQuestionCount() {
+  FutureOr<int> getQuestionCount() {
     return questionRepository.getQuestionCount();
   }
 }
@@ -40,17 +40,17 @@ class ChapterQuestionsHandler implements QuestionsHandler {
   final Chapter chapter;
 
   @override
-  FutureOr<Question> load(int questionIndex) {
+  FutureOr<Question> getQuestion(int questionIndex) {
     return questionRepository.getQuestionByChapter(chapter, questionIndex);
   }
 
   @override
-  FutureOr<List<Question>> loadPage(int pageIndex) {
+  FutureOr<List<Question>> getQuestionsPage(int pageIndex) {
     return questionRepository.getQuestionsPageByChapter(chapter, pageIndex);
   }
 
   @override
-  FutureOr<int> loadQuestionCount() {
+  FutureOr<int> getQuestionCount() {
     return questionRepository.getQuestionCountByChapter(chapter);
   }
 }
@@ -64,13 +64,13 @@ class WrongAnswerQuestionsHandler implements QuestionsHandler {
   final List<UserAnswer> wrongAnswers;
 
   @override
-  FutureOr<Question> load(int questionIndex) {
+  FutureOr<Question> getQuestion(int questionIndex) {
     return questionRepository
         .getQuestionByDbIndex(wrongAnswers[questionIndex].questionDbIndex);
   }
 
   @override
-  FutureOr<List<Question>> loadPage(int pageIndex) {
+  FutureOr<List<Question>> getQuestionsPage(int pageIndex) {
     final wrongQuestionDbIndexes =
         wrongAnswers.map((e) => e.questionDbIndex).toList();
 
@@ -81,7 +81,7 @@ class WrongAnswerQuestionsHandler implements QuestionsHandler {
   }
 
   @override
-  FutureOr<int> loadQuestionCount() {
+  FutureOr<int> getQuestionCount() {
     return Future.value(wrongAnswers.length);
   }
 }
