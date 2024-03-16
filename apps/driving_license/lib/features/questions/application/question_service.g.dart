@@ -6,22 +6,7 @@ part of 'question_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$questionServiceHash() => r'5e6316c86113b5cac738099d1064fd50767af797';
-
-/// See also [questionService].
-@ProviderFor(questionService)
-final questionServiceProvider = Provider<QuestionService>.internal(
-  questionService,
-  name: r'questionServiceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$questionServiceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef QuestionServiceRef = ProviderRef<QuestionService>;
-String _$questionFutureHash() => r'35e6041f5c1e5b1564c2a427e851417197c7adbc';
+String _$questionFutureHash() => r'513f6e8d8973cba4c9afaa9b8deeca367fe43015';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -172,7 +157,7 @@ class _QuestionFutureProviderElement
 }
 
 String _$questionsPageFutureHash() =>
-    r'f25e10c8af8543145542988e7728ffba51635716';
+    r'a1e041fed68cecf4c5dffdf563bf91ca23120b2c';
 
 /// See also [questionsPageFuture].
 @ProviderFor(questionsPageFuture)
@@ -303,7 +288,7 @@ class _QuestionsPageFutureProviderElement
 }
 
 String _$questionCountFutureHash() =>
-    r'170dd1031490d526f7245c95851a2b07e8987835';
+    r'0694cfb647916296928add90902fea760be5ff34';
 
 /// See also [questionCountFuture].
 @ProviderFor(questionCountFuture)
@@ -450,5 +435,23 @@ class _QuestionPreloadPagesFutureProviderElement
   int get questionIndex =>
       (origin as QuestionPreloadPagesFutureProvider).questionIndex;
 }
+
+String _$questionServiceControllerHash() =>
+    r'852aab2e918b64e438c6badf09ad0f692e424232';
+
+/// See also [QuestionServiceController].
+@ProviderFor(QuestionServiceController)
+final questionServiceControllerProvider =
+    NotifierProvider<QuestionServiceController, QuestionService>.internal(
+  QuestionServiceController.new,
+  name: r'questionServiceControllerProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$questionServiceControllerHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$QuestionServiceController = Notifier<QuestionService>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

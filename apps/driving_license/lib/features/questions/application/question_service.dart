@@ -1,14 +1,15 @@
-import 'package:driving_license/features/chapters/data/user_chapter_selection_repository.dart';
-import 'package:driving_license/features/questions/application/question_loader.dart';
+import 'package:driving_license/features/chapters/domain/chapter.dart';
+import 'package:driving_license/features/questions/application/questions_loader.dart';
 import 'package:driving_license/features/questions/data/question_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
+import 'package:driving_license/features/questions/domain/user_answer.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'question_service.g.dart';
 
 class QuestionService {
   QuestionService(this.questionLoader);
-  final QuestionLoader questionLoader;
+  final QuestionsLoader questionLoader;
 
   Future<Question> getQuestion(int questionIndex) async =>
       questionLoader.load(questionIndex);
@@ -20,22 +21,33 @@ class QuestionService {
 }
 
 @Riverpod(keepAlive: true)
-QuestionService questionService(QuestionServiceRef ref) {
-  final questionRepository = ref.watch(questionRepositoryProvider);
-  final userChapterSelection =
-      ref.watch(userChapterSelectionRepositoryProvider);
+class QuestionServiceController extends _$QuestionServiceController {
+  QuestionRepository get _questionRepository =>
+      ref.read(questionRepositoryProvider);
 
-  QuestionLoader questionLoader;
-  if (userChapterSelection != null) {
-    questionLoader = ChapterQuestionLoader(
-      questionRepository: questionRepository,
-      chapter: userChapterSelection,
+  @override
+  QuestionService build() {
+    // Default to full loader (loads from 600 questions) unless specified
+    // otherwise
+    return QuestionService(
+      FullQuestionsLoader(questionRepository: _questionRepository),
     );
-  } else {
-    questionLoader = FullQuestionLoader(questionRepository: questionRepository);
   }
 
-  return QuestionService(questionLoader);
+  void setToFullLoader() {
+    state = QuestionService(
+      FullQuestionsLoader(questionRepository: _questionRepository),
+    );
+  }
+
+  void setToChapterLoader(Chapter chapter) {
+    state = QuestionService(
+      ChapterQuestionsLoader(
+        questionRepository: _questionRepository,
+        chapter: chapter,
+      ),
+    );
+  }
 }
 
 @riverpod
@@ -58,7 +70,7 @@ FutureOr<Question> questionFuture(
   }
 
   // debugPrint('Fetching question from database...');
-  final questionService = ref.watch(questionServiceProvider);
+  final questionService = ref.watch(questionServiceControllerProvider);
   return questionService.getQuestion(questionIndex);
 }
 
@@ -67,13 +79,13 @@ FutureOr<List<Question>> questionsPageFuture(
   QuestionsPageFutureRef ref,
   int pageIndex,
 ) {
-  final questionService = ref.watch(questionServiceProvider);
+  final questionService = ref.watch(questionServiceControllerProvider);
   return questionService.getQuestionsPage(pageIndex);
 }
 
 @riverpod
 FutureOr<int> questionCountFuture(QuestionCountFutureRef ref) {
-  final questionService = ref.watch(questionServiceProvider);
+  final questionService = ref.watch(questionServiceControllerProvider);
   return questionService.getQuestionCount();
 }
 

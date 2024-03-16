@@ -3,10 +3,11 @@ import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/common_widgets/widget_deadzone.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
-import 'package:driving_license/features/chapters/data/user_chapter_selection_repository.dart';
+import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/home/presentation/chapter_card.dart';
 import 'package:driving_license/features/home/presentation/donate_card.dart';
 import 'package:driving_license/features/home/presentation/feature_card.dart';
+import 'package:driving_license/features/questions/application/question_service.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
@@ -131,8 +132,8 @@ class ChapterSelection extends HookConsumerWidget {
               subhead: 'Đã hoàn thành 0 / 83 - Sai 5 câu',
               onTap: () async {
                 ref
-                    .read(userChapterSelectionRepositoryProvider.notifier)
-                    .value = Chapter.khaiNiemVaQuyTac;
+                    .read(questionServiceControllerProvider.notifier)
+                    .setToChapterLoader(Chapter.khaiNiemVaQuyTac);
 
                 await context.pushRoute(const QuestionRoute());
               },
@@ -144,8 +145,8 @@ class ChapterSelection extends HookConsumerWidget {
               subhead: 'Đã hoàn thành 0 / 20',
               onTap: () async {
                 ref
-                    .read(userChapterSelectionRepositoryProvider.notifier)
-                    .value = Chapter.nghiepVuVanTai;
+                    .read(questionServiceControllerProvider.notifier)
+                    .setToChapterLoader(Chapter.nghiepVuVanTai);
 
                 await context.pushRoute(const QuestionRoute());
               },
@@ -156,8 +157,8 @@ class ChapterSelection extends HookConsumerWidget {
               subhead: 'Đã hoàn thành 0 / 5',
               onTap: () async {
                 ref
-                    .read(userChapterSelectionRepositoryProvider.notifier)
-                    .value = Chapter.vanHoaVaDaoDuc;
+                    .read(questionServiceControllerProvider.notifier)
+                    .setToChapterLoader(Chapter.vanHoaVaDaoDuc);
 
                 await context.pushRoute(const QuestionRoute());
               },
@@ -169,8 +170,8 @@ class ChapterSelection extends HookConsumerWidget {
               subhead: 'Đã hoàn thành 0 / 12',
               onTap: () async {
                 ref
-                    .read(userChapterSelectionRepositoryProvider.notifier)
-                    .value = Chapter.kyThuatLaiXe;
+                    .read(questionServiceControllerProvider.notifier)
+                    .setToChapterLoader(Chapter.kyThuatLaiXe);
 
                 await context.pushRoute(const QuestionRoute());
               },
@@ -182,8 +183,8 @@ class ChapterSelection extends HookConsumerWidget {
               subhead: 'Đã hoàn thành 0 / 20',
               onTap: () async {
                 ref
-                    .read(userChapterSelectionRepositoryProvider.notifier)
-                    .value = Chapter.cauTaoVaSuaChua;
+                    .read(questionServiceControllerProvider.notifier)
+                    .setToChapterLoader(Chapter.cauTaoVaSuaChua);
 
                 await context.pushRoute(const QuestionRoute());
               },
@@ -195,8 +196,8 @@ class ChapterSelection extends HookConsumerWidget {
               subhead: 'Đã hoàn thành 0 / 65',
               onTap: () async {
                 ref
-                    .read(userChapterSelectionRepositoryProvider.notifier)
-                    .value = Chapter.bienBaoDuongBo;
+                    .read(questionServiceControllerProvider.notifier)
+                    .setToChapterLoader(Chapter.bienBaoDuongBo);
 
                 await context.pushRoute(const QuestionRoute());
               },
@@ -208,8 +209,8 @@ class ChapterSelection extends HookConsumerWidget {
               subhead: 'Đã hoàn thành 0 / 35',
               onTap: () async {
                 ref
-                    .read(userChapterSelectionRepositoryProvider.notifier)
-                    .value = Chapter.saHinhVaTinhHuong;
+                    .read(questionServiceControllerProvider.notifier)
+                    .setToChapterLoader(Chapter.saHinhVaTinhHuong);
 
                 await context.pushRoute(const QuestionRoute());
               },

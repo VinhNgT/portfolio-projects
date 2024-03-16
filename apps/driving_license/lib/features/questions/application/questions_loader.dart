@@ -1,17 +1,18 @@
 import 'dart:async';
 
-import 'package:driving_license/features/chapters/data/user_chapter_selection_repository.dart';
+import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/questions/data/question_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
+import 'package:driving_license/features/questions/domain/user_answer.dart';
 
-abstract class QuestionLoader {
+abstract class QuestionsLoader {
   FutureOr<Question> load(int questionIndex);
   FutureOr<List<Question>> loadPage(int pageIndex);
   FutureOr<int> loadQuestionCount();
 }
 
-class FullQuestionLoader implements QuestionLoader {
-  FullQuestionLoader({required this.questionRepository});
+class FullQuestionsLoader implements QuestionsLoader {
+  FullQuestionsLoader({required this.questionRepository});
   final QuestionRepository questionRepository;
 
   @override
@@ -30,8 +31,8 @@ class FullQuestionLoader implements QuestionLoader {
   }
 }
 
-class ChapterQuestionLoader implements QuestionLoader {
-  ChapterQuestionLoader({
+class ChapterQuestionsLoader implements QuestionsLoader {
+  ChapterQuestionsLoader({
     required this.questionRepository,
     required this.chapter,
   });
