@@ -4,19 +4,19 @@ import 'dart:io';
 
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/questions/data/question/k_test_questions.dart';
-import 'package:driving_license/features/questions/data/question/question_repository.dart';
+import 'package:driving_license/features/questions/data/question/questions_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class SqliteQuestionRepository implements QuestionRepository {
+class SqliteQuestionsRepository implements QuestionsRepository {
   final Database database;
-  SqliteQuestionRepository(this.database);
+  SqliteQuestionsRepository(this.database);
 
-  static Future<SqliteQuestionRepository> makeDefault() async {
-    return SqliteQuestionRepository(await _initDatabase());
+  static Future<SqliteQuestionsRepository> makeDefault() async {
+    return SqliteQuestionsRepository(await _initDatabase());
   }
 
   static Future<Database> _initDatabase() async {
@@ -66,8 +66,8 @@ class SqliteQuestionRepository implements QuestionRepository {
   Future<List<Question>> getQuestionsPage(int pageNumber) async {
     final List<Map<String, dynamic>> maps = await database.query(
       'question',
-      limit: QuestionRepository.pageSize,
-      offset: pageNumber * QuestionRepository.pageSize,
+      limit: QuestionsRepository.pageSize,
+      offset: pageNumber * QuestionsRepository.pageSize,
     );
 
     return List.generate(maps.length, (i) {
@@ -111,8 +111,8 @@ class SqliteQuestionRepository implements QuestionRepository {
       'question',
       where: 'chapter_index = ?',
       whereArgs: [chapter.chapterDbIndex],
-      limit: QuestionRepository.pageSize,
-      offset: pageNumber * QuestionRepository.pageSize,
+      limit: QuestionsRepository.pageSize,
+      offset: pageNumber * QuestionsRepository.pageSize,
     );
 
     return List.generate(maps.length, (i) {
@@ -154,8 +154,8 @@ class SqliteQuestionRepository implements QuestionRepository {
     final List<Map<String, dynamic>> maps = await database.query(
       'question',
       where: 'question_index IN (${dbIndexes.join(', ')})',
-      limit: QuestionRepository.pageSize,
-      offset: pageNumber * QuestionRepository.pageSize,
+      limit: QuestionsRepository.pageSize,
+      offset: pageNumber * QuestionsRepository.pageSize,
     );
 
     return List.generate(maps.length, (i) {
@@ -165,7 +165,7 @@ class SqliteQuestionRepository implements QuestionRepository {
   }
 }
 
-extension QuestionRepositoryX on QuestionRepository {
+extension QuestionsRepositoryX on QuestionsRepository {
   Map<String, dynamic> convertDatabaseMapToQuestionObjectMap(
     Map<String, dynamic> databaseMap,
   ) {

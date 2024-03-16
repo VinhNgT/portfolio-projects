@@ -1,6 +1,6 @@
 import 'package:driving_license/bootstrap.dart';
-import 'package:driving_license/features/questions/data/question/question_repository.dart';
-import 'package:driving_license/features/questions/data/question/test_question_repository.dart';
+import 'package:driving_license/features/questions/data/question/questions_repository.dart';
+import 'package:driving_license/features/questions/data/question/test_questions_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -11,10 +11,10 @@ class BootstrapTest extends Bootstrap {
   }
 
   static Future<ProviderContainer> _createProviderContainer() async {
-    final testQuestionRepository = TestQuestionRepository();
+    final testQuestionsRepository = TestQuestionsRepository();
     final container = ProviderContainer(
       overrides: [
-        questionRepositoryProvider.overrideWithValue(testQuestionRepository),
+        questionsRepositoryProvider.overrideWithValue(testQuestionsRepository),
       ],
     );
 

@@ -7,7 +7,7 @@ import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/home/presentation/chapter_card.dart';
 import 'package:driving_license/features/home/presentation/donate_card.dart';
 import 'package:driving_license/features/home/presentation/feature_card.dart';
-import 'package:driving_license/features/questions/application/question/question_service.dart';
+import 'package:driving_license/features/questions/application/question/questions_service.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
@@ -108,7 +108,7 @@ class FeatureSelection extends HookConsumerWidget {
             subhead: 'Những câu hỏi bạn đã làm sai',
             onPressed: () async {
               await ref
-                  .read(questionServiceControllerProvider.notifier)
+                  .read(questionsServiceControllerProvider.notifier)
                   .setupWrongAnswerQuestions();
 
               if (context.mounted) {
@@ -144,7 +144,7 @@ class ChapterSelection extends HookConsumerWidget {
               subhead: 'Đã hoàn thành 0 / 83 - Sai 5 câu',
               onTap: () async {
                 ref
-                    .read(questionServiceControllerProvider.notifier)
+                    .read(questionsServiceControllerProvider.notifier)
                     .setupChapterQuestions(Chapter.khaiNiemVaQuyTac);
 
                 await context.pushRoute(const QuestionRoute());
@@ -157,7 +157,7 @@ class ChapterSelection extends HookConsumerWidget {
               subhead: 'Đã hoàn thành 0 / 20',
               onTap: () async {
                 ref
-                    .read(questionServiceControllerProvider.notifier)
+                    .read(questionsServiceControllerProvider.notifier)
                     .setupChapterQuestions(Chapter.nghiepVuVanTai);
 
                 await context.pushRoute(const QuestionRoute());
@@ -169,7 +169,7 @@ class ChapterSelection extends HookConsumerWidget {
               subhead: 'Đã hoàn thành 0 / 5',
               onTap: () async {
                 ref
-                    .read(questionServiceControllerProvider.notifier)
+                    .read(questionsServiceControllerProvider.notifier)
                     .setupChapterQuestions(Chapter.vanHoaVaDaoDuc);
 
                 await context.pushRoute(const QuestionRoute());
@@ -182,7 +182,7 @@ class ChapterSelection extends HookConsumerWidget {
               subhead: 'Đã hoàn thành 0 / 12',
               onTap: () async {
                 ref
-                    .read(questionServiceControllerProvider.notifier)
+                    .read(questionsServiceControllerProvider.notifier)
                     .setupChapterQuestions(Chapter.kyThuatLaiXe);
 
                 await context.pushRoute(const QuestionRoute());
@@ -195,7 +195,7 @@ class ChapterSelection extends HookConsumerWidget {
               subhead: 'Đã hoàn thành 0 / 20',
               onTap: () async {
                 ref
-                    .read(questionServiceControllerProvider.notifier)
+                    .read(questionsServiceControllerProvider.notifier)
                     .setupChapterQuestions(Chapter.cauTaoVaSuaChua);
 
                 await context.pushRoute(const QuestionRoute());
@@ -208,7 +208,7 @@ class ChapterSelection extends HookConsumerWidget {
               subhead: 'Đã hoàn thành 0 / 65',
               onTap: () async {
                 ref
-                    .read(questionServiceControllerProvider.notifier)
+                    .read(questionsServiceControllerProvider.notifier)
                     .setupChapterQuestions(Chapter.bienBaoDuongBo);
 
                 await context.pushRoute(const QuestionRoute());
@@ -221,7 +221,7 @@ class ChapterSelection extends HookConsumerWidget {
               subhead: 'Đã hoàn thành 0 / 35',
               onTap: () async {
                 ref
-                    .read(questionServiceControllerProvider.notifier)
+                    .read(questionsServiceControllerProvider.notifier)
                     .setupChapterQuestions(Chapter.saHinhVaTinhHuong);
 
                 await context.pushRoute(const QuestionRoute());

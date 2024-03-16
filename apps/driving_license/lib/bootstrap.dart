@@ -3,8 +3,8 @@ import 'dart:ui';
 import 'package:driving_license/app.dart';
 import 'package:driving_license/exceptions/async_error_logger.dart';
 import 'package:driving_license/exceptions/error_logger.dart';
-import 'package:driving_license/features/questions/data/question/question_repository.dart';
-import 'package:driving_license/features/questions/data/question/sqlite_question_repository.dart';
+import 'package:driving_license/features/questions/data/question/questions_repository.dart';
+import 'package:driving_license/features/questions/data/question/sqlite_questions_repository.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answer_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -17,13 +17,14 @@ class Bootstrap {
 
   static Future<ProviderContainer> _createProviderContainer() async {
     // Load question database
-    final sqliteQuestionRepository =
-        await SqliteQuestionRepository.makeDefault();
+    final sqliteQuestionsRepository =
+        await SqliteQuestionsRepository.makeDefault();
     final userAnswerRepository = await UserAnswerRepository.makeDefault();
 
     final container = ProviderContainer(
       overrides: [
-        questionRepositoryProvider.overrideWithValue(sqliteQuestionRepository),
+        questionsRepositoryProvider
+            .overrideWithValue(sqliteQuestionsRepository),
         userAnswerRepositoryProvider.overrideWithValue(userAnswerRepository),
       ],
     );

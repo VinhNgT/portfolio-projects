@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'question_repository.dart';
+part of 'questions_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$questionRepositoryHash() =>
-    r'03589503ea6c267a28382468c7c2736c57054318';
+String _$questionsRepositoryHash() =>
+    r'e5ac8335ba129717e770beac729ec00e5ed41d27';
 
-/// See also [questionRepository].
-@ProviderFor(questionRepository)
-final questionRepositoryProvider = Provider<QuestionRepository>.internal(
-  questionRepository,
-  name: r'questionRepositoryProvider',
+/// See also [questionsRepository].
+@ProviderFor(questionsRepository)
+final questionsRepositoryProvider = Provider<QuestionsRepository>.internal(
+  questionsRepository,
+  name: r'questionsRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$questionRepositoryHash,
+      : _$questionsRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef QuestionRepositoryRef = ProviderRef<QuestionRepository>;
+typedef QuestionsRepositoryRef = ProviderRef<QuestionsRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

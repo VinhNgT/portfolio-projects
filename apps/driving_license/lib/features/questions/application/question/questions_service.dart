@@ -1,52 +1,52 @@
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/questions/application/question/questions_handler.dart';
 import 'package:driving_license/features/questions/application/user_answer/user_answer_service.dart';
-import 'package:driving_license/features/questions/data/question/question_repository.dart';
+import 'package:driving_license/features/questions/data/question/questions_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'question_service.g.dart';
+part 'questions_service.g.dart';
 
-class QuestionService {
-  QuestionService(this.questionHandler);
-  final QuestionsHandler questionHandler;
+class QuestionsService {
+  QuestionsService(this.questionsHandler);
+  final QuestionsHandler questionsHandler;
 
   Future<Question> getQuestion(int questionIndex) async =>
-      questionHandler.getQuestion(questionIndex);
+      questionsHandler.getQuestion(questionIndex);
 
   Future<List<Question>> getQuestionsPage(int pageIndex) async =>
-      questionHandler.getQuestionsPage(pageIndex);
+      questionsHandler.getQuestionsPage(pageIndex);
 
-  Future<int> getQuestionCount() async => questionHandler.getQuestionCount();
+  Future<int> getQuestionCount() async => questionsHandler.getQuestionCount();
 }
 
 @Riverpod(keepAlive: true)
-class QuestionServiceController extends _$QuestionServiceController {
-  QuestionRepository get _questionRepository =>
-      ref.read(questionRepositoryProvider);
+class QuestionsServiceController extends _$QuestionsServiceController {
+  QuestionsRepository get _questionsRepository =>
+      ref.read(questionsRepositoryProvider);
 
   UserAnswerService get _userAnswerService =>
       ref.read(userAnswerServiceProvider);
 
   @override
-  QuestionService build() {
+  QuestionsService build() {
     // Default to full handler (loads from 600 questions) unless specified
     // otherwise
-    return QuestionService(
-      FullQuestionsHandler(questionRepository: _questionRepository),
+    return QuestionsService(
+      FullQuestionsHandler(questionsRepository: _questionsRepository),
     );
   }
 
   void setupAllQuestions() {
-    state = QuestionService(
-      FullQuestionsHandler(questionRepository: _questionRepository),
+    state = QuestionsService(
+      FullQuestionsHandler(questionsRepository: _questionsRepository),
     );
   }
 
   void setupChapterQuestions(Chapter chapter) {
-    state = QuestionService(
+    state = QuestionsService(
       ChapterQuestionsHandler(
-        questionRepository: _questionRepository,
+        questionsRepository: _questionsRepository,
         chapter: chapter,
       ),
     );
@@ -54,9 +54,9 @@ class QuestionServiceController extends _$QuestionServiceController {
 
   Future<void> setupWrongAnswerQuestions() async {
     final wrongAnswers = await _userAnswerService.getAllWrongAnswers();
-    state = QuestionService(
+    state = QuestionsService(
       WrongAnswerQuestionsHandler(
-        questionRepository: _questionRepository,
+        questionsRepository: _questionsRepository,
         wrongAnswers: wrongAnswers,
       ),
     );
@@ -68,7 +68,7 @@ FutureOr<Question> questionFuture(
   QuestionFutureRef ref,
   int questionIndex,
 ) async {
-  final pageNumber = questionIndex ~/ QuestionRepository.pageSize;
+  final pageNumber = questionIndex ~/ QuestionsRepository.pageSize;
 
   // Typically, when questionPreloadPagesFuture is used, the page
   // (questionsPageFutureProvider(pageNumber)) which contains the question
@@ -79,12 +79,12 @@ FutureOr<Question> questionFuture(
         await ref.watch(questionsPageFutureProvider(pageNumber).future);
 
     // debugPrint('Fetching question from cache...');
-    return questionPage[questionIndex % QuestionRepository.pageSize];
+    return questionPage[questionIndex % QuestionsRepository.pageSize];
   }
 
   // debugPrint('Fetching question from database...');
-  final questionService = ref.watch(questionServiceControllerProvider);
-  return questionService.getQuestion(questionIndex);
+  final questionsService = ref.watch(questionsServiceControllerProvider);
+  return questionsService.getQuestion(questionIndex);
 }
 
 @riverpod
@@ -92,14 +92,14 @@ FutureOr<List<Question>> questionsPageFuture(
   QuestionsPageFutureRef ref,
   int pageIndex,
 ) {
-  final questionService = ref.watch(questionServiceControllerProvider);
-  return questionService.getQuestionsPage(pageIndex);
+  final questionsService = ref.watch(questionsServiceControllerProvider);
+  return questionsService.getQuestionsPage(pageIndex);
 }
 
 @riverpod
 FutureOr<int> questionCountFuture(QuestionCountFutureRef ref) {
-  final questionService = ref.watch(questionServiceControllerProvider);
-  return questionService.getQuestionCount();
+  final questionsService = ref.watch(questionsServiceControllerProvider);
+  return questionsService.getQuestionCount();
 }
 
 // Leverage Riverpod caching system to build "lazy-load/pagination" data
@@ -120,7 +120,7 @@ FutureOr<Question> questionPreloadPagesFuture(
   QuestionPreloadPagesFutureRef ref,
   int questionIndex,
 ) async {
-  final pageNumber = questionIndex ~/ QuestionRepository.pageSize;
+  final pageNumber = questionIndex ~/ QuestionsRepository.pageSize;
   final questionPage =
       await ref.watch(questionsPageFutureProvider(pageNumber).future);
   final questionCount = await ref.watch(questionCountFutureProvider.future);
@@ -134,7 +134,7 @@ FutureOr<Question> questionPreloadPagesFuture(
   }
 
   // Preload database data of the next page
-  if (pageNumber < questionCount ~/ QuestionRepository.pageSize) {
+  if (pageNumber < questionCount ~/ QuestionsRepository.pageSize) {
     ref.listen(
       questionsPageFutureProvider(pageNumber + 1),
       (_, __) {},
@@ -142,5 +142,5 @@ FutureOr<Question> questionPreloadPagesFuture(
   }
 
   // Return the question
-  return questionPage[questionIndex % QuestionRepository.pageSize];
+  return questionPage[questionIndex % QuestionsRepository.pageSize];
 }

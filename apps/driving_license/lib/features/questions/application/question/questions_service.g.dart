@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'question_service.dart';
+part of 'questions_service.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$questionFutureHash() => r'513f6e8d8973cba4c9afaa9b8deeca367fe43015';
+String _$questionFutureHash() => r'075c0e6fba50cb756ade96345df187fce37c029f';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -157,7 +157,7 @@ class _QuestionFutureProviderElement
 }
 
 String _$questionsPageFutureHash() =>
-    r'a1e041fed68cecf4c5dffdf563bf91ca23120b2c';
+    r'387de844042b6941342158bd9a43d3da32899ef7';
 
 /// See also [questionsPageFuture].
 @ProviderFor(questionsPageFuture)
@@ -288,7 +288,7 @@ class _QuestionsPageFutureProviderElement
 }
 
 String _$questionCountFutureHash() =>
-    r'0694cfb647916296928add90902fea760be5ff34';
+    r'ef7bd8e8b03dc898382ce3d84fc1564634d20642';
 
 /// See also [questionCountFuture].
 @ProviderFor(questionCountFuture)
@@ -304,7 +304,7 @@ final questionCountFutureProvider = AutoDisposeFutureProvider<int>.internal(
 
 typedef QuestionCountFutureRef = AutoDisposeFutureProviderRef<int>;
 String _$questionPreloadPagesFutureHash() =>
-    r'7e62f4117d792d5a3d2be462bb234d6fba06e859';
+    r'23b6bd3cb7e7d442beb28dda07f66fb06e86eb56';
 
 /// See also [questionPreloadPagesFuture].
 @ProviderFor(questionPreloadPagesFuture)
@@ -436,22 +436,22 @@ class _QuestionPreloadPagesFutureProviderElement
       (origin as QuestionPreloadPagesFutureProvider).questionIndex;
 }
 
-String _$questionServiceControllerHash() =>
-    r'e819610d68bb9a330b0654d46c80576902eb3005';
+String _$questionsServiceControllerHash() =>
+    r'850dedcbbb35706684693e317d23bcbcd2682ea8';
 
-/// See also [QuestionServiceController].
-@ProviderFor(QuestionServiceController)
-final questionServiceControllerProvider =
-    NotifierProvider<QuestionServiceController, QuestionService>.internal(
-  QuestionServiceController.new,
-  name: r'questionServiceControllerProvider',
+/// See also [QuestionsServiceController].
+@ProviderFor(QuestionsServiceController)
+final questionsServiceControllerProvider =
+    NotifierProvider<QuestionsServiceController, QuestionsService>.internal(
+  QuestionsServiceController.new,
+  name: r'questionsServiceControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$questionServiceControllerHash,
+      : _$questionsServiceControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$QuestionServiceController = Notifier<QuestionService>;
+typedef _$QuestionsServiceController = Notifier<QuestionsService>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -2,9 +2,9 @@ import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'question_repository.g.dart';
+part 'questions_repository.g.dart';
 
-abstract class QuestionRepository {
+abstract class QuestionsRepository {
   static int pageSize = 20;
 
   // Get questions by it index
@@ -29,7 +29,7 @@ abstract class QuestionRepository {
 }
 
 @Riverpod(keepAlive: true)
-QuestionRepository questionRepository(QuestionRepositoryRef ref) {
+QuestionsRepository questionsRepository(QuestionsRepositoryRef ref) {
   //* Override this in the main method to select the correct implementation
   throw UnimplementedError();
 }

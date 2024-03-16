@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/questions/data/question/k_test_questions.dart';
-import 'package:driving_license/features/questions/data/question/question_repository.dart';
+import 'package:driving_license/features/questions/data/question/questions_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 
-class TestQuestionRepository implements QuestionRepository {
+class TestQuestionsRepository implements QuestionsRepository {
   final Duration artificialDelay;
-  TestQuestionRepository({
+  TestQuestionsRepository({
     this.artificialDelay = Duration.zero,
   });
 
@@ -27,10 +27,10 @@ class TestQuestionRepository implements QuestionRepository {
   FutureOr<List<Question>> getQuestionsPage(int pageNumber) async {
     await Future.delayed(artificialDelay);
 
-    final int start = QuestionRepository.pageSize * pageNumber;
-    final int end = start + QuestionRepository.pageSize > kTestQuestions.length
+    final int start = QuestionsRepository.pageSize * pageNumber;
+    final int end = start + QuestionsRepository.pageSize > kTestQuestions.length
         ? kTestQuestions.length
-        : start + QuestionRepository.pageSize;
+        : start + QuestionsRepository.pageSize;
 
     return kTestQuestions.sublist(start, end);
   }
