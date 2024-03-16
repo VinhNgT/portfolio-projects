@@ -1,8 +1,8 @@
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/questions/application/questions_loader.dart';
+import 'package:driving_license/features/questions/application/user_answer_service.dart';
 import 'package:driving_license/features/questions/data/question_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
-import 'package:driving_license/features/questions/domain/user_answer.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'question_service.g.dart';
@@ -25,6 +25,9 @@ class QuestionServiceController extends _$QuestionServiceController {
   QuestionRepository get _questionRepository =>
       ref.read(questionRepositoryProvider);
 
+  UserAnswerService get _userAnswerService =>
+      ref.read(userAnswerServiceProvider);
+
   @override
   QuestionService build() {
     // Default to full loader (loads from 600 questions) unless specified
@@ -45,6 +48,16 @@ class QuestionServiceController extends _$QuestionServiceController {
       ChapterQuestionsLoader(
         questionRepository: _questionRepository,
         chapter: chapter,
+      ),
+    );
+  }
+
+  Future<void> setToWrongAnswerLoader() async {
+    final wrongAnswers = await _userAnswerService.getAllWrongAnswers();
+    state = QuestionService(
+      WrongAnswerQuestionsLoader(
+        questionRepository: _questionRepository,
+        wrongAnswers: wrongAnswers,
       ),
     );
   }

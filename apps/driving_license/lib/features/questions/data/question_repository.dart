@@ -1,4 +1,4 @@
-import 'package:driving_license/features/chapters/data/user_chapter_selection_repository.dart';
+import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -19,6 +19,13 @@ abstract class QuestionRepository {
     int pageNumber,
   );
   FutureOr<int> getQuestionCountByChapter(Chapter chapter);
+
+  // Get questions by it DB index
+  FutureOr<Question> getQuestionByDbIndex(int dbIndex);
+  FutureOr<List<Question>> getQuestionsPageByDbIndexes(
+    List<int> dbIndexes,
+    int pageNumber,
+  );
 }
 
 @Riverpod(keepAlive: true)

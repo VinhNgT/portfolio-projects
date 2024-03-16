@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:driving_license/features/chapters/data/user_chapter_selection_repository.dart';
+import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/questions/data/k_test_questions.dart';
 import 'package:driving_license/features/questions/data/question_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
@@ -52,18 +52,7 @@ class SqliteQuestionRepository implements QuestionRepository {
 
   @override
   Future<Question> getQuestion(int index) async {
-    final List<Map<String, dynamic>> maps = await database.query(
-      'question',
-      where: 'question_index = ?',
-      whereArgs: [index + 1],
-    );
-
-    if (maps.isNotEmpty) {
-      final questionMap = convertDatabaseMapToQuestionObjectMap(maps.first);
-      return Question.fromJson(questionMap);
-    } else {
-      throw Exception('question_index ${index + 1} not found');
-    }
+    return getQuestionByDbIndex(index + 1);
   }
 
   @override
@@ -139,6 +128,40 @@ class SqliteQuestionRepository implements QuestionRepository {
       [chapter.chapterDbIndex],
     );
     return result.first['count'] as int;
+  }
+
+  @override
+  Future<Question> getQuestionByDbIndex(int dbIndex) async {
+    final List<Map<String, dynamic>> maps = await database.query(
+      'question',
+      where: 'question_index = ?',
+      whereArgs: [dbIndex],
+    );
+
+    if (maps.isNotEmpty) {
+      final questionMap = convertDatabaseMapToQuestionObjectMap(maps.first);
+      return Question.fromJson(questionMap);
+    } else {
+      throw Exception('question_index $dbIndex not found');
+    }
+  }
+
+  @override
+  FutureOr<List<Question>> getQuestionsPageByDbIndexes(
+    List<int> dbIndexes,
+    int pageNumber,
+  ) async {
+    final List<Map<String, dynamic>> maps = await database.query(
+      'question',
+      where: 'question_index IN (${dbIndexes.join(', ')})',
+      limit: QuestionRepository.pageSize,
+      offset: pageNumber * QuestionRepository.pageSize,
+    );
+
+    return List.generate(maps.length, (i) {
+      final questionMap = convertDatabaseMapToQuestionObjectMap(maps[i]);
+      return Question.fromJson(questionMap);
+    });
   }
 }
 

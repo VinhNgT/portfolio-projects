@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:driving_license/features/chapters/data/user_chapter_selection_repository.dart';
+import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/questions/data/k_test_questions.dart';
 import 'package:driving_license/features/questions/data/question_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
@@ -51,5 +51,20 @@ class TestQuestionRepository implements QuestionRepository {
   @override
   FutureOr<int> getQuestionCountByChapter(Chapter chapter) {
     return getQuestionCount();
+  }
+
+  @override
+  FutureOr<List<Question>> getQuestionsPageByDbIndexes(
+    List<int> indexes,
+    int pageNumber,
+  ) {
+    // TODO: implement getQuestionsPageByIndexes
+    throw UnimplementedError();
+  }
+
+  @override
+  FutureOr<Question> getQuestionByDbIndex(int dbIndex) {
+    // TODO: implement getQuestionByDbIndex
+    throw UnimplementedError();
   }
 }

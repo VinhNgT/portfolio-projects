@@ -1,5 +1,6 @@
 import 'package:driving_license/features/questions/data/user_answer_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
+import 'package:driving_license/features/questions/domain/user_answer.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -29,6 +30,14 @@ class UserAnswerService {
 
   Stream<int?> watchUserSelectedAnswerIndex(Question question) async* {
     yield* userAnswerRepository.watchUserSelectedAnswerIndex(question);
+  }
+
+  Stream<List<UserAnswer>> watchAllWrongAnswers() {
+    return userAnswerRepository.watchAllWrongAnswers();
+  }
+
+  Future<List<UserAnswer>> getAllWrongAnswers() {
+    return userAnswerRepository.getAllWrongAnswers();
   }
 }
 

@@ -54,3 +54,34 @@ class ChapterQuestionsLoader implements QuestionsLoader {
     return questionRepository.getQuestionCountByChapter(chapter);
   }
 }
+
+class WrongAnswerQuestionsLoader implements QuestionsLoader {
+  WrongAnswerQuestionsLoader({
+    required this.questionRepository,
+    required this.wrongAnswers,
+  });
+  final QuestionRepository questionRepository;
+  final List<UserAnswer> wrongAnswers;
+
+  @override
+  FutureOr<Question> load(int questionIndex) {
+    return questionRepository
+        .getQuestionByDbIndex(wrongAnswers[questionIndex].questionDbIndex);
+  }
+
+  @override
+  FutureOr<List<Question>> loadPage(int pageIndex) {
+    final wrongQuestionDbIndexes =
+        wrongAnswers.map((e) => e.questionDbIndex).toList();
+
+    return questionRepository.getQuestionsPageByDbIndexes(
+      wrongQuestionDbIndexes,
+      pageIndex,
+    );
+  }
+
+  @override
+  FutureOr<int> loadQuestionCount() {
+    return Future.value(wrongAnswers.length);
+  }
+}
