@@ -5,9 +5,9 @@ import 'package:driving_license/features/questions/domain/user_answer.dart';
 import 'package:driving_license/utils/in_memory_store.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'temp_user_answers_repository.g.dart';
+part 'in_memory_user_answers_repository.g.dart';
 
-class TempUserAnswersRepository implements UserAnswersRepository {
+class InMemoryUserAnswersRepository implements UserAnswersRepository {
   final allAnswersStore = InMemoryStore<List<UserAnswer>>(List.empty());
   final answeredWrongStore = InMemoryStore<List<UserAnswer>>(List.empty());
 
@@ -57,8 +57,8 @@ class TempUserAnswersRepository implements UserAnswersRepository {
 }
 
 @Riverpod(keepAlive: true)
-TempUserAnswersRepository tempUserAnswersRepository(
-  TempUserAnswersRepositoryRef ref,
+InMemoryUserAnswersRepository inMemoryUserAnswersRepository(
+  InMemoryUserAnswersRepositoryRef ref,
 ) {
-  return TempUserAnswersRepository();
+  return InMemoryUserAnswersRepository();
 }
