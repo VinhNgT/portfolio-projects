@@ -17,6 +17,9 @@ class InMemoryStore<T> {
   /// A setter for updating the value
   set value(T value) => _subject.add(value);
 
+  /// A method to manually emit the current value
+  void emmit() => _subject.add(_subject.value);
+
   /// Don't forget to call this when done
-  void close() => _subject.close();
+  Future<void> close() async => _subject.close();
 }
