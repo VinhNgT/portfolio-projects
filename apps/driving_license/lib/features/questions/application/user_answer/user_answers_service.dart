@@ -1,4 +1,4 @@
-import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
+import 'package:driving_license/features/questions/data/user_answer/sembast_user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answer.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,8 +10,8 @@ class UserAnswersService {
   UserAnswersService(this.ref);
   final Ref ref;
 
-  UserAnswersRepository get userAnswersRepository =>
-      ref.read(userAnswersRepositoryProvider);
+  SembastUserAnswersRepository get userAnswersRepository =>
+      ref.read(sembastUserAnswersRepositoryProvider);
 
   Future<void> saveUserAnswer(
     Question question,

@@ -6,17 +6,19 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 
-part 'user_answers_repository.g.dart';
+part 'sembast_user_answers_repository.g.dart';
 
-class UserAnswersRepository {
-  UserAnswersRepository(this.db);
+class SembastUserAnswersRepository {
+  SembastUserAnswersRepository(this.db);
 
   final Database db;
   final allAnswersStore = intMapStoreFactory.store('all_answers');
   final answeredWrongStore = intMapStoreFactory.store('answered_wrong');
 
-  static Future<UserAnswersRepository> makeDefault() async {
-    return UserAnswersRepository(await _createDatabase('user_answers.db'));
+  static Future<SembastUserAnswersRepository> makeDefault() async {
+    return SembastUserAnswersRepository(
+      await _createDatabase('user_answers.db'),
+    );
   }
 
   static Future<Database> _createDatabase(String filename) async {
@@ -91,7 +93,9 @@ class UserAnswersRepository {
 }
 
 @Riverpod(keepAlive: true)
-UserAnswersRepository userAnswersRepository(UserAnswersRepositoryRef ref) {
+SembastUserAnswersRepository sembastUserAnswersRepository(
+  SembastUserAnswersRepositoryRef ref,
+) {
   //* Override this in the main method to select the correct implementation
   throw UnimplementedError();
 }

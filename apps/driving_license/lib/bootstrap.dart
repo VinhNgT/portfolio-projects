@@ -5,7 +5,7 @@ import 'package:driving_license/exceptions/async_error_logger.dart';
 import 'package:driving_license/exceptions/error_logger.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
 import 'package:driving_license/features/questions/data/question/sqlite_questions_repository.dart';
-import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
+import 'package:driving_license/features/questions/data/user_answer/sembast_user_answers_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -19,13 +19,15 @@ class Bootstrap {
     // Load question database
     final sqliteQuestionsRepository =
         await SqliteQuestionsRepository.makeDefault();
-    final userAnswersRepository = await UserAnswersRepository.makeDefault();
+    final sembastUserAnswersRepository =
+        await SembastUserAnswersRepository.makeDefault();
 
     final container = ProviderContainer(
       overrides: [
         questionsRepositoryProvider
             .overrideWithValue(sqliteQuestionsRepository),
-        userAnswersRepositoryProvider.overrideWithValue(userAnswersRepository),
+        sembastUserAnswersRepositoryProvider
+            .overrideWithValue(sembastUserAnswersRepository),
       ],
     );
 
