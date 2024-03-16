@@ -4,7 +4,6 @@ import 'package:driving_license/features/questions/data/user_answer/user_answers
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answer.dart';
 import 'package:driving_license/utils/in_memory_store.dart';
-import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'in_memory_user_answers_repository.g.dart';
@@ -75,7 +74,6 @@ InMemoryUserAnswersRepository inMemoryUserAnswersRepository(
   final answeredWrongStore = InMemoryStore<Map<int, UserAnswer>>({});
 
   ref.onDispose(() {
-    debugPrint('Disposing InMemoryUserAnswersRepository');
     unawaited(allAnswersStore.close());
     unawaited(answeredWrongStore.close());
   });

@@ -1,15 +1,21 @@
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/questions/application/question/questions_handler.dart';
-import 'package:driving_license/features/questions/application/user_answer/user_answers_service.dart';
+import 'package:driving_license/features/questions/application/user_answer/user_answers_handler.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
+import 'package:driving_license/features/questions/data/user_answer/in_memory_user_answers_repository.dart';
+import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'questions_service.g.dart';
 
 class QuestionsService {
-  QuestionsService(this.questionsHandler);
+  QuestionsService({
+    required this.questionsHandler,
+    required this.userAnswersHandler,
+  });
   final QuestionsHandler questionsHandler;
+  final UserAnswersHandler userAnswersHandler;
 
   Future<Question> getQuestion(int questionIndex) async =>
       questionsHandler.getQuestion(questionIndex);
@@ -18,46 +24,79 @@ class QuestionsService {
       questionsHandler.getQuestionsPage(pageIndex);
 
   Future<int> getQuestionCount() async => questionsHandler.getQuestionCount();
+
+  Future<void> saveUserAnswer(Question question, int selectedAnswerIndex) =>
+      userAnswersHandler.saveUserAnswer(question, selectedAnswerIndex);
+
+  Future<void> deleteUserAnswer(Question question) =>
+      userAnswersHandler.deleteUserAnswer(question);
+
+  Future<void> deleteAllUserAnswers() =>
+      userAnswersHandler.deleteAllUserAnswers();
+
+  Stream<int?> watchUserSelectedAnswerIndex(Question question) =>
+      userAnswersHandler.watchUserSelectedAnswerIndex(question);
 }
 
 @Riverpod(keepAlive: true)
 class QuestionsServiceController extends _$QuestionsServiceController {
   QuestionsRepository get _questionsRepository =>
       ref.read(questionsRepositoryProvider);
-
-  UserAnswersService get _userAnswersService =>
-      ref.read(userAnswersServiceProvider);
+  UserAnswersRepository get _userAnswersRepository =>
+      ref.read(userAnswersRepositoryProvider);
+  UserAnswersRepository get _tempUserAnswersRepository =>
+      ref.read(inMemoryUserAnswersRepositoryProvider);
 
   @override
   QuestionsService build() {
     // Default to full handler (loads from 600 questions) unless specified
     // otherwise
     return QuestionsService(
-      FullQuestionsHandler(questionsRepository: _questionsRepository),
+      questionsHandler:
+          FullQuestionsHandler(questionsRepository: _questionsRepository),
+      userAnswersHandler: DirectUserAnswersHandler(
+        userAnswersRepository: _userAnswersRepository,
+      ),
     );
   }
 
   void setupAllQuestions() {
     state = QuestionsService(
-      FullQuestionsHandler(questionsRepository: _questionsRepository),
+      questionsHandler:
+          FullQuestionsHandler(questionsRepository: _questionsRepository),
+      userAnswersHandler: DirectUserAnswersHandler(
+        userAnswersRepository: _userAnswersRepository,
+      ),
     );
   }
 
   void setupChapterQuestions(Chapter chapter) {
     state = QuestionsService(
-      ChapterQuestionsHandler(
+      questionsHandler: ChapterQuestionsHandler(
         questionsRepository: _questionsRepository,
         chapter: chapter,
+      ),
+      userAnswersHandler: DirectUserAnswersHandler(
+        userAnswersRepository: _userAnswersRepository,
       ),
     );
   }
 
   Future<void> setupWrongAnswerQuestions() async {
-    final wrongAnswers = await _userAnswersService.getAllWrongAnswers();
+    final wrongAnswers = await _userAnswersRepository.getAllWrongAnswers();
+
+    if (ref.exists(inMemoryUserAnswersRepositoryProvider)) {
+      ref.invalidate(inMemoryUserAnswersRepositoryProvider);
+    }
+
     state = QuestionsService(
-      WrongAnswerQuestionsHandler(
+      questionsHandler: WrongAnswerQuestionsHandler(
         questionsRepository: _questionsRepository,
         wrongAnswers: wrongAnswers,
+      ),
+      userAnswersHandler: WrongUserAnswersHandler(
+        userAnswersRepository: _userAnswersRepository,
+        tempUserAnswersRepository: _tempUserAnswersRepository,
       ),
     );
   }
@@ -143,4 +182,13 @@ FutureOr<Question> questionPreloadPagesFuture(
 
   // Return the question
   return questionPage[questionIndex % QuestionsRepository.pageSize];
+}
+
+@riverpod
+Stream<int?> userSelectedAnswerIndex(
+  UserSelectedAnswerIndexRef ref,
+  Question question,
+) {
+  final questionsService = ref.watch(questionsServiceControllerProvider);
+  return questionsService.watchUserSelectedAnswerIndex(question);
 }
