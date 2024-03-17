@@ -196,16 +196,9 @@ class PrototypeQuestionCard extends HookConsumerWidget {
           widgetHeight;
     });
 
-    return const QuestionCard(
+    return QuestionCard(
       questionPageIndex: -1,
-      question: Question(
-        questionDbIndex: -1,
-        chapterDbIndex: -1,
-        title: 'Prototype\nPrototype',
-        isDanger: false,
-        correctAnswerIndex: 0,
-        answers: ['0'],
-      ),
+      question: Question.prototype(),
       answerState: AnswerState.checked,
       isSelected: false,
       onPressed: null,
