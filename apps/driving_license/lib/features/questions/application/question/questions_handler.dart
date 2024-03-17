@@ -1,11 +1,8 @@
 import 'dart:async';
 
-import 'package:collection/collection.dart';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
-import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
-import 'package:driving_license/features/questions/domain/user_answer.dart';
 
 abstract class QuestionsHandler {
   FutureOr<Question> getQuestion(int questionIndex);
@@ -57,38 +54,30 @@ class ChapterQuestionsHandler implements QuestionsHandler {
   }
 }
 
-class WrongAnswerQuestionsHandler implements QuestionsHandler {
-  WrongAnswerQuestionsHandler({
+class CustomQuestionListQuestionHandler implements QuestionsHandler {
+  CustomQuestionListQuestionHandler({
     required this.questionsRepository,
-    required this.wrongAnswers,
-  }) {
-    _wrongAnswersList = wrongAnswers.values
-        .toList()
-        .sorted((a, b) => a.questionDbIndex - b.questionDbIndex);
-  }
+    required this.questionDbIndexes,
+  });
   final QuestionsRepository questionsRepository;
-  final UserAnswersMap wrongAnswers;
-  late final List<UserAnswer> _wrongAnswersList;
+  final List<int> questionDbIndexes;
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
     return questionsRepository
-        .getQuestionByDbIndex(_wrongAnswersList[questionIndex].questionDbIndex);
+        .getQuestionByDbIndex(questionDbIndexes[questionIndex]);
   }
 
   @override
   FutureOr<List<Question>> getQuestionsPage(int pageIndex) {
-    final wrongQuestionDbIndexes =
-        _wrongAnswersList.map((answer) => answer.questionDbIndex).toList();
-
     return questionsRepository.getQuestionsPageByDbIndexes(
-      wrongQuestionDbIndexes,
+      questionDbIndexes,
       pageIndex,
     );
   }
 
   @override
   FutureOr<int> getQuestionCount() {
-    return Future.value(wrongAnswers.length);
+    return Future.value(questionDbIndexes.length);
   }
 }

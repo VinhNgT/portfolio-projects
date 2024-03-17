@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/questions/application/question/questions_handler.dart';
 import 'package:driving_license/features/questions/application/user_answer/user_answers_handler.dart';
@@ -84,15 +85,17 @@ class QuestionsServiceController extends _$QuestionsServiceController {
 
   Future<void> setupWrongAnswerQuestions() async {
     final wrongAnswers = await _userAnswersRepository.getAllWrongAnswers();
+    final wrongAnswerQuestionDbIndexes =
+        wrongAnswers.keys.toList().sorted((a, b) => a - b);
 
     if (ref.exists(inMemoryUserAnswersRepositoryProvider)) {
       ref.invalidate(inMemoryUserAnswersRepositoryProvider);
     }
 
     state = QuestionsService(
-      questionsHandler: WrongAnswerQuestionsHandler(
+      questionsHandler: CustomQuestionListQuestionHandler(
         questionsRepository: _questionsRepository,
-        wrongAnswers: wrongAnswers,
+        questionDbIndexes: wrongAnswerQuestionDbIndexes,
       ),
       userAnswersHandler: WrongUserAnswersHandler(
         userAnswersRepository: _userAnswersRepository,
