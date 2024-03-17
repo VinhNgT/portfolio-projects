@@ -63,10 +63,10 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
 
   @override
   Stream<int?> watchUserSelectedAnswerIndex(Question question) {
-    final recordSnapshot =
+    final recordSnapshotStream =
         allAnswersStore.record(question.questionDbIndex).onSnapshot(db);
 
-    return recordSnapshot.map((snapshot) {
+    return recordSnapshotStream.map((snapshot) {
       if (snapshot == null) {
         return null;
       }
