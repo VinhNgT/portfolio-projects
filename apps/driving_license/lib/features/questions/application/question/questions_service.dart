@@ -100,6 +100,7 @@ class QuestionsServiceController extends _$QuestionsServiceController {
       userAnswersHandler: WrongUserAnswersHandler(
         userAnswersRepository: _userAnswersRepository,
         tempUserAnswersRepository: _tempUserAnswersRepository,
+        wrongAnswersBeforeStart: wrongAnswers,
       ),
     );
   }

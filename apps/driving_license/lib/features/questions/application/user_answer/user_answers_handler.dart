@@ -40,9 +40,12 @@ class WrongUserAnswersHandler implements UserAnswersHandler {
   WrongUserAnswersHandler({
     required this.userAnswersRepository,
     required this.tempUserAnswersRepository,
+    required this.wrongAnswersBeforeStart,
   });
+
   final UserAnswersRepository userAnswersRepository;
   final UserAnswersRepository tempUserAnswersRepository;
+  final UserAnswersMap wrongAnswersBeforeStart;
 
   @override
   Future<void> saveUserAnswer(
@@ -57,13 +60,22 @@ class WrongUserAnswersHandler implements UserAnswersHandler {
   }
 
   @override
-  Future<void> deleteUserAnswer(Question question) {
-    return tempUserAnswersRepository.deleteUserAnswer(question);
+  Future<void> deleteUserAnswer(Question question) async {
+    final userAnswerAtStart =
+        wrongAnswersBeforeStart[question.questionDbIndex]!;
+
+    // Restore the user's answer from the start of the test
+    await userAnswersRepository.saveUserAnswer(
+      question,
+      userAnswerAtStart.selectedAnswerIndex,
+    );
+    await tempUserAnswersRepository.deleteUserAnswer(question);
   }
 
   @override
-  Future<void> deleteAllUserAnswers() {
-    return tempUserAnswersRepository.deleteAllUserAnswers();
+  Future<void> deleteAllUserAnswers() async {
+    // We don't need to implement this for now
+    throw UnimplementedError('deleteAllUserAnswers is not implemented');
   }
 
   @override
