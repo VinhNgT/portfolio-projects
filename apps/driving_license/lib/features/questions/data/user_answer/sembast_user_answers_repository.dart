@@ -85,22 +85,4 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
           .toList();
     });
   }
-
-  // Stream<List<UserAnswer>> watchAllWrongAnswers() {
-  //   final recordSnapshot = answeredWrongStore.query().onSnapshots(db);
-
-  //   return recordSnapshot.map((snapshot) {
-  //     return snapshot
-  //         .map((e) => UserAnswer.fromJson(e.value as Map<String, dynamic>))
-  //         .toList();
-  //   });
-  // }
 }
-
-// @Riverpod(keepAlive: true)
-// SembastUserAnswersRepository sembastUserAnswersRepository(
-//   SembastUserAnswersRepositoryRef ref,
-// ) {
-//   //* Override this in the main method to select the correct implementation
-//   throw UnimplementedError();
-// }
