@@ -140,7 +140,7 @@ class ChapterSelection extends HookConsumerWidget {
           itemBuilder: (BuildContext _, int index) => [
             ChapterCard(
               iconAssetPath: 'assets/icons/home_screen/complied/books.svg.vec',
-              title: 'Khái niệm và quy tắc',
+              title: Chapter.khaiNiemVaQuyTac.chapterName,
               subhead: 'Đã hoàn thành 0 / 83 - Sai 5 câu',
               onTap: () async {
                 ref
@@ -153,7 +153,7 @@ class ChapterSelection extends HookConsumerWidget {
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/danger_fire.svg.vec',
-              title: 'Nghiệp vụ vận tải',
+              title: Chapter.nghiepVuVanTai.chapterName,
               subhead: 'Đã hoàn thành 0 / 20',
               onTap: () async {
                 ref
@@ -165,7 +165,7 @@ class ChapterSelection extends HookConsumerWidget {
             ),
             ChapterCard(
               iconAssetPath: 'assets/icons/home_screen/complied/person.svg.vec',
-              title: 'Văn hoá và đạo đức',
+              title: Chapter.vanHoaVaDaoDuc.chapterName,
               subhead: 'Đã hoàn thành 0 / 5',
               onTap: () async {
                 ref
@@ -178,7 +178,7 @@ class ChapterSelection extends HookConsumerWidget {
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/steering_wheel.svg.vec',
-              title: 'Kỹ thuật lái xe',
+              title: Chapter.kyThuatLaiXe.chapterName,
               subhead: 'Đã hoàn thành 0 / 12',
               onTap: () async {
                 ref
@@ -191,7 +191,7 @@ class ChapterSelection extends HookConsumerWidget {
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/danger_fire.svg.vec',
-              title: 'Cấu taọ và sửa chữa',
+              title: Chapter.cauTaoVaSuaChua.chapterName,
               subhead: 'Đã hoàn thành 0 / 20',
               onTap: () async {
                 ref
@@ -204,7 +204,7 @@ class ChapterSelection extends HookConsumerWidget {
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/turn_right_sign.svg.vec',
-              title: 'Biển báo đường bộ',
+              title: Chapter.bienBaoDuongBo.chapterName,
               subhead: 'Đã hoàn thành 0 / 65',
               onTap: () async {
                 ref
@@ -217,7 +217,7 @@ class ChapterSelection extends HookConsumerWidget {
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/traffic_light.svg.vec',
-              title: 'Sa hình',
+              title: Chapter.saHinhVaTinhHuong.chapterName,
               subhead: 'Đã hoàn thành 0 / 35',
               onTap: () async {
                 ref
