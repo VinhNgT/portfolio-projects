@@ -50,13 +50,13 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Future<void> deleteUserAnswer(Question question) async {
+  Future<void> clearUserAnswer(Question question) async {
     await allAnswersStore.record(question.questionDbIndex).delete(db);
     await answeredWrongStore.record(question.questionDbIndex).delete(db);
   }
 
   @override
-  Future<void> deleteAllUserAnswers() async {
+  Future<void> clearAllUserAnswers() async {
     await allAnswersStore.delete(db);
     await answeredWrongStore.delete(db);
   }

@@ -16,13 +16,13 @@ class DirectUserAnswersHandler implements UserAnswersHandler {
   }
 
   @override
-  Future<void> deleteUserAnswer(Question question) {
-    return userAnswersRepository.deleteUserAnswer(question);
+  Future<void> clearUserAnswer(Question question) {
+    return userAnswersRepository.clearUserAnswer(question);
   }
 
   @override
-  Future<void> deleteAllUserAnswers() {
-    return userAnswersRepository.deleteAllUserAnswers();
+  Future<void> clearAllUserAnswers() {
+    return userAnswersRepository.clearAllUserAnswers();
   }
 
   @override
@@ -60,7 +60,7 @@ class WrongUserAnswersHandler implements UserAnswersHandler {
   }
 
   @override
-  Future<void> deleteUserAnswer(Question question) async {
+  Future<void> clearUserAnswer(Question question) async {
     final userAnswerAtStart =
         wrongAnswersBeforeStart[question.questionDbIndex]!;
 
@@ -69,13 +69,13 @@ class WrongUserAnswersHandler implements UserAnswersHandler {
       question,
       userAnswerAtStart.selectedAnswerIndex,
     );
-    await tempUserAnswersRepository.deleteUserAnswer(question);
+    await tempUserAnswersRepository.clearUserAnswer(question);
   }
 
   @override
-  Future<void> deleteAllUserAnswers() async {
+  Future<void> clearAllUserAnswers() async {
     // We don't need to implement this for now
-    throw UnimplementedError('deleteAllUserAnswers is not implemented');
+    throw UnimplementedError('clearAllUserAnswers is not implemented');
   }
 
   @override

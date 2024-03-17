@@ -15,7 +15,7 @@ class QuestionAppBarController extends _$QuestionAppBarController {
   Future<void> deleteAnswer(Question question) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(
-      () => _questionsService.deleteUserAnswer(question),
+      () => _questionsService.clearUserAnswer(question),
     );
   }
 }

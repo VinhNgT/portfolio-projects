@@ -29,11 +29,11 @@ class QuestionsService {
   Future<void> saveUserAnswer(Question question, int selectedAnswerIndex) =>
       userAnswersHandler.saveUserAnswer(question, selectedAnswerIndex);
 
-  Future<void> deleteUserAnswer(Question question) =>
-      userAnswersHandler.deleteUserAnswer(question);
+  Future<void> clearUserAnswer(Question question) =>
+      userAnswersHandler.clearUserAnswer(question);
 
-  Future<void> deleteAllUserAnswers() =>
-      userAnswersHandler.deleteAllUserAnswers();
+  Future<void> clearAllUserAnswers() =>
+      userAnswersHandler.clearAllUserAnswers();
 
   Stream<int?> watchUserSelectedAnswerIndex(Question question) =>
       userAnswersHandler.watchUserSelectedAnswerIndex(question);

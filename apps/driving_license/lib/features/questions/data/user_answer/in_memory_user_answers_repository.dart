@@ -43,7 +43,7 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Future<void> deleteAllUserAnswers() async {
+  Future<void> clearAllUserAnswers() async {
     allAnswersStore.value = {};
     answeredWrongStore.value = {};
     // No need to call notifyListeners() here because the store will emits the
@@ -51,7 +51,7 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Future<void> deleteUserAnswer(Question question) async {
+  Future<void> clearUserAnswer(Question question) async {
     allAnswersStore.value.remove(question.questionDbIndex);
     answeredWrongStore.value.remove(question.questionDbIndex);
     notifyListeners();

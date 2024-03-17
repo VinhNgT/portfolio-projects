@@ -13,8 +13,8 @@ typedef UserAnswersMap = Map<int, UserAnswer>;
 
 abstract class UserAnswersRepository {
   Future<void> saveUserAnswer(Question question, int selectedAnswerIndex);
-  Future<void> deleteUserAnswer(Question question);
-  Future<void> deleteAllUserAnswers();
+  Future<void> clearUserAnswer(Question question);
+  Future<void> clearAllUserAnswers();
   Stream<int?> watchUserSelectedAnswerIndex(Question question);
   Future<UserAnswersMap> getAllWrongAnswers();
 }
