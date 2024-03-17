@@ -66,8 +66,8 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Future<List<UserAnswer>> getAllWrongAnswers() {
-    return Future.value(answeredWrongStore.value.values.toList());
+  Future<UserAnswersMap> getAllWrongAnswers() {
+    return Future.value(answeredWrongStore.value);
   }
 }
 

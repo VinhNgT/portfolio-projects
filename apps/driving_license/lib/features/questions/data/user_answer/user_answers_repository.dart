@@ -4,12 +4,19 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'user_answers_repository.g.dart';
 
+/// A typedef representing a map of user answers.
+///
+/// The keys of the map are integers representing question DB IDs,
+/// and the values are [UserAnswer] objects representing the user's answer
+/// for each question.
+typedef UserAnswersMap = Map<int, UserAnswer>;
+
 abstract class UserAnswersRepository {
   Future<void> saveUserAnswer(Question question, int selectedAnswerIndex);
   Future<void> deleteUserAnswer(Question question);
   Future<void> deleteAllUserAnswers();
   Stream<int?> watchUserSelectedAnswerIndex(Question question);
-  Future<List<UserAnswer>> getAllWrongAnswers();
+  Future<UserAnswersMap> getAllWrongAnswers();
 }
 
 @Riverpod(keepAlive: true)

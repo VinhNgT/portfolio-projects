@@ -78,11 +78,12 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Future<List<UserAnswer>> getAllWrongAnswers() {
-    return answeredWrongStore.find(db).then((records) {
-      return records
-          .map((e) => UserAnswer.fromJson(e.value as Map<String, dynamic>))
-          .toList();
-    });
+  Future<UserAnswersMap> getAllWrongAnswers() async {
+    final recordSnapshot = await answeredWrongStore.find(db);
+
+    return {
+      for (final record in recordSnapshot)
+        record.key: UserAnswer.fromJson(record.value as Map<String, dynamic>),
+    };
   }
 }

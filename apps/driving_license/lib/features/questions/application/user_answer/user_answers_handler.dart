@@ -1,6 +1,5 @@
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
-import 'package:driving_license/features/questions/domain/user_answer.dart';
 
 abstract class UserAnswersHandler implements UserAnswersRepository {}
 
@@ -32,7 +31,7 @@ class DirectUserAnswersHandler implements UserAnswersHandler {
   }
 
   @override
-  Future<List<UserAnswer>> getAllWrongAnswers() {
+  Future<UserAnswersMap> getAllWrongAnswers() {
     return userAnswersRepository.getAllWrongAnswers();
   }
 }
@@ -73,7 +72,7 @@ class WrongUserAnswersHandler implements UserAnswersHandler {
   }
 
   @override
-  Future<List<UserAnswer>> getAllWrongAnswers() {
+  Future<UserAnswersMap> getAllWrongAnswers() {
     return userAnswersRepository.getAllWrongAnswers();
   }
 }
