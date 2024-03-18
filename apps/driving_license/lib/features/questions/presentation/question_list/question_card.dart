@@ -12,6 +12,7 @@ import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 const double _kQuestionCardImageSize = 66.0;
 
@@ -59,42 +60,54 @@ class QuestionCard extends StatelessWidget {
           horizontal: kSize_16,
           vertical: kSize_12,
         ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Câu ${questionPageIndex + 1}',
-                        style: context.textTheme.titleMedium,
-                      ),
-                      kGap_4,
-                      _QCAnswerStateCheckbox(answerState: answerState),
-                    ],
-                  ),
-                  kGap_2,
-                  Text(
-                    question.title,
-                    style: context.textTheme.bodyMedium,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+        child: IntrinsicHeight(
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Câu ${questionPageIndex + 1}',
+                          style: context.textTheme.titleMedium,
+                        ),
+                        kGap_4,
+                        _QCAnswerStateCheckbox(answerState: answerState),
+                      ],
+                    ),
+                    kGap_2,
+                    Text(
+                      question.title,
+                      style: context.textTheme.bodyMedium,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            if (questionImage != null) ...[
               kGap_12,
-              ClipRRect(
-                borderRadius: BorderRadius.circular(4),
-                child: questionImage,
+              Align(
+                alignment: Alignment.topCenter,
+                child: Icon(
+                  Symbols.bookmark,
+                  fill: 1,
+                  size: 20,
+                  color: context.materialScheme.onSurfaceVariant,
+                ),
               ),
+              if (questionImage != null) ...[
+                kGap_12,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: questionImage,
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
@@ -192,11 +205,11 @@ class PrototypeQuestionCard extends HookConsumerWidget {
     ref.listen(questionCardPrototypeHeightProvider, (_, __) {});
 
     if (shouldUpdateProvider) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final widgetHeight = context.size?.height ?? 0;
-      ref.read(questionCardPrototypeHeightProvider.notifier).value =
-          widgetHeight;
-    });
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final widgetHeight = context.size?.height ?? 0;
+        ref.read(questionCardPrototypeHeightProvider.notifier).value =
+            widgetHeight;
+      });
     }
 
     return QuestionCard(
