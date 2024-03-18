@@ -49,10 +49,7 @@ class QuestionAppBar extends HookConsumerWidget implements PreferredSizeWidget {
 
 extension QuestionAppBarX on QuestionAppBar {
   void resetSelectedAnswer(WidgetRef ref) async {
-    final currentPageIndex = ref.read(currentPageIndexProvider);
-    final currentQuestion =
-        await ref.read(questionFutureProvider(currentPageIndex).future);
-
+    final currentQuestion = await ref.read(currentQuestionProvider.future);
     await ref
         .read(questionAppBarControllerProvider.notifier)
         .deleteAnswer(currentQuestion);

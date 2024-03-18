@@ -6,6 +6,21 @@ part of 'question_screen_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$currentQuestionHash() => r'6f94209d698f26957b62e5979a9ddcfa44056f5a';
+
+/// See also [currentQuestion].
+@ProviderFor(currentQuestion)
+final currentQuestionProvider = AutoDisposeFutureProvider<Question>.internal(
+  currentQuestion,
+  name: r'currentQuestionProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$currentQuestionHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef CurrentQuestionRef = AutoDisposeFutureProviderRef<Question>;
 String _$currentPageIndexHash() => r'9313223b735444de9d525df3e009d98ad98d23ee';
 
 /// See also [CurrentPageIndex].
