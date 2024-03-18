@@ -1,5 +1,6 @@
 import 'package:driving_license/features/bookmark/data/bookmarks_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
+import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'bookmark_button_controller.g.dart';
@@ -25,4 +26,15 @@ class BookmarkButtonController extends _$BookmarkButtonController {
       () => _bookmarksRepository.removeBookmark(question),
     );
   }
+}
+
+@riverpod
+Stream<bool> isCurrentQuestionBookmarkedStream(
+  IsCurrentQuestionBookmarkedStreamRef ref,
+) async* {
+  final currentQuestion = await ref.watch(currentQuestionProvider.future);
+  final isBookmarked =
+      await ref.watch(isBookmarkedStreamProvider(currentQuestion).future);
+
+  yield isBookmarked;
 }

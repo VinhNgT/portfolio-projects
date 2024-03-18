@@ -1,39 +1,51 @@
-import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
-import 'package:driving_license/features/bookmark/data/bookmarks_repository.dart';
-import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/bookmark_button_controller.dart';
+import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class BookmarkButton extends HookConsumerWidget {
-  const BookmarkButton({super.key, required this.question});
-  final Question question;
+  const BookmarkButton({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isBookmarked = ref.watch(isBookmarkedStreamProvider(question));
+    keepControllerAlive(ref);
+    final isBookmarked = useState(false);
 
-    return AsyncValueWidget(
-      value: isBookmarked,
-      builder: (isBookmarkedValue) {
-        return isBookmarkedValue
-            ? _BookmarkedIconButton(
-                onPressed: () async {
-                  await ref
-                      .read(bookmarkButtonControllerProvider.notifier)
-                      .unbookmarkQuestion(question);
-                },
-              )
-            : _NotbookmarkedIconButton(
-                onPressed: () async {
-                  await ref
-                      .read(bookmarkButtonControllerProvider.notifier)
-                      .bookmarkQuestion(question);
-                },
-              );
-      },
-    );
+    ref.listen(isCurrentQuestionBookmarkedStreamProvider, (previous, next) {
+      next.whenData((value) => isBookmarked.value = value);
+    });
+
+    return isBookmarked.value
+        ? _BookmarkedIconButton(
+            onPressed: () => unBookmarkCurrentQuestion(ref),
+          )
+        : _NotbookmarkedIconButton(
+            onPressed: () => bookmarkCurrentQuestion(ref),
+          );
+  }
+}
+
+extension BookmarkButtonX on BookmarkButton {
+  void keepControllerAlive(WidgetRef ref) {
+    ref.listen(bookmarkButtonControllerProvider, (previous, next) {});
+  }
+
+  void unBookmarkCurrentQuestion(WidgetRef ref) async {
+    final currentQuestion = await ref.read(currentQuestionProvider.future);
+
+    await ref
+        .read(bookmarkButtonControllerProvider.notifier)
+        .unbookmarkQuestion(currentQuestion);
+  }
+
+  void bookmarkCurrentQuestion(WidgetRef ref) async {
+    final currentQuestion = await ref.read(currentQuestionProvider.future);
+
+    await ref
+        .read(bookmarkButtonControllerProvider.notifier)
+        .bookmarkQuestion(currentQuestion);
   }
 }
 

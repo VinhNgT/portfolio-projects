@@ -1,7 +1,5 @@
-import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/constants/widget_sizes.dart';
-import 'package:driving_license/features/questions/application/question/questions_service.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/bookmark_button.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/question_app_bar_controller.dart';
 import 'package:driving_license/features/questions/presentation/question/question_page_controller.dart';
@@ -19,16 +17,11 @@ class QuestionAppBar extends HookConsumerWidget implements PreferredSizeWidget {
     final currentPageIndex = ref.watch(currentPageIndexProvider);
     final currentPageScrollController =
         ref.watch(questionPageScrollControllerProvider(currentPageIndex));
-    final currentQuestion = ref.watch(questionFutureProvider(currentPageIndex));
 
     return CommonAppBar(
       title: Text('Câu hỏi ${currentPageIndex + 1}'),
       actions: [
-        AsyncValueWidget(
-          value: currentQuestion,
-          builder: (currentQuestionValue) =>
-              BookmarkButton(question: currentQuestionValue),
-        ),
+        const BookmarkButton(),
         IconButton(
           icon: const Icon(Symbols.restart_alt),
           onPressed: controllerState.isLoading
