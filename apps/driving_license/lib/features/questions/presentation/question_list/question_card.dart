@@ -27,7 +27,7 @@ class QuestionCard extends StatelessWidget {
     super.key,
     required this.questionPageIndex,
     required this.question,
-    required this.answerState,
+    this.answerState = AnswerState.unchecked,
     required this.isSelected,
     this.onPressed,
   });
