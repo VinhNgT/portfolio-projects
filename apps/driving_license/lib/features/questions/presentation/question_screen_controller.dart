@@ -1,5 +1,3 @@
-import 'package:driving_license/features/questions/application/question/questions_service.dart';
-import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'question_screen_controller.g.dart';
@@ -17,13 +15,4 @@ class CurrentPageIndex extends _$CurrentPageIndex {
   set value(int newValue) {
     state = newValue;
   }
-}
-
-@riverpod
-FutureOr<Question> currentQuestion(CurrentQuestionRef ref) async {
-  final currentPageIndex = ref.watch(currentPageIndexProvider);
-  final question =
-      await ref.watch(questionFutureProvider(currentPageIndex).future);
-
-  return question;
 }
