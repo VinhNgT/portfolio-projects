@@ -30,7 +30,6 @@ class QuestionPage extends HookConsumerWidget {
       value: question,
       builder: (questionValue) => Consumer(
         builder: (context, ref, child) {
-          ref.watch(questionPageControllerProvider(questionValue));
           updateQuestionPageScrollController(ref, scrollController);
 
           final selectedAnswerIndex = ref.watch(
