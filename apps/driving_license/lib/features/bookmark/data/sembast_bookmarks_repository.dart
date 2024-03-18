@@ -50,8 +50,12 @@ class SembastBookmarksRepository implements BookmarksRepository {
   }
 
   @override
-  Future<bool> isBookmarked(Question question) async {
-    final record = allAnswersStore.record(question.questionDbIndex);
-    return record.exists(db);
+  Stream<bool> watchIsBookmarked(Question question) {
+    return allAnswersStore
+        .query(
+          finder: Finder(filter: Filter.byKey(question.questionDbIndex)),
+        )
+        .onSnapshots(db)
+        .map((snapshots) => snapshots.isNotEmpty);
   }
 }

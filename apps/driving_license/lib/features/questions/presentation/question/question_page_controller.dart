@@ -1,8 +1,27 @@
+import 'package:driving_license/features/bookmark/data/bookmarks_repository.dart';
+import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'question_page_controller.g.dart';
+
+@riverpod
+class QuestionPageController extends _$QuestionPageController {
+  @override
+  void build(Question question) {
+    // Preload the bookmark status of the question to avoid delay when
+    // QuestionAppBar access it later.
+    keepIsBookmarkedStreamProviderAlive();
+  }
+
+  void keepIsBookmarkedStreamProviderAlive() {
+    ref.listen(
+      isBookmarkedStreamProvider(question),
+      (previous, next) {},
+    );
+  }
+}
 
 // Scroll controller for AppBar to use to calculate its background color
 @riverpod

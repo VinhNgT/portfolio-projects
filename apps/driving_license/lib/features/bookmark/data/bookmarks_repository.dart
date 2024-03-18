@@ -1,4 +1,3 @@
-import 'package:driving_license/features/bookmark/data/sembast_bookmarks_repository.dart';
 import 'package:driving_license/features/bookmark/domain/bookmark.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -10,7 +9,7 @@ abstract class BookmarksRepository {
   Future<void> removeBookmark(Question question);
   Future<Set<Bookmark>> getAllBookmarks();
   Future<void> clearAllBookmarks();
-  Future<bool> isBookmarked(Question question);
+  Stream<bool> watchIsBookmarked(Question question);
 }
 
 @Riverpod(keepAlive: true)
@@ -19,4 +18,13 @@ BookmarksRepository bookmarksRepository(
 ) {
   //* Override this in the main method to select the correct implementation
   throw UnimplementedError();
+}
+
+@riverpod
+Stream<bool> isBookmarkedStream(
+  IsBookmarkedStreamRef ref,
+  Question question,
+) {
+  final bookmarksRepository = ref.watch(bookmarksRepositoryProvider);
+  return bookmarksRepository.watchIsBookmarked(question);
 }
