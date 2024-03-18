@@ -184,17 +184,20 @@ extension _AsyncValueQuestionCardX on AsyncValueQuestionCard {
 /// of QuestionCard for QuestionCardPrototypeHeightProvider. You should not use
 /// it unless you know what you are doing.
 class PrototypeQuestionCard extends HookConsumerWidget {
-  const PrototypeQuestionCard({super.key});
+  final bool shouldUpdateProvider;
+  const PrototypeQuestionCard({super.key, this.shouldUpdateProvider = false});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(questionCardPrototypeHeightProvider, (_, __) {});
 
+    if (shouldUpdateProvider) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final widgetHeight = context.size?.height ?? 0;
       ref.read(questionCardPrototypeHeightProvider.notifier).value =
           widgetHeight;
     });
+    }
 
     return QuestionCard(
       questionPageIndex: -1,
@@ -215,7 +218,9 @@ class PrototypeQuestionCard extends HookConsumerWidget {
         final overlaysEntry = OverlayEntry(
           builder: (_) {
             return const Align(
-              child: Offstage(child: PrototypeQuestionCard()),
+              child: Offstage(
+                child: PrototypeQuestionCard(shouldUpdateProvider: true),
+              ),
             );
           },
         );
