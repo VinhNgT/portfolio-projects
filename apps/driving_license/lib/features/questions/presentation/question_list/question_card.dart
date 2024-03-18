@@ -4,6 +4,7 @@ import 'package:driving_license/common_widgets/async_value/async_value_widget.da
 import 'package:driving_license/common_widgets/button_card.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
+import 'package:driving_license/features/bookmark/data/bookmarks_repository.dart';
 import 'package:driving_license/features/questions/application/question/questions_service.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_state_checkbox.dart';
@@ -20,6 +21,7 @@ class QuestionCard extends StatelessWidget {
   final int questionPageIndex;
   final Question question;
   final AnswerState answerState;
+  final bool isBookmarked;
   final bool isSelected;
   final VoidCallback? onPressed;
 
@@ -28,6 +30,7 @@ class QuestionCard extends StatelessWidget {
     required this.questionPageIndex,
     required this.question,
     this.answerState = AnswerState.unchecked,
+    this.isBookmarked = false,
     required this.isSelected,
     this.onPressed,
   });
@@ -89,16 +92,18 @@ class QuestionCard extends StatelessWidget {
                   ],
                 ),
               ),
-              kGap_12,
-              Align(
-                alignment: Alignment.topCenter,
-                child: Icon(
-                  Symbols.bookmark,
-                  fill: 1,
-                  size: 20,
-                  color: context.materialScheme.onSurfaceVariant,
+              if (isBookmarked) ...[
+                kGap_12,
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Icon(
+                    Symbols.bookmark,
+                    fill: 1,
+                    size: 20,
+                    color: context.materialScheme.onSurfaceVariant,
+                  ),
                 ),
-              ),
+              ],
               if (questionImage != null) ...[
                 kGap_12,
                 ClipRRect(
@@ -167,10 +172,18 @@ class AsyncValueQuestionCard extends HookConsumerWidget {
           final answerState =
               evaluateAnswerState(questionValue, selectedAnswerIndex);
 
+          final isBookmarked = ref
+                  .watch(
+                    isBookmarkedStreamProvider(questionValue),
+                  )
+                  .value ??
+              false;
+
           return QuestionCard(
             questionPageIndex: questionPageIndex,
             question: questionValue,
             answerState: answerState,
+            isBookmarked: isBookmarked,
             isSelected: isSelected,
             onPressed: onPressed,
           );
