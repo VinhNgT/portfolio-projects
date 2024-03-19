@@ -26,13 +26,14 @@ class BookmarkButton extends HookConsumerWidget {
       }),
     ).requireValue;
 
-    return isBookmarked
-        ? _BookmarkedIconButton(
-            onPressed: () => unBookmarkCurrentQuestion(ref),
-          )
-        : _NotbookmarkedIconButton(
-            onPressed: () => bookmarkCurrentQuestion(ref),
-          );
+    return IconButton(
+      onPressed: isBookmarked
+          ? () => unBookmarkCurrentQuestion(ref)
+          : () => bookmarkCurrentQuestion(ref),
+      icon: isBookmarked
+          ? const Icon(Symbols.bookmark, fill: 1)
+          : const Icon(Symbols.bookmark),
+    );
   }
 }
 
@@ -55,37 +56,5 @@ extension BookmarkButtonX on BookmarkButton {
     await ref
         .read(bookmarkButtonControllerProvider.notifier)
         .bookmarkQuestion(currentQuestion);
-  }
-}
-
-class _BookmarkedIconButton extends StatelessWidget {
-  final VoidCallback? onPressed;
-  const _BookmarkedIconButton({this.onPressed});
-
-  // factory _BookmarkedIconButton.dummy() =>
-  //     _BookmarkedIconButton(onPressed: () {});
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Symbols.bookmark, fill: 1),
-      onPressed: onPressed,
-    );
-  }
-}
-
-class _NotbookmarkedIconButton extends StatelessWidget {
-  final VoidCallback? onPressed;
-  const _NotbookmarkedIconButton({this.onPressed});
-
-  // factory _NotbookmarkedIconButton.dummy() =>
-  //     _NotbookmarkedIconButton(onPressed: () {});
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Symbols.bookmark),
-      onPressed: onPressed,
-    );
   }
 }
