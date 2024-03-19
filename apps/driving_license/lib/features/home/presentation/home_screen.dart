@@ -105,7 +105,7 @@ class FeatureSelection extends HookConsumerWidget {
                   .setupBookmarkedQuestions();
 
               if (context.mounted) {
-                await context.pushRoute(const QuestionRoute());
+                await context.navigateTo(const QuestionRoute());
               }
             },
           ),
@@ -120,7 +120,7 @@ class FeatureSelection extends HookConsumerWidget {
                   .setupWrongAnswerQuestions();
 
               if (context.mounted) {
-                await context.pushRoute(const QuestionRoute());
+                await context.navigateTo(const QuestionRoute());
               }
             },
           ),
@@ -155,7 +155,7 @@ class ChapterSelection extends HookConsumerWidget {
                     .read(questionsServiceControllerProvider.notifier)
                     .setupChapterQuestions(Chapter.khaiNiemVaQuyTac);
 
-                await context.pushRoute(const QuestionRoute());
+                await context.navigateTo(const QuestionRoute());
               },
             ),
             ChapterCard(
@@ -168,7 +168,7 @@ class ChapterSelection extends HookConsumerWidget {
                     .read(questionsServiceControllerProvider.notifier)
                     .setupChapterQuestions(Chapter.nghiepVuVanTai);
 
-                await context.pushRoute(const QuestionRoute());
+                await context.navigateTo(const QuestionRoute());
               },
             ),
             ChapterCard(
@@ -180,7 +180,7 @@ class ChapterSelection extends HookConsumerWidget {
                     .read(questionsServiceControllerProvider.notifier)
                     .setupChapterQuestions(Chapter.vanHoaVaDaoDuc);
 
-                await context.pushRoute(const QuestionRoute());
+                await context.navigateTo(const QuestionRoute());
               },
             ),
             ChapterCard(
@@ -193,7 +193,7 @@ class ChapterSelection extends HookConsumerWidget {
                     .read(questionsServiceControllerProvider.notifier)
                     .setupChapterQuestions(Chapter.kyThuatLaiXe);
 
-                await context.pushRoute(const QuestionRoute());
+                await context.navigateTo(const QuestionRoute());
               },
             ),
             ChapterCard(
@@ -206,7 +206,7 @@ class ChapterSelection extends HookConsumerWidget {
                     .read(questionsServiceControllerProvider.notifier)
                     .setupChapterQuestions(Chapter.cauTaoVaSuaChua);
 
-                await context.pushRoute(const QuestionRoute());
+                await context.navigateTo(const QuestionRoute());
               },
             ),
             ChapterCard(
@@ -219,7 +219,7 @@ class ChapterSelection extends HookConsumerWidget {
                     .read(questionsServiceControllerProvider.notifier)
                     .setupChapterQuestions(Chapter.bienBaoDuongBo);
 
-                await context.pushRoute(const QuestionRoute());
+                await context.navigateTo(const QuestionRoute());
               },
             ),
             ChapterCard(
@@ -232,7 +232,7 @@ class ChapterSelection extends HookConsumerWidget {
                     .read(questionsServiceControllerProvider.notifier)
                     .setupChapterQuestions(Chapter.saHinhVaTinhHuong);
 
-                await context.pushRoute(const QuestionRoute());
+                await context.navigateTo(const QuestionRoute());
               },
             ),
           ][index],
