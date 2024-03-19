@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:driving_license/features/bookmark/data/bookmarks_repository.dart';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/questions/application/question/questions_handler.dart';
 import 'package:driving_license/features/questions/application/user_answer/user_answers_handler.dart';
@@ -47,6 +48,8 @@ class QuestionsServiceController extends _$QuestionsServiceController {
       ref.read(userAnswersRepositoryProvider);
   UserAnswersRepository get _tempUserAnswersRepository =>
       ref.read(inMemoryUserAnswersRepositoryProvider);
+  BookmarksRepository get _bookmarkedQuestionsRepository =>
+      ref.read(bookmarksRepositoryProvider);
 
   @override
   QuestionsService build() {
@@ -101,6 +104,25 @@ class QuestionsServiceController extends _$QuestionsServiceController {
         userAnswersRepository: _userAnswersRepository,
         tempUserAnswersRepository: _tempUserAnswersRepository,
         wrongAnswersBeforeStart: wrongAnswers,
+      ),
+    );
+  }
+
+  Future<void> setupBookmarkedQuestions() async {
+    final bookmarkedQuestions =
+        await _bookmarkedQuestionsRepository.getAllBookmarks();
+    final bookmarkedQuestionDbIndexes = bookmarkedQuestions
+        .map((e) => e.questionDbIndex)
+        .toList()
+        .sorted((a, b) => a - b);
+
+    state = QuestionsService(
+      questionsHandler: CustomQuestionListQuestionHandler(
+        questionsRepository: _questionsRepository,
+        questionDbIndexes: bookmarkedQuestionDbIndexes,
+      ),
+      userAnswersHandler: DirectUserAnswersHandler(
+        userAnswersRepository: _userAnswersRepository,
       ),
     );
   }

@@ -99,7 +99,15 @@ class FeatureSelection extends HookConsumerWidget {
           child: FeatureCard(
             title: 'Đã lưu',
             subhead: 'Những câu hỏi được đánh dấu lưu',
-            onPressed: () {},
+            onPressed: () async {
+              await ref
+                  .read(questionsServiceControllerProvider.notifier)
+                  .setupBookmarkedQuestions();
+
+              if (context.mounted) {
+                await context.pushRoute(const QuestionRoute());
+              }
+            },
           ),
         ),
         SizedBox.expand(
