@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:driving_license/features/questions/data/question/questions_repository.dart';
+import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answer.dart';
@@ -30,6 +30,7 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   ) async {
     final userAnswer = UserAnswer(
       questionDbIndex: question.questionDbIndex,
+      chapterDbIndex: question.chapterDbIndex,
       selectedAnswerIndex: selectedAnswerIndex,
     );
 
@@ -72,25 +73,26 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Stream<int> watchCorrectAnswersCount(
-    List<QuestionDbIndex> questionDbIndexes,
-  ) {
-    final wrongAnswersCountStream = answeredWrongStore.stream.map(
-      (userAnswersMap) => _countListAInMapB(questionDbIndexes, userAnswersMap),
-    );
-
-    return wrongAnswersCountStream.map(
-      (wrongAnswersCount) => questionDbIndexes.length - wrongAnswersCount,
-    );
+  Stream<int> watchChapterAnswersCount(Chapter chapter) {
+    return allAnswersStore.stream.map((userAnswersMap) {
+      return userAnswersMap.values.fold(0, (count, userAnswer) {
+        if (userAnswer.chapterDbIndex == chapter.chapterDbIndex) {
+          return count++;
+        }
+        return count;
+      });
+    });
   }
 
-  // "Count the number of questions in listA that are in mapB."
-  int _countListAInMapB(List<QuestionDbIndex> listA, UserAnswersMap mapB) {
-    return listA.reduce((count, questionDbIndex) {
-      if (mapB.containsKey(questionDbIndex)) {
-        count++;
-      }
-      return count;
+  @override
+  Stream<int> watchChapterWrongAnswersCount(Chapter chapter) {
+    return answeredWrongStore.stream.map((userAnswersMap) {
+      return userAnswersMap.values.fold(0, (count, userAnswer) {
+        if (userAnswer.chapterDbIndex == chapter.chapterDbIndex) {
+          return count++;
+        }
+        return count;
+      });
     });
   }
 }

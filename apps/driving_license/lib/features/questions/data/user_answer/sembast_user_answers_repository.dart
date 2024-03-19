@@ -1,4 +1,4 @@
-import 'package:driving_license/features/questions/data/question/questions_repository.dart';
+import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answer.dart';
@@ -32,6 +32,7 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   ) async {
     final userAnswer = UserAnswer(
       questionDbIndex: question.questionDbIndex,
+      chapterDbIndex: question.chapterDbIndex,
       selectedAnswerIndex: selectedAnswerIndex,
     );
 
@@ -89,22 +90,28 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Stream<int> watchCorrectAnswersCount(
-    List<int> questionDbIndexes,
-  ) {
-    final wrongAnswersCountStream = answeredWrongStore
+  Stream<int> watchChapterAnswersCount(Chapter chapter) {
+    final userAnswersCountStream = allAnswersStore
         .query(
           finder: Finder(
-            filter: Filter.inList(
-              'questionDbIndex',
-              questionDbIndexes,
-            ),
+            filter: Filter.equals('chapterDbIndex', chapter.chapterDbIndex),
           ),
         )
         .onCount(db);
 
-    return wrongAnswersCountStream.map(
-      (wrongAnswersCount) => questionDbIndexes.length - wrongAnswersCount,
-    );
+    return userAnswersCountStream;
+  }
+
+  @override
+  Stream<int> watchChapterWrongAnswersCount(Chapter chapter) {
+    final wrongUserAnswersCountStream = answeredWrongStore
+        .query(
+          finder: Finder(
+            filter: Filter.equals('chapterDbIndex', chapter.chapterDbIndex),
+          ),
+        )
+        .onCount(db);
+
+    return wrongUserAnswersCountStream;
   }
 }
