@@ -11,13 +11,22 @@ class BookmarkButton extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     keepControllerAlive(ref);
-    final isBookmarked = useState(false);
 
-    ref.listen(isCurrentQuestionBookmarkedStreamProvider, (previous, next) {
-      next.whenData((value) => isBookmarked.value = value);
-    });
+    final currentIsBookmarkedState = useRef(false);
+    final isBookmarked = ref.watch(
+      isCurrentQuestionBookmarkedStreamProvider.select((value) {
+        return value.map(
+          data: (asyncData) {
+            currentIsBookmarkedState.value = asyncData.value;
+            return asyncData;
+          },
+          error: (asyncError) => asyncError,
+          loading: (asyncLoading) => AsyncData(currentIsBookmarkedState.value),
+        );
+      }),
+    ).requireValue;
 
-    return isBookmarked.value
+    return isBookmarked
         ? _BookmarkedIconButton(
             onPressed: () => unBookmarkCurrentQuestion(ref),
           )
