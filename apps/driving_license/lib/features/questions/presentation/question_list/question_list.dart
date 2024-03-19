@@ -53,6 +53,7 @@ class QuestionList extends HookConsumerWidget {
           return false;
         },
         child: ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
           controller: scrollController,
           itemExtent: questionCardHeight,
           itemCount: questionCount,
