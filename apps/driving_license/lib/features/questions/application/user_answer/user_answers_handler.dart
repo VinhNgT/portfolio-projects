@@ -1,7 +1,13 @@
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 
-abstract class UserAnswersHandler implements UserAnswersRepository {}
+abstract class UserAnswersHandler {
+  Future<void> saveUserAnswer(Question question, int selectedAnswerIndex);
+  Future<void> clearUserAnswer(Question question);
+  Future<void> clearAllUserAnswers();
+  Stream<int?> watchUserSelectedAnswerIndex(Question question);
+  Future<UserAnswersMap> getAllWrongAnswers();
+}
 
 class DirectUserAnswersHandler implements UserAnswersHandler {
   DirectUserAnswersHandler({required this.userAnswersRepository});
