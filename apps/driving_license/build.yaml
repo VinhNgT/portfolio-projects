@@ -17,6 +17,7 @@ targets:
             - 'lib/exceptions/**.dart'
             - 'lib/features/**/data/**_repository.dart'
             - 'lib/features/**/application/**_service.dart'
+            - 'lib/features/**/application/**_provider.dart'
             - 'lib/features/**/presentation/**_controller.dart'
             - 'lib/routing/**.dart'
 
