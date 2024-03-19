@@ -54,6 +54,12 @@ class TestQuestionsRepository implements QuestionsRepository {
   }
 
   @override
+  FutureOr<List<int>> getAllQuestionDbIndexesByChapter(Chapter chapter) {
+    // TODO: implement getQuestionsPageByIndexes
+    throw UnimplementedError();
+  }
+
+  @override
   FutureOr<List<Question>> getQuestionsPageByDbIndexes(
     List<int> indexes,
     int pageNumber,
