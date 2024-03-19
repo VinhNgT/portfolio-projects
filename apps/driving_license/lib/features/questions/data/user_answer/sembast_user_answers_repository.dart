@@ -1,3 +1,4 @@
+import 'package:driving_license/features/questions/data/question/questions_repository.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answer.dart';
@@ -85,5 +86,25 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
       for (final record in recordSnapshot)
         record.key: UserAnswer.fromJson(record.value as Map<String, dynamic>),
     };
+  }
+
+  @override
+  Stream<int> watchCorrectAnswersCount(
+    List<QuestionDbIndex> questionDbIndexes,
+  ) {
+    final wrongAnswersCountStream = answeredWrongStore
+        .query(
+          finder: Finder(
+            filter: Filter.inList(
+              'questionDbIndex',
+              questionDbIndexes,
+            ),
+          ),
+        )
+        .onCount(db);
+
+    return wrongAnswersCountStream.map(
+      (wrongAnswersCount) => questionDbIndexes.length - wrongAnswersCount,
+    );
   }
 }

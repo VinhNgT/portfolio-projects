@@ -1,3 +1,4 @@
+import 'package:driving_license/features/questions/data/question/questions_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answer.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -17,6 +18,7 @@ abstract class UserAnswersRepository {
   Future<void> clearAllUserAnswers();
   Stream<int?> watchUserSelectedAnswerIndex(Question question);
   Future<UserAnswersMap> getAllWrongAnswers();
+  Stream<int> watchCorrectAnswersCount(List<QuestionDbIndex> questionDbIndexes);
 }
 
 @Riverpod(keepAlive: true)

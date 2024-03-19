@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:driving_license/features/questions/data/question/questions_repository.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answer.dart';
@@ -68,6 +69,29 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   @override
   Future<UserAnswersMap> getAllWrongAnswers() {
     return Future.value(answeredWrongStore.value);
+  }
+
+  @override
+  Stream<int> watchCorrectAnswersCount(
+    List<QuestionDbIndex> questionDbIndexes,
+  ) {
+    final wrongAnswersCountStream = answeredWrongStore.stream.map(
+      (userAnswersMap) => _countListAInMapB(questionDbIndexes, userAnswersMap),
+    );
+
+    return wrongAnswersCountStream.map(
+      (wrongAnswersCount) => questionDbIndexes.length - wrongAnswersCount,
+    );
+  }
+
+  // "Count the number of questions in listA that are in mapB."
+  int _countListAInMapB(List<QuestionDbIndex> listA, UserAnswersMap mapB) {
+    return listA.reduce((count, questionDbIndex) {
+      if (mapB.containsKey(questionDbIndex)) {
+        count++;
+      }
+      return count;
+    });
   }
 }
 
