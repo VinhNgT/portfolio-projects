@@ -90,7 +90,7 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
 
   @override
   Stream<int> watchCorrectAnswersCount(
-    List<QuestionDbIndex> questionDbIndexes,
+    List<int> questionDbIndexes,
   ) {
     final wrongAnswersCountStream = answeredWrongStore
         .query(

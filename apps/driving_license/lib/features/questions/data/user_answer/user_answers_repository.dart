@@ -18,7 +18,7 @@ abstract class UserAnswersRepository {
   Future<void> clearAllUserAnswers();
   Stream<int?> watchUserSelectedAnswerIndex(Question question);
   Future<UserAnswersMap> getAllWrongAnswers();
-  Stream<int> watchCorrectAnswersCount(List<QuestionDbIndex> questionDbIndexes);
+  Stream<int> watchCorrectAnswersCount(List<int> questionDbIndexes);
 }
 
 @Riverpod(keepAlive: true)
