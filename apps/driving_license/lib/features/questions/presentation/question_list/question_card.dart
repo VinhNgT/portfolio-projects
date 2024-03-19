@@ -165,20 +165,21 @@ class _QCIsBookmarkedIcon extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isBookmarked = useState(false);
+    final isBookmarked = ref.watch(isBookmarkedStreamProvider(question));
 
-    ref.listen(isBookmarkedStreamProvider(question), (previous, next) {
-      next.whenData((value) => isBookmarked.value = value);
-    });
-
-    return isBookmarked.value
-        ? Icon(
-            Symbols.bookmark,
-            fill: 1,
-            size: kSize_20,
-            color: context.materialScheme.onSurfaceVariant,
-          )
-        : const SizedBox.shrink();
+    return AsyncValueWidget(
+      value: isBookmarked,
+      builder: (isBookmarkedValue) {
+        return isBookmarkedValue
+            ? Icon(
+                Symbols.bookmark,
+                fill: 1,
+                size: kSize_20,
+                color: context.materialScheme.onSurfaceVariant,
+              )
+            : const SizedBox.shrink();
+      },
+    );
   }
 }
 
