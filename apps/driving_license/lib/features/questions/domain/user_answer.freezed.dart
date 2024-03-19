@@ -21,6 +21,7 @@ UserAnswer _$UserAnswerFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$UserAnswer {
   int get questionDbIndex => throw _privateConstructorUsedError;
+  int get chapterDbIndex => throw _privateConstructorUsedError;
   int get selectedAnswerIndex => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -35,7 +36,7 @@ abstract class $UserAnswerCopyWith<$Res> {
           UserAnswer value, $Res Function(UserAnswer) then) =
       _$UserAnswerCopyWithImpl<$Res, UserAnswer>;
   @useResult
-  $Res call({int questionDbIndex, int selectedAnswerIndex});
+  $Res call({int questionDbIndex, int chapterDbIndex, int selectedAnswerIndex});
 }
 
 /// @nodoc
@@ -52,12 +53,17 @@ class _$UserAnswerCopyWithImpl<$Res, $Val extends UserAnswer>
   @override
   $Res call({
     Object? questionDbIndex = null,
+    Object? chapterDbIndex = null,
     Object? selectedAnswerIndex = null,
   }) {
     return _then(_value.copyWith(
       questionDbIndex: null == questionDbIndex
           ? _value.questionDbIndex
           : questionDbIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      chapterDbIndex: null == chapterDbIndex
+          ? _value.chapterDbIndex
+          : chapterDbIndex // ignore: cast_nullable_to_non_nullable
               as int,
       selectedAnswerIndex: null == selectedAnswerIndex
           ? _value.selectedAnswerIndex
@@ -75,7 +81,7 @@ abstract class _$$UserAnswerImplCopyWith<$Res>
       __$$UserAnswerImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int questionDbIndex, int selectedAnswerIndex});
+  $Res call({int questionDbIndex, int chapterDbIndex, int selectedAnswerIndex});
 }
 
 /// @nodoc
@@ -90,12 +96,17 @@ class __$$UserAnswerImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? questionDbIndex = null,
+    Object? chapterDbIndex = null,
     Object? selectedAnswerIndex = null,
   }) {
     return _then(_$UserAnswerImpl(
       questionDbIndex: null == questionDbIndex
           ? _value.questionDbIndex
           : questionDbIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      chapterDbIndex: null == chapterDbIndex
+          ? _value.chapterDbIndex
+          : chapterDbIndex // ignore: cast_nullable_to_non_nullable
               as int,
       selectedAnswerIndex: null == selectedAnswerIndex
           ? _value.selectedAnswerIndex
@@ -109,7 +120,9 @@ class __$$UserAnswerImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserAnswerImpl implements _UserAnswer {
   _$UserAnswerImpl(
-      {required this.questionDbIndex, required this.selectedAnswerIndex});
+      {required this.questionDbIndex,
+      required this.chapterDbIndex,
+      required this.selectedAnswerIndex});
 
   factory _$UserAnswerImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserAnswerImplFromJson(json);
@@ -117,11 +130,13 @@ class _$UserAnswerImpl implements _UserAnswer {
   @override
   final int questionDbIndex;
   @override
+  final int chapterDbIndex;
+  @override
   final int selectedAnswerIndex;
 
   @override
   String toString() {
-    return 'UserAnswer(questionDbIndex: $questionDbIndex, selectedAnswerIndex: $selectedAnswerIndex)';
+    return 'UserAnswer(questionDbIndex: $questionDbIndex, chapterDbIndex: $chapterDbIndex, selectedAnswerIndex: $selectedAnswerIndex)';
   }
 
   @override
@@ -131,14 +146,16 @@ class _$UserAnswerImpl implements _UserAnswer {
             other is _$UserAnswerImpl &&
             (identical(other.questionDbIndex, questionDbIndex) ||
                 other.questionDbIndex == questionDbIndex) &&
+            (identical(other.chapterDbIndex, chapterDbIndex) ||
+                other.chapterDbIndex == chapterDbIndex) &&
             (identical(other.selectedAnswerIndex, selectedAnswerIndex) ||
                 other.selectedAnswerIndex == selectedAnswerIndex));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, questionDbIndex, selectedAnswerIndex);
+  int get hashCode => Object.hash(
+      runtimeType, questionDbIndex, chapterDbIndex, selectedAnswerIndex);
 
   @JsonKey(ignore: true)
   @override
@@ -157,6 +174,7 @@ class _$UserAnswerImpl implements _UserAnswer {
 abstract class _UserAnswer implements UserAnswer {
   factory _UserAnswer(
       {required final int questionDbIndex,
+      required final int chapterDbIndex,
       required final int selectedAnswerIndex}) = _$UserAnswerImpl;
 
   factory _UserAnswer.fromJson(Map<String, dynamic> json) =
@@ -164,6 +182,8 @@ abstract class _UserAnswer implements UserAnswer {
 
   @override
   int get questionDbIndex;
+  @override
+  int get chapterDbIndex;
   @override
   int get selectedAnswerIndex;
   @override

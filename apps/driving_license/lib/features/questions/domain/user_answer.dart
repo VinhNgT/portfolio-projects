@@ -7,6 +7,7 @@ part 'user_answer.g.dart';
 abstract class UserAnswer with _$UserAnswer {
   factory UserAnswer({
     required int questionDbIndex,
+    required int chapterDbIndex,
     required int selectedAnswerIndex,
   }) = _UserAnswer;
 
