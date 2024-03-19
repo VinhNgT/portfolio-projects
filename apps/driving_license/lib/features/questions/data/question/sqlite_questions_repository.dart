@@ -131,20 +131,6 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  FutureOr<List<QuestionDbIndex>> getAllQuestionDbIndexesByChapter(
-    Chapter chapter,
-  ) async {
-    final List<Map<String, dynamic>> maps = await database.query(
-      'question',
-      where: 'chapter_index = ?',
-      whereArgs: [chapter.chapterDbIndex],
-      orderBy: 'question_index ASC',
-    );
-
-    return maps.map((e) => e['question_index'] as QuestionDbIndex).toList();
-  }
-
-  @override
   Future<Question> getQuestionByDbIndex(int dbIndex) async {
     final List<Map<String, dynamic>> maps = await database.query(
       'question',

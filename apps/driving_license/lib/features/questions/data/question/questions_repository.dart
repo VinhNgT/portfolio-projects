@@ -4,8 +4,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'questions_repository.g.dart';
 
-typedef QuestionDbIndex = int;
-
 abstract class QuestionsRepository {
   static int pageSize = 20;
 
@@ -21,9 +19,6 @@ abstract class QuestionsRepository {
     int pageNumber,
   );
   FutureOr<int> getQuestionCountByChapter(Chapter chapter);
-  FutureOr<List<QuestionDbIndex>> getAllQuestionDbIndexesByChapter(
-    Chapter chapter,
-  );
 
   // Get questions by its DB index
   FutureOr<Question> getQuestionByDbIndex(int dbIndex);
@@ -37,13 +32,4 @@ abstract class QuestionsRepository {
 QuestionsRepository questionsRepository(QuestionsRepositoryRef ref) {
   //* Override this in the main method to select the correct implementation
   throw UnimplementedError();
-}
-
-@riverpod
-FutureOr<List<QuestionDbIndex>> allQuestionDbIndexesByChapter(
-  AllQuestionDbIndexesByChapterRef ref,
-  Chapter chapter,
-) {
-  final questionsRepository = ref.watch(questionsRepositoryProvider);
-  return questionsRepository.getAllQuestionDbIndexesByChapter(chapter);
 }
