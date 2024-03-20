@@ -25,7 +25,7 @@ extension ContextExtension on BuildContext {
   EdgeInsets get systemGestureInsets => MediaQuery.of(this).systemGestureInsets;
 
   TextStyle get defaultTextStyle => DefaultTextStyle.of(this).style;
-  // double get textScaleFactor => MediaQuery.of(this).textScaleFactor;
+  TextScaler get textScaler => MediaQuery.of(this).textScaler;
 
   // bool get isLandscape => MediaQuery.of(this).orientation == Orientation.landscape;
   // bool get isPortrait => MediaQuery.of(this).orientation == Orientation.portrait;
