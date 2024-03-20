@@ -7,7 +7,7 @@ part of 'chapter_completion_status_provider.dart';
 // **************************************************************************
 
 String _$chapterCompletionStatusHash() =>
-    r'363fca6c3255cb0aaab6b07666457c583c8c261e';
+    r'6f813a4ffa1f22b5934e72181eb0af29966b5dc6';
 
 /// Copied from Dart SDK
 class _SystemHash {

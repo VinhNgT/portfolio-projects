@@ -17,14 +17,14 @@ Stream<TestResult> chapterCompletionStatus(
 
   final chapterQuestionsCount =
       await questionsRepository.getQuestionCountByChapter(chapter);
-  final userAnswersCount =
+  final userAnswersCountStream =
       userAnswersRepository.watchChapterAnswersCount(chapter);
-  final wrongUserAnswersCount =
+  final wrongUserAnswersCountStream =
       userAnswersRepository.watchChapterWrongAnswersCount(chapter);
 
   yield* Rx.combineLatest2(
-    userAnswersCount,
-    wrongUserAnswersCount,
+    userAnswersCountStream,
+    wrongUserAnswersCountStream,
     (int userAnswersCount, int wrongUserAnswersCount) {
       return TestResult(
         totalQuestions: chapterQuestionsCount,
