@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/common_widgets/widget_deadzone.dart';
 import 'package:driving_license/constants/app_sizes.dart';
+import 'package:driving_license/features/questions/application/question/questions_service.dart';
+import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
 import 'package:driving_license/features/questions/presentation/question_list/question_list.dart';
 import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
@@ -43,12 +45,14 @@ class QuestionBottomSheet extends HookConsumerWidget {
   }
 }
 
-class _TitleBar extends StatelessWidget {
+class _TitleBar extends HookConsumerWidget {
   final int questionCount;
   const _TitleBar({required this.questionCount});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final questionsServiceMode = ref.watch(questionsServiceModeProvider);
+
     return Stack(
       children: [
         Column(
@@ -64,7 +68,10 @@ class _TitleBar extends StatelessWidget {
                   vertical: kSize_12,
                   horizontal: kSize_16,
                 ),
-                child: _Title(questionCount: questionCount),
+                child: _Title(
+                  titleText: _getServiceModeName(questionsServiceMode),
+                  questionCount: questionCount,
+                ),
               ),
             ),
             const Divider(height: 0),
@@ -77,6 +84,15 @@ class _TitleBar extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  String _getServiceModeName(QuestionsServiceMode mode) {
+    return switch (mode) {
+      ChapterOperatingMode(chapter: final chapter) => chapter.chapterName,
+      WrongAnswersOperatingMode() => 'Các câu đã làm sai',
+      BookmarkOperatingMode() => 'Các câu đã lưu',
+      FullOperatingMode() || _ => 'Tất cả câu hỏi',
+    };
   }
 }
 
@@ -97,8 +113,13 @@ class _Handle extends StatelessWidget {
 }
 
 class _Title extends StatelessWidget {
+  final String titleText;
   final int questionCount;
-  const _Title({required this.questionCount});
+
+  const _Title({
+    required this.titleText,
+    required this.questionCount,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +129,7 @@ class _Title extends StatelessWidget {
         style: context.defaultTextStyle,
         children: [
           TextSpan(
-            text: 'Khái niệm và quy tắc',
+            text: titleText,
             style: context.textTheme.titleMedium,
           ),
           const WidgetSpan(
