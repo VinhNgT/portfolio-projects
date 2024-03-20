@@ -88,7 +88,7 @@ class QuestionsServiceController extends _$QuestionsServiceController {
 
   Future<void> setupWrongAnswerQuestions() async {
     final wrongAnswers = await _userAnswersRepository.getAllWrongAnswers();
-    final wrongAnswerQuestionDbIndexes = wrongAnswers.keys.toList();
+    final wrongAnswerQuestionDbIndexes = wrongAnswers.keys.toList()..sort();
 
     if (ref.exists(inMemoryUserAnswersRepositoryProvider)) {
       ref.invalidate(inMemoryUserAnswersRepositoryProvider);
@@ -97,7 +97,7 @@ class QuestionsServiceController extends _$QuestionsServiceController {
     state = QuestionsService(
       questionsHandler: CustomQuestionListQuestionHandler(
         questionsRepository: _questionsRepository,
-        questionDbIndexes: wrongAnswerQuestionDbIndexes,
+        sortedQuestionDbIndexes: wrongAnswerQuestionDbIndexes,
       ),
       userAnswersHandler: WrongUserAnswersHandler(
         userAnswersRepository: _userAnswersRepository,
@@ -118,7 +118,7 @@ class QuestionsServiceController extends _$QuestionsServiceController {
     state = QuestionsService(
       questionsHandler: CustomQuestionListQuestionHandler(
         questionsRepository: _questionsRepository,
-        questionDbIndexes: bookmarkedQuestionDbIndexes,
+        sortedQuestionDbIndexes: bookmarkedQuestionDbIndexes,
       ),
       userAnswersHandler: DirectUserAnswersHandler(
         userAnswersRepository: _userAnswersRepository,

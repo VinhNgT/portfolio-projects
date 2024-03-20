@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
@@ -57,27 +58,28 @@ class ChapterQuestionsHandler implements QuestionsHandler {
 class CustomQuestionListQuestionHandler implements QuestionsHandler {
   CustomQuestionListQuestionHandler({
     required this.questionsRepository,
-    required this.questionDbIndexes,
-  });
+    required this.sortedQuestionDbIndexes,
+  }) : assert(sortedQuestionDbIndexes.isSorted((a, b) => a - b));
+
   final QuestionsRepository questionsRepository;
-  final List<int> questionDbIndexes;
+  final List<int> sortedQuestionDbIndexes;
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
     return questionsRepository
-        .getQuestionByDbIndex(questionDbIndexes[questionIndex]);
+        .getQuestionByDbIndex(sortedQuestionDbIndexes[questionIndex]);
   }
 
   @override
   FutureOr<List<Question>> getQuestionsPage(int pageIndex) {
     return questionsRepository.getQuestionsPageByDbIndexes(
-      questionDbIndexes,
+      sortedQuestionDbIndexes,
       pageIndex,
     );
   }
 
   @override
   FutureOr<int> getQuestionCount() {
-    return Future.value(questionDbIndexes.length);
+    return Future.value(sortedQuestionDbIndexes.length);
   }
 }
