@@ -152,7 +152,7 @@ class SqliteQuestionsRepository implements QuestionsRepository {
 
   @override
   FutureOr<List<Question>> getQuestionsPageByDbIndexes(
-    List<int> dbIndexes,
+    Iterable<int> dbIndexes,
     int pageNumber,
   ) async {
     final List<Map<String, dynamic>> queryResult = await database.query(

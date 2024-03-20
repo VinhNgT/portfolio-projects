@@ -23,7 +23,7 @@ abstract class QuestionsRepository {
   // Get questions by its DB index
   FutureOr<Question> getQuestionByDbIndex(int dbIndex);
   FutureOr<List<Question>> getQuestionsPageByDbIndexes(
-    List<int> dbIndexes,
+    Iterable<int> dbIndexes,
     int pageNumber,
   );
 }

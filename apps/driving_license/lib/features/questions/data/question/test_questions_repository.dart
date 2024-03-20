@@ -55,7 +55,7 @@ class TestQuestionsRepository implements QuestionsRepository {
 
   @override
   FutureOr<List<Question>> getQuestionsPageByDbIndexes(
-    List<int> indexes,
+    Iterable<int> indexes,
     int pageNumber,
   ) {
     // TODO: implement getQuestionsPageByIndexes
