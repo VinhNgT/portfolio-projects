@@ -400,6 +400,10 @@ class MaterialTheme {
       bottomSheetTheme: m3Theme.bottomSheetTheme.copyWith(
         backgroundColor: materialScheme.surfaceContainerLow,
       ),
+      dialogTheme: m3Theme.dialogTheme.copyWith(
+        backgroundColor: materialScheme.surfaceContainerHighest,
+        elevation: 0,
+      ),
       // iconButtonTheme: const IconButtonThemeData(
       //   style: ButtonStyle(
       //     minimumSize: MaterialStatePropertyAll(Size(48, 48)),

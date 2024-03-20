@@ -6,6 +6,8 @@ import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/home/presentation/chapter_card.dart';
 import 'package:driving_license/features/home/presentation/donate_card.dart';
+import 'package:driving_license/features/home/presentation/empty_dialogs/bookmarks_empty_dialog.dart';
+import 'package:driving_license/features/home/presentation/empty_dialogs/no_wrong_answers_dialog.dart';
 import 'package:driving_license/features/home/presentation/feature_card.dart';
 import 'package:driving_license/features/questions/application/question/questions_service.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
@@ -104,7 +106,18 @@ class FeatureSelection extends HookConsumerWidget {
                   .read(questionsServiceControllerProvider.notifier)
                   .setupBookmarkedQuestions();
 
+              final questionCount =
+                  await ref.read(questionCountFutureProvider.future);
+
               if (context.mounted) {
+                if (questionCount == 0) {
+                  await showDialog(
+                    context: context,
+                    builder: (context) => const BookmarksEmptyDialog(),
+                  );
+                  return;
+                }
+
                 await context.navigateTo(const QuestionRoute());
               }
             },
@@ -119,7 +132,18 @@ class FeatureSelection extends HookConsumerWidget {
                   .read(questionsServiceControllerProvider.notifier)
                   .setupWrongAnswerQuestions();
 
+              final questionCount =
+                  await ref.read(questionCountFutureProvider.future);
+
               if (context.mounted) {
+                if (questionCount == 0) {
+                  await showDialog(
+                    context: context,
+                    builder: (context) => const NoWrongAnswersDialog(),
+                  );
+                  return;
+                }
+
                 await context.navigateTo(const QuestionRoute());
               }
             },
