@@ -148,8 +148,7 @@ class ChapterSelection extends HookConsumerWidget {
           itemBuilder: (BuildContext _, int index) => [
             ChapterCard(
               iconAssetPath: 'assets/icons/home_screen/complied/books.svg.vec',
-              title: Chapter.khaiNiemVaQuyTac.chapterName,
-              subhead: 'Đã hoàn thành 0 / 83 - Sai 5 câu',
+              chapter: Chapter.khaiNiemVaQuyTac,
               onTap: () async {
                 ref
                     .read(questionsServiceControllerProvider.notifier)
@@ -161,8 +160,7 @@ class ChapterSelection extends HookConsumerWidget {
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/danger_fire.svg.vec',
-              title: Chapter.nghiepVuVanTai.chapterName,
-              subhead: 'Đã hoàn thành 0 / 20',
+              chapter: Chapter.nghiepVuVanTai,
               onTap: () async {
                 ref
                     .read(questionsServiceControllerProvider.notifier)
@@ -173,8 +171,7 @@ class ChapterSelection extends HookConsumerWidget {
             ),
             ChapterCard(
               iconAssetPath: 'assets/icons/home_screen/complied/person.svg.vec',
-              title: Chapter.vanHoaVaDaoDuc.chapterName,
-              subhead: 'Đã hoàn thành 0 / 5',
+              chapter: Chapter.vanHoaVaDaoDuc,
               onTap: () async {
                 ref
                     .read(questionsServiceControllerProvider.notifier)
@@ -186,8 +183,7 @@ class ChapterSelection extends HookConsumerWidget {
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/steering_wheel.svg.vec',
-              title: Chapter.kyThuatLaiXe.chapterName,
-              subhead: 'Đã hoàn thành 0 / 12',
+              chapter: Chapter.kyThuatLaiXe,
               onTap: () async {
                 ref
                     .read(questionsServiceControllerProvider.notifier)
@@ -199,8 +195,7 @@ class ChapterSelection extends HookConsumerWidget {
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/danger_fire.svg.vec',
-              title: Chapter.cauTaoVaSuaChua.chapterName,
-              subhead: 'Đã hoàn thành 0 / 20',
+              chapter: Chapter.cauTaoVaSuaChua,
               onTap: () async {
                 ref
                     .read(questionsServiceControllerProvider.notifier)
@@ -212,8 +207,7 @@ class ChapterSelection extends HookConsumerWidget {
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/turn_right_sign.svg.vec',
-              title: Chapter.bienBaoDuongBo.chapterName,
-              subhead: 'Đã hoàn thành 0 / 65',
+              chapter: Chapter.bienBaoDuongBo,
               onTap: () async {
                 ref
                     .read(questionsServiceControllerProvider.notifier)
@@ -225,8 +219,7 @@ class ChapterSelection extends HookConsumerWidget {
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/traffic_light.svg.vec',
-              title: Chapter.saHinhVaTinhHuong.chapterName,
-              subhead: 'Đã hoàn thành 0 / 35',
+              chapter: Chapter.saHinhVaTinhHuong,
               onTap: () async {
                 ref
                     .read(questionsServiceControllerProvider.notifier)
