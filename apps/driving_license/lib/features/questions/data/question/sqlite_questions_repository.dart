@@ -64,7 +64,7 @@ class SqliteQuestionsRepository implements QuestionsRepository {
 
   @override
   Future<List<Question>> getQuestionsPage(int pageNumber) async {
-    final List<Map<String, dynamic>> maps = await database.query(
+    final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
       orderBy: 'question_index ASC',
       limit: QuestionsRepository.pageSize,
@@ -72,8 +72,8 @@ class SqliteQuestionsRepository implements QuestionsRepository {
     );
 
     return [
-      for (final map in maps)
-        Question.fromJson(convertDatabaseMapToQuestionObjectMap(map)),
+      for (final questionMap in queryResult)
+        Question.fromJson(convertDatabaseMapToQuestionObjectMap(questionMap)),
     ];
   }
 
@@ -89,14 +89,15 @@ class SqliteQuestionsRepository implements QuestionsRepository {
         )
         .then((value) => value.first['question_index'] as int);
 
-    final List<Map<String, dynamic>> maps = await database.query(
+    final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
       where: 'chapter_index = ? AND question_index = ?',
       whereArgs: [chapter.chapterDbIndex, chapterQuestionOffset + index],
     );
 
-    if (maps.isNotEmpty) {
-      final questionMap = convertDatabaseMapToQuestionObjectMap(maps.first);
+    if (queryResult.isNotEmpty) {
+      final questionMap =
+          convertDatabaseMapToQuestionObjectMap(queryResult.first);
       return Question.fromJson(questionMap);
     } else {
       throw Exception('question_index ${index + 1} not found');
@@ -108,7 +109,7 @@ class SqliteQuestionsRepository implements QuestionsRepository {
     Chapter chapter,
     int pageNumber,
   ) async {
-    final List<Map<String, dynamic>> maps = await database.query(
+    final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
       where: 'chapter_index = ?',
       whereArgs: [chapter.chapterDbIndex],
@@ -118,8 +119,8 @@ class SqliteQuestionsRepository implements QuestionsRepository {
     );
 
     return [
-      for (final map in maps)
-        Question.fromJson(convertDatabaseMapToQuestionObjectMap(map)),
+      for (final questionMap in queryResult)
+        Question.fromJson(convertDatabaseMapToQuestionObjectMap(questionMap)),
     ];
   }
 
@@ -134,14 +135,15 @@ class SqliteQuestionsRepository implements QuestionsRepository {
 
   @override
   Future<Question> getQuestionByDbIndex(int dbIndex) async {
-    final List<Map<String, dynamic>> maps = await database.query(
+    final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
       where: 'question_index = ?',
       whereArgs: [dbIndex],
     );
 
-    if (maps.isNotEmpty) {
-      final questionMap = convertDatabaseMapToQuestionObjectMap(maps.first);
+    if (queryResult.isNotEmpty) {
+      final questionMap =
+          convertDatabaseMapToQuestionObjectMap(queryResult.first);
       return Question.fromJson(questionMap);
     } else {
       throw Exception('question_index $dbIndex not found');
@@ -153,7 +155,7 @@ class SqliteQuestionsRepository implements QuestionsRepository {
     List<int> dbIndexes,
     int pageNumber,
   ) async {
-    final List<Map<String, dynamic>> maps = await database.query(
+    final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
       where: 'question_index IN (${dbIndexes.join(', ')})',
       orderBy: 'question_index ASC',
@@ -162,8 +164,8 @@ class SqliteQuestionsRepository implements QuestionsRepository {
     );
 
     return [
-      for (final map in maps)
-        Question.fromJson(convertDatabaseMapToQuestionObjectMap(map)),
+      for (final questionMap in queryResult)
+        Question.fromJson(convertDatabaseMapToQuestionObjectMap(questionMap)),
     ];
   }
 }
