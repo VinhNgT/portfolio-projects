@@ -7,7 +7,7 @@ part 'bookmarks_repository.g.dart';
 abstract class BookmarksRepository {
   Future<void> saveBookmark(Question question);
   Future<void> removeBookmark(Question question);
-  Future<Set<Bookmark>> getAllBookmarks();
+  Future<List<Bookmark>> getAllBookmarks();
   Future<void> clearAllBookmarks();
   Stream<bool> watchIsBookmarked(Question question);
 }

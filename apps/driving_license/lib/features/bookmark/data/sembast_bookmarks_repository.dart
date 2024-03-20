@@ -37,11 +37,15 @@ class SembastBookmarksRepository implements BookmarksRepository {
   }
 
   @override
-  Future<Set<Bookmark>> getAllBookmarks() async {
-    final snapshots = await allBookmarksStore.find(db);
-    return snapshots
-        .map((snapshot) => Bookmark.fromJson(snapshot.value))
-        .toSet();
+  Future<List<Bookmark>> getAllBookmarks() async {
+    final snapshots = await allBookmarksStore.find(
+      db,
+      finder: Finder(sortOrders: [SortOrder(Field.key)]),
+    );
+
+    return snapshots.map((snapshot) {
+      return Bookmark.fromJson(snapshot.value);
+    }).toList();
   }
 
   @override

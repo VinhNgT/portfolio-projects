@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:driving_license/features/bookmark/data/bookmarks_repository.dart';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/questions/application/question/questions_handler.dart';
@@ -108,17 +107,14 @@ class QuestionsServiceController extends _$QuestionsServiceController {
   }
 
   Future<void> setupBookmarkedQuestions() async {
-    final bookmarkedQuestions =
-        await _bookmarkedQuestionsRepository.getAllBookmarks();
-    final bookmarkedQuestionDbIndexes = bookmarkedQuestions
-        .map((e) => e.questionDbIndex)
-        .toList()
-        .sorted((a, b) => a - b);
+    final bookmarks = await _bookmarkedQuestionsRepository.getAllBookmarks();
+    final bookmarkQuestionDbIndexes =
+        bookmarks.map((e) => e.questionDbIndex).toList();
 
     state = QuestionsService(
       questionsHandler: CustomQuestionListQuestionHandler(
         questionsRepository: _questionsRepository,
-        sortedQuestionDbIndexes: bookmarkedQuestionDbIndexes,
+        sortedQuestionDbIndexes: bookmarkQuestionDbIndexes,
       ),
       userAnswersHandler: DirectUserAnswersHandler(
         userAnswersRepository: _userAnswersRepository,

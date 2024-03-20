@@ -568,7 +568,7 @@ class _UserSelectedAnswerIndexProviderElement
 }
 
 String _$questionsServiceControllerHash() =>
-    r'98e0ec5bb7210f104fc309eda15c56109f5fb03b';
+    r'5999c12eb77179c900aeb480f45ef67131a0155e';
 
 /// See also [QuestionsServiceController].
 @ProviderFor(QuestionsServiceController)
