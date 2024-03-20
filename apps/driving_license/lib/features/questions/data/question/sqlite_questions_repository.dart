@@ -66,14 +66,15 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   Future<List<Question>> getQuestionsPage(int pageNumber) async {
     final List<Map<String, dynamic>> maps = await database.query(
       'question',
+      orderBy: 'question_index ASC',
       limit: QuestionsRepository.pageSize,
       offset: pageNumber * QuestionsRepository.pageSize,
     );
 
-    return List.generate(maps.length, (i) {
-      final questionMap = convertDatabaseMapToQuestionObjectMap(maps[i]);
-      return Question.fromJson(questionMap);
-    });
+    return [
+      for (final map in maps)
+        Question.fromJson(convertDatabaseMapToQuestionObjectMap(map)),
+    ];
   }
 
   @override
@@ -111,14 +112,15 @@ class SqliteQuestionsRepository implements QuestionsRepository {
       'question',
       where: 'chapter_index = ?',
       whereArgs: [chapter.chapterDbIndex],
+      orderBy: 'question_index ASC',
       limit: QuestionsRepository.pageSize,
       offset: pageNumber * QuestionsRepository.pageSize,
     );
 
-    return List.generate(maps.length, (i) {
-      final questionMap = convertDatabaseMapToQuestionObjectMap(maps[i]);
-      return Question.fromJson(questionMap);
-    });
+    return [
+      for (final map in maps)
+        Question.fromJson(convertDatabaseMapToQuestionObjectMap(map)),
+    ];
   }
 
   @override
@@ -154,14 +156,15 @@ class SqliteQuestionsRepository implements QuestionsRepository {
     final List<Map<String, dynamic>> maps = await database.query(
       'question',
       where: 'question_index IN (${dbIndexes.join(', ')})',
+      orderBy: 'question_index ASC',
       limit: QuestionsRepository.pageSize,
       offset: pageNumber * QuestionsRepository.pageSize,
     );
 
-    return List.generate(maps.length, (i) {
-      final questionMap = convertDatabaseMapToQuestionObjectMap(maps[i]);
-      return Question.fromJson(questionMap);
-    });
+    return [
+      for (final map in maps)
+        Question.fromJson(convertDatabaseMapToQuestionObjectMap(map)),
+    ];
   }
 }
 
