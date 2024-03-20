@@ -10,7 +10,7 @@ class SembastBookmarksRepository implements BookmarksRepository {
   SembastBookmarksRepository(this.db);
 
   final Database db;
-  final allAnswersStore = intMapStoreFactory.store('bookmarks');
+  final allBookmarksStore = intMapStoreFactory.store('bookmarks');
 
   static Future<SembastBookmarksRepository> makeDefault() async {
     return SembastBookmarksRepository(
@@ -26,19 +26,19 @@ class SembastBookmarksRepository implements BookmarksRepository {
   @override
   Future<void> saveBookmark(Question question) async {
     final bookmark = Bookmark(questionDbIndex: question.questionDbIndex);
-    await allAnswersStore
+    await allBookmarksStore
         .record(question.questionDbIndex)
         .put(db, bookmark.toJson());
   }
 
   @override
   Future<void> removeBookmark(Question question) async {
-    await allAnswersStore.record(question.questionDbIndex).delete(db);
+    await allBookmarksStore.record(question.questionDbIndex).delete(db);
   }
 
   @override
   Future<Set<Bookmark>> getAllBookmarks() async {
-    final snapshots = await allAnswersStore.find(db);
+    final snapshots = await allBookmarksStore.find(db);
     return snapshots
         .map((snapshot) => Bookmark.fromJson(snapshot.value))
         .toSet();
@@ -46,12 +46,12 @@ class SembastBookmarksRepository implements BookmarksRepository {
 
   @override
   Future<void> clearAllBookmarks() async {
-    await allAnswersStore.delete(db);
+    await allBookmarksStore.delete(db);
   }
 
   @override
   Stream<bool> watchIsBookmarked(Question question) {
-    return allAnswersStore
+    return allBookmarksStore
         .query(
           finder: Finder(filter: Filter.byKey(question.questionDbIndex)),
         )
