@@ -12,8 +12,8 @@ abstract class QuestionsHandler {
 }
 
 class FullQuestionsHandler implements QuestionsHandler {
-  FullQuestionsHandler({required this.questionsRepository});
   final QuestionsRepository questionsRepository;
+  FullQuestionsHandler({required this.questionsRepository});
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
@@ -32,12 +32,13 @@ class FullQuestionsHandler implements QuestionsHandler {
 }
 
 class ChapterQuestionsHandler implements QuestionsHandler {
+  final QuestionsRepository questionsRepository;
+  final Chapter chapter;
+
   ChapterQuestionsHandler({
     required this.questionsRepository,
     required this.chapter,
   });
-  final QuestionsRepository questionsRepository;
-  final Chapter chapter;
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
@@ -56,13 +57,13 @@ class ChapterQuestionsHandler implements QuestionsHandler {
 }
 
 class CustomQuestionListQuestionHandler implements QuestionsHandler {
+  final QuestionsRepository questionsRepository;
+  final List<int> sortedQuestionDbIndexes;
+
   CustomQuestionListQuestionHandler({
     required this.questionsRepository,
     required this.sortedQuestionDbIndexes,
   }) : assert(sortedQuestionDbIndexes.isSorted((a, b) => a - b));
-
-  final QuestionsRepository questionsRepository;
-  final List<int> sortedQuestionDbIndexes;
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
