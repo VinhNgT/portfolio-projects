@@ -6,6 +6,23 @@ part of 'questions_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$questionsServiceModeHash() =>
+    r'36bc8bf6055763e47c74e5ef1713077a223255a9';
+
+/// See also [questionsServiceMode].
+@ProviderFor(questionsServiceMode)
+final questionsServiceModeProvider =
+    AutoDisposeProvider<QuestionsServiceMode>.internal(
+  questionsServiceMode,
+  name: r'questionsServiceModeProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$questionsServiceModeHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef QuestionsServiceModeRef = AutoDisposeProviderRef<QuestionsServiceMode>;
 String _$questionFutureHash() => r'075c0e6fba50cb756ade96345df187fce37c029f';
 
 /// Copied from Dart SDK
@@ -568,7 +585,7 @@ class _UserSelectedAnswerIndexProviderElement
 }
 
 String _$questionsServiceControllerHash() =>
-    r'5999c12eb77179c900aeb480f45ef67131a0155e';
+    r'7dbd8c1e63eac4b7ea16efd7f31eb30f2e449ff5';
 
 /// See also [QuestionsServiceController].
 @ProviderFor(QuestionsServiceController)

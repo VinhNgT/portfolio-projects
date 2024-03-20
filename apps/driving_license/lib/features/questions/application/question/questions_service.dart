@@ -1,6 +1,7 @@
 import 'package:driving_license/features/bookmark/data/bookmarks_repository.dart';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/questions/application/question/questions_handler.dart';
+import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
 import 'package:driving_license/features/questions/application/user_answer/user_answers_handler.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
 import 'package:driving_license/features/questions/data/user_answer/in_memory_user_answers_repository.dart';
@@ -12,9 +13,11 @@ part 'questions_service.g.dart';
 
 class QuestionsService {
   QuestionsService({
+    required this.operatingMode,
     required this.questionsHandler,
     required this.userAnswersHandler,
   });
+  final QuestionsServiceMode operatingMode;
   final QuestionsHandler questionsHandler;
   final UserAnswersHandler userAnswersHandler;
 
@@ -55,6 +58,7 @@ class QuestionsServiceController extends _$QuestionsServiceController {
     // Default to full handler (loads from 600 questions) unless specified
     // otherwise
     return QuestionsService(
+      operatingMode: FullOperatingMode(),
       questionsHandler:
           FullQuestionsHandler(questionsRepository: _questionsRepository),
       userAnswersHandler: DirectUserAnswersHandler(
@@ -65,6 +69,7 @@ class QuestionsServiceController extends _$QuestionsServiceController {
 
   void setupAllQuestions() {
     state = QuestionsService(
+      operatingMode: FullOperatingMode(),
       questionsHandler:
           FullQuestionsHandler(questionsRepository: _questionsRepository),
       userAnswersHandler: DirectUserAnswersHandler(
@@ -75,6 +80,7 @@ class QuestionsServiceController extends _$QuestionsServiceController {
 
   void setupChapterQuestions(Chapter chapter) {
     state = QuestionsService(
+      operatingMode: ChapterOperatingMode(chapter),
       questionsHandler: ChapterQuestionsHandler(
         questionsRepository: _questionsRepository,
         chapter: chapter,
@@ -94,6 +100,7 @@ class QuestionsServiceController extends _$QuestionsServiceController {
     }
 
     state = QuestionsService(
+      operatingMode: WrongAnswersOperatingMode(),
       questionsHandler: CustomQuestionListQuestionHandler(
         questionsRepository: _questionsRepository,
         sortedQuestionDbIndexes: wrongAnswerQuestionDbIndexes,
@@ -112,6 +119,7 @@ class QuestionsServiceController extends _$QuestionsServiceController {
         bookmarks.map((e) => e.questionDbIndex).toList();
 
     state = QuestionsService(
+      operatingMode: BookmarkOperatingMode(),
       questionsHandler: CustomQuestionListQuestionHandler(
         questionsRepository: _questionsRepository,
         sortedQuestionDbIndexes: bookmarkQuestionDbIndexes,
@@ -121,6 +129,14 @@ class QuestionsServiceController extends _$QuestionsServiceController {
       ),
     );
   }
+}
+
+@riverpod
+QuestionsServiceMode questionsServiceMode(
+  QuestionsServiceModeRef ref,
+) {
+  final questionsService = ref.watch(questionsServiceControllerProvider);
+  return questionsService.operatingMode;
 }
 
 @riverpod
