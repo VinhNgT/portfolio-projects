@@ -16,7 +16,11 @@ class QuestionsService {
     required this.operatingMode,
     required this.questionsHandler,
     required this.userAnswersHandler,
-  });
+  }) {
+    // debugPrint(
+    //   'QuestionsService started: ${operatingMode.description}',
+    // );
+  }
   final QuestionsServiceMode operatingMode;
   final QuestionsHandler questionsHandler;
   final UserAnswersHandler userAnswersHandler;
