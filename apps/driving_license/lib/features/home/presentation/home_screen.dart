@@ -94,7 +94,13 @@ class FeatureSelection extends HookConsumerWidget {
           child: FeatureCard(
             title: 'Các câu khó',
             subhead: '50 câu hỏi dễ bị nhầm lẫn',
-            onPressed: () {},
+            onPressed: () async {
+              ref
+                  .read(questionsServiceControllerProvider.notifier)
+                  .setupDifficultQuestions();
+
+              await context.navigateTo(const QuestionRoute());
+            },
           ),
         ),
         SizedBox.expand(

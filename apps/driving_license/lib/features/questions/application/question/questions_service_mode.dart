@@ -9,6 +9,10 @@ class ChapterOperatingMode extends QuestionsServiceMode {
   ChapterOperatingMode(this.chapter);
 }
 
+class DangerOperatingMode extends QuestionsServiceMode {}
+
+class DifficultOperatingMode extends QuestionsServiceMode {}
+
 class WrongAnswersOperatingMode extends QuestionsServiceMode {}
 
 class BookmarkOperatingMode extends QuestionsServiceMode {}

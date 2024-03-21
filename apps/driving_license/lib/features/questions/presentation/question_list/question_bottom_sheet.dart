@@ -89,6 +89,8 @@ class _TitleBar extends HookConsumerWidget {
   String _getServiceModeName(QuestionsServiceMode mode) {
     return switch (mode) {
       ChapterOperatingMode(chapter: final chapter) => chapter.chapterName,
+      DangerOperatingMode() => 'Các câu điểm liệt',
+      DifficultOperatingMode() => 'Các câu khó',
       WrongAnswersOperatingMode() => 'Các câu đã làm sai',
       BookmarkOperatingMode() => 'Các câu đã lưu',
       FullOperatingMode() || _ => 'Tất cả câu hỏi',

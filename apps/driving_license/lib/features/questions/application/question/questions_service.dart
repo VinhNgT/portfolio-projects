@@ -91,6 +91,30 @@ class QuestionsServiceController extends _$QuestionsServiceController {
     );
   }
 
+  void setupDangerQuestions() {
+    state = QuestionsService(
+      operatingMode: DangerOperatingMode(),
+      questionsHandler: DangerQuestionsHandler(
+        questionsRepository: _questionsRepository,
+      ),
+      userAnswersHandler: DirectUserAnswersHandler(
+        userAnswersRepository: _userAnswersRepository,
+      ),
+    );
+  }
+
+  void setupDifficultQuestions() {
+    state = QuestionsService(
+      operatingMode: DifficultOperatingMode(),
+      questionsHandler: DifficultQuestionsHandler(
+        questionsRepository: _questionsRepository,
+      ),
+      userAnswersHandler: DirectUserAnswersHandler(
+        userAnswersRepository: _userAnswersRepository,
+      ),
+    );
+  }
+
   Future<void> setupWrongAnswerQuestions() async {
     final wrongAnswers = await _userAnswersRepository.getAllWrongAnswers();
     final wrongAnswerQuestionDbIndexes = wrongAnswers.keys.toList()..sort();

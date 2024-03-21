@@ -56,6 +56,48 @@ class ChapterQuestionsHandler implements QuestionsHandler {
   }
 }
 
+class DangerQuestionsHandler implements QuestionsHandler {
+  final QuestionsRepository questionsRepository;
+
+  DangerQuestionsHandler({required this.questionsRepository});
+
+  @override
+  FutureOr<Question> getQuestion(int questionIndex) {
+    return questionsRepository.getIsDangerQuestion(questionIndex);
+  }
+
+  @override
+  FutureOr<List<Question>> getQuestionsPage(int pageIndex) {
+    return questionsRepository.getIsDangerQuestionsPage(pageIndex);
+  }
+
+  @override
+  FutureOr<int> getQuestionCount() {
+    return questionsRepository.getIsDangerQuestionsCount();
+  }
+}
+
+class DifficultQuestionsHandler implements QuestionsHandler {
+  final QuestionsRepository questionsRepository;
+
+  DifficultQuestionsHandler({required this.questionsRepository});
+
+  @override
+  FutureOr<Question> getQuestion(int questionIndex) {
+    return questionsRepository.getIsDifficultQuestion(questionIndex);
+  }
+
+  @override
+  FutureOr<List<Question>> getQuestionsPage(int pageIndex) {
+    return questionsRepository.getIsDifficultQuestionsPage(pageIndex);
+  }
+
+  @override
+  FutureOr<int> getQuestionCount() {
+    return questionsRepository.getIsDifficultQuestionsCount();
+  }
+}
+
 class CustomQuestionListQuestionHandler implements QuestionsHandler {
   final QuestionsRepository questionsRepository;
   final List<int> sortedQuestionDbIndexes;
