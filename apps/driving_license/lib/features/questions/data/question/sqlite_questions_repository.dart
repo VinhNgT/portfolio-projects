@@ -57,9 +57,9 @@ class SqliteQuestionsRepository implements QuestionsRepository {
 
   @override
   Future<int> getQuestionCount() async {
-    final List<Map<String, dynamic>> result =
+    final List<Map<String, dynamic>> queryResult =
         await database.rawQuery('SELECT COUNT(*) AS count FROM question');
-    return result.first['count'] as int;
+    return queryResult.first['count'] as int;
   }
 
   @override
@@ -126,11 +126,12 @@ class SqliteQuestionsRepository implements QuestionsRepository {
 
   @override
   Future<int> getQuestionCountByChapter(Chapter chapter) async {
-    final List<Map<String, dynamic>> result = await database.rawQuery(
+    final List<Map<String, dynamic>> queryResult = await database.rawQuery(
       'SELECT COUNT(*) AS count FROM question WHERE chapter_index = ?',
       [chapter.chapterDbIndex],
     );
-    return result.first['count'] as int;
+    return queryResult.first['count'] as int;
+  }
   }
 
   @override
