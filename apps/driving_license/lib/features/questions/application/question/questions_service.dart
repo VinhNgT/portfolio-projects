@@ -72,14 +72,7 @@ class QuestionsServiceController extends _$QuestionsServiceController {
   }
 
   void setupAllQuestions() {
-    state = QuestionsService(
-      operatingMode: FullOperatingMode(),
-      questionsHandler:
-          FullQuestionsHandler(questionsRepository: _questionsRepository),
-      userAnswersHandler: DirectUserAnswersHandler(
-        userAnswersRepository: _userAnswersRepository,
-      ),
-    );
+    ref.invalidateSelf();
   }
 
   void setupChapterQuestions(Chapter chapter) {
