@@ -11,6 +11,10 @@ import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+/// This value must match the PRAGMA user_version of the database in the assets
+/// otherwise an Exception will be thrown
+const _dataBaseUserVersionConst = 2;
+
 class SqliteQuestionsRepository implements QuestionsRepository {
   final Database database;
   SqliteQuestionsRepository(this.database);
@@ -20,34 +24,71 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   static Future<Database> _initDatabase() async {
-    final databasesPath = await getDatabasesPath();
-    final path = join(databasesPath, 'questions.db');
+    final databasesDir = await getDatabasesPath();
+    final dbPath = join(databasesDir, 'questions.db');
 
     // Check if the database exists
-    final exists = await databaseExists(path);
+    final exists = await databaseExists(dbPath);
 
+    // If the database doesn't exist, create a new copy from the asset
     if (!exists) {
-      // Should happen only the first time you launch your application
-      debugPrint('Creating new copy from asset');
-
-      // Make sure the parent directory exists
-      try {
-        await Directory(dirname(path)).create(recursive: true);
-      } catch (_) {}
-
-      // Copy from asset
-      final ByteData data =
-          await rootBundle.load(join('assets', 'questions.db'));
-      final List<int> bytes =
-          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-
-      // Write and flush the bytes written
-      await File(path).writeAsBytes(bytes, flush: true);
-    } else {
-      debugPrint('Opening existing database');
+      debugPrint(
+        'Database does not exist, creating new database copy from asset',
+      );
+      await _createNewDbFromAsset(dbPath);
+      return openDatabase(dbPath, readOnly: true);
     }
-    // open the database
-    return openDatabase(path, readOnly: true);
+
+    // Check if the database is outdated
+    final userVersion = await _getDbUserVersion(dbPath);
+    if (userVersion != _dataBaseUserVersionConst) {
+      debugPrint(
+        'Existing database is outdated, creating new database copy '
+        'from asset',
+      );
+      await _createNewDbFromAsset(dbPath);
+      return openDatabase(dbPath, readOnly: true);
+    }
+
+    // Open the database
+    debugPrint('Opening existing database');
+    return openDatabase(dbPath, readOnly: true);
+  }
+
+  static Future<int> _getDbUserVersion(String dbPath) async {
+    final db = await openDatabase(dbPath, readOnly: true);
+    final version = await db.getVersion();
+    await db.close();
+    return version;
+  }
+
+  static Future<void> _createNewDbFromAsset(String dbPath) async {
+    // Make sure the parent directory exists
+    try {
+      await Directory(dirname(dbPath)).create(recursive: true);
+    } catch (_) {
+      debugPrint('Failed to create database directory');
+    }
+
+    // Delete the old database if it exists
+    if (await File(dbPath).exists()) {
+      await File(dbPath).delete();
+    }
+
+    // Copy from asset
+    final ByteData data = await rootBundle.load(join('assets', 'questions.db'));
+    final List<int> bytes =
+        data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+
+    // Write and flush the bytes written
+    await File(dbPath).writeAsBytes(bytes, flush: true);
+
+    // Check the user_version of the database
+    final dbVersion = await _getDbUserVersion(dbPath);
+    if (dbVersion != _dataBaseUserVersionConst) {
+      throw Exception('The database\'s user_version from asset does not match '
+          'the expected value \'$_dataBaseUserVersionConst\'');
+    }
   }
 
   @override
