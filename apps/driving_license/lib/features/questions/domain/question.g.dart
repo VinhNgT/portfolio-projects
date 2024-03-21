@@ -13,6 +13,7 @@ _$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
       questionImagePath: json['questionImagePath'] as String?,
       isDanger: json['isDanger'] as bool,
+      isDifficult: json['isDifficult'] as bool,
       answers:
           (json['answers'] as List<dynamic>).map((e) => e as String).toList(),
       correctAnswerIndex: json['correctAnswerIndex'] as int,
@@ -27,6 +28,7 @@ Map<String, dynamic> _$$QuestionImplToJson(_$QuestionImpl instance) =>
       'title': instance.title,
       'questionImagePath': instance.questionImagePath,
       'isDanger': instance.isDanger,
+      'isDifficult': instance.isDifficult,
       'answers': instance.answers,
       'correctAnswerIndex': instance.correctAnswerIndex,
       'explanation': instance.explanation,

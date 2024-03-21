@@ -183,7 +183,8 @@ extension QuestionsRepositoryX on QuestionsRepository {
           : join('assets/images', databaseMap['question_image']),
       'answers': jsonDecode(databaseMap['answers']),
       'correctAnswerIndex': databaseMap['correct_index'] - 1,
-      'isDanger': kTestQuestions[0].isDanger,
+      'isDanger': databaseMap['is_danger'] == 1,
+      'isDifficult': databaseMap['is_difficult'] == 1,
       'explanation': kTestQuestions[0].explanation,
       'rememberTip': kTestQuestions[0].rememberTip,
     };

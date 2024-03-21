@@ -11,6 +11,7 @@ class Question with _$Question {
     required String title,
     String? questionImagePath,
     required bool isDanger,
+    required bool isDifficult,
     required List<String> answers,
     required int correctAnswerIndex,
     String? explanation,
@@ -25,6 +26,7 @@ class Question with _$Question {
         chapterDbIndex: -1,
         title: 'Prototype\nPrototype',
         isDanger: false,
+        isDifficult: false,
         correctAnswerIndex: 0,
         answers: ['0'],
       );

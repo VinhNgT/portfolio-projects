@@ -13,6 +13,7 @@ List<Question> kTestQuestions = [
       '''Cả ý 1 và ý 2''',
     ],
     isDanger: true,
+    isDifficult: true,
     correctAnswerIndex: 3,
     explanation:
         '''Pirate ipsum arrgh bounty warp jack. Shiver her topgallant yard chase fleet me.''',
@@ -27,6 +28,7 @@ List<Question> kTestQuestions = [
     answers: ['Vạch 1', 'Vạch 2', 'Vạch 3', 'Cả 3 vạch'],
     questionImagePath: 'assets/images/question_images/question_479.jpg',
     isDanger: false,
+    isDifficult: false,
     correctAnswerIndex: 1,
     explanation:
         '''Pirate ipsum arrgh bounty warp jack. Shiver her topgallant yard chase fleet me.''',
@@ -45,6 +47,7 @@ List<Question> kTestQuestions = [
     questionImagePath: 'assets/images/question_images/question_503.jpg',
     correctAnswerIndex: 0,
     isDanger: false,
+    isDifficult: true,
     explanation:
         '''Pirate ipsum arrgh bounty warp jack. Shiver her topgallant yard chase fleet me.''',
     rememberTip:
@@ -63,6 +66,7 @@ List<Question> kTestQuestions = [
     questionImagePath: 'assets/images/question_images/question_558.jpg',
     correctAnswerIndex: 3,
     isDanger: false,
+    isDifficult: false,
     explanation:
         '''Pirate ipsum arrgh bounty warp jack. Shiver her topgallant yard chase fleet me.''',
     rememberTip:

@@ -25,6 +25,7 @@ mixin _$Question {
   String get title => throw _privateConstructorUsedError;
   String? get questionImagePath => throw _privateConstructorUsedError;
   bool get isDanger => throw _privateConstructorUsedError;
+  bool get isDifficult => throw _privateConstructorUsedError;
   List<String> get answers => throw _privateConstructorUsedError;
   int get correctAnswerIndex => throw _privateConstructorUsedError;
   String? get explanation => throw _privateConstructorUsedError;
@@ -47,6 +48,7 @@ abstract class $QuestionCopyWith<$Res> {
       String title,
       String? questionImagePath,
       bool isDanger,
+      bool isDifficult,
       List<String> answers,
       int correctAnswerIndex,
       String? explanation,
@@ -71,6 +73,7 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? title = null,
     Object? questionImagePath = freezed,
     Object? isDanger = null,
+    Object? isDifficult = null,
     Object? answers = null,
     Object? correctAnswerIndex = null,
     Object? explanation = freezed,
@@ -96,6 +99,10 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
       isDanger: null == isDanger
           ? _value.isDanger
           : isDanger // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isDifficult: null == isDifficult
+          ? _value.isDifficult
+          : isDifficult // ignore: cast_nullable_to_non_nullable
               as bool,
       answers: null == answers
           ? _value.answers
@@ -131,6 +138,7 @@ abstract class _$$QuestionImplCopyWith<$Res>
       String title,
       String? questionImagePath,
       bool isDanger,
+      bool isDifficult,
       List<String> answers,
       int correctAnswerIndex,
       String? explanation,
@@ -153,6 +161,7 @@ class __$$QuestionImplCopyWithImpl<$Res>
     Object? title = null,
     Object? questionImagePath = freezed,
     Object? isDanger = null,
+    Object? isDifficult = null,
     Object? answers = null,
     Object? correctAnswerIndex = null,
     Object? explanation = freezed,
@@ -178,6 +187,10 @@ class __$$QuestionImplCopyWithImpl<$Res>
       isDanger: null == isDanger
           ? _value.isDanger
           : isDanger // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isDifficult: null == isDifficult
+          ? _value.isDifficult
+          : isDifficult // ignore: cast_nullable_to_non_nullable
               as bool,
       answers: null == answers
           ? _value._answers
@@ -208,6 +221,7 @@ class _$QuestionImpl implements _Question {
       required this.title,
       this.questionImagePath,
       required this.isDanger,
+      required this.isDifficult,
       required final List<String> answers,
       required this.correctAnswerIndex,
       this.explanation,
@@ -227,6 +241,8 @@ class _$QuestionImpl implements _Question {
   final String? questionImagePath;
   @override
   final bool isDanger;
+  @override
+  final bool isDifficult;
   final List<String> _answers;
   @override
   List<String> get answers {
@@ -244,7 +260,7 @@ class _$QuestionImpl implements _Question {
 
   @override
   String toString() {
-    return 'Question(questionDbIndex: $questionDbIndex, chapterDbIndex: $chapterDbIndex, title: $title, questionImagePath: $questionImagePath, isDanger: $isDanger, answers: $answers, correctAnswerIndex: $correctAnswerIndex, explanation: $explanation, rememberTip: $rememberTip)';
+    return 'Question(questionDbIndex: $questionDbIndex, chapterDbIndex: $chapterDbIndex, title: $title, questionImagePath: $questionImagePath, isDanger: $isDanger, isDifficult: $isDifficult, answers: $answers, correctAnswerIndex: $correctAnswerIndex, explanation: $explanation, rememberTip: $rememberTip)';
   }
 
   @override
@@ -261,6 +277,8 @@ class _$QuestionImpl implements _Question {
                 other.questionImagePath == questionImagePath) &&
             (identical(other.isDanger, isDanger) ||
                 other.isDanger == isDanger) &&
+            (identical(other.isDifficult, isDifficult) ||
+                other.isDifficult == isDifficult) &&
             const DeepCollectionEquality().equals(other._answers, _answers) &&
             (identical(other.correctAnswerIndex, correctAnswerIndex) ||
                 other.correctAnswerIndex == correctAnswerIndex) &&
@@ -279,6 +297,7 @@ class _$QuestionImpl implements _Question {
       title,
       questionImagePath,
       isDanger,
+      isDifficult,
       const DeepCollectionEquality().hash(_answers),
       correctAnswerIndex,
       explanation,
@@ -305,6 +324,7 @@ abstract class _Question implements Question {
       required final String title,
       final String? questionImagePath,
       required final bool isDanger,
+      required final bool isDifficult,
       required final List<String> answers,
       required final int correctAnswerIndex,
       final String? explanation,
@@ -323,6 +343,8 @@ abstract class _Question implements Question {
   String? get questionImagePath;
   @override
   bool get isDanger;
+  @override
+  bool get isDifficult;
   @override
   List<String> get answers;
   @override
