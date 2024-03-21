@@ -52,7 +52,7 @@ class QuestionsServiceController extends _$QuestionsServiceController {
       ref.read(questionsRepositoryProvider);
   UserAnswersRepository get _userAnswersRepository =>
       ref.read(userAnswersRepositoryProvider);
-  UserAnswersRepository get _tempUserAnswersRepository =>
+  UserAnswersRepository get _inMemoryUserAnswersRepository =>
       ref.read(inMemoryUserAnswersRepositoryProvider);
   BookmarksRepository get _bookmarkedQuestionsRepository =>
       ref.read(bookmarksRepositoryProvider);
@@ -125,10 +125,10 @@ class QuestionsServiceController extends _$QuestionsServiceController {
         questionsRepository: _questionsRepository,
         sortedQuestionDbIndexes: wrongAnswerQuestionDbIndexes,
       ),
-      userAnswersHandler: WrongUserAnswersHandler(
+      userAnswersHandler: InMemoryUserAnswersHandler(
         userAnswersRepository: _userAnswersRepository,
-        tempUserAnswersRepository: _tempUserAnswersRepository,
-        wrongAnswersBeforeStart: wrongAnswers,
+        inMemoryUserAnswersRepository: _inMemoryUserAnswersRepository,
+        userAnswersBeforeStart: wrongAnswers,
       ),
     );
   }

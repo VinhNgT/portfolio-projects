@@ -42,16 +42,16 @@ class DirectUserAnswersHandler implements UserAnswersHandler {
   }
 }
 
-class WrongUserAnswersHandler implements UserAnswersHandler {
-  WrongUserAnswersHandler({
+class InMemoryUserAnswersHandler implements UserAnswersHandler {
+  InMemoryUserAnswersHandler({
     required this.userAnswersRepository,
-    required this.tempUserAnswersRepository,
-    required this.wrongAnswersBeforeStart,
+    required this.inMemoryUserAnswersRepository,
+    required this.userAnswersBeforeStart,
   });
 
   final UserAnswersRepository userAnswersRepository;
-  final UserAnswersRepository tempUserAnswersRepository;
-  final UserAnswersMap wrongAnswersBeforeStart;
+  final UserAnswersRepository inMemoryUserAnswersRepository;
+  final UserAnswersMap userAnswersBeforeStart;
 
   @override
   Future<void> saveUserAnswer(
@@ -59,7 +59,7 @@ class WrongUserAnswersHandler implements UserAnswersHandler {
     int selectedAnswerIndex,
   ) async {
     await userAnswersRepository.saveUserAnswer(question, selectedAnswerIndex);
-    await tempUserAnswersRepository.saveUserAnswer(
+    await inMemoryUserAnswersRepository.saveUserAnswer(
       question,
       selectedAnswerIndex,
     );
@@ -67,15 +67,14 @@ class WrongUserAnswersHandler implements UserAnswersHandler {
 
   @override
   Future<void> clearUserAnswer(Question question) async {
-    final userAnswerAtStart =
-        wrongAnswersBeforeStart[question.questionDbIndex]!;
+    final userAnswerAtStart = userAnswersBeforeStart[question.questionDbIndex]!;
 
-    // Restore the user's answer from the start of the test
+    // Restore the user's answer from the start of the session
     await userAnswersRepository.saveUserAnswer(
       question,
       userAnswerAtStart.selectedAnswerIndex,
     );
-    await tempUserAnswersRepository.clearUserAnswer(question);
+    await inMemoryUserAnswersRepository.clearUserAnswer(question);
   }
 
   @override
@@ -86,7 +85,7 @@ class WrongUserAnswersHandler implements UserAnswersHandler {
 
   @override
   Stream<int?> watchUserSelectedAnswerIndex(Question question) {
-    return tempUserAnswersRepository.watchUserSelectedAnswerIndex(question);
+    return inMemoryUserAnswersRepository.watchUserSelectedAnswerIndex(question);
   }
 
   @override
