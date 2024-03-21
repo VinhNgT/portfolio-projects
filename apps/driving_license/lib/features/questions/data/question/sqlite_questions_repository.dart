@@ -132,6 +132,90 @@ class SqliteQuestionsRepository implements QuestionsRepository {
     );
     return queryResult.first['count'] as int;
   }
+
+  @override
+  FutureOr<Question> getIsDangerQuestion(int index) async {
+    final List<Map<String, dynamic>> queryResult = await database.query(
+      'question',
+      where: 'is_danger = 1',
+      orderBy: 'question_index ASC',
+      offset: index,
+      limit: 1,
+    );
+
+    if (queryResult.isNotEmpty) {
+      final questionMap =
+          convertDatabaseMapToQuestionObjectMap(queryResult.first);
+      return Question.fromJson(questionMap);
+    } else {
+      throw Exception('is_danger question_index $index not found');
+    }
+  }
+
+  @override
+  FutureOr<List<Question>> getIsDangerQuestionsPage(int pageNumber) async {
+    final List<Map<String, dynamic>> queryResult = await database.query(
+      'question',
+      where: 'is_danger = 1',
+      orderBy: 'question_index ASC',
+      limit: QuestionsRepository.pageSize,
+      offset: pageNumber * QuestionsRepository.pageSize,
+    );
+
+    return [
+      for (final questionMap in queryResult)
+        Question.fromJson(convertDatabaseMapToQuestionObjectMap(questionMap)),
+    ];
+  }
+
+  @override
+  FutureOr<int> getIsDangerQuestionsCount() async {
+    final List<Map<String, dynamic>> queryResult = await database
+        .rawQuery('SELECT COUNT(*) AS count FROM question WHERE is_danger = 1');
+    return queryResult.first['count'] as int;
+  }
+
+  @override
+  FutureOr<Question> getIsDifficultQuestion(int index) async {
+    final List<Map<String, dynamic>> queryResult = await database.query(
+      'question',
+      where: 'is_difficult = 1',
+      orderBy: 'question_index ASC',
+      offset: index,
+      limit: 1,
+    );
+
+    if (queryResult.isNotEmpty) {
+      final questionMap =
+          convertDatabaseMapToQuestionObjectMap(queryResult.first);
+      return Question.fromJson(questionMap);
+    } else {
+      throw Exception('is_difficult question_index $index not found');
+    }
+  }
+
+  @override
+  FutureOr<List<Question>> getIsDifficultQuestionsPage(int pageNumber) async {
+    final List<Map<String, dynamic>> queryResult = await database.query(
+      'question',
+      where: 'is_difficult = 1',
+      orderBy: 'question_index ASC',
+      limit: QuestionsRepository.pageSize,
+      offset: pageNumber * QuestionsRepository.pageSize,
+    );
+
+    return [
+      for (final questionMap in queryResult)
+        Question.fromJson(convertDatabaseMapToQuestionObjectMap(questionMap)),
+    ];
+  }
+
+  @override
+  FutureOr<int> getIsDifficultQuestionsCount() async {
+    final List<Map<String, dynamic>> queryResult = await database.rawQuery(
+      'SELECT COUNT(*) AS count FROM question WHERE is_difficult = 1',
+    );
+    return queryResult.first['count'] as int;
   }
 
   @override
