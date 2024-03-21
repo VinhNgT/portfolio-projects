@@ -59,8 +59,7 @@ class QuestionsServiceController extends _$QuestionsServiceController {
 
   @override
   QuestionsService build() {
-    // Default to full handler (loads from 600 questions) unless specified
-    // otherwise
+    // Default to full handler (loads from 600 questions)
     return QuestionsService(
       operatingMode: FullOperatingMode(),
       questionsHandler:
