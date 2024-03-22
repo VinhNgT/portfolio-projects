@@ -12,19 +12,125 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'questions_service.g.dart';
 
 class QuestionsService {
-  QuestionsService({
+  const QuestionsService({
     required this.operatingMode,
     required this.questionsHandler,
     required this.userAnswersHandler,
-  }) {
-    // debugPrint(
-    //   'QuestionsService started: ${operatingMode.description}',
-    // );
-  }
+  });
+
   final QuestionsServiceMode operatingMode;
   final QuestionsHandler questionsHandler;
   final UserAnswersHandler userAnswersHandler;
 
+  factory QuestionsService.full({
+    required QuestionsRepository questionsRepository,
+    required UserAnswersRepository userAnswersRepository,
+  }) {
+    return QuestionsService(
+      operatingMode: FullOperatingMode(),
+      questionsHandler: FullQuestionsHandler(
+        questionsRepository: questionsRepository,
+      ),
+      userAnswersHandler: DirectUserAnswersHandler(
+        userAnswersRepository: userAnswersRepository,
+      ),
+    );
+  }
+
+  factory QuestionsService.chapter({
+    required Chapter chapter,
+    required QuestionsRepository questionsRepository,
+    required UserAnswersRepository userAnswersRepository,
+  }) {
+    return QuestionsService(
+      operatingMode: ChapterOperatingMode(chapter),
+      questionsHandler: ChapterQuestionsHandler(
+        questionsRepository: questionsRepository,
+        chapter: chapter,
+      ),
+      userAnswersHandler: DirectUserAnswersHandler(
+        userAnswersRepository: userAnswersRepository,
+      ),
+    );
+  }
+
+  factory QuestionsService.danger({
+    required QuestionsRepository questionsRepository,
+    required UserAnswersRepository userAnswersRepository,
+  }) {
+    return QuestionsService(
+      operatingMode: DangerOperatingMode(),
+      questionsHandler: DangerQuestionsHandler(
+        questionsRepository: questionsRepository,
+      ),
+      userAnswersHandler: DirectUserAnswersHandler(
+        userAnswersRepository: userAnswersRepository,
+      ),
+    );
+  }
+
+  factory QuestionsService.difficult({
+    required QuestionsRepository questionsRepository,
+    required UserAnswersRepository userAnswersRepository,
+    required InMemoryUserAnswersRepository inMemoryUserAnswersRepository,
+    required UserAnswersMap userAnswersBeforeStart,
+  }) {
+    return QuestionsService(
+      operatingMode: DifficultOperatingMode(),
+      questionsHandler: DifficultQuestionsHandler(
+        questionsRepository: questionsRepository,
+      ),
+      userAnswersHandler: HideUserAnswersHandler(
+        userAnswersRepository: userAnswersRepository,
+        inMemoryUserAnswersHandler: InMemoryUserAnswersHandler(
+          inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
+        ),
+        userAnswersBeforeStart: userAnswersBeforeStart,
+      ),
+    );
+  }
+
+  factory QuestionsService.wrongAnswers({
+    required QuestionsRepository questionsRepository,
+    required UserAnswersRepository userAnswersRepository,
+    required InMemoryUserAnswersRepository inMemoryUserAnswersRepository,
+    required UserAnswersMap userAnswersBeforeStart,
+  }) {
+    return QuestionsService(
+      operatingMode: WrongAnswersOperatingMode(),
+      questionsHandler: CustomQuestionListQuestionHandler(
+        questionsRepository: questionsRepository,
+        sortedQuestionDbIndexes: userAnswersBeforeStart.keys.toList()..sort(),
+      ),
+      userAnswersHandler: HideUserAnswersHandler(
+        userAnswersRepository: userAnswersRepository,
+        inMemoryUserAnswersHandler: InMemoryUserAnswersHandler(
+          inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
+        ),
+        userAnswersBeforeStart: userAnswersBeforeStart,
+      ),
+    );
+  }
+
+  factory QuestionsService.bookmarked({
+    required QuestionsRepository questionsRepository,
+    required UserAnswersRepository userAnswersRepository,
+    required List<int> bookmarkedQuestionDbIndexes,
+  }) {
+    return QuestionsService(
+      operatingMode: BookmarkOperatingMode(),
+      questionsHandler: CustomQuestionListQuestionHandler(
+        questionsRepository: questionsRepository,
+        sortedQuestionDbIndexes: bookmarkedQuestionDbIndexes..sort(),
+      ),
+      userAnswersHandler: DirectUserAnswersHandler(
+        userAnswersRepository: userAnswersRepository,
+      ),
+    );
+  }
+}
+
+extension QuestionsServiceMethods on QuestionsService {
   Future<Question> getQuestion(int questionIndex) async =>
       questionsHandler.getQuestion(questionIndex);
 
@@ -52,7 +158,7 @@ class QuestionsServiceController extends _$QuestionsServiceController {
       ref.read(questionsRepositoryProvider);
   UserAnswersRepository get _userAnswersRepository =>
       ref.read(userAnswersRepositoryProvider);
-  UserAnswersRepository get _inMemoryUserAnswersRepository =>
+  InMemoryUserAnswersRepository get _inMemoryUserAnswersRepository =>
       ref.read(inMemoryUserAnswersRepositoryProvider);
   BookmarksRepository get _bookmarkedQuestionsRepository =>
       ref.read(bookmarksRepositoryProvider);
@@ -60,13 +166,9 @@ class QuestionsServiceController extends _$QuestionsServiceController {
   @override
   QuestionsService build() {
     // Default to full handler (loads from 600 questions)
-    return QuestionsService(
-      operatingMode: FullOperatingMode(),
-      questionsHandler:
-          FullQuestionsHandler(questionsRepository: _questionsRepository),
-      userAnswersHandler: DirectUserAnswersHandler(
-        userAnswersRepository: _userAnswersRepository,
-      ),
+    return QuestionsService.full(
+      questionsRepository: _questionsRepository,
+      userAnswersRepository: _userAnswersRepository,
     );
   }
 
@@ -75,27 +177,17 @@ class QuestionsServiceController extends _$QuestionsServiceController {
   }
 
   void setupChapterQuestions(Chapter chapter) {
-    state = QuestionsService(
-      operatingMode: ChapterOperatingMode(chapter),
-      questionsHandler: ChapterQuestionsHandler(
-        questionsRepository: _questionsRepository,
-        chapter: chapter,
-      ),
-      userAnswersHandler: DirectUserAnswersHandler(
-        userAnswersRepository: _userAnswersRepository,
-      ),
+    state = QuestionsService.chapter(
+      chapter: chapter,
+      questionsRepository: _questionsRepository,
+      userAnswersRepository: _userAnswersRepository,
     );
   }
 
   void setupDangerQuestions() {
-    state = QuestionsService(
-      operatingMode: DangerOperatingMode(),
-      questionsHandler: DangerQuestionsHandler(
-        questionsRepository: _questionsRepository,
-      ),
-      userAnswersHandler: DirectUserAnswersHandler(
-        userAnswersRepository: _userAnswersRepository,
-      ),
+    state = QuestionsService.danger(
+      questionsRepository: _questionsRepository,
+      userAnswersRepository: _userAnswersRepository,
     );
   }
 
@@ -107,42 +199,26 @@ class QuestionsServiceController extends _$QuestionsServiceController {
       ref.invalidate(inMemoryUserAnswersRepositoryProvider);
     }
 
-    state = QuestionsService(
-      operatingMode: DifficultOperatingMode(),
-      questionsHandler: DifficultQuestionsHandler(
-        questionsRepository: _questionsRepository,
-      ),
-      userAnswersHandler: HideUserAnswersHandler(
-        userAnswersRepository: _userAnswersRepository,
-        inMemoryUserAnswersHandler: InMemoryUserAnswersHandler(
-          inMemoryUserAnswersRepository: _inMemoryUserAnswersRepository,
-        ),
-        userAnswersBeforeStart: difficultQuestionsAnswers,
-      ),
+    state = QuestionsService.difficult(
+      questionsRepository: _questionsRepository,
+      userAnswersRepository: _userAnswersRepository,
+      inMemoryUserAnswersRepository: _inMemoryUserAnswersRepository,
+      userAnswersBeforeStart: difficultQuestionsAnswers,
     );
   }
 
   Future<void> setupWrongAnswerQuestions() async {
     final wrongAnswers = await _userAnswersRepository.getAllWrongAnswers();
-    final wrongAnswerQuestionDbIndexes = wrongAnswers.keys.toList()..sort();
 
     if (ref.exists(inMemoryUserAnswersRepositoryProvider)) {
       ref.invalidate(inMemoryUserAnswersRepositoryProvider);
     }
 
-    state = QuestionsService(
-      operatingMode: WrongAnswersOperatingMode(),
-      questionsHandler: CustomQuestionListQuestionHandler(
-        questionsRepository: _questionsRepository,
-        sortedQuestionDbIndexes: wrongAnswerQuestionDbIndexes,
-      ),
-      userAnswersHandler: HideUserAnswersHandler(
-        userAnswersRepository: _userAnswersRepository,
-        inMemoryUserAnswersHandler: InMemoryUserAnswersHandler(
-          inMemoryUserAnswersRepository: _inMemoryUserAnswersRepository,
-        ),
-        userAnswersBeforeStart: wrongAnswers,
-      ),
+    state = QuestionsService.wrongAnswers(
+      questionsRepository: _questionsRepository,
+      userAnswersRepository: _userAnswersRepository,
+      inMemoryUserAnswersRepository: _inMemoryUserAnswersRepository,
+      userAnswersBeforeStart: wrongAnswers,
     );
   }
 
@@ -151,15 +227,10 @@ class QuestionsServiceController extends _$QuestionsServiceController {
     final bookmarkQuestionDbIndexes =
         bookmarks.map((e) => e.questionDbIndex).toList();
 
-    state = QuestionsService(
-      operatingMode: BookmarkOperatingMode(),
-      questionsHandler: CustomQuestionListQuestionHandler(
-        questionsRepository: _questionsRepository,
-        sortedQuestionDbIndexes: bookmarkQuestionDbIndexes,
-      ),
-      userAnswersHandler: DirectUserAnswersHandler(
-        userAnswersRepository: _userAnswersRepository,
-      ),
+    state = QuestionsService.bookmarked(
+      questionsRepository: _questionsRepository,
+      userAnswersRepository: _userAnswersRepository,
+      bookmarkedQuestionDbIndexes: bookmarkQuestionDbIndexes,
     );
   }
 }

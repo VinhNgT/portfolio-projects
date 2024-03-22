@@ -1,3 +1,4 @@
+import 'package:driving_license/features/questions/data/user_answer/in_memory_user_answers_repository.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 
@@ -46,7 +47,7 @@ class InMemoryUserAnswersHandler implements UserAnswersHandler {
   InMemoryUserAnswersHandler({
     required this.inMemoryUserAnswersRepository,
   });
-  final UserAnswersRepository inMemoryUserAnswersRepository;
+  final InMemoryUserAnswersRepository inMemoryUserAnswersRepository;
 
   @override
   Future<void> saveUserAnswer(
