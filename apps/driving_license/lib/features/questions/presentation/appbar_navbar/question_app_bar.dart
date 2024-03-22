@@ -1,6 +1,7 @@
 import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/constants/widget_sizes.dart';
+import 'package:driving_license/features/questions/application/question/questions_service.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/bookmark_button.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/question_app_bar_controller.dart';
 import 'package:driving_license/features/questions/presentation/question/question_page_controller.dart';
@@ -79,19 +80,21 @@ class _QuestionTitle extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIsDangerState = useRef(false);
-    final isDanger = ref.watch(
-      currentQuestionProvider.select((value) {
-        return value.map(
-          data: (asyncData) {
-            currentIsDangerState.value = asyncData.value.isDanger;
-            return AsyncData(asyncData.value.isDanger);
-          },
-          error: (asyncError) =>
-              AsyncError<bool>(asyncError.error, asyncError.stackTrace),
-          loading: (asyncLoading) => AsyncData(currentIsDangerState.value),
-        );
-      }),
-    ).requireValue;
+    final isDanger = ref
+        .watch(
+          questionFutureProvider(currentPageIndex).select((value) {
+            return value.map(
+              data: (asyncData) {
+                currentIsDangerState.value = asyncData.value.isDanger;
+                return AsyncData(asyncData.value.isDanger);
+              },
+              error: (asyncError) =>
+                  AsyncError<bool>(asyncError.error, asyncError.stackTrace),
+              loading: (asyncLoading) => AsyncData(currentIsDangerState.value),
+            );
+          }),
+        )
+        .requireValue;
 
     return Row(
       children: [
