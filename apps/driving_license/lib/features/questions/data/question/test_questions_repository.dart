@@ -103,4 +103,22 @@ class TestQuestionsRepository implements QuestionsRepository {
     // TODO: implement getIsDifficultQuestionsPage
     throw UnimplementedError();
   }
+
+  @override
+  FutureOr<List<int>> getIsDangerDbQuestionIndexes() {
+    // TODO: implement getIsDangerQuestionIndexes
+    throw UnimplementedError();
+  }
+
+  @override
+  FutureOr<List<int>> getIsDifficultDbQuestionIndexes() {
+    // TODO: implement getIsDifficultQuestionIndexes
+    throw UnimplementedError();
+  }
+
+  @override
+  FutureOr<List<int>> getQuestionDbIndexesByChapter(Chapter chapter) {
+    // TODO: implement getQuestionIndexesByChapter
+    throw UnimplementedError();
+  }
 }

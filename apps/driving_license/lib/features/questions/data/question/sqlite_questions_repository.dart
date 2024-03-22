@@ -175,6 +175,20 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
+  Future<List<int>> getQuestionDbIndexesByChapter(Chapter chapter) async {
+    final List<Map<String, dynamic>> queryResult = await database.query(
+      'question',
+      where: 'chapter_index = ?',
+      whereArgs: [chapter.chapterDbIndex],
+      orderBy: 'question_index ASC',
+    );
+
+    return [
+      for (final questionMap in queryResult) questionMap['question_index'],
+    ];
+  }
+
+  @override
   FutureOr<Question> getIsDangerQuestion(int index) async {
     final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
@@ -214,6 +228,19 @@ class SqliteQuestionsRepository implements QuestionsRepository {
     final List<Map<String, dynamic>> queryResult = await database
         .rawQuery('SELECT COUNT(*) AS count FROM question WHERE is_danger = 1');
     return queryResult.first['count'] as int;
+  }
+
+  @override
+  FutureOr<List<int>> getIsDangerDbQuestionIndexes() async {
+    final List<Map<String, dynamic>> queryResult = await database.query(
+      'question',
+      where: 'is_danger = 1',
+      orderBy: 'question_index ASC',
+    );
+
+    return [
+      for (final questionMap in queryResult) questionMap['question_index'],
+    ];
   }
 
   @override
@@ -257,6 +284,19 @@ class SqliteQuestionsRepository implements QuestionsRepository {
       'SELECT COUNT(*) AS count FROM question WHERE is_difficult = 1',
     );
     return queryResult.first['count'] as int;
+  }
+
+  @override
+  FutureOr<List<int>> getIsDifficultDbQuestionIndexes() async {
+    final List<Map<String, dynamic>> queryResult = await database.query(
+      'question',
+      where: 'is_difficult = 1',
+      orderBy: 'question_index ASC',
+    );
+
+    return [
+      for (final questionMap in queryResult) questionMap['question_index'],
+    ];
   }
 
   @override

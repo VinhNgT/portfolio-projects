@@ -19,16 +19,19 @@ abstract class QuestionsRepository {
     int pageNumber,
   );
   FutureOr<int> getQuestionCountByChapter(Chapter chapter);
+  FutureOr<List<int>> getQuestionDbIndexesByChapter(Chapter chapter);
 
   // Get questions by its danger status
   FutureOr<Question> getIsDangerQuestion(int index);
   FutureOr<List<Question>> getIsDangerQuestionsPage(int pageNumber);
   FutureOr<int> getIsDangerQuestionsCount();
+  FutureOr<List<int>> getIsDangerDbQuestionIndexes();
 
   // Get questions by its difficulty status
   FutureOr<Question> getIsDifficultQuestion(int index);
   FutureOr<List<Question>> getIsDifficultQuestionsPage(int pageNumber);
   FutureOr<int> getIsDifficultQuestionsCount();
+  FutureOr<List<int>> getIsDifficultDbQuestionIndexes();
 
   // Get questions by its DB index
   FutureOr<Question> getQuestionByDbIndex(int dbIndex);
