@@ -125,9 +125,11 @@ class QuestionsServiceController extends _$QuestionsServiceController {
         questionsRepository: _questionsRepository,
         sortedQuestionDbIndexes: wrongAnswerQuestionDbIndexes,
       ),
-      userAnswersHandler: InMemoryUserAnswersHandler(
+      userAnswersHandler: HideUserAnswersHandler(
         userAnswersRepository: _userAnswersRepository,
-        inMemoryUserAnswersRepository: _inMemoryUserAnswersRepository,
+        inMemoryUserAnswersHandler: InMemoryUserAnswersHandler(
+          inMemoryUserAnswersRepository: _inMemoryUserAnswersRepository,
+        ),
         userAnswersBeforeStart: wrongAnswers,
       ),
     );

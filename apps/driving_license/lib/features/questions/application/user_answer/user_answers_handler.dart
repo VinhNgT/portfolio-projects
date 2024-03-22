@@ -44,13 +44,51 @@ class DirectUserAnswersHandler implements UserAnswersHandler {
 
 class InMemoryUserAnswersHandler implements UserAnswersHandler {
   InMemoryUserAnswersHandler({
-    required this.userAnswersRepository,
     required this.inMemoryUserAnswersRepository,
+  });
+  final UserAnswersRepository inMemoryUserAnswersRepository;
+
+  @override
+  Future<void> saveUserAnswer(
+    Question question,
+    int selectedAnswerIndex,
+  ) {
+    return inMemoryUserAnswersRepository.saveUserAnswer(
+      question,
+      selectedAnswerIndex,
+    );
+  }
+
+  @override
+  Future<void> clearUserAnswer(Question question) {
+    return inMemoryUserAnswersRepository.clearUserAnswer(question);
+  }
+
+  @override
+  Future<void> clearAllUserAnswers() {
+    return inMemoryUserAnswersRepository.clearAllUserAnswers();
+  }
+
+  @override
+  Stream<int?> watchUserSelectedAnswerIndex(Question question) {
+    return inMemoryUserAnswersRepository.watchUserSelectedAnswerIndex(question);
+  }
+
+  @override
+  Future<UserAnswersMap> getAllWrongAnswers() {
+    return inMemoryUserAnswersRepository.getAllWrongAnswers();
+  }
+}
+
+class HideUserAnswersHandler implements UserAnswersHandler {
+  HideUserAnswersHandler({
+    required this.userAnswersRepository,
+    required this.inMemoryUserAnswersHandler,
     required this.userAnswersBeforeStart,
   });
 
   final UserAnswersRepository userAnswersRepository;
-  final UserAnswersRepository inMemoryUserAnswersRepository;
+  final InMemoryUserAnswersHandler inMemoryUserAnswersHandler;
   final UserAnswersMap userAnswersBeforeStart;
 
   @override
@@ -59,7 +97,7 @@ class InMemoryUserAnswersHandler implements UserAnswersHandler {
     int selectedAnswerIndex,
   ) async {
     await userAnswersRepository.saveUserAnswer(question, selectedAnswerIndex);
-    await inMemoryUserAnswersRepository.saveUserAnswer(
+    await inMemoryUserAnswersHandler.saveUserAnswer(
       question,
       selectedAnswerIndex,
     );
@@ -74,7 +112,7 @@ class InMemoryUserAnswersHandler implements UserAnswersHandler {
       question,
       userAnswerAtStart.selectedAnswerIndex,
     );
-    await inMemoryUserAnswersRepository.clearUserAnswer(question);
+    await inMemoryUserAnswersHandler.clearUserAnswer(question);
   }
 
   @override
@@ -85,7 +123,7 @@ class InMemoryUserAnswersHandler implements UserAnswersHandler {
 
   @override
   Stream<int?> watchUserSelectedAnswerIndex(Question question) {
-    return inMemoryUserAnswersRepository.watchUserSelectedAnswerIndex(question);
+    return inMemoryUserAnswersHandler.watchUserSelectedAnswerIndex(question);
   }
 
   @override
