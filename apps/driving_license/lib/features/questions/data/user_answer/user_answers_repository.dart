@@ -18,6 +18,7 @@ abstract class UserAnswersRepository {
   Future<void> clearAllUserAnswers();
   Stream<int?> watchUserSelectedAnswerIndex(Question question);
   Future<UserAnswersMap> getAllWrongAnswers();
+  Future<UserAnswersMap> getAllDifficultQuestionsAnswers();
   Stream<int> watchChapterAnswersCount(Chapter chapter);
   Stream<int> watchChapterWrongAnswersCount(Chapter chapter);
 }

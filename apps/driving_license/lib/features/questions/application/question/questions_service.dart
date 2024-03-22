@@ -99,14 +99,25 @@ class QuestionsServiceController extends _$QuestionsServiceController {
     );
   }
 
-  void setupDifficultQuestions() {
+  void setupDifficultQuestions() async {
+    final difficultQuestionsAnswers =
+        await _userAnswersRepository.getAllDifficultQuestionsAnswers();
+
+    if (ref.exists(inMemoryUserAnswersRepositoryProvider)) {
+      ref.invalidate(inMemoryUserAnswersRepositoryProvider);
+    }
+
     state = QuestionsService(
       operatingMode: DifficultOperatingMode(),
       questionsHandler: DifficultQuestionsHandler(
         questionsRepository: _questionsRepository,
       ),
-      userAnswersHandler: DirectUserAnswersHandler(
+      userAnswersHandler: HideUserAnswersHandler(
         userAnswersRepository: _userAnswersRepository,
+        inMemoryUserAnswersHandler: InMemoryUserAnswersHandler(
+          inMemoryUserAnswersRepository: _inMemoryUserAnswersRepository,
+        ),
+        userAnswersBeforeStart: difficultQuestionsAnswers,
       ),
     );
   }

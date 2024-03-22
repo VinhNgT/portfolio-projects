@@ -50,6 +50,16 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
+  Future<UserAnswersMap> getAllDifficultQuestionsAnswers() async {
+    final difficultAnswersMap = {
+      for (final entry in allAnswersStore.value.entries)
+        if (entry.value.questionMetadata.isDifficult) entry.key: entry.value,
+    };
+
+    return Future.value(difficultAnswersMap);
+  }
+
+  @override
   Future<UserAnswersMap> getAllWrongAnswers() {
     final wrongAnswersMap = {
       for (final entry in allAnswersStore.value.entries)

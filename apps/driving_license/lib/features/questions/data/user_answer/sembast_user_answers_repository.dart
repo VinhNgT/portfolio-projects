@@ -24,21 +24,6 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
     return databaseFactoryIo.openDatabase(join(appDocDir.path, filename));
   }
 
-  Filter get _wrongAnswersFilter {
-    return Filter.custom((record) {
-      final correctAnswerIndex = record['questionMetadata.correctAnswerIndex'];
-      final selectedAnswerIndex = record['selectedAnswerIndex'];
-      return correctAnswerIndex != selectedAnswerIndex;
-    });
-  }
-
-  Filter _filterByChapter(Chapter chapter) {
-    return Filter.equals(
-      'questionMetadata.chapterDbIndex',
-      chapter.chapterDbIndex,
-    );
-  }
-
   @override
   Future<void> saveUserAnswer(
     Question question,
@@ -94,6 +79,19 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
+  Future<UserAnswersMap> getAllDifficultQuestionsAnswers() async {
+    final recordSnapshot = await allAnswersStore.find(
+      db,
+      finder: Finder(filter: _difficultQuestionsFilter),
+    );
+
+    return {
+      for (final record in recordSnapshot)
+        record.key: UserAnswer.fromJson(record.value as Map<String, dynamic>),
+    };
+  }
+
+  @override
   Stream<int> watchChapterAnswersCount(Chapter chapter) {
     final userAnswersCountStream = allAnswersStore
         .query(finder: Finder(filter: _filterByChapter(chapter)))
@@ -109,5 +107,26 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
         .onCount(db);
 
     return wrongUserAnswersCountStream;
+  }
+}
+
+extension _FilterExtension on SembastUserAnswersRepository {
+  Filter _filterByChapter(Chapter chapter) {
+    return Filter.equals(
+      'questionMetadata.chapterDbIndex',
+      chapter.chapterDbIndex,
+    );
+  }
+
+  Filter get _wrongAnswersFilter {
+    return Filter.custom((record) {
+      final correctAnswerIndex = record['questionMetadata.correctAnswerIndex'];
+      final selectedAnswerIndex = record['selectedAnswerIndex'];
+      return correctAnswerIndex != selectedAnswerIndex;
+    });
+  }
+
+  Filter get _difficultQuestionsFilter {
+    return Filter.equals('questionMetadata.isDifficult', true);
   }
 }
