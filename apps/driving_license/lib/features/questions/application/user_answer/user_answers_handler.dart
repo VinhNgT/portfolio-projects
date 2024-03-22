@@ -1,7 +1,7 @@
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 
-abstract class UserAnswersHandler {
+sealed class UserAnswersHandler {
   Future<void> saveUserAnswer(Question question, int selectedAnswerIndex);
   Future<void> clearUserAnswer(Question question);
   Future<void> clearAllUserAnswers();
