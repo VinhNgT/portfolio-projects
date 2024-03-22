@@ -7,6 +7,9 @@ targets:
             - 'lib/features/**/domain/**.dart'
 
       json_serializable:
+        options:
+          explicit_to_json: true
+
         generate_for:
           include:
             - 'lib/features/**/domain/**.dart'
