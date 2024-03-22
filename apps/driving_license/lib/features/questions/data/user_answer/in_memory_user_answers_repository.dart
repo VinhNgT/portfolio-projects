@@ -10,18 +10,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'in_memory_user_answers_repository.g.dart';
 
 class InMemoryUserAnswersRepository implements UserAnswersRepository {
-  InMemoryUserAnswersRepository({
-    required this.allAnswersStore,
-    required this.answeredWrongStore,
-  });
+  InMemoryUserAnswersRepository({required this.allAnswersStore});
 
-  final InMemoryStore<Map<int, UserAnswer>> allAnswersStore;
-  final InMemoryStore<Map<int, UserAnswer>> answeredWrongStore;
-
-  void notifyListeners() {
-    allAnswersStore.emmit();
-    answeredWrongStore.emmit();
-  }
+  final InMemoryStore<UserAnswersMap> allAnswersStore;
 
   @override
   Future<void> saveUserAnswer(
@@ -29,34 +20,25 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
     int selectedAnswerIndex,
   ) async {
     final userAnswer = UserAnswer(
-      questionDbIndex: question.questionDbIndex,
-      chapterDbIndex: question.chapterDbIndex,
+      questionMetadata: question.metadata,
       selectedAnswerIndex: selectedAnswerIndex,
     );
 
     allAnswersStore.value[question.questionDbIndex] = userAnswer;
-
-    if (question.correctAnswerIndex != selectedAnswerIndex) {
-      answeredWrongStore.value[question.questionDbIndex] = userAnswer;
-    } else {
-      answeredWrongStore.value.remove(question.questionDbIndex);
-    }
-    notifyListeners();
+    allAnswersStore.emmit();
   }
 
   @override
   Future<void> clearAllUserAnswers() async {
     allAnswersStore.value = {};
-    answeredWrongStore.value = {};
-    // No need to call notifyListeners() here because the store will emits the
+    // No need to call emmit() here because the store will emits the
     // new value automatically when 'value' is updated directly using '='.
   }
 
   @override
   Future<void> clearUserAnswer(Question question) async {
     allAnswersStore.value.remove(question.questionDbIndex);
-    answeredWrongStore.value.remove(question.questionDbIndex);
-    notifyListeners();
+    allAnswersStore.emmit();
   }
 
   @override
@@ -69,29 +51,50 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
 
   @override
   Future<UserAnswersMap> getAllWrongAnswers() {
-    return Future.value(answeredWrongStore.value);
+    final wrongAnswersMap = {
+      for (final entry in allAnswersStore.value.entries)
+        if (entry.value.selectedAnswerIndex !=
+            entry.value.questionMetadata.correctAnswerIndex)
+          entry.key: entry.value,
+    };
+
+    return Future.value(wrongAnswersMap);
   }
 
   @override
   Stream<int> watchChapterAnswersCount(Chapter chapter) {
     return allAnswersStore.stream.map((userAnswersMap) {
       return userAnswersMap.values.fold(0, (count, userAnswer) {
-        if (userAnswer.chapterDbIndex == chapter.chapterDbIndex) {
-          return count++;
+        // Check if the user answer is for the chapter
+        if (userAnswer.questionMetadata.chapterDbIndex !=
+            chapter.chapterDbIndex) {
+          return count;
         }
-        return count;
+
+        // User answer is for the chapter, increment the count
+        return count++;
       });
     });
   }
 
   @override
   Stream<int> watchChapterWrongAnswersCount(Chapter chapter) {
-    return answeredWrongStore.stream.map((userAnswersMap) {
+    return allAnswersStore.stream.map((userAnswersMap) {
       return userAnswersMap.values.fold(0, (count, userAnswer) {
-        if (userAnswer.chapterDbIndex == chapter.chapterDbIndex) {
-          return count++;
+        // Check if the user answer is for the chapter
+        if (userAnswer.questionMetadata.chapterDbIndex !=
+            chapter.chapterDbIndex) {
+          return count;
         }
-        return count;
+
+        // Check if the user answer is not wrong
+        if (userAnswer.selectedAnswerIndex ==
+            userAnswer.questionMetadata.correctAnswerIndex) {
+          return count;
+        }
+
+        // User answer is wrong, increment the count
+        return count++;
       });
     });
   }
@@ -101,16 +104,10 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
 InMemoryUserAnswersRepository inMemoryUserAnswersRepository(
   InMemoryUserAnswersRepositoryRef ref,
 ) {
-  final allAnswersStore = InMemoryStore<Map<int, UserAnswer>>({});
-  final answeredWrongStore = InMemoryStore<Map<int, UserAnswer>>({});
-
+  final allAnswersStore = InMemoryStore<UserAnswersMap>({});
   ref.onDispose(() {
     unawaited(allAnswersStore.close());
-    unawaited(answeredWrongStore.close());
   });
 
-  return InMemoryUserAnswersRepository(
-    allAnswersStore: allAnswersStore,
-    answeredWrongStore: answeredWrongStore,
-  );
+  return InMemoryUserAnswersRepository(allAnswersStore: allAnswersStore);
 }

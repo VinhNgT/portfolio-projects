@@ -8,14 +8,13 @@ part of 'user_answer.dart';
 
 _$UserAnswerImpl _$$UserAnswerImplFromJson(Map<String, dynamic> json) =>
     _$UserAnswerImpl(
-      questionDbIndex: json['questionDbIndex'] as int,
-      chapterDbIndex: json['chapterDbIndex'] as int,
+      questionMetadata: QuestionMetadata.fromJson(
+          json['questionMetadata'] as Map<String, dynamic>),
       selectedAnswerIndex: json['selectedAnswerIndex'] as int,
     );
 
 Map<String, dynamic> _$$UserAnswerImplToJson(_$UserAnswerImpl instance) =>
     <String, dynamic>{
-      'questionDbIndex': instance.questionDbIndex,
-      'chapterDbIndex': instance.chapterDbIndex,
+      'questionMetadata': instance.questionMetadata.toJson(),
       'selectedAnswerIndex': instance.selectedAnswerIndex,
     };

@@ -20,8 +20,7 @@ UserAnswer _$UserAnswerFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserAnswer {
-  int get questionDbIndex => throw _privateConstructorUsedError;
-  int get chapterDbIndex => throw _privateConstructorUsedError;
+  QuestionMetadata get questionMetadata => throw _privateConstructorUsedError;
   int get selectedAnswerIndex => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -36,7 +35,9 @@ abstract class $UserAnswerCopyWith<$Res> {
           UserAnswer value, $Res Function(UserAnswer) then) =
       _$UserAnswerCopyWithImpl<$Res, UserAnswer>;
   @useResult
-  $Res call({int questionDbIndex, int chapterDbIndex, int selectedAnswerIndex});
+  $Res call({QuestionMetadata questionMetadata, int selectedAnswerIndex});
+
+  $QuestionMetadataCopyWith<$Res> get questionMetadata;
 }
 
 /// @nodoc
@@ -52,24 +53,27 @@ class _$UserAnswerCopyWithImpl<$Res, $Val extends UserAnswer>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? questionDbIndex = null,
-    Object? chapterDbIndex = null,
+    Object? questionMetadata = null,
     Object? selectedAnswerIndex = null,
   }) {
     return _then(_value.copyWith(
-      questionDbIndex: null == questionDbIndex
-          ? _value.questionDbIndex
-          : questionDbIndex // ignore: cast_nullable_to_non_nullable
-              as int,
-      chapterDbIndex: null == chapterDbIndex
-          ? _value.chapterDbIndex
-          : chapterDbIndex // ignore: cast_nullable_to_non_nullable
-              as int,
+      questionMetadata: null == questionMetadata
+          ? _value.questionMetadata
+          : questionMetadata // ignore: cast_nullable_to_non_nullable
+              as QuestionMetadata,
       selectedAnswerIndex: null == selectedAnswerIndex
           ? _value.selectedAnswerIndex
           : selectedAnswerIndex // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $QuestionMetadataCopyWith<$Res> get questionMetadata {
+    return $QuestionMetadataCopyWith<$Res>(_value.questionMetadata, (value) {
+      return _then(_value.copyWith(questionMetadata: value) as $Val);
+    });
   }
 }
 
@@ -81,7 +85,10 @@ abstract class _$$UserAnswerImplCopyWith<$Res>
       __$$UserAnswerImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int questionDbIndex, int chapterDbIndex, int selectedAnswerIndex});
+  $Res call({QuestionMetadata questionMetadata, int selectedAnswerIndex});
+
+  @override
+  $QuestionMetadataCopyWith<$Res> get questionMetadata;
 }
 
 /// @nodoc
@@ -95,19 +102,14 @@ class __$$UserAnswerImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? questionDbIndex = null,
-    Object? chapterDbIndex = null,
+    Object? questionMetadata = null,
     Object? selectedAnswerIndex = null,
   }) {
     return _then(_$UserAnswerImpl(
-      questionDbIndex: null == questionDbIndex
-          ? _value.questionDbIndex
-          : questionDbIndex // ignore: cast_nullable_to_non_nullable
-              as int,
-      chapterDbIndex: null == chapterDbIndex
-          ? _value.chapterDbIndex
-          : chapterDbIndex // ignore: cast_nullable_to_non_nullable
-              as int,
+      questionMetadata: null == questionMetadata
+          ? _value.questionMetadata
+          : questionMetadata // ignore: cast_nullable_to_non_nullable
+              as QuestionMetadata,
       selectedAnswerIndex: null == selectedAnswerIndex
           ? _value.selectedAnswerIndex
           : selectedAnswerIndex // ignore: cast_nullable_to_non_nullable
@@ -120,23 +122,19 @@ class __$$UserAnswerImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserAnswerImpl implements _UserAnswer {
   const _$UserAnswerImpl(
-      {required this.questionDbIndex,
-      required this.chapterDbIndex,
-      required this.selectedAnswerIndex});
+      {required this.questionMetadata, required this.selectedAnswerIndex});
 
   factory _$UserAnswerImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserAnswerImplFromJson(json);
 
   @override
-  final int questionDbIndex;
-  @override
-  final int chapterDbIndex;
+  final QuestionMetadata questionMetadata;
   @override
   final int selectedAnswerIndex;
 
   @override
   String toString() {
-    return 'UserAnswer(questionDbIndex: $questionDbIndex, chapterDbIndex: $chapterDbIndex, selectedAnswerIndex: $selectedAnswerIndex)';
+    return 'UserAnswer(questionMetadata: $questionMetadata, selectedAnswerIndex: $selectedAnswerIndex)';
   }
 
   @override
@@ -144,18 +142,16 @@ class _$UserAnswerImpl implements _UserAnswer {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserAnswerImpl &&
-            (identical(other.questionDbIndex, questionDbIndex) ||
-                other.questionDbIndex == questionDbIndex) &&
-            (identical(other.chapterDbIndex, chapterDbIndex) ||
-                other.chapterDbIndex == chapterDbIndex) &&
+            (identical(other.questionMetadata, questionMetadata) ||
+                other.questionMetadata == questionMetadata) &&
             (identical(other.selectedAnswerIndex, selectedAnswerIndex) ||
                 other.selectedAnswerIndex == selectedAnswerIndex));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, questionDbIndex, chapterDbIndex, selectedAnswerIndex);
+  int get hashCode =>
+      Object.hash(runtimeType, questionMetadata, selectedAnswerIndex);
 
   @JsonKey(ignore: true)
   @override
@@ -173,17 +169,14 @@ class _$UserAnswerImpl implements _UserAnswer {
 
 abstract class _UserAnswer implements UserAnswer {
   const factory _UserAnswer(
-      {required final int questionDbIndex,
-      required final int chapterDbIndex,
+      {required final QuestionMetadata questionMetadata,
       required final int selectedAnswerIndex}) = _$UserAnswerImpl;
 
   factory _UserAnswer.fromJson(Map<String, dynamic> json) =
       _$UserAnswerImpl.fromJson;
 
   @override
-  int get questionDbIndex;
-  @override
-  int get chapterDbIndex;
+  QuestionMetadata get questionMetadata;
   @override
   int get selectedAnswerIndex;
   @override

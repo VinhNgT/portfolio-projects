@@ -12,7 +12,6 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
 
   final Database db;
   final allAnswersStore = intMapStoreFactory.store('all_answers');
-  final answeredWrongStore = intMapStoreFactory.store('answered_wrong');
 
   static Future<SembastUserAnswersRepository> makeDefault() async {
     return SembastUserAnswersRepository(
@@ -25,42 +24,44 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
     return databaseFactoryIo.openDatabase(join(appDocDir.path, filename));
   }
 
+  Filter get _wrongAnswersFilter {
+    return Filter.custom((record) {
+      final correctAnswerIndex = record['questionMetadata.correctAnswerIndex'];
+      final selectedAnswerIndex = record['selectedAnswerIndex'];
+      return correctAnswerIndex != selectedAnswerIndex;
+    });
+  }
+
+  Filter _filterByChapter(Chapter chapter) {
+    return Filter.equals(
+      'questionMetadata.chapterDbIndex',
+      chapter.chapterDbIndex,
+    );
+  }
+
   @override
   Future<void> saveUserAnswer(
     Question question,
     int selectedAnswerIndex,
   ) async {
     final userAnswer = UserAnswer(
-      questionDbIndex: question.questionDbIndex,
-      chapterDbIndex: question.chapterDbIndex,
+      questionMetadata: question.metadata,
       selectedAnswerIndex: selectedAnswerIndex,
     );
 
-    await db.transaction((txn) async {
-      await allAnswersStore
-          .record(question.questionDbIndex)
-          .put(txn, userAnswer.toJson());
-
-      if (question.correctAnswerIndex != selectedAnswerIndex) {
-        await answeredWrongStore
-            .record(question.questionDbIndex)
-            .put(txn, userAnswer.toJson());
-      } else {
-        await answeredWrongStore.record(question.questionDbIndex).delete(txn);
-      }
-    });
+    await allAnswersStore
+        .record(question.questionDbIndex)
+        .put(db, userAnswer.toJson());
   }
 
   @override
   Future<void> clearUserAnswer(Question question) async {
     await allAnswersStore.record(question.questionDbIndex).delete(db);
-    await answeredWrongStore.record(question.questionDbIndex).delete(db);
   }
 
   @override
   Future<void> clearAllUserAnswers() async {
     await allAnswersStore.delete(db);
-    await answeredWrongStore.delete(db);
   }
 
   @override
@@ -81,7 +82,10 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
 
   @override
   Future<UserAnswersMap> getAllWrongAnswers() async {
-    final recordSnapshot = await answeredWrongStore.find(db);
+    final recordSnapshot = await allAnswersStore.find(
+      db,
+      finder: Finder(filter: _wrongAnswersFilter),
+    );
 
     return {
       for (final record in recordSnapshot)
@@ -92,11 +96,7 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   @override
   Stream<int> watchChapterAnswersCount(Chapter chapter) {
     final userAnswersCountStream = allAnswersStore
-        .query(
-          finder: Finder(
-            filter: Filter.equals('chapterDbIndex', chapter.chapterDbIndex),
-          ),
-        )
+        .query(finder: Finder(filter: _filterByChapter(chapter)))
         .onCount(db);
 
     return userAnswersCountStream;
@@ -104,12 +104,8 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
 
   @override
   Stream<int> watchChapterWrongAnswersCount(Chapter chapter) {
-    final wrongUserAnswersCountStream = answeredWrongStore
-        .query(
-          finder: Finder(
-            filter: Filter.equals('chapterDbIndex', chapter.chapterDbIndex),
-          ),
-        )
+    final wrongUserAnswersCountStream = allAnswersStore
+        .query(finder: Finder(filter: _wrongAnswersFilter))
         .onCount(db);
 
     return wrongUserAnswersCountStream;
