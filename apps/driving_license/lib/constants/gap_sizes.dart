@@ -6,6 +6,7 @@ import 'package:gap/gap.dart';
 
 const kGap_2 = Gap(kSize_2);
 const kGap_4 = Gap(kSize_4);
+const kGap_6 = Gap(kSize_6);
 const kGap_8 = Gap(kSize_8);
 const kGap_12 = Gap(kSize_12);
 const kGap_16 = Gap(kSize_16);

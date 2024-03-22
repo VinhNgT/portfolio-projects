@@ -1,12 +1,16 @@
 import 'package:driving_license/common_widgets/common_app_bar.dart';
+import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/constants/widget_sizes.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/bookmark_button.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/question_app_bar_controller.dart';
 import 'package:driving_license/features/questions/presentation/question/question_page_controller.dart';
 import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 class QuestionAppBar extends HookConsumerWidget implements PreferredSizeWidget {
   const QuestionAppBar({super.key});
@@ -19,7 +23,7 @@ class QuestionAppBar extends HookConsumerWidget implements PreferredSizeWidget {
         ref.watch(questionPageScrollControllerProvider(currentPageIndex));
 
     return CommonAppBar(
-      title: Text('Câu hỏi ${currentPageIndex + 1}'),
+      title: _QuestionTitle(currentPageIndex: currentPageIndex),
       actions: [
         const BookmarkButton(),
         IconButton(
@@ -65,5 +69,45 @@ extension QuestionAppBarX on QuestionAppBar {
     );
 
     animationNotifier.end();
+  }
+}
+
+class _QuestionTitle extends HookConsumerWidget {
+  const _QuestionTitle({required this.currentPageIndex});
+  final int currentPageIndex;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentIsDangerState = useRef(false);
+    final isDanger = ref.watch(
+      currentQuestionProvider.select((value) {
+        return value.map(
+          data: (asyncData) {
+            currentIsDangerState.value = asyncData.value.isDanger;
+            return AsyncData(asyncData.value.isDanger);
+          },
+          error: (asyncError) =>
+              AsyncError<bool>(asyncError.error, asyncError.stackTrace),
+          loading: (asyncLoading) => AsyncData(currentIsDangerState.value),
+        );
+      }),
+    ).requireValue;
+
+    return Row(
+      children: [
+        Text('Câu hỏi ${currentPageIndex + 1}'),
+        kGap_6,
+        Visibility(
+          visible: isDanger,
+          child: const SvgPicture(
+            AssetBytesLoader(
+              'assets/icons/home_screen/complied/danger_fire.svg.vec',
+            ),
+            height: 17,
+            width: 17,
+          ),
+        ),
+      ],
+    );
   }
 }
