@@ -6,8 +6,8 @@ import 'package:driving_license/features/questions/presentation/appbar_navbar/bo
 import 'package:driving_license/features/questions/presentation/appbar_navbar/question_app_bar_controller.dart';
 import 'package:driving_license/features/questions/presentation/question/question_page_controller.dart';
 import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
+import 'package:driving_license/utils/widget_ref_ext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -79,22 +79,17 @@ class _QuestionTitle extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentIsDangerState = useRef(false);
-    final isDanger = ref
-        .watch(
-          questionFutureProvider(currentPageIndex).select((value) {
-            return value.map(
-              data: (asyncData) {
-                currentIsDangerState.value = asyncData.value.isDanger;
-                return AsyncData(asyncData.value.isDanger);
-              },
-              error: (asyncError) =>
-                  AsyncError<bool>(asyncError.error, asyncError.stackTrace),
-              loading: (asyncLoading) => AsyncData(currentIsDangerState.value),
-            );
-          }),
-        )
-        .requireValue;
+    final isDanger = ref.useWatchAsyncValue(
+      questionFutureProvider(currentPageIndex).select((value) {
+        return value.map<AsyncValue<bool>>(
+          data: (asyncData) => AsyncData(asyncData.value.isDanger),
+          error: (asyncError) =>
+              AsyncError(asyncError.error, asyncError.stackTrace),
+          loading: (asyncLoading) => const AsyncLoading(),
+        );
+      }),
+      initialData: false,
+    );
 
     return Row(
       children: [
