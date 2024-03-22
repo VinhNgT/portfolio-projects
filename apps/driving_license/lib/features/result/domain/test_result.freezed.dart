@@ -138,7 +138,7 @@ class __$$TestResultImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$TestResultImpl implements _TestResult {
-  _$TestResultImpl(
+  const _$TestResultImpl(
       {required this.totalQuestions,
       required this.answeredQuestions,
       required this.correctAnswers,
@@ -196,7 +196,7 @@ class _$TestResultImpl implements _TestResult {
 }
 
 abstract class _TestResult implements TestResult {
-  factory _TestResult(
+  const factory _TestResult(
       {required final int totalQuestions,
       required final int answeredQuestions,
       required final int correctAnswers,

@@ -96,7 +96,7 @@ class __$$BookmarkImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$BookmarkImpl implements _Bookmark {
-  _$BookmarkImpl({required this.questionDbIndex});
+  const _$BookmarkImpl({required this.questionDbIndex});
 
   factory _$BookmarkImpl.fromJson(Map<String, dynamic> json) =>
       _$$BookmarkImplFromJson(json);
@@ -137,7 +137,8 @@ class _$BookmarkImpl implements _Bookmark {
 }
 
 abstract class _Bookmark implements Bookmark {
-  factory _Bookmark({required final int questionDbIndex}) = _$BookmarkImpl;
+  const factory _Bookmark({required final int questionDbIndex}) =
+      _$BookmarkImpl;
 
   factory _Bookmark.fromJson(Map<String, dynamic> json) =
       _$BookmarkImpl.fromJson;

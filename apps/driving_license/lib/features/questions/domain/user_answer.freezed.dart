@@ -119,7 +119,7 @@ class __$$UserAnswerImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$UserAnswerImpl implements _UserAnswer {
-  _$UserAnswerImpl(
+  const _$UserAnswerImpl(
       {required this.questionDbIndex,
       required this.chapterDbIndex,
       required this.selectedAnswerIndex});
@@ -172,7 +172,7 @@ class _$UserAnswerImpl implements _UserAnswer {
 }
 
 abstract class _UserAnswer implements UserAnswer {
-  factory _UserAnswer(
+  const factory _UserAnswer(
       {required final int questionDbIndex,
       required final int chapterDbIndex,
       required final int selectedAnswerIndex}) = _$UserAnswerImpl;

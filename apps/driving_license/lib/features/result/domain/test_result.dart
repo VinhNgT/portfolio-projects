@@ -5,7 +5,7 @@ part 'test_result.g.dart';
 
 @freezed
 abstract class TestResult with _$TestResult {
-  factory TestResult({
+  const factory TestResult({
     required int totalQuestions,
     required int answeredQuestions,
     required int correctAnswers,
