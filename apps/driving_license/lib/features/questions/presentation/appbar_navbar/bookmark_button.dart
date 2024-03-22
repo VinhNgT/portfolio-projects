@@ -10,7 +10,7 @@ class BookmarkButton extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    keepControllerAlive(ref);
+    ref.keepProviderAlive(bookmarkButtonControllerProvider);
 
     final isBookmarked = ref.useWatchAsyncValue(
       isCurrentQuestionBookmarkedStreamProvider,
@@ -29,10 +29,6 @@ class BookmarkButton extends HookConsumerWidget {
 }
 
 extension BookmarkButtonX on BookmarkButton {
-  void keepControllerAlive(WidgetRef ref) {
-    ref.listen(bookmarkButtonControllerProvider, (previous, next) {});
-  }
-
   void unBookmarkCurrentQuestion(WidgetRef ref) async {
     final currentQuestion = await ref.read(currentQuestionProvider.future);
 

@@ -7,7 +7,7 @@ part of 'question_page_controller.dart';
 // **************************************************************************
 
 String _$keepQuestionPageScrollControllerAliveHash() =>
-    r'22ab37648a90c654e7f8280ffcc7a5903a0961e0';
+    r'93f35b3ba0a6ac3948762949d9a62517be3136ba';
 
 /// See also [keepQuestionPageScrollControllerAlive].
 @ProviderFor(keepQuestionPageScrollControllerAlive)

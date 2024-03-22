@@ -1,4 +1,5 @@
 import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
+import 'package:driving_license/utils/widget_ref_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -32,17 +33,12 @@ void keepQuestionPageScrollControllerAlive(
 ) {
   final currentPageIndex = ref.watch(currentPageIndexProvider);
 
-  ref.listen(
-    questionPageScrollControllerProvider(currentPageIndex),
-    (_, __) {},
-  );
-  ref.listen(
+  ref.keepProviderAlive(questionPageScrollControllerProvider(currentPageIndex));
+  ref.keepProviderAlive(
     questionPageScrollControllerProvider(currentPageIndex + 1),
-    (_, __) {},
   );
-  ref.listen(
+  ref.keepProviderAlive(
     questionPageScrollControllerProvider(currentPageIndex - 1),
-    (_, __) {},
   );
 
   return;
