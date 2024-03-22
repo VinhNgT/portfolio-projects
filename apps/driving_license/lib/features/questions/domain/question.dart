@@ -1,3 +1,4 @@
+import 'package:driving_license/features/questions/domain/question_metadata.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'question.freezed.dart';
@@ -17,6 +18,7 @@ abstract class Question with _$Question {
     String? explanation,
     String? rememberTip,
   }) = _Question;
+  const Question._();
 
   factory Question.fromJson(Map<String, dynamic> json) =>
       _$QuestionFromJson(json);
@@ -29,5 +31,17 @@ abstract class Question with _$Question {
         isDifficult: false,
         correctAnswerIndex: 0,
         answers: ['0'],
+      );
+
+  /// Returns a [QuestionMetadata] object with the metadata of this question.
+  ///
+  /// This method is useful when you want to save the metadata of a question
+  /// without saving the whole question object.
+  QuestionMetadata get metadata => QuestionMetadata(
+        questionDbIndex: questionDbIndex,
+        chapterDbIndex: chapterDbIndex,
+        isDanger: isDanger,
+        isDifficult: isDifficult,
+        correctAnswerIndex: correctAnswerIndex,
       );
 }

@@ -214,7 +214,7 @@ class __$$QuestionImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$QuestionImpl implements _Question {
+class _$QuestionImpl extends _Question {
   const _$QuestionImpl(
       {required this.questionDbIndex,
       required this.chapterDbIndex,
@@ -226,7 +226,8 @@ class _$QuestionImpl implements _Question {
       required this.correctAnswerIndex,
       this.explanation,
       this.rememberTip})
-      : _answers = answers;
+      : _answers = answers,
+        super._();
 
   factory _$QuestionImpl.fromJson(Map<String, dynamic> json) =>
       _$$QuestionImplFromJson(json);
@@ -317,7 +318,7 @@ class _$QuestionImpl implements _Question {
   }
 }
 
-abstract class _Question implements Question {
+abstract class _Question extends Question {
   const factory _Question(
       {required final int questionDbIndex,
       required final int chapterDbIndex,
@@ -329,6 +330,7 @@ abstract class _Question implements Question {
       required final int correctAnswerIndex,
       final String? explanation,
       final String? rememberTip}) = _$QuestionImpl;
+  const _Question._() : super._();
 
   factory _Question.fromJson(Map<String, dynamic> json) =
       _$QuestionImpl.fromJson;
