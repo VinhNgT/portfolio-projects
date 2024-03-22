@@ -1,3 +1,4 @@
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 extension WidgetRefX on WidgetRef {
@@ -9,5 +10,31 @@ extension WidgetRefX on WidgetRef {
   /// keeps the [provider] alive and prevents it from being garbage collected.
   void keepAlive<T>(ProviderListenable<T> provider) {
     listen(provider, (previous, next) {});
+  }
+
+  /// A hook to watch and retrieve the value of an [AsyncValue] from a
+  /// [ProviderListenable].
+  ///
+  /// The [initialData] parameter is the initial value to be used before any
+  /// [AsyncValue] is emitted.
+  ///
+  T useWatchAsyncValue<T>(
+    ProviderListenable<AsyncValue<T>> provider, {
+    required T initialData,
+  }) {
+    final currentState = useRef<T>(initialData);
+
+    return watch(
+      provider.select((value) {
+        return value.map(
+          data: (asyncData) {
+            currentState.value = asyncData.value;
+            return asyncData;
+          },
+          error: (asyncError) => asyncError,
+          loading: (asyncLoading) => AsyncData(currentState.value),
+        );
+      }),
+    ).requireValue;
   }
 }
