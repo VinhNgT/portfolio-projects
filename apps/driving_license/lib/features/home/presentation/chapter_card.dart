@@ -15,7 +15,7 @@ import 'package:vector_graphics/vector_graphics.dart';
 class ChapterCard extends HookConsumerWidget {
   final String iconAssetPath;
   final Chapter chapter;
-  final VoidCallback? onTap;
+  final void Function(Chapter chapter)? onTap;
 
   const ChapterCard({
     super.key,
@@ -34,7 +34,7 @@ class ChapterCard extends HookConsumerWidget {
       builder: (chapterCompletionStatusValue) => ButtonCard(
         surfaceColor: context.materialScheme.surfaceContainerHigh,
         onSurfaceColor: context.materialScheme.onSurface,
-        onPressed: onTap,
+        onPressed: onTap != null ? () => onTap!(chapter) : null,
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: kSize_16,
