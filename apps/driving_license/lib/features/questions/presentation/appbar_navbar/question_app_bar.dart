@@ -6,7 +6,7 @@ import 'package:driving_license/features/questions/presentation/appbar_navbar/bo
 import 'package:driving_license/features/questions/presentation/appbar_navbar/question_app_bar_controller.dart';
 import 'package:driving_license/features/questions/presentation/question/question_page_controller.dart';
 import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
-import 'package:driving_license/utils/widget_ref_ext.dart';
+import 'package:driving_license/utils/ref_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

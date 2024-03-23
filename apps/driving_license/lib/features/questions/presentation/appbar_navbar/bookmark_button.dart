@@ -1,6 +1,6 @@
 import 'package:driving_license/features/questions/presentation/appbar_navbar/bookmark_button_controller.dart';
 import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
-import 'package:driving_license/utils/widget_ref_ext.dart';
+import 'package:driving_license/utils/ref_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';

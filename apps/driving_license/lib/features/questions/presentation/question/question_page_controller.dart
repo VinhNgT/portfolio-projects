@@ -1,5 +1,5 @@
 import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
-import 'package:driving_license/utils/widget_ref_ext.dart';
+import 'package:driving_license/utils/ref_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
