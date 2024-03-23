@@ -3,6 +3,7 @@ import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/common_widgets/widget_deadzone.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
+import 'package:driving_license/features/chapters/application/chapter_progress_service.dart';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/home/presentation/chapter_card.dart';
 import 'package:driving_license/features/home/presentation/donate_card.dart';
@@ -99,7 +100,7 @@ class FeatureSelection extends HookConsumerWidget {
                   .read(questionsServiceControllerProvider.notifier)
                   .setupDifficultQuestions();
 
-              await context.navigateTo(const QuestionRoute());
+              await context.navigateTo(QuestionRoute());
             },
           ),
         ),
@@ -124,7 +125,7 @@ class FeatureSelection extends HookConsumerWidget {
                   return;
                 }
 
-                await context.navigateTo(const QuestionRoute());
+                await context.navigateTo(QuestionRoute());
               }
             },
           ),
@@ -150,7 +151,7 @@ class FeatureSelection extends HookConsumerWidget {
                   return;
                 }
 
-                await context.navigateTo(const QuestionRoute());
+                await context.navigateTo(QuestionRoute());
               }
             },
           ),
@@ -179,88 +180,81 @@ class ChapterSelection extends HookConsumerWidget {
             ChapterCard(
               iconAssetPath: 'assets/icons/home_screen/complied/books.svg.vec',
               chapter: Chapter.khaiNiemVaQuyTac,
-              onTap: () async {
-                ref
-                    .read(questionsServiceControllerProvider.notifier)
-                    .setupChapterQuestions(Chapter.khaiNiemVaQuyTac);
-
-                await context.navigateTo(const QuestionRoute());
+              onTap: (chapter) async {
+                await setupAndNavigateToQuestionRoute(ref, chapter);
               },
             ),
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/danger_fire.svg.vec',
               chapter: Chapter.nghiepVuVanTai,
-              onTap: () async {
-                ref
-                    .read(questionsServiceControllerProvider.notifier)
-                    .setupChapterQuestions(Chapter.nghiepVuVanTai);
-
-                await context.navigateTo(const QuestionRoute());
+              onTap: (chapter) async {
+                await setupAndNavigateToQuestionRoute(ref, chapter);
               },
             ),
             ChapterCard(
               iconAssetPath: 'assets/icons/home_screen/complied/person.svg.vec',
               chapter: Chapter.vanHoaVaDaoDuc,
-              onTap: () async {
-                ref
-                    .read(questionsServiceControllerProvider.notifier)
-                    .setupChapterQuestions(Chapter.vanHoaVaDaoDuc);
-
-                await context.navigateTo(const QuestionRoute());
+              onTap: (chapter) async {
+                await setupAndNavigateToQuestionRoute(ref, chapter);
               },
             ),
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/steering_wheel.svg.vec',
               chapter: Chapter.kyThuatLaiXe,
-              onTap: () async {
-                ref
-                    .read(questionsServiceControllerProvider.notifier)
-                    .setupChapterQuestions(Chapter.kyThuatLaiXe);
-
-                await context.navigateTo(const QuestionRoute());
+              onTap: (chapter) async {
+                await setupAndNavigateToQuestionRoute(ref, chapter);
               },
             ),
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/danger_fire.svg.vec',
               chapter: Chapter.cauTaoVaSuaChua,
-              onTap: () async {
-                ref
-                    .read(questionsServiceControllerProvider.notifier)
-                    .setupChapterQuestions(Chapter.cauTaoVaSuaChua);
-
-                await context.navigateTo(const QuestionRoute());
+              onTap: (chapter) async {
+                await setupAndNavigateToQuestionRoute(ref, chapter);
               },
             ),
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/turn_right_sign.svg.vec',
               chapter: Chapter.bienBaoDuongBo,
-              onTap: () async {
-                ref
-                    .read(questionsServiceControllerProvider.notifier)
-                    .setupChapterQuestions(Chapter.bienBaoDuongBo);
-
-                await context.navigateTo(const QuestionRoute());
+              onTap: (chapter) async {
+                await setupAndNavigateToQuestionRoute(ref, chapter);
               },
             ),
             ChapterCard(
               iconAssetPath:
                   'assets/icons/home_screen/complied/traffic_light.svg.vec',
               chapter: Chapter.saHinhVaTinhHuong,
-              onTap: () async {
-                ref
-                    .read(questionsServiceControllerProvider.notifier)
-                    .setupChapterQuestions(Chapter.saHinhVaTinhHuong);
-
-                await context.navigateTo(const QuestionRoute());
+              onTap: (chapter) async {
+                await setupAndNavigateToQuestionRoute(ref, chapter);
               },
             ),
           ][index],
         ),
       ],
     );
+  }
+}
+
+extension ChapterSelectionX on ChapterSelection {
+  Future<void> setupAndNavigateToQuestionRoute(
+    WidgetRef ref,
+    Chapter chapter,
+  ) async {
+    final context = ref.context;
+    ref
+        .read(questionsServiceControllerProvider.notifier)
+        .setupChapterQuestions(chapter);
+
+    final lastVisitedPageIndex =
+        await ref.read(lastQuestionPageIndexVisitedProvider(chapter).future);
+
+    if (context.mounted) {
+      await context.navigateTo(
+        QuestionRoute(initialPageIndex: lastVisitedPageIndex),
+      );
+    }
   }
 }
