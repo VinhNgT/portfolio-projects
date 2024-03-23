@@ -143,10 +143,8 @@ class _QCAnswerStateCheckbox extends HookConsumerWidget {
     return answerState != AnswerState.unchecked
         ? AnswerStateCheckbox(state: answerState, iconSize: 20)
         : const SizedBox.shrink();
-  }
 }
 
-extension _QCAnswerStateCheckboxX on _QCAnswerStateCheckbox {
   AnswerState evaluateAnswerState(Question question, int? selectedAnswerIndex) {
     final bool noAnswerSelected = (selectedAnswerIndex == null);
     final bool isCorrect = (selectedAnswerIndex == question.correctAnswerIndex);
