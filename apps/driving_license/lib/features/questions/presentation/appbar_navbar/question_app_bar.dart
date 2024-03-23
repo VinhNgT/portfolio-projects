@@ -1,4 +1,5 @@
 import 'package:driving_license/common_widgets/common_app_bar.dart';
+import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/constants/widget_sizes.dart';
 import 'package:driving_license/features/questions/application/question/questions_service.dart';
@@ -101,8 +102,8 @@ class _QuestionTitle extends HookConsumerWidget {
             AssetBytesLoader(
               'assets/icons/home_screen/complied/danger_fire.svg.vec',
             ),
-            height: 17,
-            width: 17,
+            height: kSize_16,
+            width: kSize_16,
           ),
         ),
       ],
