@@ -2,7 +2,7 @@ import 'package:driving_license/common_widgets/async_value/async_value_widget.da
 import 'package:driving_license/common_widgets/button_card.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
-import 'package:driving_license/features/chapters/application/chapter_completion_status_provider.dart';
+import 'package:driving_license/features/chapters/application/chapter_progress_service.dart';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/result/domain/test_result.dart';
 import 'package:driving_license/utils/context_ext.dart';
