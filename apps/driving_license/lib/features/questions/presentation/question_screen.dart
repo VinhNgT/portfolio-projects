@@ -44,16 +44,9 @@ class QuestionScreen extends HookConsumerWidget {
             left: context.systemGestureInsets.left,
             right: context.systemGestureInsets.right,
           ),
-          child: PageView.builder(
-            controller: pageController,
-            itemCount: questionCountValue,
-            onPageChanged: (nextPageIndex) {
-              setNewCurrentPageIndex(ref, nextPageIndex);
-            },
-            physics: const FastPageViewScrollPhysics(),
-            itemBuilder: (context, index) {
-              return QuestionPage(questionPageIndex: index);
-            },
+          child: QuestionPageView(
+            questionCount: questionCountValue,
+            pageController: pageController,
           ),
         ),
         bottomNavigationBar: QuestionBottomNavigationBar(
