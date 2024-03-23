@@ -12,8 +12,10 @@ import 'package:driving_license/features/questions/presentation/question_list/qu
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 const double _kQuestionCardImageSize = 66.0;
 
@@ -75,6 +77,16 @@ class QuestionCard extends HookConsumerWidget {
                   children: [
                     Row(
                       children: [
+                        if (question.isDanger) ...[
+                          const SvgPicture(
+                            AssetBytesLoader(
+                              'assets/icons/home_screen/complied/danger_fire.svg.vec',
+                            ),
+                            height: 14,
+                            width: 14,
+                          ),
+                          kGap_4,
+                        ],
                         Text(
                           'Câu ${questionPageIndex + 1}',
                           style: context.textTheme.titleMedium,
@@ -143,7 +155,7 @@ class _QCAnswerStateCheckbox extends HookConsumerWidget {
     return answerState != AnswerState.unchecked
         ? AnswerStateCheckbox(state: answerState, iconSize: 20)
         : const SizedBox.shrink();
-}
+  }
 
   AnswerState evaluateAnswerState(Question question, int? selectedAnswerIndex) {
     final bool noAnswerSelected = (selectedAnswerIndex == null);
