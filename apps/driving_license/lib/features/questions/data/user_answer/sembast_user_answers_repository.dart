@@ -103,7 +103,13 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   @override
   Stream<int> watchChapterWrongAnswersCount(Chapter chapter) {
     final wrongUserAnswersCountStream = allAnswersStore
-        .query(finder: Finder(filter: _wrongAnswersFilter))
+        .query(
+          finder: Finder(
+            filter: Filter.and(
+              [_filterByChapter(chapter), _wrongAnswersFilter],
+            ),
+          ),
+        )
         .onCount(db);
 
     return wrongUserAnswersCountStream;
