@@ -253,7 +253,16 @@ extension ChapterSelectionX on ChapterSelection {
 
     if (context.mounted) {
       await context.navigateTo(
-        QuestionRoute(initialPageIndex: lastVisitedPageIndex),
+        QuestionRoute(
+          initialPageIndex: lastVisitedPageIndex,
+          onclose: (currentPageIndex) async {
+            final chapterProgressService =
+                await ref.read(chapterProgressServiceProvider(chapter).future);
+
+            await chapterProgressService
+                .saveLastQuestionPageIndexVisited(currentPageIndex);
+          },
+        ),
       );
     }
   }

@@ -34,6 +34,7 @@ abstract class $AppRouter extends _i3.RootStackRouter {
         child: _i2.QuestionScreen(
           key: args.key,
           initialPageIndex: args.initialPageIndex,
+          onclose: args.onclose,
         ),
       );
     },
@@ -60,12 +61,14 @@ class QuestionRoute extends _i3.PageRouteInfo<QuestionRouteArgs> {
   QuestionRoute({
     _i4.Key? key,
     int initialPageIndex = 0,
+    void Function(int)? onclose,
     List<_i3.PageRouteInfo>? children,
   }) : super(
           QuestionRoute.name,
           args: QuestionRouteArgs(
             key: key,
             initialPageIndex: initialPageIndex,
+            onclose: onclose,
           ),
           initialChildren: children,
         );
@@ -80,14 +83,17 @@ class QuestionRouteArgs {
   const QuestionRouteArgs({
     this.key,
     this.initialPageIndex = 0,
+    this.onclose,
   });
 
   final _i4.Key? key;
 
   final int initialPageIndex;
 
+  final void Function(int)? onclose;
+
   @override
   String toString() {
-    return 'QuestionRouteArgs{key: $key, initialPageIndex: $initialPageIndex}';
+    return 'QuestionRouteArgs{key: $key, initialPageIndex: $initialPageIndex, onclose: $onclose}';
   }
 }

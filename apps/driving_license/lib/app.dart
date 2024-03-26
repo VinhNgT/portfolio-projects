@@ -29,6 +29,8 @@ class MyApp extends ConsumerWidget {
         // Initial route
         deepLinkBuilder: (_) => const DeepLink([HomeRoute()]),
         reevaluateListenable: routerGuardReevaluate,
+        // AwareRouteState widget needs this to function
+        navigatorObservers: () => [AutoRouteObserver()],
       ),
     );
   }
