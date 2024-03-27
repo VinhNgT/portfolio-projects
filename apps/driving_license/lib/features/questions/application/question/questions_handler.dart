@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
+import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 
@@ -17,84 +18,102 @@ class FullQuestionsHandler implements QuestionsHandler {
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
-    return questionsRepository.getQuestion(questionIndex);
+    return questionsRepository.get(questionIndex);
   }
 
   @override
   FutureOr<List<Question>> getQuestionsPage(int pageIndex) {
-    return questionsRepository.getQuestionsPage(pageIndex);
+    return questionsRepository.getPage(pageIndex);
   }
 
   @override
   FutureOr<int> getQuestionCount() {
-    return questionsRepository.getQuestionCount();
+    return questionsRepository.getCount();
   }
 }
 
 class ChapterQuestionsHandler implements QuestionsHandler {
   final QuestionsRepository questionsRepository;
+  final License license;
   final Chapter chapter;
 
   ChapterQuestionsHandler({
     required this.questionsRepository,
+    required this.license,
     required this.chapter,
   });
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
-    return questionsRepository.getQuestionByChapter(chapter, questionIndex);
+    return questionsRepository.getByLicenseAndChapter(
+      license,
+      chapter,
+      questionIndex,
+    );
   }
 
   @override
   FutureOr<List<Question>> getQuestionsPage(int pageIndex) {
-    return questionsRepository.getQuestionsPageByChapter(chapter, pageIndex);
+    return questionsRepository.getPageByLicenseAndChapter(
+      license,
+      chapter,
+      pageIndex,
+    );
   }
 
   @override
   FutureOr<int> getQuestionCount() {
-    return questionsRepository.getQuestionCountByChapter(chapter);
+    return questionsRepository.getCountByLicenseAndChapter(license, chapter);
   }
 }
 
 class DangerQuestionsHandler implements QuestionsHandler {
   final QuestionsRepository questionsRepository;
+  final License license;
 
-  DangerQuestionsHandler({required this.questionsRepository});
+  DangerQuestionsHandler({
+    required this.questionsRepository,
+    required this.license,
+  });
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
-    return questionsRepository.getIsDangerQuestion(questionIndex);
+    return questionsRepository.getIsDangerByLicense(license, questionIndex);
   }
 
   @override
   FutureOr<List<Question>> getQuestionsPage(int pageIndex) {
-    return questionsRepository.getIsDangerQuestionsPage(pageIndex);
+    return questionsRepository.getIsDangerPageByLicense(license, pageIndex);
   }
 
   @override
   FutureOr<int> getQuestionCount() {
-    return questionsRepository.getIsDangerQuestionsCount();
+    return questionsRepository.getIsDangerCountByLicense(license);
   }
 }
 
 class DifficultQuestionsHandler implements QuestionsHandler {
   final QuestionsRepository questionsRepository;
+  final License license;
 
-  DifficultQuestionsHandler({required this.questionsRepository});
+  DifficultQuestionsHandler({
+    required this.questionsRepository,
+    required this.license,
+  });
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
-    return questionsRepository.getIsDifficultQuestion(questionIndex);
+    return questionsRepository.getIsDifficultByLicense(license, questionIndex);
   }
 
   @override
   FutureOr<List<Question>> getQuestionsPage(int pageIndex) {
-    return questionsRepository.getIsDifficultQuestionsPage(pageIndex);
+    return questionsRepository.getIsDifficultPageByLicense(license, pageIndex);
   }
 
   @override
   FutureOr<int> getQuestionCount() {
-    return questionsRepository.getIsDifficultQuestionsCount();
+    return questionsRepository.getIsDifficultCountByLicense(license);
   }
 }
 
@@ -110,12 +129,12 @@ class CustomQuestionListQuestionHandler implements QuestionsHandler {
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
     return questionsRepository
-        .getQuestionByDbIndex(sortedQuestionDbIndexes[questionIndex]);
+        .getByDbIndex(sortedQuestionDbIndexes[questionIndex]);
   }
 
   @override
   FutureOr<List<Question>> getQuestionsPage(int pageIndex) {
-    return questionsRepository.getQuestionsPageByDbIndexes(
+    return questionsRepository.getPageByDbIndexes(
       sortedQuestionDbIndexes,
       pageIndex,
     );

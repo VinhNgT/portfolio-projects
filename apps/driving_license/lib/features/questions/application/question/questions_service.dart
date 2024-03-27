@@ -1,5 +1,7 @@
 import 'package:driving_license/features/bookmark/data/bookmarks_repository.dart';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
+import 'package:driving_license/features/licenses/data/providers/user_selected_license_provider.dart';
+import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/application/question/questions_handler.dart';
 import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
 import 'package:driving_license/features/questions/application/user_answer/user_answers_handler.dart';
@@ -10,6 +12,24 @@ import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'questions_service.g.dart';
+
+class QuestionsServiceConfig {
+  final QuestionsServiceMode operatingMode;
+  final License license;
+  final QuestionsRepository questionsRepository;
+  final BookmarksRepository bookmarksRepository;
+  final UserAnswersRepository userAnswersRepository;
+  final InMemoryUserAnswersRepository inMemoryUserAnswersRepository;
+
+  QuestionsServiceConfig({
+    required this.operatingMode,
+    required this.license,
+    required this.questionsRepository,
+    required this.bookmarksRepository,
+    required this.userAnswersRepository,
+    required this.inMemoryUserAnswersRepository,
+  });
+}
 
 class QuestionsService {
   const QuestionsService({
@@ -22,7 +42,68 @@ class QuestionsService {
   final QuestionsHandler questionsHandler;
   final UserAnswersHandler userAnswersHandler;
 
-  factory QuestionsService.full({
+  static Future<QuestionsService> createService(
+    QuestionsServiceConfig config,
+  ) async {
+    switch (config.operatingMode) {
+      case final FullOperatingMode _:
+        return QuestionsService._full(
+          questionsRepository: config.questionsRepository,
+          userAnswersRepository: config.userAnswersRepository,
+        );
+
+      case final ChapterOperatingMode chapterMode:
+        return QuestionsService._chapter(
+          license: config.license,
+          chapter: chapterMode.chapter,
+          questionsRepository: config.questionsRepository,
+          userAnswersRepository: config.userAnswersRepository,
+        );
+
+      case final DangerOperatingMode _:
+        return QuestionsService._danger(
+          license: config.license,
+          questionsRepository: config.questionsRepository,
+          userAnswersRepository: config.userAnswersRepository,
+        );
+
+      case final DifficultOperatingMode _:
+        final userAnswersBeforeStart = await config.userAnswersRepository
+            .getAllDifficultQuestionsAnswers();
+
+        return QuestionsService._difficult(
+          license: config.license,
+          questionsRepository: config.questionsRepository,
+          userAnswersRepository: config.userAnswersRepository,
+          inMemoryUserAnswersRepository: config.inMemoryUserAnswersRepository,
+          userAnswersBeforeStart: userAnswersBeforeStart,
+        );
+
+      case final WrongAnswersOperatingMode _:
+        final userAnswersBeforeStart =
+            await config.userAnswersRepository.getAllWrongAnswers();
+
+        return QuestionsService._wrongAnswers(
+          questionsRepository: config.questionsRepository,
+          userAnswersRepository: config.userAnswersRepository,
+          inMemoryUserAnswersRepository: config.inMemoryUserAnswersRepository,
+          userAnswersBeforeStart: userAnswersBeforeStart,
+        );
+
+      case final BookmarkOperatingMode _:
+        final bookmarks = await config.bookmarksRepository.getAllBookmarks();
+        final bookmarkQuestionDbIndexes =
+            bookmarks.map((e) => e.questionDbIndex).toList();
+
+        return QuestionsService._bookmarked(
+          questionsRepository: config.questionsRepository,
+          userAnswersRepository: config.userAnswersRepository,
+          bookmarkedQuestionDbIndexes: bookmarkQuestionDbIndexes,
+        );
+    }
+  }
+
+  factory QuestionsService._full({
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
   }) {
@@ -37,7 +118,8 @@ class QuestionsService {
     );
   }
 
-  factory QuestionsService.chapter({
+  factory QuestionsService._chapter({
+    required License license,
     required Chapter chapter,
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
@@ -46,6 +128,7 @@ class QuestionsService {
       operatingMode: ChapterOperatingMode(chapter),
       questionsHandler: ChapterQuestionsHandler(
         questionsRepository: questionsRepository,
+        license: license,
         chapter: chapter,
       ),
       userAnswersHandler: DirectUserAnswersHandler(
@@ -54,7 +137,8 @@ class QuestionsService {
     );
   }
 
-  factory QuestionsService.danger({
+  factory QuestionsService._danger({
+    required License license,
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
   }) {
@@ -62,6 +146,7 @@ class QuestionsService {
       operatingMode: DangerOperatingMode(),
       questionsHandler: DangerQuestionsHandler(
         questionsRepository: questionsRepository,
+        license: license,
       ),
       userAnswersHandler: DirectUserAnswersHandler(
         userAnswersRepository: userAnswersRepository,
@@ -69,7 +154,8 @@ class QuestionsService {
     );
   }
 
-  factory QuestionsService.difficult({
+  factory QuestionsService._difficult({
+    required License license,
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
     required InMemoryUserAnswersRepository inMemoryUserAnswersRepository,
@@ -79,6 +165,7 @@ class QuestionsService {
       operatingMode: DifficultOperatingMode(),
       questionsHandler: DifficultQuestionsHandler(
         questionsRepository: questionsRepository,
+        license: license,
       ),
       userAnswersHandler: HideUserAnswersHandler(
         userAnswersRepository: userAnswersRepository,
@@ -90,7 +177,7 @@ class QuestionsService {
     );
   }
 
-  factory QuestionsService.wrongAnswers({
+  factory QuestionsService._wrongAnswers({
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
     required InMemoryUserAnswersRepository inMemoryUserAnswersRepository,
@@ -112,7 +199,7 @@ class QuestionsService {
     );
   }
 
-  factory QuestionsService.bookmarked({
+  factory QuestionsService._bookmarked({
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
     required List<int> bookmarkedQuestionDbIndexes,
@@ -154,91 +241,69 @@ extension QuestionsServiceMethods on QuestionsService {
 
 @Riverpod(keepAlive: true)
 class QuestionsServiceController extends _$QuestionsServiceController {
-  QuestionsRepository get _questionsRepository =>
-      ref.read(questionsRepositoryProvider);
-  UserAnswersRepository get _userAnswersRepository =>
-      ref.read(userAnswersRepositoryProvider);
-  InMemoryUserAnswersRepository get _inMemoryUserAnswersRepository =>
-      ref.read(inMemoryUserAnswersRepositoryProvider);
-  BookmarksRepository get _bookmarkedQuestionsRepository =>
-      ref.read(bookmarksRepositoryProvider);
+  QuestionsServiceMode _serviceMode = FullOperatingMode();
 
   @override
-  QuestionsService build() {
-    // Default to full handler (loads from 600 questions)
-    return QuestionsService.full(
-      questionsRepository: _questionsRepository,
-      userAnswersRepository: _userAnswersRepository,
+  FutureOr<QuestionsService> build() async {
+    if (ref.exists(inMemoryUserAnswersRepositoryProvider)) {
+      ref.invalidate(inMemoryUserAnswersRepositoryProvider);
+    }
+
+    final license = await ref.watch(userSelectedLicenseProvider.future);
+    final questionsRepository = ref.watch(questionsRepositoryProvider);
+    final bookmarksRepository = ref.watch(bookmarksRepositoryProvider);
+    final userAnswersRepository = ref.watch(userAnswersRepositoryProvider);
+    final inMemoryUserAnswersRepository =
+        ref.watch(inMemoryUserAnswersRepositoryProvider);
+
+    final config = QuestionsServiceConfig(
+      operatingMode: _serviceMode,
+      license: license,
+      questionsRepository: questionsRepository,
+      bookmarksRepository: bookmarksRepository,
+      userAnswersRepository: userAnswersRepository,
+      inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
     );
+
+    return QuestionsService.createService(config);
   }
 
   void setupAllQuestions() {
+    _serviceMode = FullOperatingMode();
     ref.invalidateSelf();
   }
 
   void setupChapterQuestions(Chapter chapter) {
-    state = QuestionsService.chapter(
-      chapter: chapter,
-      questionsRepository: _questionsRepository,
-      userAnswersRepository: _userAnswersRepository,
-    );
+    _serviceMode = ChapterOperatingMode(chapter);
+    ref.invalidateSelf();
   }
 
   void setupDangerQuestions() {
-    state = QuestionsService.danger(
-      questionsRepository: _questionsRepository,
-      userAnswersRepository: _userAnswersRepository,
-    );
+    _serviceMode = DangerOperatingMode();
+    ref.invalidateSelf();
   }
 
   void setupDifficultQuestions() async {
-    final difficultQuestionsAnswers =
-        await _userAnswersRepository.getAllDifficultQuestionsAnswers();
-
-    if (ref.exists(inMemoryUserAnswersRepositoryProvider)) {
-      ref.invalidate(inMemoryUserAnswersRepositoryProvider);
-    }
-
-    state = QuestionsService.difficult(
-      questionsRepository: _questionsRepository,
-      userAnswersRepository: _userAnswersRepository,
-      inMemoryUserAnswersRepository: _inMemoryUserAnswersRepository,
-      userAnswersBeforeStart: difficultQuestionsAnswers,
-    );
+    _serviceMode = DifficultOperatingMode();
+    ref.invalidateSelf();
   }
 
   Future<void> setupWrongAnswerQuestions() async {
-    final wrongAnswers = await _userAnswersRepository.getAllWrongAnswers();
-
-    if (ref.exists(inMemoryUserAnswersRepositoryProvider)) {
-      ref.invalidate(inMemoryUserAnswersRepositoryProvider);
-    }
-
-    state = QuestionsService.wrongAnswers(
-      questionsRepository: _questionsRepository,
-      userAnswersRepository: _userAnswersRepository,
-      inMemoryUserAnswersRepository: _inMemoryUserAnswersRepository,
-      userAnswersBeforeStart: wrongAnswers,
-    );
+    _serviceMode = WrongAnswersOperatingMode();
+    ref.invalidateSelf();
   }
 
   Future<void> setupBookmarkedQuestions() async {
-    final bookmarks = await _bookmarkedQuestionsRepository.getAllBookmarks();
-    final bookmarkQuestionDbIndexes =
-        bookmarks.map((e) => e.questionDbIndex).toList();
-
-    state = QuestionsService.bookmarked(
-      questionsRepository: _questionsRepository,
-      userAnswersRepository: _userAnswersRepository,
-      bookmarkedQuestionDbIndexes: bookmarkQuestionDbIndexes,
-    );
+    _serviceMode = BookmarkOperatingMode();
+    ref.invalidateSelf();
   }
 }
 
 @riverpod
-QuestionsServiceMode questionsServiceMode(
+FutureOr<QuestionsServiceMode> questionsServiceMode(
   QuestionsServiceModeRef ref,
-) {
-  final questionsService = ref.watch(questionsServiceControllerProvider);
+) async {
+  final questionsService =
+      await ref.watch(questionsServiceControllerProvider.future);
   return questionsService.operatingMode;
 }
