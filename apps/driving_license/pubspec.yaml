@@ -41,7 +41,7 @@ dependencies:
   riverpod_annotation: ^2.3.4
 
   # Auto Route
-  auto_route: ^7.8.4
+  auto_route: ^8.0.0
   material_symbols_icons: ^4.2719.1
 
   # UI
@@ -87,7 +87,7 @@ dev_dependencies:
   riverpod_lint: ^2.3.9
 
   # Auto Route
-  auto_route_generator: ^7.3.2
+  auto_route_generator: ^8.0.0
 
   # Domain (Model)
   freezed: ^2.4.7
