@@ -18,10 +18,11 @@ targets:
         generate_for:
           include:
             - 'lib/exceptions/**.dart'
-            - 'lib/features/**/data/**_repository.dart'
-            - 'lib/features/**/application/**_service.dart'
-            - 'lib/features/**/application/**_provider.dart'
-            - 'lib/features/**/presentation/**_controller.dart'
+            - 'lib/features/**/**_repository.dart'
+            - 'lib/features/**/**_service.dart'
+            - 'lib/features/**/**_provider.dart'
+            - 'lib/features/**/**_providers.dart'
+            - 'lib/features/**/**_controller.dart'
             - 'lib/routing/**.dart'
 
       auto_route_generator:
