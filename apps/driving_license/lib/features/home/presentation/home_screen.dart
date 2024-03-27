@@ -4,8 +4,6 @@ import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/common_widgets/widget_deadzone.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
-import 'package:driving_license/features/chapters/application/chapter_progress_service.dart';
-import 'package:driving_license/features/chapters/application/providers/chapter_progress_providers.dart';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/home/presentation/chapter_card.dart';
 import 'package:driving_license/features/home/presentation/donate_card.dart';
@@ -259,25 +257,10 @@ extension ChapterSelectionX on ChapterSelection {
     Chapter chapter,
   ) async {
     final context = ref.context;
-    ref
-        .read(questionsServiceControllerProvider.notifier)
-        .setupChapterQuestions(chapter);
-
-    final lastVisitedPageIndex =
-        await ref.read(lastQuestionPageIndexVisitedProvider(chapter).future);
 
     if (context.mounted) {
       await context.navigateTo(
-        QuestionRoute(
-          initialPageIndex: lastVisitedPageIndex,
-          onclose: (currentPageIndex) async {
-            final chapterProgressService =
-                await ref.read(chapterProgressServiceProvider(chapter).future);
-
-            await chapterProgressService
-                .saveLastQuestionPageIndexVisited(currentPageIndex);
-          },
-        ),
+        QuestionRoute(),
       );
     }
   }

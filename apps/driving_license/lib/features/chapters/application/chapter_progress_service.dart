@@ -46,17 +46,6 @@ class ChapterProgressService {
       },
     );
   }
-
-  Future<void> saveLastQuestionPageIndexVisited(int questionPageIndex) async {
-    await prefs.setInt(
-      'chapter_last_question_${chapter.name}',
-      questionPageIndex,
-    );
-  }
-
-  Future<int> getLastQuestionPageIndexVisited() async {
-    return prefs.getInt('chapter_last_question_${chapter.name}') ?? 0;
-  }
 }
 
 @riverpod

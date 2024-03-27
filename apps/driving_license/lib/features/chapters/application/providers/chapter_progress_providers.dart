@@ -15,14 +15,3 @@ Stream<TestResult> chapterCompletionStatus(
 
   yield* chapterProgressService.watchChapterCompletionStatus();
 }
-
-@riverpod
-FutureOr<int> lastQuestionPageIndexVisited(
-  LastQuestionPageIndexVisitedRef ref,
-  Chapter chapter,
-) async {
-  final chapterProgressService =
-      await ref.watch(chapterProgressServiceProvider(chapter).future);
-
-  return chapterProgressService.getLastQuestionPageIndexVisited();
-}
