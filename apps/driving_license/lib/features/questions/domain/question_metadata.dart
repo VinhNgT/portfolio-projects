@@ -1,3 +1,4 @@
+import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'question_metadata.freezed.dart';
@@ -11,6 +12,7 @@ abstract class QuestionMetadata with _$QuestionMetadata {
     required bool isDanger,
     required bool isDifficult,
     required int correctAnswerIndex,
+    required Set<License> includedLicenses,
   }) = _QuestionMetadata;
 
   factory QuestionMetadata.fromJson(Map<String, dynamic> json) =>

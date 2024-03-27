@@ -30,6 +30,7 @@ mixin _$Question {
   int get correctAnswerIndex => throw _privateConstructorUsedError;
   String? get explanation => throw _privateConstructorUsedError;
   String? get rememberTip => throw _privateConstructorUsedError;
+  Set<License> get includedLicenses => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -52,7 +53,8 @@ abstract class $QuestionCopyWith<$Res> {
       List<String> answers,
       int correctAnswerIndex,
       String? explanation,
-      String? rememberTip});
+      String? rememberTip,
+      Set<License> includedLicenses});
 }
 
 /// @nodoc
@@ -78,6 +80,7 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? correctAnswerIndex = null,
     Object? explanation = freezed,
     Object? rememberTip = freezed,
+    Object? includedLicenses = null,
   }) {
     return _then(_value.copyWith(
       questionDbIndex: null == questionDbIndex
@@ -120,6 +123,10 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.rememberTip
           : rememberTip // ignore: cast_nullable_to_non_nullable
               as String?,
+      includedLicenses: null == includedLicenses
+          ? _value.includedLicenses
+          : includedLicenses // ignore: cast_nullable_to_non_nullable
+              as Set<License>,
     ) as $Val);
   }
 }
@@ -142,7 +149,8 @@ abstract class _$$QuestionImplCopyWith<$Res>
       List<String> answers,
       int correctAnswerIndex,
       String? explanation,
-      String? rememberTip});
+      String? rememberTip,
+      Set<License> includedLicenses});
 }
 
 /// @nodoc
@@ -166,6 +174,7 @@ class __$$QuestionImplCopyWithImpl<$Res>
     Object? correctAnswerIndex = null,
     Object? explanation = freezed,
     Object? rememberTip = freezed,
+    Object? includedLicenses = null,
   }) {
     return _then(_$QuestionImpl(
       questionDbIndex: null == questionDbIndex
@@ -208,6 +217,10 @@ class __$$QuestionImplCopyWithImpl<$Res>
           ? _value.rememberTip
           : rememberTip // ignore: cast_nullable_to_non_nullable
               as String?,
+      includedLicenses: null == includedLicenses
+          ? _value._includedLicenses
+          : includedLicenses // ignore: cast_nullable_to_non_nullable
+              as Set<License>,
     ));
   }
 }
@@ -225,8 +238,10 @@ class _$QuestionImpl extends _Question {
       required final List<String> answers,
       required this.correctAnswerIndex,
       this.explanation,
-      this.rememberTip})
+      this.rememberTip,
+      required final Set<License> includedLicenses})
       : _answers = answers,
+        _includedLicenses = includedLicenses,
         super._();
 
   factory _$QuestionImpl.fromJson(Map<String, dynamic> json) =>
@@ -258,10 +273,17 @@ class _$QuestionImpl extends _Question {
   final String? explanation;
   @override
   final String? rememberTip;
+  final Set<License> _includedLicenses;
+  @override
+  Set<License> get includedLicenses {
+    if (_includedLicenses is EqualUnmodifiableSetView) return _includedLicenses;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(_includedLicenses);
+  }
 
   @override
   String toString() {
-    return 'Question(questionDbIndex: $questionDbIndex, chapterDbIndex: $chapterDbIndex, title: $title, questionImagePath: $questionImagePath, isDanger: $isDanger, isDifficult: $isDifficult, answers: $answers, correctAnswerIndex: $correctAnswerIndex, explanation: $explanation, rememberTip: $rememberTip)';
+    return 'Question(questionDbIndex: $questionDbIndex, chapterDbIndex: $chapterDbIndex, title: $title, questionImagePath: $questionImagePath, isDanger: $isDanger, isDifficult: $isDifficult, answers: $answers, correctAnswerIndex: $correctAnswerIndex, explanation: $explanation, rememberTip: $rememberTip, includedLicenses: $includedLicenses)';
   }
 
   @override
@@ -286,7 +308,9 @@ class _$QuestionImpl extends _Question {
             (identical(other.explanation, explanation) ||
                 other.explanation == explanation) &&
             (identical(other.rememberTip, rememberTip) ||
-                other.rememberTip == rememberTip));
+                other.rememberTip == rememberTip) &&
+            const DeepCollectionEquality()
+                .equals(other._includedLicenses, _includedLicenses));
   }
 
   @JsonKey(ignore: true)
@@ -302,7 +326,8 @@ class _$QuestionImpl extends _Question {
       const DeepCollectionEquality().hash(_answers),
       correctAnswerIndex,
       explanation,
-      rememberTip);
+      rememberTip,
+      const DeepCollectionEquality().hash(_includedLicenses));
 
   @JsonKey(ignore: true)
   @override
@@ -329,7 +354,8 @@ abstract class _Question extends Question {
       required final List<String> answers,
       required final int correctAnswerIndex,
       final String? explanation,
-      final String? rememberTip}) = _$QuestionImpl;
+      final String? rememberTip,
+      required final Set<License> includedLicenses}) = _$QuestionImpl;
   const _Question._() : super._();
 
   factory _Question.fromJson(Map<String, dynamic> json) =
@@ -355,6 +381,8 @@ abstract class _Question extends Question {
   String? get explanation;
   @override
   String? get rememberTip;
+  @override
+  Set<License> get includedLicenses;
   @override
   @JsonKey(ignore: true)
   _$$QuestionImplCopyWith<_$QuestionImpl> get copyWith =>

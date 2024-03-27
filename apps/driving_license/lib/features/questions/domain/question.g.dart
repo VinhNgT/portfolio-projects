@@ -19,6 +19,9 @@ _$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
       correctAnswerIndex: json['correctAnswerIndex'] as int,
       explanation: json['explanation'] as String?,
       rememberTip: json['rememberTip'] as String?,
+      includedLicenses: (json['includedLicenses'] as List<dynamic>)
+          .map((e) => $enumDecode(_$LicenseEnumMap, e))
+          .toSet(),
     );
 
 Map<String, dynamic> _$$QuestionImplToJson(_$QuestionImpl instance) =>
@@ -33,4 +36,16 @@ Map<String, dynamic> _$$QuestionImplToJson(_$QuestionImpl instance) =>
       'correctAnswerIndex': instance.correctAnswerIndex,
       'explanation': instance.explanation,
       'rememberTip': instance.rememberTip,
+      'includedLicenses':
+          instance.includedLicenses.map((e) => _$LicenseEnumMap[e]!).toList(),
     };
+
+const _$LicenseEnumMap = {
+  License.all: 'all',
+  License.a1: 'a1',
+  License.a2: 'a2',
+  License.a3: 'a3',
+  License.a4: 'a4',
+  License.b1: 'b1',
+  License.b2: 'b2',
+};

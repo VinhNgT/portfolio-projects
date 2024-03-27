@@ -333,6 +333,10 @@ extension QuestionsRepositoryX on QuestionsRepository {
       'isDifficult': databaseMap['is_difficult'] == 1,
       'explanation': kTestQuestions[0].explanation,
       'rememberTip': kTestQuestions[0].rememberTip,
+      'inLicenses': [
+        for (final license in License.values)
+          if (databaseMap['is_in_${license.name}'] == 1) license.name,
+      ],
     };
   }
 }

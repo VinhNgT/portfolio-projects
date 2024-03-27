@@ -25,6 +25,7 @@ mixin _$QuestionMetadata {
   bool get isDanger => throw _privateConstructorUsedError;
   bool get isDifficult => throw _privateConstructorUsedError;
   int get correctAnswerIndex => throw _privateConstructorUsedError;
+  Set<License> get includedLicenses => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +44,8 @@ abstract class $QuestionMetadataCopyWith<$Res> {
       int chapterDbIndex,
       bool isDanger,
       bool isDifficult,
-      int correctAnswerIndex});
+      int correctAnswerIndex,
+      Set<License> includedLicenses});
 }
 
 /// @nodoc
@@ -64,6 +66,7 @@ class _$QuestionMetadataCopyWithImpl<$Res, $Val extends QuestionMetadata>
     Object? isDanger = null,
     Object? isDifficult = null,
     Object? correctAnswerIndex = null,
+    Object? includedLicenses = null,
   }) {
     return _then(_value.copyWith(
       questionDbIndex: null == questionDbIndex
@@ -86,6 +89,10 @@ class _$QuestionMetadataCopyWithImpl<$Res, $Val extends QuestionMetadata>
           ? _value.correctAnswerIndex
           : correctAnswerIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      includedLicenses: null == includedLicenses
+          ? _value.includedLicenses
+          : includedLicenses // ignore: cast_nullable_to_non_nullable
+              as Set<License>,
     ) as $Val);
   }
 }
@@ -103,7 +110,8 @@ abstract class _$$QuestionMetadataImplCopyWith<$Res>
       int chapterDbIndex,
       bool isDanger,
       bool isDifficult,
-      int correctAnswerIndex});
+      int correctAnswerIndex,
+      Set<License> includedLicenses});
 }
 
 /// @nodoc
@@ -122,6 +130,7 @@ class __$$QuestionMetadataImplCopyWithImpl<$Res>
     Object? isDanger = null,
     Object? isDifficult = null,
     Object? correctAnswerIndex = null,
+    Object? includedLicenses = null,
   }) {
     return _then(_$QuestionMetadataImpl(
       questionDbIndex: null == questionDbIndex
@@ -144,6 +153,10 @@ class __$$QuestionMetadataImplCopyWithImpl<$Res>
           ? _value.correctAnswerIndex
           : correctAnswerIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      includedLicenses: null == includedLicenses
+          ? _value._includedLicenses
+          : includedLicenses // ignore: cast_nullable_to_non_nullable
+              as Set<License>,
     ));
   }
 }
@@ -156,7 +169,9 @@ class _$QuestionMetadataImpl implements _QuestionMetadata {
       required this.chapterDbIndex,
       required this.isDanger,
       required this.isDifficult,
-      required this.correctAnswerIndex});
+      required this.correctAnswerIndex,
+      required final Set<License> includedLicenses})
+      : _includedLicenses = includedLicenses;
 
   factory _$QuestionMetadataImpl.fromJson(Map<String, dynamic> json) =>
       _$$QuestionMetadataImplFromJson(json);
@@ -171,10 +186,17 @@ class _$QuestionMetadataImpl implements _QuestionMetadata {
   final bool isDifficult;
   @override
   final int correctAnswerIndex;
+  final Set<License> _includedLicenses;
+  @override
+  Set<License> get includedLicenses {
+    if (_includedLicenses is EqualUnmodifiableSetView) return _includedLicenses;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(_includedLicenses);
+  }
 
   @override
   String toString() {
-    return 'QuestionMetadata(questionDbIndex: $questionDbIndex, chapterDbIndex: $chapterDbIndex, isDanger: $isDanger, isDifficult: $isDifficult, correctAnswerIndex: $correctAnswerIndex)';
+    return 'QuestionMetadata(questionDbIndex: $questionDbIndex, chapterDbIndex: $chapterDbIndex, isDanger: $isDanger, isDifficult: $isDifficult, correctAnswerIndex: $correctAnswerIndex, includedLicenses: $includedLicenses)';
   }
 
   @override
@@ -191,13 +213,21 @@ class _$QuestionMetadataImpl implements _QuestionMetadata {
             (identical(other.isDifficult, isDifficult) ||
                 other.isDifficult == isDifficult) &&
             (identical(other.correctAnswerIndex, correctAnswerIndex) ||
-                other.correctAnswerIndex == correctAnswerIndex));
+                other.correctAnswerIndex == correctAnswerIndex) &&
+            const DeepCollectionEquality()
+                .equals(other._includedLicenses, _includedLicenses));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, questionDbIndex, chapterDbIndex,
-      isDanger, isDifficult, correctAnswerIndex);
+  int get hashCode => Object.hash(
+      runtimeType,
+      questionDbIndex,
+      chapterDbIndex,
+      isDanger,
+      isDifficult,
+      correctAnswerIndex,
+      const DeepCollectionEquality().hash(_includedLicenses));
 
   @JsonKey(ignore: true)
   @override
@@ -220,7 +250,8 @@ abstract class _QuestionMetadata implements QuestionMetadata {
       required final int chapterDbIndex,
       required final bool isDanger,
       required final bool isDifficult,
-      required final int correctAnswerIndex}) = _$QuestionMetadataImpl;
+      required final int correctAnswerIndex,
+      required final Set<License> includedLicenses}) = _$QuestionMetadataImpl;
 
   factory _QuestionMetadata.fromJson(Map<String, dynamic> json) =
       _$QuestionMetadataImpl.fromJson;
@@ -235,6 +266,8 @@ abstract class _QuestionMetadata implements QuestionMetadata {
   bool get isDifficult;
   @override
   int get correctAnswerIndex;
+  @override
+  Set<License> get includedLicenses;
   @override
   @JsonKey(ignore: true)
   _$$QuestionMetadataImplCopyWith<_$QuestionMetadataImpl> get copyWith =>

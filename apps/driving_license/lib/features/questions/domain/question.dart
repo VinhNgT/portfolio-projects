@@ -1,3 +1,4 @@
+import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/domain/question_metadata.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -17,6 +18,7 @@ abstract class Question with _$Question {
     required int correctAnswerIndex,
     String? explanation,
     String? rememberTip,
+    required Set<License> includedLicenses,
   }) = _Question;
   const Question._();
 
@@ -31,6 +33,7 @@ abstract class Question with _$Question {
         isDifficult: false,
         correctAnswerIndex: 0,
         answers: ['0'],
+        includedLicenses: {},
       );
 
   /// Returns a [QuestionMetadata] object with the metadata of this question.
@@ -43,5 +46,6 @@ abstract class Question with _$Question {
         isDanger: isDanger,
         isDifficult: isDifficult,
         correctAnswerIndex: correctAnswerIndex,
+        includedLicenses: includedLicenses,
       );
 }

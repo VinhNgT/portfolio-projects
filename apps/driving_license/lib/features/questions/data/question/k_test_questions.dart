@@ -1,3 +1,4 @@
+import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 
 List<Question> kTestQuestions = [
@@ -19,6 +20,7 @@ List<Question> kTestQuestions = [
         '''Pirate ipsum arrgh bounty warp jack. Shiver her topgallant yard chase fleet me.''',
     rememberTip:
         '''Pirate ipsum arrgh bounty warp jack. Crack pirate bounty smartly jack yer cog fluke. Coffer locker on hempen or. Locker the spyglass jack red.''',
+    includedLicenses: {License.a1, License.a2, License.a3, License.a4},
   ),
   const Question(
     questionDbIndex: 1,
@@ -34,6 +36,7 @@ List<Question> kTestQuestions = [
         '''Pirate ipsum arrgh bounty warp jack. Shiver her topgallant yard chase fleet me.''',
     rememberTip:
         '''Pirate ipsum arrgh bounty warp jack. Crack pirate bounty smartly jack yer cog fluke. Coffer locker on hempen or. Locker the spyglass jack red.''',
+    includedLicenses: {License.a1, License.a2, License.a3, License.a4},
   ),
   const Question(
     questionDbIndex: 2,
@@ -52,6 +55,7 @@ List<Question> kTestQuestions = [
         '''Pirate ipsum arrgh bounty warp jack. Shiver her topgallant yard chase fleet me.''',
     rememberTip:
         '''Pirate ipsum arrgh bounty warp jack. Crack pirate bounty smartly jack yer cog fluke. Coffer locker on hempen or. Locker the spyglass jack red.''',
+    includedLicenses: {License.a1, License.a2, License.a3, License.a4},
   ),
   const Question(
     questionDbIndex: 3,
@@ -71,5 +75,6 @@ List<Question> kTestQuestions = [
         '''Pirate ipsum arrgh bounty warp jack. Shiver her topgallant yard chase fleet me.''',
     rememberTip:
         '''Pirate ipsum arrgh bounty warp jack. Crack pirate bounty smartly jack yer cog fluke. Coffer locker on hempen or. Locker the spyglass jack red.''',
+    includedLicenses: {License.a1, License.a2, License.a3, License.a4},
   ),
 ];
