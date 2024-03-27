@@ -3,6 +3,7 @@ import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/licenses/data/providers/user_selected_license_provider.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/application/question/questions_handler.dart';
+import 'package:driving_license/features/questions/application/question/questions_service_config.dart';
 import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
 import 'package:driving_license/features/questions/application/user_answer/user_answers_handler.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
@@ -12,24 +13,6 @@ import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'questions_service.g.dart';
-
-class QuestionsServiceConfig {
-  final QuestionsServiceMode operatingMode;
-  final License license;
-  final QuestionsRepository questionsRepository;
-  final BookmarksRepository bookmarksRepository;
-  final UserAnswersRepository userAnswersRepository;
-  final InMemoryUserAnswersRepository inMemoryUserAnswersRepository;
-
-  QuestionsServiceConfig({
-    required this.operatingMode,
-    required this.license,
-    required this.questionsRepository,
-    required this.bookmarksRepository,
-    required this.userAnswersRepository,
-    required this.inMemoryUserAnswersRepository,
-  });
-}
 
 class QuestionsService {
   const QuestionsService({
