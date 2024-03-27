@@ -19,12 +19,3 @@ BookmarksRepository bookmarksRepository(
   //* Override this in the main method to select the correct implementation
   throw UnimplementedError();
 }
-
-@riverpod
-Stream<bool> isBookmarkedStream(
-  IsBookmarkedStreamRef ref,
-  Question question,
-) {
-  final bookmarksRepository = ref.watch(bookmarksRepositoryProvider);
-  return bookmarksRepository.watchIsBookmarked(question);
-}
