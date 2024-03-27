@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:driving_license/common_widgets/async_value/async_value_scaffold.dart';
 import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/common_widgets/widget_deadzone.dart';
 import 'package:driving_license/constants/app_sizes.dart';
@@ -11,6 +12,8 @@ import 'package:driving_license/features/home/presentation/donate_card.dart';
 import 'package:driving_license/features/home/presentation/empty_dialogs/bookmarks_empty_dialog.dart';
 import 'package:driving_license/features/home/presentation/empty_dialogs/no_wrong_answers_dialog.dart';
 import 'package:driving_license/features/home/presentation/feature_card.dart';
+import 'package:driving_license/features/licenses/data/providers/user_selected_license_provider.dart';
+import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
 import 'package:driving_license/features/questions/application/question/questions_service.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
@@ -27,49 +30,59 @@ class HomeScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const licenseName = 'Giấy phép lái xe A1';
+    final licenseName = ref.watch(userSelectedLicenseProvider);
     final scrollController = useScrollController();
 
-    return Scaffold(
-      appBar: CommonAppBar(
-        leading: IconButton(
-          icon: const Icon(Symbols.menu),
-          onPressed: () {},
+    return AsyncValueScaffold(
+      value: licenseName,
+      builder: (licenseNameValue) => Scaffold(
+        appBar: CommonAppBar(
+          leading: IconButton(
+            icon: const Icon(Symbols.menu),
+            onPressed: () {},
+          ),
+          title: Text(_getLicenseName(licenseNameValue)),
+          actions: [
+            TextButton(onPressed: () {}, child: const Text('Báo lỗi')),
+          ],
+          rightPadding: AppBarRightPadding.normalButton,
+          scaffoldBodyScrollController: scrollController,
         ),
-        title: const Text(licenseName),
-        actions: [
-          TextButton(onPressed: () {}, child: const Text('Báo lỗi')),
-        ],
-        rightPadding: AppBarRightPadding.normalButton,
-        scaffoldBodyScrollController: scrollController,
-      ),
-      body: WidgetDeadzone(
-        deadzone: EdgeInsets.only(
-          bottom: context.systemGestureInsets.bottom,
-        ),
-        child: SingleChildScrollView(
-          controller: scrollController,
-          child: const Padding(
-            padding: EdgeInsets.only(
-              left: kSize_16,
-              right: kSize_16,
-              top: kSize_4,
-              bottom: kSize_48,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                DonateCard(),
-                kGap_20,
-                FeatureSelection(),
-                kGap_32,
-                ChapterSelection(),
-              ],
+        body: WidgetDeadzone(
+          deadzone: EdgeInsets.only(
+            bottom: context.systemGestureInsets.bottom,
+          ),
+          child: SingleChildScrollView(
+            controller: scrollController,
+            child: const Padding(
+              padding: EdgeInsets.only(
+                left: kSize_16,
+                right: kSize_16,
+                top: kSize_4,
+                bottom: kSize_48,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DonateCard(),
+                  kGap_20,
+                  FeatureSelection(),
+                  kGap_32,
+                  ChapterSelection(),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  String _getLicenseName(License license) {
+    final StringBuffer buffer = StringBuffer('Giấy phép lái xe' ' ');
+    final licenseCode = license.name.toUpperCase();
+    buffer.write(licenseCode);
+    return buffer.toString();
   }
 }
 
