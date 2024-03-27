@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:driving_license/features/chapters/domain/chapter.dart';
+import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/data/question/k_test_questions.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
@@ -92,175 +93,12 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  Future<Question> getQuestion(int index) async {
-    return getQuestionByDbIndex(index + 1);
+  Future<Question> get(int index) async {
+    return getByDbIndex(index + 1);
   }
 
   @override
-  Future<int> getQuestionCount() async {
-    final List<Map<String, dynamic>> queryResult =
-        await database.rawQuery('SELECT COUNT(*) AS count FROM question');
-    return queryResult.first['count'] as int;
-  }
-
-  @override
-  Future<List<Question>> getQuestionsPage(int pageNumber) async {
-    final List<Map<String, dynamic>> queryResult = await database.query(
-      'question',
-      orderBy: 'question_index ASC',
-      limit: QuestionsRepository.pageSize,
-      offset: pageNumber * QuestionsRepository.pageSize,
-    );
-
-    return [
-      for (final questionMap in queryResult)
-        Question.fromJson(convertDatabaseMapToQuestionObjectMap(questionMap)),
-    ];
-  }
-
-  @override
-  Future<Question> getQuestionByChapter(Chapter chapter, int index) async {
-    final chapterQuestionOffset = await database
-        .query(
-          'question',
-          where: 'chapter_index = ?',
-          whereArgs: [chapter.chapterDbIndex],
-          orderBy: 'question_index ASC',
-          limit: 1,
-        )
-        .then((value) => value.first['question_index'] as int);
-
-    final List<Map<String, dynamic>> queryResult = await database.query(
-      'question',
-      where: 'chapter_index = ? AND question_index = ?',
-      whereArgs: [chapter.chapterDbIndex, chapterQuestionOffset + index],
-    );
-
-    if (queryResult.isNotEmpty) {
-      final questionMap =
-          convertDatabaseMapToQuestionObjectMap(queryResult.first);
-      return Question.fromJson(questionMap);
-    } else {
-      throw Exception('question_index ${index + 1} not found');
-    }
-  }
-
-  @override
-  Future<List<Question>> getQuestionsPageByChapter(
-    Chapter chapter,
-    int pageNumber,
-  ) async {
-    final List<Map<String, dynamic>> queryResult = await database.query(
-      'question',
-      where: 'chapter_index = ?',
-      whereArgs: [chapter.chapterDbIndex],
-      orderBy: 'question_index ASC',
-      limit: QuestionsRepository.pageSize,
-      offset: pageNumber * QuestionsRepository.pageSize,
-    );
-
-    return [
-      for (final questionMap in queryResult)
-        Question.fromJson(convertDatabaseMapToQuestionObjectMap(questionMap)),
-    ];
-  }
-
-  @override
-  Future<int> getQuestionCountByChapter(Chapter chapter) async {
-    final List<Map<String, dynamic>> queryResult = await database.rawQuery(
-      'SELECT COUNT(*) AS count FROM question WHERE chapter_index = ?',
-      [chapter.chapterDbIndex],
-    );
-    return queryResult.first['count'] as int;
-  }
-
-  @override
-  FutureOr<Question> getIsDangerQuestion(int index) async {
-    final List<Map<String, dynamic>> queryResult = await database.query(
-      'question',
-      where: 'is_danger = 1',
-      orderBy: 'question_index ASC',
-      offset: index,
-      limit: 1,
-    );
-
-    if (queryResult.isNotEmpty) {
-      final questionMap =
-          convertDatabaseMapToQuestionObjectMap(queryResult.first);
-      return Question.fromJson(questionMap);
-    } else {
-      throw Exception('is_danger question_index $index not found');
-    }
-  }
-
-  @override
-  FutureOr<List<Question>> getIsDangerQuestionsPage(int pageNumber) async {
-    final List<Map<String, dynamic>> queryResult = await database.query(
-      'question',
-      where: 'is_danger = 1',
-      orderBy: 'question_index ASC',
-      limit: QuestionsRepository.pageSize,
-      offset: pageNumber * QuestionsRepository.pageSize,
-    );
-
-    return [
-      for (final questionMap in queryResult)
-        Question.fromJson(convertDatabaseMapToQuestionObjectMap(questionMap)),
-    ];
-  }
-
-  @override
-  FutureOr<int> getIsDangerQuestionsCount() async {
-    final List<Map<String, dynamic>> queryResult = await database
-        .rawQuery('SELECT COUNT(*) AS count FROM question WHERE is_danger = 1');
-    return queryResult.first['count'] as int;
-  }
-
-  @override
-  FutureOr<Question> getIsDifficultQuestion(int index) async {
-    final List<Map<String, dynamic>> queryResult = await database.query(
-      'question',
-      where: 'is_difficult = 1',
-      orderBy: 'question_index ASC',
-      offset: index,
-      limit: 1,
-    );
-
-    if (queryResult.isNotEmpty) {
-      final questionMap =
-          convertDatabaseMapToQuestionObjectMap(queryResult.first);
-      return Question.fromJson(questionMap);
-    } else {
-      throw Exception('is_difficult question_index $index not found');
-    }
-  }
-
-  @override
-  FutureOr<List<Question>> getIsDifficultQuestionsPage(int pageNumber) async {
-    final List<Map<String, dynamic>> queryResult = await database.query(
-      'question',
-      where: 'is_difficult = 1',
-      orderBy: 'question_index ASC',
-      limit: QuestionsRepository.pageSize,
-      offset: pageNumber * QuestionsRepository.pageSize,
-    );
-
-    return [
-      for (final questionMap in queryResult)
-        Question.fromJson(convertDatabaseMapToQuestionObjectMap(questionMap)),
-    ];
-  }
-
-  @override
-  FutureOr<int> getIsDifficultQuestionsCount() async {
-    final List<Map<String, dynamic>> queryResult = await database.rawQuery(
-      'SELECT COUNT(*) AS count FROM question WHERE is_difficult = 1',
-    );
-    return queryResult.first['count'] as int;
-  }
-
-  @override
-  Future<Question> getQuestionByDbIndex(int dbIndex) async {
+  Future<Question> getByDbIndex(int dbIndex) async {
     final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
       where: 'question_index = ?',
@@ -277,7 +115,189 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  FutureOr<List<Question>> getQuestionsPageByDbIndexes(
+  Future<int> getCount() async {
+    final List<Map<String, dynamic>> queryResult =
+        await database.rawQuery('SELECT COUNT(*) AS count FROM question');
+    return queryResult.first['count'] as int;
+  }
+
+  @override
+  Future<List<Question>> getPage(int pageNumber) async {
+    final List<Map<String, dynamic>> queryResult = await database.query(
+      'question',
+      orderBy: 'question_index ASC',
+      limit: QuestionsRepository.pageSize,
+      offset: pageNumber * QuestionsRepository.pageSize,
+    );
+
+    return [
+      for (final questionMap in queryResult)
+        Question.fromJson(convertDatabaseMapToQuestionObjectMap(questionMap)),
+    ];
+  }
+
+  @override
+  Future<Question> getByLicenseAndChapter(
+    License license,
+    Chapter chapter,
+    int index,
+  ) async {
+    final chapterQuestionOffset = await database
+        .query(
+          'question',
+          where: 'chapter_index = ?'._addLicenseWhereClause(license),
+          whereArgs: [chapter.chapterDbIndex],
+          orderBy: 'question_index ASC',
+          limit: 1,
+        )
+        .then((value) => value.first['question_index'] as int);
+
+    final List<Map<String, dynamic>> queryResult = await database.query(
+      'question',
+      where: 'chapter_index = ? AND question_index = ?'
+          ._addLicenseWhereClause(license),
+      whereArgs: [chapter.chapterDbIndex, chapterQuestionOffset + index],
+    );
+
+    if (queryResult.isNotEmpty) {
+      final questionMap =
+          convertDatabaseMapToQuestionObjectMap(queryResult.first);
+      return Question.fromJson(questionMap);
+    } else {
+      throw Exception('question_index ${index + 1} not found');
+    }
+  }
+
+  @override
+  Future<List<Question>> getPageByLicenseAndChapter(
+    License license,
+    Chapter chapter,
+    int pageNumber,
+  ) async {
+    final List<Map<String, dynamic>> queryResult = await database.query(
+      'question',
+      where: 'chapter_index = ?'._addLicenseWhereClause(license),
+      whereArgs: [chapter.chapterDbIndex],
+      orderBy: 'question_index ASC',
+      limit: QuestionsRepository.pageSize,
+      offset: pageNumber * QuestionsRepository.pageSize,
+    );
+
+    return [
+      for (final questionMap in queryResult)
+        Question.fromJson(convertDatabaseMapToQuestionObjectMap(questionMap)),
+    ];
+  }
+
+  @override
+  Future<int> getCountByLicenseAndChapter(
+    License license,
+    Chapter chapter,
+  ) async {
+    final List<Map<String, dynamic>> queryResult = await database.rawQuery(
+      'SELECT COUNT(*) AS count FROM question WHERE '
+      '${'chapter_index = ?'._addLicenseWhereClause(license)}',
+      [chapter.chapterDbIndex],
+    );
+    return queryResult.first['count'] as int;
+  }
+
+  @override
+  FutureOr<Question> getIsDangerByLicense(License license, int index) async {
+    final List<Map<String, dynamic>> queryResult = await database.query(
+      'question',
+      where: 'is_danger = 1'._addLicenseWhereClause(license),
+      orderBy: 'question_index ASC',
+      offset: index,
+      limit: 1,
+    );
+
+    if (queryResult.isNotEmpty) {
+      final questionMap =
+          convertDatabaseMapToQuestionObjectMap(queryResult.first);
+      return Question.fromJson(questionMap);
+    } else {
+      throw Exception('is_danger question_index $index not found');
+    }
+  }
+
+  @override
+  FutureOr<List<Question>> getIsDangerPageByLicense(
+    License license,
+    int pageNumber,
+  ) async {
+    final List<Map<String, dynamic>> queryResult = await database.query(
+      'question',
+      where: 'is_danger = 1'._addLicenseWhereClause(license),
+      orderBy: 'question_index ASC',
+      limit: QuestionsRepository.pageSize,
+      offset: pageNumber * QuestionsRepository.pageSize,
+    );
+
+    return [
+      for (final questionMap in queryResult)
+        Question.fromJson(convertDatabaseMapToQuestionObjectMap(questionMap)),
+    ];
+  }
+
+  @override
+  FutureOr<int> getIsDangerCountByLicense(License license) async {
+    final List<Map<String, dynamic>> queryResult = await database.rawQuery(
+      'SELECT COUNT(*) AS count FROM question WHERE '
+      '${'is_danger = 1'._addLicenseWhereClause(license)}',
+    );
+    return queryResult.first['count'] as int;
+  }
+
+  @override
+  FutureOr<Question> getIsDifficultByLicense(License license, int index) async {
+    final List<Map<String, dynamic>> queryResult = await database.query(
+      'question',
+      where: 'is_difficult = 1'._addLicenseWhereClause(license),
+      orderBy: 'question_index ASC',
+      offset: index,
+      limit: 1,
+    );
+
+    if (queryResult.isNotEmpty) {
+      final questionMap =
+          convertDatabaseMapToQuestionObjectMap(queryResult.first);
+      return Question.fromJson(questionMap);
+    } else {
+      throw Exception('is_difficult question_index $index not found');
+    }
+  }
+
+  @override
+  FutureOr<List<Question>> getIsDifficultPageByLicense(
+    License license,
+    int pageNumber,
+  ) async {
+    final List<Map<String, dynamic>> queryResult = await database.query(
+      'question',
+      where: 'is_difficult = 1'._addLicenseWhereClause(license),
+      orderBy: 'question_index ASC',
+      limit: QuestionsRepository.pageSize,
+      offset: pageNumber * QuestionsRepository.pageSize,
+    );
+
+    return [
+      for (final questionMap in queryResult)
+        Question.fromJson(convertDatabaseMapToQuestionObjectMap(questionMap)),
+    ];
+  }
+
+  @override
+  FutureOr<int> getIsDifficultCountByLicense(License license) async {
+    final List<Map<String, dynamic>> queryResult = await database.rawQuery(
+      'SELECT COUNT(*) AS count FROM question WHERE '
+      '${'is_difficult = 1'._addLicenseWhereClause(license)}',
+    );
+    return queryResult.first['count'] as int;
+  }
+
+  @override
+  FutureOr<List<Question>> getPageByDbIndexes(
     Iterable<int> dbIndexes,
     int pageNumber,
   ) async {
@@ -314,5 +334,18 @@ extension QuestionsRepositoryX on QuestionsRepository {
       'explanation': kTestQuestions[0].explanation,
       'rememberTip': kTestQuestions[0].rememberTip,
     };
+  }
+}
+
+extension _WhereClauseExtenstion on String {
+  String _addLicenseWhereClause(License license) {
+    if (license == License.all) {
+      return this;
+    }
+
+    final buffer = StringBuffer('($this)');
+    buffer.write(' AND is_in_${license.name} = 1');
+
+    return buffer.toString();
   }
 }
