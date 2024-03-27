@@ -4,7 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_scaffold.dart';
 import 'package:driving_license/common_widgets/aware_route_state.dart';
 import 'package:driving_license/common_widgets/widget_deadzone.dart';
-import 'package:driving_license/features/questions/application/question/questions_service.dart';
+import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/question_app_bar.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/question_bottom_navigation_bar.dart';
 import 'package:driving_license/features/questions/presentation/question/question_page_controller.dart';
