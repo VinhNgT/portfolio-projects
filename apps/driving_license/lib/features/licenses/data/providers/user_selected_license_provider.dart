@@ -8,7 +8,7 @@ part 'user_selected_license_provider.g.dart';
 @riverpod
 class UserSelectedLicense extends _$UserSelectedLicense {
   final _prefsLicenseKey = 'selected_license';
-  late final SharedPreferences _prefs;
+  late SharedPreferences _prefs;
 
   @override
   FutureOr<License> build() async {
