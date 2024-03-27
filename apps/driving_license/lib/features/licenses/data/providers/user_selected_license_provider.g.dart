@@ -7,12 +7,12 @@ part of 'user_selected_license_provider.dart';
 // **************************************************************************
 
 String _$userSelectedLicenseHash() =>
-    r'ccccace505383a15b8bde57398d50686d781980f';
+    r'2eaa8e276c313481812036df654801043ee1ab50';
 
 /// See also [UserSelectedLicense].
 @ProviderFor(UserSelectedLicense)
 final userSelectedLicenseProvider =
-    AutoDisposeAsyncNotifierProvider<UserSelectedLicense, License>.internal(
+    AsyncNotifierProvider<UserSelectedLicense, License>.internal(
   UserSelectedLicense.new,
   name: r'userSelectedLicenseProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,6 @@ final userSelectedLicenseProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$UserSelectedLicense = AutoDisposeAsyncNotifier<License>;
+typedef _$UserSelectedLicense = AsyncNotifier<License>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
