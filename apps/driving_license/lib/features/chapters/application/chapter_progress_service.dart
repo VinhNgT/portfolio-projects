@@ -1,4 +1,6 @@
 import 'package:driving_license/features/chapters/domain/chapter.dart';
+import 'package:driving_license/features/licenses/data/providers/user_selected_license_provider.dart';
+import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/result/domain/test_result.dart';
@@ -9,12 +11,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 part 'chapter_progress_service.g.dart';
 
 class ChapterProgressService {
+  final License license;
   final Chapter chapter;
   final UserAnswersRepository userAnswersRepository;
   final QuestionsRepository questionsRepository;
   final SharedPreferences prefs;
 
   ChapterProgressService({
+    required this.license,
     required this.chapter,
     required this.userAnswersRepository,
     required this.questionsRepository,
@@ -23,7 +27,7 @@ class ChapterProgressService {
 
   Stream<TestResult> watchChapterCompletionStatus() async* {
     final chapterQuestionsCount =
-        await questionsRepository.getQuestionCountByChapter(chapter);
+        await questionsRepository.getCountByLicenseAndChapter(license, chapter);
     final userAnswersCountStream =
         userAnswersRepository.watchChapterAnswersCount(chapter);
     final wrongUserAnswersCountStream =
@@ -60,11 +64,14 @@ FutureOr<ChapterProgressService> chapterProgressService(
   ChapterProgressServiceRef ref,
   Chapter chapter,
 ) async {
+  final userSelectedLicense =
+      await ref.watch(userSelectedLicenseProvider.future);
   final userAnswersRepository = ref.watch(userAnswersRepositoryProvider);
   final questionsRepository = ref.watch(questionsRepositoryProvider);
   final prefs = await SharedPreferences.getInstance();
 
   return ChapterProgressService(
+    license: userSelectedLicense,
     chapter: chapter,
     userAnswersRepository: userAnswersRepository,
     questionsRepository: questionsRepository,

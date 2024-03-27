@@ -9,13 +9,14 @@ class AnswerCardListController extends _$AnswerCardListController {
   @override
   FutureOr<void> build() {}
 
-  QuestionsService get _questionsService =>
-      ref.read(questionsServiceControllerProvider);
+  Future<QuestionsService> get _questionsService async =>
+      ref.read(questionsServiceControllerProvider.future);
 
   Future<void> selectAnswer(Question question, int answerOptionIndex) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(
-      () => _questionsService.saveUserAnswer(question, answerOptionIndex),
+      () async =>
+          (await _questionsService).saveUserAnswer(question, answerOptionIndex),
     );
   }
 }

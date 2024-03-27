@@ -7,7 +7,7 @@ part of 'chapter_progress_service.dart';
 // **************************************************************************
 
 String _$chapterProgressServiceHash() =>
-    r'94cb37937cb24c2f28cd535a7ea89e4b322858aa';
+    r'e06f00dbd3588dbd191c1b89b13ef1ab6bc51c84';
 
 /// Copied from Dart SDK
 class _SystemHash {

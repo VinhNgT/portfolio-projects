@@ -9,13 +9,13 @@ class QuestionAppBarController extends _$QuestionAppBarController {
   @override
   FutureOr<void> build() {}
 
-  QuestionsService get _questionsService =>
-      ref.read(questionsServiceControllerProvider);
+  Future<QuestionsService> get _questionsService async =>
+      ref.read(questionsServiceControllerProvider.future);
 
   Future<void> deleteAnswer(Question question) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(
-      () => _questionsService.clearUserAnswer(question),
+      () async => (await _questionsService).clearUserAnswer(question),
     );
   }
 }

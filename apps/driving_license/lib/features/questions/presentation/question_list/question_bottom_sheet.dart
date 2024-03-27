@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/common_widgets/widget_deadzone.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/features/questions/application/question/questions_service.dart';
@@ -68,9 +69,12 @@ class _TitleBar extends HookConsumerWidget {
                   vertical: kSize_12,
                   horizontal: kSize_16,
                 ),
-                child: _Title(
-                  titleText: _getServiceModeName(questionsServiceMode),
-                  questionCount: questionCount,
+                child: AsyncValueWidget(
+                  value: questionsServiceMode,
+                  builder: (questionsServiceModeValue) => _Title(
+                    titleText: _getServiceModeName(questionsServiceModeValue),
+                    questionCount: questionCount,
+                  ),
                 ),
               ),
             ),
