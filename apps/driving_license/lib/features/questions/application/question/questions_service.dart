@@ -242,16 +242,12 @@ class QuestionsServiceController extends _$QuestionsServiceController {
 
   @override
   FutureOr<QuestionsService> build() async {
-    if (ref.exists(inMemoryUserAnswersRepositoryProvider)) {
-      ref.invalidate(inMemoryUserAnswersRepositoryProvider);
-    }
-
     final license = await ref.watch(userSelectedLicenseProvider.future);
     final questionsRepository = ref.watch(questionsRepositoryProvider);
     final bookmarksRepository = ref.watch(bookmarksRepositoryProvider);
     final userAnswersRepository = ref.watch(userAnswersRepositoryProvider);
     final inMemoryUserAnswersRepository =
-        ref.watch(inMemoryUserAnswersRepositoryProvider);
+        ref.refresh(inMemoryUserAnswersRepositoryProvider);
 
     final config = QuestionsServiceConfig(
       operatingMode: _serviceMode,
