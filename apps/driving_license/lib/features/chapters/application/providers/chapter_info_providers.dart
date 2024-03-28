@@ -83,7 +83,7 @@ FutureOr<int?> chapterFirstUnansweredQuestionIndex(
   );
 
   final firstUnansweredLocation = await userAnswersRepository
-      .getFirstUnansweredPosition(allQuestionsDbIndexes);
+      .getFirstUnansweredPositionInList(allQuestionsDbIndexes);
 
   return firstUnansweredLocation;
 }

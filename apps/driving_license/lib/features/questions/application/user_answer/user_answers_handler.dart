@@ -25,17 +25,17 @@ class DirectUserAnswersHandler implements UserAnswersHandler {
     Question question,
     int selectedAnswerIndex,
   ) {
-    return userAnswersRepository.saveUserAnswer(question, selectedAnswerIndex);
+    return userAnswersRepository.saveAnswer(question, selectedAnswerIndex);
   }
 
   @override
   Future<void> clearUserAnswer(Question question) {
-    return userAnswersRepository.clearUserAnswer(question);
+    return userAnswersRepository.clearAnswer(question);
   }
 
   @override
   Future<void> clearAllUserAnswers() {
-    return userAnswersRepository.clearAllUserAnswers();
+    return userAnswersRepository.clearAllAnswers();
   }
 
   @override
@@ -63,7 +63,7 @@ class InMemoryUserAnswersHandler implements UserAnswersHandler {
     Question question,
     int selectedAnswerIndex,
   ) {
-    return inMemoryUserAnswersRepository.saveUserAnswer(
+    return inMemoryUserAnswersRepository.saveAnswer(
       question,
       selectedAnswerIndex,
     );
@@ -71,12 +71,12 @@ class InMemoryUserAnswersHandler implements UserAnswersHandler {
 
   @override
   Future<void> clearUserAnswer(Question question) {
-    return inMemoryUserAnswersRepository.clearUserAnswer(question);
+    return inMemoryUserAnswersRepository.clearAnswer(question);
   }
 
   @override
   Future<void> clearAllUserAnswers() {
-    return inMemoryUserAnswersRepository.clearAllUserAnswers();
+    return inMemoryUserAnswersRepository.clearAllAnswers();
   }
 
   @override
@@ -108,7 +108,7 @@ class HideUserAnswersHandler implements UserAnswersHandler {
     Question question,
     int selectedAnswerIndex,
   ) async {
-    await userAnswersRepository.saveUserAnswer(question, selectedAnswerIndex);
+    await userAnswersRepository.saveAnswer(question, selectedAnswerIndex);
     await inMemoryUserAnswersHandler.saveUserAnswer(
       question,
       selectedAnswerIndex,
@@ -120,7 +120,7 @@ class HideUserAnswersHandler implements UserAnswersHandler {
     final userAnswerAtStart = userAnswersBeforeStart[question.questionDbIndex]!;
 
     // Restore the user's answer from the start of the session
-    await userAnswersRepository.saveUserAnswer(
+    await userAnswersRepository.saveAnswer(
       question,
       userAnswerAtStart.selectedAnswerIndex,
     );

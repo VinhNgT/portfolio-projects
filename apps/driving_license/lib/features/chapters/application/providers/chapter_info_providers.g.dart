@@ -306,7 +306,7 @@ class _ChapterCompletionStatusProviderElement
 }
 
 String _$chapterFirstUnansweredQuestionIndexHash() =>
-    r'e4f0d24393635e18fcc6120e3721887e45f1fa87';
+    r'80ec643f7eed134ae83248f672f703c6deed0c4c';
 
 /// See also [chapterFirstUnansweredQuestionIndex].
 @ProviderFor(chapterFirstUnansweredQuestionIndex)

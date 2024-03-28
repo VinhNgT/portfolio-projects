@@ -53,7 +53,7 @@ class QuestionsService {
 
       case final DifficultOperatingMode _:
         final userAnswersBeforeStart = await config.userAnswersRepository
-            .getAllDifficultQuestionsAnswersByLicense(config.license);
+            .getAllDifficultQuestionAnswersByLicense(config.license);
 
         return QuestionsService._difficult(
           license: config.license,

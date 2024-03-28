@@ -14,12 +14,12 @@ part 'user_answers_repository.g.dart';
 typedef UserAnswersMap = Map<int, UserAnswer>;
 
 abstract class UserAnswersRepository {
-  Future<void> saveUserAnswer(Question question, int selectedAnswerIndex);
-  Future<void> clearUserAnswer(Question question);
-  Future<void> clearAllUserAnswers();
+  Future<void> saveAnswer(Question question, int selectedAnswerIndex);
+  Future<void> clearAnswer(Question question);
+  Future<void> clearAllAnswers();
   Stream<int?> watchUserSelectedAnswerIndex(Question question);
   Future<UserAnswersMap> getAllWrongAnswersByLicense(License license);
-  Future<UserAnswersMap> getAllDifficultQuestionsAnswersByLicense(
+  Future<UserAnswersMap> getAllDifficultQuestionAnswersByLicense(
     License license,
   );
   Stream<int> watchAnswersCountByLicenseAndChapter(
@@ -30,7 +30,7 @@ abstract class UserAnswersRepository {
     License license,
     Chapter chapter,
   );
-  Future<int?> getFirstUnansweredPosition(Iterable<int> dbIndexes);
+  Future<int?> getFirstUnansweredPositionInList(Iterable<int> dbIndexes);
 }
 
 @Riverpod(keepAlive: true)

@@ -26,7 +26,7 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Future<void> saveUserAnswer(
+  Future<void> saveAnswer(
     Question question,
     int selectedAnswerIndex,
   ) async {
@@ -41,12 +41,12 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Future<void> clearUserAnswer(Question question) async {
+  Future<void> clearAnswer(Question question) async {
     await allAnswersStore.record(question.questionDbIndex).delete(db);
   }
 
   @override
-  Future<void> clearAllUserAnswers() async {
+  Future<void> clearAllAnswers() async {
     await allAnswersStore.delete(db);
   }
 
@@ -85,7 +85,7 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Future<UserAnswersMap> getAllDifficultQuestionsAnswersByLicense(
+  Future<UserAnswersMap> getAllDifficultQuestionAnswersByLicense(
     License license,
   ) async {
     final recordSnapshot = await allAnswersStore.find(
@@ -148,7 +148,7 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Future<int?> getFirstUnansweredPosition(Iterable<int> dbIndexes) async {
+  Future<int?> getFirstUnansweredPositionInList(Iterable<int> dbIndexes) async {
     int location = -1;
 
     for (final dbIndex in dbIndexes) {

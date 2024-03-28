@@ -16,7 +16,7 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   final InMemoryStore<UserAnswersMap> allAnswersStore;
 
   @override
-  Future<void> saveUserAnswer(
+  Future<void> saveAnswer(
     Question question,
     int selectedAnswerIndex,
   ) async {
@@ -30,14 +30,14 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Future<void> clearAllUserAnswers() async {
+  Future<void> clearAllAnswers() async {
     allAnswersStore.value = {};
     // No need to call emmit() here because the store will emits the
     // new value automatically when 'value' is updated directly using '='.
   }
 
   @override
-  Future<void> clearUserAnswer(Question question) async {
+  Future<void> clearAnswer(Question question) async {
     allAnswersStore.value.remove(question.questionDbIndex);
     allAnswersStore.emmit();
   }
@@ -74,7 +74,7 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Future<UserAnswersMap> getAllDifficultQuestionsAnswersByLicense(
+  Future<UserAnswersMap> getAllDifficultQuestionAnswersByLicense(
     License license,
   ) async {
     final difficultAnswersMap = UserAnswersMap();
@@ -156,7 +156,7 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Future<int?> getFirstUnansweredPosition(Iterable<int> dbIndexes) {
+  Future<int?> getFirstUnansweredPositionInList(Iterable<int> dbIndexes) {
     int location = -1;
 
     for (final dbIndex in dbIndexes) {
