@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:driving_license/features/chapters/domain/chapter.dart';
+import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answer.dart';
@@ -50,48 +51,85 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Future<UserAnswersMap> getAllWrongAnswers() {
-    final wrongAnswersMap = {
-      for (final entry in allAnswersStore.value.entries)
-        if (entry.value.selectedAnswerIndex !=
-            entry.value.questionMetadata.correctAnswerIndex)
-          entry.key: entry.value,
-    };
+  Future<UserAnswersMap> getAllWrongAnswersByLicense(License license) {
+    final wrongAnswersMap = UserAnswersMap();
+    for (final entry in allAnswersStore.value.entries) {
+      // Check if the user answer is not wrong
+      if (entry.value.selectedAnswerIndex ==
+          entry.value.questionMetadata.correctAnswerIndex) {
+        continue;
+      }
+
+      // Check if the question is not included in the license
+      if (!entry.value.questionMetadata.includedLicenses.contains(license)) {
+        continue;
+      }
+
+      wrongAnswersMap[entry.key] = entry.value;
+    }
 
     return Future.value(wrongAnswersMap);
   }
 
   @override
-  Future<UserAnswersMap> getAllDifficultQuestionsAnswers() async {
-    final difficultAnswersMap = {
-      for (final entry in allAnswersStore.value.entries)
-        if (entry.value.questionMetadata.isDifficult) entry.key: entry.value,
-    };
+  Future<UserAnswersMap> getAllDifficultQuestionsAnswersByLicense(
+    License license,
+  ) async {
+    final difficultAnswersMap = UserAnswersMap();
+    for (final entry in allAnswersStore.value.entries) {
+      // Check if the question is not difficult
+      if (!entry.value.questionMetadata.isDifficult) {
+        continue;
+      }
+
+      // Check if the question is not included in the license
+      if (!entry.value.questionMetadata.includedLicenses.contains(license)) {
+        continue;
+      }
+
+      difficultAnswersMap[entry.key] = entry.value;
+    }
 
     return Future.value(difficultAnswersMap);
   }
 
   @override
-  Stream<int> watchChapterAnswersCount(Chapter chapter) {
+  Stream<int> watchAnswersCountByLicenseAndChapter(
+    License license,
+    Chapter chapter,
+  ) {
     return allAnswersStore.stream.map((userAnswersMap) {
       return userAnswersMap.values.fold(0, (count, userAnswer) {
-        // Check if the user answer is for the chapter
+        // Check if the user answer is not in the license
+        if (!userAnswer.questionMetadata.includedLicenses.contains(license)) {
+          return count;
+        }
+
+        // Check if the user answer is not in the chapter
         if (userAnswer.questionMetadata.chapterDbIndex !=
             chapter.chapterDbIndex) {
           return count;
         }
 
-        // User answer is for the chapter, increment the count
+        // User answer is for the license and chapter, increment the count
         return count++;
       });
     });
   }
 
   @override
-  Stream<int> watchChapterWrongAnswersCount(Chapter chapter) {
+  Stream<int> watchWrongAnswersCountByLicenseAndChapter(
+    License license,
+    Chapter chapter,
+  ) {
     return allAnswersStore.stream.map((userAnswersMap) {
       return userAnswersMap.values.fold(0, (count, userAnswer) {
-        // Check if the user answer is for the chapter
+        // Check if the user answer is not in the license
+        if (!userAnswer.questionMetadata.includedLicenses.contains(license)) {
+          return count;
+        }
+
+        // Check if the user answer is not in the chapter
         if (userAnswer.questionMetadata.chapterDbIndex !=
             chapter.chapterDbIndex) {
           return count;

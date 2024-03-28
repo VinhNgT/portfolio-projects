@@ -1,4 +1,5 @@
 import 'package:driving_license/features/chapters/domain/chapter.dart';
+import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answer.dart';
@@ -66,10 +67,15 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Future<UserAnswersMap> getAllWrongAnswers() async {
+  Future<UserAnswersMap> getAllWrongAnswersByLicense(License license) async {
     final recordSnapshot = await allAnswersStore.find(
       db,
-      finder: Finder(filter: _wrongAnswersFilter),
+      finder: Finder(
+        filter: Filter.and([
+          _wrongAnswersFilter,
+          _licenseFilter(license),
+        ]),
+      ),
     );
 
     return {
@@ -79,10 +85,17 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Future<UserAnswersMap> getAllDifficultQuestionsAnswers() async {
+  Future<UserAnswersMap> getAllDifficultQuestionsAnswersByLicense(
+    License license,
+  ) async {
     final recordSnapshot = await allAnswersStore.find(
       db,
-      finder: Finder(filter: _difficultQuestionsFilter),
+      finder: Finder(
+        filter: Filter.and([
+          _difficultQuestionsFilter,
+          _licenseFilter(license),
+        ]),
+      ),
     );
 
     return {
@@ -92,21 +105,40 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Stream<int> watchChapterAnswersCount(Chapter chapter) {
+  Stream<int> watchAnswersCountByLicenseAndChapter(
+    License license,
+    Chapter chapter,
+  ) {
     final userAnswersCountStream = allAnswersStore
-        .query(finder: Finder(filter: _filterByChapter(chapter)))
+        .query(
+          finder: Finder(
+            filter: Filter.and(
+              [
+                _licenseFilter(license),
+                _chapterFilter(chapter),
+              ],
+            ),
+          ),
+        )
         .onCount(db);
 
     return userAnswersCountStream;
   }
 
   @override
-  Stream<int> watchChapterWrongAnswersCount(Chapter chapter) {
+  Stream<int> watchWrongAnswersCountByLicenseAndChapter(
+    License license,
+    Chapter chapter,
+  ) {
     final wrongUserAnswersCountStream = allAnswersStore
         .query(
           finder: Finder(
             filter: Filter.and(
-              [_filterByChapter(chapter), _wrongAnswersFilter],
+              [
+                _licenseFilter(license),
+                _chapterFilter(chapter),
+                _wrongAnswersFilter,
+              ],
             ),
           ),
         )
@@ -117,10 +149,18 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
 }
 
 extension _FilterExtension on SembastUserAnswersRepository {
-  Filter _filterByChapter(Chapter chapter) {
+  Filter _chapterFilter(Chapter chapter) {
     return Filter.equals(
       'questionMetadata.chapterDbIndex',
       chapter.chapterDbIndex,
+    );
+  }
+
+  Filter _licenseFilter(License license) {
+    return Filter.matches(
+      'questionMetadata.includedLicenses',
+      license.name,
+      anyInList: true,
     );
   }
 

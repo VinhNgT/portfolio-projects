@@ -33,6 +33,7 @@ class QuestionsService {
         return QuestionsService._full(
           questionsRepository: config.questionsRepository,
           userAnswersRepository: config.userAnswersRepository,
+          license: config.license,
         );
 
       case final ChapterOperatingMode chapterMode:
@@ -52,7 +53,7 @@ class QuestionsService {
 
       case final DifficultOperatingMode _:
         final userAnswersBeforeStart = await config.userAnswersRepository
-            .getAllDifficultQuestionsAnswers();
+            .getAllDifficultQuestionsAnswersByLicense(config.license);
 
         return QuestionsService._difficult(
           license: config.license,
@@ -63,14 +64,15 @@ class QuestionsService {
         );
 
       case final WrongAnswersOperatingMode _:
-        final userAnswersBeforeStart =
-            await config.userAnswersRepository.getAllWrongAnswers();
+        final userAnswersBeforeStart = await config.userAnswersRepository
+            .getAllWrongAnswersByLicense(config.license);
 
         return QuestionsService._wrongAnswers(
           questionsRepository: config.questionsRepository,
           userAnswersRepository: config.userAnswersRepository,
           inMemoryUserAnswersRepository: config.inMemoryUserAnswersRepository,
           userAnswersBeforeStart: userAnswersBeforeStart,
+          license: config.license,
         );
 
       case final BookmarkOperatingMode _:
@@ -82,6 +84,7 @@ class QuestionsService {
           questionsRepository: config.questionsRepository,
           userAnswersRepository: config.userAnswersRepository,
           bookmarkedQuestionDbIndexes: bookmarkQuestionDbIndexes,
+          license: config.license,
         );
     }
   }
@@ -89,6 +92,7 @@ class QuestionsService {
   factory QuestionsService._full({
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
+    required License license,
   }) {
     return QuestionsService(
       operatingMode: FullOperatingMode(),
@@ -97,6 +101,7 @@ class QuestionsService {
       ),
       userAnswersHandler: DirectUserAnswersHandler(
         userAnswersRepository: userAnswersRepository,
+        license: license,
       ),
     );
   }
@@ -116,6 +121,7 @@ class QuestionsService {
       ),
       userAnswersHandler: DirectUserAnswersHandler(
         userAnswersRepository: userAnswersRepository,
+        license: license,
       ),
     );
   }
@@ -133,6 +139,7 @@ class QuestionsService {
       ),
       userAnswersHandler: DirectUserAnswersHandler(
         userAnswersRepository: userAnswersRepository,
+        license: license,
       ),
     );
   }
@@ -154,8 +161,10 @@ class QuestionsService {
         userAnswersRepository: userAnswersRepository,
         inMemoryUserAnswersHandler: InMemoryUserAnswersHandler(
           inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
+          license: license,
         ),
         userAnswersBeforeStart: userAnswersBeforeStart,
+        license: license,
       ),
     );
   }
@@ -165,6 +174,7 @@ class QuestionsService {
     required UserAnswersRepository userAnswersRepository,
     required InMemoryUserAnswersRepository inMemoryUserAnswersRepository,
     required UserAnswersMap userAnswersBeforeStart,
+    required License license,
   }) {
     return QuestionsService(
       operatingMode: WrongAnswersOperatingMode(),
@@ -176,8 +186,10 @@ class QuestionsService {
         userAnswersRepository: userAnswersRepository,
         inMemoryUserAnswersHandler: InMemoryUserAnswersHandler(
           inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
+          license: license,
         ),
         userAnswersBeforeStart: userAnswersBeforeStart,
+        license: license,
       ),
     );
   }
@@ -186,6 +198,7 @@ class QuestionsService {
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
     required List<int> bookmarkedQuestionDbIndexes,
+    required License license,
   }) {
     return QuestionsService(
       operatingMode: BookmarkOperatingMode(),
@@ -195,6 +208,7 @@ class QuestionsService {
       ),
       userAnswersHandler: DirectUserAnswersHandler(
         userAnswersRepository: userAnswersRepository,
+        license: license,
       ),
     );
   }

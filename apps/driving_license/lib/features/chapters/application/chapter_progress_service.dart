@@ -28,10 +28,10 @@ class ChapterProgressService {
   Stream<TestResult> watchChapterCompletionStatus() async* {
     final chapterQuestionsCount =
         await questionsRepository.getCountByLicenseAndChapter(license, chapter);
-    final userAnswersCountStream =
-        userAnswersRepository.watchChapterAnswersCount(chapter);
-    final wrongUserAnswersCountStream =
-        userAnswersRepository.watchChapterWrongAnswersCount(chapter);
+    final userAnswersCountStream = userAnswersRepository
+        .watchAnswersCountByLicenseAndChapter(license, chapter);
+    final wrongUserAnswersCountStream = userAnswersRepository
+        .watchWrongAnswersCountByLicenseAndChapter(license, chapter);
 
     yield* Rx.combineLatest2(
       userAnswersCountStream,

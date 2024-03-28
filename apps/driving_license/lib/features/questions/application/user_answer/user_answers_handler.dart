@@ -1,3 +1,4 @@
+import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/data/user_answer/in_memory_user_answers_repository.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
@@ -11,8 +12,13 @@ sealed class UserAnswersHandler {
 }
 
 class DirectUserAnswersHandler implements UserAnswersHandler {
-  DirectUserAnswersHandler({required this.userAnswersRepository});
   final UserAnswersRepository userAnswersRepository;
+  final License license;
+
+  DirectUserAnswersHandler({
+    required this.userAnswersRepository,
+    required this.license,
+  });
 
   @override
   Future<void> saveUserAnswer(
@@ -39,15 +45,18 @@ class DirectUserAnswersHandler implements UserAnswersHandler {
 
   @override
   Future<UserAnswersMap> getAllWrongAnswers() {
-    return userAnswersRepository.getAllWrongAnswers();
+    return userAnswersRepository.getAllWrongAnswersByLicense(license);
   }
 }
 
 class InMemoryUserAnswersHandler implements UserAnswersHandler {
+  final InMemoryUserAnswersRepository inMemoryUserAnswersRepository;
+  final License license;
+
   InMemoryUserAnswersHandler({
     required this.inMemoryUserAnswersRepository,
+    required this.license,
   });
-  final InMemoryUserAnswersRepository inMemoryUserAnswersRepository;
 
   @override
   Future<void> saveUserAnswer(
@@ -77,20 +86,22 @@ class InMemoryUserAnswersHandler implements UserAnswersHandler {
 
   @override
   Future<UserAnswersMap> getAllWrongAnswers() {
-    return inMemoryUserAnswersRepository.getAllWrongAnswers();
+    return inMemoryUserAnswersRepository.getAllWrongAnswersByLicense(license);
   }
 }
 
 class HideUserAnswersHandler implements UserAnswersHandler {
+  final UserAnswersRepository userAnswersRepository;
+  final InMemoryUserAnswersHandler inMemoryUserAnswersHandler;
+  final UserAnswersMap userAnswersBeforeStart;
+  final License license;
+
   HideUserAnswersHandler({
     required this.userAnswersRepository,
     required this.inMemoryUserAnswersHandler,
     required this.userAnswersBeforeStart,
+    required this.license,
   });
-
-  final UserAnswersRepository userAnswersRepository;
-  final InMemoryUserAnswersHandler inMemoryUserAnswersHandler;
-  final UserAnswersMap userAnswersBeforeStart;
 
   @override
   Future<void> saveUserAnswer(
@@ -129,6 +140,6 @@ class HideUserAnswersHandler implements UserAnswersHandler {
 
   @override
   Future<UserAnswersMap> getAllWrongAnswers() {
-    return userAnswersRepository.getAllWrongAnswers();
+    return userAnswersRepository.getAllWrongAnswersByLicense(license);
   }
 }

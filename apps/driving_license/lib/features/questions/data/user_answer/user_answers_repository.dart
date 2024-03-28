@@ -1,4 +1,5 @@
 import 'package:driving_license/features/chapters/domain/chapter.dart';
+import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answer.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -17,10 +18,18 @@ abstract class UserAnswersRepository {
   Future<void> clearUserAnswer(Question question);
   Future<void> clearAllUserAnswers();
   Stream<int?> watchUserSelectedAnswerIndex(Question question);
-  Future<UserAnswersMap> getAllWrongAnswers();
-  Future<UserAnswersMap> getAllDifficultQuestionsAnswers();
-  Stream<int> watchChapterAnswersCount(Chapter chapter);
-  Stream<int> watchChapterWrongAnswersCount(Chapter chapter);
+  Future<UserAnswersMap> getAllWrongAnswersByLicense(License license);
+  Future<UserAnswersMap> getAllDifficultQuestionsAnswersByLicense(
+    License license,
+  );
+  Stream<int> watchAnswersCountByLicenseAndChapter(
+    License license,
+    Chapter chapter,
+  );
+  Stream<int> watchWrongAnswersCountByLicenseAndChapter(
+    License license,
+    Chapter chapter,
+  );
 }
 
 @Riverpod(keepAlive: true)
