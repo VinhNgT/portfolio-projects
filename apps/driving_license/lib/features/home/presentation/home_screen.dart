@@ -258,6 +258,10 @@ extension ChapterSelectionX on ChapterSelection {
   ) async {
     final context = ref.context;
 
+    ref
+        .read(questionsServiceControllerProvider.notifier)
+        .setupChapterQuestions(chapter);
+
     if (context.mounted) {
       await context.navigateTo(
         QuestionRoute(),
