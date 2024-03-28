@@ -142,21 +142,13 @@ class SqliteQuestionsRepository implements QuestionsRepository {
     Chapter chapter,
     int index,
   ) async {
-    final chapterQuestionOffset = await database
-        .query(
-          'question',
-          where: 'chapter_index = ?'._addLicenseWhereClause(license),
-          whereArgs: [chapter.chapterDbIndex],
-          orderBy: 'question_index ASC',
-          limit: 1,
-        )
-        .then((value) => value.first['question_index'] as int);
-
-    final List<Map<String, dynamic>> queryResult = await database.query(
+    final queryResult = await database.query(
       'question',
-      where: 'chapter_index = ? AND question_index = ?'
-          ._addLicenseWhereClause(license),
-      whereArgs: [chapter.chapterDbIndex, chapterQuestionOffset + index],
+      where: 'chapter_index = ?'._addLicenseWhereClause(license),
+      whereArgs: [chapter.chapterDbIndex],
+      orderBy: 'question_index ASC',
+      offset: index,
+      limit: 1,
     );
 
     if (queryResult.isNotEmpty) {
