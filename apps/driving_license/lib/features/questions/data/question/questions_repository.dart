@@ -32,6 +32,10 @@ abstract class QuestionsRepository {
     License license,
     Chapter chapter,
   );
+  FutureOr<Iterable<int>> getQuestionDbIndexesByLicenseAndChapter(
+    License license,
+    Chapter chapter,
+  );
 
   // Get questions by its danger status
   FutureOr<Question> getIsDangerQuestionByLicense(License license, int index);

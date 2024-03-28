@@ -30,6 +30,7 @@ abstract class UserAnswersRepository {
     License license,
     Chapter chapter,
   );
+  Future<int?> getFirstUnansweredPosition(Iterable<int> dbIndexes);
 }
 
 @Riverpod(keepAlive: true)

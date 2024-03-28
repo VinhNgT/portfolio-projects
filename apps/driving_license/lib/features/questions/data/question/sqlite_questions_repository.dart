@@ -203,8 +203,26 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
+  Future<Iterable<int>> getQuestionDbIndexesByLicenseAndChapter(
+    License license,
+    Chapter chapter,
+  ) async {
+    final List<Map<String, dynamic>> queryResult = await database.query(
+      'question',
+      columns: ['question_index'],
+      where: 'chapter_index = ?'._addLicenseWhereClause(license),
+      whereArgs: [chapter.chapterDbIndex],
+      orderBy: 'question_index ASC',
+    );
+
+    return queryResult.map((e) => e['question_index'] as int);
+  }
+
+  @override
   FutureOr<Question> getIsDangerQuestionByLicense(
-      License license, int index) async {
+    License license,
+    int index,
+  ) async {
     final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
       where: 'is_danger = 1'._addLicenseWhereClause(license),
@@ -252,7 +270,9 @@ class SqliteQuestionsRepository implements QuestionsRepository {
 
   @override
   FutureOr<Question> getIsDifficultQuestionByLicense(
-      License license, int index) async {
+    License license,
+    int index,
+  ) async {
     final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
       where: 'is_difficult = 1'._addLicenseWhereClause(license),

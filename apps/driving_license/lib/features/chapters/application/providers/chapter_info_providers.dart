@@ -66,3 +66,24 @@ Stream<TestResult> chapterCompletionStatus(
     },
   );
 }
+
+@riverpod
+FutureOr<int?> chapterFirstUnansweredQuestionIndex(
+  ChapterFirstUnansweredQuestionIndexRef ref,
+  Chapter chapter,
+) async {
+  final lisense = await ref.watch(userSelectedLicenseProvider.future);
+  final userAnswersRepository = ref.watch(userAnswersRepositoryProvider);
+  final questionsRepository = ref.watch(questionsRepositoryProvider);
+
+  final allQuestionsDbIndexes =
+      await questionsRepository.getQuestionDbIndexesByLicenseAndChapter(
+    lisense,
+    chapter,
+  );
+
+  final firstUnansweredLocation = await userAnswersRepository
+      .getFirstUnansweredPosition(allQuestionsDbIndexes);
+
+  return firstUnansweredLocation;
+}

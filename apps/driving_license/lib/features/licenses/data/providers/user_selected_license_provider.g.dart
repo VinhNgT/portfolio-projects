@@ -7,7 +7,7 @@ part of 'user_selected_license_provider.dart';
 // **************************************************************************
 
 String _$userSelectedLicenseHash() =>
-    r'2eaa8e276c313481812036df654801043ee1ab50';
+    r'320c6203b1338d449261036262a2f897b3a37558';
 
 /// See also [UserSelectedLicense].
 @ProviderFor(UserSelectedLicense)

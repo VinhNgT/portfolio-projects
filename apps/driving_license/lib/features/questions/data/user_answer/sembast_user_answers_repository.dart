@@ -146,6 +146,24 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
 
     return wrongUserAnswersCountStream;
   }
+
+  @override
+  Future<int?> getFirstUnansweredPosition(Iterable<int> dbIndexes) async {
+    int location = -1;
+
+    for (final dbIndex in dbIndexes) {
+      location++;
+
+      final recordSnapshot =
+          await allAnswersStore.record(dbIndex).getSnapshot(db);
+
+      if (recordSnapshot == null) {
+        return location;
+      }
+    }
+
+    return null;
+  }
 }
 
 extension _FilterExtension on SembastUserAnswersRepository {

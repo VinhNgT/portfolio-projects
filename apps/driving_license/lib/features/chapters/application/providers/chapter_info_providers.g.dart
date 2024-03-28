@@ -304,5 +304,142 @@ class _ChapterCompletionStatusProviderElement
   @override
   Chapter get chapter => (origin as ChapterCompletionStatusProvider).chapter;
 }
+
+String _$chapterFirstUnansweredQuestionIndexHash() =>
+    r'e4f0d24393635e18fcc6120e3721887e45f1fa87';
+
+/// See also [chapterFirstUnansweredQuestionIndex].
+@ProviderFor(chapterFirstUnansweredQuestionIndex)
+const chapterFirstUnansweredQuestionIndexProvider =
+    ChapterFirstUnansweredQuestionIndexFamily();
+
+/// See also [chapterFirstUnansweredQuestionIndex].
+class ChapterFirstUnansweredQuestionIndexFamily
+    extends Family<AsyncValue<int?>> {
+  /// See also [chapterFirstUnansweredQuestionIndex].
+  const ChapterFirstUnansweredQuestionIndexFamily();
+
+  /// See also [chapterFirstUnansweredQuestionIndex].
+  ChapterFirstUnansweredQuestionIndexProvider call(
+    Chapter chapter,
+  ) {
+    return ChapterFirstUnansweredQuestionIndexProvider(
+      chapter,
+    );
+  }
+
+  @override
+  ChapterFirstUnansweredQuestionIndexProvider getProviderOverride(
+    covariant ChapterFirstUnansweredQuestionIndexProvider provider,
+  ) {
+    return call(
+      provider.chapter,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'chapterFirstUnansweredQuestionIndexProvider';
+}
+
+/// See also [chapterFirstUnansweredQuestionIndex].
+class ChapterFirstUnansweredQuestionIndexProvider
+    extends AutoDisposeFutureProvider<int?> {
+  /// See also [chapterFirstUnansweredQuestionIndex].
+  ChapterFirstUnansweredQuestionIndexProvider(
+    Chapter chapter,
+  ) : this._internal(
+          (ref) => chapterFirstUnansweredQuestionIndex(
+            ref as ChapterFirstUnansweredQuestionIndexRef,
+            chapter,
+          ),
+          from: chapterFirstUnansweredQuestionIndexProvider,
+          name: r'chapterFirstUnansweredQuestionIndexProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$chapterFirstUnansweredQuestionIndexHash,
+          dependencies: ChapterFirstUnansweredQuestionIndexFamily._dependencies,
+          allTransitiveDependencies: ChapterFirstUnansweredQuestionIndexFamily
+              ._allTransitiveDependencies,
+          chapter: chapter,
+        );
+
+  ChapterFirstUnansweredQuestionIndexProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.chapter,
+  }) : super.internal();
+
+  final Chapter chapter;
+
+  @override
+  Override overrideWith(
+    FutureOr<int?> Function(ChapterFirstUnansweredQuestionIndexRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: ChapterFirstUnansweredQuestionIndexProvider._internal(
+        (ref) => create(ref as ChapterFirstUnansweredQuestionIndexRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        chapter: chapter,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<int?> createElement() {
+    return _ChapterFirstUnansweredQuestionIndexProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ChapterFirstUnansweredQuestionIndexProvider &&
+        other.chapter == chapter;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, chapter.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin ChapterFirstUnansweredQuestionIndexRef
+    on AutoDisposeFutureProviderRef<int?> {
+  /// The parameter `chapter` of this provider.
+  Chapter get chapter;
+}
+
+class _ChapterFirstUnansweredQuestionIndexProviderElement
+    extends AutoDisposeFutureProviderElement<int?>
+    with ChapterFirstUnansweredQuestionIndexRef {
+  _ChapterFirstUnansweredQuestionIndexProviderElement(super.provider);
+
+  @override
+  Chapter get chapter =>
+      (origin as ChapterFirstUnansweredQuestionIndexProvider).chapter;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -84,7 +84,9 @@ class TestQuestionsRepository implements QuestionsRepository {
 
   @override
   FutureOr<Question> getIsDifficultQuestionByLicense(
-      License license, int index) {
+    License license,
+    int index,
+  ) {
     // TODO: implement getIsDifficultByLicense
     throw UnimplementedError();
   }
@@ -120,6 +122,15 @@ class TestQuestionsRepository implements QuestionsRepository {
     int pageNumber,
   ) {
     // TODO: implement getPageByLicenseAndChapter
+    throw UnimplementedError();
+  }
+
+  @override
+  FutureOr<Iterable<int>> getQuestionDbIndexesByLicenseAndChapter(
+    License license,
+    Chapter chapter,
+  ) {
+    // TODO: implement getQuestionsDbIndexesByLicenseAndChapter
     throw UnimplementedError();
   }
 }

@@ -13,6 +13,7 @@ class UserSelectedLicense extends _$UserSelectedLicense {
   @override
   FutureOr<License> build() async {
     _prefs = await ref.watch(sharedPreferencesProvider.future);
+    await _prefs.setString(_prefsLicenseKey, 'a4');
     final selectedLicense = _prefs.getString(_prefsLicenseKey);
 
     return switch (selectedLicense) {

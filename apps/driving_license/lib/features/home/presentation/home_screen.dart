@@ -218,13 +218,18 @@ extension ChapterSelectionX on ChapterSelection {
   ) async {
     final context = ref.context;
 
+    final chapterFirstUnansweredQuestionIndex = await ref
+        .read(chapterFirstUnansweredQuestionIndexProvider(chapter).future);
+
     ref
         .read(questionsServiceControllerProvider.notifier)
         .setupChapterQuestions(chapter);
 
     if (context.mounted) {
       await context.navigateTo(
-        QuestionRoute(),
+        QuestionRoute(
+          initialPageIndex: chapterFirstUnansweredQuestionIndex ?? 0,
+        ),
       );
     }
   }

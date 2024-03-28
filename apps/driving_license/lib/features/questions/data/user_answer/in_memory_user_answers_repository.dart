@@ -154,6 +154,21 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
       });
     });
   }
+
+  @override
+  Future<int?> getFirstUnansweredPosition(Iterable<int> dbIndexes) {
+    int location = -1;
+
+    for (final dbIndex in dbIndexes) {
+      location++;
+
+      if (!allAnswersStore.value.containsKey(dbIndex)) {
+        return Future.value(location);
+      }
+    }
+
+    return Future.value(null);
+  }
 }
 
 @Riverpod(keepAlive: true)
