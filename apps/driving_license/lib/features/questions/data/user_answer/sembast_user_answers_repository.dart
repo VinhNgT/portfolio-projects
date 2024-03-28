@@ -157,6 +157,10 @@ extension _FilterExtension on SembastUserAnswersRepository {
   }
 
   Filter _licenseFilter(License license) {
+    if (license == License.all) {
+      return Filter.custom((_) => true);
+    }
+
     return Filter.matches(
       'questionMetadata.includedLicenses',
       license.name,

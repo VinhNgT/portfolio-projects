@@ -62,7 +62,9 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
 
       // Check if the question is not included in the license
       if (!entry.value.questionMetadata.includedLicenses.contains(license)) {
-        continue;
+        if (license != License.all) {
+          continue;
+        }
       }
 
       wrongAnswersMap[entry.key] = entry.value;
@@ -84,7 +86,9 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
 
       // Check if the question is not included in the license
       if (!entry.value.questionMetadata.includedLicenses.contains(license)) {
-        continue;
+        if (license != License.all) {
+          continue;
+        }
       }
 
       difficultAnswersMap[entry.key] = entry.value;
@@ -102,7 +106,9 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
       return userAnswersMap.values.fold(0, (count, userAnswer) {
         // Check if the user answer is not in the license
         if (!userAnswer.questionMetadata.includedLicenses.contains(license)) {
-          return count;
+          if (license != License.all) {
+            return count;
+          }
         }
 
         // Check if the user answer is not in the chapter
@@ -126,7 +132,9 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
       return userAnswersMap.values.fold(0, (count, userAnswer) {
         // Check if the user answer is not in the license
         if (!userAnswer.questionMetadata.includedLicenses.contains(license)) {
-          return count;
+          if (license != License.all) {
+            return count;
+          }
         }
 
         // Check if the user answer is not in the chapter
