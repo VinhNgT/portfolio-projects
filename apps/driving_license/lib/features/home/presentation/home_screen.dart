@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_scaffold.dart';
+import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/common_widgets/widget_deadzone.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
+import 'package:driving_license/features/chapters/application/providers/chapter_info_providers.dart';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/home/presentation/chapter_card.dart';
 import 'package:driving_license/features/home/presentation/donate_card.dart';
@@ -179,74 +181,32 @@ class ChapterSelection extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Ôn tập câu hỏi', style: context.textTheme.titleLarge),
-        kGap_16,
-        ListView.separated(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          separatorBuilder: (BuildContext context, int index) => kGap_12,
-          itemCount: 7,
-          itemBuilder: (BuildContext _, int index) => [
-            ChapterCard(
-              iconAssetPath: 'assets/icons/home_screen/complied/books.svg.vec',
-              chapter: Chapter.khaiNiemVaQuyTac,
-              onTap: (chapter) async {
-                await setupAndNavigateToQuestionRoute(ref, chapter);
-              },
-            ),
-            ChapterCard(
-              iconAssetPath:
-                  'assets/icons/home_screen/complied/danger_fire.svg.vec',
-              chapter: Chapter.nghiepVuVanTai,
-              onTap: (chapter) async {
-                await setupAndNavigateToQuestionRoute(ref, chapter);
-              },
-            ),
-            ChapterCard(
-              iconAssetPath: 'assets/icons/home_screen/complied/person.svg.vec',
-              chapter: Chapter.vanHoaVaDaoDuc,
-              onTap: (chapter) async {
-                await setupAndNavigateToQuestionRoute(ref, chapter);
-              },
-            ),
-            ChapterCard(
-              iconAssetPath:
-                  'assets/icons/home_screen/complied/steering_wheel.svg.vec',
-              chapter: Chapter.kyThuatLaiXe,
-              onTap: (chapter) async {
-                await setupAndNavigateToQuestionRoute(ref, chapter);
-              },
-            ),
-            ChapterCard(
-              iconAssetPath:
-                  'assets/icons/home_screen/complied/danger_fire.svg.vec',
-              chapter: Chapter.cauTaoVaSuaChua,
-              onTap: (chapter) async {
-                await setupAndNavigateToQuestionRoute(ref, chapter);
-              },
-            ),
-            ChapterCard(
-              iconAssetPath:
-                  'assets/icons/home_screen/complied/turn_right_sign.svg.vec',
-              chapter: Chapter.bienBaoDuongBo,
-              onTap: (chapter) async {
-                await setupAndNavigateToQuestionRoute(ref, chapter);
-              },
-            ),
-            ChapterCard(
-              iconAssetPath:
-                  'assets/icons/home_screen/complied/traffic_light.svg.vec',
-              chapter: Chapter.saHinhVaTinhHuong,
-              onTap: (chapter) async {
-                await setupAndNavigateToQuestionRoute(ref, chapter);
-              },
-            ),
-          ][index],
-        ),
-      ],
+    final chaptersHasQuestion = ref.watch(chaptersHasQuestionProvider);
+
+    return AsyncValueWidget(
+      value: chaptersHasQuestion,
+      builder: (chaptersHasQuestionValue) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Ôn tập câu hỏi', style: context.textTheme.titleLarge),
+          kGap_16,
+          ListView.separated(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            separatorBuilder: (BuildContext context, int index) => kGap_12,
+            itemCount: chaptersHasQuestionValue.length,
+            itemBuilder: (BuildContext _, int index) {
+              final chapter = chaptersHasQuestionValue[index];
+              return ChapterCard(
+                chapter: chapter,
+                onTap: (chapter) async {
+                  await setupAndNavigateToQuestionRoute(ref, chapter);
+                },
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }

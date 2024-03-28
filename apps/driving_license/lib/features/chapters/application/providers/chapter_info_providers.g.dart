@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'chapter_progress_providers.dart';
+part of 'chapter_info_providers.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$chapterCompletionStatusHash() =>
-    r'6556d51f8d895395b4021e2fa18b76b21b211733';
+String _$chapterQuestionsCountHash() =>
+    r'5f674de8dc7d872f2110aecd9f580abffcd01058';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,6 +29,153 @@ class _SystemHash {
     return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 }
+
+/// See also [chapterQuestionsCount].
+@ProviderFor(chapterQuestionsCount)
+const chapterQuestionsCountProvider = ChapterQuestionsCountFamily();
+
+/// See also [chapterQuestionsCount].
+class ChapterQuestionsCountFamily extends Family<AsyncValue<int>> {
+  /// See also [chapterQuestionsCount].
+  const ChapterQuestionsCountFamily();
+
+  /// See also [chapterQuestionsCount].
+  ChapterQuestionsCountProvider call(
+    Chapter chapter,
+  ) {
+    return ChapterQuestionsCountProvider(
+      chapter,
+    );
+  }
+
+  @override
+  ChapterQuestionsCountProvider getProviderOverride(
+    covariant ChapterQuestionsCountProvider provider,
+  ) {
+    return call(
+      provider.chapter,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'chapterQuestionsCountProvider';
+}
+
+/// See also [chapterQuestionsCount].
+class ChapterQuestionsCountProvider extends AutoDisposeFutureProvider<int> {
+  /// See also [chapterQuestionsCount].
+  ChapterQuestionsCountProvider(
+    Chapter chapter,
+  ) : this._internal(
+          (ref) => chapterQuestionsCount(
+            ref as ChapterQuestionsCountRef,
+            chapter,
+          ),
+          from: chapterQuestionsCountProvider,
+          name: r'chapterQuestionsCountProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$chapterQuestionsCountHash,
+          dependencies: ChapterQuestionsCountFamily._dependencies,
+          allTransitiveDependencies:
+              ChapterQuestionsCountFamily._allTransitiveDependencies,
+          chapter: chapter,
+        );
+
+  ChapterQuestionsCountProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.chapter,
+  }) : super.internal();
+
+  final Chapter chapter;
+
+  @override
+  Override overrideWith(
+    FutureOr<int> Function(ChapterQuestionsCountRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: ChapterQuestionsCountProvider._internal(
+        (ref) => create(ref as ChapterQuestionsCountRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        chapter: chapter,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<int> createElement() {
+    return _ChapterQuestionsCountProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ChapterQuestionsCountProvider && other.chapter == chapter;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, chapter.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin ChapterQuestionsCountRef on AutoDisposeFutureProviderRef<int> {
+  /// The parameter `chapter` of this provider.
+  Chapter get chapter;
+}
+
+class _ChapterQuestionsCountProviderElement
+    extends AutoDisposeFutureProviderElement<int>
+    with ChapterQuestionsCountRef {
+  _ChapterQuestionsCountProviderElement(super.provider);
+
+  @override
+  Chapter get chapter => (origin as ChapterQuestionsCountProvider).chapter;
+}
+
+String _$chaptersHasQuestionHash() =>
+    r'2dab251afa173ee66d759e6b376dba4cbb31bc7e';
+
+/// See also [chaptersHasQuestion].
+@ProviderFor(chaptersHasQuestion)
+final chaptersHasQuestionProvider =
+    AutoDisposeFutureProvider<List<Chapter>>.internal(
+  chaptersHasQuestion,
+  name: r'chaptersHasQuestionProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$chaptersHasQuestionHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef ChaptersHasQuestionRef = AutoDisposeFutureProviderRef<List<Chapter>>;
+String _$chapterCompletionStatusHash() =>
+    r'5a14d08a014c041a1b6351c3db7009440e37ae76';
 
 /// See also [chapterCompletionStatus].
 @ProviderFor(chapterCompletionStatus)
