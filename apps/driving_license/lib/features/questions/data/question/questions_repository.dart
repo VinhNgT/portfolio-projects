@@ -8,49 +8,49 @@ part 'questions_repository.g.dart';
 abstract class QuestionsRepository {
   static int pageSize = 20;
 
-  FutureOr<Question> get(int index);
-  FutureOr<Question> getByDbIndex(int dbIndex);
-  FutureOr<int> getCount();
+  FutureOr<Question> getQuestion(int index);
+  FutureOr<Question> getQuestionByDbIndex(int dbIndex);
+  FutureOr<int> getQuestionsCount();
 
-  FutureOr<List<Question>> getPage(int pageNumber);
-  FutureOr<List<Question>> getPageByDbIndexes(
+  FutureOr<List<Question>> getQuestionsPage(int pageNumber);
+  FutureOr<List<Question>> getQuestionsPageByDbIndexes(
     Iterable<int> dbIndexes,
     int pageNumber,
   );
 
-  FutureOr<Question> getByLicenseAndChapter(
+  FutureOr<Question> getQuestionByLicenseAndChapter(
     License license,
     Chapter chapter,
     int index,
   );
-  FutureOr<List<Question>> getPageByLicenseAndChapter(
+  FutureOr<List<Question>> getQuestionsPageByLicenseAndChapter(
     License license,
     Chapter chapter,
     int pageNumber,
   );
-  FutureOr<int> getCountByLicenseAndChapter(
+  FutureOr<int> getQuestionsCountByLicenseAndChapter(
     License license,
     Chapter chapter,
   );
 
   // Get questions by its danger status
-  FutureOr<Question> getIsDangerByLicense(License license, int index);
-  FutureOr<List<Question>> getIsDangerPageByLicense(
+  FutureOr<Question> getIsDangerQuestionByLicense(License license, int index);
+  FutureOr<List<Question>> getIsDangerQuestionsPageByLicense(
     License license,
     int pageNumber,
   );
-  FutureOr<int> getIsDangerCountByLicense(License license);
+  FutureOr<int> getIsDangerQuestionsCountByLicense(License license);
 
   // Get questions by its difficulty status
-  FutureOr<Question> getIsDifficultByLicense(
+  FutureOr<Question> getIsDifficultQuestionByLicense(
     License license,
     int index,
   );
-  FutureOr<List<Question>> getIsDifficultPageByLicense(
+  FutureOr<List<Question>> getIsDifficultQuestionsPageByLicense(
     License license,
     int pageNumber,
   );
-  FutureOr<int> getIsDifficultCountByLicense(License license);
+  FutureOr<int> getIsDifficultQuestionsCountByLicense(License license);
 }
 
 @Riverpod(keepAlive: true)

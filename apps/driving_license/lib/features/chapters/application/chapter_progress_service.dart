@@ -26,8 +26,8 @@ class ChapterProgressService {
   });
 
   Stream<TestResult> watchChapterCompletionStatus() async* {
-    final chapterQuestionsCount =
-        await questionsRepository.getCountByLicenseAndChapter(license, chapter);
+    final chapterQuestionsCount = await questionsRepository
+        .getQuestionsCountByLicenseAndChapter(license, chapter);
     final userAnswersCountStream = userAnswersRepository
         .watchAnswersCountByLicenseAndChapter(license, chapter);
     final wrongUserAnswersCountStream = userAnswersRepository

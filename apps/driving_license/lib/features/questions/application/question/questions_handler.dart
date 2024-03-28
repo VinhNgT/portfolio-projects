@@ -18,17 +18,17 @@ class FullQuestionsHandler implements QuestionsHandler {
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
-    return questionsRepository.get(questionIndex);
+    return questionsRepository.getQuestion(questionIndex);
   }
 
   @override
   FutureOr<List<Question>> getQuestionsPage(int pageIndex) {
-    return questionsRepository.getPage(pageIndex);
+    return questionsRepository.getQuestionsPage(pageIndex);
   }
 
   @override
   FutureOr<int> getQuestionCount() {
-    return questionsRepository.getCount();
+    return questionsRepository.getQuestionsCount();
   }
 }
 
@@ -45,7 +45,7 @@ class ChapterQuestionsHandler implements QuestionsHandler {
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
-    return questionsRepository.getByLicenseAndChapter(
+    return questionsRepository.getQuestionByLicenseAndChapter(
       license,
       chapter,
       questionIndex,
@@ -54,7 +54,7 @@ class ChapterQuestionsHandler implements QuestionsHandler {
 
   @override
   FutureOr<List<Question>> getQuestionsPage(int pageIndex) {
-    return questionsRepository.getPageByLicenseAndChapter(
+    return questionsRepository.getQuestionsPageByLicenseAndChapter(
       license,
       chapter,
       pageIndex,
@@ -63,7 +63,10 @@ class ChapterQuestionsHandler implements QuestionsHandler {
 
   @override
   FutureOr<int> getQuestionCount() {
-    return questionsRepository.getCountByLicenseAndChapter(license, chapter);
+    return questionsRepository.getQuestionsCountByLicenseAndChapter(
+      license,
+      chapter,
+    );
   }
 }
 
@@ -78,17 +81,19 @@ class DangerQuestionsHandler implements QuestionsHandler {
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
-    return questionsRepository.getIsDangerByLicense(license, questionIndex);
+    return questionsRepository.getIsDangerQuestionByLicense(
+        license, questionIndex);
   }
 
   @override
   FutureOr<List<Question>> getQuestionsPage(int pageIndex) {
-    return questionsRepository.getIsDangerPageByLicense(license, pageIndex);
+    return questionsRepository.getIsDangerQuestionsPageByLicense(
+        license, pageIndex);
   }
 
   @override
   FutureOr<int> getQuestionCount() {
-    return questionsRepository.getIsDangerCountByLicense(license);
+    return questionsRepository.getIsDangerQuestionsCountByLicense(license);
   }
 }
 
@@ -103,17 +108,19 @@ class DifficultQuestionsHandler implements QuestionsHandler {
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
-    return questionsRepository.getIsDifficultByLicense(license, questionIndex);
+    return questionsRepository.getIsDifficultQuestionByLicense(
+        license, questionIndex);
   }
 
   @override
   FutureOr<List<Question>> getQuestionsPage(int pageIndex) {
-    return questionsRepository.getIsDifficultPageByLicense(license, pageIndex);
+    return questionsRepository.getIsDifficultQuestionsPageByLicense(
+        license, pageIndex);
   }
 
   @override
   FutureOr<int> getQuestionCount() {
-    return questionsRepository.getIsDifficultCountByLicense(license);
+    return questionsRepository.getIsDifficultQuestionsCountByLicense(license);
   }
 }
 
@@ -129,12 +136,12 @@ class CustomQuestionListQuestionHandler implements QuestionsHandler {
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
     return questionsRepository
-        .getByDbIndex(sortedQuestionDbIndexes[questionIndex]);
+        .getQuestionByDbIndex(sortedQuestionDbIndexes[questionIndex]);
   }
 
   @override
   FutureOr<List<Question>> getQuestionsPage(int pageIndex) {
-    return questionsRepository.getPageByDbIndexes(
+    return questionsRepository.getQuestionsPageByDbIndexes(
       sortedQuestionDbIndexes,
       pageIndex,
     );
