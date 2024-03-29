@@ -18,7 +18,6 @@ import 'package:driving_license/features/questions/application/question/provider
 import 'package:driving_license/features/questions/application/question/questions_service.dart';
 import 'package:driving_license/routing/app_router.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
-import 'package:driving_license/routing/router_reevaluate_notifier.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -42,11 +41,7 @@ class HomeScreen extends HookConsumerWidget {
           leading: IconButton(
             icon: const Icon(Symbols.menu),
             onPressed: () async {
-              await ref
-                  .read(userSelectedLicenseProvider.notifier)
-                  .selectLicense(License.all);
-
-              ref.read(routerReevaluateNotifierProvider).notifyRouter();
+              await context.navigateTo(LicenseSelectionRoute());
             },
           ),
           title: Text(_getLicenseName(licenseNameValue)),
