@@ -109,9 +109,11 @@ flutter:
   #   - images/a_dot_ham.jpeg
 
   # Command to compile vector graphics:
-  # vector_graphics_compiler --input-dir ./ --out-dir ./compiled/
+  # vector_graphics_compiler --input-dir ./ --out-dir ./compiled/ --no-optimize-masks --no-optimize-clips --no-optimize-overdraw --no-tessellate
   assets:
+    - assets/icons/home_screen/
     - assets/icons/home_screen/compiled/
+    - assets/icons/vehicles/
     - assets/icons/vehicles/compiled/
     - assets/images/question_images/
     - assets/questions.db
