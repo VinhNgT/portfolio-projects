@@ -107,8 +107,12 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+
+  # Command to complie vector graphics:
+  # vector_graphics_compiler --input-dir ./ --out-dir ./complied/
   assets:
     - assets/icons/home_screen/complied/
+    - assets/icons/vehicles/complied/
     - assets/images/question_images/
     - assets/questions.db
 
