@@ -82,8 +82,8 @@ class QuestionCard extends HookConsumerWidget {
                             AssetBytesLoader(
                               'assets/icons/home_screen/complied/danger_fire.svg.vec',
                             ),
-                            height: 14,
-                            width: 14,
+                            height: kSize_16,
+                            width: kSize_16,
                           ),
                           kGap_4,
                         ],
