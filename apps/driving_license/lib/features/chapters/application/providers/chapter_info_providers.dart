@@ -23,8 +23,8 @@ FutureOr<int> chapterQuestionsCount(
 }
 
 @riverpod
-FutureOr<List<Chapter>> chaptersHasQuestion(
-  ChaptersHasQuestionRef ref,
+FutureOr<List<Chapter>> notEmptyChapters(
+  NotEmptyChaptersRef ref,
 ) async {
   final chaptersQuestionsCount = await Future.wait(
     Chapter.values.map(

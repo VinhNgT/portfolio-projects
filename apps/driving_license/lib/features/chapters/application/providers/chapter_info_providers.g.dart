@@ -157,23 +157,22 @@ class _ChapterQuestionsCountProviderElement
   Chapter get chapter => (origin as ChapterQuestionsCountProvider).chapter;
 }
 
-String _$chaptersHasQuestionHash() =>
-    r'2dab251afa173ee66d759e6b376dba4cbb31bc7e';
+String _$notEmptyChaptersHash() => r'407b3a91719269dcbf08f5d90ea59c247e67b8ed';
 
-/// See also [chaptersHasQuestion].
-@ProviderFor(chaptersHasQuestion)
-final chaptersHasQuestionProvider =
+/// See also [notEmptyChapters].
+@ProviderFor(notEmptyChapters)
+final notEmptyChaptersProvider =
     AutoDisposeFutureProvider<List<Chapter>>.internal(
-  chaptersHasQuestion,
-  name: r'chaptersHasQuestionProvider',
+  notEmptyChapters,
+  name: r'notEmptyChaptersProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$chaptersHasQuestionHash,
+      : _$notEmptyChaptersHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef ChaptersHasQuestionRef = AutoDisposeFutureProviderRef<List<Chapter>>;
+typedef NotEmptyChaptersRef = AutoDisposeFutureProviderRef<List<Chapter>>;
 String _$chapterCompletionStatusHash() =>
     r'5a14d08a014c041a1b6351c3db7009440e37ae76';
 

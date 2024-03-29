@@ -181,10 +181,10 @@ class ChapterSelection extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final chaptersHasQuestion = ref.watch(chaptersHasQuestionProvider);
+    final notEmptyChapters = ref.watch(notEmptyChaptersProvider);
 
     return AsyncValueWidget(
-      value: chaptersHasQuestion,
+      value: notEmptyChapters,
       builder: (chaptersHasQuestionValue) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
