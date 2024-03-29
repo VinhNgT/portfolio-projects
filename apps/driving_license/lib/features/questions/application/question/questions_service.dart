@@ -101,7 +101,6 @@ class QuestionsService {
       ),
       userAnswersHandler: DirectUserAnswersHandler(
         userAnswersRepository: userAnswersRepository,
-        license: license,
       ),
     );
   }
@@ -121,7 +120,6 @@ class QuestionsService {
       ),
       userAnswersHandler: DirectUserAnswersHandler(
         userAnswersRepository: userAnswersRepository,
-        license: license,
       ),
     );
   }
@@ -139,7 +137,6 @@ class QuestionsService {
       ),
       userAnswersHandler: DirectUserAnswersHandler(
         userAnswersRepository: userAnswersRepository,
-        license: license,
       ),
     );
   }
@@ -161,10 +158,8 @@ class QuestionsService {
         userAnswersRepository: userAnswersRepository,
         inMemoryUserAnswersHandler: InMemoryUserAnswersHandler(
           inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
-          license: license,
         ),
         userAnswersBeforeStart: userAnswersBeforeStart,
-        license: license,
       ),
     );
   }
@@ -186,10 +181,8 @@ class QuestionsService {
         userAnswersRepository: userAnswersRepository,
         inMemoryUserAnswersHandler: InMemoryUserAnswersHandler(
           inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
-          license: license,
         ),
         userAnswersBeforeStart: userAnswersBeforeStart,
-        license: license,
       ),
     );
   }
@@ -208,7 +201,6 @@ class QuestionsService {
       ),
       userAnswersHandler: DirectUserAnswersHandler(
         userAnswersRepository: userAnswersRepository,
-        license: license,
       ),
     );
   }
