@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/routing/app_router.dart';
-import 'package:driving_license/routing/app_router.gr.dart';
 import 'package:driving_license/routing/router_reevaluate_notifier.dart';
 import 'package:driving_license/theme/theme.dart';
 import 'package:driving_license/utils/app_ui_overlay.dart';
@@ -26,8 +25,8 @@ class MyApp extends ConsumerWidget {
       theme: const MaterialTheme().light(),
       darkTheme: const MaterialTheme().dark(),
       routerConfig: appRouter.config(
-        // Initial route
-        deepLinkBuilder: (_) => const DeepLink([HomeRoute()]),
+        // Initial route with parameter
+        // deepLinkBuilder: (_) => const DeepLink([HomeRoute()]),
         reevaluateListenable: routerGuardReevaluate,
         // AwareRouteState widget needs this to function
         navigatorObservers: () => [AutoRouteObserver()],

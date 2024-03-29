@@ -14,7 +14,11 @@ class AppRouter extends $AppRouter {
 
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: HomeRoute.page, guards: [HomeRouteGuard(ref)]),
+        AutoRoute(
+          page: HomeRoute.page,
+          guards: [HomeRouteGuard(ref)],
+          initial: true,
+        ),
         AutoRoute(page: QuestionRoute.page),
         AutoRoute(page: LicenseSelectionRoute.page),
       ];
