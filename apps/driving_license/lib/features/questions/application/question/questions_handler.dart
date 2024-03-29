@@ -82,13 +82,17 @@ class DangerQuestionsHandler implements QuestionsHandler {
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
     return questionsRepository.getIsDangerQuestionByLicense(
-        license, questionIndex);
+      license,
+      questionIndex,
+    );
   }
 
   @override
   FutureOr<List<Question>> getQuestionsPage(int pageIndex) {
     return questionsRepository.getIsDangerQuestionsPageByLicense(
-        license, pageIndex);
+      license,
+      pageIndex,
+    );
   }
 
   @override
@@ -109,13 +113,17 @@ class DifficultQuestionsHandler implements QuestionsHandler {
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
     return questionsRepository.getIsDifficultQuestionByLicense(
-        license, questionIndex);
+      license,
+      questionIndex,
+    );
   }
 
   @override
   FutureOr<List<Question>> getQuestionsPage(int pageIndex) {
     return questionsRepository.getIsDifficultQuestionsPageByLicense(
-        license, pageIndex);
+      license,
+      pageIndex,
+    );
   }
 
   @override

@@ -33,46 +33,44 @@ class QuestionsService {
         return QuestionsService._full(
           questionsRepository: config.questionsRepository,
           userAnswersRepository: config.userAnswersRepository,
-          license: config.license,
         );
 
       case final ChapterOperatingMode chapterMode:
         return QuestionsService._chapter(
-          license: config.license,
-          chapter: chapterMode.chapter,
           questionsRepository: config.questionsRepository,
           userAnswersRepository: config.userAnswersRepository,
+          license: config.license,
+          chapter: chapterMode.chapter,
         );
 
       case final DangerOperatingMode _:
         return QuestionsService._danger(
-          license: config.license,
           questionsRepository: config.questionsRepository,
           userAnswersRepository: config.userAnswersRepository,
+          license: config.license,
         );
 
       case final DifficultOperatingMode _:
-        final userAnswersBeforeStart = await config.userAnswersRepository
+        final difficultQuestionUserAnswers = await config.userAnswersRepository
             .getAllDifficultQuestionAnswersByLicense(config.license);
 
         return QuestionsService._difficult(
-          license: config.license,
           questionsRepository: config.questionsRepository,
           userAnswersRepository: config.userAnswersRepository,
           inMemoryUserAnswersRepository: config.inMemoryUserAnswersRepository,
-          userAnswersBeforeStart: userAnswersBeforeStart,
+          difficultQuestionUserAnswers: difficultQuestionUserAnswers,
+          license: config.license,
         );
 
       case final WrongAnswersOperatingMode _:
-        final userAnswersBeforeStart = await config.userAnswersRepository
+        final wrongUserAnswers = await config.userAnswersRepository
             .getAllWrongAnswersByLicense(config.license);
 
         return QuestionsService._wrongAnswers(
           questionsRepository: config.questionsRepository,
           userAnswersRepository: config.userAnswersRepository,
           inMemoryUserAnswersRepository: config.inMemoryUserAnswersRepository,
-          userAnswersBeforeStart: userAnswersBeforeStart,
-          license: config.license,
+          wrongUserAnswers: wrongUserAnswers,
         );
 
       case final BookmarkOperatingMode _:
@@ -84,7 +82,6 @@ class QuestionsService {
           questionsRepository: config.questionsRepository,
           userAnswersRepository: config.userAnswersRepository,
           bookmarkedQuestionDbIndexes: bookmarkQuestionDbIndexes,
-          license: config.license,
         );
     }
   }
@@ -92,7 +89,6 @@ class QuestionsService {
   factory QuestionsService._full({
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
-    required License license,
   }) {
     return QuestionsService(
       operatingMode: FullOperatingMode(),
@@ -106,10 +102,10 @@ class QuestionsService {
   }
 
   factory QuestionsService._chapter({
-    required License license,
-    required Chapter chapter,
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
+    required License license,
+    required Chapter chapter,
   }) {
     return QuestionsService(
       operatingMode: ChapterOperatingMode(chapter),
@@ -125,9 +121,9 @@ class QuestionsService {
   }
 
   factory QuestionsService._danger({
-    required License license,
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
+    required License license,
   }) {
     return QuestionsService(
       operatingMode: DangerOperatingMode(),
@@ -142,11 +138,11 @@ class QuestionsService {
   }
 
   factory QuestionsService._difficult({
-    required License license,
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
     required InMemoryUserAnswersRepository inMemoryUserAnswersRepository,
-    required UserAnswersMap userAnswersBeforeStart,
+    required UserAnswersMap difficultQuestionUserAnswers,
+    required License license,
   }) {
     return QuestionsService(
       operatingMode: DifficultOperatingMode(),
@@ -159,7 +155,7 @@ class QuestionsService {
         inMemoryUserAnswersHandler: InMemoryUserAnswersHandler(
           inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
         ),
-        userAnswersBeforeStart: userAnswersBeforeStart,
+        userAnswersBeforeStart: difficultQuestionUserAnswers,
       ),
     );
   }
@@ -168,21 +164,20 @@ class QuestionsService {
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
     required InMemoryUserAnswersRepository inMemoryUserAnswersRepository,
-    required UserAnswersMap userAnswersBeforeStart,
-    required License license,
+    required UserAnswersMap wrongUserAnswers,
   }) {
     return QuestionsService(
       operatingMode: WrongAnswersOperatingMode(),
       questionsHandler: CustomQuestionListQuestionHandler(
         questionsRepository: questionsRepository,
-        sortedQuestionDbIndexes: userAnswersBeforeStart.keys.toList()..sort(),
+        sortedQuestionDbIndexes: wrongUserAnswers.keys.toList()..sort(),
       ),
       userAnswersHandler: HideUserAnswersHandler(
         userAnswersRepository: userAnswersRepository,
         inMemoryUserAnswersHandler: InMemoryUserAnswersHandler(
           inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
         ),
-        userAnswersBeforeStart: userAnswersBeforeStart,
+        userAnswersBeforeStart: wrongUserAnswers,
       ),
     );
   }
@@ -191,7 +186,6 @@ class QuestionsService {
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
     required List<int> bookmarkedQuestionDbIndexes,
-    required License license,
   }) {
     return QuestionsService(
       operatingMode: BookmarkOperatingMode(),
