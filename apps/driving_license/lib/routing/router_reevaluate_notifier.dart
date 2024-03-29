@@ -5,7 +5,7 @@ part 'router_reevaluate_notifier.g.dart';
 
 class RouterReevaluateNotifier extends ChangeNotifier {
   void notifyRouter() {
-    super.notifyListeners();
+    notifyListeners();
   }
 }
 
