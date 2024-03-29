@@ -16,7 +16,9 @@ import 'package:driving_license/features/licenses/data/providers/user_selected_l
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
 import 'package:driving_license/features/questions/application/question/questions_service.dart';
+import 'package:driving_license/routing/app_router.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
+import 'package:driving_license/routing/router_reevaluate_notifier.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -39,7 +41,13 @@ class HomeScreen extends HookConsumerWidget {
         appBar: CommonAppBar(
           leading: IconButton(
             icon: const Icon(Symbols.menu),
-            onPressed: () {},
+            onPressed: () async {
+              await ref
+                  .read(userSelectedLicenseProvider.notifier)
+                  .selectLicense(License.all);
+
+              ref.read(routerReevaluateNotifierProvider).notifyRouter();
+            },
           ),
           title: Text(_getLicenseName(licenseNameValue)),
           actions: [
@@ -232,5 +240,29 @@ extension ChapterSelectionX on ChapterSelection {
         ),
       );
     }
+  }
+}
+
+class HomeRouteGuard extends AutoRouteGuard {
+  AppRouterRef ref;
+
+  /// Only allow user to access HomeRoute if they have selected a license
+  HomeRouteGuard(this.ref);
+
+  @override
+  void onNavigation(NavigationResolver resolver, StackRouter router) async {
+    final userSelectedLicense =
+        await ref.read(userSelectedLicenseProvider.future);
+
+    if (userSelectedLicense != License.all) {
+      resolver.next(true);
+      return;
+    }
+
+    await resolver.redirect(
+      LicenseSelectionRoute(
+        afterLicenseSelected: () => resolver.next(true),
+      ),
+    );
   }
 }
