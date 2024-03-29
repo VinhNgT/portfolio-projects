@@ -4,6 +4,7 @@ import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/licenses/data/providers/user_selected_license_provider.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
+import 'package:driving_license/routing/app_router.gr.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,7 +16,13 @@ import 'package:vector_graphics/vector_graphics.dart';
 @RoutePage()
 class LicenseSelectionScreen extends HookConsumerWidget {
   final VoidCallback? afterLicenseSelected;
-  const LicenseSelectionScreen({super.key, this.afterLicenseSelected});
+  final bool navigateToHomeAfterLicenseSelected;
+
+  const LicenseSelectionScreen({
+    super.key,
+    this.afterLicenseSelected,
+    this.navigateToHomeAfterLicenseSelected = true,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -48,6 +55,9 @@ class LicenseSelectionScreen extends HookConsumerWidget {
                       .selectLicense(license);
 
                   afterLicenseSelected?.call();
+                  if (navigateToHomeAfterLicenseSelected && context.mounted) {
+                    await context.navigateTo(const HomeRoute());
+                  }
                 },
               ),
             ],

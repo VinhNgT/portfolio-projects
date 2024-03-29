@@ -262,6 +262,7 @@ class HomeRouteGuard extends AutoRouteGuard {
     await resolver.redirect(
       LicenseSelectionRoute(
         afterLicenseSelected: () => resolver.next(true),
+        navigateToHomeAfterLicenseSelected: false,
       ),
     );
   }

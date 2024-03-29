@@ -36,6 +36,8 @@ abstract class $AppRouter extends _i4.RootStackRouter {
         child: _i2.LicenseSelectionScreen(
           key: args.key,
           afterLicenseSelected: args.afterLicenseSelected,
+          navigateToHomeAfterLicenseSelected:
+              args.navigateToHomeAfterLicenseSelected,
         ),
       );
     },
@@ -75,12 +77,15 @@ class LicenseSelectionRoute
   LicenseSelectionRoute({
     _i5.Key? key,
     void Function()? afterLicenseSelected,
+    bool navigateToHomeAfterLicenseSelected = true,
     List<_i4.PageRouteInfo>? children,
   }) : super(
           LicenseSelectionRoute.name,
           args: LicenseSelectionRouteArgs(
             key: key,
             afterLicenseSelected: afterLicenseSelected,
+            navigateToHomeAfterLicenseSelected:
+                navigateToHomeAfterLicenseSelected,
           ),
           initialChildren: children,
         );
@@ -95,15 +100,18 @@ class LicenseSelectionRouteArgs {
   const LicenseSelectionRouteArgs({
     this.key,
     this.afterLicenseSelected,
+    this.navigateToHomeAfterLicenseSelected = true,
   });
 
   final _i5.Key? key;
 
   final void Function()? afterLicenseSelected;
 
+  final bool navigateToHomeAfterLicenseSelected;
+
   @override
   String toString() {
-    return 'LicenseSelectionRouteArgs{key: $key, afterLicenseSelected: $afterLicenseSelected}';
+    return 'LicenseSelectionRouteArgs{key: $key, afterLicenseSelected: $afterLicenseSelected, navigateToHomeAfterLicenseSelected: $navigateToHomeAfterLicenseSelected}';
   }
 }
 
