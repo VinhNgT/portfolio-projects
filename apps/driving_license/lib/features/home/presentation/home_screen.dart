@@ -119,7 +119,7 @@ class FeatureSelection extends HookConsumerWidget {
         SizedBox.expand(
           child: FeatureCard(
             title: 'Các câu khó',
-            subhead: '50 câu hỏi dễ bị nhầm lẫn',
+            subhead: 'Các câu hỏi dễ bị nhầm lẫn',
             onPressed: () async {
               ref
                   .read(questionsServiceControllerProvider.notifier)
