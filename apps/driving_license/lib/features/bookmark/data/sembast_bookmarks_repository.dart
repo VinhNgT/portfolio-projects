@@ -1,5 +1,6 @@
 import 'package:driving_license/features/bookmark/data/bookmarks_repository.dart';
 import 'package:driving_license/features/bookmark/domain/bookmark.dart';
+import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -25,7 +26,10 @@ class SembastBookmarksRepository implements BookmarksRepository {
 
   @override
   Future<void> saveBookmark(Question question) async {
-    final bookmark = Bookmark(questionDbIndex: question.questionDbIndex);
+    final bookmark = Bookmark(
+      questionDbIndex: question.questionDbIndex,
+      questionMetadata: question.metadata,
+    );
     await allBookmarksStore
         .record(question.questionDbIndex)
         .put(db, bookmark.toJson());
@@ -37,10 +41,15 @@ class SembastBookmarksRepository implements BookmarksRepository {
   }
 
   @override
-  Future<List<Bookmark>> getAllBookmarks() async {
+  Future<List<Bookmark>> getAllBookmarksByLicense(License license) async {
     final snapshots = await allBookmarksStore.find(
       db,
-      finder: Finder(sortOrders: [SortOrder(Field.key)]),
+      finder: Finder(
+        filter: _licenseFilter(license),
+        sortOrders: [
+          SortOrder(Field.key),
+        ],
+      ),
     );
 
     return snapshots.map((snapshot) {
@@ -61,5 +70,19 @@ class SembastBookmarksRepository implements BookmarksRepository {
         )
         .onSnapshots(db)
         .map((snapshots) => snapshots.isNotEmpty);
+  }
+}
+
+extension _FilterExtenstion on SembastBookmarksRepository {
+  Filter _licenseFilter(License license) {
+    if (license == License.all) {
+      return Filter.custom((_) => true);
+    }
+
+    return Filter.matches(
+      'questionMetadata.includedLicenses',
+      license.name,
+      anyInList: true,
+    );
   }
 }

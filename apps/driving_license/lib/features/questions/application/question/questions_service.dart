@@ -74,7 +74,8 @@ class QuestionsService {
         );
 
       case final BookmarkOperatingMode _:
-        final bookmarks = await config.bookmarksRepository.getAllBookmarks();
+        final bookmarks = await config.bookmarksRepository
+            .getAllBookmarksByLicense(config.license);
         final bookmarkQuestionDbIndexes =
             bookmarks.map((e) => e.questionDbIndex).toList();
 

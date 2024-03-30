@@ -21,6 +21,7 @@ Bookmark _$BookmarkFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Bookmark {
   int get questionDbIndex => throw _privateConstructorUsedError;
+  QuestionMetadata get questionMetadata => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -33,7 +34,9 @@ abstract class $BookmarkCopyWith<$Res> {
   factory $BookmarkCopyWith(Bookmark value, $Res Function(Bookmark) then) =
       _$BookmarkCopyWithImpl<$Res, Bookmark>;
   @useResult
-  $Res call({int questionDbIndex});
+  $Res call({int questionDbIndex, QuestionMetadata questionMetadata});
+
+  $QuestionMetadataCopyWith<$Res> get questionMetadata;
 }
 
 /// @nodoc
@@ -50,13 +53,26 @@ class _$BookmarkCopyWithImpl<$Res, $Val extends Bookmark>
   @override
   $Res call({
     Object? questionDbIndex = null,
+    Object? questionMetadata = null,
   }) {
     return _then(_value.copyWith(
       questionDbIndex: null == questionDbIndex
           ? _value.questionDbIndex
           : questionDbIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      questionMetadata: null == questionMetadata
+          ? _value.questionMetadata
+          : questionMetadata // ignore: cast_nullable_to_non_nullable
+              as QuestionMetadata,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $QuestionMetadataCopyWith<$Res> get questionMetadata {
+    return $QuestionMetadataCopyWith<$Res>(_value.questionMetadata, (value) {
+      return _then(_value.copyWith(questionMetadata: value) as $Val);
+    });
   }
 }
 
@@ -68,7 +84,10 @@ abstract class _$$BookmarkImplCopyWith<$Res>
       __$$BookmarkImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int questionDbIndex});
+  $Res call({int questionDbIndex, QuestionMetadata questionMetadata});
+
+  @override
+  $QuestionMetadataCopyWith<$Res> get questionMetadata;
 }
 
 /// @nodoc
@@ -83,12 +102,17 @@ class __$$BookmarkImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? questionDbIndex = null,
+    Object? questionMetadata = null,
   }) {
     return _then(_$BookmarkImpl(
       questionDbIndex: null == questionDbIndex
           ? _value.questionDbIndex
           : questionDbIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      questionMetadata: null == questionMetadata
+          ? _value.questionMetadata
+          : questionMetadata // ignore: cast_nullable_to_non_nullable
+              as QuestionMetadata,
     ));
   }
 }
@@ -96,17 +120,20 @@ class __$$BookmarkImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$BookmarkImpl implements _Bookmark {
-  const _$BookmarkImpl({required this.questionDbIndex});
+  const _$BookmarkImpl(
+      {required this.questionDbIndex, required this.questionMetadata});
 
   factory _$BookmarkImpl.fromJson(Map<String, dynamic> json) =>
       _$$BookmarkImplFromJson(json);
 
   @override
   final int questionDbIndex;
+  @override
+  final QuestionMetadata questionMetadata;
 
   @override
   String toString() {
-    return 'Bookmark(questionDbIndex: $questionDbIndex)';
+    return 'Bookmark(questionDbIndex: $questionDbIndex, questionMetadata: $questionMetadata)';
   }
 
   @override
@@ -115,12 +142,15 @@ class _$BookmarkImpl implements _Bookmark {
         (other.runtimeType == runtimeType &&
             other is _$BookmarkImpl &&
             (identical(other.questionDbIndex, questionDbIndex) ||
-                other.questionDbIndex == questionDbIndex));
+                other.questionDbIndex == questionDbIndex) &&
+            (identical(other.questionMetadata, questionMetadata) ||
+                other.questionMetadata == questionMetadata));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, questionDbIndex);
+  int get hashCode =>
+      Object.hash(runtimeType, questionDbIndex, questionMetadata);
 
   @JsonKey(ignore: true)
   @override
@@ -137,14 +167,17 @@ class _$BookmarkImpl implements _Bookmark {
 }
 
 abstract class _Bookmark implements Bookmark {
-  const factory _Bookmark({required final int questionDbIndex}) =
-      _$BookmarkImpl;
+  const factory _Bookmark(
+      {required final int questionDbIndex,
+      required final QuestionMetadata questionMetadata}) = _$BookmarkImpl;
 
   factory _Bookmark.fromJson(Map<String, dynamic> json) =
       _$BookmarkImpl.fromJson;
 
   @override
   int get questionDbIndex;
+  @override
+  QuestionMetadata get questionMetadata;
   @override
   @JsonKey(ignore: true)
   _$$BookmarkImplCopyWith<_$BookmarkImpl> get copyWith =>
