@@ -113,7 +113,9 @@ class FeatureSelection extends HookConsumerWidget {
           child: FeatureCard(
             title: 'Thi thử',
             subhead: 'Bộ đề được tạo ra ngẫu nhiên',
-            onPressed: () {},
+            onPressed: () async {
+              await context.navigateTo(const ExamsListRoute());
+            },
           ),
         ),
         SizedBox.expand(

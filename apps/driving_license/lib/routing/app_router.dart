@@ -16,16 +16,17 @@ class AppRouter extends $AppRouter {
   @override
   List<AutoRoute> get routes => [
         CustomRoute(
+          page: LicenseSelectionRoute.page,
+          transitionsBuilder: _licenseSelectionFromToTransition,
+        ),
+        CustomRoute(
           page: HomeRoute.page,
           guards: [HomeRouteGuard(ref)],
           transitionsBuilder: _licenseSelectionFromToTransition,
           initial: true,
         ),
         AutoRoute(page: QuestionRoute.page),
-        CustomRoute(
-          page: LicenseSelectionRoute.page,
-          transitionsBuilder: _licenseSelectionFromToTransition,
-        ),
+        AutoRoute(page: ExamsListRoute.page),
       ];
 
   @override
