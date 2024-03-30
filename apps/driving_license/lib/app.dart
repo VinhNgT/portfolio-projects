@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/routing/app_router.dart';
+import 'package:driving_license/routing/previous_route_observer.dart';
 import 'package:driving_license/routing/router_reevaluate_notifier.dart';
 import 'package:driving_license/theme/theme.dart';
 import 'package:driving_license/utils/app_ui_overlay.dart';
@@ -18,6 +19,7 @@ class MyApp extends ConsumerWidget {
     unawaited(setSystemChrome(context));
     final appRouter = ref.watch(appRouterProvider);
     final routerGuardReevaluate = ref.watch(routerReevaluateNotifierProvider);
+    final previousRouteObserver = ref.watch(previousRouteObserverProvider);
 
     return MaterialApp.router(
       title: 'Driving License App',
@@ -28,8 +30,8 @@ class MyApp extends ConsumerWidget {
         // Initial route with parameter
         // deepLinkBuilder: (_) => const DeepLink([HomeRoute()]),
         reevaluateListenable: routerGuardReevaluate,
-        // AwareRouteState widget needs this to function
-        navigatorObservers: () => [AutoRouteObserver()],
+        // AwareRouteState widget needs AutoRouteObserver() to function
+        navigatorObservers: () => [AutoRouteObserver(), previousRouteObserver],
       ),
     );
   }
