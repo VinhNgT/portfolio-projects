@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
+import 'package:driving_license/common_widgets/notify_scroll_size_changes.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/constants/opacity.dart';
@@ -59,42 +60,47 @@ class QuestionPage extends HookConsumerWidget {
                   right: kSize_16,
                   bottom: kSize_48,
                 ),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: double.infinity,
-                      child: Text(
-                        questionValue.title,
-                        style: context.textTheme.titleMedium,
+                child: NotifyScrollSizeChanges(
+                  scrollController: scrollController,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          questionValue.title,
+                          style: context.textTheme.titleMedium,
+                        ),
                       ),
-                    ),
-                    if (questionValue.questionImagePath != null) ...[
-                      kGap_12,
-                      Image.asset(questionValue.questionImagePath!),
-                      kGap_8,
-                    ],
-                    kGap_16,
-                    AnswerCardList(
-                      question: questionValue,
-                    ),
-                    AsyncValueWidget(
-                      value: selectedAnswerIndex,
-                      builder: (selectedAnswerIndexValue) {
-                        final answerSelected = selectedAnswerIndexValue != null;
+                      if (questionValue.questionImagePath != null) ...[
+                        kGap_12,
+                        Image.asset(questionValue.questionImagePath!),
+                        kGap_8,
+                      ],
+                      kGap_16,
+                      AnswerCardList(
+                        question: questionValue,
+                      ),
+                      AsyncValueWidget(
+                        value: selectedAnswerIndex,
+                        builder: (selectedAnswerIndexValue) {
+                          final answerSelected =
+                              selectedAnswerIndexValue != null;
 
-                        return Visibility(
-                          visible:
-                              scrollingAnimationPlaying ? true : answerSelected,
-                          child: Opacity(
-                            opacity:
-                                answerSelected ? kOpacityFull : kOpacityZero,
-                            child: QuestionNotes(question: questionValue),
-                          ),
-                        );
-                      },
-                    ),
-                    kGap_48,
-                  ],
+                          return Visibility(
+                            visible: scrollingAnimationPlaying
+                                ? true
+                                : answerSelected,
+                            child: Opacity(
+                              opacity:
+                                  answerSelected ? kOpacityFull : kOpacityZero,
+                              child: QuestionNotes(question: questionValue),
+                            ),
+                          );
+                        },
+                      ),
+                      kGap_48,
+                    ],
+                  ),
                 ),
               ),
             ),
