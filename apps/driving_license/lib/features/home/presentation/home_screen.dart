@@ -40,7 +40,7 @@ class HomeScreen extends HookConsumerWidget {
       builder: (licenseNameValue) => Scaffold(
         appBar: CommonAppBar(
           leading: IconButton(
-            icon: const Icon(Symbols.menu),
+            icon: const Icon(Symbols.rule_settings),
             onPressed: () async {
               await context.navigateTo(LicenseSelectionRoute());
             },
