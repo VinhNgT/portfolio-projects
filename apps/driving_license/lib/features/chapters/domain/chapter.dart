@@ -1,43 +1,56 @@
+import 'package:driving_license/features/chapters/domain/sub_chapter.dart';
+
 enum Chapter {
   khaiNiemVaQuyTac(
-    1,
-    'Khái niệm và quy tắc',
-    'assets/icons/home_screen/compiled/books.svg.vec',
+    chapterDbIndex: 1,
+    chapterName: 'Khái niệm và quy tắc',
+    iconAssetPath: 'assets/icons/home_screen/compiled/books.svg.vec',
+    subChapters: [
+      SubChapter.cacKhaiNiem,
+      SubChapter.quyTacGiaoThong,
+      SubChapter.tocDoKhoangCach,
+    ],
   ),
   nghiepVuVanTai(
-    2,
-    'Nghiệp vụ vận tải',
-    'assets/icons/home_screen/compiled/danger_fire.svg.vec',
+    chapterDbIndex: 2,
+    chapterName: 'Nghiệp vụ vận tải',
+    iconAssetPath: 'assets/icons/home_screen/compiled/danger_fire.svg.vec',
   ),
   vanHoaVaDaoDuc(
-    3,
-    'Văn hóa và đạo đức',
-    'assets/icons/home_screen/compiled/person.svg.vec',
+    chapterDbIndex: 3,
+    chapterName: 'Văn hóa và đạo đức',
+    iconAssetPath: 'assets/icons/home_screen/compiled/person.svg.vec',
   ),
   kyThuatLaiXe(
-    4,
-    'Kỹ thuật lái xe',
-    'assets/icons/home_screen/compiled/steering_wheel.svg.vec',
+    chapterDbIndex: 4,
+    chapterName: 'Kỹ thuật lái xe',
+    iconAssetPath: 'assets/icons/home_screen/compiled/steering_wheel.svg.vec',
   ),
   cauTaoVaSuaChua(
-    5,
-    'Cấu tạo và sửa chữa',
-    'assets/icons/home_screen/compiled/danger_fire.svg.vec',
+    chapterDbIndex: 5,
+    chapterName: 'Cấu tạo và sửa chữa',
+    iconAssetPath: 'assets/icons/home_screen/compiled/danger_fire.svg.vec',
   ),
   bienBaoDuongBo(
-    6,
-    'Biển báo đường bộ',
-    'assets/icons/home_screen/compiled/turn_right_sign.svg.vec',
+    chapterDbIndex: 6,
+    chapterName: 'Biển báo đường bộ',
+    iconAssetPath: 'assets/icons/home_screen/compiled/turn_right_sign.svg.vec',
   ),
   saHinhVaTinhHuong(
-    7,
-    'Sa hình và tình huống',
-    'assets/icons/home_screen/compiled/traffic_light.svg.vec',
+    chapterDbIndex: 7,
+    chapterName: 'Sa hình và tình huống',
+    iconAssetPath: 'assets/icons/home_screen/compiled/traffic_light.svg.vec',
   );
 
-  const Chapter(this.chapterDbIndex, this.chapterName, this.iconAssetPath);
+  const Chapter({
+    required this.chapterDbIndex,
+    required this.chapterName,
+    required this.iconAssetPath,
+    this.subChapters = const [],
+  });
 
   final int chapterDbIndex;
   final String chapterName;
   final String iconAssetPath;
+  final List<SubChapter> subChapters;
 }
