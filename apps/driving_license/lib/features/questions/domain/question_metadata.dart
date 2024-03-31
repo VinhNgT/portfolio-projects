@@ -9,6 +9,7 @@ abstract class QuestionMetadata with _$QuestionMetadata {
   const factory QuestionMetadata({
     required int questionDbIndex,
     required int chapterDbIndex,
+    int? subChapterDbIndex,
     required bool isDanger,
     required bool isDifficult,
     required int correctAnswerIndex,

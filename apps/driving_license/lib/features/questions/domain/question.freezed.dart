@@ -22,6 +22,7 @@ Question _$QuestionFromJson(Map<String, dynamic> json) {
 mixin _$Question {
   int get questionDbIndex => throw _privateConstructorUsedError;
   int get chapterDbIndex => throw _privateConstructorUsedError;
+  int? get subChapterDbIndex => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String? get questionImagePath => throw _privateConstructorUsedError;
   bool get isDanger => throw _privateConstructorUsedError;
@@ -46,6 +47,7 @@ abstract class $QuestionCopyWith<$Res> {
   $Res call(
       {int questionDbIndex,
       int chapterDbIndex,
+      int? subChapterDbIndex,
       String title,
       String? questionImagePath,
       bool isDanger,
@@ -72,6 +74,7 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
   $Res call({
     Object? questionDbIndex = null,
     Object? chapterDbIndex = null,
+    Object? subChapterDbIndex = freezed,
     Object? title = null,
     Object? questionImagePath = freezed,
     Object? isDanger = null,
@@ -91,6 +94,10 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.chapterDbIndex
           : chapterDbIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      subChapterDbIndex: freezed == subChapterDbIndex
+          ? _value.subChapterDbIndex
+          : subChapterDbIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -142,6 +149,7 @@ abstract class _$$QuestionImplCopyWith<$Res>
   $Res call(
       {int questionDbIndex,
       int chapterDbIndex,
+      int? subChapterDbIndex,
       String title,
       String? questionImagePath,
       bool isDanger,
@@ -166,6 +174,7 @@ class __$$QuestionImplCopyWithImpl<$Res>
   $Res call({
     Object? questionDbIndex = null,
     Object? chapterDbIndex = null,
+    Object? subChapterDbIndex = freezed,
     Object? title = null,
     Object? questionImagePath = freezed,
     Object? isDanger = null,
@@ -185,6 +194,10 @@ class __$$QuestionImplCopyWithImpl<$Res>
           ? _value.chapterDbIndex
           : chapterDbIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      subChapterDbIndex: freezed == subChapterDbIndex
+          ? _value.subChapterDbIndex
+          : subChapterDbIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -231,6 +244,7 @@ class _$QuestionImpl extends _Question {
   const _$QuestionImpl(
       {required this.questionDbIndex,
       required this.chapterDbIndex,
+      this.subChapterDbIndex,
       required this.title,
       this.questionImagePath,
       required this.isDanger,
@@ -251,6 +265,8 @@ class _$QuestionImpl extends _Question {
   final int questionDbIndex;
   @override
   final int chapterDbIndex;
+  @override
+  final int? subChapterDbIndex;
   @override
   final String title;
   @override
@@ -283,7 +299,7 @@ class _$QuestionImpl extends _Question {
 
   @override
   String toString() {
-    return 'Question(questionDbIndex: $questionDbIndex, chapterDbIndex: $chapterDbIndex, title: $title, questionImagePath: $questionImagePath, isDanger: $isDanger, isDifficult: $isDifficult, answers: $answers, correctAnswerIndex: $correctAnswerIndex, explanation: $explanation, rememberTip: $rememberTip, includedLicenses: $includedLicenses)';
+    return 'Question(questionDbIndex: $questionDbIndex, chapterDbIndex: $chapterDbIndex, subChapterDbIndex: $subChapterDbIndex, title: $title, questionImagePath: $questionImagePath, isDanger: $isDanger, isDifficult: $isDifficult, answers: $answers, correctAnswerIndex: $correctAnswerIndex, explanation: $explanation, rememberTip: $rememberTip, includedLicenses: $includedLicenses)';
   }
 
   @override
@@ -295,6 +311,8 @@ class _$QuestionImpl extends _Question {
                 other.questionDbIndex == questionDbIndex) &&
             (identical(other.chapterDbIndex, chapterDbIndex) ||
                 other.chapterDbIndex == chapterDbIndex) &&
+            (identical(other.subChapterDbIndex, subChapterDbIndex) ||
+                other.subChapterDbIndex == subChapterDbIndex) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.questionImagePath, questionImagePath) ||
                 other.questionImagePath == questionImagePath) &&
@@ -319,6 +337,7 @@ class _$QuestionImpl extends _Question {
       runtimeType,
       questionDbIndex,
       chapterDbIndex,
+      subChapterDbIndex,
       title,
       questionImagePath,
       isDanger,
@@ -347,6 +366,7 @@ abstract class _Question extends Question {
   const factory _Question(
       {required final int questionDbIndex,
       required final int chapterDbIndex,
+      final int? subChapterDbIndex,
       required final String title,
       final String? questionImagePath,
       required final bool isDanger,
@@ -365,6 +385,8 @@ abstract class _Question extends Question {
   int get questionDbIndex;
   @override
   int get chapterDbIndex;
+  @override
+  int? get subChapterDbIndex;
   @override
   String get title;
   @override

@@ -22,6 +22,7 @@ QuestionMetadata _$QuestionMetadataFromJson(Map<String, dynamic> json) {
 mixin _$QuestionMetadata {
   int get questionDbIndex => throw _privateConstructorUsedError;
   int get chapterDbIndex => throw _privateConstructorUsedError;
+  int? get subChapterDbIndex => throw _privateConstructorUsedError;
   bool get isDanger => throw _privateConstructorUsedError;
   bool get isDifficult => throw _privateConstructorUsedError;
   int get correctAnswerIndex => throw _privateConstructorUsedError;
@@ -42,6 +43,7 @@ abstract class $QuestionMetadataCopyWith<$Res> {
   $Res call(
       {int questionDbIndex,
       int chapterDbIndex,
+      int? subChapterDbIndex,
       bool isDanger,
       bool isDifficult,
       int correctAnswerIndex,
@@ -63,6 +65,7 @@ class _$QuestionMetadataCopyWithImpl<$Res, $Val extends QuestionMetadata>
   $Res call({
     Object? questionDbIndex = null,
     Object? chapterDbIndex = null,
+    Object? subChapterDbIndex = freezed,
     Object? isDanger = null,
     Object? isDifficult = null,
     Object? correctAnswerIndex = null,
@@ -77,6 +80,10 @@ class _$QuestionMetadataCopyWithImpl<$Res, $Val extends QuestionMetadata>
           ? _value.chapterDbIndex
           : chapterDbIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      subChapterDbIndex: freezed == subChapterDbIndex
+          ? _value.subChapterDbIndex
+          : subChapterDbIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
       isDanger: null == isDanger
           ? _value.isDanger
           : isDanger // ignore: cast_nullable_to_non_nullable
@@ -108,6 +115,7 @@ abstract class _$$QuestionMetadataImplCopyWith<$Res>
   $Res call(
       {int questionDbIndex,
       int chapterDbIndex,
+      int? subChapterDbIndex,
       bool isDanger,
       bool isDifficult,
       int correctAnswerIndex,
@@ -127,6 +135,7 @@ class __$$QuestionMetadataImplCopyWithImpl<$Res>
   $Res call({
     Object? questionDbIndex = null,
     Object? chapterDbIndex = null,
+    Object? subChapterDbIndex = freezed,
     Object? isDanger = null,
     Object? isDifficult = null,
     Object? correctAnswerIndex = null,
@@ -141,6 +150,10 @@ class __$$QuestionMetadataImplCopyWithImpl<$Res>
           ? _value.chapterDbIndex
           : chapterDbIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      subChapterDbIndex: freezed == subChapterDbIndex
+          ? _value.subChapterDbIndex
+          : subChapterDbIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
       isDanger: null == isDanger
           ? _value.isDanger
           : isDanger // ignore: cast_nullable_to_non_nullable
@@ -167,6 +180,7 @@ class _$QuestionMetadataImpl implements _QuestionMetadata {
   const _$QuestionMetadataImpl(
       {required this.questionDbIndex,
       required this.chapterDbIndex,
+      this.subChapterDbIndex,
       required this.isDanger,
       required this.isDifficult,
       required this.correctAnswerIndex,
@@ -180,6 +194,8 @@ class _$QuestionMetadataImpl implements _QuestionMetadata {
   final int questionDbIndex;
   @override
   final int chapterDbIndex;
+  @override
+  final int? subChapterDbIndex;
   @override
   final bool isDanger;
   @override
@@ -196,7 +212,7 @@ class _$QuestionMetadataImpl implements _QuestionMetadata {
 
   @override
   String toString() {
-    return 'QuestionMetadata(questionDbIndex: $questionDbIndex, chapterDbIndex: $chapterDbIndex, isDanger: $isDanger, isDifficult: $isDifficult, correctAnswerIndex: $correctAnswerIndex, includedLicenses: $includedLicenses)';
+    return 'QuestionMetadata(questionDbIndex: $questionDbIndex, chapterDbIndex: $chapterDbIndex, subChapterDbIndex: $subChapterDbIndex, isDanger: $isDanger, isDifficult: $isDifficult, correctAnswerIndex: $correctAnswerIndex, includedLicenses: $includedLicenses)';
   }
 
   @override
@@ -208,6 +224,8 @@ class _$QuestionMetadataImpl implements _QuestionMetadata {
                 other.questionDbIndex == questionDbIndex) &&
             (identical(other.chapterDbIndex, chapterDbIndex) ||
                 other.chapterDbIndex == chapterDbIndex) &&
+            (identical(other.subChapterDbIndex, subChapterDbIndex) ||
+                other.subChapterDbIndex == subChapterDbIndex) &&
             (identical(other.isDanger, isDanger) ||
                 other.isDanger == isDanger) &&
             (identical(other.isDifficult, isDifficult) ||
@@ -224,6 +242,7 @@ class _$QuestionMetadataImpl implements _QuestionMetadata {
       runtimeType,
       questionDbIndex,
       chapterDbIndex,
+      subChapterDbIndex,
       isDanger,
       isDifficult,
       correctAnswerIndex,
@@ -248,6 +267,7 @@ abstract class _QuestionMetadata implements QuestionMetadata {
   const factory _QuestionMetadata(
       {required final int questionDbIndex,
       required final int chapterDbIndex,
+      final int? subChapterDbIndex,
       required final bool isDanger,
       required final bool isDifficult,
       required final int correctAnswerIndex,
@@ -260,6 +280,8 @@ abstract class _QuestionMetadata implements QuestionMetadata {
   int get questionDbIndex;
   @override
   int get chapterDbIndex;
+  @override
+  int? get subChapterDbIndex;
   @override
   bool get isDanger;
   @override

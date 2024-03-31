@@ -337,6 +337,7 @@ extension QuestionsRepositoryX on QuestionsRepository {
     return {
       'questionDbIndex': databaseMap['question_index'],
       'chapterDbIndex': databaseMap['chapter_index'],
+      'subChapterDbIndex': databaseMap['sub_chapter_index'],
       'title': databaseMap['question_text'],
       'questionImagePath': databaseMap['question_image'] == null
           ? null

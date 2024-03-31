@@ -11,6 +11,7 @@ _$QuestionMetadataImpl _$$QuestionMetadataImplFromJson(
     _$QuestionMetadataImpl(
       questionDbIndex: json['questionDbIndex'] as int,
       chapterDbIndex: json['chapterDbIndex'] as int,
+      subChapterDbIndex: json['subChapterDbIndex'] as int?,
       isDanger: json['isDanger'] as bool,
       isDifficult: json['isDifficult'] as bool,
       correctAnswerIndex: json['correctAnswerIndex'] as int,
@@ -24,6 +25,7 @@ Map<String, dynamic> _$$QuestionMetadataImplToJson(
     <String, dynamic>{
       'questionDbIndex': instance.questionDbIndex,
       'chapterDbIndex': instance.chapterDbIndex,
+      'subChapterDbIndex': instance.subChapterDbIndex,
       'isDanger': instance.isDanger,
       'isDifficult': instance.isDifficult,
       'correctAnswerIndex': instance.correctAnswerIndex,

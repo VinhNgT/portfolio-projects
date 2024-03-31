@@ -10,6 +10,7 @@ _$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
     _$QuestionImpl(
       questionDbIndex: json['questionDbIndex'] as int,
       chapterDbIndex: json['chapterDbIndex'] as int,
+      subChapterDbIndex: json['subChapterDbIndex'] as int?,
       title: json['title'] as String,
       questionImagePath: json['questionImagePath'] as String?,
       isDanger: json['isDanger'] as bool,
@@ -28,6 +29,7 @@ Map<String, dynamic> _$$QuestionImplToJson(_$QuestionImpl instance) =>
     <String, dynamic>{
       'questionDbIndex': instance.questionDbIndex,
       'chapterDbIndex': instance.chapterDbIndex,
+      'subChapterDbIndex': instance.subChapterDbIndex,
       'title': instance.title,
       'questionImagePath': instance.questionImagePath,
       'isDanger': instance.isDanger,

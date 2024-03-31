@@ -10,6 +10,7 @@ abstract class Question with _$Question {
   const factory Question({
     required int questionDbIndex,
     required int chapterDbIndex,
+    int? subChapterDbIndex,
     required String title,
     String? questionImagePath,
     required bool isDanger,
@@ -28,6 +29,7 @@ abstract class Question with _$Question {
   factory Question.prototype() => const Question(
         questionDbIndex: -1,
         chapterDbIndex: -1,
+        subChapterDbIndex: -1,
         title: 'Prototype\nPrototype',
         isDanger: false,
         isDifficult: false,
@@ -43,6 +45,7 @@ abstract class Question with _$Question {
   QuestionMetadata get metadata => QuestionMetadata(
         questionDbIndex: questionDbIndex,
         chapterDbIndex: chapterDbIndex,
+        subChapterDbIndex: subChapterDbIndex,
         isDanger: isDanger,
         isDifficult: isDifficult,
         correctAnswerIndex: correctAnswerIndex,
