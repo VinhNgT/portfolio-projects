@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:driving_license/features/chapters/domain/chapter.dart';
+import 'package:driving_license/features/chapters/domain/sub_chapter.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/data/question/k_test_questions.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
@@ -197,13 +198,35 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   @override
   Future<Iterable<int>> getQuestionDbIndexesByLicenseAndChapter(
     License license,
-    Chapter chapter,
-  ) async {
+    Chapter chapter, {
+    bool skipIsDanger = false,
+  }) async {
     final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
       columns: ['question_index'],
-      where: 'chapter_index = ?'._addLicenseWhereClause(license),
+      where: 'chapter_index = ?'
+          ._addLicenseWhereClause(license)
+          ._addSkipIsDangerClause(skipIsDanger),
       whereArgs: [chapter.chapterDbIndex],
+      orderBy: 'question_index ASC',
+    );
+
+    return queryResult.map((e) => e['question_index'] as int);
+  }
+
+  @override
+  Future<Iterable<int>> getQuestionDbIndexesByLicenseAndSubChapter(
+    License license,
+    SubChapter chapter, {
+    bool skipIsDanger = false,
+  }) async {
+    final List<Map<String, dynamic>> queryResult = await database.query(
+      'question',
+      columns: ['question_index'],
+      where: 'sub_chapter_index = ?'
+          ._addLicenseWhereClause(license)
+          ._addSkipIsDangerClause(skipIsDanger),
+      whereArgs: [chapter.subChapterDbIndex],
       orderBy: 'question_index ASC',
     );
 
@@ -258,6 +281,20 @@ class SqliteQuestionsRepository implements QuestionsRepository {
       '${'is_danger = 1'._addLicenseWhereClause(license)}',
     );
     return queryResult.first['count'] as int;
+  }
+
+  @override
+  FutureOr<Iterable<int>> getIsDangerQuestionDbIndexesByLicense(
+    License license,
+  ) async {
+    final List<Map<String, dynamic>> queryResult = await database.query(
+      'question',
+      columns: ['question_index'],
+      where: 'is_danger = 1'._addLicenseWhereClause(license),
+      orderBy: 'question_index ASC',
+    );
+
+    return queryResult.map((e) => e['question_index'] as int);
   }
 
   @override
@@ -361,10 +398,13 @@ extension _WhereClauseExtenstion on String {
     if (license == License.all) {
       return this;
     }
+    return '($this) AND is_in_${license.name} = 1';
+  }
 
-    final buffer = StringBuffer('($this)');
-    buffer.write(' AND is_in_${license.name} = 1');
-
-    return buffer.toString();
+  String _addSkipIsDangerClause(bool skipIsDanger) {
+    if (!skipIsDanger) {
+      return this;
+    }
+    return '($this) AND is_danger IS NULL';
   }
 }

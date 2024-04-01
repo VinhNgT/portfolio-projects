@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:driving_license/features/chapters/domain/chapter.dart';
+import 'package:driving_license/features/chapters/domain/sub_chapter.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/data/question/k_test_questions.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
@@ -126,11 +127,31 @@ class TestQuestionsRepository implements QuestionsRepository {
   }
 
   @override
+  FutureOr<Iterable<int>> getIsDangerQuestionDbIndexesByLicense(
+    License license, {
+    bool skipIsDanger = false,
+  }) {
+    // TODO: implement getIsDangerQuestionDbIndexesByLicense
+    throw UnimplementedError();
+  }
+
+  @override
   FutureOr<Iterable<int>> getQuestionDbIndexesByLicenseAndChapter(
     License license,
-    Chapter chapter,
-  ) {
-    // TODO: implement getQuestionsDbIndexesByLicenseAndChapter
+    Chapter chapter, {
+    bool skipIsDanger = false,
+  }) {
+    // TODO: implement getQuestionDbIndexesByLicenseAndChapter
+    throw UnimplementedError();
+  }
+
+  @override
+  FutureOr<Iterable<int>> getQuestionDbIndexesByLicenseAndSubChapter(
+    License license,
+    SubChapter chapter, {
+    bool skipIsDanger = false,
+  }) {
+    // TODO: implement getQuestionDbIndexesByLicenseAndSubChapter
     throw UnimplementedError();
   }
 }

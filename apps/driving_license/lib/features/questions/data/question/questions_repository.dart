@@ -1,4 +1,5 @@
 import 'package:driving_license/features/chapters/domain/chapter.dart';
+import 'package:driving_license/features/chapters/domain/sub_chapter.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -34,8 +35,14 @@ abstract class QuestionsRepository {
   );
   FutureOr<Iterable<int>> getQuestionDbIndexesByLicenseAndChapter(
     License license,
-    Chapter chapter,
-  );
+    Chapter chapter, {
+    bool skipIsDanger = false,
+  });
+  FutureOr<Iterable<int>> getQuestionDbIndexesByLicenseAndSubChapter(
+    License license,
+    SubChapter chapter, {
+    bool skipIsDanger = false,
+  });
 
   // Get questions by its danger status
   FutureOr<Question> getIsDangerQuestionByLicense(License license, int index);
@@ -44,6 +51,9 @@ abstract class QuestionsRepository {
     int pageNumber,
   );
   FutureOr<int> getIsDangerQuestionsCountByLicense(License license);
+  FutureOr<Iterable<int>> getIsDangerQuestionDbIndexesByLicense(
+    License license,
+  );
 
   // Get questions by its difficulty status
   FutureOr<Question> getIsDifficultQuestionByLicense(
