@@ -20,10 +20,10 @@ Exam _$ExamFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Exam {
+  String get examId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  DateTime get createdTime => throw _privateConstructorUsedError;
-  List<QuestionMetadata> get questionsMetadata =>
-      throw _privateConstructorUsedError;
+  DateTime get createdUtcTime => throw _privateConstructorUsedError;
+  List<int> get questionDbIndexes => throw _privateConstructorUsedError;
   License get license => throw _privateConstructorUsedError;
   TestResult? get testResult => throw _privateConstructorUsedError;
 
@@ -38,9 +38,10 @@ abstract class $ExamCopyWith<$Res> {
       _$ExamCopyWithImpl<$Res, Exam>;
   @useResult
   $Res call(
-      {String name,
-      DateTime createdTime,
-      List<QuestionMetadata> questionsMetadata,
+      {String examId,
+      String name,
+      DateTime createdUtcTime,
+      List<int> questionDbIndexes,
       License license,
       TestResult? testResult});
 
@@ -60,25 +61,30 @@ class _$ExamCopyWithImpl<$Res, $Val extends Exam>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? examId = null,
     Object? name = null,
-    Object? createdTime = null,
-    Object? questionsMetadata = null,
+    Object? createdUtcTime = null,
+    Object? questionDbIndexes = null,
     Object? license = null,
     Object? testResult = freezed,
   }) {
     return _then(_value.copyWith(
+      examId: null == examId
+          ? _value.examId
+          : examId // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      createdTime: null == createdTime
-          ? _value.createdTime
-          : createdTime // ignore: cast_nullable_to_non_nullable
+      createdUtcTime: null == createdUtcTime
+          ? _value.createdUtcTime
+          : createdUtcTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      questionsMetadata: null == questionsMetadata
-          ? _value.questionsMetadata
-          : questionsMetadata // ignore: cast_nullable_to_non_nullable
-              as List<QuestionMetadata>,
+      questionDbIndexes: null == questionDbIndexes
+          ? _value.questionDbIndexes
+          : questionDbIndexes // ignore: cast_nullable_to_non_nullable
+              as List<int>,
       license: null == license
           ? _value.license
           : license // ignore: cast_nullable_to_non_nullable
@@ -111,9 +117,10 @@ abstract class _$$ExamImplCopyWith<$Res> implements $ExamCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String name,
-      DateTime createdTime,
-      List<QuestionMetadata> questionsMetadata,
+      {String examId,
+      String name,
+      DateTime createdUtcTime,
+      List<int> questionDbIndexes,
       License license,
       TestResult? testResult});
 
@@ -131,25 +138,30 @@ class __$$ExamImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? examId = null,
     Object? name = null,
-    Object? createdTime = null,
-    Object? questionsMetadata = null,
+    Object? createdUtcTime = null,
+    Object? questionDbIndexes = null,
     Object? license = null,
     Object? testResult = freezed,
   }) {
     return _then(_$ExamImpl(
+      examId: null == examId
+          ? _value.examId
+          : examId // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      createdTime: null == createdTime
-          ? _value.createdTime
-          : createdTime // ignore: cast_nullable_to_non_nullable
+      createdUtcTime: null == createdUtcTime
+          ? _value.createdUtcTime
+          : createdUtcTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      questionsMetadata: null == questionsMetadata
-          ? _value._questionsMetadata
-          : questionsMetadata // ignore: cast_nullable_to_non_nullable
-              as List<QuestionMetadata>,
+      questionDbIndexes: null == questionDbIndexes
+          ? _value._questionDbIndexes
+          : questionDbIndexes // ignore: cast_nullable_to_non_nullable
+              as List<int>,
       license: null == license
           ? _value.license
           : license // ignore: cast_nullable_to_non_nullable
@@ -166,27 +178,31 @@ class __$$ExamImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ExamImpl implements _Exam {
   const _$ExamImpl(
-      {required this.name,
-      required this.createdTime,
-      required final List<QuestionMetadata> questionsMetadata,
+      {this.examId = '000000000000000000000000000',
+      required this.name,
+      required this.createdUtcTime,
+      required final List<int> questionDbIndexes,
       required this.license,
       this.testResult})
-      : _questionsMetadata = questionsMetadata;
+      : _questionDbIndexes = questionDbIndexes;
 
   factory _$ExamImpl.fromJson(Map<String, dynamic> json) =>
       _$$ExamImplFromJson(json);
 
   @override
+  @JsonKey()
+  final String examId;
+  @override
   final String name;
   @override
-  final DateTime createdTime;
-  final List<QuestionMetadata> _questionsMetadata;
+  final DateTime createdUtcTime;
+  final List<int> _questionDbIndexes;
   @override
-  List<QuestionMetadata> get questionsMetadata {
-    if (_questionsMetadata is EqualUnmodifiableListView)
-      return _questionsMetadata;
+  List<int> get questionDbIndexes {
+    if (_questionDbIndexes is EqualUnmodifiableListView)
+      return _questionDbIndexes;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_questionsMetadata);
+    return EqualUnmodifiableListView(_questionDbIndexes);
   }
 
   @override
@@ -196,7 +212,7 @@ class _$ExamImpl implements _Exam {
 
   @override
   String toString() {
-    return 'Exam(name: $name, createdTime: $createdTime, questionsMetadata: $questionsMetadata, license: $license, testResult: $testResult)';
+    return 'Exam(examId: $examId, name: $name, createdUtcTime: $createdUtcTime, questionDbIndexes: $questionDbIndexes, license: $license, testResult: $testResult)';
   }
 
   @override
@@ -204,11 +220,12 @@ class _$ExamImpl implements _Exam {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ExamImpl &&
+            (identical(other.examId, examId) || other.examId == examId) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.createdTime, createdTime) ||
-                other.createdTime == createdTime) &&
+            (identical(other.createdUtcTime, createdUtcTime) ||
+                other.createdUtcTime == createdUtcTime) &&
             const DeepCollectionEquality()
-                .equals(other._questionsMetadata, _questionsMetadata) &&
+                .equals(other._questionDbIndexes, _questionDbIndexes) &&
             (identical(other.license, license) || other.license == license) &&
             (identical(other.testResult, testResult) ||
                 other.testResult == testResult));
@@ -218,9 +235,10 @@ class _$ExamImpl implements _Exam {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      examId,
       name,
-      createdTime,
-      const DeepCollectionEquality().hash(_questionsMetadata),
+      createdUtcTime,
+      const DeepCollectionEquality().hash(_questionDbIndexes),
       license,
       testResult);
 
@@ -240,20 +258,23 @@ class _$ExamImpl implements _Exam {
 
 abstract class _Exam implements Exam {
   const factory _Exam(
-      {required final String name,
-      required final DateTime createdTime,
-      required final List<QuestionMetadata> questionsMetadata,
+      {final String examId,
+      required final String name,
+      required final DateTime createdUtcTime,
+      required final List<int> questionDbIndexes,
       required final License license,
       final TestResult? testResult}) = _$ExamImpl;
 
   factory _Exam.fromJson(Map<String, dynamic> json) = _$ExamImpl.fromJson;
 
   @override
+  String get examId;
+  @override
   String get name;
   @override
-  DateTime get createdTime;
+  DateTime get createdUtcTime;
   @override
-  List<QuestionMetadata> get questionsMetadata;
+  List<int> get questionDbIndexes;
   @override
   License get license;
   @override

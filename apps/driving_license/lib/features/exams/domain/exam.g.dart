@@ -7,10 +7,11 @@ part of 'exam.dart';
 // **************************************************************************
 
 _$ExamImpl _$$ExamImplFromJson(Map<String, dynamic> json) => _$ExamImpl(
+      examId: json['examId'] as String? ?? '000000000000000000000000000',
       name: json['name'] as String,
-      createdTime: DateTime.parse(json['createdTime'] as String),
-      questionsMetadata: (json['questionsMetadata'] as List<dynamic>)
-          .map((e) => QuestionMetadata.fromJson(e as Map<String, dynamic>))
+      createdUtcTime: DateTime.parse(json['createdUtcTime'] as String),
+      questionDbIndexes: (json['questionDbIndexes'] as List<dynamic>)
+          .map((e) => e as int)
           .toList(),
       license: $enumDecode(_$LicenseEnumMap, json['license']),
       testResult: json['testResult'] == null
@@ -20,10 +21,10 @@ _$ExamImpl _$$ExamImplFromJson(Map<String, dynamic> json) => _$ExamImpl(
 
 Map<String, dynamic> _$$ExamImplToJson(_$ExamImpl instance) =>
     <String, dynamic>{
+      'examId': instance.examId,
       'name': instance.name,
-      'createdTime': instance.createdTime.toIso8601String(),
-      'questionsMetadata':
-          instance.questionsMetadata.map((e) => e.toJson()).toList(),
+      'createdUtcTime': instance.createdUtcTime.toIso8601String(),
+      'questionDbIndexes': instance.questionDbIndexes,
       'license': _$LicenseEnumMap[instance.license]!,
       'testResult': instance.testResult?.toJson(),
     };
