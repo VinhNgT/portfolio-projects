@@ -7,7 +7,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ExamsList extends HookConsumerWidget {
   final List<Exam> examsList;
-  const ExamsList({super.key, required this.examsList});
+  final void Function(int index)? onExamCardPressed;
+
+  const ExamsList({
+    super.key,
+    required this.examsList,
+    this.onExamCardPressed,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,7 +41,7 @@ class ExamsList extends HookConsumerWidget {
       ),
       itemBuilder: (context, index) => ExamCard(
         exam: examsList[index],
-        onPressed: () {},
+        onPressed: () => onExamCardPressed?.call(index),
       ),
     );
   }
