@@ -15,6 +15,14 @@ abstract class Exam with _$Exam {
     required License license,
     TestResult? testResult,
   }) = _Exam;
+  const Exam._();
 
   factory Exam.fromJson(Map<String, dynamic> json) => _$ExamFromJson(json);
+
+  factory Exam.prototype() => Exam(
+        name: 'Prototype\nPrototype',
+        createdUtcTime: DateTime(1999),
+        questionDbIndexes: [0],
+        license: License.all,
+      );
 }

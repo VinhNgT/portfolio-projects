@@ -176,7 +176,7 @@ class __$$ExamImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ExamImpl implements _Exam {
+class _$ExamImpl extends _Exam {
   const _$ExamImpl(
       {this.examId = '000000000000000000000000000',
       required this.name,
@@ -184,7 +184,8 @@ class _$ExamImpl implements _Exam {
       required final List<int> questionDbIndexes,
       required this.license,
       this.testResult})
-      : _questionDbIndexes = questionDbIndexes;
+      : _questionDbIndexes = questionDbIndexes,
+        super._();
 
   factory _$ExamImpl.fromJson(Map<String, dynamic> json) =>
       _$$ExamImplFromJson(json);
@@ -256,7 +257,7 @@ class _$ExamImpl implements _Exam {
   }
 }
 
-abstract class _Exam implements Exam {
+abstract class _Exam extends Exam {
   const factory _Exam(
       {final String examId,
       required final String name,
@@ -264,6 +265,7 @@ abstract class _Exam implements Exam {
       required final List<int> questionDbIndexes,
       required final License license,
       final TestResult? testResult}) = _$ExamImpl;
+  const _Exam._() : super._();
 
   factory _Exam.fromJson(Map<String, dynamic> json) = _$ExamImpl.fromJson;
 
