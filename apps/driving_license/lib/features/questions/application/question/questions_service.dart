@@ -35,12 +35,12 @@ class QuestionsService {
           userAnswersRepository: config.userAnswersRepository,
         );
 
-      case final ChapterOperatingMode chapterMode:
+      case ChapterOperatingMode(:final chapter):
         return QuestionsService._chapter(
           questionsRepository: config.questionsRepository,
           userAnswersRepository: config.userAnswersRepository,
           license: config.license,
-          chapter: chapterMode.chapter,
+          chapter: chapter,
         );
 
       case final DangerOperatingMode _:
