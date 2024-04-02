@@ -268,12 +268,12 @@ class QuestionsServiceController extends _$QuestionsServiceController {
     ref.invalidateSelf();
   }
 
-  Future<void> setupWrongAnswerQuestions() async {
+  void setupWrongAnswerQuestions() async {
     _serviceMode = WrongAnswersOperatingMode();
     ref.invalidateSelf();
   }
 
-  Future<void> setupBookmarkedQuestions() async {
+  void setupBookmarkedQuestions() async {
     _serviceMode = BookmarkOperatingMode();
     ref.invalidateSelf();
   }

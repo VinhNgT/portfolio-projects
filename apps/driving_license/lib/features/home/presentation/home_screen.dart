@@ -136,7 +136,7 @@ class FeatureSelection extends HookConsumerWidget {
             title: 'Đã lưu',
             subhead: 'Những câu hỏi được đánh dấu lưu',
             onPressed: () async {
-              await ref
+              ref
                   .read(questionsServiceControllerProvider.notifier)
                   .setupBookmarkedQuestions();
 
@@ -162,7 +162,7 @@ class FeatureSelection extends HookConsumerWidget {
             title: 'Đã làm sai',
             subhead: 'Những câu hỏi bạn đã làm sai',
             onPressed: () async {
-              await ref
+              ref
                   .read(questionsServiceControllerProvider.notifier)
                   .setupWrongAnswerQuestions();
 
