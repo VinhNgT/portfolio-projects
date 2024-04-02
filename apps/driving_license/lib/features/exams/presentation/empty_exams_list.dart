@@ -1,13 +1,15 @@
 import 'package:driving_license/constants/gap_sizes.dart';
+import 'package:driving_license/features/exams/application/exams_service.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
-class ExamsListEmpty extends StatelessWidget {
-  const ExamsListEmpty({super.key});
+class EmptyExamsList extends HookConsumerWidget {
+  const EmptyExamsList({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -23,7 +25,10 @@ class ExamsListEmpty extends StatelessWidget {
           FloatingActionButton.extended(
             icon: const Icon(Symbols.add),
             label: const Text('Tạo bộ đề mới'),
-            onPressed: () {},
+            onPressed: () async {
+              final examsService = await ref.read(examsServiceProvider.future);
+              await examsService.createExam();
+            },
           ),
         ],
       ),

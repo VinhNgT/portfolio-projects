@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:driving_license/common_widgets/async_value/async_value_scaffold.dart';
 import 'package:driving_license/common_widgets/common_app_bar.dart';
-import 'package:driving_license/features/exams/presentation/exams_list_empty.dart';
+import 'package:driving_license/features/exams/application/exams_service.dart';
+import 'package:driving_license/features/exams/presentation/empty_exams_list.dart';
+import 'package:driving_license/features/exams/presentation/exams_list.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,22 +15,29 @@ class ExamsListScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: CommonAppBar(
-        backgroundColor: context.materialScheme.surfaceContainer,
-        title: const Text('Bộ đề thi thử'),
-        actions: [
-          IconButton(
-            icon: const Icon(Symbols.edit),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const Icon(Symbols.delete),
-            onPressed: () {},
-          ),
-        ],
+    final examsList = ref.watch(examsListStreamProvider);
+
+    return AsyncValueScaffold(
+      value: examsList,
+      builder: (examsListValue) => Scaffold(
+        appBar: CommonAppBar(
+          backgroundColor: context.materialScheme.surfaceContainer,
+          title: const Text('Bộ đề thi thử'),
+          actions: [
+            IconButton(
+              icon: const Icon(Symbols.edit),
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: const Icon(Symbols.delete),
+              onPressed: () {},
+            ),
+          ],
+        ),
+        body: examsListValue.isEmpty
+            ? const EmptyExamsList()
+            : ExamsList(examsList: examsListValue),
       ),
-      body: const ExamsListEmpty(),
     );
   }
 }
