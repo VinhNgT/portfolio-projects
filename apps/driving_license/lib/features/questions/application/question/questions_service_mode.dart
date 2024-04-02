@@ -1,4 +1,5 @@
 import 'package:driving_license/features/chapters/domain/chapter.dart';
+import 'package:driving_license/features/exams/domain/exam.dart';
 
 sealed class QuestionsServiceMode {
   String get description;
@@ -35,4 +36,12 @@ class WrongAnswersOperatingMode extends QuestionsServiceMode {
 class BookmarkOperatingMode extends QuestionsServiceMode {
   @override
   String get description => 'All user bookmarked questions operating mode';
+}
+
+class ExamOperatingMode extends QuestionsServiceMode {
+  final Exam exam;
+  ExamOperatingMode(this.exam);
+
+  @override
+  String get description => 'Exam questions operating mode';
 }

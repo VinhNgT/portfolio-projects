@@ -1,5 +1,7 @@
+import 'package:collection/collection.dart';
 import 'package:driving_license/features/bookmark/data/bookmarks_repository.dart';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
+import 'package:driving_license/features/exams/domain/exam.dart';
 import 'package:driving_license/features/licenses/data/providers/user_selected_license_provider.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/application/question/questions_handler.dart';
@@ -83,6 +85,13 @@ class QuestionsService {
           questionsRepository: config.questionsRepository,
           userAnswersRepository: config.userAnswersRepository,
           bookmarkedQuestionDbIndexes: bookmarkQuestionDbIndexes,
+        );
+
+      case ExamOperatingMode(:final exam):
+        return QuestionsService._exam(
+          questionsRepository: config.questionsRepository,
+          inMemoryUserAnswersRepository: config.inMemoryUserAnswersRepository,
+          exam: exam,
         );
     }
   }
@@ -199,6 +208,23 @@ class QuestionsService {
       ),
     );
   }
+
+  factory QuestionsService._exam({
+    required QuestionsRepository questionsRepository,
+    required InMemoryUserAnswersRepository inMemoryUserAnswersRepository,
+    required Exam exam,
+  }) {
+    return QuestionsService(
+      operatingMode: ExamOperatingMode(exam),
+      questionsHandler: CustomQuestionListQuestionHandler(
+        questionsRepository: questionsRepository,
+        sortedQuestionDbIndexes: exam.questionDbIndexes.sorted((a, b) => a - b),
+      ),
+      userAnswersHandler: InMemoryUserAnswersHandler(
+        inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
+      ),
+    );
+  }
 }
 
 extension QuestionsServiceMethods on QuestionsService {
@@ -275,6 +301,11 @@ class QuestionsServiceController extends _$QuestionsServiceController {
 
   void setupBookmarkedQuestions() async {
     _serviceMode = BookmarkOperatingMode();
+    ref.invalidateSelf();
+  }
+
+  void setupExamQuestions(Exam exam) async {
+    _serviceMode = ExamOperatingMode(exam);
     ref.invalidateSelf();
   }
 }

@@ -25,7 +25,7 @@ final questionsServiceModeProvider =
 typedef QuestionsServiceModeRef
     = AutoDisposeFutureProviderRef<QuestionsServiceMode>;
 String _$questionsServiceControllerHash() =>
-    r'0e1fe9a3af1823b6ee0000d56a8e0a129be2d089';
+    r'75e187b6564297c50fc4391918687e20d29a7426';
 
 /// See also [QuestionsServiceController].
 @ProviderFor(QuestionsServiceController)
