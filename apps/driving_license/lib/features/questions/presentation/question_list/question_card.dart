@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/common_widgets/button_card.dart';
+import 'package:driving_license/common_widgets/hooks/build_off_stage_overlay.dart';
+import 'package:driving_license/common_widgets/hooks/did_change_metric_rebuild.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/bookmark/data/providers/bookmark_providers.dart';
@@ -10,8 +12,8 @@ import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_state_checkbox.dart';
 import 'package:driving_license/features/questions/presentation/question_list/question_card_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
+import 'package:driving_license/utils/ref_ext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -235,9 +237,10 @@ class PrototypeQuestionCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(questionCardPrototypeHeightProvider, (_, __) {});
-
     if (shouldUpdateProvider) {
+      ref.keepProviderAlive(questionCardPrototypeHeightProvider);
+      useDidChangeMetricRebuild();
+
       WidgetsBinding.instance.addPostFrameCallback((_) {
         final widgetHeight = context.size?.height ?? 0;
         ref.read(questionCardPrototypeHeightProvider.notifier).value =
@@ -258,27 +261,8 @@ class PrototypeQuestionCard extends HookConsumerWidget {
   /// Builds an invisible PrototypeQuestionCard to calculate the height of
   /// QuestionCard for QuestionCardPrototypeHeightProvider.
   static void buildOffstageOverlay() {
-    final context = useContext();
-
-    useEffect(
-      () {
-        final overlaysEntry = OverlayEntry(
-          builder: (_) {
-            return const Align(
-              child: Offstage(
-                child: PrototypeQuestionCard(shouldUpdateProvider: true),
-              ),
-            );
-          },
-        );
-
-        Future.microtask(() {
-          Overlay.of(context).insert(overlaysEntry);
-        });
-
-        return overlaysEntry.remove;
-      },
-      [],
+    useBuildOffstageOverlay(
+      const PrototypeQuestionCard(shouldUpdateProvider: true),
     );
   }
 }

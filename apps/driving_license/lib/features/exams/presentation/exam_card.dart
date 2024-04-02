@@ -1,4 +1,5 @@
 import 'package:driving_license/common_widgets/button_card.dart';
+import 'package:driving_license/common_widgets/hooks/build_off_stage_overlay.dart';
 import 'package:driving_license/common_widgets/hooks/did_change_metric_rebuild.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/features/exams/domain/exam.dart';
@@ -6,7 +7,6 @@ import 'package:driving_license/features/exams/presentation/exam_card_controller
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:driving_license/utils/ref_ext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ExamCard extends StatelessWidget {
@@ -70,28 +70,8 @@ class PrototypeExamCard extends HookConsumerWidget {
   /// Builds an invisible PrototypeExamCard to calculate the height of
   /// ExamCard for ExamCardPrototypeHeightProvider.
   static void buildOffstageOverlay() {
-    final context = useContext();
-
-    useEffect(
-      () {
-        final overlaysEntry = OverlayEntry(
-          builder: (_) {
-            return const Align(
-              child: Offstage(
-                offstage: true,
-                child: PrototypeExamCard(shouldUpdateProvider: true),
-              ),
-            );
-          },
-        );
-
-        Future.microtask(() {
-          Overlay.of(context).insert(overlaysEntry);
-        });
-
-        return overlaysEntry.remove;
-      },
-      [],
+    useBuildOffstageOverlay(
+      const PrototypeExamCard(shouldUpdateProvider: true),
     );
   }
 }
