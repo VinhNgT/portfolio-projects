@@ -37,6 +37,14 @@ class ExamsListScreen extends HookConsumerWidget {
         body: examsListValue.isEmpty
             ? const EmptyExamsList()
             : ExamsList(examsList: examsListValue),
+        floatingActionButton: FloatingActionButton.extended(
+          icon: const Icon(Symbols.add),
+          label: const Text('Tạo bộ đề mới'),
+          onPressed: () async {
+            final examsService = await ref.read(examsServiceProvider.future);
+            await examsService.createExam();
+          },
+        ),
       ),
     );
   }
