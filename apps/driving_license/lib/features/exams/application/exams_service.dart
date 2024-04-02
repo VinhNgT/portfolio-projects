@@ -4,7 +4,7 @@ import 'package:driving_license/features/exams/domain/exam.dart';
 import 'package:driving_license/features/licenses/data/providers/user_selected_license_provider.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
-import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'exams_service.g.dart';
@@ -28,15 +28,18 @@ class ExamsService {
   }
 
   FutureOr<void> createExam() async {
-    final stopwatch = Stopwatch()..start();
-
     final examQuestions = await _questionSelector.generateQuestions();
-    debugPrint(
-      'Exam questions: $examQuestions length: ${examQuestions.length}',
+
+    final currentTime = DateTime.now();
+    final formatter = DateFormat('MM/dd HH:mm');
+    final exam = Exam(
+      name: 'Đề ${formatter.format(currentTime)}',
+      createdUtcTime: currentTime.toUtc(),
+      questionDbIndexes: examQuestions,
+      license: license,
     );
 
-    stopwatch.stop();
-    debugPrint('createExam executed in ${stopwatch.elapsed.inMilliseconds}ms');
+    examsRepository.saveExam(exam);
   }
 
   Stream<List<Exam>> watchExamsList() {
@@ -44,7 +47,7 @@ class ExamsService {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 FutureOr<ExamsService> examsService(ExamsServiceRef ref) async {
   final examsRepository = ref.watch(examsRepositoryProvider);
   final questionsRepository = ref.watch(questionsRepositoryProvider);
@@ -55,4 +58,10 @@ FutureOr<ExamsService> examsService(ExamsServiceRef ref) async {
     questionsRepository: questionsRepository,
     license: license,
   );
+}
+
+@riverpod
+Stream<List<Exam>> examsListStream(ExamsListStreamRef ref) async* {
+  final examsService = await ref.watch(examsServiceProvider.future);
+  yield* examsService.watchExamsList();
 }
