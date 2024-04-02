@@ -16,3 +16,4 @@ const kSize_48 = 48.0;
 const kSize_56 = 56.0;
 const kSize_60 = 60.0;
 const kSize_64 = 64.0;
+const kSize_96 = 96.0;
