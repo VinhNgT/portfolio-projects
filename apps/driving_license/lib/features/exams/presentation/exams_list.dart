@@ -20,7 +20,7 @@ class ExamsList extends HookConsumerWidget {
 
     return GridView.builder(
       physics: const ClampingScrollPhysics(),
-      itemCount: 6,
+      itemCount: examsList.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: kSize_12,
@@ -34,7 +34,7 @@ class ExamsList extends HookConsumerWidget {
         bottom: kSize_96,
       ),
       itemBuilder: (context, index) => ExamCard(
-        exam: examsList[0],
+        exam: examsList[index],
         onPressed: () {},
       ),
     );
