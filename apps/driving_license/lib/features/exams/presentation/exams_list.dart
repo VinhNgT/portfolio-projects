@@ -29,8 +29,8 @@ class ExamsList extends HookConsumerWidget {
       itemCount: examsList.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: kSize_12,
         mainAxisExtent: examCardHeight,
+        crossAxisSpacing: kSize_12,
         mainAxisSpacing: kSize_12,
       ),
       padding: const EdgeInsets.only(
