@@ -2,6 +2,7 @@ import 'package:driving_license/common_widgets/button_card.dart';
 import 'package:driving_license/common_widgets/hooks/build_off_stage_overlay.dart';
 import 'package:driving_license/common_widgets/hooks/did_change_metric_rebuild.dart';
 import 'package:driving_license/constants/app_sizes.dart';
+import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/exams/domain/exam.dart';
 import 'package:driving_license/features/exams/presentation/exam_card_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
@@ -32,14 +33,29 @@ class ExamCard extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(exam.name, style: context.textTheme.titleMedium),
-            Text(
-              'Chưa làm',
-              style: context.textTheme.bodySmall!.copyWith(
-                color: context.colorScheme.onSurfaceVariant,
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                kGap_4,
+                Text(
+                  'Bằng ${exam.license.name.toUpperCase()}',
+                  style: context.textTheme.bodySmall!.copyWith(
+                    color: context.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+                kGap_2,
+                Text(
+                  'Chưa làm',
+                  style: context.textTheme.bodySmall!.copyWith(
+                    color: context.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
