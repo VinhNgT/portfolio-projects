@@ -49,4 +49,38 @@ extension WidgetRefX on WidgetRef {
       }),
     ).requireValue;
   }
+
+  /// Watches an [AsyncValue] from a [ProviderListenable] and converts it to a
+  /// new [AsyncValue] using the provided [convert] function.
+  ///
+  /// The [convert] function takes a value of type [T] and returns a value of
+  /// type [V].
+  /// The returned [AsyncValue] will have the same state as the original
+  /// [AsyncValue], but with the converted value.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// final myProvider = FutureProvider<int>((ref) async {
+  ///   // ...
+  /// });
+  ///
+  /// final myConvertedValue = watchConvertAsyncValue(myProvider, (value) {
+  ///   // Convert the value from int to String
+  ///   return value.toString();
+  /// });
+  /// ```
+  AsyncValue<V> watchConvertAsyncValue<T, V>(
+    ProviderListenable<AsyncValue<T>> provider,
+    V Function(T) convert,
+  ) {
+    return watch(
+      provider.select((value) {
+        return value.map<AsyncValue<V>>(
+          data: (data) => AsyncData(convert(data.value)),
+          error: (error) => AsyncError(error.error, error.stackTrace),
+          loading: (loading) => const AsyncLoading(),
+        );
+      }),
+    );
+  }
 }
