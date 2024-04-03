@@ -36,7 +36,12 @@ class ExamCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(exam.name, style: context.textTheme.titleMedium),
+            Text(
+              exam.name,
+              style: context.textTheme.titleMedium,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
