@@ -10,10 +10,12 @@ extension ContextExtension on BuildContext {
   ThemeData get theme => Theme.of(this);
   TextTheme get textTheme => Theme.of(this).textTheme;
   ColorScheme get colorScheme => Theme.of(this).colorScheme;
-  MaterialScheme get materialScheme => switch (Theme.of(this).brightness) {
-        Brightness.light => MaterialTheme.lightScheme(),
-        Brightness.dark => MaterialTheme.darkScheme(),
-      };
+  MaterialScheme get materialScheme {
+    return switch (Theme.of(this).brightness) {
+      Brightness.light => MaterialTheme.lightScheme,
+      Brightness.dark => MaterialTheme.darkScheme,
+    };
+  }
 
   Size get size => MediaQuery.of(this).size;
   double get width => MediaQuery.of(this).size.width;

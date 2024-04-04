@@ -11,21 +11,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class MyApp extends ConsumerWidget {
+class MyApp extends HookConsumerWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    unawaited(setSystemChrome(context));
     final appRouter = ref.watch(appRouterProvider);
     final routerGuardReevaluate = ref.watch(routerReevaluateNotifierProvider);
     final previousRouteObserver = ref.watch(previousRouteObserverProvider);
 
+    // Forcing dark mode for now
+    // final brightness = MediaQuery.of(context).platformBrightness;
+    const brightness = Brightness.dark;
+
     return MaterialApp.router(
       title: 'Driving License App',
       debugShowCheckedModeBanner: false,
-      theme: const MaterialTheme().light(),
-      darkTheme: const MaterialTheme().dark(),
+      builder: (context, child) {
+        return Theme(
+          data: switch (brightness) {
+            Brightness.light => MaterialTheme(context.theme).light,
+            Brightness.dark => MaterialTheme(context.theme).dark,
+          },
+          child: Builder(
+            builder: (context) {
+              // We call setSystemChrome here so it can access the themed
+              // BuildContext.
+              unawaited(setSystemChrome(context));
+              return child!;
+            },
+          ),
+        );
+      },
       routerConfig: appRouter.config(
         // Initial route with parameter
         // deepLinkBuilder: (_) => const DeepLink([HomeRoute()]),
