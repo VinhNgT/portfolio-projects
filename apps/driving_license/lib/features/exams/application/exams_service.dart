@@ -31,7 +31,7 @@ class ExamsService {
     final examQuestions = await _questionSelector.generateQuestions();
 
     final currentTime = DateTime.now();
-    final formatter = DateFormat('MM/dd HH:mm');
+    final formatter = DateFormat('MM/dd-HH:mm');
     final exam = Exam(
       name: 'Đề ${formatter.format(currentTime)}',
       createdUtcTime: currentTime.toUtc(),
