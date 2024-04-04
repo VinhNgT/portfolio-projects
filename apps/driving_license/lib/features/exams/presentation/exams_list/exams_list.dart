@@ -2,6 +2,7 @@ import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/features/exams/data/exams_repository.dart';
 import 'package:driving_license/features/exams/domain/exam.dart';
 import 'package:driving_license/features/exams/presentation/dialogs/delete_confirm_dialog.dart';
+import 'package:driving_license/features/exams/presentation/dialogs/rename_dialog.dart';
 import 'package:driving_license/features/exams/presentation/exams_list/exam_card.dart';
 import 'package:driving_license/features/exams/presentation/exams_list/exam_card_controller.dart';
 import 'package:driving_license/features/exams/presentation/exams_list_screen_controller.dart';
@@ -55,17 +56,20 @@ class ExamsList extends HookConsumerWidget {
                 switch (state) {
                   case ExamsListState.view:
                     onExamCardPressed?.call(index);
-                  case ExamsListState.delete:
-                    final confirm = await _showDeleteConfirmDialog(
+
+                  case ExamsListState.edit:
+                    await _handleRename(
                       context,
+                      ref,
                       examsList[index],
                     );
 
-                    if (confirm) {
-                      await _deleteExam(ref, examsList[index]);
-                    }
-                  case _:
-                    break;
+                  case ExamsListState.delete:
+                    await _handleDelete(
+                      context,
+                      ref,
+                      examsList[index],
+                    );
                 }
               },
             );
@@ -77,20 +81,38 @@ class ExamsList extends HookConsumerWidget {
 }
 
 extension on ExamsList {
-  Future<bool> _showDeleteConfirmDialog(
+  Future<void> _handleRename(
     BuildContext context,
+    WidgetRef ref,
     Exam exam,
   ) async {
-    return await showDialog<bool>(
+    final newName = await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => RenameDialog(
+        examName: exam.name,
+      ),
+    );
+
+    if (newName != null) {
+      ref.read(examsRepositoryProvider).renameExam(exam, newName);
+    }
+  }
+
+  Future<void> _handleDelete(
+    BuildContext context,
+    WidgetRef ref,
+    Exam exam,
+  ) async {
+    final shouldDelete = await showDialog<bool>(
           context: context,
           builder: (BuildContext context) => DeleteConfirmDialog(
             examName: exam.name,
           ),
         ) ??
         false;
-  }
 
-  Future<void> _deleteExam(WidgetRef ref, Exam exam) async {
-    ref.read(examsRepositoryProvider).deleteExam(exam);
+    if (shouldDelete) {
+      ref.read(examsRepositoryProvider).deleteExam(exam);
+    }
   }
 }

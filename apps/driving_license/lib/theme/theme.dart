@@ -409,6 +409,11 @@ class MaterialTheme {
       //     minimumSize: MaterialStatePropertyAll(Size(48, 48)),
       //   ),
       // ),
+      hintColor: materialScheme.onSurfaceVariant,
+      inputDecorationTheme: m3Theme.inputDecorationTheme.copyWith(
+        border: const OutlineInputBorder(),
+        contentPadding: const EdgeInsets.all(kSize_16),
+      ),
     );
   }
 
