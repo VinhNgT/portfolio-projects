@@ -71,7 +71,7 @@ extension WidgetRefX on WidgetRef {
   /// ```
   AsyncValue<V> watchConvertAsyncValue<T, V>(
     ProviderListenable<AsyncValue<T>> provider,
-    V Function(T) convert,
+    V Function(T valueData) convert,
   ) {
     return watch(
       provider.select((value) {
