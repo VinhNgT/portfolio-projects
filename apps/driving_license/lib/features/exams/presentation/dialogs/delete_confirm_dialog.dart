@@ -36,7 +36,10 @@ class DeleteConfirmDialog extends StatelessWidget {
           },
         ),
         TextButton(
-          child: const Text('Xoá bộ đề'),
+          child: Text(
+            'Xoá bộ đề',
+            style: TextStyle(color: context.colorScheme.error),
+          ),
           onPressed: () {
             Navigator.of(context).pop(true);
           },
