@@ -1,3 +1,4 @@
+import 'package:driving_license/common_widgets/widget_deadzone.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/features/exams/data/exams_repository.dart';
 import 'package:driving_license/features/exams/domain/exam.dart';
@@ -6,6 +7,7 @@ import 'package:driving_license/features/exams/presentation/dialogs/rename_dialo
 import 'package:driving_license/features/exams/presentation/exams_list/exam_card.dart';
 import 'package:driving_license/features/exams/presentation/exams_list/exam_card_controller.dart';
 import 'package:driving_license/features/exams/presentation/exams_list_screen_controller.dart';
+import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -29,51 +31,56 @@ class ExamsList extends HookConsumerWidget {
     }
 
     return Scrollbar(
-      child: GridView.builder(
-        physics: const ClampingScrollPhysics(),
-        itemCount: examsList.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisExtent: examCardHeight,
-          crossAxisSpacing: kSize_12,
-          mainAxisSpacing: kSize_12,
+      child: WidgetDeadzone(
+        deadzone: EdgeInsets.only(
+          bottom: context.systemGestureInsets.bottom,
         ),
-        padding: const EdgeInsets.only(
-          top: kSize_16,
-          left: kSize_16,
-          right: kSize_16,
-          bottom: kSize_96,
-        ),
-        itemBuilder: (context, index) => Consumer(
-          builder: (context, ref, child) {
-            final state = ref.watch(examsListScreenStateProvider);
+        child: GridView.builder(
+          physics: const ClampingScrollPhysics(),
+          itemCount: examsList.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisExtent: examCardHeight,
+            crossAxisSpacing: kSize_12,
+            mainAxisSpacing: kSize_12,
+          ),
+          padding: const EdgeInsets.only(
+            top: kSize_16,
+            left: kSize_16,
+            right: kSize_16,
+            bottom: kSize_96,
+          ),
+          itemBuilder: (context, index) => Consumer(
+            builder: (context, ref, child) {
+              final state = ref.watch(examsListScreenStateProvider);
 
-            return ExamCard(
-              key: ValueKey(examsList[index].examId),
-              exam: examsList[index],
-              state: state,
-              onPressed: () async {
-                switch (state) {
-                  case ExamsListState.view:
-                    onExamCardPressed?.call(index);
+              return ExamCard(
+                key: ValueKey(examsList[index].examId),
+                exam: examsList[index],
+                state: state,
+                onPressed: () async {
+                  switch (state) {
+                    case ExamsListState.view:
+                      onExamCardPressed?.call(index);
 
-                  case ExamsListState.edit:
-                    await _handleRename(
-                      context,
-                      ref,
-                      examsList[index],
-                    );
+                    case ExamsListState.edit:
+                      await _handleRename(
+                        context,
+                        ref,
+                        examsList[index],
+                      );
 
-                  case ExamsListState.delete:
-                    await _handleDelete(
-                      context,
-                      ref,
-                      examsList[index],
-                    );
-                }
-              },
-            );
-          },
+                    case ExamsListState.delete:
+                      await _handleDelete(
+                        context,
+                        ref,
+                        examsList[index],
+                      );
+                  }
+                },
+              );
+            },
+          ),
         ),
       ),
     );
