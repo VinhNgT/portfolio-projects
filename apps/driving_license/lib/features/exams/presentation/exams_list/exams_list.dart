@@ -88,12 +88,13 @@ extension on ExamsList {
   ) async {
     final newName = await showDialog<String>(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) => RenameDialog(
         examName: exam.name,
       ),
     );
 
-    if (newName != null) {
+    if (newName != null && newName != exam.name) {
       ref.read(examsRepositoryProvider).renameExam(exam, newName);
     }
   }
