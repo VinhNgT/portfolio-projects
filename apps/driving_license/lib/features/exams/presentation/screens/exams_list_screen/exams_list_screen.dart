@@ -3,8 +3,8 @@ import 'package:driving_license/common_widgets/async_value/async_value_scaffold.
 import 'package:driving_license/features/exams/application/exams_service.dart';
 import 'package:driving_license/features/exams/presentation/exams_list/empty_exams_list.dart';
 import 'package:driving_license/features/exams/presentation/exams_list/exams_list.dart';
-import 'package:driving_license/features/exams/presentation/exams_list_screen_appbar.dart';
-import 'package:driving_license/features/exams/presentation/exams_list_screen_controller.dart';
+import 'package:driving_license/features/exams/presentation/screens/exams_list_screen/exams_list_screen_appbar.dart';
+import 'package:driving_license/features/exams/presentation/screens/exams_list_screen/exams_list_screen_controller.dart';
 import 'package:driving_license/features/questions/application/question/questions_service.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
 import 'package:flutter/material.dart';

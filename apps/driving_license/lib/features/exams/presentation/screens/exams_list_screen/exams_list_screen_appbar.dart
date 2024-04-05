@@ -2,7 +2,7 @@ import 'package:driving_license/common_widgets/async_value/async_value_widget.da
 import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/constants/widget_sizes.dart';
 import 'package:driving_license/features/exams/application/exams_service.dart';
-import 'package:driving_license/features/exams/presentation/exams_list_screen_controller.dart';
+import 'package:driving_license/features/exams/presentation/screens/exams_list_screen/exams_list_screen_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:driving_license/utils/ref_ext.dart';
 import 'package:flutter/material.dart';

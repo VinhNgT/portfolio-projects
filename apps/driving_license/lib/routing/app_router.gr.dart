@@ -9,7 +9,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i5;
-import 'package:driving_license/features/exams/presentation/exams_list_screen.dart'
+import 'package:driving_license/features/exams/presentation/screens/exams_list_screen/exams_list_screen.dart'
     as _i1;
 import 'package:driving_license/features/home/presentation/home_screen.dart'
     as _i2;

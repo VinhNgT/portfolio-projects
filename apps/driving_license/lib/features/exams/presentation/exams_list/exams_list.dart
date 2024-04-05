@@ -6,7 +6,7 @@ import 'package:driving_license/features/exams/presentation/dialogs/delete_confi
 import 'package:driving_license/features/exams/presentation/dialogs/rename_dialog.dart';
 import 'package:driving_license/features/exams/presentation/exams_list/exam_card.dart';
 import 'package:driving_license/features/exams/presentation/exams_list/exam_card_controller.dart';
-import 'package:driving_license/features/exams/presentation/exams_list_screen_controller.dart';
+import 'package:driving_license/features/exams/presentation/screens/exams_list_screen/exams_list_screen_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

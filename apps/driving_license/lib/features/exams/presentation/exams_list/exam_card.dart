@@ -5,7 +5,7 @@ import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/exams/domain/exam.dart';
 import 'package:driving_license/features/exams/presentation/exams_list/exam_card_controller.dart';
-import 'package:driving_license/features/exams/presentation/exams_list_screen_controller.dart';
+import 'package:driving_license/features/exams/presentation/screens/exams_list_screen/exams_list_screen_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:driving_license/utils/ref_ext.dart';
 import 'package:flutter/material.dart';
