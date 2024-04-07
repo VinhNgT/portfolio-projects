@@ -4,23 +4,39 @@ import 'package:driving_license/features/questions/application/question/provider
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_card.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_card_list_controller.dart';
-import 'package:driving_license/features/questions/presentation/answer/answer_state_checkbox.dart';
+import 'package:driving_license/features/questions/presentation/answer/answer_card_list_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AnswerCardList extends HookConsumerWidget {
   final Question question;
+  final AnswerCardListDelegate delegate;
 
-  const AnswerCardList({
-    super.key,
+  const AnswerCardList._({
     required this.question,
+    required this.delegate,
   });
+
+  factory AnswerCardList.practiceMode({required Question question}) {
+    return AnswerCardList._(
+      question: question,
+      delegate: PracticeModeAnswerCardListDelegate(),
+    );
+  }
+
+  factory AnswerCardList.examMode({required Question question}) {
+    return AnswerCardList._(
+      question: question,
+      delegate: ExamModeAnswerCardListDelegate(),
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final controllerState = ref.watch(answerCardListControllerProvider);
+
     final selectedAnswerIndex =
         ref.watch(userSelectedAnswerIndexProvider(question));
-    final controllerState = ref.watch(answerCardListControllerProvider);
 
     return AsyncValueWidget(
       value: selectedAnswerIndex,
@@ -31,57 +47,28 @@ class AnswerCardList extends HookConsumerWidget {
         itemCount: question.answers.length,
         itemBuilder: (_, int answerOptionIndex) => AnswerCard(
           answer: question.answers[answerOptionIndex],
-          state: evaluateAnswerCardState(
-            answerOptionIndex,
-            selectedAnswerIndexValue,
-            question.correctAnswerIndex,
+          state: delegate.evaluateAnswerCardState(
+            answerIndex: answerOptionIndex,
+            selectedAnswerIndex: selectedAnswerIndexValue,
+            correctAnswerIndex: question.correctAnswerIndex,
           ),
           onTap: controllerState.isLoading
               ? null
-              : () => selectAnswer(ref, question, answerOptionIndex),
+              : () => delegate.onAnswerSelected(
+                    question: question,
+                    oldAnswerIndex: selectedAnswerIndexValue,
+                    newAnswerIndex: answerOptionIndex,
+                    saveAnswerDbCallback: (question, newAnswerIndex) async {
+                      return ref
+                          .read(answerCardListControllerProvider.notifier)
+                          .selectAnswer(
+                            question,
+                            newAnswerIndex,
+                          );
+                    },
+                  ),
         ),
       ),
     );
-  }
-}
-
-extension AnswerCardListX on AnswerCardList {
-  AnswerState evaluateAnswerCardState(
-    int answerIndex,
-    int? selectedAnswerIndex,
-    int correctAnswerIndex,
-  ) {
-    final bool noAnswerSelected = (selectedAnswerIndex == null);
-    final bool isSelected = (answerIndex == selectedAnswerIndex);
-    final bool isCorrect = (answerIndex == correctAnswerIndex);
-
-    if (noAnswerSelected) {
-      return AnswerState.unchecked;
-    }
-
-    if (isSelected) {
-      return isCorrect ? AnswerState.correct : AnswerState.incorrect;
-    }
-
-    return isCorrect ? AnswerState.correct : AnswerState.unchecked;
-  }
-
-  void selectAnswer(
-    WidgetRef ref,
-    Question question,
-    int selectedAnswerIndex,
-  ) async {
-    final answerSelected = await ref.read(
-          userSelectedAnswerIndexProvider(question).future,
-        ) !=
-        null;
-
-    // Only allow selecting an answer if no answer has been selected
-    if (!answerSelected) {
-      await ref.read(answerCardListControllerProvider.notifier).selectAnswer(
-            question,
-            selectedAnswerIndex,
-          );
-    }
   }
 }
