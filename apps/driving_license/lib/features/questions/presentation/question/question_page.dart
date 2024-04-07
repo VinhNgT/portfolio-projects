@@ -35,9 +35,9 @@ class QuestionPage extends HookConsumerWidget {
       (value) => value is ExamOperatingMode,
     );
 
-    return AsyncValueWidget(
-      value: question,
-      builder: (questionValue) {
+    return Async2ValuesWidget<Question, bool>(
+      values: (question, isExamMode),
+      builder: (questionValue, isExamModeValue) {
         updateQuestionPageScrollController(ref, scrollController);
 
         return NotificationListener(
@@ -76,19 +76,18 @@ class QuestionPage extends HookConsumerWidget {
                       kGap_8,
                     ],
                     kGap_16,
-                    AnswerCardList(
-                      question: questionValue,
-                    ),
-                    AsyncValueWidget(
-                      // Hide QuestionNotes in ExamOperatingMode
-                      value: isExamMode,
-                      builder: (isExamModeValue) => !isExamModeValue
-                          ? _QuestionNotesVisibility(
-                              questionPageIndex: questionPageIndex,
-                              question: questionValue,
-                            )
-                          : const SizedBox.shrink(),
-                    ),
+                    isExamModeValue
+                        ? AnswerCardList.examMode(
+                            question: questionValue,
+                          )
+                        : AnswerCardList.practiceMode(
+                            question: questionValue,
+                          ),
+                    if (!isExamModeValue)
+                      _QuestionNotesVisibility(
+                        questionPageIndex: questionPageIndex,
+                        question: questionValue,
+                      ),
                     kGap_48,
                   ],
                 ),
