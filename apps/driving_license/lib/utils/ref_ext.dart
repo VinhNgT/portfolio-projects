@@ -83,4 +83,19 @@ extension WidgetRefX on WidgetRef {
       }),
     );
   }
+
+  AsyncValue<V> readConvertAsyncValue<T, V>(
+    ProviderListenable<AsyncValue<T>> provider,
+    V Function(T valueData) convert,
+  ) {
+    return read(
+      provider.select((value) {
+        return value.map<AsyncValue<V>>(
+          data: (data) => AsyncData(convert(data.value)),
+          error: (error) => AsyncError(error.error, error.stackTrace),
+          loading: (loading) => const AsyncLoading(),
+        );
+      }),
+    );
+  }
 }
