@@ -11,6 +11,7 @@ abstract class TestResult with _$TestResult {
     required int correctAnswers,
     required int wrongAnswers,
   }) = _TestResult;
+
   factory TestResult.fromJson(Map<String, dynamic> json) =>
       _$TestResultFromJson(json);
 }
