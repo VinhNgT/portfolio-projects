@@ -26,6 +26,7 @@ mixin _$Exam {
   List<int> get questionDbIndexes => throw _privateConstructorUsedError;
   License get license => throw _privateConstructorUsedError;
   TestResult? get testResult => throw _privateConstructorUsedError;
+  DateTime? get lastAttemptedUtcTime => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +44,8 @@ abstract class $ExamCopyWith<$Res> {
       DateTime createdUtcTime,
       List<int> questionDbIndexes,
       License license,
-      TestResult? testResult});
+      TestResult? testResult,
+      DateTime? lastAttemptedUtcTime});
 
   $TestResultCopyWith<$Res>? get testResult;
 }
@@ -67,6 +69,7 @@ class _$ExamCopyWithImpl<$Res, $Val extends Exam>
     Object? questionDbIndexes = null,
     Object? license = null,
     Object? testResult = freezed,
+    Object? lastAttemptedUtcTime = freezed,
   }) {
     return _then(_value.copyWith(
       examId: null == examId
@@ -93,6 +96,10 @@ class _$ExamCopyWithImpl<$Res, $Val extends Exam>
           ? _value.testResult
           : testResult // ignore: cast_nullable_to_non_nullable
               as TestResult?,
+      lastAttemptedUtcTime: freezed == lastAttemptedUtcTime
+          ? _value.lastAttemptedUtcTime
+          : lastAttemptedUtcTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 
@@ -122,7 +129,8 @@ abstract class _$$ExamImplCopyWith<$Res> implements $ExamCopyWith<$Res> {
       DateTime createdUtcTime,
       List<int> questionDbIndexes,
       License license,
-      TestResult? testResult});
+      TestResult? testResult,
+      DateTime? lastAttemptedUtcTime});
 
   @override
   $TestResultCopyWith<$Res>? get testResult;
@@ -144,6 +152,7 @@ class __$$ExamImplCopyWithImpl<$Res>
     Object? questionDbIndexes = null,
     Object? license = null,
     Object? testResult = freezed,
+    Object? lastAttemptedUtcTime = freezed,
   }) {
     return _then(_$ExamImpl(
       examId: null == examId
@@ -170,6 +179,10 @@ class __$$ExamImplCopyWithImpl<$Res>
           ? _value.testResult
           : testResult // ignore: cast_nullable_to_non_nullable
               as TestResult?,
+      lastAttemptedUtcTime: freezed == lastAttemptedUtcTime
+          ? _value.lastAttemptedUtcTime
+          : lastAttemptedUtcTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -183,7 +196,8 @@ class _$ExamImpl extends _Exam {
       required this.createdUtcTime,
       required final List<int> questionDbIndexes,
       required this.license,
-      this.testResult})
+      this.testResult,
+      this.lastAttemptedUtcTime})
       : _questionDbIndexes = questionDbIndexes,
         super._();
 
@@ -210,10 +224,12 @@ class _$ExamImpl extends _Exam {
   final License license;
   @override
   final TestResult? testResult;
+  @override
+  final DateTime? lastAttemptedUtcTime;
 
   @override
   String toString() {
-    return 'Exam(examId: $examId, name: $name, createdUtcTime: $createdUtcTime, questionDbIndexes: $questionDbIndexes, license: $license, testResult: $testResult)';
+    return 'Exam(examId: $examId, name: $name, createdUtcTime: $createdUtcTime, questionDbIndexes: $questionDbIndexes, license: $license, testResult: $testResult, lastAttemptedUtcTime: $lastAttemptedUtcTime)';
   }
 
   @override
@@ -229,7 +245,9 @@ class _$ExamImpl extends _Exam {
                 .equals(other._questionDbIndexes, _questionDbIndexes) &&
             (identical(other.license, license) || other.license == license) &&
             (identical(other.testResult, testResult) ||
-                other.testResult == testResult));
+                other.testResult == testResult) &&
+            (identical(other.lastAttemptedUtcTime, lastAttemptedUtcTime) ||
+                other.lastAttemptedUtcTime == lastAttemptedUtcTime));
   }
 
   @JsonKey(ignore: true)
@@ -241,7 +259,8 @@ class _$ExamImpl extends _Exam {
       createdUtcTime,
       const DeepCollectionEquality().hash(_questionDbIndexes),
       license,
-      testResult);
+      testResult,
+      lastAttemptedUtcTime);
 
   @JsonKey(ignore: true)
   @override
@@ -264,7 +283,8 @@ abstract class _Exam extends Exam {
       required final DateTime createdUtcTime,
       required final List<int> questionDbIndexes,
       required final License license,
-      final TestResult? testResult}) = _$ExamImpl;
+      final TestResult? testResult,
+      final DateTime? lastAttemptedUtcTime}) = _$ExamImpl;
   const _Exam._() : super._();
 
   factory _Exam.fromJson(Map<String, dynamic> json) = _$ExamImpl.fromJson;
@@ -281,6 +301,8 @@ abstract class _Exam extends Exam {
   License get license;
   @override
   TestResult? get testResult;
+  @override
+  DateTime? get lastAttemptedUtcTime;
   @override
   @JsonKey(ignore: true)
   _$$ExamImplCopyWith<_$ExamImpl> get copyWith =>

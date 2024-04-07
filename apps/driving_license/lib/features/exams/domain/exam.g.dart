@@ -17,6 +17,9 @@ _$ExamImpl _$$ExamImplFromJson(Map<String, dynamic> json) => _$ExamImpl(
       testResult: json['testResult'] == null
           ? null
           : TestResult.fromJson(json['testResult'] as Map<String, dynamic>),
+      lastAttemptedUtcTime: json['lastAttemptedUtcTime'] == null
+          ? null
+          : DateTime.parse(json['lastAttemptedUtcTime'] as String),
     );
 
 Map<String, dynamic> _$$ExamImplToJson(_$ExamImpl instance) =>
@@ -27,6 +30,7 @@ Map<String, dynamic> _$$ExamImplToJson(_$ExamImpl instance) =>
       'questionDbIndexes': instance.questionDbIndexes,
       'license': _$LicenseEnumMap[instance.license]!,
       'testResult': instance.testResult?.toJson(),
+      'lastAttemptedUtcTime': instance.lastAttemptedUtcTime?.toIso8601String(),
     };
 
 const _$LicenseEnumMap = {

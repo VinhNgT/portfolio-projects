@@ -14,6 +14,7 @@ abstract class Exam with _$Exam {
     required List<int> questionDbIndexes,
     required License license,
     TestResult? testResult,
+    DateTime? lastAttemptedUtcTime,
   }) = _Exam;
   const Exam._();
 
@@ -25,4 +26,9 @@ abstract class Exam with _$Exam {
         questionDbIndexes: [0],
         license: License.all,
       );
+
+  String get licenseType => license.name.toUpperCase();
+  Duration get examDuration =>
+      Duration(minutes: license.examInfo.examDurationInMinutes);
+  int get minimumPassingScore => license.examInfo.minimumPassingScore;
 }
