@@ -5,7 +5,6 @@ import 'package:driving_license/features/exams/presentation/exams_list/empty_exa
 import 'package:driving_license/features/exams/presentation/exams_list/exams_list.dart';
 import 'package:driving_license/features/exams/presentation/screens/exams_list_screen/exams_list_screen_appbar.dart';
 import 'package:driving_license/features/exams/presentation/screens/exams_list_screen/exams_list_screen_controller.dart';
-import 'package:driving_license/features/questions/application/question/questions_service.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -45,11 +44,8 @@ class ExamsListScreen extends HookConsumerWidget {
             child: ExamsList(
               examsList: examsListValue,
               onExamCardPressed: (index) async {
-                ref
-                    .read(questionsServiceControllerProvider.notifier)
-                    .setupExamQuestions(examsListValue[index]);
-
-                await context.navigateTo(QuestionRoute());
+                await context
+                    .navigateTo(ExamDetailRoute(exam: examsListValue[index]));
               },
             ),
           ),

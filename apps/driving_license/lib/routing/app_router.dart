@@ -27,6 +27,7 @@ class AppRouter extends $AppRouter {
         ),
         AutoRoute(page: QuestionRoute.page),
         AutoRoute(page: ExamsListRoute.page),
+        AutoRoute(page: ExamDetailRoute.page),
       ];
 
   @override
