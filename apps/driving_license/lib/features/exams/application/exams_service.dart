@@ -4,7 +4,7 @@ import 'package:driving_license/features/exams/domain/exam.dart';
 import 'package:driving_license/features/licenses/data/providers/user_selected_license_provider.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
-import 'package:intl/intl.dart';
+import 'package:driving_license/utils/datetime_formatter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'exams_service.g.dart';
@@ -29,11 +29,10 @@ class ExamsService {
 
   FutureOr<void> createExam() async {
     final examQuestions = await _questionSelector.generateQuestions();
-
     final currentTime = DateTime.now();
-    final formatter = DateFormat('MM/dd-HH:mm');
+
     final exam = Exam(
-      name: 'Đề ${formatter.format(currentTime)}',
+      name: 'Đề ${DateTimeFormatter.formatLocalTimeDay(currentTime)}',
       createdUtcTime: currentTime.toUtc(),
       questionDbIndexes: examQuestions,
       license: license,
