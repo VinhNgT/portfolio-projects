@@ -169,6 +169,17 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
 
     return Future.value(null);
   }
+
+  @override
+  Future<UserAnswersMap> getAnswersByQuestionDbIndexes(
+    Iterable<int> dbIndexes,
+  ) {
+    return Future.value({
+      for (final dbIndex in dbIndexes)
+        if (allAnswersStore.value.containsKey(dbIndex))
+          dbIndex: allAnswersStore.value[dbIndex]!,
+    });
+  }
 }
 
 @Riverpod(keepAlive: true)

@@ -31,6 +31,9 @@ abstract class UserAnswersRepository {
     Chapter chapter,
   );
   Future<int?> getFirstUnansweredPositionInList(Iterable<int> dbIndexes);
+  Future<UserAnswersMap> getAnswersByQuestionDbIndexes(
+    Iterable<int> dbIndexes,
+  );
 }
 
 @Riverpod(keepAlive: true)

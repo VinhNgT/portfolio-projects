@@ -166,6 +166,23 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
 
     return null;
   }
+
+  @override
+  Future<UserAnswersMap> getAnswersByQuestionDbIndexes(
+    Iterable<int> dbIndexes,
+  ) async {
+    final recordSnapshot = await allAnswersStore.find(
+      db,
+      finder: Finder(
+        filter: Filter.inList('questionDbIndex', dbIndexes.toList()),
+      ),
+    );
+
+    return {
+      for (final record in recordSnapshot)
+        record.key: UserAnswer.fromJson(record.value as Map<String, dynamic>),
+    };
+  }
 }
 
 extension _FilterExtension on SembastUserAnswersRepository {
