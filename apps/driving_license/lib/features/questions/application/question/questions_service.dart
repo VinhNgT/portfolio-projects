@@ -247,6 +247,11 @@ extension QuestionsServiceMethods on QuestionsService {
 
   Stream<int?> watchUserSelectedAnswerIndex(Question question) =>
       userAnswersHandler.watchUserSelectedAnswerIndex(question);
+
+  Future<UserAnswersMap> getAnswersByQuestionDbIndexes(
+    Iterable<int> dbIndexes,
+  ) =>
+      userAnswersHandler.getAnswersByQuestionDbIndexes(dbIndexes);
 }
 
 @Riverpod(keepAlive: true)

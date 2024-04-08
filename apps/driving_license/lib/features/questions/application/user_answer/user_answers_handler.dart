@@ -7,6 +7,9 @@ sealed class UserAnswersHandler {
   Future<void> clearUserAnswer(Question question);
   Future<void> clearAllUserAnswers();
   Stream<int?> watchUserSelectedAnswerIndex(Question question);
+  Future<UserAnswersMap> getAnswersByQuestionDbIndexes(
+    Iterable<int> dbIndexes,
+  );
 }
 
 class DirectUserAnswersHandler implements UserAnswersHandler {
@@ -37,6 +40,13 @@ class DirectUserAnswersHandler implements UserAnswersHandler {
   @override
   Stream<int?> watchUserSelectedAnswerIndex(Question question) {
     return userAnswersRepository.watchUserSelectedAnswerIndex(question);
+  }
+
+  @override
+  Future<UserAnswersMap> getAnswersByQuestionDbIndexes(
+    Iterable<int> dbIndexes,
+  ) {
+    return userAnswersRepository.getAnswersByQuestionDbIndexes(dbIndexes);
   }
 }
 
@@ -71,6 +81,14 @@ class InMemoryUserAnswersHandler implements UserAnswersHandler {
   @override
   Stream<int?> watchUserSelectedAnswerIndex(Question question) {
     return inMemoryUserAnswersRepository.watchUserSelectedAnswerIndex(question);
+  }
+
+  @override
+  Future<UserAnswersMap> getAnswersByQuestionDbIndexes(
+    Iterable<int> dbIndexes,
+  ) {
+    return inMemoryUserAnswersRepository
+        .getAnswersByQuestionDbIndexes(dbIndexes);
   }
 }
 
@@ -118,5 +136,12 @@ class HideUserAnswersHandler implements UserAnswersHandler {
   @override
   Stream<int?> watchUserSelectedAnswerIndex(Question question) {
     return inMemoryUserAnswersHandler.watchUserSelectedAnswerIndex(question);
+  }
+
+  @override
+  Future<UserAnswersMap> getAnswersByQuestionDbIndexes(
+    Iterable<int> dbIndexes,
+  ) {
+    return inMemoryUserAnswersHandler.getAnswersByQuestionDbIndexes(dbIndexes);
   }
 }
