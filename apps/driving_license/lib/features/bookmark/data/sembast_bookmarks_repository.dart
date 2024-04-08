@@ -2,6 +2,7 @@ import 'package:driving_license/features/bookmark/data/bookmarks_repository.dart
 import 'package:driving_license/features/bookmark/domain/bookmark.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
@@ -13,6 +14,7 @@ class SembastBookmarksRepository implements BookmarksRepository {
   final Database db;
   final allBookmarksStore = intMapStoreFactory.store('bookmarks');
 
+  @factory
   static Future<SembastBookmarksRepository> makeDefault() async {
     return SembastBookmarksRepository(
       await _createDatabase('bookmarks.db'),

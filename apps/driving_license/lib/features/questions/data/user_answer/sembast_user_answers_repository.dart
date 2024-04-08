@@ -3,6 +3,7 @@ import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answer.dart';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
@@ -14,6 +15,7 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   final Database db;
   final allAnswersStore = intMapStoreFactory.store('all_answers');
 
+  @factory
   static Future<SembastUserAnswersRepository> makeDefault() async {
     return SembastUserAnswersRepository(
       await _createDatabase('user_answers.db'),

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:driving_license/features/exams/data/exams_repository.dart';
 import 'package:driving_license/features/exams/domain/exam.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
@@ -14,6 +15,7 @@ class SembastExamsRepository implements ExamsRepository {
   final Database db;
   final examsStore = stringMapStoreFactory.store('exams');
 
+  @factory
   static Future<SembastExamsRepository> makeDefault() async {
     return SembastExamsRepository(
       await _createDatabase('exams.db'),
