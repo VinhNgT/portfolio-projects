@@ -1,4 +1,5 @@
 import 'package:driving_license/features/questions/application/question/questions_service.dart';
+import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -98,4 +99,11 @@ Stream<int?> userSelectedAnswerIndex(
   final questionsService =
       await ref.watch(questionsServiceControllerProvider.future);
   yield* questionsService.watchUserSelectedAnswerIndex(question);
+}
+
+@riverpod
+Future<bool> isExamMode(IsExamModeRef ref) async {
+  final questionsService =
+      await ref.watch(questionsServiceControllerProvider.future);
+  return questionsService.operatingMode is ExamOperatingMode;
 }

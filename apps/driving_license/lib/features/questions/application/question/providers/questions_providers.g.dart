@@ -566,5 +566,20 @@ class _UserSelectedAnswerIndexProviderElement
   @override
   Question get question => (origin as UserSelectedAnswerIndexProvider).question;
 }
+
+String _$isExamModeHash() => r'fad263a7079c7d5d7effb011f4f3eddf07bb1c0f';
+
+/// See also [isExamMode].
+@ProviderFor(isExamMode)
+final isExamModeProvider = AutoDisposeFutureProvider<bool>.internal(
+  isExamMode,
+  name: r'isExamModeProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$isExamModeHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef IsExamModeRef = AutoDisposeFutureProviderRef<bool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
