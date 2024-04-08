@@ -1,5 +1,6 @@
 import 'package:driving_license/features/exams/domain/exam.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
+import 'package:driving_license/features/result/domain/test_result.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'exams_repository.g.dart';
@@ -10,6 +11,7 @@ abstract class ExamsRepository {
   FutureOr<void> saveExam(Exam exam);
   FutureOr<void> deleteExam(Exam exam);
   FutureOr<void> renameExam(Exam exam, String newName);
+  FutureOr<void> saveExamResult(Exam exam, TestResult testResult);
 
   Stream<List<Exam>> watchAllExamsByLicense(License license);
 }

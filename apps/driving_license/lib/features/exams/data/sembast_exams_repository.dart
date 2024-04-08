@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:driving_license/features/exams/data/exams_repository.dart';
 import 'package:driving_license/features/exams/domain/exam.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
+import 'package:driving_license/features/result/domain/test_result.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -43,6 +44,13 @@ class SembastExamsRepository implements ExamsRepository {
   @override
   FutureOr<void> renameExam(Exam exam, String newName) async {
     await examsStore.record(exam.examId).update(db, {'name': newName});
+  }
+
+  @override
+  FutureOr<void> saveExamResult(Exam exam, TestResult testResult) async {
+    await examsStore
+        .record(exam.examId)
+        .update(db, {'testResult': testResult.toJson()});
   }
 
   @override
