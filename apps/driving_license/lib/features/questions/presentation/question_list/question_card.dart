@@ -10,6 +10,7 @@ import 'package:driving_license/features/bookmark/data/providers/bookmark_provid
 import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_state_checkbox.dart';
+import 'package:driving_license/features/questions/presentation/answer/eval_answer_state_delegate.dart';
 import 'package:driving_license/features/questions/presentation/question_list/question_card_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:driving_license/utils/ref_ext.dart';
@@ -27,8 +28,11 @@ class QuestionCard extends HookConsumerWidget {
   final bool isSelected;
   final VoidCallback? onPressed;
 
-  final bool loadAnswerState;
-  final bool loadIsBookmarked;
+  final bool showIsDanger;
+  final bool showAnswerState;
+  final bool showIsBookmarked;
+
+  final EvalAnswerStateDelegate evalAnswerStateDelegate;
 
   const QuestionCard({
     super.key,
@@ -36,8 +40,10 @@ class QuestionCard extends HookConsumerWidget {
     required this.question,
     required this.isSelected,
     this.onPressed,
-    this.loadAnswerState = true,
-    this.loadIsBookmarked = true,
+    this.showIsDanger = true,
+    this.showAnswerState = true,
+    this.showIsBookmarked = true,
+    this.evalAnswerStateDelegate = const ShowResultEvalAnswerStateDelegate(),
   });
 
   @override
@@ -79,7 +85,7 @@ class QuestionCard extends HookConsumerWidget {
                   children: [
                     Row(
                       children: [
-                        if (question.isDanger) ...[
+                        if (question.isDanger && showIsDanger) ...[
                           const SvgPicture(
                             AssetBytesLoader(
                               'assets/icons/home_screen/compiled/danger_fire.svg.vec',
@@ -93,9 +99,12 @@ class QuestionCard extends HookConsumerWidget {
                           'Câu ${questionPageIndex + 1}',
                           style: context.textTheme.titleMedium,
                         ),
-                        if (loadAnswerState) ...[
+                        if (showAnswerState) ...[
                           kGap_4,
-                          _QCAnswerStateCheckbox(question: question),
+                          _QCAnswerStateCheckbox(
+                            question: question,
+                            evalDelegate: evalAnswerStateDelegate,
+                          ),
                         ],
                       ],
                     ),
@@ -109,7 +118,7 @@ class QuestionCard extends HookConsumerWidget {
                   ],
                 ),
               ),
-              if (loadIsBookmarked) ...[
+              if (showIsBookmarked) ...[
                 kGap_12,
                 Align(
                   alignment: Alignment.topCenter,
@@ -144,30 +153,25 @@ class QuestionCard extends HookConsumerWidget {
 // QC stands for QuestionCard
 class _QCAnswerStateCheckbox extends HookConsumerWidget {
   final Question question;
+  final EvalAnswerStateDelegate evalDelegate;
+
   const _QCAnswerStateCheckbox({
     required this.question,
+    required this.evalDelegate,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedAnswerIndex =
         ref.watch(userSelectedAnswerIndexProvider(question)).value;
-    final answerState = evaluateAnswerState(question, selectedAnswerIndex);
+    final answerState = evalDelegate.evaluateAnswerState(
+      selectedAnswerIndex,
+      question.correctAnswerIndex,
+    );
 
     return answerState != AnswerState.unchecked
         ? AnswerStateCheckbox(state: answerState, iconSize: 20)
         : const SizedBox.shrink();
-  }
-
-  AnswerState evaluateAnswerState(Question question, int? selectedAnswerIndex) {
-    final bool noAnswerSelected = (selectedAnswerIndex == null);
-    final bool isCorrect = (selectedAnswerIndex == question.correctAnswerIndex);
-
-    if (noAnswerSelected) {
-      return AnswerState.unchecked;
-    }
-
-    return isCorrect ? AnswerState.correct : AnswerState.incorrect;
   }
 }
 
@@ -211,14 +215,19 @@ class AsyncValueQuestionCard extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final question =
         ref.watch(questionPreloadPagesFutureProvider(questionPageIndex));
+    final isExamMode = ref.watch(isExamModeProvider);
 
-    return AsyncValueWidget(
-      value: question,
-      builder: (questionValue) => Consumer(
+    return Async2ValuesWidget<Question, bool>(
+      values: (question, isExamMode),
+      builder: (questionValue, isExamModeValue) => Consumer(
         builder: (context, ref, child) {
           return QuestionCard(
             questionPageIndex: questionPageIndex,
             question: questionValue,
+            evalAnswerStateDelegate: isExamModeValue
+                ? const HideResultEvalAnswerStateDelegate()
+                : const ShowResultEvalAnswerStateDelegate(),
+            showIsDanger: !isExamModeValue,
             isSelected: isSelected,
             onPressed: onPressed,
           );
@@ -253,8 +262,8 @@ class PrototypeQuestionCard extends HookConsumerWidget {
       question: Question.prototype(),
       isSelected: false,
       onPressed: null,
-      loadAnswerState: false,
-      loadIsBookmarked: false,
+      showAnswerState: false,
+      showIsBookmarked: false,
     );
   }
 
