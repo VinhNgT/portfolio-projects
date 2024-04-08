@@ -13,6 +13,7 @@ abstract class ExamsRepository {
   FutureOr<void> renameExam(Exam exam, String newName);
   FutureOr<void> saveExamResult(Exam exam, TestResult testResult);
 
+  Stream<Exam> watchExamById(String examId);
   Stream<List<Exam>> watchAllExamsByLicense(License license);
 }
 
