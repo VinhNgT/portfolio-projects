@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:driving_license/common_widgets/async_value/async_value_scaffold.dart';
+import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/common_widgets/aware_route_state.dart';
 import 'package:driving_license/common_widgets/widget_deadzone.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
@@ -33,6 +33,7 @@ class QuestionScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final pageController = usePageController(initialPage: initialPageIndex);
     final questionCount = ref.watch(questionCountFutureProvider);
+    final isExamMode = ref.watch(isExamModeProvider);
 
     ref.keepProviderAlive(currentPageIndexProvider);
     ref.keepProviderAlive(keepQuestionPageScrollControllerAliveProvider);
@@ -53,9 +54,9 @@ class QuestionScreen extends HookConsumerWidget {
 
     return AwareRouteState(
       didPop: () => onclose?.call(ref.read(currentPageIndexProvider)),
-      child: AsyncValueScaffold(
-        value: questionCount,
-        builder: (questionCountValue) => Scaffold(
+      child: Async2ValuesWidget<int, bool>(
+        values: (questionCount, isExamMode),
+        builder: (questionCountValue, isExamModeValue) => Scaffold(
           appBar: const QuestionAppBar(),
           body: WidgetDeadzone(
             deadzone: EdgeInsets.only(
@@ -67,7 +68,9 @@ class QuestionScreen extends HookConsumerWidget {
               pageController: pageController,
             ),
           ),
-          bottomNavigationBar: QuestionBottomNavigationBar(
+          bottomNavigationBar:
+              QuestionBottomNavigationBar.createBasedOnExamMode(
+            isExamMode: isExamModeValue,
             questionCount: questionCountValue,
             onNextPressed: () => unawaited(
               pageController.nextPage(
