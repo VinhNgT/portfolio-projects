@@ -20,14 +20,14 @@ class AnswerCardList extends HookConsumerWidget {
   factory AnswerCardList.practiceMode({required Question question}) {
     return AnswerCardList._(
       question: question,
-      delegate: PracticeModeAnswerCardListDelegate(),
+      delegate: const PracticeModeAnswerCardListDelegate(),
     );
   }
 
   factory AnswerCardList.examMode({required Question question}) {
     return AnswerCardList._(
       question: question,
-      delegate: ExamModeAnswerCardListDelegate(),
+      delegate: const ExamModeAnswerCardListDelegate(),
     );
   }
 

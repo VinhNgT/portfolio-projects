@@ -1,7 +1,12 @@
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_state_checkbox.dart';
+import 'package:driving_license/features/questions/presentation/answer/eval_answer_state_delegate.dart';
+import 'package:flutter/material.dart';
 
+@immutable
 sealed class AnswerCardListDelegate {
+  const AnswerCardListDelegate();
+
   /// Evaluates the state of an answer card based on the provided parameters.
   ///
   /// The [answerIndex] parameter represents the index of the answer card being
@@ -61,26 +66,36 @@ sealed class AnswerCardListDelegate {
   });
 }
 
-class PracticeModeAnswerCardListDelegate implements AnswerCardListDelegate {
+class PracticeModeAnswerCardListDelegate extends AnswerCardListDelegate {
+  final _evalAnswerStateDelegate = const ShowResultEvalAnswerStateDelegate();
+  const PracticeModeAnswerCardListDelegate();
+
   @override
   AnswerState evaluateAnswerCardState({
     required int answerIndex,
     required int? selectedAnswerIndex,
     required int correctAnswerIndex,
   }) {
-    final bool noAnswerSelected = (selectedAnswerIndex == null);
-    final bool isSelected = (answerIndex == selectedAnswerIndex);
-    final bool isCorrect = (answerIndex == correctAnswerIndex);
-
-    if (noAnswerSelected) {
+    // If no answer is selected, hide everything
+    if (selectedAnswerIndex == null) {
       return AnswerState.unchecked;
     }
 
-    if (isSelected) {
-      return isCorrect ? AnswerState.correct : AnswerState.incorrect;
-    }
+    // The answer state of this card, it can only be AnswerState.correct or
+    // AnswerState.incorrect because answerIndex != null
+    final answerState = _evalAnswerStateDelegate.evaluateAnswerState(
+      answerIndex,
+      correctAnswerIndex,
+    );
 
-    return isCorrect ? AnswerState.correct : AnswerState.unchecked;
+    // Only reveal the answer result of this card if this card is selected or
+    // it is the correct answer
+    final bool isSelected = (answerIndex == selectedAnswerIndex);
+    final bool isCorrect = (answerIndex == correctAnswerIndex);
+    if (isSelected || isCorrect) {
+      return answerState;
+    }
+    return AnswerState.unchecked;
   }
 
   @override
@@ -98,13 +113,16 @@ class PracticeModeAnswerCardListDelegate implements AnswerCardListDelegate {
   }
 }
 
-class ExamModeAnswerCardListDelegate implements AnswerCardListDelegate {
+class ExamModeAnswerCardListDelegate extends AnswerCardListDelegate {
+  const ExamModeAnswerCardListDelegate();
+
   @override
   AnswerState evaluateAnswerCardState({
     required int answerIndex,
     int? selectedAnswerIndex,
     required int correctAnswerIndex,
   }) {
+    // The state of this card is simply depend on whether it is selected or not
     final bool isSelected = (answerIndex == selectedAnswerIndex);
     return isSelected ? AnswerState.checked : AnswerState.unchecked;
   }
