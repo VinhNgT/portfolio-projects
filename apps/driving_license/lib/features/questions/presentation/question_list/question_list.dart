@@ -26,6 +26,10 @@ class QuestionList extends HookConsumerWidget {
     final userInteracted = useState(false);
     final questionCardHeight = ref.watch(questionCardPrototypeHeightProvider);
 
+    if (questionCardHeight == null) {
+      return const SizedBox.shrink();
+    }
+
     final scrollController = useScrollController(
       initialScrollOffset: calculateInitialScrollOffset(
         questionCardHeight: questionCardHeight,

@@ -5,8 +5,8 @@ part 'question_card_controller.g.dart';
 @riverpod
 class QuestionCardPrototypeHeight extends _$QuestionCardPrototypeHeight {
   @override
-  double build() {
-    return 0;
+  double? build() {
+    return null;
   }
 
   set value(double value) {
