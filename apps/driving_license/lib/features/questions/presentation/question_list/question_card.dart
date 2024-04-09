@@ -6,7 +6,7 @@ import 'package:driving_license/common_widgets/hooks/build_off_stage_overlay.dar
 import 'package:driving_license/common_widgets/hooks/did_change_metric_rebuild.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
-import 'package:driving_license/features/bookmark/data/providers/bookmark_providers.dart';
+import 'package:driving_license/features/bookmark/data/providers/bookmarks_providers.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
 import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
