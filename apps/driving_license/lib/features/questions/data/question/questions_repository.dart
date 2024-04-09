@@ -6,7 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'questions_repository.g.dart';
 
-abstract class QuestionsRepository {
+abstract interface class QuestionsRepository {
   static int pageSize = 20;
 
   FutureOr<Question> getQuestion(int index);

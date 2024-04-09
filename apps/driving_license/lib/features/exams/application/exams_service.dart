@@ -43,10 +43,6 @@ class ExamsService {
     examsRepository.saveExam(exam);
   }
 
-  Stream<List<Exam>> watchExamsList() {
-    return examsRepository.watchAllExamsByLicense(license);
-  }
-
   FutureOr<void> gradeExam(Exam exam, UserAnswersMap userAnswers) {
     final total = exam.questionDbIndexes.length;
     int answered = 0;
@@ -90,10 +86,4 @@ FutureOr<ExamsService> examsService(ExamsServiceRef ref) async {
     questionsRepository: questionsRepository,
     license: license,
   );
-}
-
-@riverpod
-Stream<List<Exam>> examsListStream(ExamsListStreamRef ref) async* {
-  final examsService = await ref.watch(examsServiceProvider.future);
-  yield* examsService.watchExamsList();
 }

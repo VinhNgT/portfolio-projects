@@ -6,7 +6,7 @@ import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 
-abstract class QuestionsHandler {
+sealed class QuestionsHandler {
   FutureOr<Question> getQuestion(int questionIndex);
   FutureOr<List<Question>> getQuestionsPage(int pageIndex);
   FutureOr<int> getQuestionCount();

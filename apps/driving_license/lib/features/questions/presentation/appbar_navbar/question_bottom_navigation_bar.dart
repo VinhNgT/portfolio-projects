@@ -7,7 +7,7 @@ import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/constants/opacity.dart';
 import 'package:driving_license/constants/widget_sizes.dart';
 import 'package:driving_license/features/exams/application/exams_service.dart';
-import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
+import 'package:driving_license/features/questions/application/question/providers/questions_exam_providers.dart';
 import 'package:driving_license/features/questions/application/question/questions_service.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/dialogs/confirm_submit_exam_dialog.dart';
 import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';

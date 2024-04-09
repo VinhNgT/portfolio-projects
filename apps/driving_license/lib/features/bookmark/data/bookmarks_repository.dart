@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'bookmarks_repository.g.dart';
 
-abstract class BookmarksRepository {
+abstract interface class BookmarksRepository {
   Future<void> saveBookmark(Question question);
   Future<void> removeBookmark(Question question);
   Future<List<Bookmark>> getAllBookmarksByLicense(License license);

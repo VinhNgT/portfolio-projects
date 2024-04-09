@@ -13,7 +13,7 @@ part 'user_answers_repository.g.dart';
 /// for each question.
 typedef UserAnswersMap = Map<int, UserAnswer>;
 
-abstract class UserAnswersRepository {
+abstract interface class UserAnswersRepository {
   Future<void> saveAnswer(Question question, int selectedAnswerIndex);
   Future<void> clearAnswer(Question question);
   Future<void> clearAllAnswers();
