@@ -40,7 +40,7 @@ class BookmarksEmptyDialog extends StatelessWidget {
       ),
       actions: [
         TextButton(
-          onPressed: () async => context.popRoute(),
+          onPressed: () async => context.maybePop(),
           child: const Text('Tôi đã hiểu'),
         ),
       ],

@@ -168,7 +168,7 @@ class _CloseButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Symbols.close),
-      onPressed: () async => context.popRoute(),
+      onPressed: () async => context.maybePop(),
     );
   }
 }
@@ -189,7 +189,7 @@ class _BackButton extends StatelessWidget {
           _ => Symbols.arrow_back
         },
       ),
-      onPressed: () async => context.popRoute(),
+      onPressed: () async => context.maybePop(),
     );
   }
 }

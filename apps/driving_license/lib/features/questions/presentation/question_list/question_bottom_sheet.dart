@@ -163,7 +163,7 @@ class _CloseButton extends StatelessWidget {
         Symbols.close,
         color: context.materialScheme.onSurfaceVariant,
       ),
-      onPressed: () async => context.popRoute(),
+      onPressed: () async => context.maybePop(),
     );
   }
 }
