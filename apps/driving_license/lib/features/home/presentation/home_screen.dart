@@ -6,7 +6,7 @@ import 'package:driving_license/common_widgets/notify_scroll_size_changes.dart';
 import 'package:driving_license/common_widgets/widget_deadzone.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
-import 'package:driving_license/features/chapters/application/providers/chapter_info_providers.dart';
+import 'package:driving_license/features/chapters/application/providers/chapters_info_providers.dart';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/home/presentation/chapter_card.dart';
 import 'package:driving_license/features/home/presentation/donate_card.dart';

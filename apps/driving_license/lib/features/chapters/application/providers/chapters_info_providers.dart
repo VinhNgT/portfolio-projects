@@ -6,7 +6,7 @@ import 'package:driving_license/features/result/domain/test_result.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:rxdart/rxdart.dart';
 
-part 'chapter_info_providers.g.dart';
+part 'chapters_info_providers.g.dart';
 
 @riverpod
 FutureOr<int> chapterQuestionsCount(
