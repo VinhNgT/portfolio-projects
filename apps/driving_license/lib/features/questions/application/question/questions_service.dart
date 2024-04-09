@@ -314,12 +314,3 @@ class QuestionsServiceController extends _$QuestionsServiceController {
     ref.invalidateSelf();
   }
 }
-
-@riverpod
-FutureOr<QuestionsServiceMode> questionsServiceMode(
-  QuestionsServiceModeRef ref,
-) async {
-  final questionsService =
-      await ref.watch(questionsServiceControllerProvider.future);
-  return questionsService.operatingMode;
-}

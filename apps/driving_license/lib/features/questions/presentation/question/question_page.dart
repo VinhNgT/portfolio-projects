@@ -6,11 +6,13 @@ import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/constants/opacity.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
+import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_card_list.dart';
 import 'package:driving_license/features/questions/presentation/question/question_notes.dart';
 import 'package:driving_license/features/questions/presentation/question/question_page_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
+import 'package:driving_license/utils/ref_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -27,7 +29,10 @@ class QuestionPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final scrollController = useScrollController();
     final question = ref.watch(questionFutureProvider(questionPageIndex));
-    final isExamMode = ref.watch(isExamModeProvider);
+    final isExamMode = ref.watchConvertAsyncValue(
+      questionsServiceModeProvider,
+      (valueData) => valueData is ExamOperatingMode,
+    );
 
     return Async2ValuesWidget<Question, bool>(
       values: (question, isExamMode),

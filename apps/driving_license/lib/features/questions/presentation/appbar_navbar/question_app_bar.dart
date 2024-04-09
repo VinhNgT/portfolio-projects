@@ -4,7 +4,6 @@ import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/constants/widget_sizes.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
-import 'package:driving_license/features/questions/application/question/questions_service.dart';
 import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/bookmark_button.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/question_app_bar_controller.dart';
@@ -26,17 +25,20 @@ class QuestionAppBar extends HookConsumerWidget implements PreferredSizeWidget {
     final currentPageIndex = ref.watch(currentPageIndexProvider);
     final currentPageScrollController =
         ref.watch(questionPageScrollControllerProvider(currentPageIndex));
-    final questionsServiceMode = ref.watch(questionsServiceModeProvider);
+    final isExamMode = ref.watchConvertAsyncValue(
+      questionsServiceModeProvider,
+      (valueData) => valueData is ExamOperatingMode,
+    );
 
     return AsyncValueWidget(
-      value: questionsServiceMode,
-      builder: (questionsServiceModeValue) => CommonAppBar(
+      value: isExamMode,
+      builder: (isExamModeValue) => CommonAppBar(
         title: _QuestionTitle(currentPageIndex: currentPageIndex),
         actions: [
           const BookmarkButton(),
 
           // Hide the restart button in ExamOperatingMode
-          if (questionsServiceModeValue is! ExamOperatingMode)
+          if (!isExamModeValue)
             IconButton(
               icon: const Icon(Symbols.restart_alt),
               onPressed: controllerState.isLoading

@@ -5,6 +5,7 @@ import 'package:driving_license/common_widgets/async_value/async_value_widget.da
 import 'package:driving_license/common_widgets/aware_route_state.dart';
 import 'package:driving_license/common_widgets/widget_deadzone.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
+import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/question_app_bar.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/question_bottom_navigation_bar.dart';
 import 'package:driving_license/features/questions/presentation/question/question_page_controller.dart';
@@ -33,7 +34,10 @@ class QuestionScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final pageController = usePageController(initialPage: initialPageIndex);
     final questionCount = ref.watch(questionCountFutureProvider);
-    final isExamMode = ref.watch(isExamModeProvider);
+    final isExamMode = ref.watchConvertAsyncValue(
+      questionsServiceModeProvider,
+      (valueData) => valueData is ExamOperatingMode,
+    );
 
     ref.keepProviderAlive(currentPageIndexProvider);
     ref.keepProviderAlive(keepQuestionPageScrollControllerAliveProvider);

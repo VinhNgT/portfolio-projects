@@ -104,10 +104,12 @@ Stream<int?> userSelectedAnswerIndex(
 }
 
 @riverpod
-Future<bool> isExamMode(IsExamModeRef ref) async {
+FutureOr<QuestionsServiceMode> questionsServiceMode(
+  QuestionsServiceModeRef ref,
+) async {
   final questionsService =
       await ref.watch(questionsServiceControllerProvider.future);
-  return questionsService.operatingMode is ExamOperatingMode;
+  return questionsService.operatingMode;
 }
 
 @riverpod

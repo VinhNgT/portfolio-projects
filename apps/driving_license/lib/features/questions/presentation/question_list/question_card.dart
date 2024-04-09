@@ -8,6 +8,7 @@ import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/bookmark/data/providers/bookmark_providers.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
+import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_state_checkbox.dart';
 import 'package:driving_license/features/questions/presentation/answer/eval_answer_state_delegate.dart';
@@ -215,7 +216,10 @@ class AsyncValueQuestionCard extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final question =
         ref.watch(questionPreloadPagesFutureProvider(questionPageIndex));
-    final isExamMode = ref.watch(isExamModeProvider);
+    final isExamMode = ref.watchConvertAsyncValue(
+      questionsServiceModeProvider,
+      (valueData) => valueData is ExamOperatingMode,
+    );
 
     return Async2ValuesWidget<Question, bool>(
       values: (question, isExamMode),

@@ -567,20 +567,24 @@ class _UserSelectedAnswerIndexProviderElement
   Question get question => (origin as UserSelectedAnswerIndexProvider).question;
 }
 
-String _$isExamModeHash() => r'fad263a7079c7d5d7effb011f4f3eddf07bb1c0f';
+String _$questionsServiceModeHash() =>
+    r'158caac30084d47f7ae13636e8d6b2bc65a3c594';
 
-/// See also [isExamMode].
-@ProviderFor(isExamMode)
-final isExamModeProvider = AutoDisposeFutureProvider<bool>.internal(
-  isExamMode,
-  name: r'isExamModeProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$isExamModeHash,
+/// See also [questionsServiceMode].
+@ProviderFor(questionsServiceMode)
+final questionsServiceModeProvider =
+    AutoDisposeFutureProvider<QuestionsServiceMode>.internal(
+  questionsServiceMode,
+  name: r'questionsServiceModeProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$questionsServiceModeHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef IsExamModeRef = AutoDisposeFutureProviderRef<bool>;
+typedef QuestionsServiceModeRef
+    = AutoDisposeFutureProviderRef<QuestionsServiceMode>;
 String _$currentExamHash() => r'ce6897f6a6b00789b192139cb5edb64ce2f98555';
 
 /// See also [currentExam].

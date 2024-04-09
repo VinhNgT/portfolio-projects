@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/common_widgets/widget_deadzone.dart';
 import 'package:driving_license/constants/app_sizes.dart';
-import 'package:driving_license/features/questions/application/question/questions_service.dart';
+import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
 import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
 import 'package:driving_license/features/questions/presentation/question_list/question_list.dart';
 import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
