@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:driving_license/features/exams/data/exams_repository.dart';
 import 'package:driving_license/features/exams/domain/exam.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
-import 'package:driving_license/features/result/domain/test_result.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -32,7 +31,10 @@ class SembastExamsRepository implements ExamsRepository {
   FutureOr<void> saveExam(Exam exam) async {
     await db.transaction((txn) async {
       final examId = await examsStore.add(txn, exam.toJson());
-      await examsStore.record(examId).update(txn, {'examId': examId});
+
+      if (exam.examId != examId) {
+        await examsStore.record(examId).update(txn, {'examId': examId});
+      }
     });
   }
 
@@ -47,10 +49,15 @@ class SembastExamsRepository implements ExamsRepository {
   }
 
   @override
-  FutureOr<void> saveExamResult(Exam exam, TestResult testResult) async {
-    await examsStore
-        .record(exam.examId)
-        .update(db, {'testResult': testResult.toJson()});
+  FutureOr<void> saveGradedExam(Exam exam) async {
+    if (exam.testResult == null) {
+      throw StateError('Exam has no test result (not graded)');
+    }
+
+    await examsStore.record(exam.examId).update(db, {
+      'testResult': exam.testResult!.toJson(),
+      'lastAttemptedUtcTime': exam.lastAttemptedUtcTime!.toIso8601String(),
+    });
   }
 
   @override

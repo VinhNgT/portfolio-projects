@@ -5,8 +5,6 @@ import 'package:driving_license/features/licenses/data/providers/user_selected_l
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
-import 'package:driving_license/features/result/domain/test_result.dart';
-import 'package:driving_license/utils/datetime_formatter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'exams_service.g.dart';
@@ -31,47 +29,17 @@ class ExamsService {
 
   FutureOr<void> createExam() async {
     final examQuestions = await _questionSelector.generateQuestions();
-    final currentTime = DateTime.now();
-
-    final exam = Exam(
-      name: 'Đề ${DateTimeFormatter.formatLocalTimeDay(currentTime)}',
-      createdUtcTime: currentTime.toUtc(),
-      questionDbIndexes: examQuestions,
+    final exam = Exam.createNew(
       license: license,
+      questionDbIndexes: examQuestions,
     );
 
     examsRepository.saveExam(exam);
   }
 
   FutureOr<void> gradeExam(Exam exam, UserAnswersMap userAnswers) {
-    final total = exam.questionDbIndexes.length;
-    int answered = 0;
-    int correct = 0;
-    int wrong = 0;
-
-    for (final questionId in exam.questionDbIndexes) {
-      final userAnswer = userAnswers[questionId];
-      if (userAnswer != null) {
-        answered++;
-
-        if (userAnswer.selectedAnswerIndex ==
-            userAnswer.questionMetadata.correctAnswerIndex) {
-          correct++;
-        } else {
-          wrong++;
-        }
-      }
-    }
-
-    return examsRepository.saveExamResult(
-      exam,
-      TestResult(
-        totalQuestions: total,
-        answeredQuestions: answered,
-        correctAnswers: correct,
-        wrongAnswers: wrong,
-      ),
-    );
+    final gradedExam = exam.gradeExam(userAnswers);
+    return examsRepository.saveGradedExam(gradedExam);
   }
 }
 
