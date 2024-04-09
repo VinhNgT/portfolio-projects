@@ -10,7 +10,8 @@ class NoWrongAnswersDialog extends StatelessWidget {
     return AlertDialog(
       title: const Text('Danh sách câu sai trống'),
       content: const Text(
-        'Bạn hiện tại không có câu hỏi nào trả lời sai, hãy cố gắng duy trì danh sách này trống nhé!',
+        'Bạn hiện tại không có câu hỏi nào trả lời sai, hãy cố gắng duy trì '
+        'danh sách này trống nhé!',
       ),
       actions: [
         TextButton(

@@ -20,8 +20,8 @@ class BookmarksEmptyDialog extends StatelessWidget {
           style: textStyle,
           children: [
             const TextSpan(
-              text:
-                  'Bạn có thể lưu câu hỏi để dễ dàng xem lại bằng cách nhấn vào biểu tượng'
+              text: 'Bạn có thể lưu câu hỏi để dễ dàng xem lại bằng cách nhấn '
+                  'vào biểu tượng'
                   ' ',
             ),
             WidgetSpan(
