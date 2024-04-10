@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/common_widgets/misc/ink_well_overlay_color.dart';
 import 'package:driving_license/constants/app_sizes.dart';
@@ -11,6 +12,7 @@ import 'package:driving_license/features/questions/application/question/provider
 import 'package:driving_license/features/questions/application/question/questions_service.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/dialogs/confirm_submit_exam_dialog.dart';
 import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
+import 'package:driving_license/routing/app_router.gr.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -193,8 +195,9 @@ class ExamBottomNavigationBar extends QuestionBottomNavigationBar {
       userAnswers,
     );
 
-    final result = await ref.read(currentExamProvider.future);
-    debugPrint('Exam result: ${result.testResult}');
+    if (context.mounted) {
+      await context.navigateTo(ExamResultRoute(userAnswersMap: userAnswers));
+    }
   }
 }
 

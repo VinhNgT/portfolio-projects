@@ -8,28 +8,32 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i6;
-import 'package:driving_license/features/exams/domain/exam.dart' as _i8;
+import 'package:auto_route/auto_route.dart' as _i7;
+import 'package:driving_license/features/exams/domain/exam.dart' as _i9;
 import 'package:driving_license/features/exams/presentation/screens/exam_detail_screen/exam_detail_screen.dart'
     as _i1;
 import 'package:driving_license/features/exams/presentation/screens/exams_list_screen/exams_list_screen.dart'
-    as _i2;
-import 'package:driving_license/features/home/presentation/home_screen.dart'
     as _i3;
-import 'package:driving_license/features/licenses/presentation/license_selection_screen.dart'
+import 'package:driving_license/features/home/presentation/home_screen.dart'
     as _i4;
-import 'package:driving_license/features/questions/presentation/question_screen.dart'
+import 'package:driving_license/features/licenses/presentation/license_selection_screen.dart'
     as _i5;
-import 'package:flutter/material.dart' as _i7;
+import 'package:driving_license/features/questions/domain/user_answer.dart'
+    as _i10;
+import 'package:driving_license/features/questions/presentation/question_screen.dart'
+    as _i6;
+import 'package:driving_license/features/result/presentation/exam_result_screen.dart'
+    as _i2;
+import 'package:flutter/material.dart' as _i8;
 
-abstract class $AppRouter extends _i6.RootStackRouter {
+abstract class $AppRouter extends _i7.RootStackRouter {
   $AppRouter({super.navigatorKey});
 
   @override
-  final Map<String, _i6.PageFactory> pagesMap = {
+  final Map<String, _i7.PageFactory> pagesMap = {
     ExamDetailRoute.name: (routeData) {
       final args = routeData.argsAs<ExamDetailRouteArgs>();
-      return _i6.AutoRoutePage<dynamic>(
+      return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i1.ExamDetailScreen(
           key: args.key,
@@ -37,24 +41,34 @@ abstract class $AppRouter extends _i6.RootStackRouter {
         ),
       );
     },
-    ExamsListRoute.name: (routeData) {
-      return _i6.AutoRoutePage<dynamic>(
+    ExamResultRoute.name: (routeData) {
+      final args = routeData.argsAs<ExamResultRouteArgs>();
+      return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i2.ExamsListScreen(),
+        child: _i2.ExamResultScreen(
+          key: args.key,
+          userAnswersMap: args.userAnswersMap,
+        ),
+      );
+    },
+    ExamsListRoute.name: (routeData) {
+      return _i7.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i3.ExamsListScreen(),
       );
     },
     HomeRoute.name: (routeData) {
-      return _i6.AutoRoutePage<dynamic>(
+      return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i3.HomeScreen(),
+        child: const _i4.HomeScreen(),
       );
     },
     LicenseSelectionRoute.name: (routeData) {
       final args = routeData.argsAs<LicenseSelectionRouteArgs>(
           orElse: () => const LicenseSelectionRouteArgs());
-      return _i6.AutoRoutePage<dynamic>(
+      return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i4.LicenseSelectionScreen(
+        child: _i5.LicenseSelectionScreen(
           key: args.key,
           afterLicenseSelected: args.afterLicenseSelected,
           navigateToHomeAfterLicenseSelected:
@@ -65,9 +79,9 @@ abstract class $AppRouter extends _i6.RootStackRouter {
     QuestionRoute.name: (routeData) {
       final args = routeData.argsAs<QuestionRouteArgs>(
           orElse: () => const QuestionRouteArgs());
-      return _i6.AutoRoutePage<dynamic>(
+      return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i5.QuestionScreen(
+        child: _i6.QuestionScreen(
           key: args.key,
           initialPageIndex: args.initialPageIndex,
           onclose: args.onclose,
@@ -79,11 +93,11 @@ abstract class $AppRouter extends _i6.RootStackRouter {
 
 /// generated route for
 /// [_i1.ExamDetailScreen]
-class ExamDetailRoute extends _i6.PageRouteInfo<ExamDetailRouteArgs> {
+class ExamDetailRoute extends _i7.PageRouteInfo<ExamDetailRouteArgs> {
   ExamDetailRoute({
-    _i7.Key? key,
-    required _i8.Exam exam,
-    List<_i6.PageRouteInfo>? children,
+    _i8.Key? key,
+    required _i9.Exam exam,
+    List<_i7.PageRouteInfo>? children,
   }) : super(
           ExamDetailRoute.name,
           args: ExamDetailRouteArgs(
@@ -95,8 +109,8 @@ class ExamDetailRoute extends _i6.PageRouteInfo<ExamDetailRouteArgs> {
 
   static const String name = 'ExamDetailRoute';
 
-  static const _i6.PageInfo<ExamDetailRouteArgs> page =
-      _i6.PageInfo<ExamDetailRouteArgs>(name);
+  static const _i7.PageInfo<ExamDetailRouteArgs> page =
+      _i7.PageInfo<ExamDetailRouteArgs>(name);
 }
 
 class ExamDetailRouteArgs {
@@ -105,9 +119,9 @@ class ExamDetailRouteArgs {
     required this.exam,
   });
 
-  final _i7.Key? key;
+  final _i8.Key? key;
 
-  final _i8.Exam exam;
+  final _i9.Exam exam;
 
   @override
   String toString() {
@@ -116,9 +130,47 @@ class ExamDetailRouteArgs {
 }
 
 /// generated route for
-/// [_i2.ExamsListScreen]
-class ExamsListRoute extends _i6.PageRouteInfo<void> {
-  const ExamsListRoute({List<_i6.PageRouteInfo>? children})
+/// [_i2.ExamResultScreen]
+class ExamResultRoute extends _i7.PageRouteInfo<ExamResultRouteArgs> {
+  ExamResultRoute({
+    _i8.Key? key,
+    required Map<int, _i10.UserAnswer> userAnswersMap,
+    List<_i7.PageRouteInfo>? children,
+  }) : super(
+          ExamResultRoute.name,
+          args: ExamResultRouteArgs(
+            key: key,
+            userAnswersMap: userAnswersMap,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ExamResultRoute';
+
+  static const _i7.PageInfo<ExamResultRouteArgs> page =
+      _i7.PageInfo<ExamResultRouteArgs>(name);
+}
+
+class ExamResultRouteArgs {
+  const ExamResultRouteArgs({
+    this.key,
+    required this.userAnswersMap,
+  });
+
+  final _i8.Key? key;
+
+  final Map<int, _i10.UserAnswer> userAnswersMap;
+
+  @override
+  String toString() {
+    return 'ExamResultRouteArgs{key: $key, userAnswersMap: $userAnswersMap}';
+  }
+}
+
+/// generated route for
+/// [_i3.ExamsListScreen]
+class ExamsListRoute extends _i7.PageRouteInfo<void> {
+  const ExamsListRoute({List<_i7.PageRouteInfo>? children})
       : super(
           ExamsListRoute.name,
           initialChildren: children,
@@ -126,13 +178,13 @@ class ExamsListRoute extends _i6.PageRouteInfo<void> {
 
   static const String name = 'ExamsListRoute';
 
-  static const _i6.PageInfo<void> page = _i6.PageInfo<void>(name);
+  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i3.HomeScreen]
-class HomeRoute extends _i6.PageRouteInfo<void> {
-  const HomeRoute({List<_i6.PageRouteInfo>? children})
+/// [_i4.HomeScreen]
+class HomeRoute extends _i7.PageRouteInfo<void> {
+  const HomeRoute({List<_i7.PageRouteInfo>? children})
       : super(
           HomeRoute.name,
           initialChildren: children,
@@ -140,18 +192,18 @@ class HomeRoute extends _i6.PageRouteInfo<void> {
 
   static const String name = 'HomeRoute';
 
-  static const _i6.PageInfo<void> page = _i6.PageInfo<void>(name);
+  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i4.LicenseSelectionScreen]
+/// [_i5.LicenseSelectionScreen]
 class LicenseSelectionRoute
-    extends _i6.PageRouteInfo<LicenseSelectionRouteArgs> {
+    extends _i7.PageRouteInfo<LicenseSelectionRouteArgs> {
   LicenseSelectionRoute({
-    _i7.Key? key,
+    _i8.Key? key,
     void Function()? afterLicenseSelected,
     bool navigateToHomeAfterLicenseSelected = true,
-    List<_i6.PageRouteInfo>? children,
+    List<_i7.PageRouteInfo>? children,
   }) : super(
           LicenseSelectionRoute.name,
           args: LicenseSelectionRouteArgs(
@@ -165,8 +217,8 @@ class LicenseSelectionRoute
 
   static const String name = 'LicenseSelectionRoute';
 
-  static const _i6.PageInfo<LicenseSelectionRouteArgs> page =
-      _i6.PageInfo<LicenseSelectionRouteArgs>(name);
+  static const _i7.PageInfo<LicenseSelectionRouteArgs> page =
+      _i7.PageInfo<LicenseSelectionRouteArgs>(name);
 }
 
 class LicenseSelectionRouteArgs {
@@ -176,7 +228,7 @@ class LicenseSelectionRouteArgs {
     this.navigateToHomeAfterLicenseSelected = true,
   });
 
-  final _i7.Key? key;
+  final _i8.Key? key;
 
   final void Function()? afterLicenseSelected;
 
@@ -189,13 +241,13 @@ class LicenseSelectionRouteArgs {
 }
 
 /// generated route for
-/// [_i5.QuestionScreen]
-class QuestionRoute extends _i6.PageRouteInfo<QuestionRouteArgs> {
+/// [_i6.QuestionScreen]
+class QuestionRoute extends _i7.PageRouteInfo<QuestionRouteArgs> {
   QuestionRoute({
-    _i7.Key? key,
+    _i8.Key? key,
     int initialPageIndex = 0,
     void Function(int)? onclose,
-    List<_i6.PageRouteInfo>? children,
+    List<_i7.PageRouteInfo>? children,
   }) : super(
           QuestionRoute.name,
           args: QuestionRouteArgs(
@@ -208,8 +260,8 @@ class QuestionRoute extends _i6.PageRouteInfo<QuestionRouteArgs> {
 
   static const String name = 'QuestionRoute';
 
-  static const _i6.PageInfo<QuestionRouteArgs> page =
-      _i6.PageInfo<QuestionRouteArgs>(name);
+  static const _i7.PageInfo<QuestionRouteArgs> page =
+      _i7.PageInfo<QuestionRouteArgs>(name);
 }
 
 class QuestionRouteArgs {
@@ -219,7 +271,7 @@ class QuestionRouteArgs {
     this.onclose,
   });
 
-  final _i7.Key? key;
+  final _i8.Key? key;
 
   final int initialPageIndex;
 
