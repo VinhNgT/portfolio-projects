@@ -96,6 +96,10 @@ extension _ThemeDataBuilder on MaterialTheme {
           color: materialScheme.onSurfaceVariant,
         ),
       ),
+      dividerTheme: contextTheme.dividerTheme.copyWith(
+        space: 1,
+        thickness: 1,
+      ),
     );
   }
 }

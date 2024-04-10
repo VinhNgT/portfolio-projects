@@ -78,7 +78,7 @@ class _TitleBar extends HookConsumerWidget {
                 ),
               ),
             ),
-            const Divider(height: 0),
+            const Divider(),
           ],
         ),
         const Positioned(

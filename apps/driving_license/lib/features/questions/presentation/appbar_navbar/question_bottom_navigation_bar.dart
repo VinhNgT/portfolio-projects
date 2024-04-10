@@ -160,7 +160,6 @@ class ExamBottomNavigationBar extends QuestionBottomNavigationBar {
               ),
             ),
             const Divider(
-              height: 0,
               indent: kSize_16,
               endIndent: kSize_16,
             ),
