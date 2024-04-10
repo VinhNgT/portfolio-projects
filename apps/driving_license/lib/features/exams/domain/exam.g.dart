@@ -15,7 +15,7 @@ _$ExamImpl _$$ExamImplFromJson(Map<String, dynamic> json) => _$ExamImpl(
           .toList(),
       license: $enumDecode(_$LicenseEnumMap, json['license']),
       userAnswers: json['userAnswers'] == null
-          ? null
+          ? UserAnswersMap.empty
           : UserAnswersMap.fromJson(
               json['userAnswers'] as Map<String, dynamic>),
       lastAttemptedUtcTime: json['lastAttemptedUtcTime'] == null
@@ -30,7 +30,7 @@ Map<String, dynamic> _$$ExamImplToJson(_$ExamImpl instance) =>
       'createdUtcTime': instance.createdUtcTime.toIso8601String(),
       'questionDbIndexes': instance.questionDbIndexes,
       'license': _$LicenseEnumMap[instance.license]!,
-      'userAnswers': instance.userAnswers?.toJson(),
+      'userAnswers': instance.userAnswers.toJson(),
       'lastAttemptedUtcTime': instance.lastAttemptedUtcTime?.toIso8601String(),
     };
 

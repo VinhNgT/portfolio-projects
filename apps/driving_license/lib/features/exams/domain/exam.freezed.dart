@@ -25,7 +25,7 @@ mixin _$Exam {
   DateTime get createdUtcTime => throw _privateConstructorUsedError;
   List<int> get questionDbIndexes => throw _privateConstructorUsedError;
   License get license => throw _privateConstructorUsedError;
-  UserAnswersMap? get userAnswers => throw _privateConstructorUsedError;
+  UserAnswersMap get userAnswers => throw _privateConstructorUsedError;
   DateTime? get lastAttemptedUtcTime => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,10 +44,10 @@ abstract class $ExamCopyWith<$Res> {
       DateTime createdUtcTime,
       List<int> questionDbIndexes,
       License license,
-      UserAnswersMap? userAnswers,
+      UserAnswersMap userAnswers,
       DateTime? lastAttemptedUtcTime});
 
-  $UserAnswersMapCopyWith<$Res>? get userAnswers;
+  $UserAnswersMapCopyWith<$Res> get userAnswers;
 }
 
 /// @nodoc
@@ -68,7 +68,7 @@ class _$ExamCopyWithImpl<$Res, $Val extends Exam>
     Object? createdUtcTime = null,
     Object? questionDbIndexes = null,
     Object? license = null,
-    Object? userAnswers = freezed,
+    Object? userAnswers = null,
     Object? lastAttemptedUtcTime = freezed,
   }) {
     return _then(_value.copyWith(
@@ -92,10 +92,10 @@ class _$ExamCopyWithImpl<$Res, $Val extends Exam>
           ? _value.license
           : license // ignore: cast_nullable_to_non_nullable
               as License,
-      userAnswers: freezed == userAnswers
+      userAnswers: null == userAnswers
           ? _value.userAnswers
           : userAnswers // ignore: cast_nullable_to_non_nullable
-              as UserAnswersMap?,
+              as UserAnswersMap,
       lastAttemptedUtcTime: freezed == lastAttemptedUtcTime
           ? _value.lastAttemptedUtcTime
           : lastAttemptedUtcTime // ignore: cast_nullable_to_non_nullable
@@ -105,12 +105,8 @@ class _$ExamCopyWithImpl<$Res, $Val extends Exam>
 
   @override
   @pragma('vm:prefer-inline')
-  $UserAnswersMapCopyWith<$Res>? get userAnswers {
-    if (_value.userAnswers == null) {
-      return null;
-    }
-
-    return $UserAnswersMapCopyWith<$Res>(_value.userAnswers!, (value) {
+  $UserAnswersMapCopyWith<$Res> get userAnswers {
+    return $UserAnswersMapCopyWith<$Res>(_value.userAnswers, (value) {
       return _then(_value.copyWith(userAnswers: value) as $Val);
     });
   }
@@ -129,11 +125,11 @@ abstract class _$$ExamImplCopyWith<$Res> implements $ExamCopyWith<$Res> {
       DateTime createdUtcTime,
       List<int> questionDbIndexes,
       License license,
-      UserAnswersMap? userAnswers,
+      UserAnswersMap userAnswers,
       DateTime? lastAttemptedUtcTime});
 
   @override
-  $UserAnswersMapCopyWith<$Res>? get userAnswers;
+  $UserAnswersMapCopyWith<$Res> get userAnswers;
 }
 
 /// @nodoc
@@ -151,7 +147,7 @@ class __$$ExamImplCopyWithImpl<$Res>
     Object? createdUtcTime = null,
     Object? questionDbIndexes = null,
     Object? license = null,
-    Object? userAnswers = freezed,
+    Object? userAnswers = null,
     Object? lastAttemptedUtcTime = freezed,
   }) {
     return _then(_$ExamImpl(
@@ -175,10 +171,10 @@ class __$$ExamImplCopyWithImpl<$Res>
           ? _value.license
           : license // ignore: cast_nullable_to_non_nullable
               as License,
-      userAnswers: freezed == userAnswers
+      userAnswers: null == userAnswers
           ? _value.userAnswers
           : userAnswers // ignore: cast_nullable_to_non_nullable
-              as UserAnswersMap?,
+              as UserAnswersMap,
       lastAttemptedUtcTime: freezed == lastAttemptedUtcTime
           ? _value.lastAttemptedUtcTime
           : lastAttemptedUtcTime // ignore: cast_nullable_to_non_nullable
@@ -196,7 +192,7 @@ class _$ExamImpl extends _Exam {
       required this.createdUtcTime,
       required final List<int> questionDbIndexes,
       required this.license,
-      this.userAnswers,
+      this.userAnswers = UserAnswersMap.empty,
       this.lastAttemptedUtcTime})
       : _questionDbIndexes = questionDbIndexes,
         super._();
@@ -223,7 +219,8 @@ class _$ExamImpl extends _Exam {
   @override
   final License license;
   @override
-  final UserAnswersMap? userAnswers;
+  @JsonKey()
+  final UserAnswersMap userAnswers;
   @override
   final DateTime? lastAttemptedUtcTime;
 
@@ -283,7 +280,7 @@ abstract class _Exam extends Exam {
       required final DateTime createdUtcTime,
       required final List<int> questionDbIndexes,
       required final License license,
-      final UserAnswersMap? userAnswers,
+      final UserAnswersMap userAnswers,
       final DateTime? lastAttemptedUtcTime}) = _$ExamImpl;
   const _Exam._() : super._();
 
@@ -300,7 +297,7 @@ abstract class _Exam extends Exam {
   @override
   License get license;
   @override
-  UserAnswersMap? get userAnswers;
+  UserAnswersMap get userAnswers;
   @override
   DateTime? get lastAttemptedUtcTime;
   @override

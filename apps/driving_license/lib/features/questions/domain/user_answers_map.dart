@@ -12,6 +12,15 @@ abstract class UserAnswersMap with _$UserAnswersMap {
     required UserAnswersSummary summary,
   }) = _UserAnswersMap;
 
+  static const empty = UserAnswersMap(
+    answersMap: {},
+    summary: UserAnswersSummary(
+      correctAnswers: 0,
+      wrongAnswers: 0,
+      wrongAnswersIsDanger: 0,
+    ),
+  );
+
   factory UserAnswersMap.fromJson(Map<String, dynamic> json) =>
       _$UserAnswersMapFromJson(json);
 

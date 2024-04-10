@@ -14,7 +14,7 @@ abstract class Exam with _$Exam {
     required DateTime createdUtcTime,
     required List<int> questionDbIndexes,
     required License license,
-    UserAnswersMap? userAnswers,
+    @Default(UserAnswersMap.empty) UserAnswersMap userAnswers,
     DateTime? lastAttemptedUtcTime,
   }) = _Exam;
   const Exam._();
