@@ -6,6 +6,18 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'exam.freezed.dart';
 part 'exam.g.dart';
 
+enum ExamAnswersStatus {
+  pass,
+  passPerfect,
+  fail,
+  failDanger;
+
+  bool get isPass =>
+      this == ExamAnswersStatus.pass || this == ExamAnswersStatus.passPerfect;
+  bool get isFail =>
+      this == ExamAnswersStatus.fail || this == ExamAnswersStatus.failDanger;
+}
+
 @freezed
 abstract class Exam with _$Exam {
   const factory Exam({
@@ -45,4 +57,24 @@ extension ExamOperations on Exam {
   Duration get examDuration =>
       Duration(minutes: license.examInfo.examDurationInMinutes);
   int get minimumPassingScore => license.examInfo.minimumPassingScore;
+  int get questionsCount => questionDbIndexes.length;
+
+  ExamAnswersStatus get answersStatus {
+    final correctAnswers = userAnswers.summary.correctAnswers;
+    final wrongAnswers = userAnswers.summary.wrongAnswers;
+    final wrongAnswersIsDanger = userAnswers.summary.wrongAnswersIsDanger;
+
+    if (wrongAnswersIsDanger > 0) {
+      return ExamAnswersStatus.failDanger;
+    }
+
+    if (correctAnswers >= minimumPassingScore) {
+      if (wrongAnswers == 0) {
+        return ExamAnswersStatus.passPerfect;
+      }
+      return ExamAnswersStatus.pass;
+    }
+
+    return ExamAnswersStatus.fail;
+  }
 }

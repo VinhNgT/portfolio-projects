@@ -197,7 +197,7 @@ class ExamBottomNavigationBar extends QuestionBottomNavigationBar {
     );
 
     if (context.mounted) {
-      await context.navigateTo(ExamResultRoute(userAnswersMap: userAnswers));
+      await context.navigateTo(const ExamResultRoute());
     }
   }
 }

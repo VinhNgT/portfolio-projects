@@ -12,18 +12,16 @@ import 'package:auto_route/auto_route.dart' as _i7;
 import 'package:driving_license/features/exams/domain/exam.dart' as _i9;
 import 'package:driving_license/features/exams/presentation/screens/exam_detail_screen/exam_detail_screen.dart'
     as _i1;
+import 'package:driving_license/features/exams/presentation/screens/exam_result_screen.dart'
+    as _i2;
 import 'package:driving_license/features/exams/presentation/screens/exams_list_screen/exams_list_screen.dart'
     as _i3;
 import 'package:driving_license/features/home/presentation/home_screen.dart'
     as _i4;
 import 'package:driving_license/features/licenses/presentation/license_selection_screen.dart'
     as _i5;
-import 'package:driving_license/features/questions/domain/user_answers_map.dart'
-    as _i10;
 import 'package:driving_license/features/questions/presentation/question_screen.dart'
     as _i6;
-import 'package:driving_license/features/result/presentation/exam_result_screen.dart'
-    as _i2;
 import 'package:flutter/material.dart' as _i8;
 
 abstract class $AppRouter extends _i7.RootStackRouter {
@@ -42,13 +40,9 @@ abstract class $AppRouter extends _i7.RootStackRouter {
       );
     },
     ExamResultRoute.name: (routeData) {
-      final args = routeData.argsAs<ExamResultRouteArgs>();
       return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i2.ExamResultScreen(
-          key: args.key,
-          userAnswersMap: args.userAnswersMap,
-        ),
+        child: const _i2.ExamResultScreen(),
       );
     },
     ExamsListRoute.name: (routeData) {
@@ -131,40 +125,16 @@ class ExamDetailRouteArgs {
 
 /// generated route for
 /// [_i2.ExamResultScreen]
-class ExamResultRoute extends _i7.PageRouteInfo<ExamResultRouteArgs> {
-  ExamResultRoute({
-    _i8.Key? key,
-    required _i10.UserAnswersMap userAnswersMap,
-    List<_i7.PageRouteInfo>? children,
-  }) : super(
+class ExamResultRoute extends _i7.PageRouteInfo<void> {
+  const ExamResultRoute({List<_i7.PageRouteInfo>? children})
+      : super(
           ExamResultRoute.name,
-          args: ExamResultRouteArgs(
-            key: key,
-            userAnswersMap: userAnswersMap,
-          ),
           initialChildren: children,
         );
 
   static const String name = 'ExamResultRoute';
 
-  static const _i7.PageInfo<ExamResultRouteArgs> page =
-      _i7.PageInfo<ExamResultRouteArgs>(name);
-}
-
-class ExamResultRouteArgs {
-  const ExamResultRouteArgs({
-    this.key,
-    required this.userAnswersMap,
-  });
-
-  final _i8.Key? key;
-
-  final _i10.UserAnswersMap userAnswersMap;
-
-  @override
-  String toString() {
-    return 'ExamResultRouteArgs{key: $key, userAnswersMap: $userAnswersMap}';
-  }
+  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
 }
 
 /// generated route for
