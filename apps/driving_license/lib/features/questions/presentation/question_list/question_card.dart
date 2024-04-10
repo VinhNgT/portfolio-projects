@@ -8,7 +8,6 @@ import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/bookmark/data/providers/bookmarks_providers.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
-import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_state_checkbox.dart';
 import 'package:driving_license/features/questions/presentation/answer/eval_answer_state_delegate.dart';
@@ -30,7 +29,6 @@ class QuestionCard extends HookConsumerWidget {
   final VoidCallback? onPressed;
 
   final bool showIsDanger;
-  final bool showAnswerState;
   final bool showIsBookmarked;
 
   final EvalAnswerStateDelegate evalAnswerStateDelegate;
@@ -42,7 +40,6 @@ class QuestionCard extends HookConsumerWidget {
     required this.isSelected,
     this.onPressed,
     this.showIsDanger = true,
-    this.showAnswerState = true,
     this.showIsBookmarked = true,
     this.evalAnswerStateDelegate = const ShowResultEvalAnswerStateDelegate(),
   });
@@ -100,13 +97,11 @@ class QuestionCard extends HookConsumerWidget {
                           'Câu ${questionPageIndex + 1}',
                           style: context.textTheme.titleMedium,
                         ),
-                        if (showAnswerState) ...[
-                          kGap_4,
-                          _QCAnswerStateCheckbox(
-                            question: question,
-                            evalDelegate: evalAnswerStateDelegate,
-                          ),
-                        ],
+                        kGap_4,
+                        _QCAnswerStateCheckbox(
+                          question: question,
+                          evalDelegate: evalAnswerStateDelegate,
+                        ),
                       ],
                     ),
                     kGap_2,
@@ -200,15 +195,19 @@ class _QCIsBookmarkedIcon extends HookConsumerWidget {
   }
 }
 
-class AsyncValueQuestionCard extends HookConsumerWidget {
+class AsyncQuestionCard extends HookConsumerWidget {
   final int questionPageIndex;
   final bool isSelected;
+  final bool showAnswerResult;
+  final bool showIsDanger;
   final VoidCallback? onPressed;
 
-  const AsyncValueQuestionCard({
+  const AsyncQuestionCard({
     super.key,
     required this.questionPageIndex,
     required this.isSelected,
+    this.showAnswerResult = true,
+    this.showIsDanger = true,
     this.onPressed,
   });
 
@@ -216,22 +215,18 @@ class AsyncValueQuestionCard extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final question =
         ref.watch(questionPreloadPagesFutureProvider(questionPageIndex));
-    final isExamMode = ref.watchConvertAsyncValue(
-      questionsServiceModeProvider,
-      (valueData) => valueData is ExamOperatingMode,
-    );
 
-    return Async2ValuesWidget<Question, bool>(
-      values: (question, isExamMode),
-      builder: (questionValue, isExamModeValue) => Consumer(
+    return AsyncValueWidget(
+      value: question,
+      builder: (questionValue) => Consumer(
         builder: (context, ref, child) {
           return QuestionCard(
             questionPageIndex: questionPageIndex,
             question: questionValue,
-            evalAnswerStateDelegate: isExamModeValue
-                ? const HideResultEvalAnswerStateDelegate()
-                : const ShowResultEvalAnswerStateDelegate(),
-            showIsDanger: !isExamModeValue,
+            evalAnswerStateDelegate: showAnswerResult
+                ? const ShowResultEvalAnswerStateDelegate()
+                : const HideResultEvalAnswerStateDelegate(),
+            showIsDanger: showIsDanger,
             isSelected: isSelected,
             onPressed: onPressed,
           );
@@ -266,7 +261,6 @@ class PrototypeQuestionCard extends HookConsumerWidget {
       question: Question.prototype(),
       isSelected: false,
       onPressed: null,
-      showAnswerState: false,
       showIsBookmarked: false,
     );
   }
