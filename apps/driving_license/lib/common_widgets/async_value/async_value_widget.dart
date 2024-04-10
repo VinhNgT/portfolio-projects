@@ -22,7 +22,7 @@ class AsyncValueWidget<T> extends StatelessWidget {
   final AsyncValue<T> value;
   final bool showLoadingIndicator;
   final Widget? loadingWidget;
-  final Widget Function(T) builder;
+  final Widget Function(T dataValue) builder;
 
   /// Creates an [AsyncValueWidget] with the given parameters.
   ///
