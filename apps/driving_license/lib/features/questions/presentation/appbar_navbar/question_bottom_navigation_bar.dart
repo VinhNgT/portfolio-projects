@@ -7,7 +7,8 @@ import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/constants/opacity.dart';
 import 'package:driving_license/constants/widget_sizes.dart';
-import 'package:driving_license/features/exams/application/exams_service.dart';
+import 'package:driving_license/features/exams/data/exams_repository.dart';
+import 'package:driving_license/features/exams/domain/exam.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_exam_providers.dart';
 import 'package:driving_license/features/questions/application/question/questions_service.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/dialogs/confirm_submit_exam_dialog.dart';
@@ -184,13 +185,13 @@ class ExamBottomNavigationBar extends QuestionBottomNavigationBar {
   Future<void> _submitExam(BuildContext context, WidgetRef ref) async {
     final questionsService =
         await ref.read(questionsServiceControllerProvider.future);
-    final examsService = await ref.read(examsServiceProvider.future);
+    final examsRepository = ref.read(examsRepositoryProvider);
     final currentExam = await ref.read(currentExamProvider.future);
     final userAnswers = await questionsService.getAnswersByQuestionDbIndexes(
       currentExam.questionDbIndexes,
     );
 
-    await examsService.gradeExam(
+    await examsRepository.saveExamUserAnswers(
       currentExam,
       userAnswers,
     );

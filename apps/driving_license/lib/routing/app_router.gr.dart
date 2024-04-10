@@ -18,7 +18,7 @@ import 'package:driving_license/features/home/presentation/home_screen.dart'
     as _i4;
 import 'package:driving_license/features/licenses/presentation/license_selection_screen.dart'
     as _i5;
-import 'package:driving_license/features/questions/domain/user_answer.dart'
+import 'package:driving_license/features/questions/domain/user_answers_map.dart'
     as _i10;
 import 'package:driving_license/features/questions/presentation/question_screen.dart'
     as _i6;
@@ -134,7 +134,7 @@ class ExamDetailRouteArgs {
 class ExamResultRoute extends _i7.PageRouteInfo<ExamResultRouteArgs> {
   ExamResultRoute({
     _i8.Key? key,
-    required Map<int, _i10.UserAnswer> userAnswersMap,
+    required _i10.UserAnswersMap userAnswersMap,
     List<_i7.PageRouteInfo>? children,
   }) : super(
           ExamResultRoute.name,
@@ -159,7 +159,7 @@ class ExamResultRouteArgs {
 
   final _i8.Key? key;
 
-  final Map<int, _i10.UserAnswer> userAnswersMap;
+  final _i10.UserAnswersMap userAnswersMap;
 
   @override
   String toString() {

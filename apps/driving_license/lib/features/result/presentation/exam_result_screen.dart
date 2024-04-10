@@ -3,7 +3,7 @@ import 'package:driving_license/common_widgets/async_value/async_value_widget.da
 import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/common_widgets/widget_deadzone.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
-import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
+import 'package:driving_license/features/questions/domain/user_answers_map.dart';
 import 'package:driving_license/features/questions/presentation/question_list/question_card.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
 import 'package:driving_license/utils/context_ext.dart';

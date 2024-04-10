@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:driving_license/features/exams/data/exams_repository.dart';
 import 'package:driving_license/features/exams/domain/exam.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
+import 'package:driving_license/features/questions/domain/user_answers_map.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -49,14 +50,13 @@ class SembastExamsRepository implements ExamsRepository {
   }
 
   @override
-  FutureOr<void> saveGradedExam(Exam exam) async {
-    if (exam.testResult == null) {
-      throw StateError('Exam has no test result (not graded)');
-    }
-
+  FutureOr<void> saveExamUserAnswers(
+    Exam exam,
+    UserAnswersMap userAnswersMap,
+  ) async {
     await examsStore.record(exam.examId).update(db, {
-      'testResult': exam.testResult!.toJson(),
-      'lastAttemptedUtcTime': exam.lastAttemptedUtcTime!.toIso8601String(),
+      'userAnswers': userAnswersMap.toJson(),
+      'lastAttemptedUtcTime': DateTime.now().toUtc().toIso8601String(),
     });
   }
 

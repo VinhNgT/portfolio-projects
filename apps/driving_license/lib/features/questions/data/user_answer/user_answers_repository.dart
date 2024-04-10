@@ -1,17 +1,11 @@
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
-import 'package:driving_license/features/questions/domain/user_answer.dart';
+import 'package:driving_license/features/questions/domain/user_answers_map.dart';
+import 'package:driving_license/features/questions/domain/user_answers_summary.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'user_answers_repository.g.dart';
-
-/// A typedef representing a map of user answers.
-///
-/// The keys of the map are integers representing question DB IDs,
-/// and the values are [UserAnswer] objects representing the user's answer
-/// for each question.
-typedef UserAnswersMap = Map<int, UserAnswer>;
 
 abstract interface class UserAnswersRepository {
   Future<void> saveAnswer(Question question, int selectedAnswerIndex);
@@ -22,11 +16,8 @@ abstract interface class UserAnswersRepository {
   Future<UserAnswersMap> getAllDifficultQuestionAnswersByLicense(
     License license,
   );
-  Stream<int> watchAnswersCountByLicenseAndChapter(
-    License license,
-    Chapter chapter,
-  );
-  Stream<int> watchWrongAnswersCountByLicenseAndChapter(
+
+  Stream<UserAnswersSummary> watchUserAnswersSummaryByLicenseAndChapter(
     License license,
     Chapter chapter,
   );

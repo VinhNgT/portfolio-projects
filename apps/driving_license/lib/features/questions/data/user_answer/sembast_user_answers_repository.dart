@@ -3,9 +3,12 @@ import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answer.dart';
+import 'package:driving_license/features/questions/domain/user_answers_map.dart';
+import 'package:driving_license/features/questions/domain/user_answers_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 
@@ -80,10 +83,11 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
       ),
     );
 
-    return {
-      for (final record in recordSnapshot)
-        record.key: UserAnswer.fromJson(record.value as Map<String, dynamic>),
-    };
+    return UserAnswersMap.fromUserAnswers(
+      recordSnapshot.map(
+        (record) => UserAnswer.fromJson(record.value as Map<String, dynamic>),
+      ),
+    );
   }
 
   @override
@@ -100,53 +104,67 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
       ),
     );
 
-    return {
-      for (final record in recordSnapshot)
-        record.key: UserAnswer.fromJson(record.value as Map<String, dynamic>),
-    };
+    return UserAnswersMap.fromUserAnswers(
+      recordSnapshot.map(
+        (record) => UserAnswer.fromJson(record.value as Map<String, dynamic>),
+      ),
+    );
   }
 
   @override
-  Stream<int> watchAnswersCountByLicenseAndChapter(
+  Stream<UserAnswersSummary> watchUserAnswersSummaryByLicenseAndChapter(
     License license,
     Chapter chapter,
   ) {
-    final userAnswersCountStream = allAnswersStore
+    final correctAnswersCountStream = allAnswersStore
         .query(
           finder: Finder(
-            filter: Filter.and(
-              [
-                _licenseFilter(license),
-                _chapterFilter(chapter),
-              ],
-            ),
+            filter: Filter.and([
+              _licenseFilter(license),
+              _chapterFilter(chapter),
+              _correctAnswersFilter,
+            ]),
           ),
         )
         .onCount(db);
 
-    return userAnswersCountStream;
-  }
-
-  @override
-  Stream<int> watchWrongAnswersCountByLicenseAndChapter(
-    License license,
-    Chapter chapter,
-  ) {
-    final wrongUserAnswersCountStream = allAnswersStore
+    final wrongAnswersCountStream = allAnswersStore
         .query(
           finder: Finder(
-            filter: Filter.and(
-              [
-                _licenseFilter(license),
-                _chapterFilter(chapter),
-                _wrongAnswersFilter,
-              ],
-            ),
+            filter: Filter.and([
+              _licenseFilter(license),
+              _chapterFilter(chapter),
+              _wrongAnswersFilter,
+            ]),
           ),
         )
         .onCount(db);
 
-    return wrongUserAnswersCountStream;
+    final wrongAnswerIsDangerCountStream = allAnswersStore
+        .query(
+          finder: Finder(
+            filter: Filter.and([
+              _licenseFilter(license),
+              _chapterFilter(chapter),
+              _wrongAnswersFilter,
+              _dangerQuestionsFilter,
+            ]),
+          ),
+        )
+        .onCount(db);
+
+    return Rx.combineLatest3(
+      correctAnswersCountStream,
+      wrongAnswersCountStream,
+      wrongAnswerIsDangerCountStream,
+      (int correct, int wrong, int danger) {
+        return UserAnswersSummary(
+          correctAnswers: correct,
+          wrongAnswers: wrong,
+          wrongAnswersIsDanger: danger,
+        );
+      },
+    );
   }
 
   @override
@@ -178,10 +196,11 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
       ),
     );
 
-    return {
-      for (final record in recordSnapshot)
-        record.key: UserAnswer.fromJson(record.value as Map<String, dynamic>),
-    };
+    return UserAnswersMap.fromUserAnswers(
+      recordSnapshot.map(
+        (record) => UserAnswer.fromJson(record.value as Map<String, dynamic>),
+      ),
+    );
   }
 }
 
@@ -205,15 +224,22 @@ extension _FilterExtension on SembastUserAnswersRepository {
     );
   }
 
-  Filter get _wrongAnswersFilter {
+  Filter get _correctAnswersFilter {
     return Filter.custom((record) {
-      final correctAnswerIndex = record['questionMetadata.correctAnswerIndex'];
-      final selectedAnswerIndex = record['selectedAnswerIndex'];
-      return correctAnswerIndex != selectedAnswerIndex;
+      return record['questionMetadata.correctAnswerIndex'] ==
+          record['selectedAnswerIndex'];
     });
+  }
+
+  Filter get _wrongAnswersFilter {
+    return Filter.not(_correctAnswersFilter);
   }
 
   Filter get _difficultQuestionsFilter {
     return Filter.equals('questionMetadata.isDifficult', true);
+  }
+
+  Filter get _dangerQuestionsFilter {
+    return Filter.equals('questionMetadata.isDanger', true);
   }
 }

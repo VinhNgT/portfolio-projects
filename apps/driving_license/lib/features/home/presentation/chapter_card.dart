@@ -4,7 +4,7 @@ import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/chapters/application/providers/chapters_info_providers.dart';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
-import 'package:driving_license/features/result/domain/test_result.dart';
+import 'package:driving_license/features/questions/domain/user_answers_summary.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -30,7 +30,7 @@ class ChapterCard extends HookConsumerWidget {
     return AsyncValueWidget(
       value: chapterCompletionStatus,
       builder: (chapterCompletionStatusValue) => Visibility(
-        visible: chapterCompletionStatusValue.totalQuestions > 0,
+        visible: chapterCompletionStatusValue.questionsCount > 0,
         child: ButtonCard(
           surfaceColor: context.materialScheme.surfaceContainerHigh,
           onSurfaceColor: context.materialScheme.onSurface,
@@ -78,13 +78,15 @@ class ChapterCard extends HookConsumerWidget {
     );
   }
 
-  String _buildCompletionStatusText(TestResult status) {
+  String _buildCompletionStatusText(
+    ({int questionsCount, UserAnswersSummary summary}) status,
+  ) {
     final StringBuffer buffer = StringBuffer(
-      'Đã hoàn thành ${status.answeredQuestions} / ${status.totalQuestions}',
+      'Đã hoàn thành ${status.summary.answeredQuestions} / ${status.questionsCount}',
     );
 
-    if (status.wrongAnswers > 0) {
-      buffer.write(' - Sai ${status.wrongAnswers} câu');
+    if (status.summary.wrongAnswers > 0) {
+      buffer.write(' - Sai ${status.summary.wrongAnswers} câu');
     }
 
     return buffer.toString();

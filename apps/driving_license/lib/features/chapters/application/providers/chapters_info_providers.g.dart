@@ -174,14 +174,15 @@ final notEmptyChaptersProvider =
 
 typedef NotEmptyChaptersRef = AutoDisposeFutureProviderRef<List<Chapter>>;
 String _$chapterCompletionStatusHash() =>
-    r'5a14d08a014c041a1b6351c3db7009440e37ae76';
+    r'0d018ded5a431a14a4d359af3a98ebce7065ce64';
 
 /// See also [chapterCompletionStatus].
 @ProviderFor(chapterCompletionStatus)
 const chapterCompletionStatusProvider = ChapterCompletionStatusFamily();
 
 /// See also [chapterCompletionStatus].
-class ChapterCompletionStatusFamily extends Family<AsyncValue<TestResult>> {
+class ChapterCompletionStatusFamily extends Family<
+    AsyncValue<({int questionsCount, UserAnswersSummary summary})>> {
   /// See also [chapterCompletionStatus].
   const ChapterCompletionStatusFamily();
 
@@ -219,8 +220,8 @@ class ChapterCompletionStatusFamily extends Family<AsyncValue<TestResult>> {
 }
 
 /// See also [chapterCompletionStatus].
-class ChapterCompletionStatusProvider
-    extends AutoDisposeStreamProvider<TestResult> {
+class ChapterCompletionStatusProvider extends AutoDisposeStreamProvider<
+    ({int questionsCount, UserAnswersSummary summary})> {
   /// See also [chapterCompletionStatus].
   ChapterCompletionStatusProvider(
     Chapter chapter,
@@ -255,7 +256,9 @@ class ChapterCompletionStatusProvider
 
   @override
   Override overrideWith(
-    Stream<TestResult> Function(ChapterCompletionStatusRef provider) create,
+    Stream<({int questionsCount, UserAnswersSummary summary})> Function(
+            ChapterCompletionStatusRef provider)
+        create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -272,7 +275,8 @@ class ChapterCompletionStatusProvider
   }
 
   @override
-  AutoDisposeStreamProviderElement<TestResult> createElement() {
+  AutoDisposeStreamProviderElement<
+      ({int questionsCount, UserAnswersSummary summary})> createElement() {
     return _ChapterCompletionStatusProviderElement(this);
   }
 
@@ -290,13 +294,15 @@ class ChapterCompletionStatusProvider
   }
 }
 
-mixin ChapterCompletionStatusRef on AutoDisposeStreamProviderRef<TestResult> {
+mixin ChapterCompletionStatusRef on AutoDisposeStreamProviderRef<
+    ({int questionsCount, UserAnswersSummary summary})> {
   /// The parameter `chapter` of this provider.
   Chapter get chapter;
 }
 
 class _ChapterCompletionStatusProviderElement
-    extends AutoDisposeStreamProviderElement<TestResult>
+    extends AutoDisposeStreamProviderElement<
+        ({int questionsCount, UserAnswersSummary summary})>
     with ChapterCompletionStatusRef {
   _ChapterCompletionStatusProviderElement(super.provider);
 

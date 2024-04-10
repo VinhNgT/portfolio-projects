@@ -4,7 +4,6 @@ import 'package:driving_license/features/exams/domain/exam.dart';
 import 'package:driving_license/features/licenses/data/providers/user_selected_license_provider.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
-import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'exams_service.g.dart';
@@ -35,11 +34,6 @@ class ExamsService {
     );
 
     examsRepository.saveExam(exam);
-  }
-
-  FutureOr<void> gradeExam(Exam exam, UserAnswersMap userAnswers) {
-    final gradedExam = exam.gradeExam(userAnswers);
-    return examsRepository.saveGradedExam(gradedExam);
   }
 }
 

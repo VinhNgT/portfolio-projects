@@ -1,6 +1,7 @@
 import 'package:driving_license/features/questions/data/user_answer/in_memory_user_answers_repository.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
+import 'package:driving_license/features/questions/domain/user_answers_map.dart';
 
 sealed class UserAnswersHandler {
   Future<void> saveUserAnswer(Question question, int selectedAnswerIndex);

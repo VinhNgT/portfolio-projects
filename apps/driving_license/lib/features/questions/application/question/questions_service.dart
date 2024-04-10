@@ -12,6 +12,7 @@ import 'package:driving_license/features/questions/data/question/questions_repos
 import 'package:driving_license/features/questions/data/user_answer/in_memory_user_answers_repository.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
+import 'package:driving_license/features/questions/domain/user_answers_map.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'questions_service.g.dart';
@@ -180,7 +181,7 @@ class QuestionsService {
       operatingMode: WrongAnswersOperatingMode(),
       questionsHandler: CustomQuestionListQuestionHandler(
         questionsRepository: questionsRepository,
-        sortedQuestionDbIndexes: wrongUserAnswers.keys.toList()..sort(),
+        sortedQuestionDbIndexes: wrongUserAnswers.questionDbIndexes..sort(),
       ),
       userAnswersHandler: HideUserAnswersHandler(
         userAnswersRepository: userAnswersRepository,

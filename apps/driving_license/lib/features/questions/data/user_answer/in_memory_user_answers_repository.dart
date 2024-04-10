@@ -5,6 +5,8 @@ import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answer.dart';
+import 'package:driving_license/features/questions/domain/user_answers_map.dart';
+import 'package:driving_license/features/questions/domain/user_answers_summary.dart';
 import 'package:driving_license/utils/in_memory_store.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -13,7 +15,7 @@ part 'in_memory_user_answers_repository.g.dart';
 class InMemoryUserAnswersRepository implements UserAnswersRepository {
   InMemoryUserAnswersRepository({required this.allAnswersStore});
 
-  final InMemoryStore<UserAnswersMap> allAnswersStore;
+  final InMemoryStore<Map<int, UserAnswer>> allAnswersStore;
 
   @override
   Future<void> saveAnswer(
@@ -52,106 +54,97 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
 
   @override
   Future<UserAnswersMap> getAllWrongAnswersByLicense(License license) {
-    final wrongAnswersMap = UserAnswersMap();
+    final wrongAnswers = <UserAnswer>[];
     for (final entry in allAnswersStore.value.entries) {
+      final userAnswer = entry.value;
+
       // Check if the user answer is not wrong
-      if (entry.value.selectedAnswerIndex ==
-          entry.value.questionMetadata.correctAnswerIndex) {
+      if (userAnswer.selectedAnswerIndex ==
+          userAnswer.questionMetadata.correctAnswerIndex) {
         continue;
       }
 
       // Check if the question is not included in the license
-      if (!entry.value.questionMetadata.includedLicenses.contains(license)) {
+      if (!userAnswer.questionMetadata.includedLicenses.contains(license)) {
         if (license != License.all) {
           continue;
         }
       }
 
-      wrongAnswersMap[entry.key] = entry.value;
+      wrongAnswers.add(userAnswer);
     }
 
-    return Future.value(wrongAnswersMap);
+    return Future.value(UserAnswersMap.fromUserAnswers(wrongAnswers));
   }
 
   @override
   Future<UserAnswersMap> getAllDifficultQuestionAnswersByLicense(
     License license,
   ) async {
-    final difficultAnswersMap = UserAnswersMap();
+    final difficultAnswers = <UserAnswer>[];
     for (final entry in allAnswersStore.value.entries) {
+      final userAnswer = entry.value;
+
       // Check if the question is not difficult
-      if (!entry.value.questionMetadata.isDifficult) {
+      if (!userAnswer.questionMetadata.isDifficult) {
         continue;
       }
 
       // Check if the question is not included in the license
-      if (!entry.value.questionMetadata.includedLicenses.contains(license)) {
+      if (!userAnswer.questionMetadata.includedLicenses.contains(license)) {
         if (license != License.all) {
           continue;
         }
       }
 
-      difficultAnswersMap[entry.key] = entry.value;
+      difficultAnswers.add(userAnswer);
     }
 
-    return Future.value(difficultAnswersMap);
+    return Future.value(UserAnswersMap.fromUserAnswers(difficultAnswers));
   }
 
   @override
-  Stream<int> watchAnswersCountByLicenseAndChapter(
+  Stream<UserAnswersSummary> watchUserAnswersSummaryByLicenseAndChapter(
     License license,
     Chapter chapter,
   ) {
     return allAnswersStore.stream.map((userAnswersMap) {
-      return userAnswersMap.values.fold(0, (count, userAnswer) {
+      int corrects = 0;
+      int wrong = 0;
+      int wrongIsDanger = 0;
+
+      userAnswersMap.forEach((questionDbIndex, userAnswer) {
         // Check if the user answer is not in the license
         if (!userAnswer.questionMetadata.includedLicenses.contains(license)) {
           if (license != License.all) {
-            return count;
+            return;
           }
         }
 
         // Check if the user answer is not in the chapter
         if (userAnswer.questionMetadata.chapterDbIndex !=
             chapter.chapterDbIndex) {
-          return count;
+          return;
         }
 
-        // User answer is for the license and chapter, increment the count
-        return count++;
-      });
-    });
-  }
-
-  @override
-  Stream<int> watchWrongAnswersCountByLicenseAndChapter(
-    License license,
-    Chapter chapter,
-  ) {
-    return allAnswersStore.stream.map((userAnswersMap) {
-      return userAnswersMap.values.fold(0, (count, userAnswer) {
-        // Check if the user answer is not in the license
-        if (!userAnswer.questionMetadata.includedLicenses.contains(license)) {
-          if (license != License.all) {
-            return count;
-          }
-        }
-
-        // Check if the user answer is not in the chapter
-        if (userAnswer.questionMetadata.chapterDbIndex !=
-            chapter.chapterDbIndex) {
-          return count;
-        }
-
-        // Check if the user answer is not wrong
+        // Check if the user answer is correct
         if (userAnswer.selectedAnswerIndex ==
             userAnswer.questionMetadata.correctAnswerIndex) {
-          return count;
-        }
+          corrects++;
+        } else {
+          wrong++;
 
-        // User answer is wrong, increment the count
-        return count++;
+          if (userAnswer.questionMetadata.isDifficult) {
+            wrongIsDanger++;
+          }
+        }
       });
+
+      return UserAnswersSummary(
+        correctAnswers: corrects,
+        wrongAnswers: wrong,
+        wrongAnswersIsDanger: wrongIsDanger,
+      );
     });
   }
 
@@ -174,11 +167,15 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   Future<UserAnswersMap> getAnswersByQuestionDbIndexes(
     Iterable<int> dbIndexes,
   ) {
-    return Future.value({
-      for (final dbIndex in dbIndexes)
-        if (allAnswersStore.value.containsKey(dbIndex))
-          dbIndex: allAnswersStore.value[dbIndex]!,
-    });
+    final userAnswers = <UserAnswer>[];
+    for (final dbIndex in dbIndexes) {
+      final userAnswer = allAnswersStore.value[dbIndex];
+      if (userAnswer != null) {
+        userAnswers.add(userAnswer);
+      }
+    }
+
+    return Future.value(UserAnswersMap.fromUserAnswers(userAnswers));
   }
 }
 
@@ -186,7 +183,7 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
 InMemoryUserAnswersRepository inMemoryUserAnswersRepository(
   InMemoryUserAnswersRepositoryRef ref,
 ) {
-  final allAnswersStore = InMemoryStore<UserAnswersMap>({});
+  final allAnswersStore = InMemoryStore<Map<int, UserAnswer>>({});
   ref.onDispose(() {
     unawaited(allAnswersStore.close());
   });

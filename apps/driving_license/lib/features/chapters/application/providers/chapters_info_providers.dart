@@ -2,9 +2,8 @@ import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/licenses/data/providers/user_selected_license_provider.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
-import 'package:driving_license/features/result/domain/test_result.dart';
+import 'package:driving_license/features/questions/domain/user_answers_summary.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:rxdart/rxdart.dart';
 
 part 'chapters_info_providers.g.dart';
 
@@ -39,7 +38,8 @@ FutureOr<List<Chapter>> notEmptyChapters(
 }
 
 @riverpod
-Stream<TestResult> chapterCompletionStatus(
+Stream<({int questionsCount, UserAnswersSummary summary})>
+    chapterCompletionStatus(
   ChapterCompletionStatusRef ref,
   Chapter chapter,
 ) async* {
@@ -48,23 +48,15 @@ Stream<TestResult> chapterCompletionStatus(
 
   final chapterQuestionsCount =
       await ref.watch(chapterQuestionsCountProvider(chapter).future);
-  final userAnswersCountStream = userAnswersRepository
-      .watchAnswersCountByLicenseAndChapter(license, chapter);
-  final wrongUserAnswersCountStream = userAnswersRepository
-      .watchWrongAnswersCountByLicenseAndChapter(license, chapter);
+  final userAnswersSummary = userAnswersRepository
+      .watchUserAnswersSummaryByLicenseAndChapter(license, chapter);
 
-  yield* Rx.combineLatest2(
-    userAnswersCountStream,
-    wrongUserAnswersCountStream,
-    (int userAnswersCount, int wrongUserAnswersCount) {
-      return TestResult(
-        totalQuestions: chapterQuestionsCount,
-        answeredQuestions: userAnswersCount,
-        correctAnswers: userAnswersCount - wrongUserAnswersCount,
-        wrongAnswers: wrongUserAnswersCount,
-      );
-    },
-  );
+  yield* userAnswersSummary.map((summary) {
+    return (
+      questionsCount: chapterQuestionsCount,
+      summary: summary,
+    );
+  });
 }
 
 @riverpod
