@@ -8,13 +8,13 @@ import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class QuestionBottomSheet extends CommonBottomSheet {
+class QuestionListBottomSheet extends CommonBottomSheet {
   final int questionCount;
   final int initialCurrentPageIndex;
 
   final void Function(int index)? onQuestionCardPressed;
 
-  QuestionBottomSheet({
+  QuestionListBottomSheet({
     super.key,
     required this.questionCount,
     required this.initialCurrentPageIndex,

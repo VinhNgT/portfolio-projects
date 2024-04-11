@@ -10,8 +10,8 @@ import 'package:driving_license/features/questions/presentation/appbar_navbar/qu
 import 'package:driving_license/features/questions/presentation/appbar_navbar/question_bottom_navigation_bar.dart';
 import 'package:driving_license/features/questions/presentation/question/question_page_controller.dart';
 import 'package:driving_license/features/questions/presentation/question/question_page_view.dart';
-import 'package:driving_license/features/questions/presentation/question_list/question_bottom_sheet.dart';
 import 'package:driving_license/features/questions/presentation/question_list/question_card.dart';
+import 'package:driving_license/features/questions/presentation/question_list/question_list_bottom_sheet.dart';
 import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:driving_license/utils/ref_ext.dart';
@@ -97,7 +97,7 @@ class QuestionScreen extends HookConsumerWidget {
                   // BottomSheet will be 75% of the screen height
                   height: context.height * 0.75,
                 ),
-                builder: (_) => QuestionBottomSheet(
+                builder: (_) => QuestionListBottomSheet(
                   questionCount: questionCountValue,
                   initialCurrentPageIndex: ref.read(currentPageIndexProvider),
                   onQuestionCardPressed: (questionPageIndex) {
