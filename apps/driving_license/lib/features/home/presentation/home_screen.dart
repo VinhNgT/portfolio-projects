@@ -20,6 +20,7 @@ import 'package:driving_license/features/questions/application/question/question
 import 'package:driving_license/routing/app_router.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
 import 'package:driving_license/utils/context_ext.dart';
+import 'package:driving_license/utils/list_extention.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
@@ -202,21 +203,15 @@ class ChapterSelection extends HookConsumerWidget {
         children: [
           Text('Ôn tập câu hỏi', style: context.textTheme.titleLarge),
           kGap_16,
-          ListView.separated(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            separatorBuilder: (BuildContext context, int index) => kGap_12,
-            itemCount: chaptersHasQuestionValue.length,
-            itemBuilder: (BuildContext _, int index) {
-              final chapter = chaptersHasQuestionValue[index];
-              return ChapterCard(
+          ...<Widget>[
+            for (final chapter in chaptersHasQuestionValue)
+              ChapterCard(
                 chapter: chapter,
                 onPressed: (chapter) async {
                   await setupAndNavigateToQuestionRoute(ref, chapter);
                 },
-              );
-            },
-          ),
+              ),
+          ].separated(kGap_12),
         ],
       ),
     );
