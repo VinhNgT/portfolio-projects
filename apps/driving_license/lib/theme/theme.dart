@@ -78,6 +78,7 @@ extension _ThemeDataBuilder on MaterialTheme {
       ),
       bottomSheetTheme: contextTheme.bottomSheetTheme.copyWith(
         backgroundColor: materialScheme.surfaceContainerLow,
+        elevation: 0,
       ),
       dialogTheme: contextTheme.dialogTheme.copyWith(
         backgroundColor: materialScheme.surfaceContainerHighest,
