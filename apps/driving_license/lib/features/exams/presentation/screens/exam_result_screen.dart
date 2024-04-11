@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/common_widgets/common_app_bar.dart';
@@ -5,6 +7,7 @@ import 'package:driving_license/common_widgets/widget_deadzone.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/exams/domain/exam.dart';
+import 'package:driving_license/features/exams/presentation/screens/exam_question_bottom_sheet.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_exam_providers.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
 import 'package:driving_license/features/questions/presentation/question_list/question_card.dart';
@@ -87,6 +90,19 @@ class AnswersResultList extends HookConsumerWidget {
                 return AsyncQuestionCard(
                   questionPageIndex: index,
                   isSelected: false,
+                  onPressed: () => unawaited(
+                    showModalBottomSheet(
+                      context: context,
+                      useSafeArea: true,
+                      isScrollControlled: true,
+                      constraints: BoxConstraints.loose(
+                        // BottomSheet will be AT MOST 75% of the screen height
+                        Size.fromHeight(context.height * 0.75),
+                      ),
+                      builder: (_) =>
+                          ExamQuestionBottomSheet(questionPageIndex: index),
+                    ),
+                  ),
                 );
               },
             ),
