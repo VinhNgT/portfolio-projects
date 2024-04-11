@@ -81,28 +81,11 @@ class QuestionCard extends HookConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Row(
-                      children: [
-                        if (question.isDanger && showIsDanger) ...[
-                          const SvgPicture(
-                            AssetBytesLoader(
-                              'assets/icons/home_screen/compiled/danger_fire.svg.vec',
-                            ),
-                            height: kSize_16,
-                            width: kSize_16,
-                          ),
-                          kGap_4,
-                        ],
-                        Text(
-                          'Câu ${questionPageIndex + 1}',
-                          style: context.textTheme.titleMedium,
-                        ),
-                        kGap_4,
-                        _QCAnswerStateCheckbox(
-                          question: question,
-                          evalDelegate: evalAnswerStateDelegate,
-                        ),
-                      ],
+                    QuestionCardTitle(
+                      questionPageIndex: questionPageIndex,
+                      question: question,
+                      showIsDanger: showIsDanger,
+                      evalAnswerStateDelegate: evalAnswerStateDelegate,
                     ),
                     kGap_2,
                     Text(
@@ -142,6 +125,48 @@ class QuestionCard extends HookConsumerWidget {
       height: _kQuestionCardImageSize,
       width: _kQuestionCardImageSize,
       fit: BoxFit.fitHeight,
+    );
+  }
+}
+
+class QuestionCardTitle extends StatelessWidget {
+  final int questionPageIndex;
+  final Question question;
+  final bool showIsDanger;
+  final EvalAnswerStateDelegate evalAnswerStateDelegate;
+
+  const QuestionCardTitle({
+    super.key,
+    required this.questionPageIndex,
+    required this.question,
+    this.showIsDanger = true,
+    this.evalAnswerStateDelegate = const ShowResultEvalAnswerStateDelegate(),
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        if (question.isDanger && showIsDanger) ...[
+          const SvgPicture(
+            AssetBytesLoader(
+              'assets/icons/home_screen/compiled/danger_fire.svg.vec',
+            ),
+            height: kSize_16,
+            width: kSize_16,
+          ),
+          kGap_4,
+        ],
+        Text(
+          'Câu ${questionPageIndex + 1}',
+          style: context.textTheme.titleMedium,
+        ),
+        kGap_4,
+        _QCAnswerStateCheckbox(
+          question: question,
+          evalDelegate: evalAnswerStateDelegate,
+        ),
+      ],
     );
   }
 }
