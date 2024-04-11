@@ -5,6 +5,7 @@ import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_card.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_card_list_controller.dart';
 import 'package:driving_license/features/questions/presentation/answer/answer_card_list_delegate.dart';
+import 'package:driving_license/utils/list_extention.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -40,34 +41,35 @@ class AnswerCardList extends HookConsumerWidget {
 
     return AsyncValueWidget(
       value: selectedAnswerIndex,
-      builder: (selectedAnswerIndexValue) => ListView.separated(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        separatorBuilder: (_, __) => kGap_12,
-        itemCount: question.answers.length,
-        itemBuilder: (_, int answerOptionIndex) => AnswerCard(
-          answer: question.answers[answerOptionIndex],
-          state: delegate.evaluateAnswerCardState(
-            answerIndex: answerOptionIndex,
-            selectedAnswerIndex: selectedAnswerIndexValue,
-            correctAnswerIndex: question.correctAnswerIndex,
-          ),
-          onTap: controllerState.isLoading
-              ? null
-              : () => delegate.onAnswerSelected(
-                    question: question,
-                    oldAnswerIndex: selectedAnswerIndexValue,
-                    newAnswerIndex: answerOptionIndex,
-                    saveAnswerDbCallback: (question, newAnswerIndex) async {
-                      return ref
-                          .read(answerCardListControllerProvider.notifier)
-                          .selectAnswer(
-                            question,
-                            newAnswerIndex,
-                          );
-                    },
-                  ),
-        ),
+      builder: (selectedAnswerIndexValue) => Column(
+        children: <Widget>[
+          for (var answerOptionIndex = 0;
+              answerOptionIndex < question.answers.length;
+              answerOptionIndex++)
+            AnswerCard(
+              answer: question.answers[answerOptionIndex],
+              state: delegate.evaluateAnswerCardState(
+                answerIndex: answerOptionIndex,
+                selectedAnswerIndex: selectedAnswerIndexValue,
+                correctAnswerIndex: question.correctAnswerIndex,
+              ),
+              onTap: controllerState.isLoading
+                  ? null
+                  : () => delegate.onAnswerSelected(
+                        question: question,
+                        oldAnswerIndex: selectedAnswerIndexValue,
+                        newAnswerIndex: answerOptionIndex,
+                        saveAnswerDbCallback: (question, newAnswerIndex) async {
+                          return ref
+                              .read(answerCardListControllerProvider.notifier)
+                              .selectAnswer(
+                                question,
+                                newAnswerIndex,
+                              );
+                        },
+                      ),
+            ),
+        ].separated(kGap_12),
       ),
     );
   }
