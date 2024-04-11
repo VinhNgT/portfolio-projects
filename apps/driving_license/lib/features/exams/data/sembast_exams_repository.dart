@@ -31,7 +31,7 @@ class SembastExamsRepository implements ExamsRepository {
   @override
   FutureOr<void> saveExam(Exam exam) async {
     final newId = await examsStore.generateKey(db);
-    await examsStore.add(db, exam.toJson()..['examId'] = newId);
+    await examsStore.record(newId).add(db, exam.toJson()..['examId'] = newId);
   }
 
   @override
