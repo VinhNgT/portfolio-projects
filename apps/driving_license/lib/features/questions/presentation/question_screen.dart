@@ -91,8 +91,8 @@ class QuestionScreen extends HookConsumerWidget {
             onShowAllPressed: () => unawaited(
               showModalBottomSheet(
                 context: context,
-                isScrollControlled: true,
                 useSafeArea: true,
+                isScrollControlled: true,
                 constraints: BoxConstraints.tightFor(
                   // BottomSheet will be 75% of the screen height
                   height: context.height * 0.75,
