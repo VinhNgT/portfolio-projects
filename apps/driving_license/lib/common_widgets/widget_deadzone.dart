@@ -19,8 +19,8 @@ class WidgetDeadzone extends StatelessWidget {
       children: [
         child,
         if (deadzone.left > 0)
-          Align(
-            alignment: Alignment.centerLeft,
+          Positioned.fill(
+            right: null,
             child: AbsorbPointer(
               child: SizedBox(
                 width: deadzone.left,
@@ -29,8 +29,8 @@ class WidgetDeadzone extends StatelessWidget {
             ),
           ),
         if (deadzone.right > 0)
-          Align(
-            alignment: Alignment.centerRight,
+          Positioned.fill(
+            left: null,
             child: AbsorbPointer(
               child: SizedBox(
                 width: deadzone.right,
@@ -39,8 +39,8 @@ class WidgetDeadzone extends StatelessWidget {
             ),
           ),
         if (deadzone.top > 0)
-          Align(
-            alignment: Alignment.topCenter,
+          Positioned.fill(
+            bottom: null,
             child: AbsorbPointer(
               child: SizedBox(
                 width: double.infinity,
@@ -49,8 +49,8 @@ class WidgetDeadzone extends StatelessWidget {
             ),
           ),
         if (deadzone.bottom > 0)
-          Align(
-            alignment: Alignment.bottomCenter,
+          Positioned.fill(
+            top: null,
             child: AbsorbPointer(
               child: SizedBox(
                 width: double.infinity,
