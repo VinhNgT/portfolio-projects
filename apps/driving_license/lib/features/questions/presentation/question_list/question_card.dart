@@ -281,9 +281,9 @@ class PrototypeQuestionCard extends HookConsumerWidget {
       });
     }
 
-    return QuestionCard(
+    return const QuestionCard(
       questionPageIndex: -1,
-      question: Question.prototype(),
+      question: Question.prototype,
       isSelected: false,
       onPressed: null,
       showIsBookmarked: false,

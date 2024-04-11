@@ -97,135 +97,122 @@ class QuestionsService {
     }
   }
 
-  factory QuestionsService._full({
+  QuestionsService._full({
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
-  }) {
-    return QuestionsService(
-      operatingMode: FullOperatingMode(),
-      questionsHandler: FullQuestionsHandler(
-        questionsRepository: questionsRepository,
-      ),
-      userAnswersHandler: DirectUserAnswersHandler(
-        userAnswersRepository: userAnswersRepository,
-      ),
-    );
-  }
+  }) : this(
+          operatingMode: const FullOperatingMode(),
+          questionsHandler: FullQuestionsHandler(
+            questionsRepository: questionsRepository,
+          ),
+          userAnswersHandler: DirectUserAnswersHandler(
+            userAnswersRepository: userAnswersRepository,
+          ),
+        );
 
-  factory QuestionsService._chapter({
+  QuestionsService._chapter({
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
     required License license,
     required Chapter chapter,
-  }) {
-    return QuestionsService(
-      operatingMode: ChapterOperatingMode(chapter),
-      questionsHandler: ChapterQuestionsHandler(
-        questionsRepository: questionsRepository,
-        license: license,
-        chapter: chapter,
-      ),
-      userAnswersHandler: DirectUserAnswersHandler(
-        userAnswersRepository: userAnswersRepository,
-      ),
-    );
-  }
+  }) : this(
+          operatingMode: ChapterOperatingMode(chapter),
+          questionsHandler: ChapterQuestionsHandler(
+            questionsRepository: questionsRepository,
+            license: license,
+            chapter: chapter,
+          ),
+          userAnswersHandler: DirectUserAnswersHandler(
+            userAnswersRepository: userAnswersRepository,
+          ),
+        );
 
-  factory QuestionsService._danger({
+  QuestionsService._danger({
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
     required License license,
-  }) {
-    return QuestionsService(
-      operatingMode: DangerOperatingMode(),
-      questionsHandler: DangerQuestionsHandler(
-        questionsRepository: questionsRepository,
-        license: license,
-      ),
-      userAnswersHandler: DirectUserAnswersHandler(
-        userAnswersRepository: userAnswersRepository,
-      ),
-    );
-  }
+  }) : this(
+          operatingMode: const DangerOperatingMode(),
+          questionsHandler: DangerQuestionsHandler(
+            questionsRepository: questionsRepository,
+            license: license,
+          ),
+          userAnswersHandler: DirectUserAnswersHandler(
+            userAnswersRepository: userAnswersRepository,
+          ),
+        );
 
-  factory QuestionsService._difficult({
+  QuestionsService._difficult({
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
     required InMemoryUserAnswersRepository inMemoryUserAnswersRepository,
     required UserAnswersMap difficultQuestionUserAnswers,
     required License license,
-  }) {
-    return QuestionsService(
-      operatingMode: DifficultOperatingMode(),
-      questionsHandler: DifficultQuestionsHandler(
-        questionsRepository: questionsRepository,
-        license: license,
-      ),
-      userAnswersHandler: HideUserAnswersHandler(
-        userAnswersRepository: userAnswersRepository,
-        inMemoryUserAnswersHandler: InMemoryUserAnswersHandler(
-          inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
-        ),
-        userAnswersBeforeStart: difficultQuestionUserAnswers,
-      ),
-    );
-  }
+  }) : this(
+          operatingMode: const DifficultOperatingMode(),
+          questionsHandler: DifficultQuestionsHandler(
+            questionsRepository: questionsRepository,
+            license: license,
+          ),
+          userAnswersHandler: HideUserAnswersHandler(
+            userAnswersRepository: userAnswersRepository,
+            inMemoryUserAnswersHandler: InMemoryUserAnswersHandler(
+              inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
+            ),
+            userAnswersBeforeStart: difficultQuestionUserAnswers,
+          ),
+        );
 
-  factory QuestionsService._wrongAnswers({
+  QuestionsService._wrongAnswers({
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
     required InMemoryUserAnswersRepository inMemoryUserAnswersRepository,
     required UserAnswersMap wrongUserAnswers,
-  }) {
-    return QuestionsService(
-      operatingMode: WrongAnswersOperatingMode(),
-      questionsHandler: CustomQuestionListQuestionHandler(
-        questionsRepository: questionsRepository,
-        sortedQuestionDbIndexes: wrongUserAnswers.questionDbIndexes..sort(),
-      ),
-      userAnswersHandler: HideUserAnswersHandler(
-        userAnswersRepository: userAnswersRepository,
-        inMemoryUserAnswersHandler: InMemoryUserAnswersHandler(
-          inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
-        ),
-        userAnswersBeforeStart: wrongUserAnswers,
-      ),
-    );
-  }
+  }) : this(
+          operatingMode: const WrongAnswersOperatingMode(),
+          questionsHandler: CustomQuestionListQuestionHandler(
+            questionsRepository: questionsRepository,
+            sortedQuestionDbIndexes: wrongUserAnswers.questionDbIndexes..sort(),
+          ),
+          userAnswersHandler: HideUserAnswersHandler(
+            userAnswersRepository: userAnswersRepository,
+            inMemoryUserAnswersHandler: InMemoryUserAnswersHandler(
+              inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
+            ),
+            userAnswersBeforeStart: wrongUserAnswers,
+          ),
+        );
 
-  factory QuestionsService._bookmarked({
+  QuestionsService._bookmarked({
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
     required List<int> bookmarkedQuestionDbIndexes,
-  }) {
-    return QuestionsService(
-      operatingMode: BookmarkOperatingMode(),
-      questionsHandler: CustomQuestionListQuestionHandler(
-        questionsRepository: questionsRepository,
-        sortedQuestionDbIndexes: bookmarkedQuestionDbIndexes..sort(),
-      ),
-      userAnswersHandler: DirectUserAnswersHandler(
-        userAnswersRepository: userAnswersRepository,
-      ),
-    );
-  }
+  }) : this(
+          operatingMode: const BookmarkOperatingMode(),
+          questionsHandler: CustomQuestionListQuestionHandler(
+            questionsRepository: questionsRepository,
+            sortedQuestionDbIndexes: bookmarkedQuestionDbIndexes..sort(),
+          ),
+          userAnswersHandler: DirectUserAnswersHandler(
+            userAnswersRepository: userAnswersRepository,
+          ),
+        );
 
-  factory QuestionsService._exam({
+  QuestionsService._exam({
     required QuestionsRepository questionsRepository,
     required InMemoryUserAnswersRepository inMemoryUserAnswersRepository,
     required Exam exam,
-  }) {
-    return QuestionsService(
-      operatingMode: ExamOperatingMode(exam),
-      questionsHandler: CustomQuestionListQuestionHandler(
-        questionsRepository: questionsRepository,
-        sortedQuestionDbIndexes: exam.questionDbIndexes.sorted((a, b) => a - b),
-      ),
-      userAnswersHandler: InMemoryUserAnswersHandler(
-        inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
-      ),
-    );
-  }
+  }) : this(
+          operatingMode: ExamOperatingMode(exam),
+          questionsHandler: CustomQuestionListQuestionHandler(
+            questionsRepository: questionsRepository,
+            sortedQuestionDbIndexes:
+                exam.questionDbIndexes.sorted((a, b) => a - b),
+          ),
+          userAnswersHandler: InMemoryUserAnswersHandler(
+            inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
+          ),
+        );
 }
 
 extension QuestionsServiceMethods on QuestionsService {
@@ -257,7 +244,7 @@ extension QuestionsServiceMethods on QuestionsService {
 
 @Riverpod(keepAlive: true)
 class QuestionsServiceController extends _$QuestionsServiceController {
-  QuestionsServiceMode _serviceMode = FullOperatingMode();
+  QuestionsServiceMode _serviceMode = const FullOperatingMode();
 
   @override
   FutureOr<QuestionsService> build() async {
@@ -281,7 +268,7 @@ class QuestionsServiceController extends _$QuestionsServiceController {
   }
 
   void setupAllQuestions() {
-    _serviceMode = FullOperatingMode();
+    _serviceMode = const FullOperatingMode();
     ref.invalidateSelf();
   }
 
@@ -291,22 +278,22 @@ class QuestionsServiceController extends _$QuestionsServiceController {
   }
 
   void setupDangerQuestions() {
-    _serviceMode = DangerOperatingMode();
+    _serviceMode = const DangerOperatingMode();
     ref.invalidateSelf();
   }
 
   void setupDifficultQuestions() async {
-    _serviceMode = DifficultOperatingMode();
+    _serviceMode = const DifficultOperatingMode();
     ref.invalidateSelf();
   }
 
   void setupWrongAnswerQuestions() async {
-    _serviceMode = WrongAnswersOperatingMode();
+    _serviceMode = const WrongAnswersOperatingMode();
     ref.invalidateSelf();
   }
 
   void setupBookmarkedQuestions() async {
-    _serviceMode = BookmarkOperatingMode();
+    _serviceMode = const BookmarkOperatingMode();
     ref.invalidateSelf();
   }
 

@@ -33,12 +33,12 @@ abstract class Exam with _$Exam {
 
   factory Exam.fromJson(Map<String, dynamic> json) => _$ExamFromJson(json);
 
-  factory Exam.prototype() => Exam(
-        name: 'Prototype\nPrototype',
-        createdUtcTime: DateTime(1999),
-        questionDbIndexes: [0],
-        license: License.all,
-      );
+  static final prototype = Exam(
+    name: 'Prototype\nPrototype',
+    createdUtcTime: DateTime(1999),
+    questionDbIndexes: [0],
+    license: License.all,
+  );
 
   factory Exam.createNew({
     required License license,

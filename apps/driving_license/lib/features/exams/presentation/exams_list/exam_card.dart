@@ -160,7 +160,7 @@ class PrototypeExamCard extends HookConsumerWidget {
       });
     }
 
-    return ExamCard(exam: Exam.prototype());
+    return ExamCard(exam: Exam.prototype);
   }
 
   /// Builds an invisible PrototypeExamCard to calculate the height of

@@ -26,17 +26,17 @@ abstract class Question with _$Question {
   factory Question.fromJson(Map<String, dynamic> json) =>
       _$QuestionFromJson(json);
 
-  factory Question.prototype() => const Question(
-        questionDbIndex: -1,
-        chapterDbIndex: -1,
-        subChapterDbIndex: -1,
-        title: 'Prototype\nPrototype',
-        isDanger: false,
-        isDifficult: false,
-        correctAnswerIndex: 0,
-        answers: ['0'],
-        includedLicenses: {},
-      );
+  static const prototype = Question(
+    questionDbIndex: -1,
+    chapterDbIndex: -1,
+    subChapterDbIndex: -1,
+    title: 'Prototype\nPrototype',
+    isDanger: false,
+    isDifficult: false,
+    correctAnswerIndex: 0,
+    answers: ['0'],
+    includedLicenses: {},
+  );
 
   /// Returns a [QuestionMetadata] object with the metadata of this question.
   ///

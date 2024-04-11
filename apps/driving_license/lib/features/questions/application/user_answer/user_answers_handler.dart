@@ -2,8 +2,12 @@ import 'package:driving_license/features/questions/data/user_answer/in_memory_us
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answers_map.dart';
+import 'package:flutter/material.dart';
 
+@immutable
 sealed class UserAnswersHandler {
+  const UserAnswersHandler();
+
   Future<void> saveUserAnswer(Question question, int selectedAnswerIndex);
   Future<void> clearUserAnswer(Question question);
   Future<void> clearAllUserAnswers();
@@ -13,10 +17,10 @@ sealed class UserAnswersHandler {
   );
 }
 
-class DirectUserAnswersHandler implements UserAnswersHandler {
+class DirectUserAnswersHandler extends UserAnswersHandler {
   final UserAnswersRepository userAnswersRepository;
 
-  DirectUserAnswersHandler({
+  const DirectUserAnswersHandler({
     required this.userAnswersRepository,
   });
 
@@ -51,10 +55,10 @@ class DirectUserAnswersHandler implements UserAnswersHandler {
   }
 }
 
-class InMemoryUserAnswersHandler implements UserAnswersHandler {
+class InMemoryUserAnswersHandler extends UserAnswersHandler {
   final InMemoryUserAnswersRepository inMemoryUserAnswersRepository;
 
-  InMemoryUserAnswersHandler({
+  const InMemoryUserAnswersHandler({
     required this.inMemoryUserAnswersRepository,
   });
 
@@ -93,12 +97,12 @@ class InMemoryUserAnswersHandler implements UserAnswersHandler {
   }
 }
 
-class HideUserAnswersHandler implements UserAnswersHandler {
+class HideUserAnswersHandler extends UserAnswersHandler {
   final UserAnswersRepository userAnswersRepository;
   final InMemoryUserAnswersHandler inMemoryUserAnswersHandler;
   final UserAnswersMap userAnswersBeforeStart;
 
-  HideUserAnswersHandler({
+  const HideUserAnswersHandler({
     required this.userAnswersRepository,
     required this.inMemoryUserAnswersHandler,
     required this.userAnswersBeforeStart,
