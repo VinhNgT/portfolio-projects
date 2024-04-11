@@ -57,19 +57,13 @@ class SembastExamsRepository implements ExamsRepository {
 
   @override
   Stream<Exam> watchExamById(String examId) {
-    final recordSnapshotStream = examsStore
-        .query(
-          finder: Finder(
-            filter: Filter.equals('examId', examId),
-          ),
-        )
-        .onSnapshots(db);
+    final recordSnapshotStream = examsStore.record(examId).onSnapshot(db);
 
     return recordSnapshotStream.map((snapshot) {
-      if (snapshot.isNotEmpty) {
-        return Exam.fromJson(snapshot.first.value);
+      if (snapshot != null) {
+        return Exam.fromJson(snapshot.value);
       } else {
-        throw Exception('Exam not found');
+        throw Exception('ExamId $examId not found');
       }
     });
   }

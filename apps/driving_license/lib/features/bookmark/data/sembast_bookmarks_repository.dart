@@ -67,11 +67,9 @@ class SembastBookmarksRepository implements BookmarksRepository {
   @override
   Stream<bool> watchIsBookmarked(Question question) {
     return allBookmarksStore
-        .query(
-          finder: Finder(filter: Filter.byKey(question.questionDbIndex)),
-        )
-        .onSnapshots(db)
-        .map((snapshots) => snapshots.isNotEmpty);
+        .record(question.questionDbIndex)
+        .onSnapshot(db)
+        .map((recordSnapshotStream) => recordSnapshotStream != null);
   }
 }
 
