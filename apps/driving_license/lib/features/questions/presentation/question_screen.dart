@@ -99,6 +99,7 @@ class QuestionScreen extends HookConsumerWidget {
                 ),
                 builder: (_) => QuestionBottomSheet(
                   questionCount: questionCountValue,
+                  initialCurrentPageIndex: ref.read(currentPageIndexProvider),
                   onQuestionCardPressed: (questionPageIndex) {
                     pageController.animateToPage(
                       questionPageIndex,
