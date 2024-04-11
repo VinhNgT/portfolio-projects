@@ -16,6 +16,8 @@ class ExamQuestionBottomSheet extends CommonBottomSheet {
           title: _Title(questionPageIndex: questionPageIndex),
           child: QuestionPage(
             questionPageIndex: questionPageIndex,
+            showNotes: false,
+            allowAnswering: false,
             padding: const EdgeInsets.only(
               top: kSize_12,
               bottom: kSize_48,

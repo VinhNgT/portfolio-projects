@@ -12,25 +12,31 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class AnswerCardList extends HookConsumerWidget {
   final Question question;
   final AnswerCardListDelegate delegate;
+  final bool allowInteraction;
 
   const AnswerCardList._({
     required this.question,
     required this.delegate,
+    this.allowInteraction = true,
   });
 
-  factory AnswerCardList.showRightWrong({required Question question}) {
-    return AnswerCardList._(
-      question: question,
-      delegate: const PracticeModeAnswerCardListDelegate(),
-    );
-  }
+  const AnswerCardList.showRightWrong({
+    required Question question,
+    bool allowInteraction = true,
+  }) : this._(
+          question: question,
+          delegate: const PracticeModeAnswerCardListDelegate(),
+          allowInteraction: allowInteraction,
+        );
 
-  factory AnswerCardList.showSelected({required Question question}) {
-    return AnswerCardList._(
-      question: question,
-      delegate: const ExamModeAnswerCardListDelegate(),
-    );
-  }
+  const AnswerCardList.showSelected({
+    required Question question,
+    bool allowInteraction = true,
+  }) : this._(
+          question: question,
+          delegate: const ExamModeAnswerCardListDelegate(),
+          allowInteraction: allowInteraction,
+        );
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -53,7 +59,7 @@ class AnswerCardList extends HookConsumerWidget {
                 selectedAnswerIndex: selectedAnswerIndexValue,
                 correctAnswerIndex: question.correctAnswerIndex,
               ),
-              onPressed: controllerState.isLoading
+              onPressed: controllerState.isLoading || !allowInteraction
                   ? null
                   : () => delegate.onAnswerSelected(
                         question: question,

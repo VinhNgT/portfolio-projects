@@ -19,6 +19,7 @@ class QuestionPage extends HookConsumerWidget {
   final int questionPageIndex;
   final bool showRightWrong;
   final bool showNotes;
+  final bool allowAnswering;
   final EdgeInsetsGeometry padding;
 
   const QuestionPage({
@@ -26,6 +27,7 @@ class QuestionPage extends HookConsumerWidget {
     required this.questionPageIndex,
     this.showRightWrong = true,
     this.showNotes = true,
+    this.allowAnswering = true,
     this.padding = const EdgeInsets.all(kSize_16),
   });
 
@@ -74,9 +76,11 @@ class QuestionPage extends HookConsumerWidget {
                     showRightWrong
                         ? AnswerCardList.showRightWrong(
                             question: questionValue,
+                            allowInteraction: allowAnswering,
                           )
                         : AnswerCardList.showSelected(
                             question: questionValue,
+                            allowInteraction: allowAnswering,
                           ),
                     if (showNotes)
                       _QuestionNotesVisibility(
