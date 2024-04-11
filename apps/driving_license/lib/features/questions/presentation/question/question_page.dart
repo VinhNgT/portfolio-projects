@@ -76,10 +76,10 @@ class QuestionPage extends HookConsumerWidget {
                     ],
                     kGap_16,
                     isExamModeValue
-                        ? AnswerCardList.examMode(
+                        ? AnswerCardList.showSelected(
                             question: questionValue,
                           )
-                        : AnswerCardList.practiceMode(
+                        : AnswerCardList.showRightWrong(
                             question: questionValue,
                           ),
                     if (!isExamModeValue)
