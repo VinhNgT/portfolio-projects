@@ -15,18 +15,17 @@ class CommonBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _TitleBar(title: title),
-        Expanded(
-          child: WidgetDeadzone(
-            deadzone: EdgeInsets.only(
-              bottom: context.systemGestureInsets.bottom,
-            ),
-            child: child,
-          ),
-        ),
-      ],
+    return WidgetDeadzone(
+      deadzone: EdgeInsets.only(
+        bottom: context.systemGestureInsets.bottom,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _TitleBar(title: title),
+          Flexible(child: child),
+        ],
+      ),
     );
   }
 }
