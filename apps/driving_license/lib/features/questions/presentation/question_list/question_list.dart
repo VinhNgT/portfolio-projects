@@ -42,7 +42,7 @@ class QuestionList extends HookConsumerWidget {
       initialScrollOffset: calculateInitialScrollOffset(
         questionCardHeight: questionCardHeight,
         initialTargeItemIndex: selectedCardIndex.value,
-        targetItemTopOffsetCount: 2,
+        targetItemTopOffsetCount: 1,
       ),
     );
 
