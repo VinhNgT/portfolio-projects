@@ -8,12 +8,12 @@ import 'package:flutter/material.dart';
 class AnswerCard extends StatelessWidget {
   final String answer;
   final AnswerState state;
-  final VoidCallback? onTap;
+  final VoidCallback? onPressed;
   const AnswerCard({
     super.key,
     required this.state,
     required this.answer,
-    this.onTap,
+    this.onPressed,
   });
 
   @override
@@ -24,7 +24,7 @@ class AnswerCard extends StatelessWidget {
     return ButtonCard(
       surfaceColor: containerSurfaceColor,
       onSurfaceColor: containerOnSurfaceColor,
-      onPressed: onTap,
+      onPressed: onPressed,
       child: Padding(
         padding: const EdgeInsets.all(kSize_16),
         child: Row(

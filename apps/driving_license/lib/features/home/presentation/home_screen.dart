@@ -211,7 +211,7 @@ class ChapterSelection extends HookConsumerWidget {
               final chapter = chaptersHasQuestionValue[index];
               return ChapterCard(
                 chapter: chapter,
-                onTap: (chapter) async {
+                onPressed: (chapter) async {
                   await setupAndNavigateToQuestionRoute(ref, chapter);
                 },
               );

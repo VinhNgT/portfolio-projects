@@ -53,7 +53,7 @@ class AnswerCardList extends HookConsumerWidget {
                 selectedAnswerIndex: selectedAnswerIndexValue,
                 correctAnswerIndex: question.correctAnswerIndex,
               ),
-              onTap: controllerState.isLoading
+              onPressed: controllerState.isLoading
                   ? null
                   : () => delegate.onAnswerSelected(
                         question: question,
