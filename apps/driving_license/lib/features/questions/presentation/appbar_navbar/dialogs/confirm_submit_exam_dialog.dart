@@ -1,31 +1,34 @@
+import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ConfirmSubmitExamDialog extends StatelessWidget {
-  const ConfirmSubmitExamDialog({super.key});
+class ConfirmSubmitExamDialog extends HookConsumerWidget {
+  final int remainingQuestionsCount;
+
+  const ConfirmSubmitExamDialog({
+    super.key,
+    required this.remainingQuestionsCount,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return AlertDialog(
       title: const Text('Nộp bài thi'),
-      content: RichText(
-        textScaler: context.textScaler,
-        text: TextSpan(
-          style: context.textTheme.bodyMedium!.copyWith(
-            color: context.colorScheme.onSurfaceVariant,
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Bạn có chắc chắn muốn nộp bài không ?',
+            style: context.textTheme.bodyMedium!.copyWith(
+              color: context.colorScheme.onSurfaceVariant,
+            ),
           ),
-          children: [
-            const TextSpan(
-              text: 'Bạn có chắc chắn muốn nộp bài không ?\n',
-            ),
-            TextSpan(
-              text: 'Còn 5 câu hỏi chưa trả lời',
-              style: context.textTheme.bodyMedium!.copyWith(
-                color: context.colorScheme.error,
-              ),
-            ),
-          ],
-        ),
+          kGap_2,
+          _getRemainingQuestionsText(),
+        ],
       ),
       actions: <Widget>[
         TextButton(
@@ -44,5 +47,24 @@ class ConfirmSubmitExamDialog extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Text _getRemainingQuestionsText() {
+    final context = useContext();
+
+    return switch (remainingQuestionsCount) {
+      0 => Text(
+          'Bạn đã trả lời tất cả câu hỏi',
+          style: context.textTheme.bodyMedium!.copyWith(
+            color: context.colorScheme.tertiary,
+          ),
+        ),
+      _ => Text(
+          'Còn $remainingQuestionsCount câu hỏi chưa trả lời',
+          style: context.textTheme.bodyMedium!.copyWith(
+            color: context.colorScheme.error,
+          ),
+        ),
+    };
   }
 }

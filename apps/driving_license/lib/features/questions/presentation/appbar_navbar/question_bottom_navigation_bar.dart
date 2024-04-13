@@ -11,6 +11,7 @@ import 'package:driving_license/features/exams/data/exams_repository.dart';
 import 'package:driving_license/features/exams/domain/exam.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_exam_providers.dart';
 import 'package:driving_license/features/questions/application/question/questions_service.dart';
+import 'package:driving_license/features/questions/domain/user_answers_map.dart';
 import 'package:driving_license/features/questions/presentation/appbar_navbar/dialogs/confirm_submit_exam_dialog.dart';
 import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
@@ -131,12 +132,12 @@ class ExamBottomNavigationBar extends QuestionBottomNavigationBar {
                   _ExamTimer(
                     duration: currentExamValue.examDuration,
                     onTimeout: () async {
-                      await _submitExam(context, ref);
+                      await _submitExam(context, ref, showConfimation: false);
                     },
                   ),
                   TextButton(
                     onPressed: () async {
-                      await _confirmSubmit(context, ref);
+                      await _submitExam(context, ref, showConfimation: true);
                     },
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.only(
@@ -170,18 +171,11 @@ class ExamBottomNavigationBar extends QuestionBottomNavigationBar {
     );
   }
 
-  Future<void> _confirmSubmit(BuildContext context, WidgetRef ref) async {
-    final isConfirm = await showDialog(
-      context: context,
-      builder: (context) => const ConfirmSubmitExamDialog(),
-    );
-
-    if (isConfirm == true && context.mounted) {
-      await _submitExam(context, ref);
-    }
-  }
-
-  Future<void> _submitExam(BuildContext context, WidgetRef ref) async {
+  Future<void> _submitExam(
+    BuildContext context,
+    WidgetRef ref, {
+    bool showConfimation = true,
+  }) async {
     final questionsService =
         await ref.read(questionsServiceControllerProvider.future);
     final examsRepository = ref.read(examsRepositoryProvider);
@@ -189,6 +183,21 @@ class ExamBottomNavigationBar extends QuestionBottomNavigationBar {
     final userAnswers = await questionsService.getAnswersByQuestionDbIndexes(
       currentExam.questionDbIndexes,
     );
+
+    if (showConfimation && context.mounted) {
+      final isConfirm = await showDialog<bool>(
+        context: context,
+        builder: (context) => ConfirmSubmitExamDialog(
+          remainingQuestionsCount:
+              currentExam.questionsCount - userAnswers.length,
+        ),
+      );
+
+      // The user canceled the exam submission
+      if (isConfirm != true) {
+        return;
+      }
+    }
 
     await examsRepository.saveExamUserAnswers(
       currentExam,
