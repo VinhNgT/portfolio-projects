@@ -43,7 +43,7 @@ class ExamDetailScreen extends HookConsumerWidget {
               kGap_4,
               Text(
                 'Điều kiện đỗ: Đúng tối thiểu ${exam.minimumPassingScore} '
-                '/ ${exam.questionDbIndexes.length} câu',
+                '/ ${exam.questionDbIndexes.length} câu và không sai câu điểm liệt',
                 style: context.textTheme.bodyMedium!.copyWith(
                   color: context.materialScheme.onSurfaceVariant,
                 ),
