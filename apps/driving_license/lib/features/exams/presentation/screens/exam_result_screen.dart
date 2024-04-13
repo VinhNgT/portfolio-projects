@@ -32,7 +32,7 @@ class ExamResultScreen extends HookConsumerWidget {
       canPop: false,
       onPopInvoked: (_) async {
         await Future.microtask(
-          () => context.router.popUntilRouteWithName(ExamsListRoute.name),
+          () => context.router.popUntilRouteWithName(ExamDetailRoute.name),
         );
       },
       child: Scaffold(
