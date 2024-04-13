@@ -174,21 +174,24 @@ class _SummaryCounts extends StatelessWidget {
               color: context.materialScheme.tertiary,
             ),
             kGap_8,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Đúng: ${userAnswersSummary.correctAnswers} / ${exam.questionsCount}',
-                ),
-                kGap_2,
-                Text(
-                  'Số câu cần phải trả lời đúng để đạt: ${exam.minimumPassingScore} / ${exam.questionsCount} câu',
-                  style: context.textTheme.bodySmall!.copyWith(
-                    color: context.materialScheme.onSurfaceVariant,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Đúng: ${userAnswersSummary.correctAnswers} / ${exam.questionsCount}',
                   ),
-                ),
-              ],
+                  kGap_2,
+                  Text(
+                    'Số câu cần phải trả lời đúng để đạt: '
+                    '${exam.minimumPassingScore} / ${exam.questionsCount} câu',
+                    style: context.textTheme.bodySmall!.copyWith(
+                      color: context.materialScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -200,7 +203,11 @@ class _SummaryCounts extends StatelessWidget {
               color: context.materialScheme.error,
             ),
             kGap_8,
-            Text('Sai: ${userAnswersSummary.wrongAnswers}'),
+            Expanded(
+              child: Text(
+                'Sai: ${userAnswersSummary.wrongAnswers}',
+              ),
+            ),
           ],
         ),
         kGap_8,
@@ -211,8 +218,10 @@ class _SummaryCounts extends StatelessWidget {
               color: context.materialScheme.secondary,
             ),
             kGap_8,
-            Text(
-              'Sai câu điểm liệt: ${userAnswersSummary.wrongAnswersIsDanger}',
+            Expanded(
+              child: Text(
+                'Sai câu điểm liệt: ${userAnswersSummary.wrongAnswersIsDanger}',
+              ),
             ),
           ],
         ),
