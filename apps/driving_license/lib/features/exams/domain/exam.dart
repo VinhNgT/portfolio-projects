@@ -1,3 +1,4 @@
+import 'package:driving_license/features/exams/domain/exam_result_status.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/domain/user_answers_map.dart';
 import 'package:driving_license/utils/datetime_formatter.dart';
@@ -5,18 +6,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'exam.freezed.dart';
 part 'exam.g.dart';
-
-enum ExamAnswersStatus {
-  pass,
-  passPerfect,
-  fail,
-  failDanger;
-
-  bool get isPass =>
-      this == ExamAnswersStatus.pass || this == ExamAnswersStatus.passPerfect;
-  bool get isFail =>
-      this == ExamAnswersStatus.fail || this == ExamAnswersStatus.failDanger;
-}
 
 @freezed
 abstract class Exam with _$Exam {
@@ -59,22 +48,8 @@ extension ExamOperations on Exam {
   int get minimumPassingScore => license.examInfo.minimumPassingScore;
   int get questionsCount => questionDbIndexes.length;
 
-  ExamAnswersStatus get answersStatus {
-    final correctAnswers = userAnswers.summary.correctAnswers;
-    final wrongAnswers = userAnswers.summary.wrongAnswers;
-    final wrongAnswersIsDanger = userAnswers.summary.wrongAnswersIsDanger;
-
-    if (wrongAnswersIsDanger > 0) {
-      return ExamAnswersStatus.failDanger;
-    }
-
-    if (correctAnswers >= minimumPassingScore) {
-      if (wrongAnswers == 0) {
-        return ExamAnswersStatus.passPerfect;
-      }
-      return ExamAnswersStatus.pass;
-    }
-
-    return ExamAnswersStatus.fail;
-  }
+  ExamResultStatus get examResult => ExamResultStatus.grade(
+        exam: this,
+        userAnswersSummary: userAnswers.summary,
+      );
 }

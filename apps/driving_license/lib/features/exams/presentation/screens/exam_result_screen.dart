@@ -7,6 +7,7 @@ import 'package:driving_license/common_widgets/widget_deadzone.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/exams/domain/exam.dart';
+import 'package:driving_license/features/exams/domain/exam_result_status.dart';
 import 'package:driving_license/features/exams/presentation/screens/exam_question_bottom_sheet.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_exam_providers.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
@@ -133,7 +134,7 @@ class _ExamResultSummary extends HookConsumerWidget {
           ),
           kGap_2,
           Text(
-            _getStatusTitle(currentExamValue.answersStatus),
+            _getStatusTitle(currentExamValue.examResult),
             style: context.textTheme.titleLarge,
           ),
           kGap_12,
@@ -143,12 +144,13 @@ class _ExamResultSummary extends HookConsumerWidget {
     );
   }
 
-  String _getStatusTitle(ExamAnswersStatus answersStatus) {
-    return switch (answersStatus) {
-      ExamAnswersStatus.pass => 'Đạt',
-      ExamAnswersStatus.passPerfect => 'Đạt - Đúng toàn bộ',
-      ExamAnswersStatus.fail => 'Không đạt - Không đủ điểm',
-      ExamAnswersStatus.failDanger => 'Không đạt - Sai câu điểm liệt',
+  String _getStatusTitle(ExamResultStatus examResult) {
+    return switch (examResult) {
+      ExamResultStatusPassed(:final isPerfect) =>
+        isPerfect ? 'Đạt - Đúng toàn bộ' : 'Đạt',
+      ExamResultStatusFailed(:final isDanger) => isDanger
+          ? 'Không đạt - Sai câu điểm liệt'
+          : 'Không đạt - Không đủ điểm',
     };
   }
 }
@@ -172,8 +174,21 @@ class _SummaryCounts extends StatelessWidget {
               color: context.materialScheme.tertiary,
             ),
             kGap_8,
-            Text(
-              'Đúng: ${userAnswersSummary.correctAnswers} / ${exam.questionsCount}',
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Đúng: ${userAnswersSummary.correctAnswers} / ${exam.questionsCount}',
+                ),
+                kGap_2,
+                Text(
+                  'Số câu cần phải trả lời đúng để đạt: ${exam.minimumPassingScore} / ${exam.questionsCount} câu',
+                  style: context.textTheme.bodySmall!.copyWith(
+                    color: context.materialScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
