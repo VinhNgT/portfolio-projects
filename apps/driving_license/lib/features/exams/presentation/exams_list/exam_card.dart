@@ -4,6 +4,7 @@ import 'package:driving_license/common_widgets/hooks/did_change_metric_rebuild.d
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/exams/domain/exam.dart';
+import 'package:driving_license/features/exams/domain/exam_result_status.dart';
 import 'package:driving_license/features/exams/presentation/exams_list/exam_card_controller.dart';
 import 'package:driving_license/features/exams/presentation/screens/exams_list_screen/exams_list_screen_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
@@ -15,12 +16,14 @@ import 'package:material_symbols_icons/symbols.dart';
 class ExamCard extends StatelessWidget {
   final Exam exam;
   final ExamsListState state;
+  final String? customCompletionStatusText;
   final VoidCallback? onPressed;
 
   const ExamCard({
     super.key,
     required this.exam,
     this.state = ExamsListState.view,
+    this.customCompletionStatusText,
     this.onPressed,
   });
 
@@ -51,31 +54,33 @@ class ExamCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          exam.name,
-                          style: context.textTheme.titleMedium,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            kGap_4,
                             Text(
                               'Bằng ${exam.license.name.toUpperCase()}',
                               style: context.textTheme.bodySmall!.copyWith(
                                 color: context.colorScheme.onSurfaceVariant,
                               ),
                             ),
-                            kGap_2,
+                            kGap_4,
                             Text(
-                              'Chưa làm',
-                              style: context.textTheme.bodySmall!.copyWith(
-                                color: context.colorScheme.onSurfaceVariant,
-                              ),
+                              exam.name,
+                              style: context.textTheme.titleMedium,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ],
+                        ),
+                        kGap_6,
+                        Text(
+                          _getCompletionStatus(),
+                          style: context.textTheme.bodySmall!.copyWith(
+                            color: context.colorScheme.onSurfaceVariant,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),
@@ -105,6 +110,27 @@ class ExamCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _getCompletionStatus() {
+    if (customCompletionStatusText != null) {
+      return customCompletionStatusText!;
+    }
+
+    if (exam.lastAttemptedUtcTime == null) {
+      return 'Chưa làm';
+    }
+
+    switch (exam.examResult) {
+      case ExamResultStatusPassed(:final correctAnswersCount):
+        return '$correctAnswersCount điểm - Đỗ';
+
+      case ExamResultStatusFailed(:final correctAnswersCount, isDanger: false):
+        return '$correctAnswersCount điểm - Trượt';
+
+      case ExamResultStatusFailed(isDanger: true):
+        return 'Sai câu điểm liệt - Trượt';
+    }
   }
 }
 
@@ -160,7 +186,10 @@ class PrototypeExamCard extends HookConsumerWidget {
       });
     }
 
-    return ExamCard(exam: Exam.prototype);
+    return ExamCard(
+      exam: Exam.prototype,
+      customCompletionStatusText: 'Prototype\nPrototype',
+    );
   }
 
   /// Builds an invisible PrototypeExamCard to calculate the height of
