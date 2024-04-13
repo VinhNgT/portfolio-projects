@@ -33,7 +33,12 @@ class QuestionAppBar extends HookConsumerWidget implements PreferredSizeWidget {
     return AsyncValueWidget(
       value: isExamMode,
       builder: (isExamModeValue) => CommonAppBar(
-        title: _QuestionTitle(currentPageIndex: currentPageIndex),
+        title: _QuestionTitle(
+          currentPageIndex: currentPageIndex,
+
+          // Hide the danger icon in ExamOperatingMode
+          showIsDanger: !isExamModeValue,
+        ),
         actions: [
           const BookmarkButton(),
 
@@ -87,12 +92,17 @@ extension QuestionAppBarX on QuestionAppBar {
 }
 
 class _QuestionTitle extends HookConsumerWidget {
-  const _QuestionTitle({required this.currentPageIndex});
   final int currentPageIndex;
+  final bool showIsDanger;
+
+  const _QuestionTitle({
+    required this.currentPageIndex,
+    this.showIsDanger = true,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDanger = ref.useWatchAsyncValue(
+    final thisQuestionIsDanger = ref.useWatchAsyncValue(
       questionFutureProvider(currentPageIndex).select((value) {
         return value.map<AsyncValue<bool>>(
           data: (asyncData) => AsyncData(asyncData.value.isDanger),
@@ -109,7 +119,7 @@ class _QuestionTitle extends HookConsumerWidget {
         Text('Câu hỏi ${currentPageIndex + 1}'),
         kGap_6,
         Visibility(
-          visible: isDanger,
+          visible: thisQuestionIsDanger && showIsDanger,
           child: const SvgPicture(
             AssetBytesLoader(
               'assets/icons/home_screen/compiled/danger_fire.svg.vec',
