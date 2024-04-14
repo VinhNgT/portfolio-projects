@@ -11,6 +11,10 @@ abstract interface class UserAnswersRepository {
   Future<void> saveAnswer(Question question, int selectedAnswerIndex);
   Future<void> clearAnswer(Question question);
   Future<void> clearAllAnswers();
+  Future<void> clearAllAnswersByLicenseAndChapter(
+    License license,
+    Chapter chapter,
+  );
   Stream<int?> watchUserSelectedAnswerIndex(Question question);
   Future<UserAnswersMap> getAllWrongAnswersByLicense(License license);
   Future<UserAnswersMap> getAllDifficultQuestionAnswersByLicense(

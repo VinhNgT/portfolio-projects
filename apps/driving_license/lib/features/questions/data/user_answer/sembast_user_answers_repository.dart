@@ -56,6 +56,22 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
+  Future<void> clearAllAnswersByLicenseAndChapter(
+    License license,
+    Chapter chapter,
+  ) async {
+    await allAnswersStore.delete(
+      db,
+      finder: Finder(
+        filter: Filter.and([
+          _licenseFilter(license),
+          _chapterFilter(chapter),
+        ]),
+      ),
+    );
+  }
+
+  @override
   Stream<int?> watchUserSelectedAnswerIndex(Question question) {
     final recordSnapshotStream =
         allAnswersStore.record(question.questionDbIndex).onSnapshot(db);

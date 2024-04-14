@@ -39,6 +39,31 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
+  Future<void> clearAllAnswersByLicenseAndChapter(
+    License license,
+    Chapter chapter,
+  ) async {
+    allAnswersStore.value.removeWhere((questionDbIndex, userAnswer) {
+      // Check if the question is not included in the license
+      if (!userAnswer.questionMetadata.includedLicenses.contains(license)) {
+        if (license != License.all) {
+          return false;
+        }
+      }
+
+      // Check if the question is not in the chapter
+      if (userAnswer.questionMetadata.chapterDbIndex !=
+          chapter.chapterDbIndex) {
+        return false;
+      }
+
+      return true;
+    });
+
+    allAnswersStore.emmit();
+  }
+
+  @override
   Future<void> clearAnswer(Question question) async {
     allAnswersStore.value.remove(question.questionDbIndex);
     allAnswersStore.emmit();
