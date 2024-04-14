@@ -10,6 +10,7 @@ import 'package:driving_license/features/chapters/application/providers/chapters
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/home/presentation/chapter_card.dart';
 import 'package:driving_license/features/home/presentation/dialogs/bookmarks_empty_dialog.dart';
+import 'package:driving_license/features/home/presentation/dialogs/clear_chapter_completion_dialog.dart';
 import 'package:driving_license/features/home/presentation/dialogs/no_wrong_answers_dialog.dart';
 import 'package:driving_license/features/home/presentation/donate_card.dart';
 import 'package:driving_license/features/home/presentation/feature_card.dart';
@@ -17,6 +18,7 @@ import 'package:driving_license/features/licenses/data/providers/user_selected_l
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
 import 'package:driving_license/features/questions/application/question/questions_service.dart';
+import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/routing/app_router.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
 import 'package:driving_license/utils/context_ext.dart';
@@ -220,12 +222,26 @@ class ChapterSelection extends HookConsumerWidget {
                 'Xoá tiến độ hoàn thành',
                 style: TextStyle(color: context.materialScheme.error),
               ),
-              onPressed: () {},
+              onPressed: () async => _clearChaptersCompletion(context, ref),
             ),
           ),
         ],
       ),
     );
+  }
+
+  Future<void> _clearChaptersCompletion(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    final shouldClear = await showDialog<bool>(
+      context: context,
+      builder: (context) => const ClearChapterCompletionDialog(),
+    );
+
+    if (shouldClear == true) {
+      await ref.read(userAnswersRepositoryProvider).clearAllAnswers();
+    }
   }
 }
 
