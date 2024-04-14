@@ -15,14 +15,10 @@ class AppRouter extends $AppRouter {
 
   @override
   List<AutoRoute> get routes => [
-        CustomRoute(
-          page: LicenseSelectionRoute.page,
-          transitionsBuilder: _licenseSelectionFromToTransition,
-        ),
-        CustomRoute(
+        AutoRoute(page: LicenseSelectionRoute.page),
+        AutoRoute(
           page: HomeRoute.page,
           guards: [HomeRouteGuard(ref)],
-          transitionsBuilder: _licenseSelectionFromToTransition,
           initial: true,
         ),
         AutoRoute(page: QuestionRoute.page),
@@ -32,26 +28,13 @@ class AppRouter extends $AppRouter {
       ];
 
   @override
-  RouteType get defaultRouteType =>
-      RouteType.custom(transitionsBuilder: _defaultTransition);
+  RouteType get defaultRouteType => RouteType.custom(
+        transitionsBuilder: _getTransition,
+      );
 }
 
 extension _TransitionX on AppRouter {
-  RouteTransitionsBuilder get _defaultTransition => (
-        context,
-        animation,
-        secondaryAnimation,
-        child,
-      ) =>
-          SharedAxisTransition(
-            fillColor: Theme.of(context).scaffoldBackgroundColor,
-            animation: animation,
-            secondaryAnimation: secondaryAnimation,
-            transitionType: SharedAxisTransitionType.horizontal,
-            child: child,
-          );
-
-  RouteTransitionsBuilder get _licenseSelectionFromToTransition => (
+  RouteTransitionsBuilder get _getTransition => (
         context,
         animation,
         secondaryAnimation,
@@ -60,21 +43,38 @@ extension _TransitionX on AppRouter {
         final previousRouteName = ref.read(previousRouteObserverProvider).name;
         final currentRouteName = context.topRoute.name;
 
+        // If the previous or current route is LicenseSelectionRoute,
+        // we want to use a different transition
         if (previousRouteName == LicenseSelectionRoute.name ||
             currentRouteName == LicenseSelectionRoute.name) {
-          return FadeThroughTransition(
-            fillColor: Theme.of(context).scaffoldBackgroundColor,
-            animation: animation,
-            secondaryAnimation: secondaryAnimation,
-            child: child,
+          return _licenseSelectionFromToTransition(
+            context,
+            animation,
+            secondaryAnimation,
+            child,
           );
         }
 
-        return _defaultTransition(
-          context,
-          animation,
-          secondaryAnimation,
-          child,
+        return SharedAxisTransition(
+          fillColor: Theme.of(context).scaffoldBackgroundColor,
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          transitionType: SharedAxisTransitionType.horizontal,
+          child: child,
+        );
+      };
+
+  RouteTransitionsBuilder get _licenseSelectionFromToTransition => (
+        context,
+        animation,
+        secondaryAnimation,
+        child,
+      ) {
+        return FadeThroughTransition(
+          fillColor: Theme.of(context).scaffoldBackgroundColor,
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          child: child,
         );
       };
 }
