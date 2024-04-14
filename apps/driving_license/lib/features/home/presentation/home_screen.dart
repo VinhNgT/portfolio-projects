@@ -201,7 +201,7 @@ class ChapterSelection extends HookConsumerWidget {
       builder: (chaptersHasQuestionValue) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Ôn tập câu hỏi', style: context.textTheme.titleLarge),
+          Text('Ôn tập chương', style: context.textTheme.titleLarge),
           kGap_16,
           ...<Widget>[
             for (final chapter in chaptersHasQuestionValue)
@@ -212,6 +212,17 @@ class ChapterSelection extends HookConsumerWidget {
                 },
               ),
           ].separated(kGap_12),
+          kGap_4,
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              child: Text(
+                'Xoá tiến độ hoàn thành',
+                style: TextStyle(color: context.materialScheme.error),
+              ),
+              onPressed: () {},
+            ),
+          ),
         ],
       ),
     );
