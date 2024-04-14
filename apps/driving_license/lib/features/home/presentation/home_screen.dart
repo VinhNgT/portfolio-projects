@@ -49,9 +49,9 @@ class HomeScreen extends HookConsumerWidget {
             },
           ),
           title: Text(_getLicenseName(licenseNameValue)),
-          actions: [
-            TextButton(onPressed: () {}, child: const Text('Báo lỗi')),
-          ],
+          // actions: [
+          //   TextButton(onPressed: () {}, child: const Text('Báo lỗi')),
+          // ],
           rightPadding: AppBarRightPadding.normalButton,
           scaffoldBodyScrollController: scrollController,
         ),
