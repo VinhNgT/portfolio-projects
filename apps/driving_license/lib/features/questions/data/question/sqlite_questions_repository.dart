@@ -88,6 +88,13 @@ class SqliteQuestionsRepository implements QuestionsRepository {
 
     // Check the user_version of the database
     final dbVersion = await _getDbUserVersion(dbPath);
+    if (_dataBaseUserVersionConst == -1) {
+      // If _dataBaseUserVersionConst is -1, then a new copy of the database
+      // will be created from the asset every time the app is started
+      // (for development purposes)
+      return;
+    }
+
     if (dbVersion != _dataBaseUserVersionConst) {
       throw Exception('The database\'s user_version from asset does not match '
           'the expected value \'$_dataBaseUserVersionConst\'');
