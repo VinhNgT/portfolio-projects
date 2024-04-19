@@ -78,54 +78,46 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Future<UserAnswersMap> getAllWrongAnswersByLicense(License license) {
+  Future<UserAnswersMap> getAllAnswers(
+    License license, {
+    Chapter? chapter,
+    bool filterIsWrong = false,
+    bool filterIsDanger = false,
+    bool filterIsDifficult = false,
+  }) {
     final wrongAnswers = <UserAnswer>[];
     for (final entry in allAnswersStore.value.entries) {
       final userAnswer = entry.value;
 
-      // Check if the user answer is not wrong
-      if (userAnswer.selectedAnswerIndex ==
-          userAnswer.questionMetadata.correctAnswerIndex) {
+      // Check if the question is not included in the license
+      if (!_licenseFilter(userAnswer, license)) {
         continue;
       }
 
-      // Check if the question is not included in the license
-      if (!userAnswer.questionMetadata.includedLicenses.contains(license)) {
-        if (license != License.all) {
-          continue;
-        }
+      // Check if the question is not in the chapter
+      if (chapter != null && !_chapterFilter(userAnswer, chapter)) {
+        continue;
+      }
+
+      // Check if the question is not wrong
+      if (filterIsWrong && !_wrongAnswersFilter(userAnswer)) {
+        continue;
+      }
+
+      // Check if the question is not dangerous
+      if (filterIsDanger && !_dangerQuestionsFilter(userAnswer)) {
+        continue;
+      }
+
+      // Check if the question is not difficult
+      if (filterIsDifficult && !_difficultQuestionsFilter(userAnswer)) {
+        continue;
       }
 
       wrongAnswers.add(userAnswer);
     }
 
     return Future.value(UserAnswersMap.fromUserAnswers(wrongAnswers));
-  }
-
-  @override
-  Future<UserAnswersMap> getAllDifficultQuestionAnswersByLicense(
-    License license,
-  ) async {
-    final difficultAnswers = <UserAnswer>[];
-    for (final entry in allAnswersStore.value.entries) {
-      final userAnswer = entry.value;
-
-      // Check if the question is not difficult
-      if (!userAnswer.questionMetadata.isDifficult) {
-        continue;
-      }
-
-      // Check if the question is not included in the license
-      if (!userAnswer.questionMetadata.includedLicenses.contains(license)) {
-        if (license != License.all) {
-          continue;
-        }
-      }
-
-      difficultAnswers.add(userAnswer);
-    }
-
-    return Future.value(UserAnswersMap.fromUserAnswers(difficultAnswers));
   }
 
   @override
@@ -142,7 +134,7 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
       userAnswersMap.forEach((questionDbIndex, userAnswer) {
         // Check if the user answer is not in the license
         if (!_licenseFilter(userAnswer, license)) {
-            return;
+          return;
         }
 
         // Check if the user answer is not in the chapter

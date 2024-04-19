@@ -16,10 +16,13 @@ abstract interface class UserAnswersRepository {
     Chapter chapter,
   );
   Stream<int?> watchUserSelectedAnswerIndex(Question question);
-  Future<UserAnswersMap> getAllWrongAnswersByLicense(License license);
-  Future<UserAnswersMap> getAllDifficultQuestionAnswersByLicense(
-    License license,
-  );
+  Future<UserAnswersMap> getAllAnswers(
+    License license, {
+    Chapter? chapter,
+    bool filterIsWrong = false,
+    bool filterIsDanger = false,
+    bool filterIsDifficult = false,
+  });
   Stream<UserAnswersSummary> watchUserAnswersSummary(
     License license, {
     Chapter? chapter,

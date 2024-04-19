@@ -88,34 +88,22 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Future<UserAnswersMap> getAllWrongAnswersByLicense(License license) async {
+  Future<UserAnswersMap> getAllAnswers(
+    License license, {
+    Chapter? chapter,
+    bool filterIsWrong = false,
+    bool filterIsDanger = false,
+    bool filterIsDifficult = false,
+  }) async {
     final recordSnapshot = await allAnswersStore.find(
       db,
       finder: Finder(
         filter: Filter.and([
-          _wrongAnswersFilter,
           _licenseFilter(license),
-        ]),
-      ),
-    );
-
-    return UserAnswersMap.fromUserAnswers(
-      recordSnapshot.map(
-        (record) => UserAnswer.fromJson(record.value as Map<String, dynamic>),
-      ),
-    );
-  }
-
-  @override
-  Future<UserAnswersMap> getAllDifficultQuestionAnswersByLicense(
-    License license,
-  ) async {
-    final recordSnapshot = await allAnswersStore.find(
-      db,
-      finder: Finder(
-        filter: Filter.and([
-          _difficultQuestionsFilter,
-          _licenseFilter(license),
+          if (chapter != null) _chapterFilter(chapter),
+          if (filterIsWrong) _wrongAnswersFilter,
+          if (filterIsDanger) _dangerQuestionsFilter,
+          if (filterIsDifficult) _difficultQuestionsFilter,
         ]),
       ),
     );
