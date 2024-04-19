@@ -130,10 +130,10 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
 
   @override
   Stream<UserAnswersSummary> watchUserAnswersSummary(
-    License license, [
+    License license, {
     Chapter? chapter,
     bool filterIsDanger = false,
-  ]) {
+  }) {
     return allAnswersStore.stream.map((userAnswersMap) {
       int corrects = 0;
       int wrong = 0;
@@ -141,26 +141,22 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
 
       userAnswersMap.forEach((questionDbIndex, userAnswer) {
         // Check if the user answer is not in the license
-        if (!userAnswer.questionMetadata.includedLicenses.contains(license)) {
-          if (license != License.all) {
+        if (!_licenseFilter(userAnswer, license)) {
             return;
-          }
         }
 
         // Check if the user answer is not in the chapter
-        if (chapter != null &&
-            userAnswer.questionMetadata.chapterDbIndex !=
-                chapter.chapterDbIndex) {
+        if (chapter != null && !_chapterFilter(userAnswer, chapter)) {
           return;
         }
 
         // Check if the user answer is correct
-        if (userAnswer.isCorrect) {
+        if (_correctAnswersFilter(userAnswer)) {
           corrects++;
         } else {
           wrong++;
 
-          if (userAnswer.questionMetadata.isDifficult) {
+          if (_dangerQuestionsFilter(userAnswer)) {
             wrongIsDanger++;
           }
         }
@@ -202,6 +198,35 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
     }
 
     return Future.value(UserAnswersMap.fromUserAnswers(userAnswers));
+  }
+}
+
+extension _FilterExtension on InMemoryUserAnswersRepository {
+  bool _chapterFilter(UserAnswer userAnswer, Chapter chapter) {
+    return userAnswer.questionMetadata.chapterDbIndex == chapter.chapterDbIndex;
+  }
+
+  bool _licenseFilter(UserAnswer userAnswer, License license) {
+    if (license == License.all) {
+      return true;
+    }
+    return userAnswer.questionMetadata.includedLicenses.contains(license);
+  }
+
+  bool _correctAnswersFilter(UserAnswer userAnswer) {
+    return userAnswer.isCorrect;
+  }
+
+  bool _wrongAnswersFilter(UserAnswer userAnswer) {
+    return !userAnswer.isCorrect;
+  }
+
+  bool _difficultQuestionsFilter(UserAnswer userAnswer) {
+    return userAnswer.questionMetadata.isDifficult;
+  }
+
+  bool _dangerQuestionsFilter(UserAnswer userAnswer) {
+    return userAnswer.questionMetadata.isDanger;
   }
 }
 
