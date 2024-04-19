@@ -14,3 +14,8 @@ abstract class UserAnswer with _$UserAnswer {
   factory UserAnswer.fromJson(Map<String, dynamic> json) =>
       _$UserAnswerFromJson(json);
 }
+
+extension UserAnswerOperations on UserAnswer {
+  bool get isCorrect =>
+      selectedAnswerIndex == questionMetadata.correctAnswerIndex;
+}

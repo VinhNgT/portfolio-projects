@@ -150,13 +150,12 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
         // Check if the user answer is not in the chapter
         if (chapter != null &&
             userAnswer.questionMetadata.chapterDbIndex !=
-            chapter.chapterDbIndex) {
+                chapter.chapterDbIndex) {
           return;
         }
 
         // Check if the user answer is correct
-        if (userAnswer.selectedAnswerIndex ==
-            userAnswer.questionMetadata.correctAnswerIndex) {
+        if (userAnswer.isCorrect) {
           corrects++;
         } else {
           wrong++;
