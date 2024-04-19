@@ -32,13 +32,6 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Future<void> clearDatabase() async {
-    allAnswersStore.value = {};
-    // No need to call emmit() here because the store will emits the
-    // new value automatically when 'value' is updated directly using '='.
-  }
-
-  @override
   Future<void> clearAllAnswers(
     License license, {
     Chapter? chapter,
@@ -58,6 +51,13 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
     });
 
     allAnswersStore.emmit();
+  }
+
+  @override
+  Future<void> clearDatabase() async {
+    allAnswersStore.value = {};
+    // No need to call emmit() here because the store will emits the
+    // new value automatically when 'value' is updated directly using '='.
   }
 
   @override

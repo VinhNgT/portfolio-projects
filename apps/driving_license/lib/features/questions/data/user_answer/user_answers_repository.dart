@@ -9,12 +9,14 @@ part 'user_answers_repository.g.dart';
 
 abstract interface class UserAnswersRepository {
   Future<void> saveAnswer(Question question, int selectedAnswerIndex);
+
   Future<void> clearAnswer(Question question);
-  Future<void> clearDatabase();
   Future<void> clearAllAnswers(
     License license, {
     Chapter? chapter,
   });
+  Future<void> clearDatabase();
+
   Stream<int?> watchUserSelectedAnswerIndex(Question question);
   Future<UserAnswersMap> getAllAnswers(
     License license, {
@@ -28,6 +30,7 @@ abstract interface class UserAnswersRepository {
     Chapter? chapter,
     bool filterIsDanger = false,
   });
+
   Future<int?> getFirstUnansweredPositionInList(Iterable<int> dbIndexes);
   Future<UserAnswersMap> getAnswersByQuestionDbIndexes(
     Iterable<int> dbIndexes,

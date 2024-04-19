@@ -51,11 +51,6 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Future<void> clearDatabase() async {
-    await allAnswersStore.delete(db);
-  }
-
-  @override
   Future<void> clearAllAnswers(
     License license, {
     Chapter? chapter,
@@ -69,6 +64,11 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
         ]),
       ),
     );
+  }
+
+  @override
+  Future<void> clearDatabase() async {
+    await allAnswersStore.delete(db);
   }
 
   @override
