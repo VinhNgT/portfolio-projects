@@ -29,49 +29,46 @@ class ChapterCard extends HookConsumerWidget {
 
     return AsyncValueWidget(
       value: chapterCompletionStatus,
-      builder: (chapterCompletionStatusValue) => Visibility(
-        visible: chapterCompletionStatusValue.questionsCount > 0,
-        child: ButtonCard(
-          surfaceColor: context.materialScheme.surfaceContainerHigh,
-          onSurfaceColor: context.materialScheme.onSurface,
-          onPressed: onPressed != null ? () => onPressed!(chapter) : null,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: kSize_16,
-              vertical: kSize_12,
-            ),
-            child: Row(
-              children: [
-                SvgPicture(AssetBytesLoader(chapter.iconAssetPath)),
-                kGap_16,
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        chapter.chapterName,
-                        style: context.textTheme.titleMedium,
+      builder: (chapterCompletionStatusValue) => ButtonCard(
+        surfaceColor: context.materialScheme.surfaceContainerHigh,
+        onSurfaceColor: context.materialScheme.onSurface,
+        onPressed: onPressed != null ? () => onPressed!(chapter) : null,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: kSize_16,
+            vertical: kSize_12,
+          ),
+          child: Row(
+            children: [
+              SvgPicture(AssetBytesLoader(chapter.iconAssetPath)),
+              kGap_16,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      chapter.chapterName,
+                      style: context.textTheme.titleMedium,
+                    ),
+                    kGap_2,
+                    Text(
+                      _buildCompletionStatusText(
+                        chapterCompletionStatusValue,
                       ),
-                      kGap_2,
-                      Text(
-                        _buildCompletionStatusText(
-                          chapterCompletionStatusValue,
-                        ),
-                        style: context.textTheme.bodyMedium!.copyWith(
-                          color: context.colorScheme.onSurfaceVariant,
-                        ),
+                      style: context.textTheme.bodyMedium!.copyWith(
+                        color: context.colorScheme.onSurfaceVariant,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                kGap_16,
-                Icon(
-                  Symbols.arrow_forward_ios,
-                  size: kSize_20,
-                  color: context.colorScheme.secondary,
-                ),
-              ],
-            ),
+              ),
+              kGap_16,
+              Icon(
+                Symbols.arrow_forward_ios,
+                size: kSize_20,
+                color: context.colorScheme.secondary,
+              ),
+            ],
           ),
         ),
       ),
