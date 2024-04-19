@@ -70,7 +70,7 @@ class SembastExamsRepository implements ExamsRepository {
 
   @override
   Stream<List<Exam>> watchAllExamsByLicense(License license) {
-    final recordSnapshotStream = examsStore
+    final recordSnapshotsStream = examsStore
         .query(
           finder: Finder(
             filter: Filter.equals('license', license.name),
@@ -78,7 +78,7 @@ class SembastExamsRepository implements ExamsRepository {
         )
         .onSnapshots(db);
 
-    return recordSnapshotStream.map((snapshot) {
+    return recordSnapshotsStream.map((snapshot) {
       return [
         for (final record in snapshot) Exam.fromJson(record.value),
       ];
