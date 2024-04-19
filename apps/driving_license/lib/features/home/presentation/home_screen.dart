@@ -240,7 +240,7 @@ class ChapterSelection extends HookConsumerWidget {
     );
 
     if (shouldClear == true) {
-      await ref.read(userAnswersRepositoryProvider).clearAllAnswers();
+      await ref.read(userAnswersRepositoryProvider).clearDatabase();
     }
   }
 }

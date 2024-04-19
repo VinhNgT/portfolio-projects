@@ -32,28 +32,25 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Future<void> clearAllAnswers() async {
+  Future<void> clearDatabase() async {
     allAnswersStore.value = {};
     // No need to call emmit() here because the store will emits the
     // new value automatically when 'value' is updated directly using '='.
   }
 
   @override
-  Future<void> clearAllAnswersByLicenseAndChapter(
-    License license,
-    Chapter chapter,
-  ) async {
+  Future<void> clearAllAnswers(
+    License license, {
+    Chapter? chapter,
+  }) async {
     allAnswersStore.value.removeWhere((questionDbIndex, userAnswer) {
       // Check if the question is not included in the license
-      if (!userAnswer.questionMetadata.includedLicenses.contains(license)) {
-        if (license != License.all) {
-          return false;
-        }
+      if (!_licenseFilter(userAnswer, license)) {
+        return false;
       }
 
       // Check if the question is not in the chapter
-      if (userAnswer.questionMetadata.chapterDbIndex !=
-          chapter.chapterDbIndex) {
+      if (chapter != null && !_chapterFilter(userAnswer, chapter)) {
         return false;
       }
 

@@ -39,7 +39,7 @@ class DirectUserAnswersHandler extends UserAnswersHandler {
 
   @override
   Future<void> clearAllUserAnswers() {
-    return userAnswersRepository.clearAllAnswers();
+    return userAnswersRepository.clearDatabase();
   }
 
   @override
@@ -80,7 +80,7 @@ class InMemoryUserAnswersHandler extends UserAnswersHandler {
 
   @override
   Future<void> clearAllUserAnswers() {
-    return inMemoryUserAnswersRepository.clearAllAnswers();
+    return inMemoryUserAnswersRepository.clearDatabase();
   }
 
   @override

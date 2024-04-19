@@ -51,21 +51,21 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Future<void> clearAllAnswers() async {
+  Future<void> clearDatabase() async {
     await allAnswersStore.delete(db);
   }
 
   @override
-  Future<void> clearAllAnswersByLicenseAndChapter(
-    License license,
-    Chapter chapter,
-  ) async {
+  Future<void> clearAllAnswers(
+    License license, {
+    Chapter? chapter,
+  }) async {
     await allAnswersStore.delete(
       db,
       finder: Finder(
         filter: Filter.and([
           _licenseFilter(license),
-          _chapterFilter(chapter),
+          if (chapter != null) _chapterFilter(chapter),
         ]),
       ),
     );

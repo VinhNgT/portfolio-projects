@@ -10,11 +10,11 @@ part 'user_answers_repository.g.dart';
 abstract interface class UserAnswersRepository {
   Future<void> saveAnswer(Question question, int selectedAnswerIndex);
   Future<void> clearAnswer(Question question);
-  Future<void> clearAllAnswers();
-  Future<void> clearAllAnswersByLicenseAndChapter(
-    License license,
-    Chapter chapter,
-  );
+  Future<void> clearDatabase();
+  Future<void> clearAllAnswers(
+    License license, {
+    Chapter? chapter,
+  });
   Stream<int?> watchUserSelectedAnswerIndex(Question question);
   Future<UserAnswersMap> getAllAnswers(
     License license, {
