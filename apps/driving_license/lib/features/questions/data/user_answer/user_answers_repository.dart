@@ -20,11 +20,11 @@ abstract interface class UserAnswersRepository {
   Future<UserAnswersMap> getAllDifficultQuestionAnswersByLicense(
     License license,
   );
-
-  Stream<UserAnswersSummary> watchUserAnswersSummaryByLicenseAndChapter(
-    License license,
-    Chapter chapter,
-  );
+  Stream<UserAnswersSummary> watchUserAnswersSummary(
+    License license, [
+    Chapter? chapter,
+    bool filterIsDanger = false,
+  ]);
   Future<int?> getFirstUnansweredPositionInList(Iterable<int> dbIndexes);
   Future<UserAnswersMap> getAnswersByQuestionDbIndexes(
     Iterable<int> dbIndexes,

@@ -128,17 +128,19 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Stream<UserAnswersSummary> watchUserAnswersSummaryByLicenseAndChapter(
-    License license,
-    Chapter chapter,
-  ) {
+  Stream<UserAnswersSummary> watchUserAnswersSummary(
+    License license, [
+    Chapter? chapter,
+    bool includeDanger = false,
+  ]) {
     final correctAnswersCountStream = allAnswersStore
         .query(
           finder: Finder(
             filter: Filter.and([
               _licenseFilter(license),
-              _chapterFilter(chapter),
               _correctAnswersFilter,
+              if (chapter != null) _chapterFilter(chapter),
+              if (includeDanger) _dangerQuestionsFilter,
             ]),
           ),
         )
@@ -149,8 +151,9 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
           finder: Finder(
             filter: Filter.and([
               _licenseFilter(license),
-              _chapterFilter(chapter),
               _wrongAnswersFilter,
+              if (chapter != null) _chapterFilter(chapter),
+              if (includeDanger) _dangerQuestionsFilter,
             ]),
           ),
         )
@@ -161,9 +164,9 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
           finder: Finder(
             filter: Filter.and([
               _licenseFilter(license),
-              _chapterFilter(chapter),
               _wrongAnswersFilter,
               _dangerQuestionsFilter,
+              if (chapter != null) _chapterFilter(chapter),
             ]),
           ),
         )

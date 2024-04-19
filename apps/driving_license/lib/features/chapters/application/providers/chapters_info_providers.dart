@@ -48,8 +48,8 @@ Stream<({int questionsCount, UserAnswersSummary summary})>
 
   final chapterQuestionsCount =
       await ref.watch(chapterQuestionsCountProvider(chapter).future);
-  final userAnswersSummary = userAnswersRepository
-      .watchUserAnswersSummaryByLicenseAndChapter(license, chapter);
+  final userAnswersSummary =
+      userAnswersRepository.watchUserAnswersSummary(license, chapter);
 
   yield* userAnswersSummary.map((summary) {
     return (

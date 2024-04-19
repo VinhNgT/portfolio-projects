@@ -129,10 +129,11 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   }
 
   @override
-  Stream<UserAnswersSummary> watchUserAnswersSummaryByLicenseAndChapter(
-    License license,
-    Chapter chapter,
-  ) {
+  Stream<UserAnswersSummary> watchUserAnswersSummary(
+    License license, [
+    Chapter? chapter,
+    bool filterIsDanger = false,
+  ]) {
     return allAnswersStore.stream.map((userAnswersMap) {
       int corrects = 0;
       int wrong = 0;
@@ -147,7 +148,8 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
         }
 
         // Check if the user answer is not in the chapter
-        if (userAnswer.questionMetadata.chapterDbIndex !=
+        if (chapter != null &&
+            userAnswer.questionMetadata.chapterDbIndex !=
             chapter.chapterDbIndex) {
           return;
         }

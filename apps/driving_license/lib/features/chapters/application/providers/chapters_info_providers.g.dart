@@ -174,7 +174,7 @@ final notEmptyChaptersProvider =
 
 typedef NotEmptyChaptersRef = AutoDisposeFutureProviderRef<List<Chapter>>;
 String _$chapterCompletionStatusHash() =>
-    r'0d018ded5a431a14a4d359af3a98ebce7065ce64';
+    r'd3892000b2270dbd6236e704d8e9c1b1c659c7f1';
 
 /// See also [chapterCompletionStatus].
 @ProviderFor(chapterCompletionStatus)
