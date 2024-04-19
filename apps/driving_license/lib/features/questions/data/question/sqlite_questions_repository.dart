@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/chapters/domain/sub_chapter.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
-import 'package:driving_license/features/questions/data/question/k_test_questions.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:flutter/foundation.dart';
@@ -15,7 +14,7 @@ import 'package:sqflite/sqflite.dart';
 
 /// This value must match the PRAGMA user_version of the database in the assets
 /// otherwise an Exception will be thrown
-const _dataBaseUserVersionConst = 2;
+const _dataBaseUserVersionConst = 3;
 
 class SqliteQuestionsRepository implements QuestionsRepository {
   final Database database;
@@ -391,8 +390,10 @@ extension QuestionsRepositoryX on QuestionsRepository {
       'correctAnswerIndex': databaseMap['correct_index'] - 1,
       'isDanger': databaseMap['is_danger'] == 1,
       'isDifficult': databaseMap['is_difficult'] == 1,
-      'explanation': kTestQuestions[0].explanation,
-      'rememberTip': kTestQuestions[0].rememberTip,
+      // Replace all '\\n' with '\n', also remove all spaces before '\n'
+      'explanation': (databaseMap['explanation'] as String?)
+          ?.replaceAll(RegExp(r'\s*\\n'), '\n'),
+      'rememberTip': databaseMap['remember_tip'],
       'includedLicenses': [
         for (final license in License.values)
           if (databaseMap['is_in_${license.name}'] == 1) license.name,
