@@ -8,17 +8,17 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'user_answers_repository.g.dart';
 
 abstract interface class UserAnswersRepository {
-  Future<void> saveAnswer(Question question, int selectedAnswerIndex);
+  FutureOr<void> saveAnswer(Question question, int selectedAnswerIndex);
 
-  Future<void> clearAnswer(Question question);
-  Future<void> clearAllAnswers(
+  FutureOr<void> clearAnswer(Question question);
+  FutureOr<void> clearAllAnswers(
     License license, {
     Chapter? chapter,
   });
-  Future<void> clearDatabase();
+  FutureOr<void> clearDatabase();
 
   Stream<int?> watchUserSelectedAnswerIndex(Question question);
-  Future<UserAnswersMap> getAllAnswers(
+  FutureOr<UserAnswersMap> getAllAnswers(
     License license, {
     Chapter? chapter,
     bool filterIsWrong = false,
@@ -31,8 +31,8 @@ abstract interface class UserAnswersRepository {
     bool filterIsDanger = false,
   });
 
-  Future<int?> getFirstUnansweredPositionInList(Iterable<int> dbIndexes);
-  Future<UserAnswersMap> getAnswersByQuestionDbIndexes(
+  FutureOr<int?> getFirstUnansweredPositionInList(Iterable<int> dbIndexes);
+  FutureOr<UserAnswersMap> getAnswersByQuestionDbIndexes(
     Iterable<int> dbIndexes,
   );
 }

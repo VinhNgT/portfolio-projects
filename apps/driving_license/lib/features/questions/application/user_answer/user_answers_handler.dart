@@ -28,17 +28,17 @@ class DirectUserAnswersHandler extends UserAnswersHandler {
   Future<void> saveUserAnswer(
     Question question,
     int selectedAnswerIndex,
-  ) {
+  ) async {
     return userAnswersRepository.saveAnswer(question, selectedAnswerIndex);
   }
 
   @override
-  Future<void> clearUserAnswer(Question question) {
+  Future<void> clearUserAnswer(Question question) async {
     return userAnswersRepository.clearAnswer(question);
   }
 
   @override
-  Future<void> clearAllUserAnswers() {
+  Future<void> clearAllUserAnswers() async {
     return userAnswersRepository.clearDatabase();
   }
 
@@ -50,7 +50,7 @@ class DirectUserAnswersHandler extends UserAnswersHandler {
   @override
   Future<UserAnswersMap> getAnswersByQuestionDbIndexes(
     Iterable<int> dbIndexes,
-  ) {
+  ) async {
     return userAnswersRepository.getAnswersByQuestionDbIndexes(dbIndexes);
   }
 }

@@ -241,7 +241,7 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  FutureOr<Question> getIsDangerQuestionByLicense(
+  Future<Question> getIsDangerQuestionByLicense(
     License license,
     int index,
   ) async {
@@ -263,7 +263,7 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  FutureOr<List<Question>> getIsDangerQuestionsPageByLicense(
+  Future<List<Question>> getIsDangerQuestionsPageByLicense(
     License license,
     int pageNumber,
   ) async {
@@ -282,7 +282,7 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  FutureOr<int> getIsDangerQuestionsCountByLicense(License license) async {
+  Future<int> getIsDangerQuestionsCountByLicense(License license) async {
     final List<Map<String, dynamic>> queryResult = await database.rawQuery(
       'SELECT COUNT(*) AS count FROM question WHERE '
       '${'is_danger = 1'._addLicenseWhereClause(license)}',
@@ -291,7 +291,7 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  FutureOr<Iterable<int>> getIsDangerQuestionDbIndexesByLicense(
+  Future<Iterable<int>> getIsDangerQuestionDbIndexesByLicense(
     License license,
   ) async {
     final List<Map<String, dynamic>> queryResult = await database.query(
@@ -305,7 +305,7 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  FutureOr<Question> getIsDifficultQuestionByLicense(
+  Future<Question> getIsDifficultQuestionByLicense(
     License license,
     int index,
   ) async {
@@ -327,7 +327,7 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  FutureOr<List<Question>> getIsDifficultQuestionsPageByLicense(
+  Future<List<Question>> getIsDifficultQuestionsPageByLicense(
     License license,
     int pageNumber,
   ) async {
@@ -346,7 +346,7 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  FutureOr<int> getIsDifficultQuestionsCountByLicense(License license) async {
+  Future<int> getIsDifficultQuestionsCountByLicense(License license) async {
     final List<Map<String, dynamic>> queryResult = await database.rawQuery(
       'SELECT COUNT(*) AS count FROM question WHERE '
       '${'is_difficult = 1'._addLicenseWhereClause(license)}',
@@ -355,7 +355,7 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  FutureOr<List<Question>> getQuestionsPageByDbIndexes(
+  Future<List<Question>> getQuestionsPageByDbIndexes(
     Iterable<int> dbIndexes,
     int pageNumber,
   ) async {
