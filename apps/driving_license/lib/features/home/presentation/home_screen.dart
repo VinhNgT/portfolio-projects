@@ -6,7 +6,7 @@ import 'package:driving_license/common_widgets/notify_scroll_size_changes.dart';
 import 'package:driving_license/common_widgets/widget_deadzone.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
-import 'package:driving_license/features/chapters/application/providers/chapters_info_providers.dart';
+import 'package:driving_license/features/chapters/application/providers/chapters_providers.dart';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/home/presentation/chapter_card.dart';
 import 'package:driving_license/features/home/presentation/dialogs/bookmarks_empty_dialog.dart';
@@ -19,6 +19,7 @@ import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
 import 'package:driving_license/features/questions/application/question/questions_service.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
+import 'package:driving_license/features/user_progress/application/providers/user_progress_providers.dart';
 import 'package:driving_license/routing/app_router.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
 import 'package:driving_license/utils/context_ext.dart';
@@ -253,7 +254,7 @@ extension ChapterSelectionX on ChapterSelection {
     final context = ref.context;
 
     final chapterFirstUnansweredQuestionIndex = await ref
-        .read(chapterFirstUnansweredQuestionIndexProvider(chapter).future);
+        .read(firstUnansweredQuestionIndexProvider(chapter: chapter).future);
 
     ref
         .read(questionsServiceControllerProvider.notifier)
