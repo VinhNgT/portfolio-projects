@@ -14,9 +14,15 @@ class TestQuestionsRepository implements QuestionsRepository {
   });
 
   @override
-  FutureOr<Question> getQuestion(int index, {bool isDbIndex = false}) async {
+  FutureOr<Question> getQuestion(
+    License license,
+    int index, {
+    Chapter? chapter,
+    bool filterDangerQuestions = false,
+    bool filterDifficultQuestions = false,
+  }) async {
     await Future.delayed(artificialDelay);
-    return kTestQuestions[isDbIndex ? index - 1 : index];
+    return kTestQuestions[index];
   }
 
   @override
@@ -130,6 +136,12 @@ class TestQuestionsRepository implements QuestionsRepository {
     bool skipIsDanger = false,
   }) {
     // TODO: implement getQuestionDbIndexesByLicenseAndSubChapter
+    throw UnimplementedError();
+  }
+
+  @override
+  FutureOr<Question> getQuestionByDbIndex(int dbIndex) {
+    // TODO: implement getQuestionByDbIndex
     throw UnimplementedError();
   }
 }

@@ -9,7 +9,14 @@ part 'questions_repository.g.dart';
 abstract interface class QuestionsRepository {
   static int pageSize = 20;
 
-  FutureOr<Question> getQuestion(int index, {bool isDbIndex = false});
+  FutureOr<Question> getQuestionByDbIndex(int dbIndex);
+  FutureOr<Question> getQuestion(
+    License license,
+    int index, {
+    Chapter? chapter,
+    bool filterDangerQuestions = false,
+    bool filterDifficultQuestions = false,
+  });
 
   FutureOr<int> getQuestionsCount(
     License license, {
@@ -24,11 +31,6 @@ abstract interface class QuestionsRepository {
     int pageNumber,
   );
 
-  FutureOr<Question> getQuestionByLicenseAndChapter(
-    License license,
-    Chapter chapter,
-    int index,
-  );
   FutureOr<List<Question>> getQuestionsPageByLicenseAndChapter(
     License license,
     Chapter chapter,
@@ -46,8 +48,6 @@ abstract interface class QuestionsRepository {
     bool skipIsDanger = false,
   });
 
-  // Get questions by its danger status
-  FutureOr<Question> getIsDangerQuestionByLicense(License license, int index);
   FutureOr<List<Question>> getIsDangerQuestionsPageByLicense(
     License license,
     int pageNumber,
@@ -56,11 +56,6 @@ abstract interface class QuestionsRepository {
     License license,
   );
 
-  // Get questions by its difficulty status
-  FutureOr<Question> getIsDifficultQuestionByLicense(
-    License license,
-    int index,
-  );
   FutureOr<List<Question>> getIsDifficultQuestionsPageByLicense(
     License license,
     int pageNumber,

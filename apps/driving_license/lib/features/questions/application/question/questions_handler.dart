@@ -18,7 +18,7 @@ class FullQuestionsHandler implements QuestionsHandler {
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
-    return questionsRepository.getQuestion(questionIndex);
+    return questionsRepository.getQuestion(License.all, questionIndex);
   }
 
   @override
@@ -45,10 +45,10 @@ class ChapterQuestionsHandler implements QuestionsHandler {
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
-    return questionsRepository.getQuestionByLicenseAndChapter(
+    return questionsRepository.getQuestion(
       license,
-      chapter,
       questionIndex,
+      chapter: chapter,
     );
   }
 
@@ -81,9 +81,10 @@ class DangerQuestionsHandler implements QuestionsHandler {
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
-    return questionsRepository.getIsDangerQuestionByLicense(
+    return questionsRepository.getQuestion(
       license,
       questionIndex,
+      filterDangerQuestions: true,
     );
   }
 
@@ -115,9 +116,10 @@ class DifficultQuestionsHandler implements QuestionsHandler {
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
-    return questionsRepository.getIsDifficultQuestionByLicense(
+    return questionsRepository.getQuestion(
       license,
       questionIndex,
+      filterDifficultQuestions: true,
     );
   }
 
@@ -150,7 +152,7 @@ class CustomQuestionListQuestionHandler implements QuestionsHandler {
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
     return questionsRepository
-        .getQuestion(sortedQuestionDbIndexes[questionIndex], isDbIndex: true);
+        .getQuestionByDbIndex(sortedQuestionDbIndexes[questionIndex]);
   }
 
   @override

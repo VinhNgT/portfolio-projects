@@ -101,11 +101,11 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  Future<Question> getQuestion(int index, {bool isDbIndex = false}) async {
+  Future<Question> getQuestionByDbIndex(int dbIndex) async {
     final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
       where: 'question_index = ?',
-      whereArgs: [isDbIndex ? index : index + 1],
+      whereArgs: [dbIndex],
     );
 
     if (queryResult.isNotEmpty) {
@@ -113,7 +113,37 @@ class SqliteQuestionsRepository implements QuestionsRepository {
           convertDatabaseMapToQuestionObjectMap(queryResult.first);
       return Question.fromJson(questionMap);
     } else {
-      throw Exception('question_index ${index + 1} not found');
+      throw Exception('question_index $dbIndex not found');
+    }
+  }
+
+  @override
+  Future<Question> getQuestion(
+    License license,
+    int index, {
+    Chapter? chapter,
+    bool filterDangerQuestions = false,
+    bool filterDifficultQuestions = false,
+  }) async {
+    final List<Map<String, dynamic>> queryResult = await database.query(
+      'question',
+      where: _combineWhereClauses([
+        _licenseWhereClause(license),
+        if (chapter != null) _chapterWhereClause(chapter),
+        if (filterDangerQuestions) _isDangerClause(getDanger: true),
+        if (filterDifficultQuestions) _isDifficultClause(getDifficult: true),
+      ]),
+      orderBy: 'question_index ASC',
+      offset: index,
+      limit: 1,
+    );
+
+    if (queryResult.isNotEmpty) {
+      final questionMap =
+          convertDatabaseMapToQuestionObjectMap(queryResult.first);
+      return Question.fromJson(questionMap);
+    } else {
+      throw Exception('filtered question index $index not found');
     }
   }
 
@@ -151,32 +181,6 @@ class SqliteQuestionsRepository implements QuestionsRepository {
       for (final questionMap in queryResult)
         Question.fromJson(convertDatabaseMapToQuestionObjectMap(questionMap)),
     ];
-  }
-
-  @override
-  Future<Question> getQuestionByLicenseAndChapter(
-    License license,
-    Chapter chapter,
-    int index,
-  ) async {
-    final queryResult = await database.query(
-      'question',
-      where: _combineWhereClauses([
-        _licenseWhereClause(license),
-        _chapterWhereClause(chapter),
-      ]),
-      orderBy: 'question_index ASC',
-      offset: index,
-      limit: 1,
-    );
-
-    if (queryResult.isNotEmpty) {
-      final questionMap =
-          convertDatabaseMapToQuestionObjectMap(queryResult.first);
-      return Question.fromJson(questionMap);
-    } else {
-      throw Exception('question_index ${index + 1} not found');
-    }
   }
 
   @override
@@ -243,31 +247,6 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  Future<Question> getIsDangerQuestionByLicense(
-    License license,
-    int index,
-  ) async {
-    final List<Map<String, dynamic>> queryResult = await database.query(
-      'question',
-      where: _combineWhereClauses([
-        _licenseWhereClause(license),
-        _isDangerClause(getDanger: true),
-      ]),
-      orderBy: 'question_index ASC',
-      offset: index,
-      limit: 1,
-    );
-
-    if (queryResult.isNotEmpty) {
-      final questionMap =
-          convertDatabaseMapToQuestionObjectMap(queryResult.first);
-      return Question.fromJson(questionMap);
-    } else {
-      throw Exception('is_danger question_index $index not found');
-    }
-  }
-
-  @override
   Future<List<Question>> getIsDangerQuestionsPageByLicense(
     License license,
     int pageNumber,
@@ -304,31 +283,6 @@ class SqliteQuestionsRepository implements QuestionsRepository {
     );
 
     return queryResult.map((e) => e['question_index'] as int);
-  }
-
-  @override
-  Future<Question> getIsDifficultQuestionByLicense(
-    License license,
-    int index,
-  ) async {
-    final List<Map<String, dynamic>> queryResult = await database.query(
-      'question',
-      where: _combineWhereClauses([
-        _licenseWhereClause(license),
-        _isDifficultClause(getDifficult: true),
-      ]),
-      orderBy: 'question_index ASC',
-      offset: index,
-      limit: 1,
-    );
-
-    if (queryResult.isNotEmpty) {
-      final questionMap =
-          convertDatabaseMapToQuestionObjectMap(queryResult.first);
-      return Question.fromJson(questionMap);
-    } else {
-      throw Exception('is_difficult question_index $index not found');
-    }
   }
 
   @override
