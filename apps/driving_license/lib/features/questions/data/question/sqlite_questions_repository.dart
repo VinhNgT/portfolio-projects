@@ -397,18 +397,38 @@ extension QuestionsRepositoryX on QuestionsRepository {
   }
 }
 
-extension _WhereClauseExtenstion on String {
-  String _addLicenseWhereClause(License license) {
-    if (license == License.all) {
-      return this;
-    }
-    return '($this) AND is_in_${license.name} = 1';
+extension _WhereClauseExtenstion on SqliteQuestionsRepository {
+  String? _combineWhereClauses(List<String> whereClauses) {
+    final result =
+        whereClauses.map((e) => e.trim()).fold('', (previousValue, element) {
+      // Skip empty elements
+      if (element.isEmpty) {
+        return previousValue;
+      }
+
+      // If the previous value is empty, make the current element the result
+      if (previousValue.isEmpty) {
+        return element;
+      }
+
+      return '$previousValue AND $element';
+    });
+
+    return result.isEmpty ? null : result;
   }
 
-  String _addSkipIsDangerClause(bool skipIsDanger) {
-    if (!skipIsDanger) {
-      return this;
-    }
-    return '($this) AND is_danger IS NULL';
-  }
+  String _licenseWhereClause(License license) =>
+      license == License.all ? '' : 'is_in_${license.name} = 1';
+
+  String _chapterWhereClause(Chapter chapter) =>
+      'chapter_index = ${chapter.chapterDbIndex}';
+
+  String _subChapterWhereClause(SubChapter subChapter) =>
+      'sub_chapter_index = ${subChapter.subChapterDbIndex}';
+
+  String _isDangerClause({required bool getDanger}) =>
+      getDanger ? 'is_danger = 1' : 'is_danger IS NULL';
+
+  String _isDifficultClause({required bool getDifficult}) =>
+      getDifficult ? 'is_difficult = 1' : 'is_difficult IS NULL';
 }
