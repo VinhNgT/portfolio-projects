@@ -169,6 +169,38 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
+  Future<Iterable<int>> getQuestionDbIndexes(
+    License license, {
+    Chapter? chapter,
+    SubChapter? subChapter,
+    bool filterDangerQuestions = false,
+    bool skipDangerQuesions = false,
+  }) async {
+    if (filterDangerQuestions && skipDangerQuesions) {
+      throw ArgumentError(
+        'Cannot filterDangerQuestions and skipDangerQuesions at the same time, '
+        'the result will always be an empty list! This means you have probably '
+        'done something wrong',
+      );
+    }
+
+    final List<Map<String, dynamic>> queryResult = await database.query(
+      'question',
+      columns: ['question_index'],
+      where: _combineWhereClauses([
+        _licenseWhereClause(license),
+        if (chapter != null) _chapterWhereClause(chapter),
+        if (subChapter != null) _subChapterWhereClause(subChapter),
+        if (filterDangerQuestions) _isDangerClause(getDanger: true),
+        if (skipDangerQuesions) _isDangerClause(getDanger: false),
+      ]),
+      orderBy: 'question_index ASC',
+    );
+
+    return queryResult.map((e) => e['question_index'] as int);
+  }
+
+  @override
   Future<List<Question>> getQuestionsPage(int pageNumber) async {
     final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
@@ -207,46 +239,6 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  Future<Iterable<int>> getQuestionDbIndexesByLicenseAndChapter(
-    License license,
-    Chapter chapter, {
-    bool skipIsDanger = false,
-  }) async {
-    final List<Map<String, dynamic>> queryResult = await database.query(
-      'question',
-      columns: ['question_index'],
-      where: _combineWhereClauses([
-        _licenseWhereClause(license),
-        _chapterWhereClause(chapter),
-        if (skipIsDanger) _isDangerClause(getDanger: false),
-      ]),
-      orderBy: 'question_index ASC',
-    );
-
-    return queryResult.map((e) => e['question_index'] as int);
-  }
-
-  @override
-  Future<Iterable<int>> getQuestionDbIndexesByLicenseAndSubChapter(
-    License license,
-    SubChapter chapter, {
-    bool skipIsDanger = false,
-  }) async {
-    final List<Map<String, dynamic>> queryResult = await database.query(
-      'question',
-      columns: ['question_index'],
-      where: _combineWhereClauses([
-        _licenseWhereClause(license),
-        _subChapterWhereClause(chapter),
-        if (skipIsDanger) _isDangerClause(getDanger: false),
-      ]),
-      orderBy: 'question_index ASC',
-    );
-
-    return queryResult.map((e) => e['question_index'] as int);
-  }
-
-  @override
   Future<List<Question>> getIsDangerQuestionsPageByLicense(
     License license,
     int pageNumber,
@@ -266,23 +258,6 @@ class SqliteQuestionsRepository implements QuestionsRepository {
       for (final questionMap in queryResult)
         Question.fromJson(convertDatabaseMapToQuestionObjectMap(questionMap)),
     ];
-  }
-
-  @override
-  Future<Iterable<int>> getIsDangerQuestionDbIndexesByLicense(
-    License license,
-  ) async {
-    final List<Map<String, dynamic>> queryResult = await database.query(
-      'question',
-      columns: ['question_index'],
-      where: _combineWhereClauses([
-        _licenseWhereClause(license),
-        _isDangerClause(getDanger: true),
-      ]),
-      orderBy: 'question_index ASC',
-    );
-
-    return queryResult.map((e) => e['question_index'] as int);
   }
 
   @override

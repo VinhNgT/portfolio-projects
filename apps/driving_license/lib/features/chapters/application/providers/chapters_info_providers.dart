@@ -68,10 +68,9 @@ FutureOr<int?> chapterFirstUnansweredQuestionIndex(
   final userAnswersRepository = ref.watch(userAnswersRepositoryProvider);
   final questionsRepository = ref.watch(questionsRepositoryProvider);
 
-  final allQuestionsDbIndexes =
-      await questionsRepository.getQuestionDbIndexesByLicenseAndChapter(
+  final allQuestionsDbIndexes = await questionsRepository.getQuestionDbIndexes(
     lisense,
-    chapter,
+    chapter: chapter,
   );
 
   final firstUnansweredLocation = await userAnswersRepository

@@ -25,6 +25,14 @@ abstract interface class QuestionsRepository {
     bool filterDifficultQuestions = false,
   });
 
+  FutureOr<Iterable<int>> getQuestionDbIndexes(
+    License license, {
+    Chapter? chapter,
+    SubChapter? subChapter,
+    bool filterDangerQuestions = false,
+    bool skipDangerQuesions = false,
+  });
+
   FutureOr<List<Question>> getQuestionsPage(int pageNumber);
   FutureOr<List<Question>> getQuestionsPageByDbIndexes(
     Iterable<int> dbIndexes,
@@ -37,23 +45,9 @@ abstract interface class QuestionsRepository {
     int pageNumber,
   );
 
-  FutureOr<Iterable<int>> getQuestionDbIndexesByLicenseAndChapter(
-    License license,
-    Chapter chapter, {
-    bool skipIsDanger = false,
-  });
-  FutureOr<Iterable<int>> getQuestionDbIndexesByLicenseAndSubChapter(
-    License license,
-    SubChapter chapter, {
-    bool skipIsDanger = false,
-  });
-
   FutureOr<List<Question>> getIsDangerQuestionsPageByLicense(
     License license,
     int pageNumber,
-  );
-  FutureOr<Iterable<int>> getIsDangerQuestionDbIndexesByLicense(
-    License license,
   );
 
   FutureOr<List<Question>> getIsDifficultQuestionsPageByLicense(

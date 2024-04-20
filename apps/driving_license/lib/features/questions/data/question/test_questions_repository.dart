@@ -144,4 +144,14 @@ class TestQuestionsRepository implements QuestionsRepository {
     // TODO: implement getQuestionByDbIndex
     throw UnimplementedError();
   }
+
+  @override
+  FutureOr<Iterable<int>> getQuestionDbIndexes(License license,
+      {Chapter? chapter,
+      SubChapter? subChapter,
+      bool filterDangerQuestions = false,
+      bool skipDangerQuesions = false}) {
+    // TODO: implement getQuestionDbIndexes
+    throw UnimplementedError();
+  }
 }

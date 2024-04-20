@@ -103,7 +103,7 @@ extension _QuestionSelectorX on QuestionSelector {
   Future<List<int>> _chooseDangerQuestion(int count) async {
     final dangerQuestionDbIndexes = await this
         .questionsRepository
-        .getIsDangerQuestionDbIndexesByLicense(license);
+        .getQuestionDbIndexes(license, filterDangerQuestions: true);
 
     if (dangerQuestionDbIndexes.length < count) {
       throw Exception(
@@ -123,13 +123,12 @@ extension _QuestionSelectorX on QuestionSelector {
     SubChapter subChapter,
     int count,
   ) async {
-    final subChapterQuestionDbIndexes = await this
-        .questionsRepository
-        .getQuestionDbIndexesByLicenseAndSubChapter(
-          license,
-          subChapter,
-          skipIsDanger: true,
-        );
+    final subChapterQuestionDbIndexes =
+        await this.questionsRepository.getQuestionDbIndexes(
+              license,
+              subChapter: subChapter,
+              skipDangerQuesions: true,
+            );
 
     if (subChapterQuestionDbIndexes.length < count) {
       throw Exception(
@@ -152,10 +151,10 @@ extension _QuestionSelectorX on QuestionSelector {
     int count,
   ) async {
     final chapterQuestionDbIndexes =
-        await this.questionsRepository.getQuestionDbIndexesByLicenseAndChapter(
+        await this.questionsRepository.getQuestionDbIndexes(
               license,
-              chapter,
-              skipIsDanger: true,
+              chapter: chapter,
+              skipDangerQuesions: true,
             );
 
     if (chapterQuestionDbIndexes.length < count) {
