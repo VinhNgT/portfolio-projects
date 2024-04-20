@@ -20,7 +20,12 @@ class TestQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  FutureOr<int> getQuestionsCount() async {
+  Future<int> getQuestionsCount(
+    License license, {
+    Chapter? chapter,
+    bool onlyDangerQuestions = false,
+    bool onlyDifficultQuestions = false,
+  }) async {
     await Future.delayed(artificialDelay);
     return kTestQuestions.length;
   }
@@ -38,12 +43,6 @@ class TestQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  FutureOr<Question> getQuestionByDbIndex(int dbIndex) {
-    // TODO: implement getByDbIndex
-    throw UnimplementedError();
-  }
-
-  @override
   FutureOr<Question> getQuestionByLicenseAndChapter(
     License license,
     Chapter chapter,
@@ -54,23 +53,8 @@ class TestQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  FutureOr<int> getQuestionsCountByLicenseAndChapter(
-    License license,
-    Chapter chapter,
-  ) {
-    // TODO: implement getCountByLicenseAndChapter
-    throw UnimplementedError();
-  }
-
-  @override
   FutureOr<Question> getIsDangerQuestionByLicense(License license, int index) {
     // TODO: implement getIsDangerByLicense
-    throw UnimplementedError();
-  }
-
-  @override
-  FutureOr<int> getIsDangerQuestionsCountByLicense(License license) {
-    // TODO: implement getIsDangerCountByLicense
     throw UnimplementedError();
   }
 
@@ -89,12 +73,6 @@ class TestQuestionsRepository implements QuestionsRepository {
     int index,
   ) {
     // TODO: implement getIsDifficultByLicense
-    throw UnimplementedError();
-  }
-
-  @override
-  FutureOr<int> getIsDifficultQuestionsCountByLicense(License license) {
-    // TODO: implement getIsDifficultCountByLicense
     throw UnimplementedError();
   }
 

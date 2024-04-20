@@ -7,7 +7,7 @@ part of 'chapters_info_providers.dart';
 // **************************************************************************
 
 String _$chapterQuestionsCountHash() =>
-    r'5f674de8dc7d872f2110aecd9f580abffcd01058';
+    r'e1f39879692c556140a18421335e7f0041f66dd5';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -15,9 +15,9 @@ FutureOr<int> chapterQuestionsCount(
   final license = await ref.watch(userSelectedLicenseProvider.future);
   final questionsRepository = ref.watch(questionsRepositoryProvider);
 
-  return questionsRepository.getQuestionsCountByLicenseAndChapter(
+  return questionsRepository.getQuestionsCount(
     license,
-    chapter,
+    chapter: chapter,
   );
 }
 

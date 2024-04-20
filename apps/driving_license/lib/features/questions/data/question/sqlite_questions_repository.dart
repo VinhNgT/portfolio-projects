@@ -118,9 +118,23 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  Future<int> getQuestionsCount() async {
-    final List<Map<String, dynamic>> queryResult =
-        await database.rawQuery('SELECT COUNT(*) AS count FROM question');
+  Future<int> getQuestionsCount(
+    License license, {
+    Chapter? chapter,
+    bool onlyDangerQuestions = false,
+    bool onlyDifficultQuestions = false,
+  }) async {
+    final List<Map<String, dynamic>> queryResult = await database.query(
+      'question',
+      columns: ['COUNT(*) AS count'],
+      where: _combineWhereClauses([
+        _licenseWhereClause(license),
+        if (chapter != null) _chapterWhereClause(chapter),
+        if (onlyDangerQuestions) _isDangerClause(getDanger: true),
+        if (onlyDifficultQuestions) _isDifficultClause(getDifficult: true),
+      ]),
+    );
+
     return queryResult.first['count'] as int;
   }
 
@@ -147,8 +161,10 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   ) async {
     final queryResult = await database.query(
       'question',
-      where: 'chapter_index = ?'._addLicenseWhereClause(license),
-      whereArgs: [chapter.chapterDbIndex],
+      where: _combineWhereClauses([
+        _licenseWhereClause(license),
+        _chapterWhereClause(chapter),
+      ]),
       orderBy: 'question_index ASC',
       offset: index,
       limit: 1,
@@ -171,8 +187,10 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   ) async {
     final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
-      where: 'chapter_index = ?'._addLicenseWhereClause(license),
-      whereArgs: [chapter.chapterDbIndex],
+      where: _combineWhereClauses([
+        _licenseWhereClause(license),
+        _chapterWhereClause(chapter),
+      ]),
       orderBy: 'question_index ASC',
       limit: QuestionsRepository.pageSize,
       offset: pageNumber * QuestionsRepository.pageSize,
@@ -185,19 +203,6 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  Future<int> getQuestionsCountByLicenseAndChapter(
-    License license,
-    Chapter chapter,
-  ) async {
-    final List<Map<String, dynamic>> queryResult = await database.rawQuery(
-      'SELECT COUNT(*) AS count FROM question WHERE '
-      '${'chapter_index = ?'._addLicenseWhereClause(license)}',
-      [chapter.chapterDbIndex],
-    );
-    return queryResult.first['count'] as int;
-  }
-
-  @override
   Future<Iterable<int>> getQuestionDbIndexesByLicenseAndChapter(
     License license,
     Chapter chapter, {
@@ -206,10 +211,11 @@ class SqliteQuestionsRepository implements QuestionsRepository {
     final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
       columns: ['question_index'],
-      where: 'chapter_index = ?'
-          ._addLicenseWhereClause(license)
-          ._addSkipIsDangerClause(skipIsDanger),
-      whereArgs: [chapter.chapterDbIndex],
+      where: _combineWhereClauses([
+        _licenseWhereClause(license),
+        _chapterWhereClause(chapter),
+        if (skipIsDanger) _isDangerClause(getDanger: false),
+      ]),
       orderBy: 'question_index ASC',
     );
 
@@ -225,10 +231,11 @@ class SqliteQuestionsRepository implements QuestionsRepository {
     final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
       columns: ['question_index'],
-      where: 'sub_chapter_index = ?'
-          ._addLicenseWhereClause(license)
-          ._addSkipIsDangerClause(skipIsDanger),
-      whereArgs: [chapter.subChapterDbIndex],
+      where: _combineWhereClauses([
+        _licenseWhereClause(license),
+        _subChapterWhereClause(chapter),
+        if (skipIsDanger) _isDangerClause(getDanger: false),
+      ]),
       orderBy: 'question_index ASC',
     );
 
@@ -242,7 +249,10 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   ) async {
     final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
-      where: 'is_danger = 1'._addLicenseWhereClause(license),
+      where: _combineWhereClauses([
+        _licenseWhereClause(license),
+        _isDangerClause(getDanger: true),
+      ]),
       orderBy: 'question_index ASC',
       offset: index,
       limit: 1,
@@ -264,7 +274,10 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   ) async {
     final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
-      where: 'is_danger = 1'._addLicenseWhereClause(license),
+      where: _combineWhereClauses([
+        _licenseWhereClause(license),
+        _isDangerClause(getDanger: true),
+      ]),
       orderBy: 'question_index ASC',
       limit: QuestionsRepository.pageSize,
       offset: pageNumber * QuestionsRepository.pageSize,
@@ -277,22 +290,16 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  Future<int> getIsDangerQuestionsCountByLicense(License license) async {
-    final List<Map<String, dynamic>> queryResult = await database.rawQuery(
-      'SELECT COUNT(*) AS count FROM question WHERE '
-      '${'is_danger = 1'._addLicenseWhereClause(license)}',
-    );
-    return queryResult.first['count'] as int;
-  }
-
-  @override
   Future<Iterable<int>> getIsDangerQuestionDbIndexesByLicense(
     License license,
   ) async {
     final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
       columns: ['question_index'],
-      where: 'is_danger = 1'._addLicenseWhereClause(license),
+      where: _combineWhereClauses([
+        _licenseWhereClause(license),
+        _isDangerClause(getDanger: true),
+      ]),
       orderBy: 'question_index ASC',
     );
 
@@ -306,7 +313,10 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   ) async {
     final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
-      where: 'is_difficult = 1'._addLicenseWhereClause(license),
+      where: _combineWhereClauses([
+        _licenseWhereClause(license),
+        _isDifficultClause(getDifficult: true),
+      ]),
       orderBy: 'question_index ASC',
       offset: index,
       limit: 1,
@@ -328,7 +338,10 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   ) async {
     final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
-      where: 'is_difficult = 1'._addLicenseWhereClause(license),
+      where: _combineWhereClauses([
+        _licenseWhereClause(license),
+        _isDifficultClause(getDifficult: true),
+      ]),
       orderBy: 'question_index ASC',
       limit: QuestionsRepository.pageSize,
       offset: pageNumber * QuestionsRepository.pageSize,
@@ -338,15 +351,6 @@ class SqliteQuestionsRepository implements QuestionsRepository {
       for (final questionMap in queryResult)
         Question.fromJson(convertDatabaseMapToQuestionObjectMap(questionMap)),
     ];
-  }
-
-  @override
-  Future<int> getIsDifficultQuestionsCountByLicense(License license) async {
-    final List<Map<String, dynamic>> queryResult = await database.rawQuery(
-      'SELECT COUNT(*) AS count FROM question WHERE '
-      '${'is_difficult = 1'._addLicenseWhereClause(license)}',
-    );
-    return queryResult.first['count'] as int;
   }
 
   @override

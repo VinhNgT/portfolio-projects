@@ -10,7 +10,13 @@ abstract interface class QuestionsRepository {
   static int pageSize = 20;
 
   FutureOr<Question> getQuestion(int index, {bool isDbIndex = false});
-  FutureOr<int> getQuestionsCount();
+
+  FutureOr<int> getQuestionsCount(
+    License license, {
+    Chapter? chapter,
+    bool onlyDangerQuestions = false,
+    bool onlyDifficultQuestions = false,
+  });
 
   FutureOr<List<Question>> getQuestionsPage(int pageNumber);
   FutureOr<List<Question>> getQuestionsPageByDbIndexes(
@@ -28,10 +34,7 @@ abstract interface class QuestionsRepository {
     Chapter chapter,
     int pageNumber,
   );
-  FutureOr<int> getQuestionsCountByLicenseAndChapter(
-    License license,
-    Chapter chapter,
-  );
+
   FutureOr<Iterable<int>> getQuestionDbIndexesByLicenseAndChapter(
     License license,
     Chapter chapter, {
@@ -49,7 +52,6 @@ abstract interface class QuestionsRepository {
     License license,
     int pageNumber,
   );
-  FutureOr<int> getIsDangerQuestionsCountByLicense(License license);
   FutureOr<Iterable<int>> getIsDangerQuestionDbIndexesByLicense(
     License license,
   );
@@ -63,7 +65,6 @@ abstract interface class QuestionsRepository {
     License license,
     int pageNumber,
   );
-  FutureOr<int> getIsDifficultQuestionsCountByLicense(License license);
 }
 
 @Riverpod(keepAlive: true)

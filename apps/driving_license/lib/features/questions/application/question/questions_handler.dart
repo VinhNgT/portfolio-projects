@@ -28,7 +28,7 @@ class FullQuestionsHandler implements QuestionsHandler {
 
   @override
   FutureOr<int> getQuestionCount() {
-    return questionsRepository.getQuestionsCount();
+    return questionsRepository.getQuestionsCount(License.all);
   }
 }
 
@@ -63,9 +63,9 @@ class ChapterQuestionsHandler implements QuestionsHandler {
 
   @override
   FutureOr<int> getQuestionCount() {
-    return questionsRepository.getQuestionsCountByLicenseAndChapter(
+    return questionsRepository.getQuestionsCount(
       license,
-      chapter,
+      chapter: chapter,
     );
   }
 }
@@ -97,7 +97,10 @@ class DangerQuestionsHandler implements QuestionsHandler {
 
   @override
   FutureOr<int> getQuestionCount() {
-    return questionsRepository.getIsDangerQuestionsCountByLicense(license);
+    return questionsRepository.getQuestionsCount(
+      license,
+      onlyDangerQuestions: true,
+    );
   }
 }
 
@@ -128,7 +131,10 @@ class DifficultQuestionsHandler implements QuestionsHandler {
 
   @override
   FutureOr<int> getQuestionCount() {
-    return questionsRepository.getIsDifficultQuestionsCountByLicense(license);
+    return questionsRepository.getQuestionsCount(
+      license,
+      onlyDifficultQuestions: true,
+    );
   }
 }
 
