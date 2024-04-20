@@ -78,9 +78,9 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   Future<UserAnswersMap> getAllAnswers(
     License license, {
     Chapter? chapter,
-    bool filterIsWrong = false,
-    bool filterIsDanger = false,
-    bool filterIsDifficult = false,
+    bool onlyWrongAnswers = false,
+    bool onlyDangerAnswers = false,
+    bool onlyDifficultAnswers = false,
   }) {
     final wrongAnswers = <UserAnswer>[];
     for (final entry in allAnswersStore.value.entries) {
@@ -97,17 +97,17 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
       }
 
       // Check if the question is not wrong
-      if (filterIsWrong && !_wrongAnswersFilter(userAnswer)) {
+      if (onlyWrongAnswers && !_wrongAnswersFilter(userAnswer)) {
         continue;
       }
 
       // Check if the question is not dangerous
-      if (filterIsDanger && !_dangerQuestionsFilter(userAnswer)) {
+      if (onlyDangerAnswers && !_dangerQuestionsFilter(userAnswer)) {
         continue;
       }
 
       // Check if the question is not difficult
-      if (filterIsDifficult && !_difficultQuestionsFilter(userAnswer)) {
+      if (onlyDifficultAnswers && !_difficultQuestionsFilter(userAnswer)) {
         continue;
       }
 
@@ -121,7 +121,7 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   Stream<UserAnswersSummary> watchUserAnswersSummary(
     License license, {
     Chapter? chapter,
-    bool filterIsDanger = false,
+    bool onlyDangerAnswers = false,
   }) {
     return allAnswersStore.stream.map((userAnswersMap) {
       int corrects = 0;

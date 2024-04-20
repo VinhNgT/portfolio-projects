@@ -91,9 +91,9 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   Future<UserAnswersMap> getAllAnswers(
     License license, {
     Chapter? chapter,
-    bool filterIsWrong = false,
-    bool filterIsDanger = false,
-    bool filterIsDifficult = false,
+    bool onlyWrongAnswers = false,
+    bool onlyDangerAnswers = false,
+    bool onlyDifficultAnswers = false,
   }) async {
     final recordSnapshot = await allAnswersStore.find(
       db,
@@ -101,9 +101,9 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
         filter: Filter.and([
           _licenseFilter(license),
           if (chapter != null) _chapterFilter(chapter),
-          if (filterIsWrong) _wrongAnswersFilter,
-          if (filterIsDanger) _dangerQuestionsFilter,
-          if (filterIsDifficult) _difficultQuestionsFilter,
+          if (onlyWrongAnswers) _wrongAnswersFilter,
+          if (onlyDangerAnswers) _dangerQuestionsFilter,
+          if (onlyDifficultAnswers) _difficultQuestionsFilter,
         ]),
       ),
     );
@@ -119,7 +119,7 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   Stream<UserAnswersSummary> watchUserAnswersSummary(
     License license, {
     Chapter? chapter,
-    bool filterIsDanger = false,
+    bool onlyDangerAnswers = false,
   }) {
     final correctAnswersCountStream = allAnswersStore
         .query(
@@ -128,7 +128,7 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
               _licenseFilter(license),
               _correctAnswersFilter,
               if (chapter != null) _chapterFilter(chapter),
-              if (filterIsDanger) _dangerQuestionsFilter,
+              if (onlyDangerAnswers) _dangerQuestionsFilter,
             ]),
           ),
         )
@@ -141,7 +141,7 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
               _licenseFilter(license),
               _wrongAnswersFilter,
               if (chapter != null) _chapterFilter(chapter),
-              if (filterIsDanger) _dangerQuestionsFilter,
+              if (onlyDangerAnswers) _dangerQuestionsFilter,
             ]),
           ),
         )

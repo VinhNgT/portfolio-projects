@@ -21,14 +21,14 @@ abstract interface class UserAnswersRepository {
   FutureOr<UserAnswersMap> getAllAnswers(
     License license, {
     Chapter? chapter,
-    bool filterIsWrong = false,
-    bool filterIsDanger = false,
-    bool filterIsDifficult = false,
+    bool onlyWrongAnswers = false,
+    bool onlyDangerAnswers = false,
+    bool onlyDifficultAnswers = false,
   });
   Stream<UserAnswersSummary> watchUserAnswersSummary(
     License license, {
     Chapter? chapter,
-    bool filterIsDanger = false,
+    bool onlyDangerAnswers = false,
   });
 
   FutureOr<int?> getFirstUnansweredPositionInList(Iterable<int> dbIndexes);
