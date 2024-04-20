@@ -201,75 +201,20 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  Future<List<Question>> getQuestionsPage(int pageNumber) async {
-    final List<Map<String, dynamic>> queryResult = await database.query(
-      'question',
-      orderBy: 'question_index ASC',
-      limit: QuestionsRepository.pageSize,
-      offset: pageNumber * QuestionsRepository.pageSize,
-    );
-
-    return [
-      for (final questionMap in queryResult)
-        Question.fromJson(convertDatabaseMapToQuestionObjectMap(questionMap)),
-    ];
-  }
-
-  @override
-  Future<List<Question>> getQuestionsPageByLicenseAndChapter(
+  Future<List<Question>> getQuestionsPage(
     License license,
-    Chapter chapter,
-    int pageNumber,
-  ) async {
+    int pageNumber, {
+    Chapter? chapter,
+    bool filterDangerQuestions = false,
+    bool filterDifficultQuestions = false,
+  }) async {
     final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
       where: _combineWhereClauses([
         _licenseWhereClause(license),
-        _chapterWhereClause(chapter),
-      ]),
-      orderBy: 'question_index ASC',
-      limit: QuestionsRepository.pageSize,
-      offset: pageNumber * QuestionsRepository.pageSize,
-    );
-
-    return [
-      for (final questionMap in queryResult)
-        Question.fromJson(convertDatabaseMapToQuestionObjectMap(questionMap)),
-    ];
-  }
-
-  @override
-  Future<List<Question>> getIsDangerQuestionsPageByLicense(
-    License license,
-    int pageNumber,
-  ) async {
-    final List<Map<String, dynamic>> queryResult = await database.query(
-      'question',
-      where: _combineWhereClauses([
-        _licenseWhereClause(license),
-        _isDangerClause(getDanger: true),
-      ]),
-      orderBy: 'question_index ASC',
-      limit: QuestionsRepository.pageSize,
-      offset: pageNumber * QuestionsRepository.pageSize,
-    );
-
-    return [
-      for (final questionMap in queryResult)
-        Question.fromJson(convertDatabaseMapToQuestionObjectMap(questionMap)),
-    ];
-  }
-
-  @override
-  Future<List<Question>> getIsDifficultQuestionsPageByLicense(
-    License license,
-    int pageNumber,
-  ) async {
-    final List<Map<String, dynamic>> queryResult = await database.query(
-      'question',
-      where: _combineWhereClauses([
-        _licenseWhereClause(license),
-        _isDifficultClause(getDifficult: true),
+        if (chapter != null) _chapterWhereClause(chapter),
+        if (filterDangerQuestions) _isDangerClause(getDanger: true),
+        if (filterDifficultQuestions) _isDifficultClause(getDifficult: true),
       ]),
       orderBy: 'question_index ASC',
       limit: QuestionsRepository.pageSize,

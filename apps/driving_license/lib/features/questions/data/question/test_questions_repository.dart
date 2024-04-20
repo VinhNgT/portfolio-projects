@@ -37,7 +37,13 @@ class TestQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  FutureOr<List<Question>> getQuestionsPage(int pageNumber) async {
+  FutureOr<List<Question>> getQuestionsPage(
+    License license,
+    int pageNumber, {
+    Chapter? chapter,
+    bool filterDangerQuestions = false,
+    bool filterDifficultQuestions = false,
+  }) async {
     await Future.delayed(artificialDelay);
 
     final int start = QuestionsRepository.pageSize * pageNumber;
@@ -146,11 +152,13 @@ class TestQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  FutureOr<Iterable<int>> getQuestionDbIndexes(License license,
-      {Chapter? chapter,
-      SubChapter? subChapter,
-      bool filterDangerQuestions = false,
-      bool skipDangerQuesions = false}) {
+  FutureOr<Iterable<int>> getQuestionDbIndexes(
+    License license, {
+    Chapter? chapter,
+    SubChapter? subChapter,
+    bool filterDangerQuestions = false,
+    bool skipDangerQuesions = false,
+  }) {
     // TODO: implement getQuestionDbIndexes
     throw UnimplementedError();
   }
