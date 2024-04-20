@@ -23,8 +23,8 @@ class TestQuestionsRepository implements QuestionsRepository {
   Future<int> getQuestionsCount(
     License license, {
     Chapter? chapter,
-    bool onlyDangerQuestions = false,
-    bool onlyDifficultQuestions = false,
+    bool filterDangerQuestions = false,
+    bool filterDifficultQuestions = false,
   }) async {
     await Future.delayed(artificialDelay);
     return kTestQuestions.length;

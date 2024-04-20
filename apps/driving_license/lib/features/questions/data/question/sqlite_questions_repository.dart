@@ -121,8 +121,8 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   Future<int> getQuestionsCount(
     License license, {
     Chapter? chapter,
-    bool onlyDangerQuestions = false,
-    bool onlyDifficultQuestions = false,
+    bool filterDangerQuestions = false,
+    bool filterDifficultQuestions = false,
   }) async {
     final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
@@ -130,8 +130,8 @@ class SqliteQuestionsRepository implements QuestionsRepository {
       where: _combineWhereClauses([
         _licenseWhereClause(license),
         if (chapter != null) _chapterWhereClause(chapter),
-        if (onlyDangerQuestions) _isDangerClause(getDanger: true),
-        if (onlyDifficultQuestions) _isDifficultClause(getDifficult: true),
+        if (filterDangerQuestions) _isDangerClause(getDanger: true),
+        if (filterDifficultQuestions) _isDifficultClause(getDifficult: true),
       ]),
     );
 

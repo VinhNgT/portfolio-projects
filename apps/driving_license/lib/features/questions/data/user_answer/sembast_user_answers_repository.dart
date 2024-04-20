@@ -91,9 +91,9 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   Future<UserAnswersMap> getAllAnswers(
     License license, {
     Chapter? chapter,
-    bool onlyWrongAnswers = false,
-    bool onlyDangerAnswers = false,
-    bool onlyDifficultAnswers = false,
+    bool filterWrongAnswers = false,
+    bool filterDangerAnswers = false,
+    bool filterDifficultAnswers = false,
   }) async {
     final recordSnapshot = await allAnswersStore.find(
       db,
@@ -101,9 +101,9 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
         filter: Filter.and([
           _licenseFilter(license),
           if (chapter != null) _chapterFilter(chapter),
-          if (onlyWrongAnswers) _wrongAnswersFilter,
-          if (onlyDangerAnswers) _dangerQuestionsFilter,
-          if (onlyDifficultAnswers) _difficultQuestionsFilter,
+          if (filterWrongAnswers) _wrongAnswersFilter,
+          if (filterDangerAnswers) _dangerQuestionsFilter,
+          if (filterDifficultAnswers) _difficultQuestionsFilter,
         ]),
       ),
     );
@@ -119,7 +119,7 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   Stream<UserAnswersSummary> watchUserAnswersSummary(
     License license, {
     Chapter? chapter,
-    bool onlyDangerAnswers = false,
+    bool filterDangerAnswers = false,
   }) {
     final correctAnswersCountStream = allAnswersStore
         .query(
@@ -128,7 +128,7 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
               _licenseFilter(license),
               _correctAnswersFilter,
               if (chapter != null) _chapterFilter(chapter),
-              if (onlyDangerAnswers) _dangerQuestionsFilter,
+              if (filterDangerAnswers) _dangerQuestionsFilter,
             ]),
           ),
         )
@@ -141,7 +141,7 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
               _licenseFilter(license),
               _wrongAnswersFilter,
               if (chapter != null) _chapterFilter(chapter),
-              if (onlyDangerAnswers) _dangerQuestionsFilter,
+              if (filterDangerAnswers) _dangerQuestionsFilter,
             ]),
           ),
         )

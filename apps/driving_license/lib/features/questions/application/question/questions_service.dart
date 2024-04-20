@@ -55,7 +55,7 @@ class QuestionsService {
 
       case final DifficultOperatingMode _:
         final difficultQuestionUserAnswers = await config.userAnswersRepository
-            .getAllAnswers(config.license, onlyDifficultAnswers: true);
+            .getAllAnswers(config.license, filterDifficultAnswers: true);
 
         return QuestionsService._difficult(
           questionsRepository: config.questionsRepository,
@@ -67,7 +67,7 @@ class QuestionsService {
 
       case final WrongAnswersOperatingMode _:
         final wrongUserAnswers = await config.userAnswersRepository
-            .getAllAnswers(config.license, onlyWrongAnswers: true);
+            .getAllAnswers(config.license, filterWrongAnswers: true);
 
         return QuestionsService._wrongAnswers(
           questionsRepository: config.questionsRepository,

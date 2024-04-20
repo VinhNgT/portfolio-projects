@@ -99,7 +99,7 @@ class DangerQuestionsHandler implements QuestionsHandler {
   FutureOr<int> getQuestionCount() {
     return questionsRepository.getQuestionsCount(
       license,
-      onlyDangerQuestions: true,
+      filterDangerQuestions: true,
     );
   }
 }
@@ -133,7 +133,7 @@ class DifficultQuestionsHandler implements QuestionsHandler {
   FutureOr<int> getQuestionCount() {
     return questionsRepository.getQuestionsCount(
       license,
-      onlyDifficultQuestions: true,
+      filterDifficultQuestions: true,
     );
   }
 }

@@ -14,8 +14,8 @@ abstract interface class QuestionsRepository {
   FutureOr<int> getQuestionsCount(
     License license, {
     Chapter? chapter,
-    bool onlyDangerQuestions = false,
-    bool onlyDifficultQuestions = false,
+    bool filterDangerQuestions = false,
+    bool filterDifficultQuestions = false,
   });
 
   FutureOr<List<Question>> getQuestionsPage(int pageNumber);
