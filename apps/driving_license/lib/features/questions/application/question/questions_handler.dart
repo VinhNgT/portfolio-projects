@@ -144,7 +144,7 @@ class CustomQuestionListQuestionHandler implements QuestionsHandler {
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
     return questionsRepository
-        .getQuestionByDbIndex(sortedQuestionDbIndexes[questionIndex]);
+        .getQuestion(sortedQuestionDbIndexes[questionIndex], isDbIndex: true);
   }
 
   @override

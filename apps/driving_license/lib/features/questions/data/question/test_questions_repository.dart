@@ -14,9 +14,9 @@ class TestQuestionsRepository implements QuestionsRepository {
   });
 
   @override
-  FutureOr<Question> getQuestion(int index) async {
+  FutureOr<Question> getQuestion(int index, {bool isDbIndex = false}) async {
     await Future.delayed(artificialDelay);
-    return kTestQuestions[index];
+    return kTestQuestions[isDbIndex ? index - 1 : index];
   }
 
   @override

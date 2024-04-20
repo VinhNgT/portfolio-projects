@@ -9,8 +9,7 @@ part 'questions_repository.g.dart';
 abstract interface class QuestionsRepository {
   static int pageSize = 20;
 
-  FutureOr<Question> getQuestion(int index);
-  FutureOr<Question> getQuestionByDbIndex(int dbIndex);
+  FutureOr<Question> getQuestion(int index, {bool isDbIndex = false});
   FutureOr<int> getQuestionsCount();
 
   FutureOr<List<Question>> getQuestionsPage(int pageNumber);

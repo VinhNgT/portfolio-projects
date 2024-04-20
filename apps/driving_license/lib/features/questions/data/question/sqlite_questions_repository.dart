@@ -101,16 +101,11 @@ class SqliteQuestionsRepository implements QuestionsRepository {
   }
 
   @override
-  Future<Question> getQuestion(int index) async {
-    return getQuestionByDbIndex(index + 1);
-  }
-
-  @override
-  Future<Question> getQuestionByDbIndex(int dbIndex) async {
+  Future<Question> getQuestion(int index, {bool isDbIndex = false}) async {
     final List<Map<String, dynamic>> queryResult = await database.query(
       'question',
       where: 'question_index = ?',
-      whereArgs: [dbIndex],
+      whereArgs: [isDbIndex ? index : index + 1],
     );
 
     if (queryResult.isNotEmpty) {
@@ -118,7 +113,7 @@ class SqliteQuestionsRepository implements QuestionsRepository {
           convertDatabaseMapToQuestionObjectMap(queryResult.first);
       return Question.fromJson(questionMap);
     } else {
-      throw Exception('question_index $dbIndex not found');
+      throw Exception('question_index ${index + 1} not found');
     }
   }
 
