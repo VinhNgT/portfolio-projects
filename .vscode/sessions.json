@@ -7,12 +7,20 @@
   "sessions": {
     "driving_license": [
       {
-        "name": "driving_license",
+        "name": "driving_license build_runner watch -d",
         "autoExecuteCommands": true,
         "joinOperator": ";",
         "commands": [
           "cd .\\apps\\driving_license\\",
           "dart run build_runner watch -d"
+        ]
+      },
+      {
+        "name": "driving_license extra terminal",
+        "autoExecuteCommands": true,
+        "joinOperator": ";",
+        "commands": [
+          "cd .\\apps\\driving_license\\"
         ]
       }
     ]
