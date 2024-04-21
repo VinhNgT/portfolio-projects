@@ -14,7 +14,7 @@ enum Chapter {
   nghiepVuVanTai(
     chapterDbIndex: 2,
     chapterName: 'Nghiệp vụ vận tải',
-    iconAssetPath: 'assets/icons/home_screen/compiled/danger_fire.svg.vec',
+    iconAssetPath: 'assets/icons/home_screen/compiled/truck.svg.vec',
   ),
   vanHoaVaDaoDuc(
     chapterDbIndex: 3,
@@ -29,7 +29,7 @@ enum Chapter {
   cauTaoVaSuaChua(
     chapterDbIndex: 5,
     chapterName: 'Cấu tạo và sửa chữa',
-    iconAssetPath: 'assets/icons/home_screen/compiled/danger_fire.svg.vec',
+    iconAssetPath: 'assets/icons/home_screen/compiled/car_repair.svg.vec',
   ),
   bienBaoDuongBo(
     chapterDbIndex: 6,
