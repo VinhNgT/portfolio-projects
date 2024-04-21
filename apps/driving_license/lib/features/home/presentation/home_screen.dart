@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_scaffold.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
@@ -206,12 +208,44 @@ class ChapterSelection extends HookConsumerWidget {
         children: [
           Text('Ôn tập chương', style: context.textTheme.titleLarge),
           kGap_16,
+          Consumer(
+            builder: (context, ref, child) {
+              final dangerCompletionStatus = ref
+                  .watch(completionStatusProvider(filterDangerQuestions: true));
+
+              return AsyncValueWidget(
+                value: dangerCompletionStatus,
+                builder: (dangerCompletionStatusValue) => ChapterCard(
+                  iconAssetPath:
+                      'assets/icons/home_screen/compiled/danger_fire.svg.vec',
+                  chapterName: 'Các câu hỏi điểm liệt',
+                  completionStatus: dangerCompletionStatusValue,
+                  onPressed: () async {
+                    await _setupAndNavigateToDanger(ref);
+                  },
+                ),
+              );
+            },
+          ),
+          kGap_12,
           ...<Widget>[
             for (final chapter in chaptersHasQuestionValue)
-              ChapterCard(
-                chapter: chapter,
-                onPressed: (chapter) async {
-                  await setupAndNavigateToQuestionRoute(ref, chapter);
+              Consumer(
+                builder: (context, ref, child) {
+                  final chapterCompletionStatus =
+                      ref.watch(completionStatusProvider(chapter: chapter));
+
+                  return AsyncValueWidget(
+                    value: chapterCompletionStatus,
+                    builder: (completionStatusValue) => ChapterCard(
+                      iconAssetPath: chapter.iconAssetPath,
+                      chapterName: chapter.chapterName,
+                      completionStatus: completionStatusValue,
+                      onPressed: () async {
+                        await _setupAndNavigateToChapter(ref, chapter);
+                      },
+                    ),
+                  );
                 },
               ),
           ].separated(kGap_12),
@@ -247,23 +281,50 @@ class ChapterSelection extends HookConsumerWidget {
 }
 
 extension ChapterSelectionX on ChapterSelection {
-  Future<void> setupAndNavigateToQuestionRoute(
+  Future<void> _setupAndNavigateToDanger(WidgetRef ref) async {
+    final context = ref.context;
+    ref
+        .read(questionsServiceControllerProvider.notifier)
+        .setupDangerQuestions();
+
+    final chapterFirstUnansweredQuestionIndex = await ref.read(
+      firstUnansweredQuestionIndexProvider(
+        filterDangerQuestions: true,
+      ).future,
+    );
+
+    if (context.mounted) {
+      unawaited(
+        context.navigateTo(
+          QuestionRoute(
+            initialPageIndex: chapterFirstUnansweredQuestionIndex ?? 0,
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> _setupAndNavigateToChapter(
     WidgetRef ref,
     Chapter chapter,
   ) async {
     final context = ref.context;
-
-    final chapterFirstUnansweredQuestionIndex = await ref
-        .read(firstUnansweredQuestionIndexProvider(chapter: chapter).future);
-
     ref
         .read(questionsServiceControllerProvider.notifier)
         .setupChapterQuestions(chapter);
 
+    final chapterFirstUnansweredQuestionIndex = await ref.read(
+      firstUnansweredQuestionIndexProvider(
+        chapter: chapter,
+      ).future,
+    );
+
     if (context.mounted) {
-      await context.navigateTo(
-        QuestionRoute(
-          initialPageIndex: chapterFirstUnansweredQuestionIndex ?? 0,
+      unawaited(
+        context.navigateTo(
+          QuestionRoute(
+            initialPageIndex: chapterFirstUnansweredQuestionIndex ?? 0,
+          ),
         ),
       );
     }
