@@ -81,7 +81,7 @@ extension _ThemeDataBuilder on MaterialTheme {
         elevation: 0,
       ),
       dialogTheme: contextTheme.dialogTheme.copyWith(
-        backgroundColor: materialScheme.surfaceContainerHighest,
+        backgroundColor: materialScheme.surfaceContainerHigh,
         elevation: 0,
       ),
       // iconButtonTheme: const IconButtonThemeData(
