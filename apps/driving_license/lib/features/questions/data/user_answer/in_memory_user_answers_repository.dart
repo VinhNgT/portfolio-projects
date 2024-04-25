@@ -35,6 +35,7 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
   Future<void> clearAllAnswers(
     License license, {
     Chapter? chapter,
+    bool filterDangerAnswers = false,
   }) async {
     allAnswersStore.value.removeWhere((questionDbIndex, userAnswer) {
       // Check if the question is not included in the license
@@ -44,6 +45,11 @@ class InMemoryUserAnswersRepository implements UserAnswersRepository {
 
       // Check if the question is not in the chapter
       if (chapter != null && !_chapterFilter(userAnswer, chapter)) {
+        return false;
+      }
+
+      // Check if the question is not dangerous
+      if (filterDangerAnswers && !_dangerQuestionsFilter(userAnswer)) {
         return false;
       }
 

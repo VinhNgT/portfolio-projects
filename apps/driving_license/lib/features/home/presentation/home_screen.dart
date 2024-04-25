@@ -20,7 +20,6 @@ import 'package:driving_license/features/licenses/data/providers/user_selected_l
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
 import 'package:driving_license/features/questions/application/question/questions_service.dart';
-import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/user_progress/application/providers/user_progress_providers.dart';
 import 'package:driving_license/routing/app_router.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
@@ -269,14 +268,12 @@ class ChapterSelection extends HookConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) async {
-    final shouldClear = await showDialog<bool>(
-      context: context,
-      builder: (context) => const ClearChapterCompletionDialog(),
+    unawaited(
+      showDialog<bool>(
+        context: context,
+        builder: (context) => const ClearChapterCompletionDialog(),
+      ),
     );
-
-    if (shouldClear == true) {
-      await ref.read(userAnswersRepositoryProvider).clearDatabase();
-    }
   }
 }
 

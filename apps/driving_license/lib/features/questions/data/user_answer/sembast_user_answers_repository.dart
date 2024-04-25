@@ -54,6 +54,7 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   Future<void> clearAllAnswers(
     License license, {
     Chapter? chapter,
+    bool filterDangerAnswers = false,
   }) async {
     await allAnswersStore.delete(
       db,
@@ -61,6 +62,7 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
         filter: Filter.and([
           _licenseFilter(license),
           if (chapter != null) _chapterFilter(chapter),
+          if (filterDangerAnswers) _dangerQuestionsFilter,
         ]),
       ),
     );

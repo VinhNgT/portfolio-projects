@@ -1,6 +1,8 @@
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/home/domain/chapter_dropdown_selection_data.dart';
+import 'package:driving_license/features/licenses/data/providers/user_selected_license_provider.dart';
+import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -51,7 +53,7 @@ class ClearChapterCompletionDialog extends HookConsumerWidget {
         TextButton(
           child: const Text('Huỷ'),
           onPressed: () {
-            Navigator.of(context).pop(false);
+            Navigator.of(context).pop();
           },
         ),
         TextButton(
@@ -59,17 +61,43 @@ class ClearChapterCompletionDialog extends HookConsumerWidget {
             'Xoá tiến độ',
             style: TextStyle(color: context.materialScheme.error),
           ),
-          onPressed: () {
+          onPressed: () async {
             if (formKey.currentState!.saveAndValidate()) {
-              final selectedChapter = formKey.currentState!
-                  .value['chapter_delete'] as ChapterDropdownSelectionData;
+              final selected = formKey.currentState!.value['chapter_to_delete']
+                  as ChapterDropdownSelectionData;
 
-              debugPrint('Selected chapter: $selectedChapter');
+              _deleteUserAnswersHandler(ref, selected);
+              Navigator.of(context).pop();
             }
           },
         ),
       ],
     );
+  }
+
+  void _deleteUserAnswersHandler(
+    WidgetRef ref,
+    ChapterDropdownSelectionData selection,
+  ) async {
+    final license = await ref.read(userSelectedLicenseProvider.future);
+    final userAnswersRepository = ref.read(userAnswersRepositoryProvider);
+
+    switch (selection) {
+      case AllChapterSelection():
+        userAnswersRepository.clearDatabase();
+
+      case DangerChapterSelection():
+        userAnswersRepository.clearAllAnswers(
+          license,
+          filterDangerAnswers: true,
+        );
+
+      case ChapterSelection(:final chapter):
+        userAnswersRepository.clearAllAnswers(
+          license,
+          chapter: chapter,
+        );
+    }
   }
 }
 
@@ -84,7 +112,7 @@ class ChapterDropdown extends HookConsumerWidget {
       child: ExcludeFocus(
         excluding: true,
         child: FormBuilderDropdown<ChapterDropdownSelectionData>(
-          name: 'chapter_delete',
+          name: 'chapter_to_delete',
           dropdownColor: context.materialScheme.surfaceContainerHighest,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: const InputDecoration(

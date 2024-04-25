@@ -14,6 +14,7 @@ abstract interface class UserAnswersRepository {
   FutureOr<void> clearAllAnswers(
     License license, {
     Chapter? chapter,
+    bool filterDangerAnswers = false,
   });
   FutureOr<void> clearDatabase();
 
