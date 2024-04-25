@@ -1,3 +1,4 @@
+import 'package:driving_license/common_widgets/misc/ink_well_overlay_color.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/opacity.dart';
 import 'package:driving_license/constants/widget_sizes.dart';
@@ -100,6 +101,17 @@ extension _ThemeDataBuilder on MaterialTheme {
       dividerTheme: contextTheme.dividerTheme.copyWith(
         space: 1,
         thickness: 1,
+      ),
+      focusColor: InkWellBackgroundColor(materialScheme.onSurface)
+          .resolve({MaterialState.focused}),
+      hoverColor: InkWellBackgroundColor(materialScheme.onSurface).resolve(
+        {MaterialState.hovered},
+      ),
+      splashColor: InkWellBackgroundColor(materialScheme.onSurface).resolve(
+        {MaterialState.pressed},
+      ),
+      highlightColor: InkWellBackgroundColor(materialScheme.onSurface).resolve(
+        {MaterialState.pressed},
       ),
     );
   }
