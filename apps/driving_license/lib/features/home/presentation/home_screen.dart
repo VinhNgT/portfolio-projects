@@ -77,7 +77,8 @@ class HomeScreen extends HookConsumerWidget {
                   child: const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      DonateCard(),
+                      // DonateCard(),
+                      DonateCardTemp(),
                       kGap_20,
                       FeatureSelection(),
                       kGap_32,

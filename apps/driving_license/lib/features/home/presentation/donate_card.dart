@@ -65,3 +65,65 @@ class DonateCard extends StatelessWidget {
     );
   }
 }
+
+class DonateCardTemp extends StatelessWidget {
+  const DonateCardTemp({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: context.materialScheme.surfaceContainer,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: kSize_20,
+          right: kSize_20,
+          top: kSize_12,
+          bottom: kSize_16,
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                const SvgPicture(
+                  AssetBytesLoader(
+                    'assets/icons/home_screen/compiled/heart.svg.vec',
+                  ),
+                ),
+                kGap_16,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Cảm ơn bạn đã sử dụng ứng dụng',
+                        style: context.textTheme.titleMedium,
+                      ),
+                      kGap_2,
+                      Text(
+                        'Hãy dành thời gian đánh giá 5 sao trên Cửa hàng Play '
+                        'để ủng hộ nhà phát triển!',
+                        style: context.textTheme.bodyMedium!.copyWith(
+                          color: context.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            // kGap_16,
+            // SizedBox(
+            //   width: double.infinity,
+            //   child: FilledButton.tonal(
+            //     onPressed: () {},
+            //     child: const Text('Mở khoá tất cả tính năng'),
+            //   ),
+            // ),
+          ],
+        ),
+      ),
+    );
+  }
+}
