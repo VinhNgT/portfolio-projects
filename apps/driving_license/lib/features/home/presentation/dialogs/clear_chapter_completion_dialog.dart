@@ -1,5 +1,6 @@
+import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
-import 'package:driving_license/features/chapters/domain/chapter.dart';
+import 'package:driving_license/features/chapters/application/providers/chapters_providers.dart';
 import 'package:driving_license/features/home/domain/chapter_dropdown_selection_data.dart';
 import 'package:driving_license/features/licenses/data/providers/user_selected_license_provider.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
@@ -107,43 +108,48 @@ class ChapterDropdown extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return FormBuilder(
-      key: formKey,
-      child: ExcludeFocus(
-        excluding: true,
-        child: FormBuilderDropdown<ChapterDropdownSelectionData>(
-          name: 'chapter_to_delete',
-          dropdownColor: context.materialScheme.surfaceContainerHighest,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          decoration: const InputDecoration(
-            hintText: 'Chọn chương',
-            suffixIcon: Icon(
-              Symbols.expand_more,
-            ),
-          ),
-          icon: const SizedBox.shrink(),
-          items: [
-            const DropdownMenuItem(
-              value: AllChapterSelection('Tất cả các chương'),
-              child: Text('Tất cả các chương'),
-            ),
-            const DropdownMenuItem(
-              value: DangerChapterSelection('Các câu hỏi điểm liệt'),
-              child: Text('Các câu hỏi điểm liệt'),
-            ),
-            ...Chapter.values.map(
-              (e) => DropdownMenuItem(
-                value: ChapterSelection(e),
-                child: Text(e.chapterName),
+    final notEmptyChapters = ref.watch(notEmptyChaptersProvider);
+
+    return AsyncValueWidget(
+      value: notEmptyChapters,
+      builder: (notEmptyChaptersValue) => FormBuilder(
+        key: formKey,
+        child: ExcludeFocus(
+          excluding: true,
+          child: FormBuilderDropdown<ChapterDropdownSelectionData>(
+            name: 'chapter_to_delete',
+            dropdownColor: context.materialScheme.surfaceContainerHighest,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            decoration: const InputDecoration(
+              hintText: 'Chọn chương',
+              suffixIcon: Icon(
+                Symbols.expand_more,
               ),
             ),
-          ],
-          validator: (value) {
-            if (value == null) {
-              return 'Vui lòng chọn chương để xoá';
-            }
-            return null;
-          },
+            icon: const SizedBox.shrink(),
+            items: [
+              const DropdownMenuItem(
+                value: AllChapterSelection(),
+                child: Text('Tất cả các chương'),
+              ),
+              const DropdownMenuItem(
+                value: DangerChapterSelection(),
+                child: Text('Các câu hỏi điểm liệt'),
+              ),
+              ...notEmptyChaptersValue.map(
+                (e) => DropdownMenuItem(
+                  value: ChapterSelection(e),
+                  child: Text(e.chapterName),
+                ),
+              ),
+            ],
+            validator: (value) {
+              if (value == null) {
+                return 'Vui lòng chọn chương để xoá';
+              }
+              return null;
+            },
+          ),
         ),
       ),
     );

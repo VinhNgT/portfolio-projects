@@ -3,21 +3,20 @@ import 'package:flutter/material.dart';
 
 @immutable
 sealed class ChapterDropdownSelectionData {
-  const ChapterDropdownSelectionData(this.title);
-  final String title;
+  const ChapterDropdownSelectionData();
 }
 
 class AllChapterSelection extends ChapterDropdownSelectionData {
-  const AllChapterSelection(super.title);
+  const AllChapterSelection();
 }
 
 class DangerChapterSelection extends ChapterDropdownSelectionData {
-  const DangerChapterSelection(super.title);
+  const DangerChapterSelection();
 }
 
 class ChapterSelection extends ChapterDropdownSelectionData {
   final Chapter chapter;
-  ChapterSelection(this.chapter) : super(chapter.chapterName);
+  const ChapterSelection(this.chapter) : super();
 
   @override
   String toString() {
