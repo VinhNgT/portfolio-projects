@@ -1,0 +1,2 @@
+json_key_file("../keys/driving-license-421610-5fb7c405f696.json") # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
+package_name("com.vikapps.driving_license") # e.g. com.krausefx.app
