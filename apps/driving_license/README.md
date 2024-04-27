@@ -57,6 +57,14 @@ Nếu bạn muốn xây dựng ứng dụng từ mã nguồn, làm theo các bư
 
     `apps/driving_license/build/app/outputs/bundle/release/app-release.aab`
 
+  - File mapping.txt, upload file này kèm app bundle lên Play Store:
+
+    `apps/driving_license/build/app/outputs/mapping/release/mapping.txt`
+
+  - Các debug symbol, tạo file zip `native-debug-symbols.zip` chứa các folder trong này để upload kèm app bundle lên Play Store:
+
+    `apps/driving_license/build/app/intermediates/merged_native_libs/release/out/lib`
+
   - Các file để de-obfuscation nằm trong folder `build_obfuscation`
 
 ## Liên hệ
