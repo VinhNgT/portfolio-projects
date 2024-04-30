@@ -5,6 +5,24 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Python CI: Local",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "cwd": "${fileDirname}",
+      "purpose": ["debug-in-terminal"]
+    },
+    {
+      "name": "Python CI: Global",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "purpose": ["debug-in-terminal"]
+    },
+    {
       "name": "driving_license",
       "cwd": "apps\\driving_license",
       "request": "launch",
