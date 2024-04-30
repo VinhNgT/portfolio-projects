@@ -3,3 +3,21 @@ name: portfolio_projects
 packages:
   - apps/*
   - packages/*
+
+command:
+  version:
+    branch: main
+    hooks:
+      preCommit: melos run update-apps-build-number
+
+scripts:
+  update-apps-build-number:
+    description: Increase the build number of all Flutter packages that is updated
+    packageFilters:
+      flutter: true
+
+    steps:
+      - MELOS_ROOT_PATH/.env/Scripts/python.exe
+        MELOS_ROOT_PATH/ci/global/update_apps_build_number.py
+
+      - git add *build_info.yaml *pubspec.yaml
