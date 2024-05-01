@@ -32,7 +32,8 @@ Nếu bạn muốn xây dựng ứng dụng từ mã nguồn, làm theo các bư
 
 ## Xây dựng từ mã nguồn để phát hành trên Play Store
 
-> **⚠️ Lưu ý**: Phần build app và phát hành lên Play Store được hoàn toàn tự động hoá bằng CI/CD. Do khả năng human error cao, chỉ thực hiện build app thủ công theo hướng dẫn này nếu như hệ thống CI/CD không hoạt động.
+> [!WARNING]
+> Phần build app và phát hành lên Play Store được hoàn toàn tự động hoá bằng CI/CD. Do khả năng human error cao, chỉ thực hiện build app thủ công theo hướng dẫn này nếu như hệ thống CI/CD không hoạt động.
 
 > Khuyến khích sử dụng Melos và fastlane để build và phát hành app, xem mục [Tự động hoá quá trình phát hành trên Play Store](#Tự-động-hoá-quá-trình-phát-hành-trên-Play-Store)
 
@@ -63,6 +64,10 @@ Nếu bạn muốn xây dựng ứng dụng từ mã nguồn, làm theo các bư
   flutter build appbundle --obfuscate --split-debug-info=build_obfuscation --extra-gen-snapshot-options=--save-obfuscation-map=build_obfuscation/app.obfuscation.map.json --build-number=1
   ```
 
+  Giá trị `--build-number` phải lớn hơn tất cả các `versionCode` đang có sẵn trên Play Store, nếu không lúc upload sẽ bị reject. Ở ví dụ này Play Store chưa có upload nào cả (đây là lần upload đầu tiên), nên đặt giá trị là `1`.
+
+  > Để xem các upload hiện đang có trên Play Store, xem mục App bundle explorer trên trang web [Google Play Console](https://play.google.com/console/).
+
   - Kết quả app bundle tại đường dẫn:
 
     `apps/driving_license/build/app/outputs/bundle/release/app-release.aab`
@@ -76,10 +81,6 @@ Nếu bạn muốn xây dựng ứng dụng từ mã nguồn, làm theo các bư
     `apps/driving_license/build/app/intermediates/merged_native_libs/release/out/lib`
 
   - Các file để de-obfuscation nằm trong folder `build_obfuscation`
-
-  > Lưu ý `--build-number` phải lớn hơn tất cả các `versionCode` đang có sẵn trên Play Store, nếu không lúc upload sẽ bị reject. Ở ví dụ này Play Store chưa có upload nào cả (đây là lần upload đầu tiên), nên đặt giá trị là `1`.
-
-  > Để xem các upload hiện đang có trên Play Store, xem mục App bundle explorer trên trang web [Google Play Console](https://play.google.com/console/).
 
 ## Tự động hoá quá trình phát hành trên Play Store
 
@@ -165,6 +166,9 @@ melos exec --flutter --diff=<version_tag_start>...<version_tag_end> -- "cd ci/lo
 
 Để tránh việc build toàn bộ tất cả các app trong monorepo, thay thế `<version_tag_start>` bằng một trong những phiên bản trước của app mình, đã được đánh dấu bằng lệnh `melos version -a -p` hoặc `melos version -a -g`. Melos sẽ chỉ build những app mà source code đã thay đổi trong khoảng commit từ `<version_tag_start>` và `<version_tag_end>`.
 
+> [!NOTE]
+> Kết quả build nằm trong folder `ci` tại mỗi thư mục project để bạn dễ dàng truy cập, không được xoá bất cứ thứ gì trong này do có chứa các symbolic link.
+
 Ví dụ bạn muốn build những app đã được update trong khoảng từ tag `driving_license-v0.1.1` đến `driving_license-v0.2.4`, chạy lệnh:
 
 ```powershell
@@ -185,7 +189,7 @@ melos exec --flutter -- "cd ci/local && python build_app_bundle.py"
 
 ### fastlane
 
-fastlane phụ trách việc tự động hoá việc upload app đã được build lên Play Store
+fastlane giúp việc upload các app đã được build lên Play Store dễ dàng hơn, có 2 cách để sử dụng là chạy trên máy local hoặc chạy trên cloud (ví dụ bằng GitHub Actions).
 
 ## Liên hệ
 
