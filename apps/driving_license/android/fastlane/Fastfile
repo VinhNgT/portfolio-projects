@@ -1,5 +1,3 @@
-opt_out_usage
-
 # This file contains the fastlane.tools configuration
 # You can find the documentation at https://docs.fastlane.tools
 #
@@ -15,42 +13,57 @@ opt_out_usage
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
+require_relative 'utils'
+
+# INTRUDER ALERT! RED SPY IS IN THE BASE!
+opt_out_usage
+
+# This is the configuration for the Android platform
 default_platform(:android)
 
+# Error handling
+error do |lane, exception|
+  UI.error get_package_name()
+  UI.error "Error in lane #{lane}:"
+  UI.error exception.message
+end
+
 platform :android do
-  # These actions are the ones that fastlane generated for us.
-  # Keeping them for future reference.
-
-  # desc "Runs all the tests"
-  # lane :test do
-  #   gradle(task: "test")
-  # end
-
-  # desc "Submit a new Beta Build to Crashlytics Beta"
-  # lane :beta do
-  #   gradle(task: "clean assembleRelease")
-  #   crashlytics
-  
-  #   # sh "your_script.sh"
-  #   # You can also use other beta testing services here
-  # end
-
-  # desc "Deploy a new version to the Google Play"
-  # lane :deploy do
-  #   gradle(task: "clean assembleRelease")
-  #   upload_to_play_store
-  # end
-
   desc "Submit current bundle to the internal track in the Google Play"
-  lane :deploy_internal do
+  lane :deploy_internal do |options|
+    publish = get_publish_par(options)
+
+    # Deploy the current bundle to the internal track in the Google Play.
     upload_to_play_store(
+        validate_only: !publish,
         track: 'internal',
+        release_status: 'draft',
+        skip_upload_images: true,
+        skip_upload_screenshots: true,
         aab: '../build/app/outputs/bundle/release/app-release.aab',
         mapping_paths: [
           '../build/app/intermediates/merged_native_libs/release/out/lib/native-debug-symbols.zip',
           '../build/app/outputs/mapping/release/mapping.txt'
         ],
-      )
+    )
   end
 
+  desc "Submit current bundle to the Release Candidate track in the Google Play"
+  lane :deploy_release_candidate do |options|
+    publish = get_publish_par(options)
+
+    # Deploy the current bundle to the internal track in the Google Play.
+    upload_to_play_store(
+        validate_only: !publish,
+        track: 'Release Candidate',
+        release_status: 'draft',
+        skip_upload_images: true,
+        skip_upload_screenshots: true,
+        aab: '../build/app/outputs/bundle/release/app-release.aab',
+        mapping_paths: [
+          '../build/app/intermediates/merged_native_libs/release/out/lib/native-debug-symbols.zip',
+          '../build/app/outputs/mapping/release/mapping.txt'
+        ],
+    )
+  end
 end
