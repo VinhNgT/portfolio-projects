@@ -17,7 +17,7 @@ scripts:
       flutter: true
 
     steps:
-      - MELOS_ROOT_PATH/.env/Scripts/python.exe
+      - MELOS_ROOT_PATH/ci/.env/Scripts/python.exe
         MELOS_ROOT_PATH/ci/global/update_apps_build_number.py
 
       - git add *build_info.yaml *pubspec.yaml
