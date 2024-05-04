@@ -43,8 +43,9 @@ build_obfuscation/
 /android/app/profile
 /android/app/release
 
-# App signing keys
+# App signing keys and secrets
 keys/
+secrets.zip
 
 # fastlane specific
 **/fastlane/report.xml
