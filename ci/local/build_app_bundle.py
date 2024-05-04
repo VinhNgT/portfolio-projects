@@ -80,16 +80,12 @@ def is_zip_up_to_date() -> bool:
 
 
 def zip_debug_symbols():
-    # Delete the existing zip file
-    if os.path.exists(DEBUG_SYMBOLS_ZIP_PATH):
-        os.remove(DEBUG_SYMBOLS_ZIP_PATH)
-
     # Get all folders in the directory
     folders = get_debug_symbols_folders()
 
     # Recursively zip all folders
     with ZipFile(
-        os.path.join(DEBUG_SYMBOLS_DIR, DEBUG_SYMBOLS_ZIP_NAME), "a", ZIP_DEFLATED
+        os.path.join(DEBUG_SYMBOLS_DIR, DEBUG_SYMBOLS_ZIP_NAME), "w", ZIP_DEFLATED
     ) as zipf:
         for folder in folders:
             for root, _, files in os.walk(os.path.join(DEBUG_SYMBOLS_DIR, folder)):
