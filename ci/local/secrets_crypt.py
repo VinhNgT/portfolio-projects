@@ -8,20 +8,30 @@ import string
 import secrets
 
 
-PROJECT_ROOT = "../../"
-CI_ROOT = os.path.join(PROJECT_ROOT, "ci")
-SECRETS_GPG = os.path.join(CI_ROOT, "secrets.gpg")
+def setup_global_var(package_name: str):
+    global PROJECT_ROOT
+    global CI_ROOT
+    global SECRETS_GPG
+    global TARGETS
 
+    PROJECT_ROOT = os.path.join("apps", package_name)
+    CI_ROOT = os.path.join(PROJECT_ROOT, "ci")
+    SECRETS_GPG = os.path.join(CI_ROOT, "secrets.gpg")
 
-TARGETS = map(
-    lambda x: os.path.join(PROJECT_ROOT, x),
-    # Android secrets, specify folder by adding a trailing slash ('/')
-    [
-        "android/key.properties",
-        "android/fastlane/Appfile",
-        "keys/",
-    ],
-)
+    TARGETS = map(
+        lambda x: os.path.join(PROJECT_ROOT, x),
+        # Android secrets, specify folder by adding a trailing slash ('/')
+        [
+            "android/key.properties",
+            "android/fastlane/Appfile",
+            "keys/",
+        ],
+    )
+
+    # Check if PROJECT_ROOT exists
+    if not os.path.exists(PROJECT_ROOT):
+        print(f"Project root not found: {PROJECT_ROOT}")
+        exit(1)
 
 
 class Mode(Enum):
@@ -98,7 +108,7 @@ def main(mode: Mode, password: str):
     if mode == Mode.ENCRYPT:
         im_memory_zip = pack_targets()
         encrypt_file(im_memory_zip, password)
-        print("Secrets encrypted successfully. Encrypted file in: ci/secrets.gpg")
+        print(f"Secrets encrypted successfully. Encrypted file in: {SECRETS_GPG}")
 
     elif mode == Mode.DECRYPT:
         statusCode = decrypt_files(password)
@@ -117,7 +127,7 @@ def generate_password(length=64):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Encrypt or decrypt secret files.")
-
+    parser.add_argument("-p", "--package", type=str, help="Package name of the app")
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument(
         "-e", type=str, nargs="?", const=False, help="Encrypt mode, provide password"
@@ -125,6 +135,8 @@ if __name__ == "__main__":
     group.add_argument("-d", type=str, help="Decrypt mode, provide password")
 
     args = parser.parse_args()
+    setup_global_var(args.package)
+
     if args.e is not None:
         match args.e:
             case False:
