@@ -16,8 +16,8 @@ scripts:
     packageFilters:
       flutter: true
 
+    # Make sure to use the python executable from the virtual environment
+    # .\ci\.venv\Scripts\activate
     steps:
-      - MELOS_ROOT_PATH/ci/.env/Scripts/python.exe
-        MELOS_ROOT_PATH/ci/global/update_apps_build_number.py
-
+      - python ci/global/update_apps_build_number.py
       - git add *build_info.yaml *pubspec.yaml
