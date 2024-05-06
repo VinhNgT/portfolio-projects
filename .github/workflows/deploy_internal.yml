@@ -1,0 +1,231 @@
+name: Build and deploy to Play Store internal track
+
+on:
+  push:
+    branches: main
+    tags:
+      - "*-v*.*.*"
+
+jobs:
+  get_variables:
+    runs-on: ubuntu-latest
+    outputs:
+      package_name: ${{ steps.get_tag_info.outputs.PACKAGE_NAME }}
+      version: ${{ steps.get_tag_info.outputs.VERSION }}
+      is_app: ${{ steps.check_if_app.outputs.IS_APP }}
+      home: ${{ steps.get_home.outputs.HOME }}
+
+    steps:
+      - name: Get package name and version from tag
+        id: get_tag_info
+        run: |
+          TAG=${{github.ref_name}}
+          PACKAGE_NAME=$(echo $TAG | awk -F '-v' '{print $1}')
+          VERSION=$(echo $TAG | awk -F '-v' '{print $2}')
+
+          if [ -z "$PACKAGE_NAME" ]; then
+            echo "::error::No package name found"
+            exit 1
+          fi
+
+          if [ -z "$VERSION" ]; then
+            echo "::error::No version found"
+            exit 1
+          fi
+
+          echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_OUTPUT
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+      - uses: actions/checkout@v4
+
+      - name: Check if package is an app (existing in apps/folder)
+        id: check_if_app
+        env:
+          PACKAGE_NAME: ${{ steps.get_tag_info.outputs.PACKAGE_NAME }}
+        run: |
+          echo "IS_APP=$(
+            if [ -d "apps/$PACKAGE_NAME" ]; then echo true; else echo false; fi
+          )" >> $GITHUB_OUTPUT
+
+      - name: Get home directory
+        id: get_home
+        run: |
+          echo "HOME=$HOME" >> $GITHUB_OUTPUT
+
+  build-android:
+    needs: get_variables
+    runs-on: ubuntu-latest
+    if: needs.get_variables.outputs.is_app == 'true'
+    env:
+      PACKAGE_NAME: ${{ needs.get_variables.outputs.package_name }}
+      VERSION: ${{ needs.get_variables.outputs.version }}
+      SECRETS_KEY: ${{ secrets[format('{0}_secrets_key', needs.get_variables.outputs.package_name)] }}
+      HOME: ${{ needs.get_variables.outputs.home }}
+      FLUTTER_SDK: 3.19.6
+      ANDROID_SDK: 10406996
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        id: setup_python
+        with:
+          python-version: "3.12.3"
+
+      - name: Cache Python virtual environment
+        uses: actions/cache@v4
+        with:
+          key: venv-${{ runner.os }}-python-${{ steps.setup_python.outputs.python-version}}-${{ hashFiles('ci/requirements.txt') }}
+          path: ci/.venv
+
+      - name: Setup Python virtual environment and dependencies
+        working-directory: ci
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          python -m pip install -r requirements.txt
+          echo "$VIRTUAL_ENV/bin" >> $GITHUB_PATH
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+          cache: gradle
+          cache-dependency-path: |
+            apps/${{env.PACKAGE_NAME}}/android/*.gradle*
+            apps/${{env.PACKAGE_NAME}}/android/**/gradle-wrapper.properties
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{env.FLUTTER_SDK}}
+          cache: true
+
+      - name: Get Flutter dependencies
+        working-directory: apps/${{env.PACKAGE_NAME}}
+        run: flutter pub get
+
+      - name: Cache Android SDK
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.HOME }}/.android/sdk
+          key: setup-${{ runner.os }}-android-sdk-${{env.ANDROID_SDK}}
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          log-accepted-android-sdk-licenses: false
+          cmdline-tools-version: ${{env.ANDROID_SDK}}
+
+      - name: Extract secrets
+        run: python ci/local/secrets_crypt.py -p $PACKAGE_NAME -d $SECRETS_KEY
+
+      # - name: Build APK for Github release
+      #   working-directory: apps/${{env.PACKAGE_NAME}}
+      #   run: |
+      #     flutter build apk --release
+
+      - name: Build app bundle for Play Store
+        run: |
+          python ci/local/build_app_bundle.py -p $PACKAGE_NAME
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{env.PACKAGE_NAME}}-v${{env.VERSION}}-apk
+          path: apps/${{env.PACKAGE_NAME}}/build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Upload AAB artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{env.PACKAGE_NAME}}-v${{env.VERSION}}-aab
+          path: apps/${{env.PACKAGE_NAME}}/build/app/outputs/bundle/release/app-release.aab
+
+      - name: Upload debug symbols
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{env.PACKAGE_NAME}}-v${{env.VERSION}}-symbols
+          path: apps/${{env.PACKAGE_NAME}}/build/app/intermediates/merged_native_libs/release/out/lib/native-debug-symbols.zip
+
+      - name: Upload mapping file
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{env.PACKAGE_NAME}}-v${{env.VERSION}}-mapping
+          path: apps/${{env.PACKAGE_NAME}}/build/app/outputs/mapping/release/mapping.txt
+
+      - name: Upload obfuscation files
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{env.PACKAGE_NAME}}-v${{env.VERSION}}-obfuscation
+          path: apps/${{env.PACKAGE_NAME}}/ci/build_obfuscation/obfuscation.zip
+
+  upload-playstore:
+    needs:
+      - get_variables
+      # - build-android
+
+    runs-on: ubuntu-latest
+    env:
+      PACKAGE_NAME: ${{ needs.get_variables.outputs.package_name }}
+      VERSION: ${{ needs.get_variables.outputs.version }}
+      SECRETS_KEY: ${{ secrets[format('{0}_secrets_key', needs.get_variables.outputs.package_name)] }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        id: setup_python
+        with:
+          python-version: "3.12.3"
+
+      - name: Cache Python virtual environment
+        uses: actions/cache@v4
+        with:
+          key: venv-${{ runner.os }}-python-${{ steps.setup_python.outputs.python-version}}-${{ hashFiles('ci/requirements.txt') }}
+          path: ci/.venv
+
+      - name: Setup Python virtual environment and dependencies
+        working-directory: ci
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          python -m pip install -r requirements.txt
+          echo "$VIRTUAL_ENV/bin" >> $GITHUB_PATH
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.4
+          bundler-cache: true
+          working-directory: apps/${{env.PACKAGE_NAME}}/android
+
+      - name: Download AAB artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{env.PACKAGE_NAME}}-v${{env.VERSION}}-aab
+          path: apps/${{env.PACKAGE_NAME}}/build/app/outputs/bundle/release
+
+      - name: Download debug symbols
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{env.PACKAGE_NAME}}-v${{env.VERSION}}-symbols
+          path: apps/${{env.PACKAGE_NAME}}/build/app/intermediates/merged_native_libs/release/out/lib
+
+      - name: Download mapping file
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{env.PACKAGE_NAME}}-v${{env.VERSION}}-mapping
+          path: apps/${{env.PACKAGE_NAME}}/build/app/outputs/mapping/release
+
+      - name: Extract secrets
+        run: python ci/local/secrets_crypt.py -p $PACKAGE_NAME -d $SECRETS_KEY
+
+      - name: Upload to Play Store
+        working-directory: apps/${{env.PACKAGE_NAME}}/android
+        run: bundle exec fastlane deploy_internal publish:true

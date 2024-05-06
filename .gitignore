@@ -41,3 +41,11 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Environment configurations
+*.venv
+*.env
+*.env.*
+
+# act related
+act.*
