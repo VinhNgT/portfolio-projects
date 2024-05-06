@@ -3,17 +3,52 @@ import os
 import sys
 from zipfile import ZipFile, ZIP_DEFLATED
 import hashlib
+import argparse
 
 
-DEBUG_SYMBOLS_DIR = "../../build/app/intermediates/merged_native_libs/release/out/lib/"
-DEBUG_SYMBOLS_ZIP_NAME = "native-debug-symbols.zip"
-DEBUG_SYMBOLS_ZIP_PATH = os.path.join(DEBUG_SYMBOLS_DIR, DEBUG_SYMBOLS_ZIP_NAME)
+def setup_global_var(package_name: str):
+    global PROJECT_ROOT
+    global BUILD_COMMAND
 
-BUILD_COMMAND = (
-    "flutter build appbundle --obfuscate "
-    "--split-debug-info=ci/build_obfuscation "
-    "--extra-gen-snapshot-options=--save-obfuscation-map=ci/build_obfuscation/app.obfuscation.map.json"
-)
+    global DEBUG_SYMBOLS_DIR
+    global BUILD_OBFUSCATION_DIR
+
+    global DEBUG_SYMBOLS_ZIP_NAME
+    global BUILD_OBFUSCATION_ZIP_NAME
+
+    global DEBUG_SYMBOLS_ZIP_PATH
+    global BUILD_OBFUSCATION_ZIP_PATH
+
+    PROJECT_ROOT = os.path.join("apps", package_name)
+    if not os.path.exists(PROJECT_ROOT):
+        print(f"Project root not found: {PROJECT_ROOT}")
+        exit(1)
+
+    BUILD_COMMAND = (
+        "flutter build appbundle --obfuscate "
+        "--split-debug-info=ci/build_obfuscation "
+        "--extra-gen-snapshot-options=--save-obfuscation-map=ci/build_obfuscation/app.obfuscation.map.json"
+    )
+
+    DEBUG_SYMBOLS_DIR = os.path.join(
+        PROJECT_ROOT,
+        "build",
+        "app",
+        "intermediates",
+        "merged_native_libs",
+        "release",
+        "out",
+        "lib",
+    )
+    BUILD_OBFUSCATION_DIR = os.path.join(PROJECT_ROOT, "ci", "build_obfuscation")
+
+    DEBUG_SYMBOLS_ZIP_NAME = "native-debug-symbols.zip"
+    BUILD_OBFUSCATION_ZIP_NAME = "obfuscation.zip"
+
+    DEBUG_SYMBOLS_ZIP_PATH = os.path.join(DEBUG_SYMBOLS_DIR, DEBUG_SYMBOLS_ZIP_NAME)
+    BUILD_OBFUSCATION_ZIP_PATH = os.path.join(
+        BUILD_OBFUSCATION_DIR, BUILD_OBFUSCATION_ZIP_NAME
+    )
 
 
 def run_flutter_build() -> int:
@@ -25,6 +60,7 @@ def run_flutter_build() -> int:
     # Start the command
     process = subprocess.Popen(
         BUILD_COMMAND,
+        cwd=PROJECT_ROOT,
         shell=True,
         # stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -50,33 +86,13 @@ def get_debug_symbols_folders():
     ]
 
 
-def is_zip_up_to_date() -> bool:
-    if not os.path.exists(DEBUG_SYMBOLS_ZIP_PATH):
-        return False
-
-    # Calculate hashes of files already in the zip file
-    zip_hashes = {}
-    with ZipFile(DEBUG_SYMBOLS_ZIP_PATH, "r") as zipf:
-        for file in zipf.namelist():
-            file_hash = hashlib.md5(zipf.read(file)).hexdigest()
-            zip_hashes[file] = file_hash
-
-    # Calculate hashes of all folders in DEBUG_SYMBOLS_DIR
-    folders = get_debug_symbols_folders()
-    folders_hashes = {}
-    for folder in folders:
-        for root, _, files in os.walk(os.path.join(DEBUG_SYMBOLS_DIR, folder)):
-            for file in files:
-                file_path = os.path.join(root, file)
-                rel_path = os.path.relpath(file_path, DEBUG_SYMBOLS_DIR).replace(
-                    "\\", "/"
-                )
-                with open(file_path, "rb") as f:
-                    file_hash = hashlib.md5(f.read()).hexdigest()
-                    folders_hashes[rel_path] = file_hash
-
-    # Check if the hashes are the same
-    return zip_hashes == folders_hashes
+def get_build_obfuscation_files():
+    return [
+        f
+        for f in os.listdir(BUILD_OBFUSCATION_DIR)
+        if os.path.isfile(os.path.join(BUILD_OBFUSCATION_DIR, f))
+        and f != BUILD_OBFUSCATION_ZIP_NAME
+    ]
 
 
 def zip_debug_symbols():
@@ -96,20 +112,47 @@ def zip_debug_symbols():
                     )
 
 
+def zip_obfuscation_files():
+    files = get_build_obfuscation_files()
+
+    with ZipFile(
+        os.path.join(BUILD_OBFUSCATION_DIR, BUILD_OBFUSCATION_ZIP_NAME),
+        "w",
+        ZIP_DEFLATED,
+    ) as zipf:
+        for file in files:
+            zipf.write(
+                os.path.join(BUILD_OBFUSCATION_DIR, file),
+                os.path.relpath(
+                    os.path.join(BUILD_OBFUSCATION_DIR, file), BUILD_OBFUSCATION_DIR
+                ),
+            )
+
+
 def main():
     print("Building app bundle...")
     build_result = run_flutter_build()
 
     if build_result == 0:
-        print()
-        if is_zip_up_to_date():
-            print("The debug symbols zip is already up-to-date. Zip creation skipped.")
-        else:
-            print("Zipping the debug symbols...")
-            zip_debug_symbols()
+        print("\nZipping symbols...")
+        zip_debug_symbols()
+        zip_obfuscation_files()
+
+        print("Debug symbols location:", DEBUG_SYMBOLS_ZIP_PATH)
+        print("Obfuscation files location:", BUILD_OBFUSCATION_ZIP_PATH)
 
     sys.exit(build_result)
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Build app bundle and zip debug symbols."
+    )
+    parser.add_argument(
+        "-p", "--package", type=str, help="Package name of the app", required=True
+    )
+
+    args = parser.parse_args()
+    setup_global_var(args.package)
+
     main()

@@ -15,6 +15,10 @@ def setup_global_var(package_name: str):
     global TARGETS
 
     PROJECT_ROOT = os.path.join("apps", package_name)
+    if not os.path.exists(PROJECT_ROOT):
+        print(f"Project root not found: {PROJECT_ROOT}")
+        exit(1)
+
     CI_ROOT = os.path.join(PROJECT_ROOT, "ci")
     SECRETS_GPG = os.path.join(CI_ROOT, "secrets.gpg")
 
@@ -27,11 +31,6 @@ def setup_global_var(package_name: str):
             "keys/",
         ],
     )
-
-    # Check if PROJECT_ROOT exists
-    if not os.path.exists(PROJECT_ROOT):
-        print(f"Project root not found: {PROJECT_ROOT}")
-        exit(1)
 
 
 class Mode(Enum):
@@ -127,7 +126,9 @@ def generate_password(length=64):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Encrypt or decrypt secret files.")
-    parser.add_argument("-p", "--package", type=str, help="Package name of the app")
+    parser.add_argument(
+        "-p", "--package", type=str, help="Package name of the app", required=True
+    )
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument(
         "-e", type=str, nargs="?", const=False, help="Encrypt mode, provide password"
