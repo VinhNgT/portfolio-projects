@@ -2,12 +2,38 @@ name: Build and deploy to Play Store internal track
 
 on:
   push:
-    branches: main
     tags:
       - "*-v*.*.*"
 
 jobs:
-  get_variables:
+  check-protected-branch:
+    runs-on: ubuntu-latest
+    outputs:
+      on_protected_branch: ${{ steps.check_protected_branch.outputs.ON_PROTECTED_BRANCH }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check if branch is protected
+        id: check_protected_branch
+        run: |
+          onProtectedBranch=false
+          branches=$(git branch -r --contains tags/$GITHUB_REF_NAME)
+          for branch in $branches; do
+            if [[ $branch == "origin/main" ]] || [[ $branch == "origin/release/"* ]]; then
+              onProtectedBranch=true
+            fi
+          done
+
+          if [ "$onProtectedBranch" == false ]; then
+            echo "::warning::Tag is not on protected branch. Abort build."
+          fi
+
+          echo "ON_PROTECTED_BRANCH=$onProtectedBranch" >> $GITHUB_OUTPUT
+
+  get-variables:
+    needs: check-protected-branch
+    if: needs.check-protected-branch.outputs.on_protected_branch == 'true'
     runs-on: ubuntu-latest
     outputs:
       package_name: ${{ steps.get_tag_info.outputs.PACKAGE_NAME }}
@@ -53,14 +79,14 @@ jobs:
           echo "HOME=$HOME" >> $GITHUB_OUTPUT
 
   build-android:
-    needs: get_variables
+    needs: get-variables
     runs-on: ubuntu-latest
-    if: needs.get_variables.outputs.is_app == 'true'
+    if: needs.get-variables.outputs.is_app == 'true'
     env:
-      PACKAGE_NAME: ${{ needs.get_variables.outputs.package_name }}
-      VERSION: ${{ needs.get_variables.outputs.version }}
-      SECRETS_KEY: ${{ secrets[format('{0}_secrets_key', needs.get_variables.outputs.package_name)] }}
-      HOME: ${{ needs.get_variables.outputs.home }}
+      PACKAGE_NAME: ${{ needs.get-variables.outputs.package_name }}
+      VERSION: ${{ needs.get-variables.outputs.version }}
+      SECRETS_KEY: ${{ secrets[format('{0}_secrets_key', needs.get-variables.outputs.package_name)] }}
+      HOME: ${{ needs.get-variables.outputs.home }}
       FLUTTER_SDK: 3.19.6
       ANDROID_SDK: 10406996
 
@@ -165,14 +191,14 @@ jobs:
 
   upload-playstore:
     needs:
-      - get_variables
-      # - build-android
+      - get-variables
+      - build-android
 
     runs-on: ubuntu-latest
     env:
-      PACKAGE_NAME: ${{ needs.get_variables.outputs.package_name }}
-      VERSION: ${{ needs.get_variables.outputs.version }}
-      SECRETS_KEY: ${{ secrets[format('{0}_secrets_key', needs.get_variables.outputs.package_name)] }}
+      PACKAGE_NAME: ${{ needs.get-variables.outputs.package_name }}
+      VERSION: ${{ needs.get-variables.outputs.version }}
+      SECRETS_KEY: ${{ secrets[format('{0}_secrets_key', needs.get-variables.outputs.package_name)] }}
 
     steps:
       - name: Checkout code
