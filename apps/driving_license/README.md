@@ -137,7 +137,7 @@ Bởi vậy để khắc phục các pain point trên, dự án sử dụng 2 c�
 
 - Đã cài đặt [python 3.12.3](https://www.python.org/downloads/) trở lên.
 - (Windows) Sử dụng [powershell 7.0](https://learn.microsoft.com/en-us/powershell/scripting/whats-new/) trở lên.
-- (Windows) Đã cài đặt [Ruby+Devkit 3.2.4-1](https://rubyinstaller.org/downloads/) trở lên
+- (Windows) Đã cài đặt [Ruby+Devkit 3.2.4-1](https://rubyinstaller.org/downloads/) trở lên.
 
 ### Melos
 
@@ -261,6 +261,57 @@ melos exec --flutter --scope=*driving_license* -- "cd ci/local && python build_a
 # Upload kết quả
 melos exec --flutter --scope=*driving_license* -- "cd android && bundle exec fastlane deploy_internal publish:true"
 ```
+
+## CI/CD với Github Actions
+
+### Yêu cầu hệ thống
+
+- Đã cài đặt [python 3.12.3](https://www.python.org/downloads/) trở lên.
+- (Windows) Sử dụng [powershell 7.0](https://learn.microsoft.com/en-us/powershell/scripting/whats-new/) trở lên.
+- ~~(Windows) Đã cài đặt [Gpg4win 4.3.1](https://www.gpg4win.org/get-gpg4win.html) trở lên.~~
+
+### Mã hoá các secret để hệ thống CI/CD sử dụng
+
+Để đảm bảo an toàn bảo mật thông tin, KHÔNG ĐƯỢC thêm các file và folder nhạy cảm này vào git:
+
+- `android/key.properties`
+- `keys/`
+- `secrets.zip` (nếu có)
+
+Ta cần phải mã hoá chúng trước rồi mới thêm vào git, hệ thống CI/CD sẽ tự động giải mã mỗi lần sử dụng.
+
+#### Mã hoá GPG
+
+Chạy lệnh sau để mã hoá các secret của app:
+
+```powershell
+melos exec --flutter --scope=*driving_license* -- "cd ci/local && python secrets_crypt.py -e"
+```
+
+Kết quả in ra trong console:
+
+```
+Encrypting with auto-generated password: <password>
+Secrets encrypted successfully. Encrypted file in: ci/secrets.gpg
+```
+
+Lưu ý phần `<password>`, thêm nó vào danh sách các secret của repository của bạn, xem [hướng dẫn](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions?tool=webui#creating-secrets-for-a-repository).
+
+Bạn có thể an toàn commit file `secrets.gpg` vào git, vì nó đã được mã hoá bằng password 64 ký tự, [bruteforce đằng trời](https://github.com/VinhNgT/imagehost/blob/main/brute_pic.png?raw=true).
+
+#### Kích hoạt workflow đẩy lên track internal của Google Play Console
+
+Tạo version mới với lệnh sau:
+
+```powershell
+melos version -a -p
+```
+
+Sau đó commit và push/merge lên nhánh main của ứng dụng, hệ thống Github Actions sẽ phân tích các ứng dụng đã được cập nhật source code mới và tự động upload lên track internal của Google Play.
+
+Cuối cùng vào trang web quản trị của ứng dụng trên Google Play Console, vào `Internal testing`, điền các thông tin cần thiết (Changelog) rồi publish ứng dụng.
+
+Sau khi publish xong có thể chuyển sang track production hoặc beta/rc tuỳ yêu cầu thực tế.
 
 ## Liên hệ
 

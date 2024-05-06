@@ -29,7 +29,7 @@ Submit current bundle to the internal track in the Google Play
 [bundle exec] fastlane android deploy_release_candidate
 ```
 
-Submit current bundle to the internal track in the Google Play
+Submit current bundle to the Release Candidate track in the Google Play
 
 ----
 
