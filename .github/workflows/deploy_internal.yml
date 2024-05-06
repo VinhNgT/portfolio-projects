@@ -1,4 +1,5 @@
-name: Build and deploy to Play Store internal track
+name: Build & deploy to Play Store internal track
+run-name: Build & deploy ${{ github.ref_name }}
 
 on:
   push:
@@ -6,34 +7,35 @@ on:
       - "*-v*.*.*"
 
 jobs:
-  check-protected-branch:
+  print-github-context:
     runs-on: ubuntu-latest
-    outputs:
-      on_protected_branch: ${{ steps.check_protected_branch.outputs.ON_PROTECTED_BRANCH }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Check if branch is protected
-        id: check_protected_branch
+      - name: Print GitHub context
+        env:
+          GITHUB_VAR: ${{ toJson(github) }}
         run: |
-          onProtectedBranch=false
-          branches=$(git branch -r --contains tags/$GITHUB_REF_NAME)
-          for branch in $branches; do
-            if [[ $branch == "origin/main" ]] || [[ $branch == "origin/release/"* ]]; then
-              onProtectedBranch=true
-            fi
-          done
+          echo "$GITHUB_VAR"
 
-          if [ "$onProtectedBranch" == false ]; then
-            echo "::warning::Tag is not on protected branch. Abort build."
-          fi
+  # check-is-main-branch:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     on_main_branch: ${{ steps.check_main_branch.outputs.ON_MAIN_BRANCH }}
+  #   steps:
+  #     - name: Check if tag is on main branch
+  #       id: check_main_branch
+  #       env:
+  #         ON_MAIN_BRANCH: ${{endsWith(github.event.base_ref, 'main')}}
+  #       run: |
+  #         if [ "$ON_MAIN_BRANCH" == false ]; then
+  #           echo "::warning::This tag push does not target main branch or 'git push --follow-tags' is used. Abort build."
+  #           echo "::warning::Please remove the tag and push it again manually with: git push origin tag ${{ github.ref_name }}"
+  #         fi
 
-          echo "ON_PROTECTED_BRANCH=$onProtectedBranch" >> $GITHUB_OUTPUT
+  #         echo "ON_MAIN_BRANCH=$ON_MAIN_BRANCH" >> $GITHUB_OUTPUT
 
   get-variables:
-    needs: check-protected-branch
-    if: needs.check-protected-branch.outputs.on_protected_branch == 'true'
+    # needs: check-is-main-branch
+    # if: needs.check-is-main-branch.outputs.on_main_branch == 'true'
     runs-on: ubuntu-latest
     outputs:
       package_name: ${{ steps.get_tag_info.outputs.PACKAGE_NAME }}
@@ -135,17 +137,17 @@ jobs:
         working-directory: apps/${{env.PACKAGE_NAME}}
         run: flutter pub get
 
-      - name: Cache Android SDK
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.HOME }}/.android/sdk
-          key: setup-${{ runner.os }}-android-sdk-${{env.ANDROID_SDK}}
+      # - name: Cache Android SDK
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: ${{ env.HOME }}/.android/sdk
+      #     key: setup-${{ runner.os }}-android-sdk-${{env.ANDROID_SDK}}
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-        with:
-          log-accepted-android-sdk-licenses: false
-          cmdline-tools-version: ${{env.ANDROID_SDK}}
+      # - name: Setup Android SDK
+      #   uses: android-actions/setup-android@v3
+      #   with:
+      #     log-accepted-android-sdk-licenses: false
+      #     cmdline-tools-version: ${{env.ANDROID_SDK}}
 
       - name: Extract secrets
         run: python ci/local/secrets_crypt.py -p $PACKAGE_NAME -d $SECRETS_KEY
