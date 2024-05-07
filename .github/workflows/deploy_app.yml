@@ -66,7 +66,7 @@ jobs:
       android-sdk-version: 10406996
       java-version: 17
       python-version: 3.12.3
-      should-install-android-sdk: true
+      should-install-android-sdk: false
 
   deploy-play-store:
     needs:
