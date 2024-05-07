@@ -1,0 +1,127 @@
+name: Build android app
+run-name: Build for android ${{ inputs.package-name }}-v${{ inputs.version }}
+
+on:
+  workflow_call:
+    inputs:
+      package-name:
+        type: string
+        required: true
+
+      version:
+        type: string
+        required: true
+
+      flutter-sdk-version:
+        type: string
+        required: true
+
+      android-sdk-version:
+        type: number
+        required: true
+
+      java-version:
+        type: number
+        required: true
+
+      python-version:
+        type: string
+        required: true
+
+      should-install-android-sdk:
+        type: boolean
+        default: true
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    env:
+      SECRETS_KEY: ${{ secrets[format('{0}_secrets_key', inputs.package-name)] }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        id: setup_python
+        with:
+          python-version: ${{ inputs.python-version }}
+
+      - name: Cache Python virtual environment
+        uses: actions/cache@v4
+        with:
+          key: venv-${{ runner.os }}-python-${{ inputs.python-version }}-${{ hashFiles('ci/requirements.txt') }}
+          path: ci/.venv
+
+      - name: Setup Python virtual environment and dependencies
+        working-directory: ci
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          python -m pip install -r requirements.txt
+          echo "$VIRTUAL_ENV/bin" >> $GITHUB_PATH
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: ${{ inputs.java-version }}
+          cache: gradle
+          cache-dependency-path: |
+            apps/${{ inputs.package-name }}/android/*.gradle*
+            apps/${{ inputs.package-name }}/android/**/gradle-wrapper.properties
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ inputs.flutter-sdk-version }}
+          cache: true
+
+      - name: Get Flutter dependencies
+        working-directory: apps/${{ inputs.package-name }}
+        run: flutter pub get
+
+      - name: Cache Android SDK
+        if: ${{ inputs.should-install-android-sdk }}
+        uses: actions/cache@v2
+        with:
+          path: ~/.android/sdk
+          key: setup-${{ runner.os }}-android-sdk-${{ inputs.android-sdk-version }}-revision-0
+
+      - name: Setup Android SDK
+        if: ${{ inputs.should-install-android-sdk }}
+        uses: android-actions/setup-android@v3
+        with:
+          log-accepted-android-sdk-licenses: false
+          cmdline-tools-version: ${{ inputs.android-sdk-version }}
+
+      - name: Extract secrets
+        run: python ci/local/secrets_crypt.py -p ${{ inputs.package-name }} -d $SECRETS_KEY
+
+      - name: Build app bundle
+        run: python ci/local/build_app_bundle.py -p ${{ inputs.package-name }}
+
+      - name: Upload AAB artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ inputs.package-name }}-v${{ inputs.version }}-aab
+          path: apps/${{ inputs.package-name }}/build/app/outputs/bundle/release/app-release.aab
+
+      - name: Upload debug symbols
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ inputs.package-name }}-v${{ inputs.version }}-symbols
+          path: apps/${{ inputs.package-name }}/build/app/intermediates/merged_native_libs/release/out/lib/native-debug-symbols.zip
+
+      - name: Upload mapping file
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ inputs.package-name }}-v${{ inputs.version }}-mapping
+          path: apps/${{ inputs.package-name }}/build/app/outputs/mapping/release/mapping.txt
+
+      - name: Upload obfuscation files
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ inputs.package-name }}-v${{ inputs.version }}-obfuscation
+          path: apps/${{ inputs.package-name }}/ci/build_obfuscation/obfuscation.zip

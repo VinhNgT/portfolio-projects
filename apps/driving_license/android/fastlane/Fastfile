@@ -13,9 +13,6 @@
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
-# INTRUDER ALERT! RED SPY IS IN THE BASE!
-opt_out_usage
-
 import 'utils.rb'
 
 # This is the configuration for the Android platform

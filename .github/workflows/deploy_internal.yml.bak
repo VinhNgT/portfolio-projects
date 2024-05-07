@@ -13,8 +13,7 @@ jobs:
       - name: Print GitHub context
         env:
           GITHUB_VAR: ${{ toJson(github) }}
-        run: |
-          echo "$GITHUB_VAR"
+        run: echo "$GITHUB_VAR"
 
   # check-is-main-branch:
   #   runs-on: ubuntu-latest

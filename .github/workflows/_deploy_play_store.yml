@@ -1,0 +1,82 @@
+name: Deploy AAB to Play Store internal track
+run-name: Deploy to Play Store ${{ inputs.package-name }}-v${{ inputs.version }}
+
+on:
+  workflow_call:
+    inputs:
+      package-name:
+        type: string
+        required: true
+
+      version:
+        type: string
+        required: true
+
+      ruby-version:
+        type: string
+        required: true
+
+      python-version:
+        type: string
+        required: true
+
+jobs:
+  upload-playstore:
+    runs-on: ubuntu-latest
+    env:
+      SECRETS_KEY: ${{ secrets[format('{0}_secrets_key', inputs.package-name)] }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        id: setup_python
+        with:
+          python-version: ${{ inputs.python-version }}
+
+      - name: Cache Python virtual environment
+        uses: actions/cache@v4
+        with:
+          key: venv-${{ runner.os }}-python-${{ inputs.python-version }}-${{ hashFiles('ci/requirements.txt') }}
+          path: ci/.venv
+
+      - name: Setup Python virtual environment and dependencies
+        working-directory: ci
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          python -m pip install -r requirements.txt
+          echo "$VIRTUAL_ENV/bin" >> $GITHUB_PATH
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ inputs.ruby-version }}
+          bundler-cache: true
+          working-directory: apps/${{ inputs.package-name }}/android
+
+      - name: Download AAB artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.package-name }}-v${{ inputs.version }}-aab
+          path: apps/${{ inputs.package-name }}/build/app/outputs/bundle/release
+
+      - name: Download debug symbols
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.package-name }}-v${{ inputs.version }}-symbols
+          path: apps/${{ inputs.package-name }}/build/app/intermediates/merged_native_libs/release/out/lib
+
+      - name: Download mapping file
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.package-name }}-v${{ inputs.version }}-mapping
+          path: apps/${{ inputs.package-name }}/build/app/outputs/mapping/release
+
+      - name: Extract secrets
+        run: python ci/local/secrets_crypt.py -p ${{ inputs.package-name }} -d $SECRETS_KEY
+
+      - name: Upload to Play Store
+        working-directory: apps/${{ inputs.package-name }}/android
+        run: bundle exec fastlane deploy_internal publish:false
