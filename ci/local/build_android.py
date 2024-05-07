@@ -1,11 +1,21 @@
+from enum import Enum
 import subprocess
 import os
 import sys
 from zipfile import ZipFile, ZIP_DEFLATED
+from ruamel.yaml import YAML
 import argparse
 
+sys.path.append(os.getcwd())
+from ci.local.common_yaml import build_yaml
 
-def setup_global_var(package_name: str):
+
+class BuildMode(Enum):
+    APK = "apk"
+    APP_BUNDLE = "appbundle"
+
+
+def setup_global_var(package_name: str, build_mode: BuildMode):
     global PROJECT_ROOT
     global BUILD_COMMAND
 
@@ -23,10 +33,12 @@ def setup_global_var(package_name: str):
         print(f"Project root not found: {PROJECT_ROOT}")
         exit(1)
 
+    build_number = get_build_number(PROJECT_ROOT)
     BUILD_COMMAND = (
-        "flutter build appbundle --obfuscate "
+        f"flutter build {build_mode.value} --obfuscate "
         "--split-debug-info=ci/build_obfuscation "
-        "--extra-gen-snapshot-options=--save-obfuscation-map=ci/build_obfuscation/app.obfuscation.map.json"
+        "--extra-gen-snapshot-options=--save-obfuscation-map=ci/build_obfuscation/app.obfuscation.map.json "
+        f"--build-number={build_number}"
     )
 
     DEBUG_SYMBOLS_DIR = os.path.join(
@@ -48,6 +60,19 @@ def setup_global_var(package_name: str):
     BUILD_OBFUSCATION_ZIP_PATH = os.path.join(
         BUILD_OBFUSCATION_DIR, BUILD_OBFUSCATION_ZIP_NAME
     )
+
+
+def get_build_number(flutter_dir: str) -> int:
+    build_info_path = os.path.join(flutter_dir, "build_info.yaml")
+    yaml = build_yaml()
+
+    if os.path.exists(build_info_path):
+        with open(build_info_path, "r") as file:
+            data = yaml.load(file)
+            return data["build_number"]
+
+    print(f"Build info file not found: {build_info_path}")
+    exit(1)
 
 
 def run_flutter_build() -> int:
@@ -129,7 +154,7 @@ def zip_obfuscation_files():
 
 
 def main():
-    print("Building app bundle...")
+    print("Building app...")
     build_result = run_flutter_build()
 
     if build_result == 0:
@@ -150,8 +175,11 @@ if __name__ == "__main__":
     parser.add_argument(
         "-p", "--package", type=str, help="Package name of the app", required=True
     )
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("--apk", action="store_true", help="Build APK")
+    group.add_argument("--appbundle", action="store_true", help="Build app bundle")
 
     args = parser.parse_args()
-    setup_global_var(args.package)
+    setup_global_var(args.package, BuildMode.APK if args.apk else BuildMode.APP_BUNDLE)
 
     main()

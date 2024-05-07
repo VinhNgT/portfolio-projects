@@ -19,5 +19,5 @@ scripts:
     # Make sure to use the python executable from the virtual environment
     # .\ci\.venv\Scripts\activate
     steps:
-      - python ci/global/update_apps_build_number.py
+      - python ci/global/upd_apps_build_num.py
       - git add *build_info.yaml *pubspec.yaml

@@ -1,7 +1,10 @@
-from ruamel.yaml import YAML
+import sys
 from ruamel.yaml.comments import CommentedMap
 import os
 from git import Repo
+
+sys.path.append(os.getcwd())
+from ci.local.common_yaml import build_yaml
 
 
 # When melos gives packages a new version, the pubspec.yaml files of them will be updated.
@@ -48,37 +51,10 @@ def increase_build_number(flutter_dir: str) -> int:
     return data["build_number"]
 
 
-def append_pubspec_build_number(flutter_dir: str, build_number: int):
-    pubspec_path = os.path.join(flutter_dir, "pubspec.yaml")
-    yaml = build_yaml()
-
-    with open(pubspec_path, "r") as file:
-        data = yaml.load(file)
-
-    # Assuming the version is in the format 'x.y.z+build' or 'x.y.z'
-    if "+" in data["version"]:
-        version_data, _ = data["version"].split("+")
-    else:
-        version_data = data["version"]
-
-    data["version"] = f"{version_data}+{build_number}"
-
-    with open(pubspec_path, "w") as file:
-        yaml.dump(data, file)
-
-
-def build_yaml() -> YAML:
-    yaml = YAML()
-    yaml.preserve_quotes = True
-    yaml.indent(mapping=2, sequence=4, offset=2)
-    return yaml
-
-
 def main():
     flutter_dir_list = flutter_project_dir_with_new_version()
     for flutter_dir in flutter_dir_list:
         new_build_number = increase_build_number(flutter_dir)
-        append_pubspec_build_number(flutter_dir, new_build_number)
 
     if len(flutter_dir_list) > 0:
         print("Increased the build number of the following apps:")

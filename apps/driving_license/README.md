@@ -185,7 +185,7 @@ melos version -a -g
 Sau khi chuẩn bị key upload xong, xây dựng app bằng lệnh:
 
 ```powershell
-melos exec --flutter --scope=<package_glob1> --scope=<package_glob2> -- "cd ci/local && python build_app_bundle.py"
+melos exec --flutter --scope=<package_glob1> --scope=<package_glob2> -- "cd ci/local && python build_android.py --appbundle"
 ```
 
 Với `<package_glob1>` và `<package_glob2>` là glob pattern của app project mình muốn build. File AAB sẽ được build và sign bằng key mình vừa cung cấp.
@@ -196,13 +196,13 @@ Với `<package_glob1>` và `<package_glob2>` là glob pattern của app project
 Ví dụ bạn muốn build app `driving_license`, chạy lệnh:
 
 ```powershell
-melos exec --flutter --scope=*driving_license* -- "cd ci/local && python build_app_bundle.py"
+melos exec --flutter --scope=*driving_license* -- "cd ci/local && python build_android.py --appbundle"
 ```
 
 Hoặc để build tất cả các app trong monorepo, chạy:
 
 ```powershell
-melos exec --flutter -- "cd ci/local && python build_app_bundle.py"
+melos exec --flutter -- "cd ci/local && python build_android.py --appbundle"
 ```
 
 ### fastlane
@@ -256,7 +256,7 @@ Sau khi cấu hình xong Melos và fastlane, mỗi lần bạn cần upload mộ
 melos version -a -p
 
 # Build và sign app bằng upload key
-melos exec --flutter --scope=*driving_license* -- "cd ci/local && python build_app_bundle.py"
+melos exec --flutter --scope=*driving_license* -- "cd ci/local && python build_android.py --appbundle"
 
 # Upload kết quả
 melos exec --flutter --scope=*driving_license* -- "cd android && bundle exec fastlane deploy_internal publish:true"

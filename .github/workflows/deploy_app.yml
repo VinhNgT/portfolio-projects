@@ -10,8 +10,7 @@ jobs:
   print-github-context:
     runs-on: ubuntu-latest
     steps:
-      - name: Print GitHub context
-        env:
+      - env:
           GITHUB_VAR: ${{ toJson(github) }}
         run: echo "$GITHUB_VAR"
 
@@ -63,7 +62,7 @@ jobs:
       package-name: ${{ needs.get-variables.outputs.package_name }}
       version: ${{ needs.get-variables.outputs.version }}
       flutter-sdk-version: 3.19.6
-      android-sdk-version: 10406996
+      android-cmd-version: 10406996
       java-version: 17
       python-version: 3.12.3
       should-install-android-sdk: false
