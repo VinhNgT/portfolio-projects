@@ -34,7 +34,7 @@ platform :android do
     upload_to_play_store(
         validate_only: !publish,
         track: 'internal',
-        release_status: 'draft',
+        # release_status: 'draft',
         skip_upload_images: true,
         skip_upload_screenshots: true,
         aab: '../build/app/outputs/bundle/release/app-release.aab',
@@ -49,11 +49,11 @@ platform :android do
   lane :deploy_release_candidate do |options|
     publish = get_publish_par(options)
 
-    # Deploy the current bundle to the internal track in the Google Play.
+    # Deploy the current bundle to the RC track in the Google Play.
     upload_to_play_store(
         validate_only: !publish,
         track: 'Release Candidate',
-        release_status: 'draft',
+        # release_status: 'draft',
         skip_upload_images: true,
         skip_upload_screenshots: true,
         aab: '../build/app/outputs/bundle/release/app-release.aab',
