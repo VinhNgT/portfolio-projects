@@ -79,4 +79,4 @@ jobs:
 
       - name: Upload to Play Store
         working-directory: apps/${{ inputs.package-name }}/android
-        run: bundle exec fastlane deploy_internal publish:false
+        run: bundle exec fastlane deploy_internal publish:true
