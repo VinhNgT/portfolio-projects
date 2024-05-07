@@ -10,7 +10,7 @@
 - Navigate to this folder:
 
   ```cmd
-  cd F:\Flutter\portfolio_projects\apps\driving_license\ci
+  cd F:\projects\Flutter\portfolio_projects\apps\driving_license\ci
   ```
 
 - Create link:

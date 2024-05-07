@@ -2,7 +2,6 @@ import subprocess
 import os
 import sys
 from zipfile import ZipFile, ZIP_DEFLATED
-import hashlib
 import argparse
 
 
