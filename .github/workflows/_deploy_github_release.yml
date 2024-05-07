@@ -1,0 +1,80 @@
+name: Create GitHub release
+run-name: Create GitHub release ${{ inputs.package-name }}-v${{ inputs.version }}
+
+on:
+  workflow_call:
+    inputs:
+      package-name:
+        type: string
+        required: true
+
+      version:
+        type: string
+        required: true
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read build number
+        id: read_build_number
+        uses: mikefarah/yq@v4
+        with:
+          cmd: yq '.build_number' apps/${{ inputs.package-name }}/build_info.yaml
+
+      - name: Get changelog file path
+        id: get_changelog_file_path
+        run: |
+          if [ -f "apps/${{ inputs.package-name }}/android/fastlane/metadata/android/vi/changelogs/${{ steps.read_build_number.outputs.result }}.txt" ]; then
+            CHANGELOG_FILE="apps/${{ inputs.package-name }}/android/fastlane/metadata/android/vi/changelogs/${{ steps.read_build_number.outputs.result }}.txt"
+          fi
+
+          echo "CHANGELOG_FILE=$CHANGELOG_FILE" >> $GITHUB_OUTPUT
+
+      - name: Download APK artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.package-name }}-v${{ inputs.version }}-apk
+          path: apps/${{ inputs.package-name }}/build/app/outputs/flutter-apk
+
+      - name: Download AAB artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.package-name }}-v${{ inputs.version }}-aab
+          path: apps/${{ inputs.package-name }}/build/app/outputs/bundle/release
+
+      - name: Download debug symbols
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.package-name }}-v${{ inputs.version }}-symbols
+          path: apps/${{ inputs.package-name }}/build/app/intermediates/merged_native_libs/release/out/lib
+
+      - name: Download mapping file
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.package-name }}-v${{ inputs.version }}-mapping
+          path: apps/${{ inputs.package-name }}/build/app/outputs/mapping/release
+
+      - name: Download obfuscation files
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.package-name }}-v${{ inputs.version }}-obfuscation
+          path: apps/${{ inputs.package-name }}/ci/build_obfuscation
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            apps/${{ inputs.package-name }}/build/app/outputs/flutter-apk/app-release.apk
+            apps/${{ inputs.package-name }}/build/app/outputs/bundle/release/app-release.aab
+            apps/${{ inputs.package-name }}/build/app/intermediates/merged_native_libs/release/out/lib/native-debug-symbols.zip
+            apps/${{ inputs.package-name }}/build/app/outputs/mapping/release/mapping.txt
+            apps/${{ inputs.package-name }}/ci/build_obfuscation/obfuscation.zip
+
+          fail_on_unmatched_files: true
+          body_path: ${{ steps.get_changelog_file_path.outputs.CHANGELOG_FILE }}
+          generate_release_notes: true
+          prerelease: ${{ contains(inputs.version, '-dev.') }}
+          make_latest: ${{ !contains(inputs.version, '-dev.') }}

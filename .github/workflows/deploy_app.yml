@@ -79,3 +79,13 @@ jobs:
       version: ${{ needs.get-variables.outputs.version }}
       ruby-version: 3.2.4
       python-version: 3.12.3
+
+  deploy-github-release:
+    needs:
+      - get-variables
+      - build-android
+    uses: ./.github/workflows/_deploy_github_release.yml
+    secrets: inherit
+    with:
+      package-name: ${{ needs.get-variables.outputs.package_name }}
+      version: ${{ needs.get-variables.outputs.version }}
