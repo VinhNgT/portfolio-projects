@@ -19,7 +19,7 @@ jobs:
     outputs:
       package_name: ${{ steps.get_tag_info.outputs.PACKAGE_NAME }}
       version: ${{ steps.get_tag_info.outputs.VERSION }}
-      is_app: ${{ steps.check_if_app.outputs.IS_APP }}
+      is_app: ${{ steps.check_is_app.outputs.IS_APP }}
 
     steps:
       - name: Get package name and version from tag
@@ -45,7 +45,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Check if package is an app (existing in apps/folder)
-        id: check_if_app
+        id: check_is_app
         env:
           PACKAGE_NAME: ${{ steps.get_tag_info.outputs.PACKAGE_NAME }}
         run: |
@@ -65,13 +65,13 @@ jobs:
       android-cmd-version: 10406996
       java-version: 17
       python-version: 3.12.3
-      should-install-android-sdk: false
+      should-setup-android-sdk: ${{ vars.SHOULD_SETUP_ANDROID_SDK == 'true' }} # Cast from string to boolean
 
-  deploy-play-store:
+  deploy-playstore:
     needs:
       - get-variables
       - build-android
-    uses: ./.github/workflows/_deploy_play_store.yml
+    uses: ./.github/workflows/_deploy_playstore.yml
     secrets: inherit
     with:
       package-name: ${{ needs.get-variables.outputs.package_name }}
@@ -80,6 +80,7 @@ jobs:
       python-version: 3.12.3
 
   deploy-github-release:
+    if: ${{ vars.CREATE_GITHUB_RELEASE == 'true' }}
     needs:
       - get-variables
       - build-android

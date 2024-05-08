@@ -28,12 +28,32 @@ on:
         type: string
         required: true
 
-      should-install-android-sdk:
+      should-setup-android-sdk:
         type: boolean
         default: true
 
 jobs:
+  check-build-exist:
+    runs-on: ubuntu-latest
+    outputs:
+      build-exist: ${{ steps.check_build_exist.outputs.BUILD_EXIST }}
+
+    steps:
+      - name: Test download build info artifact
+        id: test_download_build_info
+        continue-on-error: true
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.package-name }}-v${{ inputs.version }}-build-info
+          path: apps/${{ inputs.package-name }}
+
+      - name: Check if build info artifact exists
+        id: check_build_exist
+        run: echo "BUILD_EXIST=${{ steps.test_download_build_info.outcome == 'success' }}" >> $GITHUB_OUTPUT
+
   build-android:
+    needs: check-build-exist
+    if: ${{ needs.check-build-exist.outputs.build-exist != 'true' }}
     runs-on: ubuntu-latest
     env:
       SECRETS_KEY: ${{ secrets[format('{0}_secrets_key', inputs.package-name)] }}
@@ -83,14 +103,14 @@ jobs:
         run: flutter pub get
 
       - name: Cache Android SDK
-        if: ${{ inputs.should-install-android-sdk }}
+        if: ${{ inputs.should-setup-android-sdk }}
         uses: actions/cache@v2
         with:
           path: ~/.android/sdk
           key: setup-${{ runner.os }}-android-sdk-${{ inputs.android-cmd-version }}-revision-0
 
       - name: Setup Android SDK
-        if: ${{ inputs.should-install-android-sdk }}
+        if: ${{ inputs.should-setup-android-sdk }}
         uses: android-actions/setup-android@v3
         with:
           log-accepted-android-sdk-licenses: false
@@ -134,3 +154,9 @@ jobs:
         with:
           name: ${{ inputs.package-name }}-v${{ inputs.version }}-obfuscation
           path: apps/${{ inputs.package-name }}/ci/build_obfuscation/obfuscation.zip
+
+      - name: Upload build info
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ inputs.package-name }}-v${{ inputs.version }}-build-info
+          path: apps/${{ inputs.package-name }}/build_info.yaml

@@ -25,6 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SECRETS_KEY: ${{ secrets[format('{0}_secrets_key', inputs.package-name)] }}
+      EXCEPTION: "None"
 
     steps:
       - uses: actions/checkout@v4
@@ -79,4 +80,25 @@ jobs:
 
       - name: Upload to Play Store
         working-directory: apps/${{ inputs.package-name }}/android
-        run: bundle exec fastlane deploy_internal publish:true
+        run: bundle exec fastlane deploy_internal publish:${{ vars.PLAYSTORE_DRY_RUN != 'true' }}
+
+      - name: Notify Telegram job status
+        uses: appleboy/telegram-action@v0.1.1
+        if: ${{ !cancelled() }}
+        with:
+          to: ${{ vars.TELEGRAM_CICD_CHANNEL_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          format: html
+          message: |
+            Actor: ${{ github.actor }}
+
+            <b>Play Store deployment job status:</b>
+            <pre>Package name: ${{ inputs.package-name }}
+            Version: ${{ inputs.version }}
+            Status: ${{ job.status }}</pre>
+
+            <b>Exception:</b>
+            <pre>${{ env.EXCEPTION }}</pre>
+
+            <b>Commit:</b>
+            <a href="${{ github.event.head_commit.url }}">${{ github.sha }}</a>
