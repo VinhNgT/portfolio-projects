@@ -1,10 +1,23 @@
+![Feature Graphic](android/fastlane/metadata/android/vi/images/featureGraphic.png)
+
 # Drive Ready
 
-Ứng dụng ôn tập lý thuyết cho các loại giấy phép lái xe hạng A, B
+Ứng dụng di động giúp người dùng ôn tập kiến thức lý thuyết để chuẩn bị cho kỳ thi giấy phép lái xe hạng A và B. Cung cấp các câu hỏi trắc nghiệm và tài liệu học để người dùng có thể nắm vững kiến thức cần thiết.
 
-## Giới thiệu
+![GitHub stable release](https://img.shields.io/github/v/release/VinhNgT/portfolio_projects?filter=driving_license*&style=flat-square&label=stable%20release&logo=googleplay)
+![GitHub latest release](https://img.shields.io/github/v/release/VinhNgT/portfolio_projects?include_prereleases&filter=driving_license*&style=flat-square&label=latest%20release&logo=github)
 
-Drive Ready là một ứng dụng di động giúp người dùng ôn tập kiến thức lý thuyết để chuẩn bị cho kỳ thi giấy phép lái xe hạng A và B. Ứng dụng cung cấp các câu hỏi trắc nghiệm và tài liệu học để người dùng có thể nắm vững kiến thức cần thiết.
+## Yêu cầu hệ thống
+
+Để chạy và phát triển ứng dụng, bạn cần đáp ứng các yêu cầu hệ thống sau:
+
+- [Flutter SDK 3.2.6](https://docs.flutter.dev/release/archive) trở lên.
+- Đã cài đặt [Python 3.12.3](https://www.python.org/downloads/) trở lên.
+- (Windows) Sử dụng [PowerShell 7.0](https://learn.microsoft.com/en-us/powershell/scripting/whats-new/) trở lên.
+- (Windows) Đã cài đặt [Ruby+Devkit 3.2.4-1](https://rubyinstaller.org/downloads/) trở lên.
+- ~~(Windows) Đã cài đặt [Gpg4win 4.3.1](https://www.gpg4win.org/get-gpg4win.html) trở lên.~~
+- Android Studio hoặc IntelliJ IDEA / VS Code với plugin Flutter.
+- Thiết bị Android hoặc máy ảo Android để chạy ứng dụng.
 
 ## Cài đặt
 
@@ -14,14 +27,6 @@ Drive Ready là một ứng dụng di động giúp người dùng ôn tập ki�
 2. Mở terminal và di chuyển đến thư mục chứa mã nguồn của ứng dụng.
 3. Chạy lệnh `flutter pub get` để cài đặt các phụ thuộc cần thiết.
 4. Chạy lệnh `flutter run` để khởi chạy ứng dụng trên thiết bị hoặc máy ảo.
-
-## Yêu cầu hệ thống
-
-Để chạy ứng dụng, bạn cần có các yêu cầu hệ thống sau:
-
-- Flutter SDK phiên bản 3.2.6 trở lên.
-- Android Studio hoặc IntelliJ IDEA / VS Code với plugin Flutter.
-- Thiết bị Android hoặc máy ảo Android để chạy ứng dụng.
 
 ## Xây dựng từ mã nguồn thành APK
 
@@ -113,7 +118,7 @@ Nếu bạn muốn xây dựng ứng dụng từ mã nguồn, làm theo các bư
 
 - Không nắm bắt được `version` của ứng dụng phải là giá trị gì.
 
-  => Dẫn đến conflict version với các package, ứng dụng khác trong monorepo, hoặc mặc dù source code ứng dụng không thay đổi nhưng người thực hiện không biết và tiếp tục tiến hành build version mới.
+  => Dẫn đến conflict version với các package, ứng dụng khác trong monorepo, hoặc mặc dù source code ứng dụng không thay đổi nhưng người thực hiện có thể không biết và tiếp tục tiến hành build version mới.
 
 - Chọn sai `--build-number`.
 
@@ -125,25 +130,19 @@ Nếu bạn muốn xây dựng ứng dụng từ mã nguồn, làm theo các bư
 
 - Upload nhầm file ABB, mapping hoặc native-debug-symbols.zip.
 
-  => Gây lỗi ứng dụng, phải upload lại đúng file.
+  => Gây lỗi ứng dụng hoặc mất khả năng debug, phải upload lại đúng file.
 
 - ...
 
-Bởi vậy để khắc phục các pain point trên, dự án sử dụng 2 công cụ Melos và fastlane để tự động hoá toàn bộ quá trình này.
+Các pain point trên có thể gây lãng phí rất nhiều thời gian, đặc biệt nếu người thực hiện chỉ là dev thuần không có kinh nghiệm publish app, bởi vậy dự án đã cấu hình 2 công cụ Melos và fastlane, cùng với các script Python hỗ trợ để tự động hoá toàn bộ quá trình này.
 
 </details>
 
-### Yêu cầu hệ thống
+### Tự động quá trình chuẩn bị phiên bản mới của app
 
-- Đã cài đặt [python 3.12.3](https://www.python.org/downloads/) trở lên.
-- (Windows) Sử dụng [powershell 7.0](https://learn.microsoft.com/en-us/powershell/scripting/whats-new/) trở lên.
-- (Windows) Đã cài đặt [Ruby+Devkit 3.2.4-1](https://rubyinstaller.org/downloads/) trở lên.
+#### Tạo version mới bằng Melos
 
-### Melos
-
-#### Tạo version mới
-
-Sử dụng Melos để tự động update trường `version` tron `pubspec.yaml` của ứng dụng này và tất cả các package khác trong monorepo.
+Sử dụng Melos để tự động update trường `version` tron `pubspec.yaml` của ứng dụng này và tất cả các package khác trong monorepo theo tiêu chuẩn [Semantic Versioning](https://semver.org/).
 
 Sau mỗi lần sprint, chạy lệnh sau để Melos rà soát tất cả các commit trên monorepo:
 
@@ -180,34 +179,42 @@ melos version -a -g
   storeFile=keys/upload-keystore.jks
   ```
 
+#### Cài đặt các Python dependency
+
+Tại thư mục root của monorepo, chạy các lệnh sau để thiết lập môi trường Python:
+
+```powershell
+python -m venv ci/.venv
+
+# (Windows - Powershell)
+ci/.venv/Scripts/Activate.ps1
+
+# (Linux - bash)
+# source ci/.venv/bin/activate
+
+python -m pip install -r ci/requirements.txt
+```
+
 #### Xây dựng và sign app
 
 Sau khi chuẩn bị key upload xong, xây dựng app bằng lệnh:
 
 ```powershell
-melos exec --flutter --scope=<package_glob1> --scope=<package_glob2> -- "cd ci/local && python build_android.py --appbundle"
+python ci/local/build_android.py -p <package_name> --appbundle
 ```
 
-Với `<package_glob1>` và `<package_glob2>` là glob pattern của app project mình muốn build. File AAB sẽ được build và sign bằng key mình vừa cung cấp.
+Với `<package_name>` là app mình muốn build. File AAB sẽ được build và sign bằng key mình vừa cung cấp.
 
 > [!NOTE]
-> Kết quả build nằm trong folder `ci` tại mỗi thư mục project để bạn dễ dàng truy cập, không được xoá bất cứ thứ gì trong này do có chứa các symbolic link.
+> Kết quả build nằm trong folder `ci` tại mỗi thư mục app để bạn dễ dàng truy cập, không được xoá bất cứ thứ gì trong này do có chứa các symbolic link.
 
 Ví dụ bạn muốn build app `driving_license`, chạy lệnh:
 
 ```powershell
-melos exec --flutter --scope=*driving_license* -- "cd ci/local && python build_android.py --appbundle"
+python ci/local/build_android.py -p driving_license --appbundle
 ```
 
-Hoặc để build tất cả các app trong monorepo, chạy:
-
-```powershell
-melos exec --flutter -- "cd ci/local && python build_android.py --appbundle"
-```
-
-### fastlane
-
-fastlane giúp việc upload các app đã được build lên Play Store dễ dàng hơn, có 2 cách để sử dụng là chạy trên máy local hoặc chạy trên cloud (GitHub Actions).
+### Tự động phát hành lên Google Play Store bằng fastlane
 
 #### Cài đặt môi trường
 
@@ -249,14 +256,14 @@ melos exec --flutter --scope=*driving_license* -- "cd android && bundle exec fas
 
 #### Kết luận:
 
-Sau khi cấu hình xong Melos và fastlane, mỗi lần bạn cần upload một phiên bản mới lên Play Store, chỉ cần phải chạy 3 lệnh:
+Sau khi cấu hình xong, mỗi lần bạn cần upload một phiên bản mới lên Play Store, chỉ cần phải chạy 3 lệnh:
 
 ```powershell
 # Generate version mới
 melos version -a -p
 
 # Build và sign app bằng upload key
-melos exec --flutter --scope=*driving_license* -- "cd ci/local && python build_android.py --appbundle"
+python ci/local/build_android.py -p driving_license --appbundle
 
 # Upload kết quả
 melos exec --flutter --scope=*driving_license* -- "cd android && bundle exec fastlane deploy_internal publish:true"
@@ -264,28 +271,22 @@ melos exec --flutter --scope=*driving_license* -- "cd android && bundle exec fas
 
 ## CI/CD với Github Actions
 
-### Yêu cầu hệ thống
-
-- Đã cài đặt [python 3.12.3](https://www.python.org/downloads/) trở lên.
-- (Windows) Sử dụng [powershell 7.0](https://learn.microsoft.com/en-us/powershell/scripting/whats-new/) trở lên.
-- ~~(Windows) Đã cài đặt [Gpg4win 4.3.1](https://www.gpg4win.org/get-gpg4win.html) trở lên.~~
-
 ### Mã hoá các secret để hệ thống CI/CD sử dụng
 
-Để đảm bảo an toàn bảo mật thông tin, KHÔNG ĐƯỢC thêm các file và folder nhạy cảm này vào git:
+Để đảm bảo an toàn bảo mật thông tin, KHÔNG ĐƯỢC thêm các file và folder nhạy cảm này trong thư mục project app vào git:
 
 - `android/key.properties`
 - `keys/`
 - `secrets.zip` (nếu có)
 
-Ta cần phải mã hoá chúng trước rồi mới thêm vào git, hệ thống CI/CD sẽ tự động giải mã mỗi lần sử dụng.
+Ta cần phải mã hoá chúng trước rồi mới được thêm vào, hệ thống CI/CD sẽ tự động giải mã mỗi lần sử dụng.
 
 #### Mã hoá GPG
 
 Chạy lệnh sau để mã hoá các secret của app:
 
 ```powershell
-melos exec --flutter --scope=*driving_license* -- "cd ci/local && python secrets_crypt.py -e"
+python ci/local/secrets_crypt.py -p driving_license -e
 ```
 
 Kết quả in ra trong console:
@@ -295,7 +296,7 @@ Encrypting with auto-generated password: <password>
 Secrets encrypted successfully. Encrypted file in: ci/secrets.gpg
 ```
 
-Lưu ý phần `<password>`, thêm nó vào danh sách các secret của repository của bạn, xem [hướng dẫn](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions?tool=webui#creating-secrets-for-a-repository).
+Lưu ý phần `<password>`, thêm nó vào danh sách các secret của repository của bạn với key `DRIVING_LICENSE_SECRETS_KEY`, xem [hướng dẫn](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions?tool=webui#creating-secrets-for-a-repository).
 
 Bạn có thể an toàn commit file `secrets.gpg` vào git, vì nó đã được mã hoá bằng password 64 ký tự, [bruteforce đằng trời](https://github.com/VinhNgT/imagehost/blob/main/brute_pic.png?raw=true).
 
@@ -307,12 +308,12 @@ Tạo version mới với lệnh sau:
 melos version -a -p
 ```
 
-Sau đó commit và push/merge lên nhánh main của ứng dụng, hệ thống Github Actions sẽ phân tích các ứng dụng đã được cập nhật source code mới và tự động upload lên track internal của Google Play.
+Sau đó commit và push với `git push --follow-tags`, hệ thống Github Actions sẽ phân tích các ứng dụng đã được cập nhật source code mới và tự động build, test và upload lên track internal của Google Play.
 
-Cuối cùng vào trang web quản trị của ứng dụng trên Google Play Console, vào `Internal testing`, điền các thông tin cần thiết (Changelog) rồi publish ứng dụng.
+Cuối cùng vào trang web quản trị của ứng dụng trên Google Play Console, vào `Internal testing`, điền các thông tin cần thiết (Changelog) cho ứng dụng.
 
 Sau khi publish xong có thể chuyển sang track production hoặc beta/rc tuỳ yêu cầu thực tế.
 
 ## Liên hệ
 
-Nếu bạn có bất kỳ câu hỏi hoặc góp ý nào, hãy liên hệ với tôi qua email: victorpublic0000@gmail.com
+Nếu bạn có bất kỳ câu hỏi hay góp ý nào, hãy liên hệ với tôi qua email: victorpublic0000@gmail.com
