@@ -5,8 +5,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'exams_repository.g.dart';
 
-typedef ExamsMap = Map<int, Exam>;
-
 abstract interface class ExamsRepository {
   FutureOr<void> saveExam(Exam exam);
   FutureOr<void> deleteExam(Exam exam);
