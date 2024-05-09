@@ -65,25 +65,27 @@ class HomeScreen extends HookConsumerWidget {
             scrollController: scrollController,
             child: SingleChildScrollView(
               controller: scrollController,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: kSize_16,
-                  right: kSize_16,
-                  top: kSize_4,
-                  bottom: kSize_48,
-                ),
-                child: NotifyScrollSizeChanges(
-                  scrollController: scrollController,
-                  child: const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // DonateCard(),
-                      DonateCardTemp(),
-                      kGap_20,
-                      FeatureSelection(),
-                      kGap_32,
-                      ChapterSelection(),
-                    ],
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: kSize_16,
+                    right: kSize_16,
+                    top: kSize_4,
+                    bottom: kSize_48,
+                  ),
+                  child: NotifyScrollSizeChanges(
+                    scrollController: scrollController,
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // DonateCard(),
+                        DonateCardTemp(),
+                        kGap_20,
+                        FeatureSelection(),
+                        kGap_32,
+                        ChapterSelection(),
+                      ],
+                    ),
                   ),
                 ),
               ),

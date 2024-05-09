@@ -32,35 +32,37 @@ class LicenseSelectionScreen extends HookConsumerWidget {
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: kSize_16,
-            right: kSize_16,
-            bottom: kSize_48,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Gap(context.statusBarHeight + 96),
-              Text(
-                'Chọn loại bằng lái',
-                style: context.textTheme.headlineMedium,
-              ),
-              const Gap(28),
-              LicenseSelection(
-                onLicenseSelected: (license) async {
-                  await ref
-                      .read(userSelectedLicenseProvider.notifier)
-                      .selectLicense(license);
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: kSize_16,
+              right: kSize_16,
+              bottom: kSize_48,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Gap(context.statusBarHeight + 96),
+                Text(
+                  'Chọn loại bằng lái',
+                  style: context.textTheme.headlineMedium,
+                ),
+                const Gap(28),
+                LicenseSelection(
+                  onLicenseSelected: (license) async {
+                    await ref
+                        .read(userSelectedLicenseProvider.notifier)
+                        .selectLicense(license);
 
-                  afterLicenseSelected?.call();
-                  if (navigateToHomeAfterLicenseSelected && context.mounted) {
-                    await context.navigateTo(const HomeRoute());
-                  }
-                },
-              ),
-            ],
+                    afterLicenseSelected?.call();
+                    if (navigateToHomeAfterLicenseSelected && context.mounted) {
+                      await context.navigateTo(const HomeRoute());
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

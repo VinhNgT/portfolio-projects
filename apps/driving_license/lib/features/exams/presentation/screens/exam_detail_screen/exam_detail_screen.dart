@@ -23,65 +23,67 @@ class ExamDetailScreen extends HookConsumerWidget {
         title: Text(exam.name),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 42),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Bài thi giấy phép lái xe hạng ${exam.licenseType}',
-                style: context.textTheme.titleLarge,
-              ),
-              kGap_16,
-              Text(
-                '${exam.questionDbIndexes.length} câu hỏi - '
-                '${exam.examDuration.inMinutes} phút',
-                style: context.textTheme.bodyMedium!.copyWith(
-                  color: context.materialScheme.onSurfaceVariant,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 42),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Bài thi giấy phép lái xe hạng ${exam.licenseType}',
+                  style: context.textTheme.titleLarge,
                 ),
-              ),
-              kGap_4,
-              Text(
-                'Điều kiện đỗ: Đúng tối thiểu ${exam.minimumPassingScore} '
-                '/ ${exam.questionDbIndexes.length} câu và không sai câu điểm liệt',
-                style: context.textTheme.bodyMedium!.copyWith(
-                  color: context.materialScheme.onSurfaceVariant,
+                kGap_16,
+                Text(
+                  '${exam.questionDbIndexes.length} câu hỏi - '
+                  '${exam.examDuration.inMinutes} phút',
+                  style: context.textTheme.bodyMedium!.copyWith(
+                    color: context.materialScheme.onSurfaceVariant,
+                  ),
                 ),
-              ),
-              kGap_24,
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  onPressed: () async {
-                    ref
-                        .read(questionsServiceControllerProvider.notifier)
-                        .setupExamQuestions(exam);
+                kGap_4,
+                Text(
+                  'Điều kiện đỗ: Đúng tối thiểu ${exam.minimumPassingScore} '
+                  '/ ${exam.questionDbIndexes.length} câu và không sai câu điểm liệt',
+                  style: context.textTheme.bodyMedium!.copyWith(
+                    color: context.materialScheme.onSurfaceVariant,
+                  ),
+                ),
+                kGap_24,
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton(
+                    onPressed: () async {
+                      ref
+                          .read(questionsServiceControllerProvider.notifier)
+                          .setupExamQuestions(exam);
 
-                    await context.navigateTo(QuestionRoute());
-                  },
-                  child: const Text('Bắt đầu làm bài thi'),
+                      await context.navigateTo(QuestionRoute());
+                    },
+                    child: const Text('Bắt đầu làm bài thi'),
+                  ),
                 ),
-              ),
-              kGap_24,
-              Text(
-                'Ngày tạo bộ câu hỏi: '
-                '${DateTimeFormatter.formatLocalTimeDay(exam.createdUtcTime)}',
-                style: context.textTheme.bodyMedium!.copyWith(
-                  color: context.materialScheme.onSurfaceVariant,
+                kGap_24,
+                Text(
+                  'Ngày tạo bộ câu hỏi: '
+                  '${DateTimeFormatter.formatLocalTimeDay(exam.createdUtcTime)}',
+                  style: context.textTheme.bodyMedium!.copyWith(
+                    color: context.materialScheme.onSurfaceVariant,
+                  ),
                 ),
-              ),
-              kGap_4,
-              Text(
-                'Lần thi gần nhất: ${_getLastAttemptedTime(exam)}',
-                style: context.textTheme.bodyMedium!.copyWith(
-                  color: context.materialScheme.onSurfaceVariant,
+                kGap_4,
+                Text(
+                  'Lần thi gần nhất: ${_getLastAttemptedTime(exam)}',
+                  style: context.textTheme.bodyMedium!.copyWith(
+                    color: context.materialScheme.onSurfaceVariant,
+                  ),
                 ),
-              ),
-              kGap_24,
-              const Divider(),
-              kGap_24,
-              _ExamStructure(exam: exam),
-            ],
+                kGap_24,
+                const Divider(),
+                kGap_24,
+                _ExamStructure(exam: exam),
+              ],
+            ),
           ),
         ),
       ),

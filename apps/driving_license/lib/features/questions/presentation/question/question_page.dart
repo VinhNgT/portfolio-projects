@@ -54,40 +54,42 @@ class QuestionPage extends HookConsumerWidget {
           },
           child: SingleChildScrollView(
             controller: scrollController,
-            child: Padding(
-              padding: padding,
-              child: NotifyScrollSizeChanges(
-                scrollController: scrollController,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: double.infinity,
-                      child: Text(
-                        questionValue.title,
-                        style: context.textTheme.titleMedium,
+            child: SafeArea(
+              child: Padding(
+                padding: padding,
+                child: NotifyScrollSizeChanges(
+                  scrollController: scrollController,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          questionValue.title,
+                          style: context.textTheme.titleMedium,
+                        ),
                       ),
-                    ),
-                    if (questionValue.questionImagePath != null) ...[
-                      kGap_12,
-                      Image.asset(questionValue.questionImagePath!),
-                      kGap_8,
+                      if (questionValue.questionImagePath != null) ...[
+                        kGap_12,
+                        Image.asset(questionValue.questionImagePath!),
+                        kGap_8,
+                      ],
+                      kGap_16,
+                      showRightWrong
+                          ? AnswerCardList.showRightWrong(
+                              question: questionValue,
+                              allowInteraction: allowAnswering,
+                            )
+                          : AnswerCardList.showSelected(
+                              question: questionValue,
+                              allowInteraction: allowAnswering,
+                            ),
+                      if (showNotes)
+                        _QuestionNotesVisibility(
+                          questionPageIndex: questionPageIndex,
+                          question: questionValue,
+                        ),
                     ],
-                    kGap_16,
-                    showRightWrong
-                        ? AnswerCardList.showRightWrong(
-                            question: questionValue,
-                            allowInteraction: allowAnswering,
-                          )
-                        : AnswerCardList.showSelected(
-                            question: questionValue,
-                            allowInteraction: allowAnswering,
-                          ),
-                    if (showNotes)
-                      _QuestionNotesVisibility(
-                        questionPageIndex: questionPageIndex,
-                        question: questionValue,
-                      ),
-                  ],
+                  ),
                 ),
               ),
             ),
