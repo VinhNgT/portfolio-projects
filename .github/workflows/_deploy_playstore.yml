@@ -40,10 +40,9 @@ jobs:
         uses: actions/cache@v4
         with:
           key: venv-${{ runner.os }}-python-${{ inputs.python-version }}-${{ hashFiles('ci/requirements.txt') }}
-          path: ci/.venv
+          path: .venv
 
       - name: Setup Python virtual environment and dependencies
-        working-directory: ci
         run: |
           python -m venv .venv
           source .venv/bin/activate

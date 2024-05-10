@@ -199,13 +199,13 @@ melos version -a -g
 Tại thư mục root của monorepo, chạy các lệnh sau để thiết lập môi trường Python:
 
 ```powershell
-python -m venv ci/.venv
+python -m venv .venv
 
 # (Windows - Powershell)
-ci/.venv/Scripts/Activate.ps1
+.venv/Scripts/Activate.ps1
 
 # (Linux - bash)
-# source ci/.venv/bin/activate
+# source .venv/bin/activate
 
 python -m pip install -r ci/requirements.txt
 ```
