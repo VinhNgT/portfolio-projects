@@ -4,7 +4,7 @@ import os
 from git import Repo
 
 sys.path.append(os.getcwd())
-from ci.local.common_yaml import build_yaml
+from ci.local.common import build_yaml
 
 
 # When melos gives packages a new version, the pubspec.yaml files of them will be updated.

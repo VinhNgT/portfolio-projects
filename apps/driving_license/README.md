@@ -138,6 +138,21 @@ Các pain point trên có thể gây lãng phí rất nhiều thời gian, đặ
 
 </details>
 
+### Kích hoạt Melos
+
+Chạy lệnh sau để cài đặt Melos vào hệ thống:
+
+```powershell
+dart pub global activate melos
+```
+
+Lưu ý folder sau phải nằm trong danh sách enviroment path:
+
+```
+Linux: $HOME/.pub-cache/bin
+Windows: %LOCALAPPDATA%\Pub\Cache\bin
+```
+
 ### Tự động quá trình chuẩn bị phiên bản mới của app
 
 #### Tạo version mới bằng Melos
@@ -200,7 +215,7 @@ python -m pip install -r ci/requirements.txt
 Sau khi chuẩn bị key upload xong, xây dựng app bằng lệnh:
 
 ```powershell
-python ci/local/build_android.py -p <package_name> --appbundle
+melos run build-android-release -- -p <package_name> --appbundle
 ```
 
 Với `<package_name>` là app mình muốn build. File AAB sẽ được build và sign bằng key mình vừa cung cấp.
@@ -211,7 +226,7 @@ Với `<package_name>` là app mình muốn build. File AAB sẽ được build 
 Ví dụ bạn muốn build app `driving_license`, chạy lệnh:
 
 ```powershell
-python ci/local/build_android.py -p driving_license --appbundle
+melos run build-android-release -- -p driving_license --appbundle
 ```
 
 ### Tự động phát hành lên Google Play Store bằng fastlane
@@ -251,10 +266,16 @@ bundle update fastlane
 #### Upload app bundle lên Play Store
 
 ```powershell
-melos exec --flutter --scope=*driving_license* -- "cd android && bundle exec fastlane deploy_internal publish:true"
+melos run deploy-playstore -- -p driving_license
 ```
 
-#### Kết luận:
+Hoặc bạn ko muốn upload lên Play Store thật mà chỉ muốn chạy test:
+
+```powershell
+melos run deploy-playstore -- -p driving_license --dryrun
+```
+
+#### Tổng kết:
 
 Sau khi cấu hình xong, mỗi lần bạn cần upload một phiên bản mới lên Play Store, chỉ cần phải chạy 3 lệnh:
 
@@ -262,11 +283,11 @@ Sau khi cấu hình xong, mỗi lần bạn cần upload một phiên bản mớ
 # Generate version mới
 melos version -a -p
 
-# Build và sign app bằng upload key
-python ci/local/build_android.py -p driving_license --appbundle
+# Build và sign app
+melos run build-android-release -- -p driving_license --appbundle
 
 # Upload kết quả
-melos exec --flutter --scope=*driving_license* -- "cd android && bundle exec fastlane deploy_internal publish:true"
+melos run deploy-playstore -- -p driving_license
 ```
 
 ## CI/CD với Github Actions
@@ -286,7 +307,7 @@ Ta cần phải mã hoá chúng trước rồi mới được thêm vào, hệ t
 Chạy lệnh sau để mã hoá các secret của app:
 
 ```powershell
-python ci/local/secrets_crypt.py -p driving_license -e
+melos run secrets-crypt -- -p driving_license -e
 ```
 
 Kết quả in ra trong console:
