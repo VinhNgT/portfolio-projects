@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# case "$OSTYPE" in
+#   solaris*) echo "SOLARIS" ;;
+#   darwin*)  echo "OSX" ;;
+#   linux*)   echo "LINUX" ;;
+#   bsd*)     echo "BSD" ;;
+#   msys*)    echo "WINDOWS" ;;
+#   cygwin*)  echo "ALSO WINDOWS" ;;
+#   *)        echo "unknown: $OSTYPE" ;;
+# esac
+
+case "$OSTYPE" in
+darwin* | linux*) source .venv/bin/activate ;;
+msys* | cygwin*) source .venv/Scripts/activate ;;
+*) exit 1 ;;
+esac
+
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+SHA1=$3
+
+python .githooks/add_package_name.py "$COMMIT_MSG_FILE" "$COMMIT_SOURCE" "$SHA1"
