@@ -23,7 +23,10 @@ error do |lane, exception|
   UI.error get_package_name()
   UI.error "Error in lane #{lane}:"
   UI.error exception.message
-  sh("echo EXCEPTION=#{exception.message} >> $GITHUB_ENV")
+
+  if ENV.include?('GITHUB_ENV')
+    sh("echo EXCEPTION=#{exception.message} >> $GITHUB_ENV")
+  end
 end
 
 platform :android do
