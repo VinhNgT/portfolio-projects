@@ -14,7 +14,7 @@ import 'package:sqflite/sqflite.dart';
 
 /// This value must match the PRAGMA user_version of the database in the assets
 /// otherwise an Exception will be thrown
-const _dataBaseUserVersionConst = 3;
+const _dataBaseUserVersionConst = 4;
 
 class SqliteQuestionsRepository implements QuestionsRepository {
   final Database database;
