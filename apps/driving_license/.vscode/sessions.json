@@ -1,27 +1,26 @@
 {
   "$schema": "https://cdn.statically.io/gh/nguyenngoclongdev/cdn/main/schema/v10/terminal-keeper.json",
   "theme": "tribe",
-  "active": "driving_license",
+  "active": "default",
   "activateOnStartup": true,
   "keepExistingTerminals": false,
   "sessions": {
-    "driving_license": [
+    "default": [
       {
-        "name": "driving_license build_runner watch -d",
+        "name": "watch",
         "autoExecuteCommands": true,
         "joinOperator": ";",
+        "icon": "eye-watch",
+        "color": "terminal.ansiBlue",
         "commands": [
-          "cd .\\apps\\driving_license\\",
           "dart run build_runner watch -d"
         ]
       },
       {
-        "name": "driving_license extra terminal",
-        "autoExecuteCommands": true,
-        "joinOperator": ";",
-        "commands": [
-          "cd .\\apps\\driving_license\\"
-        ]
+        "name": "terminal",
+        "icon": "terminal",
+        "color": "terminal.ansiGreen",
+        "commands": []
       }
     ]
   }

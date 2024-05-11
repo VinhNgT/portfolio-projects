@@ -21,26 +21,6 @@
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}",
       "purpose": ["debug-in-terminal"]
-    },
-    {
-      "name": "driving_license",
-      "cwd": "apps\\driving_license",
-      "request": "launch",
-      "type": "dart"
-    },
-    {
-      "name": "driving_license (profile mode)",
-      "cwd": "apps\\driving_license",
-      "request": "launch",
-      "type": "dart",
-      "flutterMode": "profile"
-    },
-    {
-      "name": "driving_license (release mode)",
-      "cwd": "apps\\driving_license",
-      "request": "launch",
-      "type": "dart",
-      "flutterMode": "release"
     }
   ]
 }
