@@ -26,14 +26,7 @@
 1. Clone repository này về máy của bạn.
 2. Mở terminal và di chuyển đến thư mục chứa mã nguồn của ứng dụng.
 3. Chạy lệnh `flutter pub get` để cài đặt các phụ thuộc cần thiết.
-4. Chạy lệnh `flutter run` để khởi chạy ứng dụng trên thiết bị hoặc máy ảo.
-
-## Xây dựng từ mã nguồn thành APK
-
-Nếu bạn muốn xây dựng ứng dụng từ mã nguồn, làm theo các bước sau:
-
-1. Mở terminal và di chuyển đến thư mục chứa mã nguồn của ứng dụng.
-2. Chạy lệnh `flutter build apk` để xây dựng ứng dụng thành file app APK.
+4. Chạy lệnh `flutter run --release --flavor dev` để khởi chạy ứng dụng trên thiết bị hoặc máy ảo hoặc `flutter build apk --release --flavor dev` để xây dựng ứng dụng thành file app APK.
 
 ## Xây dựng từ mã nguồn để phát hành trên Play Store
 
@@ -66,7 +59,7 @@ Nếu bạn muốn xây dựng ứng dụng từ mã nguồn, làm theo các bư
 - Xây dựng ứng dụng thành file app bundle:
 
   ```powershell
-  flutter build appbundle --obfuscate --split-debug-info=build_obfuscation --extra-gen-snapshot-options=--save-obfuscation-map=build_obfuscation/app.obfuscation.map.json --build-number=1
+  flutter build appbundle --flavor prod --obfuscate --split-debug-info=build_obfuscation --extra-gen-snapshot-options=--save-obfuscation-map=build_obfuscation/app.obfuscation.map.json --build-number=1
   ```
 
   Giá trị `--build-number` phải lớn hơn tất cả các `versionCode` đang có sẵn trên Play Store, nếu không lúc upload sẽ bị reject. Ở ví dụ này Play Store chưa có upload nào cả (đây là lần upload đầu tiên), nên đặt giá trị là `1`.
@@ -75,15 +68,15 @@ Nếu bạn muốn xây dựng ứng dụng từ mã nguồn, làm theo các bư
 
   - Kết quả app bundle tại đường dẫn:
 
-    `apps/driving_license/build/app/outputs/bundle/release/app-release.aab`
+    `apps/driving_license/build/app/outputs/bundle/prodRelease/app-prod-release.aab`
 
   - File mapping.txt, upload file này kèm app bundle lên Play Store:
 
-    `apps/driving_license/build/app/outputs/mapping/release/mapping.txt`
+    `apps/driving_license/build/app/outputs/mapping/prodRelease/mapping.txt`
 
   - Các debug symbol, tạo file zip `native-debug-symbols.zip` chứa các folder trong này để upload kèm app bundle lên Play Store:
 
-    `apps/driving_license/build/app/intermediates/merged_native_libs/release/out/lib`
+    `apps/driving_license/build/app/intermediates/merged_native_libs/prodRelease/out/lib`
 
   - Các file để de-obfuscation nằm trong folder `build_obfuscation`.
 
