@@ -63,13 +63,20 @@ android {
             keyPassword keystoreProperties['keyPassword']
             storeFile keystoreProperties['storeFile'] ? file("../../${keystoreProperties['storeFile']}") : null
             storePassword keystoreProperties['storePassword']
-       }
+        }
     }
 
-    buildTypes {
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+    flavorDimensions "environment"
+    productFlavors {
+        dev {
+            dimension "environment"
+            resValue 'string', 'app_name', 'driving_license_dev'
+            applicationIdSuffix ".dev"
+            signingConfig signingConfigs.debug
+        }
+        prod {
+            dimension "environment"
+            resValue 'string', 'app_name', 'Drive Ready'
             signingConfig signingConfigs.release
         }
     }

@@ -6,23 +6,23 @@
   "configurations": [
     {
       "name": "driving_license",
-      "cwd": "apps\\driving_license",
       "request": "launch",
-      "type": "dart"
+      "type": "dart",
+      "args": ["--flavor", "dev"]
     },
     {
       "name": "driving_license (profile mode)",
-      "cwd": "apps\\driving_license",
       "request": "launch",
       "type": "dart",
-      "flutterMode": "profile"
+      "flutterMode": "profile",
+      "args": ["--flavor", "dev"]
     },
     {
       "name": "driving_license (release mode)",
-      "cwd": "apps\\driving_license",
       "request": "launch",
       "type": "dart",
-      "flutterMode": "release"
+      "flutterMode": "release",
+      "args": ["--flavor", "dev"]
     }
   ]
 }
