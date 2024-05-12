@@ -4,22 +4,31 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "build_runner watch",
-      "type": "shell",
-      "command": "dart run build_runner watch --delete-conflicting-outputs",
+      "label": "build_runner_watch",
+      "type": "dart",
+      "command": "dart",
+      "args": ["run", "build_runner", "watch", "--delete-conflicting-outputs"],
       "isBackground": true,
       "icon": {
         "color": "terminal.ansiBlue",
         "id": "eye-watch"
       },
       "presentation": {
-        "reveal": "never",
+        "reveal": "silent",
         "panel": "dedicated",
         "clear": true
       },
       "runOptions": {
         "runOn": "folderOpen",
         "instanceLimit": 1
+      },
+      "problemMatcher": {
+        "base": "$dart-build_runner",
+        "pattern": {
+          "regexp": "^\\[(SEVERE|WARNING)\\] (.*)",
+          "severity": 1,
+          "message": 2
+        }
       }
     }
   ]
