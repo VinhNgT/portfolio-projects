@@ -53,13 +53,15 @@ def increase_build_number(flutter_dir: str) -> int:
 
 def main():
     flutter_dir_list = flutter_project_dir_with_new_version()
+
+    new_build_numbers = []
     for flutter_dir in flutter_dir_list:
-        new_build_number = increase_build_number(flutter_dir)
+        new_build_numbers.append(increase_build_number(flutter_dir))
 
     if len(flutter_dir_list) > 0:
         print("Increased the build number of the following apps:")
         for flutter_dir in flutter_dir_list:
-            print(f"  - {flutter_dir}")
+            print(f"  - {flutter_dir} ({new_build_numbers.pop(0)})")
 
     else:
         print("No apps have a new version.")
