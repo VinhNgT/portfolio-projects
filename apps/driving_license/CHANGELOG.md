@@ -1,3 +1,10 @@
+## 0.1.1+1
+
+ - **FIX**(drv_lcn): new and improved database.
+ - **FIX**(drv_lcn): update database chapter 1, 2, 3, 4.
+ - **FIX**: add make all SingleChildScrollView use SafeArea.
+ - **DOCS**: update readme.
+
 ## 0.1.1
 
  - Graduate package to a stable release. See pre-releases prior to this version for changelog entries.

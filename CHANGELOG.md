@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-05-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v0.1.1+1`](#driving_license---v0111)
+
+---
+
+#### `driving_license` - `v0.1.1+1`
+
+ - **FIX**(drv_lcn): new and improved database.
+ - **FIX**(drv_lcn): update database chapter 1, 2, 3, 4.
+ - **FIX**: add make all SingleChildScrollView use SafeArea.
+ - **DOCS**: update readme.
+
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## 2024-05-09
 
 ### Changes
