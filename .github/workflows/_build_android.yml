@@ -128,25 +128,25 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ inputs.package-name }}-v${{ inputs.version }}-apk
-          path: apps/${{ inputs.package-name }}/build/app/outputs/flutter-apk/app-release.apk
+          path: apps/${{ inputs.package-name }}/build/app/outputs/flutter-apk/app-prod-release.apk
 
       - name: Upload AAB artifact
         uses: actions/upload-artifact@v3
         with:
           name: ${{ inputs.package-name }}-v${{ inputs.version }}-aab
-          path: apps/${{ inputs.package-name }}/build/app/outputs/bundle/release/app-release.aab
+          path: apps/${{ inputs.package-name }}/build/app/outputs/bundle/prodRelease/app-prod-release.aab
 
       - name: Upload debug symbols
         uses: actions/upload-artifact@v3
         with:
           name: ${{ inputs.package-name }}-v${{ inputs.version }}-symbols
-          path: apps/${{ inputs.package-name }}/build/app/intermediates/merged_native_libs/release/out/lib/native-debug-symbols.zip
+          path: apps/${{ inputs.package-name }}/build/app/intermediates/merged_native_libs/prodRelease/out/lib/native-debug-symbols.zip
 
       - name: Upload mapping file
         uses: actions/upload-artifact@v3
         with:
           name: ${{ inputs.package-name }}-v${{ inputs.version }}-mapping
-          path: apps/${{ inputs.package-name }}/build/app/outputs/mapping/release/mapping.txt
+          path: apps/${{ inputs.package-name }}/build/app/outputs/mapping/prodRelease/mapping.txt
 
       - name: Upload obfuscation files
         uses: actions/upload-artifact@v3

@@ -60,19 +60,19 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ inputs.package-name }}-v${{ inputs.version }}-aab
-          path: apps/${{ inputs.package-name }}/build/app/outputs/bundle/release
+          path: apps/${{ inputs.package-name }}/build/app/outputs/bundle/prodRelease
 
       - name: Download debug symbols
         uses: actions/download-artifact@v3
         with:
           name: ${{ inputs.package-name }}-v${{ inputs.version }}-symbols
-          path: apps/${{ inputs.package-name }}/build/app/intermediates/merged_native_libs/release/out/lib
+          path: apps/${{ inputs.package-name }}/build/app/intermediates/merged_native_libs/prodRelease/out/lib
 
       - name: Download mapping file
         uses: actions/download-artifact@v3
         with:
           name: ${{ inputs.package-name }}-v${{ inputs.version }}-mapping
-          path: apps/${{ inputs.package-name }}/build/app/outputs/mapping/release
+          path: apps/${{ inputs.package-name }}/build/app/outputs/mapping/prodRelease
 
       - name: Extract secrets
         run: python ci/local/secrets_crypt.py -p ${{ inputs.package-name }} -d $SECRETS_KEY
