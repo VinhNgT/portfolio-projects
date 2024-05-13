@@ -14,7 +14,7 @@
         "id": "eye-watch"
       },
       "presentation": {
-        "reveal": "silent",
+        "reveal": "never",
         "panel": "dedicated",
         "clear": true
       },
