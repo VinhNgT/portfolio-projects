@@ -64,12 +64,16 @@ dependencies:
   path_provider: ^2.1.2
   shared_preferences: ^2.2.2
 
+  # Network
+  retrofit: '>=4.0.0 <5.0.0'
+
   # Localization
   intl: ^0.19.0
 
   # Utils
   collection: ^1.18.0
   rxdart: ^0.27.7
+  logger: ^2.3.0
 
 dev_dependencies:
   flutter_test:
@@ -99,6 +103,9 @@ dev_dependencies:
   # Domain (Model)
   freezed: ^2.4.7
   json_serializable: ^6.7.1
+
+  # Network
+  retrofit_generator: '>=7.0.0 <8.0.0'
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
