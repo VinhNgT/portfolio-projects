@@ -1,8 +1,6 @@
 import 'dart:ui';
 
 import 'package:driving_license/app.dart';
-import 'package:driving_license/exceptions/async_error_logger.dart';
-import 'package:driving_license/exceptions/error_logger.dart';
 import 'package:driving_license/features/bookmark/data/bookmarks_repository.dart';
 import 'package:driving_license/features/bookmark/data/sembast_bookmarks_repository.dart';
 import 'package:driving_license/features/exams/data/exams_repository.dart';
@@ -11,6 +9,8 @@ import 'package:driving_license/features/questions/data/question/questions_repos
 import 'package:driving_license/features/questions/data/question/sqlite_questions_repository.dart';
 import 'package:driving_license/features/questions/data/user_answer/sembast_user_answers_repository.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
+import 'package:driving_license/logging/async_error_logger.dart';
+import 'package:driving_license/logging/error_logger.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

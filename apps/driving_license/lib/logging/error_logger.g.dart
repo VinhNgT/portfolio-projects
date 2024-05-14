@@ -7,7 +7,7 @@ part of 'error_logger.dart';
 // **************************************************************************
 
 String _$consoleErrorLoggerHash() =>
-    r'0cc9438865b1ba7aab56b4888eb4b03ad7a0069f';
+    r'96e581856a70d63c5053a9f8a44928db67ee78f9';
 
 /// See also [consoleErrorLogger].
 @ProviderFor(consoleErrorLogger)
