@@ -8,11 +8,16 @@ part 'logger_provider.g.dart';
 @Riverpod(keepAlive: true)
 Logger logger(LoggerRef ref) {
   final logger = Logger(
-    filter: appFlavor == AppFlavor.dev.name
-        ? DevelopmentFilter()
-        : ProductionFilter(),
+    filter: DevelopmentFlavorFilter(),
   );
 
   ref.onDispose(logger.close);
   return logger;
+}
+
+class DevelopmentFlavorFilter extends LogFilter {
+  @override
+  bool shouldLog(LogEvent event) {
+    return appFlavor == AppFlavor.dev.name && event.level.value >= level!.value;
+  }
 }
