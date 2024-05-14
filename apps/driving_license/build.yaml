@@ -19,6 +19,7 @@ targets:
           include:
             - 'lib/exceptions/**.dart'
             - 'lib/routing/**.dart'
+            - 'lib/logging/**.dart'
             - 'lib/**/**_repository.dart'
             - 'lib/**/**_service.dart'
             - 'lib/**/**_provider.dart'
