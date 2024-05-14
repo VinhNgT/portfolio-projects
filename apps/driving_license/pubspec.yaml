@@ -126,12 +126,17 @@ flutter:
   # Command to compile vector graphics:
   # vector_graphics_compiler --input-dir ./ --out-dir ./compiled/ --no-optimize-overdraw
   assets:
-    - assets/icons/home_screen/
-    - assets/icons/home_screen/compiled/
-    - assets/icons/vehicles/
-    - assets/icons/vehicles/compiled/
-    - assets/images/question_images/
     - assets/questions.db
+    - assets/images/question_images/
+    - assets/icons/home_screen/compiled/
+    - assets/icons/vehicles/compiled/
+
+    - path: assets/icons/home_screen/
+      flavor:
+        - dev
+    - path: assets/icons/vehicles/
+      flavor:
+        - dev
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
