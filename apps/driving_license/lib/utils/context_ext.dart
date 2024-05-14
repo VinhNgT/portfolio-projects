@@ -29,6 +29,13 @@ extension ContextExtension on BuildContext {
   TextStyle get defaultTextStyle => DefaultTextStyle.of(this).style;
   TextScaler get textScaler => MediaQuery.of(this).textScaler;
 
+  void removeFocus() {
+    final FocusScopeNode currentFocus = FocusScope.of(this);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+  }
+
   // bool get isLandscape => MediaQuery.of(this).orientation == Orientation.landscape;
   // bool get isPortrait => MediaQuery.of(this).orientation == Orientation.portrait;
   // bool get isMobile => MediaQuery.of(this).size.width < 600;

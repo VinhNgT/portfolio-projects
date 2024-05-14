@@ -1,4 +1,5 @@
 import 'package:driving_license/common_widgets/providers/keyboard_visibility_provider.dart';
+import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -13,7 +14,7 @@ class RenameDialog extends HookConsumerWidget {
     final submitted = useState(false);
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+      onTap: () => context.removeFocus(),
       child: Stack(
         children: [
           Consumer(
