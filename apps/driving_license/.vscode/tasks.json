@@ -28,6 +28,11 @@
           "regexp": "^\\[(SEVERE|WARNING)\\] (.*)",
           "severity": 1,
           "message": 2
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^\\[INFO\\] Starting Build",
+          "endsPattern": "^(\\[INFO\\] Succeeded|\\[SEVERE\\] Failed|\\[INFO\\] Builds finished)"
         }
       }
     }
