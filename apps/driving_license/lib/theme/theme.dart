@@ -85,6 +85,10 @@ extension _ThemeDataBuilder on MaterialTheme {
         backgroundColor: materialScheme.surfaceContainerHigh,
         elevation: 0,
       ),
+      snackBarTheme: const SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+        showCloseIcon: true,
+      ),
       // iconButtonTheme: const IconButtonThemeData(
       //   style: ButtonStyle(
       //     minimumSize: MaterialStatePropertyAll(Size(48, 48)),
