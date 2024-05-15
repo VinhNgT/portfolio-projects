@@ -3,7 +3,7 @@
 import 'package:driving_license/theme/theme.dart';
 import 'package:flutter/material.dart';
 
-extension ContextExtension on BuildContext {
+extension ContextGetExtension on BuildContext {
   Brightness get brightness => Theme.of(this).brightness;
   bool get isDarkMode => Theme.of(this).brightness == Brightness.dark;
   bool get isLightMode => Theme.of(this).brightness == Brightness.light;
@@ -29,13 +29,6 @@ extension ContextExtension on BuildContext {
   TextStyle get defaultTextStyle => DefaultTextStyle.of(this).style;
   TextScaler get textScaler => MediaQuery.of(this).textScaler;
 
-  void removeFocus() {
-    final FocusScopeNode currentFocus = FocusScope.of(this);
-    if (!currentFocus.hasPrimaryFocus) {
-      currentFocus.unfocus();
-    }
-  }
-
   // bool get isLandscape => MediaQuery.of(this).orientation == Orientation.landscape;
   // bool get isPortrait => MediaQuery.of(this).orientation == Orientation.portrait;
   // bool get isMobile => MediaQuery.of(this).size.width < 600;
@@ -53,4 +46,17 @@ extension ContextExtension on BuildContext {
   // bool get isTabletLandscape => isTablet && isLandscape;
   // bool get isDesktopPortrait => isDesktop && isPortrait;
   // bool get isDesktopLandscape => isDesktop && isLandscape;
+}
+
+extension ContextMethodExtention on BuildContext {
+  void removeFocus() {
+    final FocusScopeNode currentFocus = FocusScope.of(this);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+  }
+
+  void showSnackBar(SnackBar snackBar) {
+    ScaffoldMessenger.of(this).showSnackBar(snackBar);
+  }
 }
