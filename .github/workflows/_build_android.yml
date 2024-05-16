@@ -70,7 +70,7 @@ jobs:
       - name: Cache Python virtual environment
         uses: actions/cache@v4
         with:
-          key: venv-${{ runner.os }}-python-${{ inputs.python-version }}-${{ hashFiles('ci/requirements.txt') }}
+          key: venv-${{ runner.os }}-python-${{ inputs.python-version }}-${{ hashFiles('requirements.txt') }}
           path: .venv
 
       - name: Setup Python virtual environment and dependencies
