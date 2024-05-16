@@ -128,11 +128,15 @@ flutter:
     - assets/images/question_images/
     - assets/icons/home_screen/compiled/
     - assets/icons/vehicles/compiled/
+    - assets/icons/error/compiled/
 
     - path: assets/icons/home_screen/
       flavor:
         - dev
     - path: assets/icons/vehicles/
+      flavor:
+        - dev
+    - path: assets/icons/error/
       flavor:
         - dev
 

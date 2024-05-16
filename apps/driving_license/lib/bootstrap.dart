@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:driving_license/app.dart';
+import 'package:driving_license/constants/app_flavor.dart';
+import 'package:driving_license/exceptions/app_error_widget.dart';
 import 'package:driving_license/features/bookmark/data/bookmarks_repository.dart';
 import 'package:driving_license/features/bookmark/data/sembast_bookmarks_repository.dart';
 import 'package:driving_license/features/exams/data/exams_repository.dart';
@@ -12,6 +14,7 @@ import 'package:driving_license/features/questions/data/user_answer/user_answers
 import 'package:driving_license/logging/async_error_logger.dart';
 import 'package:driving_license/logging/error_logger.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class Bootstrap {
@@ -77,7 +80,16 @@ class Bootstrap {
 
     // Show some error UI when any widget in the app fails to build
     ErrorWidget.builder = (FlutterErrorDetails details) {
-      return Center(child: Text(details.toString()));
+      final error = details.exception is FlutterError
+          ? details.exception as FlutterError
+          : null;
+
+      return appFlavor == AppFlavor.dev.name
+          ? ErrorWidget.withDetails(
+              message: details.exceptionAsString(),
+              error: error,
+            )
+          : const AppErrorWidget.production();
     };
   }
 }
