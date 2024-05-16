@@ -26,7 +26,7 @@ class AppErrorWidget extends StatelessWidget {
             children: [
               const SvgPicture(
                 AssetBytesLoader(
-                  'assets/icons/error/compiled/view_error.svg.vec',
+                  'assets/icons/compiled/view_error.svg.vec',
                 ),
               ),
               kGap_24,

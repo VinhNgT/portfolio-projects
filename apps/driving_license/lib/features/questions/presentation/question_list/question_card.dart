@@ -150,7 +150,7 @@ class QuestionCardTitle extends StatelessWidget {
         if (question.isDanger && showIsDanger) ...[
           const SvgPicture(
             AssetBytesLoader(
-              'assets/icons/home_screen/compiled/danger_fire.svg.vec',
+              'assets/icons/compiled/danger_fire.svg.vec',
             ),
             height: kSize_16,
             width: kSize_16,

@@ -126,19 +126,7 @@ flutter:
   assets:
     - assets/questions.db
     - assets/images/question_images/
-    - assets/icons/home_screen/compiled/
-    - assets/icons/vehicles/compiled/
-    - assets/icons/error/compiled/
-
-    - path: assets/icons/home_screen/
-      flavor:
-        - dev
-    - path: assets/icons/vehicles/
-      flavor:
-        - dev
-    - path: assets/icons/error/
-      flavor:
-        - dev
+    - assets/icons/compiled/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

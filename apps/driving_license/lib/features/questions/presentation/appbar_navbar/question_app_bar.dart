@@ -122,7 +122,7 @@ class _QuestionTitle extends HookConsumerWidget {
           visible: thisQuestionIsDanger && showIsDanger,
           child: const SvgPicture(
             AssetBytesLoader(
-              'assets/icons/home_screen/compiled/danger_fire.svg.vec',
+              'assets/icons/compiled/danger_fire.svg.vec',
             ),
             height: kSize_16,
             width: kSize_16,

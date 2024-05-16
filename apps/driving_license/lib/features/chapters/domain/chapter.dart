@@ -4,7 +4,7 @@ enum Chapter {
   khaiNiemVaQuyTac(
     chapterDbIndex: 1,
     chapterName: 'Khái niệm và quy tắc',
-    iconAssetPath: 'assets/icons/home_screen/compiled/books.svg.vec',
+    iconAssetPath: 'assets/icons/compiled/books.svg.vec',
     subChapters: [
       SubChapter.cacKhaiNiem,
       SubChapter.quyTacGiaoThong,
@@ -14,32 +14,32 @@ enum Chapter {
   nghiepVuVanTai(
     chapterDbIndex: 2,
     chapterName: 'Nghiệp vụ vận tải',
-    iconAssetPath: 'assets/icons/home_screen/compiled/truck.svg.vec',
+    iconAssetPath: 'assets/icons/compiled/truck.svg.vec',
   ),
   vanHoaVaDaoDuc(
     chapterDbIndex: 3,
     chapterName: 'Văn hóa và đạo đức',
-    iconAssetPath: 'assets/icons/home_screen/compiled/person.svg.vec',
+    iconAssetPath: 'assets/icons/compiled/person.svg.vec',
   ),
   kyThuatLaiXe(
     chapterDbIndex: 4,
     chapterName: 'Kỹ thuật lái xe',
-    iconAssetPath: 'assets/icons/home_screen/compiled/steering_wheel.svg.vec',
+    iconAssetPath: 'assets/icons/compiled/steering_wheel.svg.vec',
   ),
   cauTaoVaSuaChua(
     chapterDbIndex: 5,
     chapterName: 'Cấu tạo và sửa chữa',
-    iconAssetPath: 'assets/icons/home_screen/compiled/car_repair.svg.vec',
+    iconAssetPath: 'assets/icons/compiled/car_repair.svg.vec',
   ),
   bienBaoDuongBo(
     chapterDbIndex: 6,
     chapterName: 'Biển báo đường bộ',
-    iconAssetPath: 'assets/icons/home_screen/compiled/turn_right_sign.svg.vec',
+    iconAssetPath: 'assets/icons/compiled/turn_right_sign.svg.vec',
   ),
   saHinhVaTinhHuong(
     chapterDbIndex: 7,
     chapterName: 'Sa hình và tình huống',
-    iconAssetPath: 'assets/icons/home_screen/compiled/traffic_light.svg.vec',
+    iconAssetPath: 'assets/icons/compiled/traffic_light.svg.vec',
   );
 
   const Chapter({
