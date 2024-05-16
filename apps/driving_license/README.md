@@ -200,7 +200,7 @@ python -m venv .venv
 # (Linux - bash)
 # source .venv/bin/activate
 
-python -m pip install -r ci/requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 #### Xây dựng và sign app
