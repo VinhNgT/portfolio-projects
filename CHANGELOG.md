@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-05-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v0.1.2`](#driving_license---v012)
+
+---
+
+#### `driving_license` - `v0.1.2`
+
+ - **REFACTOR**(drv_lcn): separate ContextExtension to ContextGetExtension and ContextMethodExtention.
+ - **REFACTOR**(drv_lcn): add helper method context.removeFocus().
+ - **REFACTOR**(drv_lcn): use custom DevelopmentFlavorFilter.
+ - **REFACTOR**(drv_lcn): use centralized logger.
+ - **FIX**(drv_lcn): fix padding too big after implemented safearea for SingleChildScrollView.
+ - **FEAT**(drv_lcn): add Send Feedback functionality.
+ - **FEAT**(drv_lcn): add dio provider.
+ - **FEAT**(drv_lcn): add Logger.
+
+
 ## 2024-05-12
 
 ### Changes
