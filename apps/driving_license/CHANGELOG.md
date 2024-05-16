@@ -1,3 +1,14 @@
+## 0.1.2
+
+ - **REFACTOR**(drv_lcn): separate ContextExtension to ContextGetExtension and ContextMethodExtention.
+ - **REFACTOR**(drv_lcn): add helper method context.removeFocus().
+ - **REFACTOR**(drv_lcn): use custom DevelopmentFlavorFilter.
+ - **REFACTOR**(drv_lcn): use centralized logger.
+ - **FIX**(drv_lcn): fix padding too big after implemented safearea for SingleChildScrollView.
+ - **FEAT**(drv_lcn): add Send Feedback functionality.
+ - **FEAT**(drv_lcn): add dio provider.
+ - **FEAT**(drv_lcn): add Logger.
+
 ## 0.1.1+1
 
  - **FIX**(drv_lcn): new and improved database.
