@@ -8,6 +8,9 @@
       "type": "shell",
       "command": "dart",
       "args": ["run", "build_runner", "watch", "--delete-conflicting-outputs"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "isBackground": true,
       "icon": {
         "color": "terminal.ansiBlue",
