@@ -76,7 +76,7 @@ class HomeScreen extends HookConsumerWidget {
                     left: kSize_16,
                     right: kSize_16,
                     top: kSize_4,
-                    bottom: kSize_48,
+                    bottom: kSize_24,
                   ),
                   child: NotifyScrollSizeChanges(
                     scrollController: scrollController,

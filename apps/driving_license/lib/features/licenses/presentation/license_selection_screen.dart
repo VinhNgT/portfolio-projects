@@ -43,7 +43,7 @@ class LicenseSelectionScreen extends HookConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Gap(context.statusBarHeight + 96),
+                const Gap(96),
                 Text(
                   'Chọn loại bằng lái',
                   style: context.textTheme.headlineMedium,
