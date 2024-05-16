@@ -1,0 +1,22 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "driving-license-421610",
+          "appId": "1:257590584663:android:c805d822fab9073895ca12",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "driving-license-421610",
+          "configurations": {
+            "android": "1:257590584663:android:c805d822fab9073895ca12",
+            "ios": "1:257590584663:ios:956df0f2af0257a095ca12"
+          }
+        }
+      }
+    }
+  }
+}
