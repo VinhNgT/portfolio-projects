@@ -77,6 +77,9 @@ dependencies:
   logger: ^2.3.0
   package_info_plus: ^8.0.0
 
+  # Firebase
+  firebase_core: ^2.31.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
