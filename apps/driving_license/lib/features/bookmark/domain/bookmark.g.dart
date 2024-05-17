@@ -8,7 +8,7 @@ part of 'bookmark.dart';
 
 _$BookmarkImpl _$$BookmarkImplFromJson(Map<String, dynamic> json) =>
     _$BookmarkImpl(
-      questionDbIndex: json['questionDbIndex'] as int,
+      questionDbIndex: (json['questionDbIndex'] as num).toInt(),
       questionMetadata: QuestionMetadata.fromJson(
           json['questionMetadata'] as Map<String, dynamic>),
     );

@@ -9,12 +9,12 @@ part of 'question_metadata.dart';
 _$QuestionMetadataImpl _$$QuestionMetadataImplFromJson(
         Map<String, dynamic> json) =>
     _$QuestionMetadataImpl(
-      questionDbIndex: json['questionDbIndex'] as int,
-      chapterDbIndex: json['chapterDbIndex'] as int,
-      subChapterDbIndex: json['subChapterDbIndex'] as int?,
+      questionDbIndex: (json['questionDbIndex'] as num).toInt(),
+      chapterDbIndex: (json['chapterDbIndex'] as num).toInt(),
+      subChapterDbIndex: (json['subChapterDbIndex'] as num?)?.toInt(),
       isDanger: json['isDanger'] as bool,
       isDifficult: json['isDifficult'] as bool,
-      correctAnswerIndex: json['correctAnswerIndex'] as int,
+      correctAnswerIndex: (json['correctAnswerIndex'] as num).toInt(),
       includedLicenses: (json['includedLicenses'] as List<dynamic>)
           .map((e) => $enumDecode(_$LicenseEnumMap, e))
           .toSet(),

@@ -8,16 +8,16 @@ part of 'question.dart';
 
 _$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
     _$QuestionImpl(
-      questionDbIndex: json['questionDbIndex'] as int,
-      chapterDbIndex: json['chapterDbIndex'] as int,
-      subChapterDbIndex: json['subChapterDbIndex'] as int?,
+      questionDbIndex: (json['questionDbIndex'] as num).toInt(),
+      chapterDbIndex: (json['chapterDbIndex'] as num).toInt(),
+      subChapterDbIndex: (json['subChapterDbIndex'] as num?)?.toInt(),
       title: json['title'] as String,
       questionImagePath: json['questionImagePath'] as String?,
       isDanger: json['isDanger'] as bool,
       isDifficult: json['isDifficult'] as bool,
       answers:
           (json['answers'] as List<dynamic>).map((e) => e as String).toList(),
-      correctAnswerIndex: json['correctAnswerIndex'] as int,
+      correctAnswerIndex: (json['correctAnswerIndex'] as num).toInt(),
       explanation: json['explanation'] as String?,
       rememberTip: json['rememberTip'] as String?,
       includedLicenses: (json['includedLicenses'] as List<dynamic>)

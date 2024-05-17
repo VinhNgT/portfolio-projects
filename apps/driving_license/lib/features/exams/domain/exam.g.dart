@@ -11,7 +11,7 @@ _$ExamImpl _$$ExamImplFromJson(Map<String, dynamic> json) => _$ExamImpl(
       name: json['name'] as String,
       createdUtcTime: DateTime.parse(json['createdUtcTime'] as String),
       questionDbIndexes: (json['questionDbIndexes'] as List<dynamic>)
-          .map((e) => e as int)
+          .map((e) => (e as num).toInt())
           .toList(),
       license: $enumDecode(_$LicenseEnumMap, json['license']),
       userAnswers: json['userAnswers'] == null

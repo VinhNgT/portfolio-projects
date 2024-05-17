@@ -10,7 +10,7 @@ _$UserAnswerImpl _$$UserAnswerImplFromJson(Map<String, dynamic> json) =>
     _$UserAnswerImpl(
       questionMetadata: QuestionMetadata.fromJson(
           json['questionMetadata'] as Map<String, dynamic>),
-      selectedAnswerIndex: json['selectedAnswerIndex'] as int,
+      selectedAnswerIndex: (json['selectedAnswerIndex'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$UserAnswerImplToJson(_$UserAnswerImpl instance) =>
