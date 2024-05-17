@@ -1,5 +1,5 @@
+import 'package:driving_license/backend/shared_preferences/share_preferences_provider.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
-import 'package:driving_license/features/user_options/data/providers/share_preferences_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
