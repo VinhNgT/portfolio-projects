@@ -4,7 +4,7 @@ targets:
       freezed:
         generate_for:
           include:
-            - 'lib/features/**/domain/**.dart'
+            - 'lib/**/domain/**.dart'
 
       json_serializable:
         options:
@@ -12,11 +12,12 @@ targets:
 
         generate_for:
           include:
-            - 'lib/features/**/domain/**.dart'
+            - 'lib/**/domain/**.dart'
 
       riverpod_generator:
         generate_for:
           include:
+            - 'lib/backend/**.dart'
             - 'lib/exceptions/**.dart'
             - 'lib/routing/**.dart'
             - 'lib/logging/**.dart'
