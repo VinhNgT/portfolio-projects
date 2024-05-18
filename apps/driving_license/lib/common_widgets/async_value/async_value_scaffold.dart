@@ -18,15 +18,7 @@ class AsyncValueScaffold<T> extends StatelessWidget {
     return value.maybeWhen(
       data: builder,
       orElse: () => PlaceholderScaffold(
-        // The reason why we use AsyncValueWidget here is because we want to
-        // ensure the loading indicator and error message behavior are
-        // consistent across our app
-        content: AsyncValueWidget(
-          value: value,
-          // We don't care about the data here, it is handled by
-          // 'data: scaffold' above and will never be called
-          builder: (_) => const SizedBox.shrink(),
-        ),
+        content: AsyncValueWidget(value: value),
       ),
     );
   }
