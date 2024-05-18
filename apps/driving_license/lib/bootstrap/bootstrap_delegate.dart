@@ -1,3 +1,4 @@
+import 'package:driving_license/backend/remote_config/firebase_remote_config.dart';
 import 'package:driving_license/features/bookmark/data/bookmarks_repository.dart';
 import 'package:driving_license/features/bookmark/data/sembast_bookmarks_repository.dart';
 import 'package:driving_license/features/exams/data/exams_repository.dart';
@@ -7,7 +8,9 @@ import 'package:driving_license/features/questions/data/question/sqlite_question
 import 'package:driving_license/features/questions/data/question/test_questions_repository.dart';
 import 'package:driving_license/features/questions/data/user_answer/sembast_user_answers_repository.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
+import 'package:driving_license/firebase_options.dart';
 import 'package:driving_license/logging/error_logger.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -48,7 +51,11 @@ class ProductionBootstrapDelegate extends BootstrapDelegate {
 
   @override
   Future<void> setupServices(ProviderContainer container) async {
-    return;
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    container.read(firebaseRemoteConfigProvider);
   }
 
   @override
