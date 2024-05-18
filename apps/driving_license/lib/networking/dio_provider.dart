@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:driving_license/constants/app_flavor.dart';
 import 'package:driving_license/logging/logger_provider.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -13,7 +12,7 @@ Dio dio(DioRef ref) {
   final dio = Dio();
   final logger = ref.watch(loggerProvider);
 
-  if (appFlavor == AppFlavor.dev.name) {
+  if (appBuiltWithFlavor(AppFlavor.dev)) {
     dio.interceptors.addAll([
       LogInterceptor(),
       DataLogIntercepter(logger),

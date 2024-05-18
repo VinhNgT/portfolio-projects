@@ -1,5 +1,4 @@
 import 'package:driving_license/constants/app_flavor.dart';
-import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -18,6 +17,7 @@ Logger logger(LoggerRef ref) {
 class DevelopmentFlavorFilter extends LogFilter {
   @override
   bool shouldLog(LogEvent event) {
-    return appFlavor == AppFlavor.dev.name && event.level.value >= level!.value;
+    return appBuiltWithFlavor(AppFlavor.dev) &&
+        event.level.value >= level!.value;
   }
 }

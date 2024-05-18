@@ -1,6 +1,5 @@
 import 'package:driving_license/constants/app_flavor.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 /// Reusable error message widget (just a [Text] with a red color).
 class ErrorMessageWidget extends StatelessWidget {
@@ -9,7 +8,7 @@ class ErrorMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (appFlavor == AppFlavor.dev.name) {
+    if (appBuiltWithFlavor(AppFlavor.dev)) {
       return Text(
         errorMessage,
         style:

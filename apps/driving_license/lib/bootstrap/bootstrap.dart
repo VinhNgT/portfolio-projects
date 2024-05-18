@@ -6,7 +6,6 @@ import 'package:driving_license/constants/app_flavor.dart';
 import 'package:driving_license/exceptions/app_error_widget.dart';
 import 'package:driving_license/logging/async_error_logger.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class Bootstrap {
@@ -51,7 +50,7 @@ class Bootstrap {
           ? details.exception as FlutterError
           : null;
 
-      return appFlavor == AppFlavor.dev.name
+      return appBuiltWithFlavor(AppFlavor.dev)
           ? ErrorWidget.withDetails(
               message: details.exceptionAsString(),
               error: error,

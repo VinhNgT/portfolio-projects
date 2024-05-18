@@ -1,4 +1,10 @@
+import 'package:flutter/services.dart';
+
 enum AppFlavor {
   dev,
-  prod,
+  prod;
+}
+
+bool appBuiltWithFlavor(AppFlavor flavor) {
+  return appFlavor == flavor.name;
 }
