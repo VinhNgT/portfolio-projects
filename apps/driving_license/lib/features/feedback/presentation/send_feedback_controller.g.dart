@@ -7,13 +7,13 @@ part of 'send_feedback_controller.dart';
 // **************************************************************************
 
 String _$sendFeedbackControllerHash() =>
-    r'2e6826b010155dd11cde2086afd60c12dca67c4c';
+    r'0275332cca7a798ee830944a9cb38ca5ca345c31';
 
-/// See also [SendFeedbackController].
-@ProviderFor(SendFeedbackController)
+/// See also [sendFeedbackController].
+@ProviderFor(sendFeedbackController)
 final sendFeedbackControllerProvider =
-    AutoDisposeAsyncNotifierProvider<SendFeedbackController, void>.internal(
-  SendFeedbackController.new,
+    AutoDisposeProvider<SendFeedbackController>.internal(
+  sendFeedbackController,
   name: r'sendFeedbackControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
@@ -22,6 +22,7 @@ final sendFeedbackControllerProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$SendFeedbackController = AutoDisposeAsyncNotifier<void>;
+typedef SendFeedbackControllerRef
+    = AutoDisposeProviderRef<SendFeedbackController>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

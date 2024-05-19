@@ -1,11 +1,14 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
-import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
+import 'package:driving_license/common_widgets/async_value/async_snapshot_controller.dart';
 import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/feedback/domain/feedback_form.dart';
 import 'package:driving_license/features/feedback/presentation/send_feedback_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
+import 'package:driving_license/utils/extensions/async_snapshot_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -19,26 +22,36 @@ class SendFeedbackScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.watch(sendFeedbackControllerProvider);
+
+    final pendingFuture = useState<Future<void>?>(null);
+    final snapshot = useFuture(pendingFuture.value);
+
     final formKey = useMemoized(GlobalKey<FormBuilderState>.new);
     final emailText = useValueNotifier<String?>(null);
     final isFormSubmitted = useState<Set<String>>({});
-    final controllerState = ref.watch(sendFeedbackControllerProvider);
 
-    ref.listen(sendFeedbackControllerProvider, (previous, next) {
-      switch (next) {
-        case AsyncData():
-          context.showSnackBar(
-            const SnackBar(
-              content: Text('Gửi phản hồi thành công'),
-            ),
-          );
-
-        case AsyncError():
+    useValueChanged<SnapshotState, void>(snapshot.state,
+        (previousState, oldResult) {
+      if (snapshot.state == SnapshotState.error) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
           context.showSnackBar(
             const SnackBar(
               content: Text('Gửi phản hồi thất bại'),
             ),
           );
+        });
+      }
+
+      if (previousState == SnapshotState.loading &&
+          snapshot.state == SnapshotState.done) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          context.showSnackBar(
+            const SnackBar(
+              content: Text('Gửi phản hồi thành công'),
+            ),
+          );
+        });
       }
     });
 
@@ -52,28 +65,35 @@ class SendFeedbackScreen extends HookConsumerWidget {
             TextButton(
               child: const Text('Gửi'),
               onPressed: () async {
+                // Validate form, only allow continue if all fields are valid
                 isFormSubmitted.value.addAll(formKey.currentState!.fields.keys);
                 if (!formKey.currentState!.saveAndValidate()) {
                   return;
                 }
 
+                // Hide on-screen keyboard
+                context.removeFocus();
+
+                // Creat a feedback form
                 final feedbackForm = await FeedbackForm.create(
                   email: formKey.currentState?.value['email'] as String?,
                   feedback: formKey.currentState!.value['content'] as String,
                 );
 
-                await ref
-                    .read(sendFeedbackControllerProvider.notifier)
-                    .submitFeedback(feedbackForm);
+                // Call the controller to submit the feedback
+                final submitFeedbackFuture =
+                    controller.submitFeedback(feedbackForm);
+
+                // Track its progress
+                pendingFuture.value = submitFeedbackFuture;
               },
             ),
           ],
           rightPadding: AppBarRightPadding.normalButton,
         ),
-        body: AsyncValueWidget(
-          value: controllerState,
-          showLoadingIndicator: true,
-          builder: (_) => SafeArea(
+        body: AsyncSnapshotController(
+          snapshot: snapshot,
+          child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: kSize_16,
