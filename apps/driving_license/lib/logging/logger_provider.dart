@@ -17,7 +17,7 @@ Logger logger(LoggerRef ref) {
 class DevelopmentFlavorFilter extends LogFilter {
   @override
   bool shouldLog(LogEvent event) {
-    return appBuiltWithFlavor(AppFlavor.dev) &&
+    return isAppBuiltWithFlavor(AppFlavor.dev) &&
         event.level.value >= level!.value;
   }
 }

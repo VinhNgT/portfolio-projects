@@ -5,6 +5,6 @@ enum AppFlavor {
   prod;
 }
 
-bool appBuiltWithFlavor(AppFlavor flavor) {
+bool isAppBuiltWithFlavor(AppFlavor flavor) {
   return appFlavor == flavor.name;
 }

@@ -8,7 +8,7 @@ class ErrorMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (appBuiltWithFlavor(AppFlavor.dev)) {
+    if (isAppBuiltWithFlavor(AppFlavor.dev)) {
       return Text(
         errorMessage,
         style:

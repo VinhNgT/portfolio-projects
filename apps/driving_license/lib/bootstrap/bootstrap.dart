@@ -50,7 +50,7 @@ class Bootstrap {
           ? details.exception as FlutterError
           : null;
 
-      return appBuiltWithFlavor(AppFlavor.dev)
+      return isAppBuiltWithFlavor(AppFlavor.dev)
           ? ErrorWidget.withDetails(
               message: details.exceptionAsString(),
               error: error,
