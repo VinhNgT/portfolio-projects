@@ -29,8 +29,8 @@ linter:
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
 
     # Coding Rules
-    - unawaited_futures
-    - discarded_futures
+    # - unawaited_futures
+    # - discarded_futures
     - unnecessary_await_in_return
     - unnecessary_breaks
     - unnecessary_lambdas
