@@ -32,7 +32,7 @@ FirebaseRemoteConfig firebaseRemoteConfig(
     await remoteConfig.activate();
     ref.notifyListeners();
 
-    logger.i('Remote config real-time updated \n'
+    logger.w('Remote config real-time updated \n'
         '${stringify(event.updatedKeys)}');
   });
 
