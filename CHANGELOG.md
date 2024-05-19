@@ -15,6 +15,29 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`driving_license` - `v0.1.4-dev.0`](#driving_license---v014-dev0)
+
+---
+
+#### `driving_license` - `v0.1.4-dev.0`
+
+ - **REFACTOR**(drv_lcn): update deprecated properties.
+ - **REFACTOR**(drv_lcn): update AppException.
+ - **FEAT**(drv_lcn): add SendFeedbackController exception logging.
+
+
+## 2024-05-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`driving_license` - `v0.1.3`](#driving_license---v013)
 
 ---

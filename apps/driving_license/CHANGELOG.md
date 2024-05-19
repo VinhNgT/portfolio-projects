@@ -1,3 +1,9 @@
+## 0.1.4-dev.0
+
+ - **REFACTOR**(drv_lcn): update deprecated properties.
+ - **REFACTOR**(drv_lcn): update AppException.
+ - **FEAT**(drv_lcn): add SendFeedbackController exception logging.
+
 ## 0.1.3
 
  - **REFACTOR**(drv_lcn): rename function 'appBuiltWithFlavor' to 'isAppBuiltWithFlavor'.
