@@ -1,3 +1,20 @@
+## 0.1.3
+
+ - **REFACTOR**(drv_lcn): rename function 'appBuiltWithFlavor' to 'isAppBuiltWithFlavor'.
+ - **REFACTOR**(drv_lcn): rewrite SendFeedback feature side-effect handling to follow official riverpod recommendation.
+ - **REFACTOR**(drv_lcn): add check flavor logic to AppFlavor enum.
+ - **REFACTOR**(drv_lcn): revamp async builder widgets.
+ - **REFACTOR**(drv_lcn): use delegation instead of delegation for bootstrap operations.
+ - **REFACTOR**(drv_lcn): move shared_preferences provider to 'backend' folder.
+ - **REFACTOR**(drv_lcn): organize icon svgs.
+ - **FIX**(drv_lcn): add firebase support for package name com.vikapps.driving_license.dev.
+ - **FEAT**(drv_lcn): implement firebase for FeedbackRepository.
+ - **FEAT**(drv_lcn): add async snapshot helper widgets.
+ - **FEAT**(drv_lcn): add firebase remote config.
+ - **FEAT**(drv_lcn): add new util method 'stringify'.
+ - **FEAT**(drv_lcn): add error screen.
+ - **DOCS**(drv_lcn): update readme abput requirements.txt.
+
 ## 0.1.2
 
  - **REFACTOR**(drv_lcn): separate ContextExtension to ContextGetExtension and ContextMethodExtention.
