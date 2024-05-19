@@ -10,10 +10,10 @@ import 'package:driving_license/features/questions/data/question/questions_repos
 import 'package:driving_license/features/questions/domain/question.dart';
 
 class TestQuestionsRepository implements QuestionsRepository {
-  final Duration artificialDelay;
   TestQuestionsRepository({
     this.artificialDelay = Duration.zero,
   });
+  final Duration artificialDelay;
 
   @override
   FutureOr<Question> getQuestion(

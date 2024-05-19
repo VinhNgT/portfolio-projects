@@ -9,10 +9,6 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:vector_graphics/vector_graphics.dart';
 
 class ChapterCard extends StatelessWidget {
-  final String iconAssetPath;
-  final String chapterName;
-  final ({int questionsCount, UserAnswersSummary summary}) completionStatus;
-  final VoidCallback? onPressed;
 
   const ChapterCard({
     super.key,
@@ -21,6 +17,10 @@ class ChapterCard extends StatelessWidget {
     required this.completionStatus,
     this.onPressed,
   });
+  final String iconAssetPath;
+  final String chapterName;
+  final ({int questionsCount, UserAnswersSummary summary}) completionStatus;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {

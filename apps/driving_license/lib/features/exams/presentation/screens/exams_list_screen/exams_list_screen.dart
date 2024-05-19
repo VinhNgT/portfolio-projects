@@ -60,8 +60,8 @@ class ExamsListScreen extends HookConsumerWidget {
 }
 
 class _AnimatedFloatingActionButton extends HookConsumerWidget {
-  final bool show;
   const _AnimatedFloatingActionButton({required this.show});
+  final bool show;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

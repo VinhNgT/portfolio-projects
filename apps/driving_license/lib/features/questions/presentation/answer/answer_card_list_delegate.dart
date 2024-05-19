@@ -67,8 +67,8 @@ sealed class AnswerCardListDelegate {
 }
 
 class PracticeModeAnswerCardListDelegate extends AnswerCardListDelegate {
-  final _evalAnswerStateDelegate = const ShowResultEvalAnswerStateDelegate();
   const PracticeModeAnswerCardListDelegate();
+  final _evalAnswerStateDelegate = const ShowResultEvalAnswerStateDelegate();
 
   @override
   AnswerState evaluateAnswerCardState({

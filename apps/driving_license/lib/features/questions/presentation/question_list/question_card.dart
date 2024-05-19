@@ -23,15 +23,6 @@ import 'package:vector_graphics/vector_graphics.dart';
 const double _kQuestionCardImageSize = 66.0;
 
 class QuestionCard extends HookConsumerWidget {
-  final int questionPageIndex;
-  final Question question;
-  final bool isSelected;
-  final VoidCallback? onPressed;
-
-  final bool showIsDanger;
-  final bool showIsBookmarked;
-
-  final EvalAnswerStateDelegate evalAnswerStateDelegate;
 
   const QuestionCard({
     super.key,
@@ -43,6 +34,15 @@ class QuestionCard extends HookConsumerWidget {
     this.showIsBookmarked = true,
     this.evalAnswerStateDelegate = const ShowResultEvalAnswerStateDelegate(),
   });
+  final int questionPageIndex;
+  final Question question;
+  final bool isSelected;
+  final VoidCallback? onPressed;
+
+  final bool showIsDanger;
+  final bool showIsBookmarked;
+
+  final EvalAnswerStateDelegate evalAnswerStateDelegate;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -130,10 +130,6 @@ class QuestionCard extends HookConsumerWidget {
 }
 
 class QuestionCardTitle extends StatelessWidget {
-  final int questionPageIndex;
-  final Question question;
-  final bool showIsDanger;
-  final EvalAnswerStateDelegate evalAnswerStateDelegate;
 
   const QuestionCardTitle({
     super.key,
@@ -142,6 +138,10 @@ class QuestionCardTitle extends StatelessWidget {
     this.showIsDanger = true,
     this.evalAnswerStateDelegate = const ShowResultEvalAnswerStateDelegate(),
   });
+  final int questionPageIndex;
+  final Question question;
+  final bool showIsDanger;
+  final EvalAnswerStateDelegate evalAnswerStateDelegate;
 
   @override
   Widget build(BuildContext context) {
@@ -173,13 +173,13 @@ class QuestionCardTitle extends StatelessWidget {
 
 // QC stands for QuestionCard
 class _QCAnswerStateCheckbox extends HookConsumerWidget {
-  final Question question;
-  final EvalAnswerStateDelegate evalDelegate;
 
   const _QCAnswerStateCheckbox({
     required this.question,
     required this.evalDelegate,
   });
+  final Question question;
+  final EvalAnswerStateDelegate evalDelegate;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -197,8 +197,8 @@ class _QCAnswerStateCheckbox extends HookConsumerWidget {
 }
 
 class _QCIsBookmarkedIcon extends HookConsumerWidget {
-  final Question question;
   const _QCIsBookmarkedIcon({required this.question});
+  final Question question;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -221,11 +221,6 @@ class _QCIsBookmarkedIcon extends HookConsumerWidget {
 }
 
 class AsyncQuestionCard extends HookConsumerWidget {
-  final int questionPageIndex;
-  final bool isSelected;
-  final bool showAnswerResult;
-  final bool showIsDanger;
-  final VoidCallback? onPressed;
 
   const AsyncQuestionCard({
     super.key,
@@ -235,6 +230,11 @@ class AsyncQuestionCard extends HookConsumerWidget {
     this.showIsDanger = true,
     this.onPressed,
   });
+  final int questionPageIndex;
+  final bool isSelected;
+  final bool showAnswerResult;
+  final bool showIsDanger;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -265,8 +265,8 @@ class AsyncQuestionCard extends HookConsumerWidget {
 /// of QuestionCard for QuestionCardPrototypeHeightProvider. You should not use
 /// it unless you know what you are doing.
 class PrototypeQuestionCard extends HookConsumerWidget {
-  final bool shouldUpdateProvider;
   const PrototypeQuestionCard({super.key, this.shouldUpdateProvider = false});
+  final bool shouldUpdateProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

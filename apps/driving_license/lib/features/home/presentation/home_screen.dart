@@ -336,10 +336,10 @@ extension ChapterSelectionX on ChapterSelection {
 }
 
 class HomeRouteGuard extends AutoRouteGuard {
-  AppRouterRef ref;
 
   /// Only allow user to access HomeRoute if they have selected a license
   HomeRouteGuard(this.ref);
+  AppRouterRef ref;
 
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) async {

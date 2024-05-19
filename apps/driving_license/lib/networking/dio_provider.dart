@@ -24,8 +24,8 @@ Dio dio(DioRef ref) {
 }
 
 class DataLogIntercepter extends Interceptor {
-  final Logger logger;
   const DataLogIntercepter(this.logger);
+  final Logger logger;
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {

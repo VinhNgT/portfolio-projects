@@ -2,8 +2,8 @@ import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 
 class DeleteConfirmDialog extends StatelessWidget {
-  final String examName;
   const DeleteConfirmDialog({super.key, required this.examName});
+  final String examName;
 
   @override
   Widget build(BuildContext context) {

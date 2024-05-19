@@ -6,7 +6,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:vector_graphics/vector_graphics.dart';
 
 class AppErrorWidget extends StatelessWidget {
-  final String errorMessage;
 
   const AppErrorWidget({super.key, required this.errorMessage});
 
@@ -14,6 +13,7 @@ class AppErrorWidget extends StatelessWidget {
   /// to the user may not be a good idea.
   const AppErrorWidget.production({super.key})
       : errorMessage = 'Lỗi không thể hiển thị nội dung';
+  final String errorMessage;
 
   @override
   Widget build(BuildContext context) {

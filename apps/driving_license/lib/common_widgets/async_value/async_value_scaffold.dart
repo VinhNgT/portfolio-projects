@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AsyncValueScaffold<T> extends StatelessWidget {
-  final AsyncValue<T> value;
-  final Scaffold Function(T) builder;
 
   const AsyncValueScaffold({
     super.key,
     required this.value,
     required this.builder,
   });
+  final AsyncValue<T> value;
+  final Scaffold Function(T) builder;
 
   @override
   Widget build(BuildContext context) {

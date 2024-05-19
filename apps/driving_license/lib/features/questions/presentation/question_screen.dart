@@ -21,14 +21,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()
 class QuestionScreen extends HookConsumerWidget {
-  final int initialPageIndex;
-  final void Function(int currentPageIndex)? onclose;
 
   const QuestionScreen({
     super.key,
     this.initialPageIndex = 0,
     this.onclose,
   });
+  final int initialPageIndex;
+  final void Function(int currentPageIndex)? onclose;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

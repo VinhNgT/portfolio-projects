@@ -5,8 +5,8 @@ import 'package:driving_license/features/questions/presentation/question/remembe
 import 'package:flutter/material.dart';
 
 class QuestionNotes extends StatelessWidget {
-  final Question question;
   const QuestionNotes({super.key, required this.question});
+  final Question question;
 
   @override
   Widget build(BuildContext context) {

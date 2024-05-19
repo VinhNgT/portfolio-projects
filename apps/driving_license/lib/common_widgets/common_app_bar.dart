@@ -19,12 +19,6 @@ enum AppBarRightPadding {
 }
 
 class CommonAppBar extends HookConsumerWidget implements PreferredSizeWidget {
-  final Widget? title;
-  final Widget? leading;
-  final List<Widget> actions;
-  final AppBarRightPadding rightPadding;
-  final Color? backgroundColor;
-  final ScrollController? scaffoldBodyScrollController;
 
   const CommonAppBar({
     super.key,
@@ -35,6 +29,12 @@ class CommonAppBar extends HookConsumerWidget implements PreferredSizeWidget {
     this.backgroundColor,
     this.scaffoldBodyScrollController,
   });
+  final Widget? title;
+  final Widget? leading;
+  final List<Widget> actions;
+  final AppBarRightPadding rightPadding;
+  final Color? backgroundColor;
+  final ScrollController? scaffoldBodyScrollController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -82,9 +82,9 @@ class CommonAppBar extends HookConsumerWidget implements PreferredSizeWidget {
 /// Deprecated, keeping for historical purposes when Flutter team decides to add
 /// AppBar color transition animation when MaterialState.scrolledUnder
 class AppBarBackgroundColor extends MaterialStateColor {
-  final BuildContext context;
   AppBarBackgroundColor(this.context)
       : super(context.materialScheme.surface.value);
+  final BuildContext context;
 
   @override
   Color resolve(Set<MaterialState> states) {

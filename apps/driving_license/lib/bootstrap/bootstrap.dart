@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class Bootstrap {
-  final BootstrapDelegate delegate;
   const Bootstrap(this.delegate);
+  final BootstrapDelegate delegate;
 
   Future<UncontrolledProviderScope> initApp() async {
     final container = await delegate.createProviderContainer();

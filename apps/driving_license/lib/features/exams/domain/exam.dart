@@ -18,16 +18,6 @@ abstract class Exam with _$Exam {
     @Default(UserAnswersMap.empty) UserAnswersMap userAnswers,
     DateTime? lastAttemptedUtcTime,
   }) = _Exam;
-  const Exam._();
-
-  factory Exam.fromJson(Map<String, dynamic> json) => _$ExamFromJson(json);
-
-  static final prototype = Exam(
-    name: 'Prototype\nPrototype',
-    createdUtcTime: DateTime(1999),
-    questionDbIndexes: [0],
-    license: License.all,
-  );
 
   factory Exam.createNew({
     required License license,
@@ -39,6 +29,16 @@ abstract class Exam with _$Exam {
         questionDbIndexes: questionDbIndexes,
         license: license,
       );
+  const Exam._();
+
+  factory Exam.fromJson(Map<String, dynamic> json) => _$ExamFromJson(json);
+
+  static final prototype = Exam(
+    name: 'Prototype\nPrototype',
+    createdUtcTime: DateTime(1999),
+    questionDbIndexes: [0],
+    license: License.all,
+  );
 }
 
 extension ExamOperations on Exam {

@@ -20,10 +20,6 @@ class _AsyncValueWidgetHelper {
 /// A widget that handles different states of an asynchronous value and builds
 /// the UI accordingly.
 class AsyncValueWidget<T> extends StatelessWidget {
-  final AsyncValue<T> value;
-  final bool showLoadingIndicator;
-  final Widget? loadingWidget;
-  final Widget Function(T dataValue)? builder;
 
   /// Creates an [AsyncValueWidget] with the given parameters.
   ///
@@ -43,6 +39,10 @@ class AsyncValueWidget<T> extends StatelessWidget {
     this.loadingWidget,
     this.builder,
   });
+  final AsyncValue<T> value;
+  final bool showLoadingIndicator;
+  final Widget? loadingWidget;
+  final Widget Function(T dataValue)? builder;
 
   @override
   Widget build(BuildContext context) {
@@ -58,10 +58,6 @@ class AsyncValueWidget<T> extends StatelessWidget {
 }
 
 class Async2ValuesWidget<T, U> extends StatelessWidget {
-  final (AsyncValue<T>, AsyncValue<U>) values;
-  final bool showLoadingIndicator;
-  final Widget? loadingWidget;
-  final Widget Function(T, U)? builder;
 
   const Async2ValuesWidget({
     super.key,
@@ -70,6 +66,10 @@ class Async2ValuesWidget<T, U> extends StatelessWidget {
     this.loadingWidget,
     this.builder,
   });
+  final (AsyncValue<T>, AsyncValue<U>) values;
+  final bool showLoadingIndicator;
+  final Widget? loadingWidget;
+  final Widget Function(T, U)? builder;
 
   @override
   Widget build(BuildContext context) {
@@ -86,10 +86,6 @@ class Async2ValuesWidget<T, U> extends StatelessWidget {
 }
 
 class Async3ValuesWidget<T, U, V> extends StatelessWidget {
-  final (AsyncValue<T>, AsyncValue<U>, AsyncValue<V>) values;
-  final bool showLoadingIndicator;
-  final Widget? loadingWidget;
-  final Widget Function(T, U, V)? builder;
 
   const Async3ValuesWidget({
     super.key,
@@ -98,6 +94,10 @@ class Async3ValuesWidget<T, U, V> extends StatelessWidget {
     this.loadingWidget,
     this.builder,
   });
+  final (AsyncValue<T>, AsyncValue<U>, AsyncValue<V>) values;
+  final bool showLoadingIndicator;
+  final Widget? loadingWidget;
+  final Widget Function(T, U, V)? builder;
 
   @override
   Widget build(BuildContext context) {
@@ -115,10 +115,6 @@ class Async3ValuesWidget<T, U, V> extends StatelessWidget {
 }
 
 class Async4ValuesWidget<T, U, V, W> extends StatelessWidget {
-  final (AsyncValue<T>, AsyncValue<U>, AsyncValue<V>, AsyncValue<W>) values;
-  final bool showLoadingIndicator;
-  final Widget? loadingWidget;
-  final Widget Function(T, U, V, W)? builder;
 
   const Async4ValuesWidget({
     super.key,
@@ -127,6 +123,10 @@ class Async4ValuesWidget<T, U, V, W> extends StatelessWidget {
     this.loadingWidget,
     this.builder,
   });
+  final (AsyncValue<T>, AsyncValue<U>, AsyncValue<V>, AsyncValue<W>) values;
+  final bool showLoadingIndicator;
+  final Widget? loadingWidget;
+  final Widget Function(T, U, V, W)? builder;
 
   @override
   Widget build(BuildContext context) {
@@ -149,6 +149,14 @@ class Async4ValuesWidget<T, U, V, W> extends StatelessWidget {
 }
 
 class Async5ValuesWidget<T, U, V, W, X> extends StatelessWidget {
+
+  const Async5ValuesWidget({
+    super.key,
+    required this.values,
+    this.showLoadingIndicator = false,
+    this.loadingWidget,
+    this.builder,
+  });
   final (
     AsyncValue<T>,
     AsyncValue<U>,
@@ -159,14 +167,6 @@ class Async5ValuesWidget<T, U, V, W, X> extends StatelessWidget {
   final bool showLoadingIndicator;
   final Widget? loadingWidget;
   final Widget Function(T, U, V, W, X)? builder;
-
-  const Async5ValuesWidget({
-    super.key,
-    required this.values,
-    this.showLoadingIndicator = false,
-    this.loadingWidget,
-    this.builder,
-  });
 
   @override
   Widget build(BuildContext context) {

@@ -3,9 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ProviderDebugObserver extends ProviderObserver {
-  List<int> activePageNumbers = [];
 
   ProviderDebugObserver();
+  List<int> activePageNumbers = [];
 
   @override
   void didAddProvider(

@@ -5,8 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 /// Error logger class to keep track of all AsyncError states that are set
 /// by the controllers in the app
 class AsyncErrorLogger extends ProviderObserver {
-  ErrorLogger errorLogger;
   AsyncErrorLogger(this.errorLogger);
+  ErrorLogger errorLogger;
 
   @override
   void didUpdateProvider(

@@ -6,9 +6,9 @@ import 'package:driving_license/theme/figma_generated.dart';
 import 'package:flutter/material.dart';
 
 class MaterialTheme {
+  const MaterialTheme(this.contextTheme);
   /// The original theme to be used as a base for the new theme
   final ThemeData contextTheme;
-  const MaterialTheme(this.contextTheme);
 
   static MaterialScheme get lightScheme {
     return FigmaGeneratedMaterialScheme.lightScheme();
@@ -263,13 +263,6 @@ class MaterialScheme {
 }
 
 class ExtendedColor {
-  final Color seed, value;
-  final ColorFamily light;
-  final ColorFamily lightHighContrast;
-  final ColorFamily lightMediumContrast;
-  final ColorFamily dark;
-  final ColorFamily darkHighContrast;
-  final ColorFamily darkMediumContrast;
 
   const ExtendedColor({
     required this.seed,
@@ -281,6 +274,13 @@ class ExtendedColor {
     required this.darkHighContrast,
     required this.darkMediumContrast,
   });
+  final Color seed, value;
+  final ColorFamily light;
+  final ColorFamily lightHighContrast;
+  final ColorFamily lightMediumContrast;
+  final ColorFamily dark;
+  final ColorFamily darkHighContrast;
+  final ColorFamily darkMediumContrast;
 }
 
 class ColorFamily {

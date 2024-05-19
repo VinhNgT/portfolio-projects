@@ -5,8 +5,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class RenameDialog extends HookConsumerWidget {
-  final String examName;
   const RenameDialog({super.key, required this.examName});
+  final String examName;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

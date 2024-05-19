@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AppUiOverlay {
-  final Brightness brightness;
   AppUiOverlay(this.brightness);
+  final Brightness brightness;
 
   SystemUiOverlayStyle get statusBarOverlayStyle => SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,

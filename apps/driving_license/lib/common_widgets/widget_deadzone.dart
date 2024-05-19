@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 class WidgetDeadzone extends StatelessWidget {
-  final Widget child;
-  final EdgeInsets deadzone;
 
   /// A widget that creates a deadzone around a child widget. This is useful
   /// when you want to prevent gestures from being recognized in certain areas
@@ -12,6 +10,8 @@ class WidgetDeadzone extends StatelessWidget {
     required this.child,
     required this.deadzone,
   });
+  final Widget child;
+  final EdgeInsets deadzone;
 
   @override
   Widget build(BuildContext context) {

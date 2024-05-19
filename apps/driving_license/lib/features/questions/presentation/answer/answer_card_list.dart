@@ -10,9 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AnswerCardList extends HookConsumerWidget {
-  final Question question;
-  final AnswerCardListDelegate delegate;
-  final bool allowInteraction;
 
   const AnswerCardList._({
     required this.question,
@@ -37,6 +34,9 @@ class AnswerCardList extends HookConsumerWidget {
           delegate: const ExamModeAnswerCardListDelegate(),
           allowInteraction: allowInteraction,
         );
+  final Question question;
+  final AnswerCardListDelegate delegate;
+  final bool allowInteraction;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

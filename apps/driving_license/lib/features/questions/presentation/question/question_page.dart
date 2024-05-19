@@ -16,11 +16,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class QuestionPage extends HookConsumerWidget {
-  final int questionPageIndex;
-  final bool showRightWrong;
-  final bool showNotes;
-  final bool allowAnswering;
-  final EdgeInsetsGeometry padding;
 
   const QuestionPage({
     super.key,
@@ -30,6 +25,11 @@ class QuestionPage extends HookConsumerWidget {
     this.allowAnswering = true,
     this.padding = const EdgeInsets.all(kSize_16),
   });
+  final int questionPageIndex;
+  final bool showRightWrong;
+  final bool showNotes;
+  final bool allowAnswering;
+  final EdgeInsetsGeometry padding;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -122,13 +122,13 @@ extension QuestionPageX on QuestionPage {
 }
 
 class _QuestionNotesVisibility extends HookConsumerWidget {
-  final int questionPageIndex;
-  final Question question;
 
   const _QuestionNotesVisibility({
     required this.questionPageIndex,
     required this.question,
   });
+  final int questionPageIndex;
+  final Question question;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -2,8 +2,6 @@ import 'package:driving_license/features/exams/domain/exam.dart';
 import 'package:driving_license/features/questions/domain/user_answers_summary.dart';
 
 sealed class ExamResultStatus {
-  final Exam exam;
-  final UserAnswersSummary userAnswersSummary;
   ExamResultStatus({
     required this.exam,
     required this.userAnswersSummary,
@@ -38,6 +36,8 @@ sealed class ExamResultStatus {
       userAnswersSummary: userAnswersSummary,
     );
   }
+  final Exam exam;
+  final UserAnswersSummary userAnswersSummary;
 
   int get totalQuestionsCount => exam.questionsCount;
   int get correctAnswersCount => userAnswersSummary.correctAnswers;

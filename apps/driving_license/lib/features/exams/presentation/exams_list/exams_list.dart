@@ -12,14 +12,14 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ExamsList extends HookConsumerWidget {
-  final List<Exam> examsList;
-  final void Function(int index)? onExamCardPressed;
 
   const ExamsList({
     super.key,
     required this.examsList,
     this.onExamCardPressed,
   });
+  final List<Exam> examsList;
+  final void Function(int index)? onExamCardPressed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

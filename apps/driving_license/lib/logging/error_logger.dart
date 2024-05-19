@@ -18,8 +18,8 @@ sealed class ErrorLogger {
 
 // A console error logger that logs errors to the console
 class ConsoleErrorLogger extends ErrorLogger {
-  final Logger logger;
   const ConsoleErrorLogger(this.logger);
+  final Logger logger;
 
   @override
   void logError(Object error, StackTrace? stackTrace) {

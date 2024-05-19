@@ -15,14 +15,14 @@ import 'package:vector_graphics/vector_graphics.dart';
 
 @RoutePage()
 class LicenseSelectionScreen extends HookConsumerWidget {
-  final VoidCallback? afterLicenseSelected;
-  final bool navigateToHomeAfterLicenseSelected;
 
   const LicenseSelectionScreen({
     super.key,
     this.afterLicenseSelected,
     this.navigateToHomeAfterLicenseSelected = true,
   });
+  final VoidCallback? afterLicenseSelected;
+  final bool navigateToHomeAfterLicenseSelected;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -71,8 +71,8 @@ class LicenseSelectionScreen extends HookConsumerWidget {
 }
 
 class LicenseSelection extends StatelessWidget {
-  final void Function(License license) onLicenseSelected;
   const LicenseSelection({super.key, required this.onLicenseSelected});
+  final void Function(License license) onLicenseSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -93,13 +93,13 @@ class LicenseSelection extends StatelessWidget {
 }
 
 class LicenseCard extends HookConsumerWidget {
-  final License license;
-  final VoidCallback onPressed;
   const LicenseCard({
     super.key,
     required this.license,
     required this.onPressed,
   });
+  final License license;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

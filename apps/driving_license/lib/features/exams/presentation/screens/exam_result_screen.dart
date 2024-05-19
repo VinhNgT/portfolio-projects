@@ -54,12 +54,12 @@ class ExamResultScreen extends HookConsumerWidget {
 }
 
 class AnswersResultList extends HookConsumerWidget {
-  final ScrollController scrollController;
 
   const AnswersResultList({
     super.key,
     required this.scrollController,
   });
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -156,8 +156,8 @@ class _ExamResultSummary extends HookConsumerWidget {
 }
 
 class _SummaryCounts extends StatelessWidget {
-  final Exam exam;
   const _SummaryCounts({required this.exam});
+  final Exam exam;
 
   @override
   Widget build(BuildContext context) {

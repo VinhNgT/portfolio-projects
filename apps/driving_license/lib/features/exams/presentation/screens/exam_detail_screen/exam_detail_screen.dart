@@ -12,8 +12,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()
 class ExamDetailScreen extends HookConsumerWidget {
-  final Exam exam;
   const ExamDetailScreen({super.key, required this.exam});
+  final Exam exam;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -98,8 +98,8 @@ class ExamDetailScreen extends HookConsumerWidget {
 }
 
 class _ExamStructure extends StatelessWidget {
-  final Exam exam;
   const _ExamStructure({required this.exam});
+  final Exam exam;
 
   @override
   Widget build(BuildContext context) {

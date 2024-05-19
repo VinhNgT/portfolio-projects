@@ -103,8 +103,8 @@ class ClearChapterCompletionDialog extends HookConsumerWidget {
 }
 
 class ChapterDropdown extends HookConsumerWidget {
-  final GlobalKey<FormBuilderState>? formKey;
   const ChapterDropdown({super.key, this.formKey});
+  final GlobalKey<FormBuilderState>? formKey;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

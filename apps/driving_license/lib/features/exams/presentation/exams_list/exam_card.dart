@@ -14,10 +14,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class ExamCard extends StatelessWidget {
-  final Exam exam;
-  final ExamsListState state;
-  final String? customCompletionStatusText;
-  final VoidCallback? onPressed;
 
   const ExamCard({
     super.key,
@@ -26,6 +22,10 @@ class ExamCard extends StatelessWidget {
     this.customCompletionStatusText,
     this.onPressed,
   });
+  final Exam exam;
+  final ExamsListState state;
+  final String? customCompletionStatusText;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -171,8 +171,8 @@ class _EditIcon extends StatelessWidget {
 }
 
 class PrototypeExamCard extends HookConsumerWidget {
-  final bool shouldUpdateProvider;
   const PrototypeExamCard({super.key, this.shouldUpdateProvider = false});
+  final bool shouldUpdateProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

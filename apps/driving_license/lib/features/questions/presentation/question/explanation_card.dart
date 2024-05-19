@@ -3,8 +3,8 @@ import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 
 class ExplanationCard extends StatelessWidget {
-  final String content;
   const ExplanationCard({super.key, required this.content});
+  final String content;
 
   @override
   Widget build(BuildContext context) {

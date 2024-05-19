@@ -6,15 +6,15 @@ import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 
 class AnswerCard extends StatelessWidget {
-  final String answer;
-  final AnswerState state;
-  final VoidCallback? onPressed;
   const AnswerCard({
     super.key,
     required this.state,
     required this.answer,
     this.onPressed,
   });
+  final String answer;
+  final AnswerState state;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {

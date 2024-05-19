@@ -23,10 +23,6 @@ import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class QuestionBottomNavigationBar extends HookConsumerWidget {
-  final int questionCount;
-  final VoidCallback? onPreviousPressed;
-  final VoidCallback? onNextPressed;
-  final VoidCallback? onShowAllPressed;
 
   const QuestionBottomNavigationBar({
     super.key,
@@ -59,6 +55,10 @@ class QuestionBottomNavigationBar extends HookConsumerWidget {
       onShowAllPressed: onShowAllPressed,
     );
   }
+  final int questionCount;
+  final VoidCallback? onPreviousPressed;
+  final VoidCallback? onNextPressed;
+  final VoidCallback? onShowAllPressed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -211,13 +211,13 @@ class ExamBottomNavigationBar extends QuestionBottomNavigationBar {
 }
 
 class _ExamTimer extends HookConsumerWidget {
-  final Duration duration;
-  final VoidCallback? onTimeout;
 
   _ExamTimer({
     required this.duration,
     this.onTimeout,
   });
+  final Duration duration;
+  final VoidCallback? onTimeout;
 
   final timerFormat = DateFormat('HH:mm');
 
@@ -259,11 +259,6 @@ class _ExamTimer extends HookConsumerWidget {
 enum _IconPosition { left, right }
 
 class _QuestionNavBarButton extends StatelessWidget {
-  final Icon? icon;
-  final Widget label;
-  final _IconPosition iconPosition;
-  final MainAxisAlignment mainAxisAlignment;
-  final VoidCallback? onPressed;
 
   const _QuestionNavBarButton({
     this.icon,
@@ -272,6 +267,11 @@ class _QuestionNavBarButton extends StatelessWidget {
     this.mainAxisAlignment = MainAxisAlignment.start,
     required this.onPressed,
   });
+  final Icon? icon;
+  final Widget label;
+  final _IconPosition iconPosition;
+  final MainAxisAlignment mainAxisAlignment;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -312,9 +312,9 @@ class _QuestionNavBarButton extends StatelessWidget {
 }
 
 class _PreviousQuestion extends StatelessWidget {
-  final VoidCallback? onPressed;
 
   const _PreviousQuestion({this.onPressed});
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -336,9 +336,9 @@ class _PreviousQuestion extends StatelessWidget {
 }
 
 class _NextQuestion extends StatelessWidget {
-  final VoidCallback? onPressed;
 
   const _NextQuestion({this.onPressed});
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -360,9 +360,9 @@ class _NextQuestion extends StatelessWidget {
 }
 
 class _ShowAllQuestion extends StatelessWidget {
-  final VoidCallback? onPressed;
 
   const _ShowAllQuestion({this.onPressed});
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {

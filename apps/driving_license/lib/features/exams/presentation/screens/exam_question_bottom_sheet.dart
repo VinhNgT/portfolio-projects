@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ExamQuestionBottomSheet extends CommonBottomSheet {
-  final int questionPageIndex;
   ExamQuestionBottomSheet({
     super.key,
     required this.questionPageIndex,
@@ -26,11 +25,12 @@ class ExamQuestionBottomSheet extends CommonBottomSheet {
             ),
           ),
         );
+  final int questionPageIndex;
 }
 
 class _Title extends HookConsumerWidget {
-  final int questionPageIndex;
   const _Title({required this.questionPageIndex});
+  final int questionPageIndex;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

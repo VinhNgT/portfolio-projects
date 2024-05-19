@@ -92,13 +92,13 @@ extension QuestionAppBarX on QuestionAppBar {
 }
 
 class _QuestionTitle extends HookConsumerWidget {
-  final int currentPageIndex;
-  final bool showIsDanger;
 
   const _QuestionTitle({
     required this.currentPageIndex,
     this.showIsDanger = true,
   });
+  final int currentPageIndex;
+  final bool showIsDanger;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

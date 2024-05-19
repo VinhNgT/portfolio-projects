@@ -11,10 +11,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class QuestionList extends HookConsumerWidget {
-  final int initialCurrentPageIndex;
-  final int questionCount;
-  final double viewPortHeight;
-  final void Function(int index)? onQuestionCardPressed;
 
   const QuestionList({
     super.key,
@@ -23,6 +19,10 @@ class QuestionList extends HookConsumerWidget {
     required this.viewPortHeight,
     this.onQuestionCardPressed,
   });
+  final int initialCurrentPageIndex;
+  final int questionCount;
+  final double viewPortHeight;
+  final void Function(int index)? onQuestionCardPressed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

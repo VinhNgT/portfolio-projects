@@ -3,6 +3,19 @@ import 'package:flutter/material.dart';
 
 /// A stateful widget that provides awareness of route changes and transitions.
 class AwareRouteState extends StatefulWidget {
+
+  /// Creates a widget that provides awareness of route changes and
+  /// transistions.
+  const AwareRouteState({
+    super.key,
+    this.didPopNext,
+    this.didPush,
+    this.didPop,
+    this.didPushNext,
+    this.didInitTabRoute,
+    this.didChangeTabRoute,
+    required this.child,
+  });
   /// Called when the top route has been popped off, and the current route
   /// shows up.
   final VoidCallback? didPopNext;
@@ -25,19 +38,6 @@ class AwareRouteState extends StatefulWidget {
 
   /// The child widget to display.
   final Widget child;
-
-  /// Creates a widget that provides awareness of route changes and
-  /// transistions.
-  const AwareRouteState({
-    super.key,
-    this.didPopNext,
-    this.didPush,
-    this.didPop,
-    this.didPushNext,
-    this.didInitTabRoute,
-    this.didChangeTabRoute,
-    required this.child,
-  });
 
   @override
   State<AwareRouteState> createState() => _AwareRouteStateState();

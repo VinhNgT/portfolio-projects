@@ -17,8 +17,8 @@ import 'package:sqflite/sqflite.dart';
 const _dataBaseUserVersionConst = 4;
 
 class SqliteQuestionsRepository implements QuestionsRepository {
-  final Database database;
   SqliteQuestionsRepository(this.database);
+  final Database database;
 
   @factory
   static Future<SqliteQuestionsRepository> makeDefault() async {

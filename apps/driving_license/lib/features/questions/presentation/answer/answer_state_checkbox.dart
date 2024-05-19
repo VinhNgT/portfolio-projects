@@ -5,9 +5,9 @@ import 'package:material_symbols_icons/symbols.dart';
 enum AnswerState { unchecked, checked, correct, incorrect }
 
 class AnswerStateCheckbox extends StatelessWidget {
+  const AnswerStateCheckbox({super.key, required this.state, this.iconSize});
   final AnswerState state;
   final double? iconSize;
-  const AnswerStateCheckbox({super.key, required this.state, this.iconSize});
 
   @override
   Widget build(BuildContext context) {

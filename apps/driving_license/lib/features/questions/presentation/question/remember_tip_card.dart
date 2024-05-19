@@ -8,9 +8,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class RememberTipCard extends HookConsumerWidget {
-  final String content;
 
   const RememberTipCard({super.key, required this.content});
+  final String content;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -71,9 +71,9 @@ class _CollapsedContent extends StatelessWidget {
 }
 
 class _ExpandedContent extends StatelessWidget {
-  final String content;
 
   const _ExpandedContent({required this.content});
+  final String content;
 
   @override
   Widget build(BuildContext context) {

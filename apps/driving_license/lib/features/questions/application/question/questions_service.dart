@@ -24,79 +24,6 @@ class QuestionsService {
     required this.userAnswersHandler,
   });
 
-  final QuestionsServiceMode operatingMode;
-  final QuestionsHandler questionsHandler;
-  final UserAnswersHandler userAnswersHandler;
-
-  static Future<QuestionsService> createService(
-    QuestionsServiceConfig config,
-  ) async {
-    switch (config.operatingMode) {
-      case final FullOperatingMode _:
-        return QuestionsService._full(
-          questionsRepository: config.questionsRepository,
-          userAnswersRepository: config.userAnswersRepository,
-        );
-
-      case ChapterOperatingMode(:final chapter):
-        return QuestionsService._chapter(
-          questionsRepository: config.questionsRepository,
-          userAnswersRepository: config.userAnswersRepository,
-          license: config.license,
-          chapter: chapter,
-        );
-
-      case final DangerOperatingMode _:
-        return QuestionsService._danger(
-          questionsRepository: config.questionsRepository,
-          userAnswersRepository: config.userAnswersRepository,
-          license: config.license,
-        );
-
-      case final DifficultOperatingMode _:
-        final difficultQuestionUserAnswers = await config.userAnswersRepository
-            .getAllAnswers(config.license, filterDifficultAnswers: true);
-
-        return QuestionsService._difficult(
-          questionsRepository: config.questionsRepository,
-          userAnswersRepository: config.userAnswersRepository,
-          inMemoryUserAnswersRepository: config.inMemoryUserAnswersRepository,
-          difficultQuestionUserAnswers: difficultQuestionUserAnswers,
-          license: config.license,
-        );
-
-      case final WrongAnswersOperatingMode _:
-        final wrongUserAnswers = await config.userAnswersRepository
-            .getAllAnswers(config.license, filterWrongAnswers: true);
-
-        return QuestionsService._wrongAnswers(
-          questionsRepository: config.questionsRepository,
-          userAnswersRepository: config.userAnswersRepository,
-          inMemoryUserAnswersRepository: config.inMemoryUserAnswersRepository,
-          wrongUserAnswers: wrongUserAnswers,
-        );
-
-      case final BookmarkOperatingMode _:
-        final bookmarks = await config.bookmarksRepository
-            .getAllBookmarksByLicense(config.license);
-        final bookmarkQuestionDbIndexes =
-            bookmarks.map((e) => e.questionDbIndex).toList();
-
-        return QuestionsService._bookmarked(
-          questionsRepository: config.questionsRepository,
-          userAnswersRepository: config.userAnswersRepository,
-          bookmarkedQuestionDbIndexes: bookmarkQuestionDbIndexes,
-        );
-
-      case ExamOperatingMode(:final exam):
-        return QuestionsService._exam(
-          questionsRepository: config.questionsRepository,
-          inMemoryUserAnswersRepository: config.inMemoryUserAnswersRepository,
-          exam: exam,
-        );
-    }
-  }
-
   QuestionsService._full({
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
@@ -213,6 +140,79 @@ class QuestionsService {
             inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
           ),
         );
+
+  final QuestionsServiceMode operatingMode;
+  final QuestionsHandler questionsHandler;
+  final UserAnswersHandler userAnswersHandler;
+
+  static Future<QuestionsService> createService(
+    QuestionsServiceConfig config,
+  ) async {
+    switch (config.operatingMode) {
+      case final FullOperatingMode _:
+        return QuestionsService._full(
+          questionsRepository: config.questionsRepository,
+          userAnswersRepository: config.userAnswersRepository,
+        );
+
+      case ChapterOperatingMode(:final chapter):
+        return QuestionsService._chapter(
+          questionsRepository: config.questionsRepository,
+          userAnswersRepository: config.userAnswersRepository,
+          license: config.license,
+          chapter: chapter,
+        );
+
+      case final DangerOperatingMode _:
+        return QuestionsService._danger(
+          questionsRepository: config.questionsRepository,
+          userAnswersRepository: config.userAnswersRepository,
+          license: config.license,
+        );
+
+      case final DifficultOperatingMode _:
+        final difficultQuestionUserAnswers = await config.userAnswersRepository
+            .getAllAnswers(config.license, filterDifficultAnswers: true);
+
+        return QuestionsService._difficult(
+          questionsRepository: config.questionsRepository,
+          userAnswersRepository: config.userAnswersRepository,
+          inMemoryUserAnswersRepository: config.inMemoryUserAnswersRepository,
+          difficultQuestionUserAnswers: difficultQuestionUserAnswers,
+          license: config.license,
+        );
+
+      case final WrongAnswersOperatingMode _:
+        final wrongUserAnswers = await config.userAnswersRepository
+            .getAllAnswers(config.license, filterWrongAnswers: true);
+
+        return QuestionsService._wrongAnswers(
+          questionsRepository: config.questionsRepository,
+          userAnswersRepository: config.userAnswersRepository,
+          inMemoryUserAnswersRepository: config.inMemoryUserAnswersRepository,
+          wrongUserAnswers: wrongUserAnswers,
+        );
+
+      case final BookmarkOperatingMode _:
+        final bookmarks = await config.bookmarksRepository
+            .getAllBookmarksByLicense(config.license);
+        final bookmarkQuestionDbIndexes =
+            bookmarks.map((e) => e.questionDbIndex).toList();
+
+        return QuestionsService._bookmarked(
+          questionsRepository: config.questionsRepository,
+          userAnswersRepository: config.userAnswersRepository,
+          bookmarkedQuestionDbIndexes: bookmarkQuestionDbIndexes,
+        );
+
+      case ExamOperatingMode(:final exam):
+        return QuestionsService._exam(
+          questionsRepository: config.questionsRepository,
+          inMemoryUserAnswersRepository: config.inMemoryUserAnswersRepository,
+          exam: exam,
+        );
+    }
+  }
 }
 
 extension QuestionsServiceMethods on QuestionsService {

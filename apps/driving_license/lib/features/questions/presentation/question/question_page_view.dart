@@ -10,14 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class QuestionPageView extends HookConsumerWidget {
-  final int questionCount;
-  final PageController pageController;
 
   const QuestionPageView({
     super.key,
     required this.questionCount,
     required this.pageController,
   });
+  final int questionCount;
+  final PageController pageController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

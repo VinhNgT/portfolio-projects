@@ -6,10 +6,10 @@ part 'previous_route_observer.g.dart';
 
 /// A custom route observer that keeps track of the previous route.
 class PreviousRouteObserver extends AutoRouterObserver {
-  PreviousRouteObserverRef ref;
 
   /// Constructs a [PreviousRouteObserver] with the given [ref].
   PreviousRouteObserver(this.ref);
+  PreviousRouteObserverRef ref;
 
   /// The name of the previous route.
   String? get name => previousRoute?.settings.name;

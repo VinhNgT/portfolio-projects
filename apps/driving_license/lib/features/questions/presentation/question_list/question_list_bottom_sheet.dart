@@ -9,10 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class QuestionListBottomSheet extends CommonBottomSheet {
-  final int questionCount;
-  final int initialCurrentPageIndex;
-
-  final void Function(int index)? onQuestionCardPressed;
 
   QuestionListBottomSheet({
     super.key,
@@ -30,11 +26,15 @@ class QuestionListBottomSheet extends CommonBottomSheet {
             ),
           ),
         );
+  final int questionCount;
+  final int initialCurrentPageIndex;
+
+  final void Function(int index)? onQuestionCardPressed;
 }
 
 class _Title extends HookConsumerWidget {
-  final int questionCount;
   const _Title({required this.questionCount});
+  final int questionCount;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

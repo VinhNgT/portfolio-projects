@@ -13,8 +13,8 @@ sealed class QuestionsHandler {
 }
 
 class FullQuestionsHandler implements QuestionsHandler {
-  final QuestionsRepository questionsRepository;
   FullQuestionsHandler({required this.questionsRepository});
+  final QuestionsRepository questionsRepository;
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
@@ -33,15 +33,15 @@ class FullQuestionsHandler implements QuestionsHandler {
 }
 
 class ChapterQuestionsHandler implements QuestionsHandler {
-  final QuestionsRepository questionsRepository;
-  final License license;
-  final Chapter chapter;
 
   ChapterQuestionsHandler({
     required this.questionsRepository,
     required this.license,
     required this.chapter,
   });
+  final QuestionsRepository questionsRepository;
+  final License license;
+  final Chapter chapter;
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
@@ -71,13 +71,13 @@ class ChapterQuestionsHandler implements QuestionsHandler {
 }
 
 class DangerQuestionsHandler implements QuestionsHandler {
-  final QuestionsRepository questionsRepository;
-  final License license;
 
   DangerQuestionsHandler({
     required this.questionsRepository,
     required this.license,
   });
+  final QuestionsRepository questionsRepository;
+  final License license;
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
@@ -107,13 +107,13 @@ class DangerQuestionsHandler implements QuestionsHandler {
 }
 
 class DifficultQuestionsHandler implements QuestionsHandler {
-  final QuestionsRepository questionsRepository;
-  final License license;
 
   DifficultQuestionsHandler({
     required this.questionsRepository,
     required this.license,
   });
+  final QuestionsRepository questionsRepository;
+  final License license;
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {
@@ -143,13 +143,13 @@ class DifficultQuestionsHandler implements QuestionsHandler {
 }
 
 class CustomQuestionListQuestionHandler implements QuestionsHandler {
-  final QuestionsRepository questionsRepository;
-  final List<int> sortedQuestionDbIndexes;
 
   CustomQuestionListQuestionHandler({
     required this.questionsRepository,
     required this.sortedQuestionDbIndexes,
   }) : assert(sortedQuestionDbIndexes.isSorted((a, b) => a - b));
+  final QuestionsRepository questionsRepository;
+  final List<int> sortedQuestionDbIndexes;
 
   @override
   FutureOr<Question> getQuestion(int questionIndex) {

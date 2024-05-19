@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class InkWellBackgroundColor implements MaterialStateProperty<Color?> {
-  final Color onSurfaceColor;
   const InkWellBackgroundColor(this.onSurfaceColor);
+  final Color onSurfaceColor;
 
   @override
   Color? resolve(Set<MaterialState> states) {

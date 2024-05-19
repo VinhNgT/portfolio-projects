@@ -9,11 +9,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'exams_service.g.dart';
 
 class ExamsService {
-  final ExamsRepository examsRepository;
-  final QuestionsRepository questionsRepository;
-  final License license;
-
-  late final QuestionSelector _questionSelector;
 
   ExamsService({
     required this.examsRepository,
@@ -25,6 +20,11 @@ class ExamsService {
       questionsRepository: questionsRepository,
     );
   }
+  final ExamsRepository examsRepository;
+  final QuestionsRepository questionsRepository;
+  final License license;
+
+  late final QuestionSelector _questionSelector;
 
   FutureOr<void> createExam() async {
     final examQuestions = await _questionSelector.generateQuestions();

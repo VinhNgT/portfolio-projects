@@ -10,8 +10,8 @@ part 'app_router.g.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Page|Screen,Route')
 class AppRouter extends $AppRouter {
-  final AppRouterRef ref;
   AppRouter(this.ref) : super();
+  final AppRouterRef ref;
 
   @override
   List<AutoRoute> get routes => [

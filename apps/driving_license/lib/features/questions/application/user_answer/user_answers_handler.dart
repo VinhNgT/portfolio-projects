@@ -18,11 +18,11 @@ sealed class UserAnswersHandler {
 }
 
 class DirectUserAnswersHandler extends UserAnswersHandler {
-  final UserAnswersRepository userAnswersRepository;
 
   const DirectUserAnswersHandler({
     required this.userAnswersRepository,
   });
+  final UserAnswersRepository userAnswersRepository;
 
   @override
   Future<void> saveUserAnswer(
@@ -56,11 +56,11 @@ class DirectUserAnswersHandler extends UserAnswersHandler {
 }
 
 class InMemoryUserAnswersHandler extends UserAnswersHandler {
-  final InMemoryUserAnswersRepository inMemoryUserAnswersRepository;
 
   const InMemoryUserAnswersHandler({
     required this.inMemoryUserAnswersRepository,
   });
+  final InMemoryUserAnswersRepository inMemoryUserAnswersRepository;
 
   @override
   Future<void> saveUserAnswer(
@@ -98,15 +98,15 @@ class InMemoryUserAnswersHandler extends UserAnswersHandler {
 }
 
 class HideUserAnswersHandler extends UserAnswersHandler {
-  final UserAnswersRepository userAnswersRepository;
-  final InMemoryUserAnswersHandler inMemoryUserAnswersHandler;
-  final UserAnswersMap userAnswersBeforeStart;
 
   const HideUserAnswersHandler({
     required this.userAnswersRepository,
     required this.inMemoryUserAnswersHandler,
     required this.userAnswersBeforeStart,
   });
+  final UserAnswersRepository userAnswersRepository;
+  final InMemoryUserAnswersHandler inMemoryUserAnswersHandler;
+  final UserAnswersMap userAnswersBeforeStart;
 
   @override
   Future<void> saveUserAnswer(

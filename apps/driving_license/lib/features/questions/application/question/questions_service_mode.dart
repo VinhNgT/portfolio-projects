@@ -16,8 +16,8 @@ class FullOperatingMode extends QuestionsServiceMode {
 }
 
 class ChapterOperatingMode extends QuestionsServiceMode {
-  final Chapter chapter;
   const ChapterOperatingMode(this.chapter);
+  final Chapter chapter;
 
   @override
   String get description => 'Chapter ${chapter.chapterDbIndex} operating mode';
@@ -52,8 +52,8 @@ class BookmarkOperatingMode extends QuestionsServiceMode {
 }
 
 class ExamOperatingMode extends QuestionsServiceMode {
-  final Exam exam;
   const ExamOperatingMode(this.exam);
+  final Exam exam;
 
   @override
   String get description => 'Exam questions operating mode';

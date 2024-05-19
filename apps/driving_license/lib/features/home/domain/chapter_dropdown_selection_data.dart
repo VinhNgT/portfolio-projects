@@ -15,8 +15,8 @@ class DangerChapterSelection extends ChapterDropdownSelectionData {
 }
 
 class ChapterSelection extends ChapterDropdownSelectionData {
-  final Chapter chapter;
   const ChapterSelection(this.chapter) : super();
+  final Chapter chapter;
 
   @override
   String toString() {

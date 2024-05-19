@@ -5,9 +5,6 @@ import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 
 class FeatureCard extends StatelessWidget {
-  final String title;
-  final String subhead;
-  final VoidCallback onPressed;
 
   const FeatureCard({
     super.key,
@@ -15,6 +12,9 @@ class FeatureCard extends StatelessWidget {
     required this.subhead,
     required this.onPressed,
   });
+  final String title;
+  final String subhead;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {

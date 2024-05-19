@@ -49,8 +49,8 @@ class ExamsListScreenAppBar extends HookConsumerWidget
 }
 
 class _ViewAppBar extends HookConsumerWidget {
-  final bool showActionIcons;
   const _ViewAppBar({this.showActionIcons = true});
+  final bool showActionIcons;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

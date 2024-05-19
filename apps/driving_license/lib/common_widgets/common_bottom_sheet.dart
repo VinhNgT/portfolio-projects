@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class CommonBottomSheet extends StatelessWidget {
-  final Widget title;
-  final Widget child;
   const CommonBottomSheet({
     super.key,
     required this.title,
     required this.child,
   });
+  final Widget title;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +31,8 @@ class CommonBottomSheet extends StatelessWidget {
 }
 
 class _TitleBar extends StatelessWidget {
-  final Widget title;
   const _TitleBar({required this.title});
+  final Widget title;
 
   @override
   Widget build(BuildContext context) {

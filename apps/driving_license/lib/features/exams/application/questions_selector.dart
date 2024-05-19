@@ -7,13 +7,13 @@ import 'package:driving_license/utils/random_utils.dart';
 import 'package:flutter/foundation.dart';
 
 class QuestionSelector {
-  final QuestionsRepository questionsRepository;
-  final License license;
 
   const QuestionSelector({
     required this.license,
     required this.questionsRepository,
   });
+  final QuestionsRepository questionsRepository;
+  final License license;
 
   Future<List<int>> generateQuestions() async {
     final chapterExamDetails =

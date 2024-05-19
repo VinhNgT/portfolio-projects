@@ -5,12 +5,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ConfirmSubmitExamDialog extends HookConsumerWidget {
-  final int remainingQuestionsCount;
 
   const ConfirmSubmitExamDialog({
     super.key,
     required this.remainingQuestionsCount,
   });
+  final int remainingQuestionsCount;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
