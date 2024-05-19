@@ -1,20 +1,20 @@
 import 'package:driving_license/utils/context_ext.dart';
+import 'package:driving_license/utils/extensions/async_snapshot_ext.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class AsyncControllerWidget<T> extends StatelessWidget {
-  final AsyncValue<void> value;
-  final Widget child;
-
-  const AsyncControllerWidget({
+class AsyncSnapshotController<T> extends StatelessWidget {
+  const AsyncSnapshotController({
     super.key,
-    required this.value,
+    required this.snapshot,
     required this.child,
   });
 
+  final AsyncSnapshot<T> snapshot;
+  final Widget child;
+
   @override
   Widget build(BuildContext context) {
-    return value.when(
+    return snapshot.when(
       data: (_) => child,
       error: (_, __) => child,
       loading: () => Stack(
