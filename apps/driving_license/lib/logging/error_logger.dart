@@ -23,7 +23,7 @@ class ConsoleErrorLogger extends ErrorLogger {
 
   @override
   void logError(Object error, StackTrace? stackTrace) {
-    logger.e('Unexpencted error', error: error, stackTrace: stackTrace);
+    logger.e('Unexpected error', error: error, stackTrace: stackTrace);
   }
 
   @override
