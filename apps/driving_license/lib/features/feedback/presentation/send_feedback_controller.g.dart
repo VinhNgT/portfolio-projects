@@ -7,7 +7,7 @@ part of 'send_feedback_controller.dart';
 // **************************************************************************
 
 String _$sendFeedbackControllerHash() =>
-    r'36cc0578dc2023f010edff71855347faceafad90';
+    r'c64b38b4fffa4ea5e421e3b437859dfafee46658';
 
 /// See also [sendFeedbackController].
 @ProviderFor(sendFeedbackController)
