@@ -1,3 +1,8 @@
+## 0.1.4-dev.1
+
+ - **REFACTOR**(drv_lcn): move sembast initialization to its own controller and provider.
+ - **REFACTOR**(drv_lcn): move sqlite initialization to its own controller and provider.
+
 ## 0.1.4-dev.0
 
  - **REFACTOR**(drv_lcn): update deprecated properties.

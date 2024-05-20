@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-05-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v0.1.4-dev.1`](#driving_license---v014-dev1)
+
+---
+
+#### `driving_license` - `v0.1.4-dev.1`
+
+ - **REFACTOR**(drv_lcn): move sembast initialization to its own controller and provider.
+ - **REFACTOR**(drv_lcn): move sqlite initialization to its own controller and provider.
+
+
 ## 2024-05-19
 
 ### Changes
