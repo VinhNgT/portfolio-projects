@@ -1,6 +1,8 @@
+import 'package:driving_license/backend/database/sqlite_provider.dart';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/chapters/domain/sub_chapter.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
+import 'package:driving_license/features/questions/data/question/sqlite_questions_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -50,6 +52,6 @@ abstract interface class QuestionsRepository {
 
 @Riverpod(keepAlive: true)
 QuestionsRepository questionsRepository(QuestionsRepositoryRef ref) {
-  //* Override this in the main method to select the correct implementation
-  throw UnimplementedError();
+  final sqliteDatabase = ref.watch(sqliteProvider).requireValue;
+  return SqliteQuestionsRepository(sqliteDatabase);
 }

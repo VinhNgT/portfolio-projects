@@ -1,10 +1,10 @@
+import 'package:driving_license/backend/database/sqlite_provider.dart';
 import 'package:driving_license/backend/remote_config/firebase_remote_config.dart';
 import 'package:driving_license/features/bookmark/data/bookmarks_repository.dart';
 import 'package:driving_license/features/bookmark/data/sembast_bookmarks_repository.dart';
 import 'package:driving_license/features/exams/data/exams_repository.dart';
 import 'package:driving_license/features/exams/data/sembast_exams_repository.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
-import 'package:driving_license/features/questions/data/question/sqlite_questions_repository.dart';
 import 'package:driving_license/features/questions/data/question/test_questions_repository.dart';
 import 'package:driving_license/features/questions/data/user_answer/sembast_user_answers_repository.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
@@ -28,8 +28,6 @@ class ProductionBootstrapDelegate extends BootstrapDelegate {
 
   @override
   Future<ProviderContainer> createProviderContainer() async {
-    final sqliteQuestionsRepository =
-        await SqliteQuestionsRepository.makeDefault();
     final sembastUserAnswersRepository =
         await SembastUserAnswersRepository.makeDefault();
     final bookmarksRepository = await SembastBookmarksRepository.makeDefault();
@@ -37,8 +35,6 @@ class ProductionBootstrapDelegate extends BootstrapDelegate {
 
     final container = ProviderContainer(
       overrides: [
-        questionsRepositoryProvider
-            .overrideWithValue(sqliteQuestionsRepository),
         userAnswersRepositoryProvider
             .overrideWithValue(sembastUserAnswersRepository),
         bookmarksRepositoryProvider.overrideWithValue(bookmarksRepository),
@@ -51,11 +47,14 @@ class ProductionBootstrapDelegate extends BootstrapDelegate {
 
   @override
   Future<void> setupServices(ProviderContainer container) async {
+    // Initialize Firebase
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-
     container.read(firebaseRemoteConfigProvider);
+
+    // Initialize the SQLite database
+    await container.read(sqliteProvider.future);
   }
 
   @override
