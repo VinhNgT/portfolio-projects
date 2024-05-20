@@ -1,13 +1,6 @@
+import 'package:driving_license/backend/database/sembast_provider.dart';
 import 'package:driving_license/backend/database/sqlite_provider.dart';
 import 'package:driving_license/backend/remote_config/firebase_remote_config.dart';
-import 'package:driving_license/features/bookmark/data/bookmarks_repository.dart';
-import 'package:driving_license/features/bookmark/data/sembast_bookmarks_repository.dart';
-import 'package:driving_license/features/exams/data/exams_repository.dart';
-import 'package:driving_license/features/exams/data/sembast_exams_repository.dart';
-import 'package:driving_license/features/questions/data/question/questions_repository.dart';
-import 'package:driving_license/features/questions/data/question/test_questions_repository.dart';
-import 'package:driving_license/features/questions/data/user_answer/sembast_user_answers_repository.dart';
-import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/firebase_options.dart';
 import 'package:driving_license/logging/error_logger.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,32 +11,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 abstract class BootstrapDelegate {
   const BootstrapDelegate();
 
-  Future<ProviderContainer> createProviderContainer();
   Future<void> setupServices(ProviderContainer container);
   ErrorLogger getErrorLogger(ProviderContainer container);
 }
 
 class ProductionBootstrapDelegate extends BootstrapDelegate {
   const ProductionBootstrapDelegate();
-
-  @override
-  Future<ProviderContainer> createProviderContainer() async {
-    final sembastUserAnswersRepository =
-        await SembastUserAnswersRepository.makeDefault();
-    final bookmarksRepository = await SembastBookmarksRepository.makeDefault();
-    final examsRepository = await SembastExamsRepository.makeDefault();
-
-    final container = ProviderContainer(
-      overrides: [
-        userAnswersRepositoryProvider
-            .overrideWithValue(sembastUserAnswersRepository),
-        bookmarksRepositoryProvider.overrideWithValue(bookmarksRepository),
-        examsRepositoryProvider.overrideWithValue(examsRepository),
-      ],
-    );
-
-    return container;
-  }
 
   @override
   Future<void> setupServices(ProviderContainer container) async {
@@ -55,6 +28,9 @@ class ProductionBootstrapDelegate extends BootstrapDelegate {
 
     // Initialize the SQLite database
     await container.read(sqliteProvider.future);
+
+    // Initialize the Sembast database
+    await container.read(sembastProvider.future);
   }
 
   @override
@@ -65,18 +41,6 @@ class ProductionBootstrapDelegate extends BootstrapDelegate {
 
 class TestBootstrapDelegate extends BootstrapDelegate {
   const TestBootstrapDelegate();
-
-  @override
-  Future<ProviderContainer> createProviderContainer() async {
-    final testQuestionsRepository = TestQuestionsRepository();
-    final container = ProviderContainer(
-      overrides: [
-        questionsRepositoryProvider.overrideWithValue(testQuestionsRepository),
-      ],
-    );
-
-    return container;
-  }
 
   @override
   Future<void> setupServices(ProviderContainer container) async {

@@ -4,29 +4,13 @@ import 'package:driving_license/features/exams/data/exams_repository.dart';
 import 'package:driving_license/features/exams/domain/exam.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/domain/user_answers_map.dart';
-import 'package:flutter/material.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
-import 'package:sembast/sembast_io.dart';
 
 class SembastExamsRepository implements ExamsRepository {
   SembastExamsRepository(this.db);
 
   final Database db;
   final examsStore = stringMapStoreFactory.store('exams');
-
-  @factory
-  static Future<SembastExamsRepository> makeDefault() async {
-    return SembastExamsRepository(
-      await _createDatabase('exams.db'),
-    );
-  }
-
-  static Future<Database> _createDatabase(String filename) async {
-    final appDocDir = await getApplicationDocumentsDirectory();
-    return databaseFactoryIo.openDatabase(join(appDocDir.path, filename));
-  }
 
   @override
   FutureOr<void> saveExam(Exam exam) async {

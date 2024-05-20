@@ -1,3 +1,5 @@
+import 'package:driving_license/backend/database/sembast_provider.dart';
+import 'package:driving_license/features/exams/data/sembast_exams_repository.dart';
 import 'package:driving_license/features/exams/domain/exam.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/domain/user_answers_map.dart';
@@ -19,9 +21,7 @@ abstract interface class ExamsRepository {
 }
 
 @Riverpod(keepAlive: true)
-ExamsRepository examsRepository(
-  ExamsRepositoryRef ref,
-) {
-  //* Override this in the main method to select the correct implementation
-  throw UnimplementedError();
+ExamsRepository examsRepository(ExamsRepositoryRef ref) {
+  final sembastDatabase = ref.watch(sembastProvider).requireValue;
+  return SembastExamsRepository(sembastDatabase);
 }

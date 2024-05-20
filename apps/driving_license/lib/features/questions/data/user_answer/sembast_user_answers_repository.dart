@@ -5,30 +5,14 @@ import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answer.dart';
 import 'package:driving_license/features/questions/domain/user_answers_map.dart';
 import 'package:driving_license/features/questions/domain/user_answers_summary.dart';
-import 'package:flutter/material.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sembast/sembast.dart';
-import 'package:sembast/sembast_io.dart';
 
 class SembastUserAnswersRepository implements UserAnswersRepository {
   SembastUserAnswersRepository(this.db);
 
   final Database db;
   final allAnswersStore = intMapStoreFactory.store('all_answers');
-
-  @factory
-  static Future<SembastUserAnswersRepository> makeDefault() async {
-    return SembastUserAnswersRepository(
-      await _createDatabase('user_answers.db'),
-    );
-  }
-
-  static Future<Database> _createDatabase(String filename) async {
-    final appDocDir = await getApplicationDocumentsDirectory();
-    return databaseFactoryIo.openDatabase(join(appDocDir.path, filename));
-  }
 
   @override
   Future<void> saveAnswer(

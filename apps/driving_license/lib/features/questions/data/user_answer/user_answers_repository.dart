@@ -1,5 +1,7 @@
+import 'package:driving_license/backend/database/sembast_provider.dart';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
+import 'package:driving_license/features/questions/data/user_answer/sembast_user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answers_map.dart';
 import 'package:driving_license/features/questions/domain/user_answers_summary.dart';
@@ -39,9 +41,7 @@ abstract interface class UserAnswersRepository {
 }
 
 @Riverpod(keepAlive: true)
-UserAnswersRepository userAnswersRepository(
-  UserAnswersRepositoryRef ref,
-) {
-  //* Override this in the main method to select the correct implementation
-  throw UnimplementedError();
+UserAnswersRepository userAnswersRepository(UserAnswersRepositoryRef ref) {
+  final sembastDatabase = ref.watch(sembastProvider).requireValue;
+  return SembastUserAnswersRepository(sembastDatabase);
 }

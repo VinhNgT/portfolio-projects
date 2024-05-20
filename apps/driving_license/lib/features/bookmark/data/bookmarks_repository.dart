@@ -1,3 +1,5 @@
+import 'package:driving_license/backend/database/sembast_provider.dart';
+import 'package:driving_license/features/bookmark/data/sembast_bookmarks_repository.dart';
 import 'package:driving_license/features/bookmark/domain/bookmark.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
@@ -14,9 +16,7 @@ abstract interface class BookmarksRepository {
 }
 
 @Riverpod(keepAlive: true)
-BookmarksRepository bookmarksRepository(
-  BookmarksRepositoryRef ref,
-) {
-  //* Override this in the main method to select the correct implementation
-  throw UnimplementedError();
+BookmarksRepository bookmarksRepository(BookmarksRepositoryRef ref) {
+  final sembastDatabase = ref.watch(sembastProvider).requireValue;
+  return SembastBookmarksRepository(sembastDatabase);
 }

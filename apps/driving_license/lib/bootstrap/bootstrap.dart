@@ -13,7 +13,7 @@ class Bootstrap {
   final BootstrapDelegate delegate;
 
   Future<UncontrolledProviderScope> initApp() async {
-    final container = await delegate.createProviderContainer();
+    final container = ProviderContainer();
     await delegate.setupServices(container);
     setupErrorHandlers(container);
 
