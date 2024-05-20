@@ -5,6 +5,7 @@ import 'package:driving_license/firebase_options.dart';
 import 'package:driving_license/logging/error_logger.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @immutable
@@ -25,6 +26,9 @@ class ProductionBootstrapDelegate extends BootstrapDelegate {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     container.read(firebaseRemoteConfigProvider);
+
+    // Initialize AdMob
+    MobileAds.instance.initialize();
 
     // Initialize the SQLite database
     await container.read(sqliteProvider.future);
