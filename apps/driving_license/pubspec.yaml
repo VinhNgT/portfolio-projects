@@ -82,6 +82,9 @@ dependencies:
   firebase_remote_config: ^4.4.5
   firebase_analytics: ^10.10.5
 
+  # Ads
+  google_mobile_ads: ^5.1.0
+
 dependency_overrides:
   # Temporary workaround for dependency conflict with form_builder_validators
   intl: 0.19.0
