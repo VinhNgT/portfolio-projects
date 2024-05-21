@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-05-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v0.1.4-dev.2`](#driving_license---v014-dev2)
+
+---
+
+#### `driving_license` - `v0.1.4-dev.2`
+
+ - **FEAT**(drv_lcn): implement AdMobController for AdMob initialization and ad management.
+
+
 ## 2024-05-20
 
 ### Changes

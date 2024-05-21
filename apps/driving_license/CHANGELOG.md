@@ -1,3 +1,7 @@
+## 0.1.4-dev.2
+
+ - **FEAT**(drv_lcn): implement AdMobController for AdMob initialization and ad management.
+
 ## 0.1.4-dev.1
 
  - **REFACTOR**(drv_lcn): move sembast initialization to its own controller and provider.
