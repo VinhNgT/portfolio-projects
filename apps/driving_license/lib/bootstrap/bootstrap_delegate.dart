@@ -1,3 +1,4 @@
+import 'package:driving_license/backend/ads/admob_provider.dart';
 import 'package:driving_license/backend/database/sembast_provider.dart';
 import 'package:driving_license/backend/database/sqlite_provider.dart';
 import 'package:driving_license/backend/remote_config/firebase_remote_config.dart';
@@ -5,7 +6,6 @@ import 'package:driving_license/firebase_options.dart';
 import 'package:driving_license/logging/error_logger.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @immutable
@@ -28,7 +28,7 @@ class ProductionBootstrapDelegate extends BootstrapDelegate {
     container.read(firebaseRemoteConfigProvider);
 
     // Initialize AdMob
-    MobileAds.instance.initialize();
+    container.read(adMobControllerProvider);
 
     // Initialize the SQLite database
     await container.read(sqliteProvider.future);
