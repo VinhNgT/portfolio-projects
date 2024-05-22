@@ -8,12 +8,14 @@
       "name": "driving_license",
       "request": "launch",
       "type": "dart",
+      "program": "lib/main.dart",
       "args": ["--flavor", "dev"]
     },
     {
       "name": "driving_license (profile mode)",
       "request": "launch",
       "type": "dart",
+      "program": "lib/main.dart",
       "flutterMode": "profile",
       "args": ["--flavor", "dev"]
     },
@@ -21,6 +23,7 @@
       "name": "driving_license (release mode)",
       "request": "launch",
       "type": "dart",
+      "program": "lib/main.dart",
       "flutterMode": "release",
       "args": ["--flavor", "dev"]
     }
