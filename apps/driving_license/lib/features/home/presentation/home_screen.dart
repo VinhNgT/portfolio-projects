@@ -56,8 +56,7 @@ class HomeScreen extends HookConsumerWidget {
             },
           ),
           title: GestureDetector(
-            onLongPress: () =>
-                ref.read(adMobControllerProvider.notifier).openAdInspector(),
+            onLongPress: () => ref.read(adMobProvider).openAdInspector((_) {}),
             child: Text(
               _getLicenseName(licenseNameValue),
             ),
