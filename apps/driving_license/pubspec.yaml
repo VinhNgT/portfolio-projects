@@ -52,7 +52,7 @@ dependencies:
   animations: ^2.0.11
   flutter_keyboard_visibility: ^6.0.0
   flutter_form_builder: ^9.2.1
-  form_builder_validators: ^9.1.0
+  form_builder_validators: ^10.0.0
 
   # Domain (Model)
   freezed_annotation: ^2.4.1
@@ -70,7 +70,7 @@ dependencies:
   connectivity_plus: ^6.0.3
 
   # Localization
-  intl: ^0.18.1
+  intl: ^0.19.0
 
   # Utils
   collection: ^1.18.0
@@ -85,10 +85,6 @@ dependencies:
 
   # Ads
   google_mobile_ads: ^5.1.0
-
-dependency_overrides:
-  # Temporary workaround for dependency conflict with form_builder_validators
-  intl: 0.19.0
 
 dev_dependencies:
   flutter_test:
