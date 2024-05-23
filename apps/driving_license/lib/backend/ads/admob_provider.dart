@@ -1,5 +1,8 @@
+import 'package:driving_license/backend/ads/ad_loader.dart';
 import 'package:driving_license/backend/ads/ad_unit.dart';
+import 'package:driving_license/backend/ads/delayed_callbacks.dart';
 import 'package:driving_license/logging/logger_provider.dart';
+import 'package:driving_license/networking/connectivity_provider.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -7,136 +10,137 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'admob_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-class AdMobController extends _$AdMobController {
-  final MobileAds _mobileAds = MobileAds.instance;
-  final Map<AdUnit, Ad> _loadedAds = {};
-  final Duration _defaultErrorRetryDelay = const Duration(minutes: 1);
+MobileAds adMob(AdMobRef ref) {
+  return MobileAds.instance;
+}
 
+@Riverpod(keepAlive: true)
+class AdMobController extends _$AdMobController {
+  final Duration _defaultErrorRetryDuration = const Duration(minutes: 1);
+  final DelayedCallbacks _retryRefreshPendings = DelayedCallbacks();
+
+  final Map<AdUnit, AdLoader> _adLoaders = {};
+
+  MobileAds get _mobileAds => ref.read(adMobProvider);
   Logger get _logger => ref.read(loggerProvider);
+  AsyncValue get _hasConnectivity => ref.read(hasConnectivityProvider);
 
   /// Initializes AdMob and preload all of the ads.
   @override
-  Map<AdUnit, Ad> build() {
+  Map<AdUnit, AdLoader> build() {
     _mobileAds.initialize();
-    for (final adUnit in AdUnit.values) {
-      _refreshAd(adUnit);
+    _initLoaders();
+
+    if (_hasConnectivity.value ?? false) {
+      _loadAll();
     }
 
-    ref.onDispose(() {
-      for (final ad in _loadedAds.values) {
-        ad.dispose();
+    ref.listen(hasConnectivityProvider, (_, next) {
+      if (!next.isLoading && next.requireValue) {
+        // When connectivity is restored, ignore all delays and
+        // retry loading all ads.
+        _retryRefreshPendings.clearAll();
+        _loadAll();
       }
     });
-    return _loadedAds;
+
+    ref.onDispose(_disposeAll);
+    return _adLoaders;
   }
 
-  void openAdInspector() {
-    _mobileAds.openAdInspector((_) {});
-  }
-
-  /// Refreshes the ad for the given [adUnit].
-  ///
-  /// If [delay] is provided, the ad will be refreshed after the delay.
-  void _refreshAd(AdUnit adUnit, [Duration delay = Duration.zero]) {
-    if (delay != Duration.zero) {
-      _logger.w(
-        'Delay $adUnit new ad loading for ${delay.inMinutes} minute(s)',
-      );
-      Future.delayed(delay, () => _refreshAd(adUnit));
-      return;
-    }
-
-    _removeAd(adUnit);
-    _logger.i('Loading new ad for $adUnit');
-
-    switch (adUnit.type) {
-      case const (BannerAd):
-        _loadBannerAd(adUnit);
-      case const (RewardedAd):
-        _loadRewardedAd(adUnit);
-    }
-  }
-
-  /// Adds the [ad] to the [_loadedAds] map.
-  ///
-  /// If [ad] is already in [_loadedAds], it is considered an update and no
-  /// change will be made because AdMob handles updating ads internally.
-  void _addAd(AdUnit adUnit, Ad ad) {
-    final oldAd = _loadedAds[adUnit];
-    if (oldAd == ad) {
-      _logger.i('$adUnit ad updated');
-      return;
-    }
-
-    oldAd?.dispose();
-    _loadedAds[adUnit] = ad;
-    ref.notifyListeners();
-
-    _logger.i('$adUnit new ad loaded');
-  }
-
-  /// Removes the ad for the given [adUnit] from the [_loadedAds] map.
-  void _removeAd(AdUnit adUnit) {
-    final ad = _loadedAds.remove(adUnit);
-
-    if (ad != null) {
-      ad.dispose();
-      ref.notifyListeners();
-      _logger.i('$adUnit ad removed');
-    }
-  }
-
-  /// Loads a new banner ad for the given [adUnit].
-  ///
-  /// If the ad fails to load, it will be retried after the default error retry
-  /// delay.
-  void _loadBannerAd(AdUnit adUnit) {
-    BannerAd(
-      adUnitId: adUnit.id,
-      request: const AdRequest(),
-      size: AdSize.banner,
-      listener: BannerAdListener(
-        onAdLoaded: (ad) => _addAd(adUnit, ad),
-        onAdFailedToLoad: (ad, err) {
-          _logger.e('BannerAd failed to load', error: err);
-          _removeAd(adUnit);
-          _refreshAd(adUnit, _defaultErrorRetryDelay);
-        },
-      ),
-    ).load();
-  }
-
-  /// Loads a new rewarded ad for the given [adUnit].
-  ///
-  /// If the ad fails to load, it will be retried after the default error retry
-  /// delay.
-  void _loadRewardedAd(AdUnit adUnit) {
-    RewardedAd.load(
-      adUnitId: adUnit.id,
-      request: const AdRequest(),
-      rewardedAdLoadCallback: RewardedAdLoadCallback(
-        onAdLoaded: (ad) {
-          ad.fullScreenContentCallback = FullScreenContentCallback(
-            onAdFailedToShowFullScreenContent: (ad, err) {
-              if (err.code == 1) {
-                _logger.w('The ad has already been shown', error: err);
-                return;
-              }
-
-              _logger.e('RewardedAd failed to show', error: err);
-              _removeAd(adUnit);
-              _refreshAd(adUnit, _defaultErrorRetryDelay);
+  void _initLoaders() {
+    for (final adUnit in AdUnit.values) {
+      switch (adUnit.type) {
+        case const (BannerAd):
+          _adLoaders[adUnit] = BannerAdLoader(
+            adUnit: adUnit,
+            onAdLoading: () {
+              _logger.i('Loading $adUnit ad');
             },
-            onAdDismissedFullScreenContent: (ad) => _refreshAd(adUnit),
+            onAdLoaded: (_) {
+              _logger.i('$adUnit ad loaded');
+              ref.notifyListeners();
+            },
+            onAdUpdated: (_) {
+              _logger.i('$adUnit ad updated');
+            },
+            onAdError: (err, st) {
+              _adErrorHandler(adUnit, err, st);
+              ref.notifyListeners();
+            },
+            onAdDisposed: () {
+              ref.notifyListeners();
+              _logger.i('$adUnit ad disposed');
+            },
           );
 
-          _addAd(adUnit, ad);
-        },
-        onAdFailedToLoad: (LoadAdError error) {
-          _logger.e('RewardedAd failed to load', error: error);
-        },
-      ),
+        case const (RewardedAd):
+          _adLoaders[adUnit] = RewardedAdLoader(
+            adUnit: adUnit,
+            onAdLoading: () {
+              _logger.i('Loading $adUnit ad');
+            },
+            onAdLoaded: (_) {
+              _logger.i('$adUnit ad loaded');
+              ref.notifyListeners();
+            },
+            onAdError: (err, st) {
+              _adErrorHandler(adUnit, err, st);
+              ref.notifyListeners();
+            },
+            onAdDisposed: () {
+              ref.notifyListeners();
+              _logger.i('$adUnit ad disposed');
+            },
+          );
+      }
+    }
+  }
+
+  void _adErrorHandler(AdUnit adUnit, AdError err, StackTrace st) {
+    _logger.e(
+      '$adUnit ad failed to load',
+      error: err,
+      stackTrace: st,
     );
+
+    if (!_hasConnectivity.requireValue) {
+      _logger.w('No connectivity, pause $adUnit new ad loading');
+      return;
+    }
+
+    _logger.w(
+      'Network issue detected. Attempting to reload $adUnit ad in '
+      '${_defaultErrorRetryDuration.inMinutes} minute(s).',
+    );
+
+    _retryRefreshPendings.add(
+      adUnit,
+      _defaultErrorRetryDuration,
+      () {
+        _logger.i('Retrying to load $adUnit ad');
+        _load(adUnit);
+      },
+    );
+  }
+
+  void _load(AdUnit adUnit) {
+    if (!_adLoaders.containsKey(adUnit)) {
+      throw ArgumentError('Loader for $adUnit is not initialized');
+    }
+    _adLoaders[adUnit]!.load();
+  }
+
+  void _loadAll() {
+    for (final adLoader in _adLoaders.values) {
+      adLoader.load();
+    }
+  }
+
+  void _disposeAll() {
+    for (final adLoader in _adLoaders.values) {
+      adLoader.dispose();
+    }
   }
 }
 
@@ -146,7 +150,8 @@ RewardedAd? rewardedAd(RewardedAdRef ref, AdUnit adUnit) {
     throw ArgumentError('adUnit must be a RewardedAd');
   }
 
-  final ad = ref.watch(adMobControllerProvider.select((ads) => ads[adUnit]));
+  final ad =
+      ref.watch(adMobControllerProvider.select((ads) => ads[adUnit]?.loadedAd));
   return ad as RewardedAd?;
 }
 
@@ -156,6 +161,7 @@ BannerAd? bannerAd(BannerAdRef ref, AdUnit adUnit) {
     throw ArgumentError('adUnit must be a BannerAd');
   }
 
-  final ad = ref.watch(adMobControllerProvider.select((ads) => ads[adUnit]));
+  final ad =
+      ref.watch(adMobControllerProvider.select((ads) => ads[adUnit]?.loadedAd));
   return ad as BannerAd?;
 }

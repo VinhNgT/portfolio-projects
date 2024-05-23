@@ -6,7 +6,21 @@ part of 'admob_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$rewardedAdHash() => r'e0bab8c52db32b6e9e9201cbb8546811f03eb010';
+String _$adMobHash() => r'4ea1c7ca165b7796b7221bcb7ab5a202831772c7';
+
+/// See also [adMob].
+@ProviderFor(adMob)
+final adMobProvider = Provider<MobileAds>.internal(
+  adMob,
+  name: r'adMobProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$adMobHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef AdMobRef = ProviderRef<MobileAds>;
+String _$rewardedAdHash() => r'15e04d6e9a6ff8a1b4ffbb2a5c6adc9d68b1a6e9';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -155,7 +169,7 @@ class _RewardedAdProviderElement extends AutoDisposeProviderElement<RewardedAd?>
   AdUnit get adUnit => (origin as RewardedAdProvider).adUnit;
 }
 
-String _$bannerAdHash() => r'47972516e4c865ae13afca5fc45bfea91505da32';
+String _$bannerAdHash() => r'ad4c14f7b14f0d5949b83d31c7cbe89580f5850f';
 
 /// See also [bannerAd].
 @ProviderFor(bannerAd)
@@ -282,12 +296,12 @@ class _BannerAdProviderElement extends AutoDisposeProviderElement<BannerAd?>
   AdUnit get adUnit => (origin as BannerAdProvider).adUnit;
 }
 
-String _$adMobControllerHash() => r'd57a738ff78e0e20f5f52805c92ddb2426b66ddf';
+String _$adMobControllerHash() => r'52e7baa2f42d01f17795df0f080f1e087c22fcc9';
 
 /// See also [AdMobController].
 @ProviderFor(AdMobController)
 final adMobControllerProvider =
-    NotifierProvider<AdMobController, Map<AdUnit, Ad>>.internal(
+    NotifierProvider<AdMobController, Map<AdUnit, AdLoader>>.internal(
   AdMobController.new,
   name: r'adMobControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -297,6 +311,6 @@ final adMobControllerProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$AdMobController = Notifier<Map<AdUnit, Ad>>;
+typedef _$AdMobController = Notifier<Map<AdUnit, AdLoader>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
