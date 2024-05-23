@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-05-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v0.1.4-dev.3`](#driving_license---v014-dev3)
+
+---
+
+#### `driving_license` - `v0.1.4-dev.3`
+
+ - **REFACTOR**(drv_lcn): add CombineFilter logger filter.
+ - **PERF**(drv_lcn): much more robust ad loading mechanism.
+ - **FEAT**(drv_lcn): add helper class DelayedCallbacks.
+ - **FEAT**(drv_lcn): add connectivityStatus provider.
+
+
 ## 2024-05-22
 
 ### Changes

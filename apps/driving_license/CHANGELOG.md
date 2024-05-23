@@ -1,3 +1,10 @@
+## 0.1.4-dev.3
+
+ - **REFACTOR**(drv_lcn): add CombineFilter logger filter.
+ - **PERF**(drv_lcn): much more robust ad loading mechanism.
+ - **FEAT**(drv_lcn): add helper class DelayedCallbacks.
+ - **FEAT**(drv_lcn): add connectivityStatus provider.
+
 ## 0.1.4-dev.2
 
  - **FEAT**(drv_lcn): implement AdMobController for AdMob initialization and ad management.
