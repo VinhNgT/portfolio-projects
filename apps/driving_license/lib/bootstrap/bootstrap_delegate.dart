@@ -28,6 +28,7 @@ class ProductionBootstrapDelegate extends BootstrapDelegate {
     container.read(firebaseRemoteConfigProvider);
 
     // Initialize AdMob
+    container.read(adMobProvider);
     container.read(adMobControllerProvider);
 
     // Initialize the SQLite database
