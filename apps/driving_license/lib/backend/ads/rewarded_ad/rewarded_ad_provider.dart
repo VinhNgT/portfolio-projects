@@ -12,7 +12,7 @@ part 'rewarded_ad_provider.g.dart';
 @Riverpod(keepAlive: true)
 class RewardedAdFuture extends _$RewardedAdFuture with AdStatusLogger {
   Logger get _logger => ref.read(loggerProvider);
-  bool _isWatched = false;
+  bool _dirty = false;
 
   @override
   FutureOr<RewardedAd> build(AdUnit adUnit) {
@@ -21,8 +21,8 @@ class RewardedAdFuture extends _$RewardedAdFuture with AdStatusLogger {
     );
 
     ref.onAddListener(() {
-      if (_isWatched) {
-        _isWatched = false;
+      if (_dirty) {
+        _dirty = false;
         ref.invalidateSelf();
       }
     });
@@ -37,7 +37,7 @@ class RewardedAdFuture extends _$RewardedAdFuture with AdStatusLogger {
       adUnitId: adUnit.id,
       request: const AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
-        onAdLoaded: (ad) {
+        onAdLoaded: (ad) async {
           ad.fullScreenContentCallback = FullScreenContentCallback(
             onAdFailedToShowFullScreenContent: (ad, err) {
               ad.dispose();
@@ -46,13 +46,14 @@ class RewardedAdFuture extends _$RewardedAdFuture with AdStatusLogger {
               ad.dispose();
             },
             onAdShowedFullScreenContent: (ad) {
-              _isWatched = true;
+              _dirty = true;
             },
           );
 
           completer.complete(ad);
         },
         onAdFailedToLoad: (LoadAdError error) {
+          _dirty = true;
           completer.completeError(error, StackTrace.current);
         },
       ),
