@@ -2,116 +2,14 @@ import 'dart:async';
 
 import 'package:driving_license/backend/ads/ad_unit.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 abstract class AdLoader {
   Ad? get loadedAd;
 
-  void load({bool forceReload = false});
+  void loadAd({bool forceReload = false});
   void dispose();
-}
-
-class BannerAdLoader implements AdLoader {
-  BannerAdLoader({
-    required this.adUnit,
-    this.onAdLoading,
-    this.onAdLoaded,
-    this.onAdUpdated,
-    this.onAdError,
-    this.onAdDisposed,
-  }) : assert(adUnit.type == BannerAd);
-
-  final AdUnit adUnit;
-  final void Function()? onAdLoading;
-  final void Function(BannerAd ad)? onAdLoaded;
-  final void Function(BannerAd ad)? onAdUpdated;
-  final void Function(AdError err, StackTrace st)? onAdError;
-  final void Function()? onAdDisposed;
-
-  bool isLoading = false;
-
-  BannerAd? _loadedAd;
-  StreamSubscription? _adSub;
-
-  @override
-  Ad? get loadedAd => _loadedAd;
-
-  @override
-  void load({bool forceReload = false}) async {
-    if (isLoading) {
-      debugPrint('$adUnit ad is loading, ignore load request');
-      return;
-    }
-
-    if (_loadedAd != null && !forceReload) {
-      debugPrint('$adUnit ad is already loaded, ignore load request');
-      return;
-    }
-
-    isLoading = true;
-    dispose();
-    onAdLoading?.call();
-    _setupAdListener();
-  }
-
-  @override
-  void dispose() {
-    if (_loadedAd == null) {
-      return;
-    }
-
-    _adSub?.cancel();
-    _loadedAd?.dispose();
-    _loadedAd = null;
-    onAdDisposed?.call();
-  }
-
-  void _setupAdListener() {
-    _adSub = _getAd().listen(
-      (ad) {
-        if (_loadedAd == ad) {
-          onAdUpdated?.call(ad);
-          return;
-        }
-
-        dispose();
-        _loadedAd = ad;
-        onAdLoaded?.call(ad);
-        isLoading = false;
-      },
-      onError: (err, st) {
-        onAdError?.call(err, st);
-        dispose();
-        isLoading = false;
-      },
-      cancelOnError: true,
-    );
-  }
-
-  Stream<BannerAd> _getAd() {
-    final controller = StreamController<BannerAd>();
-
-    final bannerAd = BannerAd(
-      adUnitId: adUnit.id,
-      request: const AdRequest(),
-      size: AdSize.banner,
-      listener: BannerAdListener(
-        onAdLoaded: (ad) {
-          controller.add(ad as BannerAd);
-        },
-        onAdFailedToLoad: (ad, err) {
-          controller.addError(err, StackTrace.current);
-        },
-      ),
-    );
-
-    controller.onListen = bannerAd.load;
-    controller.onResume = bannerAd.load;
-    controller.onCancel = bannerAd.dispose;
-    controller.onPause = bannerAd.dispose;
-
-    return controller.stream;
-  }
 }
 
 class RewardedAdLoader implements AdLoader {
@@ -134,10 +32,10 @@ class RewardedAdLoader implements AdLoader {
   RewardedAd? _loadedAd;
 
   @override
-  Ad? get loadedAd => _loadedAd;
+  RewardedAd? get loadedAd => _loadedAd;
 
   @override
-  void load({bool forceReload = false}) async {
+  void loadAd({bool forceReload = false}) async {
     if (isLoading) {
       debugPrint('$adUnit ad is loading, ignore load request');
       return;
@@ -176,7 +74,7 @@ class RewardedAdLoader implements AdLoader {
         onAdDismissedFullScreenContent: (ad) {
           // Force reload because the previous ad was watched and therefore
           // no longer needed.
-          load(forceReload: true);
+          loadAd(forceReload: true);
         },
       );
 

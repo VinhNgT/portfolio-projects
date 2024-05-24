@@ -4,7 +4,6 @@ enum AdUnit {
   homeBanner(
     id: 'ca-app-pub-8207177478479841/2899096006',
     type: BannerAd,
-    useLayoutConstraint: true,
   ),
   createNewExam(
     id: 'ca-app-pub-8207177478479841/5336104383',
@@ -14,11 +13,9 @@ enum AdUnit {
   const AdUnit({
     required this.id,
     required this.type,
-    this.useLayoutConstraint = false,
   });
   final String id;
   final Type type;
-  final bool useLayoutConstraint;
 }
 
 enum AndroidTestAdUnit {
