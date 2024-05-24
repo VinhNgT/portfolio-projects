@@ -18,23 +18,23 @@ class InlineBannerAdBuilder extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        return builder(
-          Consumer(
-            builder: (context, ref, child) {
-              final adMobBannerAd = ref.watch(
-                inlineBannerAdStreamProvider(
-                  adUnit,
-                  InLineBannerAdConfig(width: constraints.maxWidth),
-                ),
-              );
+        return Consumer(
+          builder: (context, ref, child) {
+            final adMobBannerAd = ref
+                .watch(
+                  inlineBannerAdStreamProvider(
+                    adUnit,
+                    InLineBannerAdConfig(width: constraints.maxWidth),
+                  ),
+                )
+                .valueOrNull;
 
-              return adMobBannerAd.when(
-                data: (adMobBannerAdValue) => _AdViewWidget(adMobBannerAdValue),
-                error: (_, __) => _AdViewWidget(adMobBannerAd.value),
-                loading: () => _AdViewWidget(adMobBannerAd.value),
-              );
-            },
-          ),
+            if (adMobBannerAd == null) {
+              return const SizedBox.shrink();
+            }
+
+            return builder(_AdViewWidget(adMobBannerAd));
+          },
         );
       },
     );
@@ -43,18 +43,14 @@ class InlineBannerAdBuilder extends HookConsumerWidget {
 
 class _AdViewWidget extends StatelessWidget {
   const _AdViewWidget(this.platformBannerAd);
-  final PlatformBannerAd? platformBannerAd;
+  final PlatformBannerAd platformBannerAd;
 
   @override
   Widget build(BuildContext context) {
-    if (platformBannerAd == null) {
-      return const SizedBox.shrink();
-    }
-
     return SizedBox(
-      width: platformBannerAd!.platformAdSize.width.toDouble(),
-      height: platformBannerAd!.platformAdSize.height.toDouble(),
-      child: AdWidget(ad: platformBannerAd!.bannerAd),
+      width: platformBannerAd.platformAdSize.width.toDouble(),
+      height: platformBannerAd.platformAdSize.height.toDouble(),
+      child: AdWidget(ad: platformBannerAd.bannerAd),
     );
   }
 }
