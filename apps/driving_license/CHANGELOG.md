@@ -1,3 +1,10 @@
+## 0.1.4-dev.5
+
+ - **REFACTOR**(drv_lcn): rename _isWatched to _dirty and also set it to true when 'onAdFailedToLoad'.
+ - **REFACTOR**(drv_lcn): rename  AppErrorWidget.production to AppErrorWidget.defaultMessage.
+ - **FIX**(drv_lcn): fix widget error when adMobBannerAd is null.
+ - **FEAT**(drv_lcn): add Gap(kAppBarHeight) to bottom of RewardedAdScreen to make content center on device screen.
+
 ## 0.1.4-dev.4
 
  - **REFACTOR**(drv_lcn): init adMobProvider when app starts.

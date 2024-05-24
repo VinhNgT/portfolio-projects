@@ -15,6 +15,30 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`driving_license` - `v0.1.4-dev.5`](#driving_license---v014-dev5)
+
+---
+
+#### `driving_license` - `v0.1.4-dev.5`
+
+ - **REFACTOR**(drv_lcn): rename _isWatched to _dirty and also set it to true when 'onAdFailedToLoad'.
+ - **REFACTOR**(drv_lcn): rename  AppErrorWidget.production to AppErrorWidget.defaultMessage.
+ - **FIX**(drv_lcn): fix widget error when adMobBannerAd is null.
+ - **FEAT**(drv_lcn): add Gap(kAppBarHeight) to bottom of RewardedAdScreen to make content center on device screen.
+
+
+## 2024-05-24
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`driving_license` - `v0.1.4-dev.4`](#driving_license---v014-dev4)
 
 ---
