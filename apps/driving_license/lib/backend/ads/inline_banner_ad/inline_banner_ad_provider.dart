@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:driving_license/backend/ads/ad_status_logger.dart';
 import 'package:driving_license/backend/ads/ad_unit.dart';
 import 'package:driving_license/logging/logger_provider.dart';
 import 'package:equatable/equatable.dart';
@@ -10,7 +11,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'inline_banner_ad_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-class InlineBannerAdStream extends _$InlineBannerAdStream {
+class InlineBannerAdStream extends _$InlineBannerAdStream with AdStatusLogger {
   Logger get _logger => ref.read(loggerProvider);
 
   @override
@@ -18,41 +19,8 @@ class InlineBannerAdStream extends _$InlineBannerAdStream {
     AdUnit adUnit,
     InLineBannerAdConfig? config,
   ) {
-    // When data
     ref.listenSelf(
-      (previous, next) {
-        if (next case AsyncData(:final value)) {
-          if (previous?.value == value) {
-            _logger.i('$adUnit ad updated');
-            return;
-          }
-          _logger.i('$adUnit ad loaded');
-        }
-      },
-    );
-
-    // When loading
-    ref.listenSelf(
-      (_, next) {
-        if (next.isLoading) {
-          _logger.i('Loading $adUnit ad');
-        }
-      },
-    );
-
-    // When error
-    ref.listenSelf(
-      (_, next) {
-        if (!next.hasError) {
-          return;
-        }
-
-        _logger.e(
-          '$adUnit ad failed to load',
-          error: next.error,
-          stackTrace: next.stackTrace,
-        );
-      },
+      (previous, next) => log(_logger, adUnit, previous, next),
     );
 
     return _getAd();
