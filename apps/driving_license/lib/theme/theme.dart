@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 
 class MaterialTheme {
   const MaterialTheme(this.contextTheme);
-
   /// The original theme to be used as a base for the new theme
   final ThemeData contextTheme;
 
@@ -74,7 +73,7 @@ extension _ThemeDataBuilder on MaterialTheme {
         margin: EdgeInsets.zero,
       ),
       scrollbarTheme: contextTheme.scrollbarTheme.copyWith(
-        thumbColor: WidgetStateProperty.all(
+        thumbColor: MaterialStateProperty.all(
           materialScheme.outline.withOpacity(kOpacityQuarter),
         ),
       ),
@@ -108,15 +107,15 @@ extension _ThemeDataBuilder on MaterialTheme {
         thickness: 1,
       ),
       focusColor: InkWellBackgroundColor(materialScheme.onSurface)
-          .resolve({WidgetState.focused}),
+          .resolve({MaterialState.focused}),
       hoverColor: InkWellBackgroundColor(materialScheme.onSurface).resolve(
-        {WidgetState.hovered},
+        {MaterialState.hovered},
       ),
       splashColor: InkWellBackgroundColor(materialScheme.onSurface).resolve(
-        {WidgetState.pressed},
+        {MaterialState.pressed},
       ),
       highlightColor: InkWellBackgroundColor(materialScheme.onSurface).resolve(
-        {WidgetState.pressed},
+        {MaterialState.pressed},
       ),
     );
   }
@@ -246,9 +245,11 @@ class MaterialScheme {
       onError: onError,
       errorContainer: errorContainer,
       onErrorContainer: onErrorContainer,
+      background: background,
+      onBackground: onBackground,
       surface: surface,
       onSurface: onSurface,
-      surfaceContainerHighest: surfaceContainerHighest,
+      surfaceVariant: surfaceVariant,
       onSurfaceVariant: onSurfaceVariant,
       outline: outline,
       outlineVariant: outlineVariant,
@@ -262,6 +263,7 @@ class MaterialScheme {
 }
 
 class ExtendedColor {
+
   const ExtendedColor({
     required this.seed,
     required this.value,

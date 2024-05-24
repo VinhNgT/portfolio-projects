@@ -19,6 +19,7 @@ enum AppBarRightPadding {
 }
 
 class CommonAppBar extends HookConsumerWidget implements PreferredSizeWidget {
+
   const CommonAppBar({
     super.key,
     this.title,
@@ -80,14 +81,14 @@ class CommonAppBar extends HookConsumerWidget implements PreferredSizeWidget {
 
 /// Deprecated, keeping for historical purposes when Flutter team decides to add
 /// AppBar color transition animation when MaterialState.scrolledUnder
-class AppBarBackgroundColor extends WidgetStateColor {
+class AppBarBackgroundColor extends MaterialStateColor {
   AppBarBackgroundColor(this.context)
       : super(context.materialScheme.surface.value);
   final BuildContext context;
 
   @override
-  Color resolve(Set<WidgetState> states) {
-    if (states.contains(WidgetState.scrolledUnder)) {
+  Color resolve(Set<MaterialState> states) {
+    if (states.contains(MaterialState.scrolledUnder)) {
       return context.materialScheme.surfaceContainerLow;
     }
     return context.materialScheme.surface;
