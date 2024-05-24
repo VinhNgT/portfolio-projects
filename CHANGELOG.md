@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-05-24
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v0.1.4-dev.4`](#driving_license---v014-dev4)
+
+---
+
+#### `driving_license` - `v0.1.4-dev.4`
+
+ - **REFACTOR**(drv_lcn): init adMobProvider when app starts.
+ - **FEAT**(drv_lcn): add rewarded ad viewing screen.
+ - **FEAT**(drv_lcn): add ad status logger.
+ - **FEAT**(drv_lcn): simplify ad loading mechanism.
+ - **FEAT**(drv_lcn): add useLayoutConstraint property to AdUnit to delay ad loading until its size can be determine.
+ - **FEAT**(drv_lcn): add AdLayoutConstraints provider.
+
+
 ## 2024-05-23
 
 ### Changes

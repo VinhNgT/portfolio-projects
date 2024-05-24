@@ -1,3 +1,12 @@
+## 0.1.4-dev.4
+
+ - **REFACTOR**(drv_lcn): init adMobProvider when app starts.
+ - **FEAT**(drv_lcn): add rewarded ad viewing screen.
+ - **FEAT**(drv_lcn): add ad status logger.
+ - **FEAT**(drv_lcn): simplify ad loading mechanism.
+ - **FEAT**(drv_lcn): add useLayoutConstraint property to AdUnit to delay ad loading until its size can be determine.
+ - **FEAT**(drv_lcn): add AdLayoutConstraints provider.
+
 ## 0.1.4-dev.3
 
  - **REFACTOR**(drv_lcn): add CombineFilter logger filter.
