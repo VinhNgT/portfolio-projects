@@ -55,7 +55,7 @@ class Bootstrap {
               message: details.exceptionAsString(),
               error: error,
             )
-          : const AppErrorWidget.production();
+          : const AppErrorWidget.defaultMessage();
     };
   }
 }

@@ -6,13 +6,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:vector_graphics/vector_graphics.dart';
 
 class AppErrorWidget extends StatelessWidget {
-
   const AppErrorWidget({super.key, required this.errorMessage});
 
-  /// Error widget for production environment because showing a detailed error
-  /// to the user may not be a good idea.
-  const AppErrorWidget.production({super.key})
+  /// We should use defaultMessage where possible for production environment
+  /// because showing a detailed error to the user may not be a good idea.
+  const AppErrorWidget.defaultMessage({super.key})
       : errorMessage = 'Lỗi không thể hiển thị nội dung';
+
   final String errorMessage;
 
   @override
