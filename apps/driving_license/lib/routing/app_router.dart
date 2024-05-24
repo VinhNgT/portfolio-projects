@@ -26,6 +26,7 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: ExamDetailRoute.page),
         AutoRoute(page: ExamResultRoute.page),
         AutoRoute(page: SendFeedbackRoute.page),
+        AutoRoute(page: RewardedAdRoute.page),
       ];
 
   @override

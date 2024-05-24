@@ -8,8 +8,11 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i8;
-import 'package:driving_license/features/exams/domain/exam.dart' as _i10;
+import 'package:auto_route/auto_route.dart' as _i9;
+import 'package:driving_license/backend/ads/ad_unit.dart' as _i12;
+import 'package:driving_license/backend/ads/rewarded_ad/rewarded_ad_screen.dart'
+    as _i7;
+import 'package:driving_license/features/exams/domain/exam.dart' as _i11;
 import 'package:driving_license/features/exams/presentation/screens/exam_detail_screen/exam_detail_screen.dart'
     as _i1;
 import 'package:driving_license/features/exams/presentation/screens/exam_result_screen.dart'
@@ -17,23 +20,23 @@ import 'package:driving_license/features/exams/presentation/screens/exam_result_
 import 'package:driving_license/features/exams/presentation/screens/exams_list_screen/exams_list_screen.dart'
     as _i3;
 import 'package:driving_license/features/feedback/presentation/send_feedback_screen.dart'
-    as _i7;
+    as _i8;
 import 'package:driving_license/features/home/presentation/home_screen.dart'
     as _i4;
 import 'package:driving_license/features/licenses/presentation/license_selection_screen.dart'
     as _i5;
 import 'package:driving_license/features/questions/presentation/question_screen.dart'
     as _i6;
-import 'package:flutter/material.dart' as _i9;
+import 'package:flutter/material.dart' as _i10;
 
-abstract class $AppRouter extends _i8.RootStackRouter {
+abstract class $AppRouter extends _i9.RootStackRouter {
   $AppRouter({super.navigatorKey});
 
   @override
-  final Map<String, _i8.PageFactory> pagesMap = {
+  final Map<String, _i9.PageFactory> pagesMap = {
     ExamDetailRoute.name: (routeData) {
       final args = routeData.argsAs<ExamDetailRouteArgs>();
-      return _i8.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i1.ExamDetailScreen(
           key: args.key,
@@ -42,19 +45,19 @@ abstract class $AppRouter extends _i8.RootStackRouter {
       );
     },
     ExamResultRoute.name: (routeData) {
-      return _i8.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i2.ExamResultScreen(),
       );
     },
     ExamsListRoute.name: (routeData) {
-      return _i8.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i3.ExamsListScreen(),
       );
     },
     HomeRoute.name: (routeData) {
-      return _i8.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i4.HomeScreen(),
       );
@@ -62,7 +65,7 @@ abstract class $AppRouter extends _i8.RootStackRouter {
     LicenseSelectionRoute.name: (routeData) {
       final args = routeData.argsAs<LicenseSelectionRouteArgs>(
           orElse: () => const LicenseSelectionRouteArgs());
-      return _i8.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i5.LicenseSelectionScreen(
           key: args.key,
@@ -75,7 +78,7 @@ abstract class $AppRouter extends _i8.RootStackRouter {
     QuestionRoute.name: (routeData) {
       final args = routeData.argsAs<QuestionRouteArgs>(
           orElse: () => const QuestionRouteArgs());
-      return _i8.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i6.QuestionScreen(
           key: args.key,
@@ -84,10 +87,20 @@ abstract class $AppRouter extends _i8.RootStackRouter {
         ),
       );
     },
-    SendFeedbackRoute.name: (routeData) {
-      return _i8.AutoRoutePage<dynamic>(
+    RewardedAdRoute.name: (routeData) {
+      final args = routeData.argsAs<RewardedAdRouteArgs>();
+      return _i9.AutoRoutePage<bool>(
         routeData: routeData,
-        child: const _i7.SendFeedbackScreen(),
+        child: _i7.RewardedAdScreen(
+          key: args.key,
+          adUnit: args.adUnit,
+        ),
+      );
+    },
+    SendFeedbackRoute.name: (routeData) {
+      return _i9.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i8.SendFeedbackScreen(),
       );
     },
   };
@@ -95,11 +108,11 @@ abstract class $AppRouter extends _i8.RootStackRouter {
 
 /// generated route for
 /// [_i1.ExamDetailScreen]
-class ExamDetailRoute extends _i8.PageRouteInfo<ExamDetailRouteArgs> {
+class ExamDetailRoute extends _i9.PageRouteInfo<ExamDetailRouteArgs> {
   ExamDetailRoute({
-    _i9.Key? key,
-    required _i10.Exam exam,
-    List<_i8.PageRouteInfo>? children,
+    _i10.Key? key,
+    required _i11.Exam exam,
+    List<_i9.PageRouteInfo>? children,
   }) : super(
           ExamDetailRoute.name,
           args: ExamDetailRouteArgs(
@@ -111,8 +124,8 @@ class ExamDetailRoute extends _i8.PageRouteInfo<ExamDetailRouteArgs> {
 
   static const String name = 'ExamDetailRoute';
 
-  static const _i8.PageInfo<ExamDetailRouteArgs> page =
-      _i8.PageInfo<ExamDetailRouteArgs>(name);
+  static const _i9.PageInfo<ExamDetailRouteArgs> page =
+      _i9.PageInfo<ExamDetailRouteArgs>(name);
 }
 
 class ExamDetailRouteArgs {
@@ -121,9 +134,9 @@ class ExamDetailRouteArgs {
     required this.exam,
   });
 
-  final _i9.Key? key;
+  final _i10.Key? key;
 
-  final _i10.Exam exam;
+  final _i11.Exam exam;
 
   @override
   String toString() {
@@ -133,8 +146,8 @@ class ExamDetailRouteArgs {
 
 /// generated route for
 /// [_i2.ExamResultScreen]
-class ExamResultRoute extends _i8.PageRouteInfo<void> {
-  const ExamResultRoute({List<_i8.PageRouteInfo>? children})
+class ExamResultRoute extends _i9.PageRouteInfo<void> {
+  const ExamResultRoute({List<_i9.PageRouteInfo>? children})
       : super(
           ExamResultRoute.name,
           initialChildren: children,
@@ -142,13 +155,13 @@ class ExamResultRoute extends _i8.PageRouteInfo<void> {
 
   static const String name = 'ExamResultRoute';
 
-  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i3.ExamsListScreen]
-class ExamsListRoute extends _i8.PageRouteInfo<void> {
-  const ExamsListRoute({List<_i8.PageRouteInfo>? children})
+class ExamsListRoute extends _i9.PageRouteInfo<void> {
+  const ExamsListRoute({List<_i9.PageRouteInfo>? children})
       : super(
           ExamsListRoute.name,
           initialChildren: children,
@@ -156,13 +169,13 @@ class ExamsListRoute extends _i8.PageRouteInfo<void> {
 
   static const String name = 'ExamsListRoute';
 
-  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i4.HomeScreen]
-class HomeRoute extends _i8.PageRouteInfo<void> {
-  const HomeRoute({List<_i8.PageRouteInfo>? children})
+class HomeRoute extends _i9.PageRouteInfo<void> {
+  const HomeRoute({List<_i9.PageRouteInfo>? children})
       : super(
           HomeRoute.name,
           initialChildren: children,
@@ -170,18 +183,18 @@ class HomeRoute extends _i8.PageRouteInfo<void> {
 
   static const String name = 'HomeRoute';
 
-  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i5.LicenseSelectionScreen]
 class LicenseSelectionRoute
-    extends _i8.PageRouteInfo<LicenseSelectionRouteArgs> {
+    extends _i9.PageRouteInfo<LicenseSelectionRouteArgs> {
   LicenseSelectionRoute({
-    _i9.Key? key,
+    _i10.Key? key,
     void Function()? afterLicenseSelected,
     bool navigateToHomeAfterLicenseSelected = true,
-    List<_i8.PageRouteInfo>? children,
+    List<_i9.PageRouteInfo>? children,
   }) : super(
           LicenseSelectionRoute.name,
           args: LicenseSelectionRouteArgs(
@@ -195,8 +208,8 @@ class LicenseSelectionRoute
 
   static const String name = 'LicenseSelectionRoute';
 
-  static const _i8.PageInfo<LicenseSelectionRouteArgs> page =
-      _i8.PageInfo<LicenseSelectionRouteArgs>(name);
+  static const _i9.PageInfo<LicenseSelectionRouteArgs> page =
+      _i9.PageInfo<LicenseSelectionRouteArgs>(name);
 }
 
 class LicenseSelectionRouteArgs {
@@ -206,7 +219,7 @@ class LicenseSelectionRouteArgs {
     this.navigateToHomeAfterLicenseSelected = true,
   });
 
-  final _i9.Key? key;
+  final _i10.Key? key;
 
   final void Function()? afterLicenseSelected;
 
@@ -220,12 +233,12 @@ class LicenseSelectionRouteArgs {
 
 /// generated route for
 /// [_i6.QuestionScreen]
-class QuestionRoute extends _i8.PageRouteInfo<QuestionRouteArgs> {
+class QuestionRoute extends _i9.PageRouteInfo<QuestionRouteArgs> {
   QuestionRoute({
-    _i9.Key? key,
+    _i10.Key? key,
     int initialPageIndex = 0,
     void Function(int)? onclose,
-    List<_i8.PageRouteInfo>? children,
+    List<_i9.PageRouteInfo>? children,
   }) : super(
           QuestionRoute.name,
           args: QuestionRouteArgs(
@@ -238,8 +251,8 @@ class QuestionRoute extends _i8.PageRouteInfo<QuestionRouteArgs> {
 
   static const String name = 'QuestionRoute';
 
-  static const _i8.PageInfo<QuestionRouteArgs> page =
-      _i8.PageInfo<QuestionRouteArgs>(name);
+  static const _i9.PageInfo<QuestionRouteArgs> page =
+      _i9.PageInfo<QuestionRouteArgs>(name);
 }
 
 class QuestionRouteArgs {
@@ -249,7 +262,7 @@ class QuestionRouteArgs {
     this.onclose,
   });
 
-  final _i9.Key? key;
+  final _i10.Key? key;
 
   final int initialPageIndex;
 
@@ -262,9 +275,47 @@ class QuestionRouteArgs {
 }
 
 /// generated route for
-/// [_i7.SendFeedbackScreen]
-class SendFeedbackRoute extends _i8.PageRouteInfo<void> {
-  const SendFeedbackRoute({List<_i8.PageRouteInfo>? children})
+/// [_i7.RewardedAdScreen]
+class RewardedAdRoute extends _i9.PageRouteInfo<RewardedAdRouteArgs> {
+  RewardedAdRoute({
+    _i10.Key? key,
+    required _i12.AdUnit adUnit,
+    List<_i9.PageRouteInfo>? children,
+  }) : super(
+          RewardedAdRoute.name,
+          args: RewardedAdRouteArgs(
+            key: key,
+            adUnit: adUnit,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'RewardedAdRoute';
+
+  static const _i9.PageInfo<RewardedAdRouteArgs> page =
+      _i9.PageInfo<RewardedAdRouteArgs>(name);
+}
+
+class RewardedAdRouteArgs {
+  const RewardedAdRouteArgs({
+    this.key,
+    required this.adUnit,
+  });
+
+  final _i10.Key? key;
+
+  final _i12.AdUnit adUnit;
+
+  @override
+  String toString() {
+    return 'RewardedAdRouteArgs{key: $key, adUnit: $adUnit}';
+  }
+}
+
+/// generated route for
+/// [_i8.SendFeedbackScreen]
+class SendFeedbackRoute extends _i9.PageRouteInfo<void> {
+  const SendFeedbackRoute({List<_i9.PageRouteInfo>? children})
       : super(
           SendFeedbackRoute.name,
           initialChildren: children,
@@ -272,5 +323,5 @@ class SendFeedbackRoute extends _i8.PageRouteInfo<void> {
 
   static const String name = 'SendFeedbackRoute';
 
-  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }

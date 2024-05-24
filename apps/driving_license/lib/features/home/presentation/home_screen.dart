@@ -93,16 +93,19 @@ class HomeScreen extends HookConsumerWidget {
                       children: [
                         // DonateCard(),
                         GestureDetector(
-                          // onTap: () => ref
-                          //     .read(rewardedAdProvider(AdUnit.createNewExam))
-                          //     ?.show(
-                          //   onUserEarnedReward:
-                          //       (AdWithoutView ad, RewardItem rewardItem) {
-                          //     ref.read(loggerProvider).i(
-                          //           'User earned reward: $rewardItem',
-                          //         );
-                          //   },
-                          // ),
+                          onTap: () async {
+                            final isAdWatched = await context.pushRoute<bool>(
+                              RewardedAdRoute(adUnit: AdUnit.createNewExam),
+                            );
+
+                            if (isAdWatched == true && context.mounted) {
+                              context.showSnackBar(
+                                const SnackBar(
+                                  content: Text('Cảm ơn bạn đã xem quảng cáo!'),
+                                ),
+                              );
+                            }
+                          },
                           child: const DonateCardTemp(),
                         ),
                         kGap_20,
