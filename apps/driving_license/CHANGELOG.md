@@ -1,3 +1,7 @@
+## 0.1.4-dev.6
+
+ - **REFACTOR**(drv_lcn): update deprecated properties".
+
 ## 0.1.4-dev.5
 
  - **REFACTOR**(drv_lcn): rename _isWatched to _dirty and also set it to true when 'onAdFailedToLoad'.
