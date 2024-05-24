@@ -29,7 +29,6 @@ class ProductionBootstrapDelegate extends BootstrapDelegate {
 
     // Initialize AdMob
     container.read(adMobProvider);
-    container.read(adMobControllerProvider);
 
     // Initialize the SQLite database
     await container.read(sqliteProvider.future);

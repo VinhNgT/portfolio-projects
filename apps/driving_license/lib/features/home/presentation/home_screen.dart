@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/backend/ads/ad_unit.dart';
 import 'package:driving_license/backend/ads/admob_provider.dart';
+import 'package:driving_license/backend/ads/inline_banner_ad/inline_banner_ad_builder.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_scaffold.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/common_widgets/common_app_bar.dart';
@@ -23,7 +24,6 @@ import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
 import 'package:driving_license/features/questions/application/question/questions_service.dart';
 import 'package:driving_license/features/user_progress/application/providers/user_progress_providers.dart';
-import 'package:driving_license/logging/logger_provider.dart';
 import 'package:driving_license/routing/app_router.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
 import 'package:driving_license/utils/context_ext.dart';
@@ -31,7 +31,6 @@ import 'package:driving_license/utils/list_extention.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -43,7 +42,6 @@ class HomeScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final licenseName = ref.watch(userSelectedLicenseProvider);
     final scrollController = useScrollController();
-    final bannerAd = ref.watch(bannerAdProvider(AdUnit.homeBanner));
 
     return AsyncValueScaffold(
       value: licenseName,
@@ -95,31 +93,32 @@ class HomeScreen extends HookConsumerWidget {
                       children: [
                         // DonateCard(),
                         GestureDetector(
-                          onTap: () => ref
-                              .read(rewardedAdProvider(AdUnit.createNewExam))
-                              ?.show(
-                            onUserEarnedReward:
-                                (AdWithoutView ad, RewardItem rewardItem) {
-                              ref.read(loggerProvider).i(
-                                    'User earned reward: $rewardItem',
-                                  );
-                            },
-                          ),
+                          // onTap: () => ref
+                          //     .read(rewardedAdProvider(AdUnit.createNewExam))
+                          //     ?.show(
+                          //   onUserEarnedReward:
+                          //       (AdWithoutView ad, RewardItem rewardItem) {
+                          //     ref.read(loggerProvider).i(
+                          //           'User earned reward: $rewardItem',
+                          //         );
+                          //   },
+                          // ),
                           child: const DonateCardTemp(),
                         ),
                         kGap_20,
                         const FeatureSelection(),
                         kGap_32,
                         const ChapterSelection(),
-                        kGap_24,
-                        Center(
-                          child: SizedBox(
-                            width: bannerAd?.size.width.toDouble(),
-                            height: bannerAd?.size.height.toDouble(),
-                            child: bannerAd == null
-                                ? const SizedBox()
-                                : AdWidget(ad: bannerAd),
-                          ),
+                        InlineBannerAdBuilder(
+                          adUnit: AdUnit.homeBanner,
+                          builder: (adWidget) {
+                            return Column(
+                              children: [
+                                kGap_24,
+                                Center(child: adWidget),
+                              ],
+                            );
+                          },
                         ),
                       ],
                     ),
