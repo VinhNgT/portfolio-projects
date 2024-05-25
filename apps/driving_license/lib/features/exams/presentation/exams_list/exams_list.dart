@@ -48,7 +48,7 @@ class ExamsList extends HookConsumerWidget {
             top: kSize_16,
             left: kSize_16,
             right: kSize_16,
-            bottom: kSize_96,
+            bottom: kSize_16 + kSize_96,
           ),
           itemBuilder: (context, index) => Consumer(
             builder: (context, ref, child) {
