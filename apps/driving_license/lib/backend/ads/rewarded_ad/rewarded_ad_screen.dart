@@ -57,7 +57,7 @@ class RewardedAdScreen extends HookConsumerWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CircularProgressIndicator(),
-                  kGap_20,
+                  kGap_16,
                   Text('Đang tải quảng cáo'),
                 ],
               ),

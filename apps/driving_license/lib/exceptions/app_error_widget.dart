@@ -33,6 +33,7 @@ class AppErrorWidget extends StatelessWidget {
               Text(
                 errorMessage,
                 style: context.textTheme.titleMedium,
+                textAlign: TextAlign.center,
               ),
             ],
           ),
