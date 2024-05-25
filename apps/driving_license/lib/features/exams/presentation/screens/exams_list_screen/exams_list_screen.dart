@@ -1,15 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_scaffold.dart';
-import 'package:driving_license/features/exams/application/exams_service.dart';
 import 'package:driving_license/features/exams/application/providers/exams_providers.dart';
-import 'package:driving_license/features/exams/presentation/exams_list/empty_exams_list.dart';
 import 'package:driving_license/features/exams/presentation/exams_list/exams_list.dart';
+import 'package:driving_license/features/exams/presentation/screens/exams_list_screen/create_exam_floating_button.dart';
+import 'package:driving_license/features/exams/presentation/screens/exams_list_screen/empty_exams_list.dart';
 import 'package:driving_license/features/exams/presentation/screens/exams_list_screen/exams_list_screen_appbar.dart';
 import 'package:driving_license/features/exams/presentation/screens/exams_list_screen/exams_list_screen_controller.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:material_symbols_icons/symbols.dart';
 
 @RoutePage()
 class ExamsListScreen extends HookConsumerWidget {
@@ -50,48 +49,11 @@ class ExamsListScreen extends HookConsumerWidget {
               },
             ),
           ),
-          floatingActionButton: _AnimatedFloatingActionButton(
+          floatingActionButton: AnimatedCreateExamFloatingButton(
             show: state == ExamsListState.view && examsListValue.isNotEmpty,
           ),
         ),
       ),
-    );
-  }
-}
-
-class _AnimatedFloatingActionButton extends HookConsumerWidget {
-  const _AnimatedFloatingActionButton({required this.show});
-  final bool show;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return AnimatedSwitcher(
-      duration: Durations.short3,
-      transitionBuilder: (Widget child, Animation<double> animation) {
-        return SlideTransition(
-          position: Tween<Offset>(
-            begin: const Offset(0, 1.5),
-            end: Offset.zero,
-          ).animate(
-            CurvedAnimation(
-              parent: animation,
-              curve: Curves.easeOut,
-            ),
-          ),
-          child: child,
-        );
-      },
-      child: show
-          ? FloatingActionButton.extended(
-              icon: const Icon(Symbols.add),
-              label: const Text('Tạo bộ đề mới'),
-              onPressed: () async {
-                final examsService =
-                    await ref.read(examsServiceProvider.future);
-                await examsService.createExam();
-              },
-            )
-          : const SizedBox.shrink(),
     );
   }
 }

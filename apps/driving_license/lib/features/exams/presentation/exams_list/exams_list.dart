@@ -12,12 +12,12 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ExamsList extends HookConsumerWidget {
-
   const ExamsList({
     super.key,
     required this.examsList,
     this.onExamCardPressed,
   });
+
   final List<Exam> examsList;
   final void Function(int index)? onExamCardPressed;
 

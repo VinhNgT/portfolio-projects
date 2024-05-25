@@ -1,9 +1,8 @@
 import 'package:driving_license/constants/gap_sizes.dart';
-import 'package:driving_license/features/exams/application/exams_service.dart';
+import 'package:driving_license/features/exams/presentation/screens/exams_list_screen/create_exam_floating_button.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:material_symbols_icons/symbols.dart';
 
 class EmptyExamsList extends HookConsumerWidget {
   const EmptyExamsList({super.key});
@@ -22,14 +21,7 @@ class EmptyExamsList extends HookConsumerWidget {
                 .copyWith(color: context.materialScheme.onSurfaceVariant),
           ),
           kGap_16,
-          FloatingActionButton.extended(
-            icon: const Icon(Symbols.add),
-            label: const Text('Tạo bộ đề mới'),
-            onPressed: () async {
-              final examsService = await ref.read(examsServiceProvider.future);
-              await examsService.createExam();
-            },
-          ),
+          const CreateExamFloatingButton(),
         ],
       ),
     );
