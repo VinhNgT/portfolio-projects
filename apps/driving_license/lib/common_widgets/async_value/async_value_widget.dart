@@ -1,4 +1,4 @@
-import 'package:driving_license/common_widgets/error_message_widget.dart';
+import 'package:driving_license/common_widgets/async_value/async_error_widget.dart';
 import 'package:driving_license/utils/async_value_group.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -14,13 +14,12 @@ class _AsyncValueWidgetHelper {
   }
 
   static Widget error(Object e, StackTrace st) =>
-      Center(child: ErrorMessageWidget(e.toString()));
+      Center(child: AsyncErrorWidget(e.toString()));
 }
 
 /// A widget that handles different states of an asynchronous value and builds
 /// the UI accordingly.
 class AsyncValueWidget<T> extends StatelessWidget {
-
   /// Creates an [AsyncValueWidget] with the given parameters.
   ///
   /// The [value] represents the asynchronous value to handle.
@@ -58,7 +57,6 @@ class AsyncValueWidget<T> extends StatelessWidget {
 }
 
 class Async2ValuesWidget<T, U> extends StatelessWidget {
-
   const Async2ValuesWidget({
     super.key,
     required this.values,
@@ -86,7 +84,6 @@ class Async2ValuesWidget<T, U> extends StatelessWidget {
 }
 
 class Async3ValuesWidget<T, U, V> extends StatelessWidget {
-
   const Async3ValuesWidget({
     super.key,
     required this.values,
@@ -115,7 +112,6 @@ class Async3ValuesWidget<T, U, V> extends StatelessWidget {
 }
 
 class Async4ValuesWidget<T, U, V, W> extends StatelessWidget {
-
   const Async4ValuesWidget({
     super.key,
     required this.values,
@@ -149,7 +145,6 @@ class Async4ValuesWidget<T, U, V, W> extends StatelessWidget {
 }
 
 class Async5ValuesWidget<T, U, V, W, X> extends StatelessWidget {
-
   const Async5ValuesWidget({
     super.key,
     required this.values,
