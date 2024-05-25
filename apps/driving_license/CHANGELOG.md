@@ -1,3 +1,9 @@
+## 0.1.4-dev.7
+
+ - **REFACTOR**(drv_lcn): rename ErrorMessageWidget to AsyncErrorWidget.
+ - **FEAT**(drv_lcn): add 16px to bottom padding of ExamsList.
+ - **FEAT**(drv_lcn): user view a RewardedAd to create a new exam.
+
 ## 0.1.4-dev.6
 
  - **REFACTOR**(drv_lcn): update deprecated properties".

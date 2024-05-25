@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-05-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v0.1.4-dev.7`](#driving_license---v014-dev7)
+
+---
+
+#### `driving_license` - `v0.1.4-dev.7`
+
+ - **REFACTOR**(drv_lcn): rename ErrorMessageWidget to AsyncErrorWidget.
+ - **FEAT**(drv_lcn): add 16px to bottom padding of ExamsList.
+ - **FEAT**(drv_lcn): user view a RewardedAd to create a new exam.
+
+
 ## 2024-05-24
 
 ### Changes
