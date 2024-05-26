@@ -29,15 +29,13 @@ class CreateExamFloatingButton extends HookConsumerWidget {
           return;
         }
 
-        context.showSnackBar(
-          SnackBar(
-            content: Text(
-              isAdWatched ? 'Cảm ơn bạn đã xem quảng cáo' : 'Huỷ quảng cáo',
-            ),
-          ),
-        );
-
         if (isAdWatched) {
+          context.showSnackBar(
+            const SnackBar(
+              content: Text('Cảm ơn bạn đã xem quảng cáo!'),
+            ),
+          );
+
           final examsService = await ref.read(examsServiceProvider.future);
           await examsService.createExam();
         }
