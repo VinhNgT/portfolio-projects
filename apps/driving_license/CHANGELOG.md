@@ -1,3 +1,7 @@
+## 0.1.4-dev.8
+
+ - **FEAT**(drv_lcn): no longer show 'Huỷ quảng cáo' when showing or watching ad failed.
+
 ## 0.1.4-dev.7
 
  - **REFACTOR**(drv_lcn): rename ErrorMessageWidget to AsyncErrorWidget.
