@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-05-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v0.1.4-dev.9`](#driving_license---v014-dev9)
+
+---
+
+#### `driving_license` - `v0.1.4-dev.9`
+
+ - **FEAT**(drv_lcn): vet db to id 240.
+ - **FEAT**(drv_lcn): vet db to id 81.
+
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## 2024-05-26
 
 ### Changes

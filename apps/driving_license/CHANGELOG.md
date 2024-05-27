@@ -1,3 +1,8 @@
+## 0.1.4-dev.9
+
+ - **FEAT**(drv_lcn): vet db to id 240.
+ - **FEAT**(drv_lcn): vet db to id 81.
+
 ## 0.1.4-dev.8
 
  - **FEAT**(drv_lcn): no longer show 'Huỷ quảng cáo' when showing or watching ad failed.
