@@ -25,7 +25,7 @@ class MyApp extends HookConsumerWidget {
     const brightness = Brightness.dark;
 
     return MaterialApp.router(
-      title: 'Driving License App',
+      title: 'Drive Ready',
       debugShowCheckedModeBanner: false,
       builder: (context, child) {
         return Theme(
