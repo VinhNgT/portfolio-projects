@@ -1,3 +1,8 @@
+## 0.1.4-dev.10
+
+ - **FEAT**(drv_lcn): set title name to app name.
+ - **FEAT**(drv_lcn): vet db to id 304.
+
 ## 0.1.4-dev.9
 
  - **FEAT**(drv_lcn): vet db to id 240.

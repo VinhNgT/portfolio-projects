@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-05-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v0.1.4-dev.10`](#driving_license---v014-dev10)
+
+---
+
+#### `driving_license` - `v0.1.4-dev.10`
+
+ - **FEAT**(drv_lcn): set title name to app name.
+ - **FEAT**(drv_lcn): vet db to id 304.
+
+
 ## 2024-05-27
 
 ### Changes
