@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
+import 'package:driving_license/routing/app_router.gr.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -55,7 +57,7 @@ class DonateCard extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: FilledButton.tonal(
-                onPressed: () {},
+                onPressed: () => context.navigateTo(const DonateRoute()),
                 child: const Text('Mở khoá tất cả tính năng'),
               ),
             ),
