@@ -135,10 +135,11 @@ flutter:
   #   - images/a_dot_ham.jpeg
 
   # Command to compile vector graphics:
-  # vector_graphics_compiler --input-dir ./ --out-dir ./compiled/ --no-optimize-overdraw
+  # vector_graphics_compiler --input-dir ./ --out-dir ./../compiled/ --no-optimize-overdraw
   assets:
     - assets/questions.db
     - assets/images/question_images/
+    - assets/images/bank_notes/
     - assets/icons/compiled/
 
   # An image asset can refer to one or more resolution-specific "variants", see
