@@ -1,6 +1,7 @@
 import 'package:driving_license/backend/ads/admob_provider.dart';
 import 'package:driving_license/backend/database/sembast_provider.dart';
 import 'package:driving_license/backend/database/sqlite_provider.dart';
+import 'package:driving_license/backend/in_app_purchase/iap_service.dart';
 import 'package:driving_license/backend/remote_config/firebase_remote_config.dart';
 import 'package:driving_license/firebase_options.dart';
 import 'package:driving_license/logging/error_logger.dart';
@@ -35,6 +36,9 @@ class ProductionBootstrapDelegate extends BootstrapDelegate {
 
     // Initialize the Sembast database
     await container.read(sembastProvider.future);
+
+    // Initialize in-app purchase service
+    container.read(iapServiceProvider);
   }
 
   @override
