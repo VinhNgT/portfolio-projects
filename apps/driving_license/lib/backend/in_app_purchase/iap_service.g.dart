@@ -1,24 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'iap_provider.dart';
+part of 'iap_service.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$iapHash() => r'2ed47dc1e131ef50c17f109fd7d290a6bb473dd2';
+String _$iapServiceHash() => r'd2700d1634356eb1324bda85752555158695fd93';
 
-/// See also [iap].
-@ProviderFor(iap)
-final iapProvider = Provider<InAppPurchase>.internal(
-  iap,
-  name: r'iapProvider',
+/// See also [iapService].
+@ProviderFor(iapService)
+final iapServiceProvider = Provider<IapService>.internal(
+  iapService,
+  name: r'iapServiceProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$iapHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$iapServiceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef IapRef = ProviderRef<InAppPurchase>;
+typedef IapServiceRef = ProviderRef<IapService>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
