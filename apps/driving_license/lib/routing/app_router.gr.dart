@@ -12,6 +12,8 @@ import 'package:auto_route/auto_route.dart' as _i10;
 import 'package:driving_license/backend/ads/ad_unit.dart' as _i13;
 import 'package:driving_license/backend/ads/rewarded_ad/rewarded_ad_screen.dart'
     as _i8;
+import 'package:driving_license/features/donate/presentation/donate_screen.dart'
+    as _i1;
 import 'package:driving_license/features/exams/domain/exam.dart' as _i12;
 import 'package:driving_license/features/exams/presentation/screens/exam_detail_screen/exam_detail_screen.dart'
     as _i2;
@@ -23,8 +25,6 @@ import 'package:driving_license/features/feedback/presentation/send_feedback_scr
     as _i9;
 import 'package:driving_license/features/home/presentation/home_screen.dart'
     as _i5;
-import 'package:driving_license/features/in_app_purchase/presentation/donate_screen.dart'
-    as _i1;
 import 'package:driving_license/features/licenses/presentation/license_selection_screen.dart'
     as _i6;
 import 'package:driving_license/features/questions/presentation/question_screen.dart'

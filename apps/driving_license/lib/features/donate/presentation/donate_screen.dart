@@ -1,10 +1,11 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:driving_license/backend/in_app_purchase/iap_entry.dart';
+import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/common_widgets/widget_deadzone.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
-import 'package:driving_license/features/in_app_purchase/presentation/bank_note_card.dart';
+import 'package:driving_license/features/donate/presentation/banknote_card.dart';
+import 'package:driving_license/features/donate/presentation/donate_screen_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:driving_license/utils/list_extention.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +61,7 @@ Bằng việc thực hiện đóng góp, bạn sẽ giúp nhà phát triển kh�
 
 Toàn bộ quảng cáo trên ứng dụng sẽ được loại bỏ sau khi giao dịch thành công. Lưu ý bạn chỉ có thể thực hiện đóng góp 1 lần.'''),
                   kGap_32,
-                  const BankNotesList(),
+                  const BanknotesList(),
                 ],
               ),
             ),
@@ -71,16 +72,21 @@ Toàn bộ quảng cáo trên ứng dụng sẽ được loại bỏ sau khi gia
   }
 }
 
-class BankNotesList extends StatelessWidget {
-  const BankNotesList({super.key});
+class BanknotesList extends HookConsumerWidget {
+  const BanknotesList({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        for (final entry in IapProductEntry.values)
-          BankNoteCard(productEntry: entry),
-      ].separated(kGap_16),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final iapProductsList = ref.watch(donateProductListFutureProvider);
+
+    return AsyncValueWidget(
+      value: iapProductsList,
+      builder: (iapProductsListValue) => Column(
+        children: <Widget>[
+          for (final product in iapProductsListValue)
+            BanknoteCard(product: product),
+        ].separated(kGap_16),
+      ),
     );
   }
 }
