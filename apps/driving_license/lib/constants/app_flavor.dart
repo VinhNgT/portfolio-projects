@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 
 enum AppFlavor {
   dev,
+  iapTest,
   prod;
 }
 
