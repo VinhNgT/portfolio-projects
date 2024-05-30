@@ -12,7 +12,7 @@ Dio dio(DioRef ref) {
   final dio = Dio();
   final logger = ref.watch(loggerProvider);
 
-  if (isAppBuiltWithFlavor(AppFlavor.dev)) {
+  if (!isAppBuiltWithFlavor(AppFlavor.prod)) {
     dio.interceptors.addAll([
       LogInterceptor(),
       DataLogIntercepter(logger),

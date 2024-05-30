@@ -8,14 +8,14 @@ class AsyncErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isAppBuiltWithFlavor(AppFlavor.dev)) {
-      return Text(
-        errorMessage,
-        style:
-            Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.red),
-      );
+    if (isAppBuiltWithFlavor(AppFlavor.prod)) {
+      return const Center(child: Text('Đã có lỗi xảy ra'));
     }
 
-    return const Center(child: Text('Đã có lỗi xảy ra'));
+    return Text(
+      errorMessage,
+      style:
+          Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.red),
+    );
   }
 }

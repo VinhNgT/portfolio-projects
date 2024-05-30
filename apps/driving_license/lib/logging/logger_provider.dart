@@ -29,7 +29,7 @@ class CombineFilter extends LogFilter {
 class DevelopmentFlavorFilter extends LogFilter {
   @override
   bool shouldLog(LogEvent event) {
-    return isAppBuiltWithFlavor(AppFlavor.dev) &&
+    return !isAppBuiltWithFlavor(AppFlavor.prod) &&
         event.level.value >= level!.value;
   }
 }

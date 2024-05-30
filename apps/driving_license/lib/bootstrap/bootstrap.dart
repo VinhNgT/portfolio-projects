@@ -50,12 +50,12 @@ class Bootstrap {
           ? details.exception as FlutterError
           : null;
 
-      return isAppBuiltWithFlavor(AppFlavor.dev)
-          ? ErrorWidget.withDetails(
+      return isAppBuiltWithFlavor(AppFlavor.prod)
+          ? const AppErrorWidget.defaultMessage()
+          : ErrorWidget.withDetails(
               message: details.exceptionAsString(),
               error: error,
-            )
-          : const AppErrorWidget.defaultMessage();
+            );
     };
   }
 }
