@@ -26,6 +26,13 @@
       "program": "lib/main.dart",
       "flutterMode": "release",
       "args": ["--flavor", "dev"]
+    },
+    {
+      "name": "driving_license (test iap mode, WILL OVERWRITE EXISTING DATA)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": ["--flavor", "prod"]
     }
   ]
 }
