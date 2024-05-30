@@ -1,4 +1,6 @@
-enum IapProductEntry {
+import 'package:driving_license/backend/in_app_purchase/domain/iap_product.dart';
+
+enum DonateProductEntry implements IapProductEntry {
   unlockFullAccess10k(
     id: 'unlock_full_access_10k',
     imagePath: 'assets/images/bank_notes/10k.jpg',
@@ -24,16 +26,9 @@ enum IapProductEntry {
     imagePath: 'assets/images/bank_notes/500k.jpg',
   );
 
-  const IapProductEntry({required this.id, required this.imagePath});
+  const DonateProductEntry({required this.id, required this.imagePath});
+
+  @override
   final String id;
   final String imagePath;
 }
-
-final iapProductEntryMap = {
-  IapProductEntry.unlockFullAccess10k.id: IapProductEntry.unlockFullAccess10k,
-  IapProductEntry.unlockFullAccess20k.id: IapProductEntry.unlockFullAccess20k,
-  IapProductEntry.unlockFullAccess50k.id: IapProductEntry.unlockFullAccess50k,
-  IapProductEntry.unlockFullAccess100k.id: IapProductEntry.unlockFullAccess100k,
-  IapProductEntry.unlockFullAccess200k.id: IapProductEntry.unlockFullAccess200k,
-  IapProductEntry.unlockFullAccess500k.id: IapProductEntry.unlockFullAccess500k,
-};
