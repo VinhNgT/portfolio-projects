@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`driving_license` - `v0.1.4-dev.13`](#driving_license---v014-dev13)
+
+---
+
+#### `driving_license` - `v0.1.4-dev.13`
+
+ - **FIX**(drv_lcn): change Adsize from largeBanner to banner.
+
+
+## 2024-05-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`driving_license` - `v0.1.4-dev.12`](#driving_license---v014-dev12)
 
 ---

@@ -1,3 +1,7 @@
+## 0.1.4-dev.13
+
+ - **FIX**(drv_lcn): change Adsize from largeBanner to banner.
+
 ## 0.1.4-dev.12
 
  - **FIX**(drv_lcn): decrease home screen banner ad size and handle exception when the screen is off.
