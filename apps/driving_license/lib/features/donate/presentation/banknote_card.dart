@@ -76,7 +76,13 @@ class BanknoteCard extends HookConsumerWidget {
           ],
         ),
       ),
-      onPressed: () {
+      onPressed: () async {
+        final isUserDonated = await ref.read(isUserDonatedProvider.future);
+        if (isUserDonated && context.mounted) {
+          _showSnackBar(context, 'Bạn đã thực hiện đóng góp trước đó');
+          return;
+        }
+
         pendingFuture.value = controller.buyProduct(product);
       },
     );
