@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-05-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v0.1.4-dev.11`](#driving_license---v014-dev11)
+
+---
+
+#### `driving_license` - `v0.1.4-dev.11`
+
+ - **REFACTOR**(drv_lcn): move DonateScreen page poping logic outside.
+ - **REFACTOR**(drv_lcn): fix donateProductListFuture wrong type and add new provider isUserDonated.
+ - **REFACTOR**(drv_lcn): remove unused methods and add watch is pending / purchase.
+ - **REFACTOR**(drv_lcn): change isAppBuiltWithFlavor references from checking for AppFlavor.dev to checking for AppFlavor.prod.
+ - **REFACTOR**(drv_lcn): move donate screen to 'features' folder.
+ - **REFACTOR**(drv_lcn): separate IapProductEntry and DonateProductEntry.
+ - **FIX**(drv_lcn): remove extra newline in NewExamDialog.
+ - **FEAT**(drv_lcn): add iap debug buttons.
+ - **FEAT**(drv_lcn): hide ads if user has donated.
+ - **FEAT**(drv_lcn): stop user from donating a second time.
+ - **FEAT**(drv_lcn): add divider and 'restore purchases' button.
+ - **FEAT**(drv_lcn): init iap service when app starts.
+ - **FEAT**(drv_lcn): add IapProductPurchase to domain.
+ - **FEAT**(drv_lcn): create iap service and providers.
+ - **FEAT**(drv_lcn): add purchasesRepository.
+ - **FEAT**(drv_lcn): add iap provider for connecting to google/apple iap service.
+ - **FEAT**(drv_lcn): add donation screen.
+
+
 ## 2024-05-28
 
 ### Changes
