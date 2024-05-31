@@ -18,10 +18,10 @@ class BanknoteCardController {
   final IapService iapService;
   final Logger logger;
 
-  Future<IapProductPurchaseState> buyProduct(IapProduct product) {
+  Future<IapProductPurchaseState> buyProduct(IapProduct product) async {
     try {
-      return iapService.buyProduct(product);
-    } on Exception catch (e, st) {
+      return await iapService.buyProduct(product);
+    } catch (e, st) {
       logger.e('Buy product failed', error: e, stackTrace: st);
       rethrow;
     }
@@ -36,6 +36,16 @@ BanknoteCardController banknoteCardController(BanknoteCardControllerRef ref) {
   return BanknoteCardController(iapService: iapService, logger: logger);
 }
 
+@riverpod
+FutureOr<bool> isUserDonated(IsUserDonatedRef ref) async {
+  final isAnyPending =
+      await ref.watch(isAnyPurchasePendingStreamProvider.future);
+  final isAnyCompleted =
+      await ref.watch(isAnyPurchaseCompletedStreamProvider.future);
+
+  return isAnyPending || isAnyCompleted;
+}
+
 //! This is madness, waiting to change this to generic type once Riverpod 3.0 is
 //! released.
 @riverpod
@@ -45,5 +55,12 @@ FutureOr<List<IapProduct<DonateProductEntry>>> donateProductListFuture(
   final iapProductsList = await ref
       .watch(iapProductsListFutureProvider(DonateProductEntry.values).future);
 
-  return iapProductsList as List<IapProduct<DonateProductEntry>>;
+  return iapProductsList
+      .map(
+        (e) => IapProduct<DonateProductEntry>(
+          e.productDetails,
+          e.entry as DonateProductEntry,
+        ),
+      )
+      .toList();
 }

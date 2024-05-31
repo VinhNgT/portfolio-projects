@@ -24,8 +24,23 @@ final banknoteCardControllerProvider =
 
 typedef BanknoteCardControllerRef
     = AutoDisposeProviderRef<BanknoteCardController>;
+String _$isUserDonatedHash() => r'7916357943f3d60492343bfcc635ac1d3510f0cc';
+
+/// See also [isUserDonated].
+@ProviderFor(isUserDonated)
+final isUserDonatedProvider = AutoDisposeFutureProvider<bool>.internal(
+  isUserDonated,
+  name: r'isUserDonatedProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$isUserDonatedHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef IsUserDonatedRef = AutoDisposeFutureProviderRef<bool>;
 String _$donateProductListFutureHash() =>
-    r'618b411387e5b01a0bf9c638685820021cc91365';
+    r'f0a4be7b23c2a93f3e07074abb9e4c98b0cfd69a';
 
 /// See also [donateProductListFuture].
 @ProviderFor(donateProductListFuture)
