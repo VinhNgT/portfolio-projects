@@ -1,6 +1,7 @@
 import 'package:driving_license/backend/database/sembast_provider.dart';
 import 'package:driving_license/backend/in_app_purchase/domain/iap_product.dart';
 import 'package:driving_license/backend/in_app_purchase/domain/iap_product_purchase.dart';
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sembast/sembast.dart';
 
@@ -49,6 +50,19 @@ class SembastPurchasesRepository {
   }
 }
 
+extension SembastPurchasesRepositoryDebugX on SembastPurchasesRepository {
+  void printAllPurchases() async {
+    final allPurchases = await purchasesStore.find(db);
+    for (final purchase in allPurchases) {
+      debugPrint('Purchase: ${purchase.key} - ${purchase.value}');
+    }
+  }
+
+  Future<void> clearAllPurchases() {
+    debugPrint('Clearing all purchases...');
+    return purchasesStore.delete(db);
+  }
+}
 
 @Riverpod(keepAlive: true)
 SembastPurchasesRepository purchasesRepository(PurchasesRepositoryRef ref) {

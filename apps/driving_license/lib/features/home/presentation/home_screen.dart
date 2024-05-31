@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/backend/ads/ad_unit.dart';
 import 'package:driving_license/backend/ads/admob_provider.dart';
 import 'package:driving_license/backend/ads/inline_banner_ad/inline_banner_ad_builder.dart';
+import 'package:driving_license/backend/in_app_purchase/data/purchases_repository.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_scaffold.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/common_widgets/common_app_bar.dart';
@@ -50,7 +51,8 @@ class HomeScreen extends HookConsumerWidget {
           leading: IconButton(
             icon: const Icon(Symbols.rule_settings),
             onPressed: () async {
-              await context.navigateTo(LicenseSelectionRoute());
+              ref.read(purchasesRepositoryProvider).printAllPurchases();
+              // await context.navigateTo(LicenseSelectionRoute());
             },
           ),
           title: GestureDetector(
@@ -63,7 +65,8 @@ class HomeScreen extends HookConsumerWidget {
             TextButton(
               child: const Text('Báo lỗi'),
               onPressed: () async {
-                unawaited(context.navigateTo(const SendFeedbackRoute()));
+                ref.read(purchasesRepositoryProvider).clearAllPurchases();
+                // unawaited(context.navigateTo(const SendFeedbackRoute()));
               },
             ),
           ],
