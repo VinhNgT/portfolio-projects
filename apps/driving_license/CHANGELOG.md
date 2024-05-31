@@ -1,3 +1,7 @@
+## 0.1.4-dev.12
+
+ - **FIX**(drv_lcn): decrease home screen banner ad size and handle exception when the screen is off.
+
 ## 0.1.4-dev.11
 
  - **REFACTOR**(drv_lcn): move DonateScreen page poping logic outside.

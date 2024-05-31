@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`driving_license` - `v0.1.4-dev.12`](#driving_license---v014-dev12)
+
+---
+
+#### `driving_license` - `v0.1.4-dev.12`
+
+ - **FIX**(drv_lcn): decrease home screen banner ad size and handle exception when the screen is off.
+
+
+## 2024-05-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`driving_license` - `v0.1.4-dev.11`](#driving_license---v014-dev11)
 
 ---
