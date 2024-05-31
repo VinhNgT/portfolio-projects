@@ -89,29 +89,26 @@ class HomeScreen extends HookConsumerWidget {
                     top: kSize_4,
                     bottom: kSize_24,
                   ),
-                  child: NotifyScrollSizeChanges(
-                    scrollController: scrollController,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const DonateCard(),
-                        kGap_20,
-                        const FeatureSelection(),
-                        kGap_32,
-                        const ChapterSelection(),
-                        InlineBannerAdBuilder(
-                          adUnit: AdUnit.homeBanner,
-                          builder: (adWidget) {
-                            return Column(
-                              children: [
-                                kGap_24,
-                                Center(child: adWidget),
-                              ],
-                            );
-                          },
-                        ),
-                      ],
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const DonateCard(),
+                      kGap_20,
+                      const FeatureSelection(),
+                      kGap_32,
+                      const ChapterSelection(),
+                      InlineBannerAdBuilder(
+                        adUnit: AdUnit.homeBanner,
+                        builder: (adWidget) {
+                          return Column(
+                            children: [
+                              kGap_24,
+                              Center(child: adWidget),
+                            ],
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ),
