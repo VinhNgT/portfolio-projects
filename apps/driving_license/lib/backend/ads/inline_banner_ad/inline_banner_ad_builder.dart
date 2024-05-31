@@ -23,6 +23,11 @@ class InlineBannerAdBuilder extends HookConsumerWidget {
           return const SizedBox.shrink();
         }
 
+        final adSizeRequest = Size(
+          constraints.maxWidth,
+          AdSize.banner.height.toDouble(),
+        );
+
         return Consumer(
           builder: (context, ref, child) {
             final adMobBannerAd = ref
@@ -30,8 +35,8 @@ class InlineBannerAdBuilder extends HookConsumerWidget {
                   inlineBannerAdStreamProvider(
                     adUnit,
                     InLineBannerAdConfig(
-                      width: constraints.maxWidth,
-                      maxHeight: AdSize.largeBanner.height.toDouble(),
+                      width: adSizeRequest.width,
+                      maxHeight: adSizeRequest.height,
                     ),
                   ),
                 )
