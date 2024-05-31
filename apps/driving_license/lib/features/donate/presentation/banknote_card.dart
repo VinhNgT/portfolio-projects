@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/backend/in_app_purchase/domain/iap_product.dart';
 import 'package:driving_license/backend/in_app_purchase/domain/iap_product_purchase.dart';
 import 'package:driving_license/common_widgets/button_card.dart';
@@ -33,11 +32,11 @@ class BanknoteCard extends HookConsumerWidget {
           snapshot.state == SnapshotState.done &&
           snapshot.hasData) {
         if (snapshot.data == IapProductPurchaseState.purchased) {
-          _showSnackBar(context, 'Đóng góp thành công, cảm ơn bạn!', pop: true);
+          _showSnackBar(context, 'Đóng góp thành công, cảm ơn bạn!');
         }
 
         if (snapshot.data == IapProductPurchaseState.pending) {
-          _showSnackBar(context, 'Giao dịch đang chờ xử lý', pop: true);
+          _showSnackBar(context, 'Giao dịch đang chờ xử lý');
         }
       }
     });
@@ -92,19 +91,11 @@ class BanknoteCard extends HookConsumerWidget {
         DonateProductEntry.unlockFullAccess500k => '???',
       };
 
-  /// Show a snackbar indicate the result of the transaction. If [pop] is true,
-  /// pop the current screen after showing the snackbar.
-  void _showSnackBar(BuildContext context, String message, {bool pop = false}) {
+  void _showSnackBar(BuildContext context, String message) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.showSnackBar(
-        const SnackBar(
-          content: Text('Đóng góp thành công, cảm ơn bạn!'),
-        ),
+        SnackBar(content: Text(message)),
       );
-
-      if (pop) {
-        context.maybePop();
-      }
     });
   }
 }

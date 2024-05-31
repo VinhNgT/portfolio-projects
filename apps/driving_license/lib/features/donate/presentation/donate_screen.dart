@@ -22,6 +22,15 @@ class DonateScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final scrollController = useScrollController();
 
+    ref.listen(
+      isUserDonatedProvider,
+      (previous, next) {
+        if (previous?.value == false && next.value == true) {
+          context.maybePop();
+        }
+      },
+    );
+
     return Scaffold(
       appBar: CommonAppBar(
         title: const Text('Đóng góp'),
