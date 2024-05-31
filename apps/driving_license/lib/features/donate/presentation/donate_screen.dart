@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:driving_license/backend/in_app_purchase/data/iap_providers.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/common_widgets/widget_deadzone.dart';
@@ -44,7 +45,7 @@ class DonateScreen extends HookConsumerWidget {
           controller: scrollController,
           padding: const EdgeInsets.only(
             top: kSize_4,
-            bottom: kSize_48,
+            bottom: kSize_24,
             left: kSize_16,
             right: kSize_16,
           ),
@@ -69,8 +70,33 @@ class DonateScreen extends HookConsumerWidget {
 Bằng việc thực hiện đóng góp, bạn sẽ giúp nhà phát triển không phải phụ thuộc vào nguồn thu từ quảng cáo, nâng cao trải nghiệm cho tất cả mọi người.
 
 Toàn bộ quảng cáo trên ứng dụng sẽ được loại bỏ sau khi giao dịch thành công. Lưu ý bạn chỉ có thể thực hiện đóng góp 1 lần.'''),
-                  kGap_32,
+                  // kGap_32,
+                  kGap_24,
+                  const Divider(),
+                  kGap_24,
                   const BanknotesList(),
+                  kGap_8,
+                  TextButton.icon(
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStatePropertyAll(
+                        context.materialScheme.error,
+                      ),
+                    ),
+                    icon: const Icon(Icons.settings_backup_restore),
+                    label: const Text(
+                      'Khôi phục thanh toán',
+                    ),
+                    onPressed: () => ref.read(iapProvider).restorePurchases(),
+                  ),
+                  kGap_8,
+                  Text(
+                    'Hãy nhấn \'Khôi phục thanh toán\' nếu bạn đã đóng góp '
+                    'thành công mà ứng dụng chưa loại bỏ quảng cáo hoặc bạn '
+                    'chuyển sang thiết bị mới.',
+                    style: context.textTheme.bodySmall!.copyWith(
+                      color: context.materialScheme.onSurfaceVariant,
+                    ),
+                  ),
                 ],
               ),
             ),
