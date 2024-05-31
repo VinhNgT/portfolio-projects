@@ -14,6 +14,7 @@ import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/chapters/application/providers/chapters_providers.dart';
 import 'package:driving_license/features/chapters/domain/chapter.dart';
+import 'package:driving_license/features/donate/presentation/donate_screen_controller.dart';
 import 'package:driving_license/features/home/presentation/chapter_card.dart';
 import 'package:driving_license/features/home/presentation/dialogs/bookmarks_empty_dialog.dart';
 import 'package:driving_license/features/home/presentation/dialogs/clear_chapter_completion_dialog.dart';
@@ -43,6 +44,7 @@ class HomeScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final licenseName = ref.watch(userSelectedLicenseProvider);
     final scrollController = useScrollController();
+    final isUserDonated = ref.watch(isUserDonatedProvider);
 
     return AsyncValueScaffold(
       value: licenseName,
@@ -89,26 +91,30 @@ class HomeScreen extends HookConsumerWidget {
                     top: kSize_4,
                     bottom: kSize_24,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const DonateCard(),
-                      kGap_20,
-                      const FeatureSelection(),
-                      kGap_32,
-                      const ChapterSelection(),
-                      InlineBannerAdBuilder(
-                        adUnit: AdUnit.homeBanner,
-                        builder: (adWidget) {
-                          return Column(
-                            children: [
-                              kGap_24,
-                              Center(child: adWidget),
-                            ],
-                          );
-                        },
-                      ),
-                    ],
+                  child: AsyncValueWidget(
+                    value: isUserDonated,
+                    builder: (isUserDonatedValue) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        DonateCard(isUserDonated: isUserDonatedValue),
+                        kGap_20,
+                        const FeatureSelection(),
+                        kGap_32,
+                        const ChapterSelection(),
+                        if (!isUserDonatedValue)
+                          InlineBannerAdBuilder(
+                            adUnit: AdUnit.homeBanner,
+                            builder: (adWidget) {
+                              return Column(
+                                children: [
+                                  kGap_24,
+                                  Center(child: adWidget),
+                                ],
+                              );
+                            },
+                          ),
+                      ],
+                    ),
                   ),
                 ),
               ),

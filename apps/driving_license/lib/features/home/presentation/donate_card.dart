@@ -8,9 +8,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:vector_graphics/vector_graphics.dart';
 
 class DonateCard extends StatelessWidget {
-  const DonateCard({
-    super.key,
-  });
+  const DonateCard({super.key, required this.isUserDonated});
+  final bool isUserDonated;
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +37,14 @@ class DonateCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Đóng góp',
+                        isUserDonated ? 'Cảm ơn bạn đã đóng góp' : 'Đóng góp',
                         style: context.textTheme.titleMedium,
                       ),
                       kGap_2,
                       Text(
-                        'Ủng hộ nhà phát triển phần mềm',
+                        isUserDonated
+                            ? 'Toàn bộ quảng cáo đã được loại bỏ'
+                            : 'Ủng hộ nhà phát triển phần mềm',
                         style: context.textTheme.bodyMedium!.copyWith(
                           color: context.colorScheme.onSurfaceVariant,
                         ),
@@ -53,14 +54,16 @@ class DonateCard extends StatelessWidget {
                 ),
               ],
             ),
-            kGap_16,
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton.tonal(
-                onPressed: () => context.navigateTo(const DonateRoute()),
-                child: const Text('Mở khoá tất cả tính năng'),
+            if (!isUserDonated) ...[
+              kGap_16,
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton.tonal(
+                  onPressed: () => context.navigateTo(const DonateRoute()),
+                  child: const Text('Mở khoá tất cả tính năng'),
+                ),
               ),
-            ),
+            ],
           ],
         ),
       ),

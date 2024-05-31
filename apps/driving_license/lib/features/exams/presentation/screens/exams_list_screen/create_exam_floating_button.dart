@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/backend/ads/ad_unit.dart';
+import 'package:driving_license/features/donate/presentation/donate_screen_controller.dart';
 import 'package:driving_license/features/exams/application/exams_service.dart';
 import 'package:driving_license/features/exams/presentation/dialogs/new_exam_dialog.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
@@ -17,30 +18,35 @@ class CreateExamFloatingButton extends HookConsumerWidget {
       icon: const Icon(Symbols.add),
       label: const Text('Tạo bộ đề mới'),
       onPressed: () async {
-        final userConsent = await _getUserAdConsent(context, ref);
+        var shouldCreateExam = false;
+        final isUserDonated = ref.read(isUserDonatedProvider).value ?? false;
 
-        if (!userConsent || !context.mounted) {
-          return;
+        if (isUserDonated) {
+          shouldCreateExam = true;
+        } else {
+          shouldCreateExam = await _getUserAdConsentAndShowAd(context, ref);
         }
 
-        final isAdWatched = await _showAd(context, ref);
-
-        if (!context.mounted) {
-          return;
-        }
-
-        if (isAdWatched) {
-          context.showSnackBar(
-            const SnackBar(
-              content: Text('Cảm ơn bạn đã xem quảng cáo!'),
-            ),
-          );
-
+        if (shouldCreateExam && context.mounted) {
           final examsService = await ref.read(examsServiceProvider.future);
           await examsService.createExam();
         }
       },
     );
+  }
+
+  /// Return true if the user has watched the ad.
+  Future<bool> _getUserAdConsentAndShowAd(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    final userConsent = await _getUserAdConsent(context, ref);
+
+    if (!userConsent || !context.mounted) {
+      return false;
+    }
+
+    return _showAd(context, ref);
   }
 
   Future<bool> _getUserAdConsent(BuildContext context, WidgetRef ref) async {
@@ -52,10 +58,20 @@ class CreateExamFloatingButton extends HookConsumerWidget {
   }
 
   Future<bool> _showAd(BuildContext context, WidgetRef ref) async {
-    return await context.pushRoute<bool>(
+    final result = await context.pushRoute<bool>(
           RewardedAdRoute(adUnit: AdUnit.createNewExam),
         ) ??
         false;
+
+    if (result && context.mounted) {
+      context.showSnackBar(
+        const SnackBar(
+          content: Text('Cảm ơn bạn đã xem quảng cáo!'),
+        ),
+      );
+    }
+
+    return result;
   }
 }
 
