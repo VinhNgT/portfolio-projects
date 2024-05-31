@@ -208,23 +208,6 @@ class _IapProductsListFutureProviderElement
       (origin as IapProductsListFutureProvider).iapProductEntries;
 }
 
-String _$isAnyPurchasePendingStreamHash() =>
-    r'e5048f4e8fa1ed9f92a07e1eda0ca8c82eb024d1';
-
-/// See also [isAnyPurchasePendingStream].
-@ProviderFor(isAnyPurchasePendingStream)
-final isAnyPurchasePendingStreamProvider =
-    AutoDisposeStreamProvider<bool>.internal(
-  isAnyPurchasePendingStream,
-  name: r'isAnyPurchasePendingStreamProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$isAnyPurchasePendingStreamHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef IsAnyPurchasePendingStreamRef = AutoDisposeStreamProviderRef<bool>;
 String _$isAnyPurchaseCompletedStreamHash() =>
     r'2309d9c79f1ba3bfd235c3b83285fd4f2141cb28';
 

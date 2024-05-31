@@ -34,11 +34,11 @@ FutureOr<List<IapProduct>> iapProductsListFuture(
   return iapService.loadPurchases(iapProductEntries);
 }
 
-@riverpod
-Stream<bool> isAnyPurchasePendingStream(IsAnyPurchasePendingStreamRef ref) {
-  final purchasesRepository = ref.watch(purchasesRepositoryProvider);
-  return purchasesRepository.watchIsAnyPending();
-}
+// @riverpod
+// Stream<bool> isAnyPurchasePendingStream(IsAnyPurchasePendingStreamRef ref) {
+//   final purchasesRepository = ref.watch(purchasesRepositoryProvider);
+//   return purchasesRepository.watchIsAnyPending();
+// }
 
 @riverpod
 Stream<bool> isAnyPurchaseCompletedStream(IsAnyPurchaseCompletedStreamRef ref) {

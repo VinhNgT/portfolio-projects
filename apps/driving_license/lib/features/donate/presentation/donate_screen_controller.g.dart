@@ -24,7 +24,7 @@ final banknoteCardControllerProvider =
 
 typedef BanknoteCardControllerRef
     = AutoDisposeProviderRef<BanknoteCardController>;
-String _$isUserDonatedHash() => r'7916357943f3d60492343bfcc635ac1d3510f0cc';
+String _$isUserDonatedHash() => r'b575cb56ddcb82ee97eee3e4ba98694e95fedcc9';
 
 /// See also [isUserDonated].
 @ProviderFor(isUserDonated)

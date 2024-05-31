@@ -38,12 +38,13 @@ BanknoteCardController banknoteCardController(BanknoteCardControllerRef ref) {
 
 @riverpod
 FutureOr<bool> isUserDonated(IsUserDonatedRef ref) async {
-  final isAnyPending =
-      await ref.watch(isAnyPurchasePendingStreamProvider.future);
+  // final isAnyPending =
+  //     await ref.watch(isAnyPurchasePendingStreamProvider.future);
   final isAnyCompleted =
       await ref.watch(isAnyPurchaseCompletedStreamProvider.future);
 
-  return isAnyPending || isAnyCompleted;
+  // return isAnyPending || isAnyCompleted;
+  return isAnyCompleted;
 }
 
 //! This is madness, waiting to change this to generic type once Riverpod 3.0 is

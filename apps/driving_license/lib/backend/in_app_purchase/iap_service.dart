@@ -80,11 +80,16 @@ class IapService {
     switch (purchaseDetails.status) {
       case PurchaseStatus.pending:
         debugPrint('Pending: ${purchaseDetails.productID}');
-        await purchasesRepository.savePurchaseOfId(
-          purchaseDetails.productID,
-          isPending: true,
+        _purchaseInProgress?.completeError(
+          'Pending purchases are no longer supported',
+          StackTrace.current,
         );
-        _purchaseInProgress?.complete(IapProductPurchaseState.pending);
+
+      // await purchasesRepository.savePurchaseOfId(
+      //   purchaseDetails.productID,
+      //   isPending: true,
+      // );
+      // _purchaseInProgress?.complete(IapProductPurchaseState.pending);
 
       case PurchaseStatus.error || PurchaseStatus.canceled:
         debugPrint('Error: ${purchaseDetails.error}');
