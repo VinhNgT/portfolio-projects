@@ -15,8 +15,7 @@ Bạn sẽ xem một quảng cáo tối đa 30 giây để tạo 1 bộ đề m�
 
   •  Nếu bạn xoá ứng dụng hoặc dữ liệu ứng dụng thì tất cả bộ đề đã tạo sẽ bị mất.
 
-  •  Nếu bạn đã thực hiện đóng góp thì chức năng này sẽ không còn yêu cầu xem quảng cáo.
-'''),
+  •  Nếu bạn đã thực hiện đóng góp thì chức năng này sẽ không còn yêu cầu xem quảng cáo.'''),
       actions: <Widget>[
         TextButton(
           child: const Text('Huỷ'),
