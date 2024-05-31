@@ -28,42 +28,27 @@ class SembastPurchasesRepository {
     return purchasesStore.record(product.id).delete(db);
   }
 
-  Future<bool?> getIsPurchasePending(IapProduct product) async {
-    final snapshot = await purchasesStore.record(product.id).get(db);
-    if (snapshot == null) {
-      return null;
-    }
+  Stream<bool> watchIsAnyPending() {
+    final recordCountStream = purchasesStore
+        .query(
+          finder: Finder(filter: Filter.equals('state', 'pending')),
+        )
+        .onCount(db);
 
-    final purchase = IapProductPurchase.fromJson(snapshot);
-    return purchase.state == IapProductPurchaseState.pending;
+    return recordCountStream.map((snapshot) => snapshot > 0);
   }
 
-  Future<bool> getIsAnyPurchasePending() async {
-    final snapshot = await purchasesStore.findFirst(
-      db,
-      finder: Finder(filter: Filter.equals('state', 'pending')),
-    );
-    if (snapshot == null) {
-      return false;
-    }
+  Stream<bool> watchIsAnyPurchased() {
+    final recordCountStream = purchasesStore
+        .query(
+          finder: Finder(filter: Filter.equals('state', 'purchased')),
+        )
+        .onCount(db);
 
-    return true;
-  }
-
-  Stream<IapProductPurchase?> watchPurchase(IapProduct product) {
-    final recordSnapshotStream =
-        purchasesStore.record(product.id).onSnapshot(db);
-
-    return recordSnapshotStream.map((snapshot) {
-      if (snapshot == null) {
-        return null;
-      }
-
-      final purchaseJson = snapshot.value as Map<String, dynamic>;
-      return IapProductPurchase.fromJson(purchaseJson);
-    });
+    return recordCountStream.map((snapshot) => snapshot > 0);
   }
 }
+
 
 @Riverpod(keepAlive: true)
 SembastPurchasesRepository purchasesRepository(PurchasesRepositoryRef ref) {

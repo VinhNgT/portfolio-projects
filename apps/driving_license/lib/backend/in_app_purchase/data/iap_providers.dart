@@ -1,6 +1,5 @@
 import 'package:driving_license/backend/in_app_purchase/data/purchases_repository.dart';
 import 'package:driving_license/backend/in_app_purchase/domain/iap_product.dart';
-import 'package:driving_license/backend/in_app_purchase/domain/iap_product_purchase.dart';
 import 'package:driving_license/backend/in_app_purchase/iap_service.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -36,10 +35,13 @@ FutureOr<List<IapProduct>> iapProductsListFuture(
 }
 
 @riverpod
-Stream<IapProductPurchase?> iapPurchaseStream(
-  IapPurchaseStreamRef ref,
-  IapProduct product,
-) {
+Stream<bool> isAnyPurchasePendingStream(IsAnyPurchasePendingStreamRef ref) {
   final purchasesRepository = ref.watch(purchasesRepositoryProvider);
-  return purchasesRepository.watchPurchase(product);
+  return purchasesRepository.watchIsAnyPending();
+}
+
+@riverpod
+Stream<bool> isAnyPurchaseCompletedStream(IsAnyPurchaseCompletedStreamRef ref) {
+  final purchasesRepository = ref.watch(purchasesRepositoryProvider);
+  return purchasesRepository.watchIsAnyPurchased();
 }
