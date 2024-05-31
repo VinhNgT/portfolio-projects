@@ -52,9 +52,8 @@ class HomeScreen extends HookConsumerWidget {
         appBar: CommonAppBar(
           leading: IconButton(
             icon: const Icon(Symbols.rule_settings),
-            onPressed: () async {
-              ref.read(purchasesRepositoryProvider).printAllPurchases();
-              // await context.navigateTo(LicenseSelectionRoute());
+            onPressed: () {
+              context.navigateTo(LicenseSelectionRoute());
             },
           ),
           title: GestureDetector(
@@ -66,9 +65,8 @@ class HomeScreen extends HookConsumerWidget {
           actions: [
             TextButton(
               child: const Text('Báo lỗi'),
-              onPressed: () async {
-                ref.read(purchasesRepositoryProvider).clearAllPurchases();
-                // unawaited(context.navigateTo(const SendFeedbackRoute()));
+              onPressed: () {
+                context.navigateTo(const SendFeedbackRoute());
               },
             ),
           ],
@@ -96,6 +94,7 @@ class HomeScreen extends HookConsumerWidget {
                     builder: (isUserDonatedValue) => Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const DebugButtons(),
                         DonateCard(isUserDonated: isUserDonatedValue),
                         kGap_20,
                         const FeatureSelection(),
@@ -356,6 +355,29 @@ extension ChapterSelectionX on ChapterSelection {
         ),
       );
     }
+  }
+}
+
+class DebugButtons extends HookConsumerWidget {
+  const DebugButtons({super.key});
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Wrap(
+      children: [
+        TextButton(
+          onPressed: () {
+            ref.read(purchasesRepositoryProvider).printAllPurchases();
+          },
+          child: const Text('Print all purchases'),
+        ),
+        TextButton(
+          onPressed: () {
+            ref.read(purchasesRepositoryProvider).clearAllPurchases();
+          },
+          child: const Text('Clear all purchases'),
+        ),
+      ],
+    );
   }
 }
 

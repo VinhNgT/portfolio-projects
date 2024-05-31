@@ -53,6 +53,11 @@ class SembastPurchasesRepository {
 extension SembastPurchasesRepositoryDebugX on SembastPurchasesRepository {
   void printAllPurchases() async {
     final allPurchases = await purchasesStore.find(db);
+    if (allPurchases.isEmpty) {
+      debugPrint('No purchases found');
+      return;
+    }
+
     for (final purchase in allPurchases) {
       debugPrint('Purchase: ${purchase.key} - ${purchase.value}');
     }
