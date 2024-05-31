@@ -18,13 +18,21 @@ class InlineBannerAdBuilder extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return LayoutBuilder(
       builder: (context, constraints) {
+        if (constraints.maxWidth == 0) {
+          // Handle situation when the screen is off.
+          return const SizedBox.shrink();
+        }
+
         return Consumer(
           builder: (context, ref, child) {
             final adMobBannerAd = ref
                 .watch(
                   inlineBannerAdStreamProvider(
                     adUnit,
-                    InLineBannerAdConfig(width: constraints.maxWidth),
+                    InLineBannerAdConfig(
+                      width: constraints.maxWidth,
+                      maxHeight: AdSize.largeBanner.height.toDouble(),
+                    ),
                   ),
                 )
                 .valueOrNull;
