@@ -64,11 +64,12 @@ class QuestionScreen extends HookConsumerWidget {
         onPopInvoked: (didPop) async {
           if (!didPop) {
             final userConfirmedExit = await showDialog<bool>(
-              context: context,
-              builder: (context) => const ConfirmExitExamDialog(),
-            );
+                  context: context,
+                  builder: (context) => const ConfirmExitExamDialog(),
+                ) ??
+                false;
 
-            canPop.value = userConfirmedExit!;
+            canPop.value = userConfirmedExit;
             if (userConfirmedExit && context.mounted) {
               WidgetsBinding.instance
                   .addPostFrameCallback((_) => context.maybePop());
