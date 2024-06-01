@@ -175,8 +175,7 @@ class ExamBottomNavigationBar extends QuestionBottomNavigationBar {
     WidgetRef ref, {
     bool showConfimation = true,
   }) async {
-    final questionsService =
-        await ref.read(questionsServiceControllerProvider.future);
+    final questionsService = await ref.read(questionsServiceProvider.future);
     final examsRepository = ref.read(examsRepositoryProvider);
     final currentExam = await ref.read(currentExamProvider.future);
     final userAnswers = await questionsService.getAnswersByQuestionDbIndexes(

@@ -6,7 +6,7 @@ part of 'questions_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$questionFutureHash() => r'3c8b56cd6c236bf4784d398204c63e3ea3c22529';
+String _$questionFutureHash() => r'0c1f3291c404f770e82997807d8c3e58872c0354';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -157,7 +157,7 @@ class _QuestionFutureProviderElement
 }
 
 String _$questionsPageFutureHash() =>
-    r'abdd30b95ea8dd4fe344647466e5201708d908e6';
+    r'8b342075b8095c6e61be4d939351131f82036fc7';
 
 /// See also [questionsPageFuture].
 @ProviderFor(questionsPageFuture)
@@ -288,7 +288,7 @@ class _QuestionsPageFutureProviderElement
 }
 
 String _$questionCountFutureHash() =>
-    r'18c32277eaf030ccd53a2fac79501fd6c4dcc82b';
+    r'b52632d0949be383b88f78f465849694dfede556';
 
 /// See also [questionCountFuture].
 @ProviderFor(questionCountFuture)
@@ -437,7 +437,7 @@ class _QuestionPreloadPagesFutureProviderElement
 }
 
 String _$userSelectedAnswerIndexHash() =>
-    r'9ed04ccfcaec55505280fb83ffa6580c3ff35be6';
+    r'6518240303d0b38415ea5a5ccc6cab1957e96ebd';
 
 /// See also [userSelectedAnswerIndex].
 @ProviderFor(userSelectedAnswerIndex)

@@ -10,7 +10,7 @@ class AnswerCardListController extends _$AnswerCardListController {
   FutureOr<void> build() {}
 
   Future<QuestionsService> get _questionsService async =>
-      ref.read(questionsServiceControllerProvider.future);
+      ref.read(questionsServiceProvider.future);
 
   Future<void> selectAnswer(Question question, int answerOptionIndex) async {
     state = const AsyncLoading();

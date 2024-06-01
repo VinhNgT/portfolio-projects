@@ -37,8 +37,7 @@ FutureOr<Question> questionFuture(
   }
 
   // debugPrint('Fetching question from database...');
-  final questionsService =
-      await ref.watch(questionsServiceControllerProvider.future);
+  final questionsService = await ref.watch(questionsServiceProvider.future);
   return questionsService.getQuestion(questionIndex);
 }
 
@@ -47,15 +46,13 @@ FutureOr<List<Question>> questionsPageFuture(
   QuestionsPageFutureRef ref,
   int pageIndex,
 ) async {
-  final questionsService =
-      await ref.watch(questionsServiceControllerProvider.future);
+  final questionsService = await ref.watch(questionsServiceProvider.future);
   return questionsService.getQuestionsPage(pageIndex);
 }
 
 @riverpod
 FutureOr<int> questionCountFuture(QuestionCountFutureRef ref) async {
-  final questionsService =
-      await ref.watch(questionsServiceControllerProvider.future);
+  final questionsService = await ref.watch(questionsServiceProvider.future);
   return questionsService.getQuestionCount();
 }
 
@@ -107,7 +104,6 @@ Stream<int?> userSelectedAnswerIndex(
   UserSelectedAnswerIndexRef ref,
   Question question,
 ) async* {
-  final questionsService =
-      await ref.watch(questionsServiceControllerProvider.future);
+  final questionsService = await ref.watch(questionsServiceProvider.future);
   yield* questionsService.watchUserSelectedAnswerIndex(question);
 }

@@ -230,9 +230,7 @@ extension QuestionsServiceMethods on QuestionsService {
 }
 
 @riverpod
-FutureOr<QuestionsService> questionsServiceController(
-  QuestionsServiceControllerRef ref,
-) async {
+FutureOr<QuestionsService> questionsService(QuestionsServiceRef ref) async {
   final currentMode = ref.watch(currentQuestionsServiceModeProvider);
   final license = await ref.watch(userSelectedLicenseProvider.future);
   final questionsRepository = ref.watch(questionsRepositoryProvider);
