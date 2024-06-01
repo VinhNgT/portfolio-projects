@@ -1,3 +1,7 @@
+## 0.1.4
+
+ - Graduate package to a stable release. See pre-releases prior to this version for changelog entries.
+
 ## 0.1.4-dev.14
 
  - **FEAT**(drv_lcn): show popup confirm user exit in Exam question mode.
