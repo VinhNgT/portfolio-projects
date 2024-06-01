@@ -45,3 +45,12 @@ UserAnswersRepository userAnswersRepository(UserAnswersRepositoryRef ref) {
   final sembastDatabase = ref.watch(sembastProvider).requireValue;
   return SembastUserAnswersRepository(sembastDatabase);
 }
+
+@riverpod
+FutureOr<UserAnswersRepository> inMemoryUserAnswersRepository(
+  InMemoryUserAnswersRepositoryRef ref,
+) async {
+  final sembastDatabase =
+      await ref.watch(inMemorySembastProvider('user_answers').future);
+  return SembastUserAnswersRepository(sembastDatabase);
+}

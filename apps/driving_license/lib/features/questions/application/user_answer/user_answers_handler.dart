@@ -1,4 +1,3 @@
-import 'package:driving_license/features/questions/data/user_answer/in_memory_user_answers_repository.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answers_map.dart';
@@ -18,7 +17,6 @@ sealed class UserAnswersHandler {
 }
 
 class DirectUserAnswersHandler extends UserAnswersHandler {
-
   const DirectUserAnswersHandler({
     required this.userAnswersRepository,
   });
@@ -55,57 +53,14 @@ class DirectUserAnswersHandler extends UserAnswersHandler {
   }
 }
 
-class InMemoryUserAnswersHandler extends UserAnswersHandler {
-
-  const InMemoryUserAnswersHandler({
-    required this.inMemoryUserAnswersRepository,
-  });
-  final InMemoryUserAnswersRepository inMemoryUserAnswersRepository;
-
-  @override
-  Future<void> saveUserAnswer(
-    Question question,
-    int selectedAnswerIndex,
-  ) {
-    return inMemoryUserAnswersRepository.saveAnswer(
-      question,
-      selectedAnswerIndex,
-    );
-  }
-
-  @override
-  Future<void> clearUserAnswer(Question question) {
-    return inMemoryUserAnswersRepository.clearAnswer(question);
-  }
-
-  @override
-  Future<void> clearAllUserAnswers() {
-    return inMemoryUserAnswersRepository.clearDatabase();
-  }
-
-  @override
-  Stream<int?> watchUserSelectedAnswerIndex(Question question) {
-    return inMemoryUserAnswersRepository.watchUserSelectedAnswerIndex(question);
-  }
-
-  @override
-  Future<UserAnswersMap> getAnswersByQuestionDbIndexes(
-    Iterable<int> dbIndexes,
-  ) {
-    return inMemoryUserAnswersRepository
-        .getAnswersByQuestionDbIndexes(dbIndexes);
-  }
-}
-
-class HideUserAnswersHandler extends UserAnswersHandler {
-
-  const HideUserAnswersHandler({
+class HidePreviousUserAnswersHandler extends UserAnswersHandler {
+  const HidePreviousUserAnswersHandler({
     required this.userAnswersRepository,
-    required this.inMemoryUserAnswersHandler,
+    required this.inMemoryUserAnswersRepository,
     required this.userAnswersBeforeStart,
   });
   final UserAnswersRepository userAnswersRepository;
-  final InMemoryUserAnswersHandler inMemoryUserAnswersHandler;
+  final UserAnswersRepository inMemoryUserAnswersRepository;
   final UserAnswersMap userAnswersBeforeStart;
 
   @override
@@ -114,7 +69,7 @@ class HideUserAnswersHandler extends UserAnswersHandler {
     int selectedAnswerIndex,
   ) async {
     await userAnswersRepository.saveAnswer(question, selectedAnswerIndex);
-    await inMemoryUserAnswersHandler.saveUserAnswer(
+    await inMemoryUserAnswersRepository.saveAnswer(
       question,
       selectedAnswerIndex,
     );
@@ -122,14 +77,16 @@ class HideUserAnswersHandler extends UserAnswersHandler {
 
   @override
   Future<void> clearUserAnswer(Question question) async {
-    final userAnswerAtStart = userAnswersBeforeStart[question.questionDbIndex]!;
+    final userAnswerAtStart = userAnswersBeforeStart[question.questionDbIndex];
 
     // Restore the user's answer from the start of the session
-    await userAnswersRepository.saveAnswer(
-      question,
-      userAnswerAtStart.selectedAnswerIndex,
-    );
-    await inMemoryUserAnswersHandler.clearUserAnswer(question);
+    if (userAnswerAtStart != null) {
+      await userAnswersRepository.saveAnswer(
+        question,
+        userAnswerAtStart.selectedAnswerIndex,
+      );
+    }
+    await inMemoryUserAnswersRepository.clearAnswer(question);
   }
 
   @override
@@ -140,13 +97,14 @@ class HideUserAnswersHandler extends UserAnswersHandler {
 
   @override
   Stream<int?> watchUserSelectedAnswerIndex(Question question) {
-    return inMemoryUserAnswersHandler.watchUserSelectedAnswerIndex(question);
+    return inMemoryUserAnswersRepository.watchUserSelectedAnswerIndex(question);
   }
 
   @override
   Future<UserAnswersMap> getAnswersByQuestionDbIndexes(
     Iterable<int> dbIndexes,
-  ) {
-    return inMemoryUserAnswersHandler.getAnswersByQuestionDbIndexes(dbIndexes);
+  ) async {
+    return inMemoryUserAnswersRepository
+        .getAnswersByQuestionDbIndexes(dbIndexes);
   }
 }

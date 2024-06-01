@@ -10,7 +10,6 @@ import 'package:driving_license/features/questions/application/question/question
 import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
 import 'package:driving_license/features/questions/application/user_answer/user_answers_handler.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
-import 'package:driving_license/features/questions/data/user_answer/in_memory_user_answers_repository.dart';
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:driving_license/features/questions/domain/user_answers_map.dart';
@@ -69,7 +68,7 @@ class QuestionsService {
   QuestionsService._difficult({
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
-    required InMemoryUserAnswersRepository inMemoryUserAnswersRepository,
+    required UserAnswersRepository inMemoryUserAnswersRepository,
     required UserAnswersMap difficultQuestionUserAnswers,
     required License license,
   }) : this(
@@ -77,11 +76,9 @@ class QuestionsService {
             questionsRepository: questionsRepository,
             license: license,
           ),
-          userAnswersHandler: HideUserAnswersHandler(
+          userAnswersHandler: HidePreviousUserAnswersHandler(
             userAnswersRepository: userAnswersRepository,
-            inMemoryUserAnswersHandler: InMemoryUserAnswersHandler(
-              inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
-            ),
+            inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
             userAnswersBeforeStart: difficultQuestionUserAnswers,
           ),
         );
@@ -89,18 +86,16 @@ class QuestionsService {
   QuestionsService._wrongAnswers({
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
-    required InMemoryUserAnswersRepository inMemoryUserAnswersRepository,
+    required UserAnswersRepository inMemoryUserAnswersRepository,
     required UserAnswersMap wrongUserAnswers,
   }) : this(
           questionsHandler: CustomQuestionListQuestionHandler(
             questionsRepository: questionsRepository,
             sortedQuestionDbIndexes: wrongUserAnswers.questionDbIndexes..sort(),
           ),
-          userAnswersHandler: HideUserAnswersHandler(
+          userAnswersHandler: HidePreviousUserAnswersHandler(
             userAnswersRepository: userAnswersRepository,
-            inMemoryUserAnswersHandler: InMemoryUserAnswersHandler(
-              inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
-            ),
+            inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
             userAnswersBeforeStart: wrongUserAnswers,
           ),
         );
@@ -121,7 +116,7 @@ class QuestionsService {
 
   QuestionsService._exam({
     required QuestionsRepository questionsRepository,
-    required InMemoryUserAnswersRepository inMemoryUserAnswersRepository,
+    required UserAnswersRepository inMemoryUserAnswersRepository,
     required Exam exam,
   }) : this(
           questionsHandler: CustomQuestionListQuestionHandler(
@@ -129,8 +124,8 @@ class QuestionsService {
             sortedQuestionDbIndexes:
                 exam.questionDbIndexes.sorted((a, b) => a - b),
           ),
-          userAnswersHandler: InMemoryUserAnswersHandler(
-            inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
+          userAnswersHandler: DirectUserAnswersHandler(
+            userAnswersRepository: inMemoryUserAnswersRepository,
           ),
         );
 
@@ -169,7 +164,7 @@ class QuestionsService {
         return QuestionsService._difficult(
           questionsRepository: config.questionsRepository,
           userAnswersRepository: config.userAnswersRepository,
-          inMemoryUserAnswersRepository: config.inMemoryUserAnswersRepository,
+          inMemoryUserAnswersRepository: config.tempUserAnswersRepository,
           difficultQuestionUserAnswers: difficultQuestionUserAnswers,
           license: config.license,
         );
@@ -181,7 +176,7 @@ class QuestionsService {
         return QuestionsService._wrongAnswers(
           questionsRepository: config.questionsRepository,
           userAnswersRepository: config.userAnswersRepository,
-          inMemoryUserAnswersRepository: config.inMemoryUserAnswersRepository,
+          inMemoryUserAnswersRepository: config.tempUserAnswersRepository,
           wrongUserAnswers: wrongUserAnswers,
         );
 
@@ -200,7 +195,7 @@ class QuestionsService {
       case ExamOperatingMode(:final exam):
         return QuestionsService._exam(
           questionsRepository: config.questionsRepository,
-          inMemoryUserAnswersRepository: config.inMemoryUserAnswersRepository,
+          inMemoryUserAnswersRepository: config.tempUserAnswersRepository,
           exam: exam,
         );
     }
@@ -244,7 +239,7 @@ FutureOr<QuestionsService> questionsServiceController(
   final bookmarksRepository = ref.watch(bookmarksRepositoryProvider);
   final userAnswersRepository = ref.watch(userAnswersRepositoryProvider);
   final inMemoryUserAnswersRepository =
-      ref.watch(inMemoryUserAnswersRepositoryProvider);
+      await ref.watch(inMemoryUserAnswersRepositoryProvider.future);
 
   final config = QuestionsServiceConfig(
     operatingMode: currentMode,
@@ -252,7 +247,7 @@ FutureOr<QuestionsService> questionsServiceController(
     questionsRepository: questionsRepository,
     bookmarksRepository: bookmarksRepository,
     userAnswersRepository: userAnswersRepository,
-    inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
+    tempUserAnswersRepository: inMemoryUserAnswersRepository,
   );
 
   return QuestionsService.createService(config);

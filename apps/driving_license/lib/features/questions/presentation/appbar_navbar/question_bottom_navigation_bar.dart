@@ -23,7 +23,6 @@ import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class QuestionBottomNavigationBar extends HookConsumerWidget {
-
   const QuestionBottomNavigationBar({
     super.key,
     required this.questionCount,
@@ -211,11 +210,11 @@ class ExamBottomNavigationBar extends QuestionBottomNavigationBar {
 }
 
 class _ExamTimer extends HookConsumerWidget {
-
   _ExamTimer({
     required this.duration,
     this.onTimeout,
   });
+
   final Duration duration;
   final VoidCallback? onTimeout;
 
@@ -259,7 +258,6 @@ class _ExamTimer extends HookConsumerWidget {
 enum _IconPosition { left, right }
 
 class _QuestionNavBarButton extends StatelessWidget {
-
   const _QuestionNavBarButton({
     this.icon,
     required this.label,
@@ -267,6 +265,7 @@ class _QuestionNavBarButton extends StatelessWidget {
     this.mainAxisAlignment = MainAxisAlignment.start,
     required this.onPressed,
   });
+
   final Icon? icon;
   final Widget label;
   final _IconPosition iconPosition;
@@ -312,7 +311,6 @@ class _QuestionNavBarButton extends StatelessWidget {
 }
 
 class _PreviousQuestion extends StatelessWidget {
-
   const _PreviousQuestion({this.onPressed});
   final VoidCallback? onPressed;
 
@@ -336,7 +334,6 @@ class _PreviousQuestion extends StatelessWidget {
 }
 
 class _NextQuestion extends StatelessWidget {
-
   const _NextQuestion({this.onPressed});
   final VoidCallback? onPressed;
 
@@ -360,7 +357,6 @@ class _NextQuestion extends StatelessWidget {
 }
 
 class _ShowAllQuestion extends StatelessWidget {
-
   const _ShowAllQuestion({this.onPressed});
   final VoidCallback? onPressed;
 
