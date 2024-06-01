@@ -41,18 +41,15 @@ class QuestionAppBar extends HookConsumerWidget implements PreferredSizeWidget {
         ),
         actions: [
           const BookmarkButton(),
-
-          // Hide the restart button in ExamOperatingMode
-          if (!isExamModeValue)
-            IconButton(
-              icon: const Icon(Symbols.restart_alt),
-              onPressed: controllerState.isLoading
-                  ? null
-                  : () async {
-                      resetSelectedAnswer(ref);
-                      await resetQuestionPageScrollPosition(ref);
-                    },
-            ),
+          IconButton(
+            icon: const Icon(Symbols.restart_alt),
+            onPressed: controllerState.isLoading
+                ? null
+                : () async {
+                    resetSelectedAnswer(ref);
+                    await resetQuestionPageScrollPosition(ref);
+                  },
+          ),
         ],
         scaffoldBodyScrollController: currentPageScrollController,
       ),
@@ -92,11 +89,11 @@ extension QuestionAppBarX on QuestionAppBar {
 }
 
 class _QuestionTitle extends HookConsumerWidget {
-
   const _QuestionTitle({
     required this.currentPageIndex,
     this.showIsDanger = true,
   });
+
   final int currentPageIndex;
   final bool showIsDanger;
 
