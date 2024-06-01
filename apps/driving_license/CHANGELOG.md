@@ -1,3 +1,8 @@
+## 0.1.4-dev.14
+
+ - **FEAT**(drv_lcn): show popup confirm user exit in Exam question mode.
+ - **FEAT**(drv_lcn): show restart button in Exam mode.
+
 ## 0.1.4-dev.13
 
  - **FIX**(drv_lcn): change Adsize from largeBanner to banner.

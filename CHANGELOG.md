@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-06-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v0.1.4-dev.14`](#driving_license---v014-dev14)
+
+---
+
+#### `driving_license` - `v0.1.4-dev.14`
+
+ - **FEAT**(drv_lcn): show popup confirm user exit in Exam question mode.
+ - **FEAT**(drv_lcn): show restart button in Exam mode.
+
+
 ## 2024-05-31
 
 ### Changes
