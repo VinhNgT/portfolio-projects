@@ -5,7 +5,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ConfirmSubmitExamDialog extends HookConsumerWidget {
-
   const ConfirmSubmitExamDialog({
     super.key,
     required this.remainingQuestionsCount,
@@ -21,7 +20,7 @@ class ConfirmSubmitExamDialog extends HookConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'Bạn có chắc chắn muốn nộp bài không ?',
+            'Bạn có chắc chắn muốn nộp bài không?',
             style: context.textTheme.bodyMedium!.copyWith(
               color: context.colorScheme.onSurfaceVariant,
             ),

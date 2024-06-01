@@ -17,7 +17,7 @@ class DeleteConfirmDialog extends StatelessWidget {
           ),
           children: [
             const TextSpan(
-              text: 'Bạn có chắc chắn muốn xoá bộ đề này không ?\n\n',
+              text: 'Bạn có chắc chắn muốn xoá bộ đề này không?\n\n',
             ),
             TextSpan(
               text: '“$examName”',

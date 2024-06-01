@@ -47,8 +47,8 @@ class QuestionScreen extends HookConsumerWidget {
     // QuestionCards correctly.
     PrototypeQuestionCard.buildOffstageOverlay();
 
-    // This is used to prevent the user from accidentally popping the screen while
-    // in ExamMode.
+    // This is used to prevent the user from accidentally popping the screen
+    // while in ExamMode.
     final canPop =
         useValueNotifier(!(isExamMode.value ?? false), [isExamMode.value]);
 

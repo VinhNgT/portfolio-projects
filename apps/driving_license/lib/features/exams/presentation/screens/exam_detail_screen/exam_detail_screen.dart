@@ -66,7 +66,9 @@ class ExamDetailScreen extends HookConsumerWidget {
                 kGap_24,
                 Text(
                   'Ngày tạo bộ câu hỏi: '
-                  '${DateTimeFormatter.formatLocalTimeDay(exam.createdUtcTime)}',
+                  '${DateTimeFormatter.formatLocalTimeDay(
+                    exam.createdUtcTime,
+                  )}',
                   style: context.textTheme.bodyMedium!.copyWith(
                     color: context.materialScheme.onSurfaceVariant,
                   ),
