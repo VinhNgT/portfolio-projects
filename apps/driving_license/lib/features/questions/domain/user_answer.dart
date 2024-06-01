@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'user_answer.freezed.dart';
 part 'user_answer.g.dart';
 
+/// A user's answer to a question.
 @freezed
 abstract class UserAnswer with _$UserAnswer {
   const factory UserAnswer({

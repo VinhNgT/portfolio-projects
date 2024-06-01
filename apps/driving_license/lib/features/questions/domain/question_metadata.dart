@@ -4,6 +4,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'question_metadata.freezed.dart';
 part 'question_metadata.g.dart';
 
+/// Metadata of a question, use this if you don't need the entire question
+/// itself.
 @freezed
 abstract class QuestionMetadata with _$QuestionMetadata {
   const factory QuestionMetadata({

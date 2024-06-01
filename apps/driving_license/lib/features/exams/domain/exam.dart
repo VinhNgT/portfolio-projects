@@ -18,6 +18,7 @@ abstract class Exam with _$Exam {
     @Default(UserAnswersMap.empty) UserAnswersMap userAnswers,
     DateTime? lastAttemptedUtcTime,
   }) = _Exam;
+  const Exam._();
 
   factory Exam.createNew({
     required License license,
@@ -29,7 +30,6 @@ abstract class Exam with _$Exam {
         questionDbIndexes: questionDbIndexes,
         license: license,
       );
-  const Exam._();
 
   factory Exam.fromJson(Map<String, dynamic> json) => _$ExamFromJson(json);
 

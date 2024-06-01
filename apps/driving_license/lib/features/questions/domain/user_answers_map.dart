@@ -5,6 +5,11 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'user_answers_map.freezed.dart';
 part 'user_answers_map.g.dart';
 
+/// Represents a map of user answers.
+///
+/// This class is used to store user answers for a set of questions.
+/// It contains a map of question indices to user answers, as well as a summary
+/// of the user's performance.
 @freezed
 abstract class UserAnswersMap with _$UserAnswersMap {
   const factory UserAnswersMap({
@@ -15,6 +20,12 @@ abstract class UserAnswersMap with _$UserAnswersMap {
   factory UserAnswersMap.fromJson(Map<String, dynamic> json) =>
       _$UserAnswersMapFromJson(json);
 
+  /// Constructs a [UserAnswersMap] from a list of [UserAnswer] objects.
+  ///
+  /// The [userAnswers] parameter is an iterable of [UserAnswer] objects
+  /// representing the user's answers.
+  /// The method calculates the summary of the user's performance based on the
+  /// answers provided.
   factory UserAnswersMap.fromUserAnswers(Iterable<UserAnswer> userAnswers) {
     final Map<int, UserAnswer> resultAnswersMap = {};
 
@@ -47,6 +58,10 @@ abstract class UserAnswersMap with _$UserAnswersMap {
     );
   }
 
+  /// An empty [UserAnswersMap] instance.
+  ///
+  /// This instance has an empty answers map and a summary with all counts set
+  /// to zero.
   static const empty = UserAnswersMap(
     answersMap: {},
     summary: UserAnswersSummary(

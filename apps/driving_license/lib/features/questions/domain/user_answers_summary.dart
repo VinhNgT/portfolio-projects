@@ -3,6 +3,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'user_answers_summary.freezed.dart';
 part 'user_answers_summary.g.dart';
 
+/// A summary of user answers. We show this in the ChapterCards in the
+/// home screen.
 @freezed
 abstract class UserAnswersSummary with _$UserAnswersSummary {
   const factory UserAnswersSummary({

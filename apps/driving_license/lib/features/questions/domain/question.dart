@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'question.freezed.dart';
 part 'question.g.dart';
 
+/// A question in the database.
 @freezed
 abstract class Question with _$Question {
   const factory Question({
