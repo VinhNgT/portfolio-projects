@@ -32,10 +32,8 @@ class QuestionScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final pageController = usePageController(initialPage: initialPageIndex);
     final questionCount = ref.watch(questionCountFutureProvider);
-    final isExamMode = ref.watchConvertAsyncValue(
-      questionsServiceModeProvider,
-      (valueData) => valueData is ExamOperatingMode,
-    );
+    final currentQuestionsServiceMode =
+        ref.watch(currentQuestionsServiceModeProvider);
 
     ref.keepProviderAlive(currentPageIndexProvider);
     ref.keepProviderAlive(keepQuestionPageScrollControllerAliveProvider);
@@ -48,9 +46,16 @@ class QuestionScreen extends HookConsumerWidget {
     PrototypeQuestionCard.buildOffstageOverlay();
 
     // This is used to prevent the user from accidentally popping the screen
-    // while in ExamMode.
-    final canPop =
-        useValueNotifier(!(isExamMode.value ?? false), [isExamMode.value]);
+    // for example while in ExamOperatingMode.
+    final canPop = useValueNotifier(
+      switch (currentQuestionsServiceMode) {
+        ExamOperatingMode() ||
+        DifficultOperatingMode() ||
+        WrongAnswersOperatingMode() =>
+          false,
+        _ => true
+      },
+    );
 
     return ValueListenableBuilder(
       valueListenable: canPop,
@@ -72,9 +77,9 @@ class QuestionScreen extends HookConsumerWidget {
         },
         child: child!,
       ),
-      child: Async2ValuesWidget<int, bool>(
-        values: (questionCount, isExamMode),
-        builder: (questionCountValue, isExamModeValue) => Scaffold(
+      child: AsyncValueWidget(
+        value: questionCount,
+        builder: (questionCountValue) => Scaffold(
           appBar: const QuestionAppBar(),
           body: WidgetDeadzone(
             deadzone: EdgeInsets.only(
@@ -88,7 +93,7 @@ class QuestionScreen extends HookConsumerWidget {
           ),
           bottomNavigationBar:
               QuestionBottomNavigationBar.createBasedOnExamMode(
-            isExamMode: isExamModeValue,
+            isExamMode: currentQuestionsServiceMode is ExamOperatingMode,
             questionCount: questionCountValue,
             onNextPressed: () => unawaited(
               pageController.nextPage(

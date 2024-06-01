@@ -24,7 +24,7 @@ import 'package:driving_license/features/home/presentation/feature_card.dart';
 import 'package:driving_license/features/licenses/data/providers/user_selected_license_provider.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
-import 'package:driving_license/features/questions/application/question/questions_service.dart';
+import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
 import 'package:driving_license/features/user_progress/application/providers/user_progress_providers.dart';
 import 'package:driving_license/routing/app_router.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
@@ -159,9 +159,8 @@ class FeatureSelection extends HookConsumerWidget {
             title: 'Các câu khó',
             subhead: 'Các câu hỏi dễ bị nhầm lẫn',
             onPressed: () async {
-              ref
-                  .read(questionsServiceControllerProvider.notifier)
-                  .setupDifficultQuestions();
+              ref.read(currentQuestionsServiceModeProvider.notifier).mode =
+                  const DifficultOperatingMode();
 
               await context.navigateTo(QuestionRoute());
             },
@@ -172,9 +171,8 @@ class FeatureSelection extends HookConsumerWidget {
             title: 'Đã lưu',
             subhead: 'Những câu hỏi được đánh dấu lưu',
             onPressed: () async {
-              ref
-                  .read(questionsServiceControllerProvider.notifier)
-                  .setupBookmarkedQuestions();
+              ref.read(currentQuestionsServiceModeProvider.notifier).mode =
+                  const BookmarkOperatingMode();
 
               final questionCount =
                   await ref.read(questionCountFutureProvider.future);
@@ -198,9 +196,8 @@ class FeatureSelection extends HookConsumerWidget {
             title: 'Đã làm sai',
             subhead: 'Những câu hỏi bạn đã làm sai',
             onPressed: () async {
-              ref
-                  .read(questionsServiceControllerProvider.notifier)
-                  .setupWrongAnswerQuestions();
+              ref.read(currentQuestionsServiceModeProvider.notifier).mode =
+                  const WrongAnswersOperatingMode();
 
               final questionCount =
                   await ref.read(questionCountFutureProvider.future);
@@ -310,9 +307,8 @@ class ChapterSelection extends HookConsumerWidget {
 extension ChapterSelectionX on ChapterSelection {
   Future<void> _setupAndNavigateToDanger(WidgetRef ref) async {
     final context = ref.context;
-    ref
-        .read(questionsServiceControllerProvider.notifier)
-        .setupDangerQuestions();
+    ref.read(currentQuestionsServiceModeProvider.notifier).mode =
+        const DangerOperatingMode();
 
     final chapterFirstUnansweredQuestionIndex = await ref.read(
       firstUnansweredQuestionIndexProvider(
@@ -336,9 +332,8 @@ extension ChapterSelectionX on ChapterSelection {
     Chapter chapter,
   ) async {
     final context = ref.context;
-    ref
-        .read(questionsServiceControllerProvider.notifier)
-        .setupChapterQuestions(chapter);
+    ref.read(currentQuestionsServiceModeProvider.notifier).mode =
+        ChapterOperatingMode(chapter);
 
     final chapterFirstUnansweredQuestionIndex = await ref.read(
       firstUnansweredQuestionIndexProvider(

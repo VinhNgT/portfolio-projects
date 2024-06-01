@@ -4,6 +4,7 @@ import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/exams/domain/exam.dart';
 import 'package:driving_license/features/licenses/data/providers/user_selected_license_provider.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
+import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
 import 'package:driving_license/features/questions/application/question/questions_handler.dart';
 import 'package:driving_license/features/questions/application/question/questions_service_config.dart';
 import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
@@ -19,7 +20,6 @@ part 'questions_service.g.dart';
 
 class QuestionsService {
   const QuestionsService({
-    required this.operatingMode,
     required this.questionsHandler,
     required this.userAnswersHandler,
   });
@@ -28,7 +28,6 @@ class QuestionsService {
     required QuestionsRepository questionsRepository,
     required UserAnswersRepository userAnswersRepository,
   }) : this(
-          operatingMode: const FullOperatingMode(),
           questionsHandler: FullQuestionsHandler(
             questionsRepository: questionsRepository,
           ),
@@ -43,7 +42,6 @@ class QuestionsService {
     required License license,
     required Chapter chapter,
   }) : this(
-          operatingMode: ChapterOperatingMode(chapter),
           questionsHandler: ChapterQuestionsHandler(
             questionsRepository: questionsRepository,
             license: license,
@@ -59,7 +57,6 @@ class QuestionsService {
     required UserAnswersRepository userAnswersRepository,
     required License license,
   }) : this(
-          operatingMode: const DangerOperatingMode(),
           questionsHandler: DangerQuestionsHandler(
             questionsRepository: questionsRepository,
             license: license,
@@ -76,7 +73,6 @@ class QuestionsService {
     required UserAnswersMap difficultQuestionUserAnswers,
     required License license,
   }) : this(
-          operatingMode: const DifficultOperatingMode(),
           questionsHandler: DifficultQuestionsHandler(
             questionsRepository: questionsRepository,
             license: license,
@@ -96,7 +92,6 @@ class QuestionsService {
     required InMemoryUserAnswersRepository inMemoryUserAnswersRepository,
     required UserAnswersMap wrongUserAnswers,
   }) : this(
-          operatingMode: const WrongAnswersOperatingMode(),
           questionsHandler: CustomQuestionListQuestionHandler(
             questionsRepository: questionsRepository,
             sortedQuestionDbIndexes: wrongUserAnswers.questionDbIndexes..sort(),
@@ -115,7 +110,6 @@ class QuestionsService {
     required UserAnswersRepository userAnswersRepository,
     required List<int> bookmarkedQuestionDbIndexes,
   }) : this(
-          operatingMode: const BookmarkOperatingMode(),
           questionsHandler: CustomQuestionListQuestionHandler(
             questionsRepository: questionsRepository,
             sortedQuestionDbIndexes: bookmarkedQuestionDbIndexes..sort(),
@@ -130,7 +124,6 @@ class QuestionsService {
     required InMemoryUserAnswersRepository inMemoryUserAnswersRepository,
     required Exam exam,
   }) : this(
-          operatingMode: ExamOperatingMode(exam),
           questionsHandler: CustomQuestionListQuestionHandler(
             questionsRepository: questionsRepository,
             sortedQuestionDbIndexes:
@@ -141,7 +134,6 @@ class QuestionsService {
           ),
         );
 
-  final QuestionsServiceMode operatingMode;
   final QuestionsHandler questionsHandler;
   final UserAnswersHandler userAnswersHandler;
 
@@ -242,63 +234,26 @@ extension QuestionsServiceMethods on QuestionsService {
       userAnswersHandler.getAnswersByQuestionDbIndexes(dbIndexes);
 }
 
-@Riverpod(keepAlive: true)
-class QuestionsServiceController extends _$QuestionsServiceController {
-  QuestionsServiceMode _serviceMode = const FullOperatingMode();
+@riverpod
+FutureOr<QuestionsService> questionsServiceController(
+  QuestionsServiceControllerRef ref,
+) async {
+  final currentMode = ref.watch(currentQuestionsServiceModeProvider);
+  final license = await ref.watch(userSelectedLicenseProvider.future);
+  final questionsRepository = ref.watch(questionsRepositoryProvider);
+  final bookmarksRepository = ref.watch(bookmarksRepositoryProvider);
+  final userAnswersRepository = ref.watch(userAnswersRepositoryProvider);
+  final inMemoryUserAnswersRepository =
+      ref.watch(inMemoryUserAnswersRepositoryProvider);
 
-  @override
-  FutureOr<QuestionsService> build() async {
-    final license = await ref.watch(userSelectedLicenseProvider.future);
-    final questionsRepository = ref.watch(questionsRepositoryProvider);
-    final bookmarksRepository = ref.watch(bookmarksRepositoryProvider);
-    final userAnswersRepository = ref.watch(userAnswersRepositoryProvider);
-    final inMemoryUserAnswersRepository =
-        ref.refresh(inMemoryUserAnswersRepositoryProvider);
+  final config = QuestionsServiceConfig(
+    operatingMode: currentMode,
+    license: license,
+    questionsRepository: questionsRepository,
+    bookmarksRepository: bookmarksRepository,
+    userAnswersRepository: userAnswersRepository,
+    inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
+  );
 
-    final config = QuestionsServiceConfig(
-      operatingMode: _serviceMode,
-      license: license,
-      questionsRepository: questionsRepository,
-      bookmarksRepository: bookmarksRepository,
-      userAnswersRepository: userAnswersRepository,
-      inMemoryUserAnswersRepository: inMemoryUserAnswersRepository,
-    );
-
-    return QuestionsService.createService(config);
-  }
-
-  void setupAllQuestions() {
-    _serviceMode = const FullOperatingMode();
-    ref.invalidateSelf();
-  }
-
-  void setupChapterQuestions(Chapter chapter) {
-    _serviceMode = ChapterOperatingMode(chapter);
-    ref.invalidateSelf();
-  }
-
-  void setupDangerQuestions() {
-    _serviceMode = const DangerOperatingMode();
-    ref.invalidateSelf();
-  }
-
-  void setupDifficultQuestions() async {
-    _serviceMode = const DifficultOperatingMode();
-    ref.invalidateSelf();
-  }
-
-  void setupWrongAnswerQuestions() async {
-    _serviceMode = const WrongAnswersOperatingMode();
-    ref.invalidateSelf();
-  }
-
-  void setupBookmarkedQuestions() async {
-    _serviceMode = const BookmarkOperatingMode();
-    ref.invalidateSelf();
-  }
-
-  void setupExamQuestions(Exam exam) async {
-    _serviceMode = ExamOperatingMode(exam);
-    ref.invalidateSelf();
-  }
+  return QuestionsService.createService(config);
 }

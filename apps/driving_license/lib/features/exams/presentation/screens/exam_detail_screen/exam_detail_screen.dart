@@ -2,7 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/exams/domain/exam.dart';
-import 'package:driving_license/features/questions/application/question/questions_service.dart';
+import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
+import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:driving_license/utils/datetime_formatter.dart';
@@ -55,8 +56,8 @@ class ExamDetailScreen extends HookConsumerWidget {
                   child: FilledButton(
                     onPressed: () async {
                       ref
-                          .read(questionsServiceControllerProvider.notifier)
-                          .setupExamQuestions(exam);
+                          .read(currentQuestionsServiceModeProvider.notifier)
+                          .mode = ExamOperatingMode(exam);
 
                       await context.navigateTo(QuestionRoute());
                     },

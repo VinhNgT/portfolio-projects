@@ -7,13 +7,13 @@ part of 'questions_service.dart';
 // **************************************************************************
 
 String _$questionsServiceControllerHash() =>
-    r'db0e4ac54e9ca74e1f7221a1a2853a946413596e';
+    r'594fb0658a36c9cded9125e87e9b468c341fd854';
 
-/// See also [QuestionsServiceController].
-@ProviderFor(QuestionsServiceController)
-final questionsServiceControllerProvider = AsyncNotifierProvider<
-    QuestionsServiceController, QuestionsService>.internal(
-  QuestionsServiceController.new,
+/// See also [questionsServiceController].
+@ProviderFor(questionsServiceController)
+final questionsServiceControllerProvider =
+    AutoDisposeFutureProvider<QuestionsService>.internal(
+  questionsServiceController,
   name: r'questionsServiceControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
@@ -22,6 +22,7 @@ final questionsServiceControllerProvider = AsyncNotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$QuestionsServiceController = AsyncNotifier<QuestionsService>;
+typedef QuestionsServiceControllerRef
+    = AutoDisposeFutureProviderRef<QuestionsService>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

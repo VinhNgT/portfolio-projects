@@ -1,4 +1,3 @@
-import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/common_widgets/common_bottom_sheet.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
@@ -9,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class QuestionListBottomSheet extends CommonBottomSheet {
-
   QuestionListBottomSheet({
     super.key,
     required this.questionCount,
@@ -38,30 +36,27 @@ class _Title extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final questionsServiceMode = ref.watch(questionsServiceModeProvider);
+    final questionsServiceMode = ref.watch(currentQuestionsServiceModeProvider);
 
-    return AsyncValueWidget(
-      value: questionsServiceMode,
-      builder: (questionsServiceModeValue) => RichText(
-        textScaler: context.textScaler,
-        text: TextSpan(
-          style: context.defaultTextStyle,
-          children: [
-            TextSpan(
-              text: _getServiceModeName(questionsServiceModeValue),
-              style: context.textTheme.titleMedium,
+    return RichText(
+      textScaler: context.textScaler,
+      text: TextSpan(
+        style: context.defaultTextStyle,
+        children: [
+          TextSpan(
+            text: _getServiceModeName(questionsServiceMode),
+            style: context.textTheme.titleMedium,
+          ),
+          const WidgetSpan(
+            child: SizedBox(width: kSize_8),
+          ),
+          TextSpan(
+            text: questionCount.toString(),
+            style: context.textTheme.bodyLarge!.copyWith(
+              color: context.materialScheme.onSurfaceVariant,
             ),
-            const WidgetSpan(
-              child: SizedBox(width: kSize_8),
-            ),
-            TextSpan(
-              text: questionCount.toString(),
-              style: context.textTheme.bodyLarge!.copyWith(
-                color: context.materialScheme.onSurfaceVariant,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

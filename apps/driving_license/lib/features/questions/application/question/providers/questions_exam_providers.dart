@@ -1,6 +1,6 @@
 import 'package:driving_license/features/exams/data/exams_repository.dart';
 import 'package:driving_license/features/exams/domain/exam.dart';
-import 'package:driving_license/features/questions/application/question/questions_service.dart';
+import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
 import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -8,11 +8,11 @@ part 'questions_exam_providers.g.dart';
 
 @riverpod
 Stream<Exam> currentExam(CurrentExamRef ref) async* {
-  final questionsService =
-      await ref.watch(questionsServiceControllerProvider.future);
+  final currentQuestionsServiceMode =
+      ref.watch(currentQuestionsServiceModeProvider);
   final examsRepository = ref.watch(examsRepositoryProvider);
 
-  if (questionsService.operatingMode
+  if (currentQuestionsServiceMode
       case ExamOperatingMode(exam: Exam(:final examId))) {
     yield* examsRepository.watchExamById(examId);
   }

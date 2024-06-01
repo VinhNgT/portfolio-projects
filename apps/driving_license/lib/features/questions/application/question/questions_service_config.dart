@@ -6,7 +6,6 @@ import 'package:driving_license/features/questions/data/user_answer/in_memory_us
 import 'package:driving_license/features/questions/data/user_answer/user_answers_repository.dart';
 
 class QuestionsServiceConfig {
-
   QuestionsServiceConfig({
     required this.operatingMode,
     required this.license,
@@ -15,6 +14,7 @@ class QuestionsServiceConfig {
     required this.userAnswersRepository,
     required this.inMemoryUserAnswersRepository,
   });
+
   final QuestionsServiceMode operatingMode;
   final License license;
   final QuestionsRepository questionsRepository;

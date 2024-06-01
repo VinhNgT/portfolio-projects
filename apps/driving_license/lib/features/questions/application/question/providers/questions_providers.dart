@@ -6,6 +6,17 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'questions_providers.g.dart';
 
+/// A provider that controls the current mode of the questions service.
+@Riverpod(keepAlive: true)
+class CurrentQuestionsServiceMode extends _$CurrentQuestionsServiceMode {
+  @override
+  QuestionsServiceMode build() => const FullOperatingMode();
+
+  set mode(QuestionsServiceMode mode) {
+    state = mode;
+  }
+}
+
 @riverpod
 FutureOr<Question> questionFuture(
   QuestionFutureRef ref,
@@ -99,13 +110,4 @@ Stream<int?> userSelectedAnswerIndex(
   final questionsService =
       await ref.watch(questionsServiceControllerProvider.future);
   yield* questionsService.watchUserSelectedAnswerIndex(question);
-}
-
-@riverpod
-FutureOr<QuestionsServiceMode> questionsServiceMode(
-  QuestionsServiceModeRef ref,
-) async {
-  final questionsService =
-      await ref.watch(questionsServiceControllerProvider.future);
-  return questionsService.operatingMode;
 }

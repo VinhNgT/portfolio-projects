@@ -567,23 +567,24 @@ class _UserSelectedAnswerIndexProviderElement
   Question get question => (origin as UserSelectedAnswerIndexProvider).question;
 }
 
-String _$questionsServiceModeHash() =>
-    r'158caac30084d47f7ae13636e8d6b2bc65a3c594';
+String _$currentQuestionsServiceModeHash() =>
+    r'eaca0984d4a9cb8dad6fd6857db4eb395752a498';
 
-/// See also [questionsServiceMode].
-@ProviderFor(questionsServiceMode)
-final questionsServiceModeProvider =
-    AutoDisposeFutureProvider<QuestionsServiceMode>.internal(
-  questionsServiceMode,
-  name: r'questionsServiceModeProvider',
+/// A provider that controls the current mode of the questions service.
+///
+/// Copied from [CurrentQuestionsServiceMode].
+@ProviderFor(CurrentQuestionsServiceMode)
+final currentQuestionsServiceModeProvider = NotifierProvider<
+    CurrentQuestionsServiceMode, QuestionsServiceMode>.internal(
+  CurrentQuestionsServiceMode.new,
+  name: r'currentQuestionsServiceModeProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$questionsServiceModeHash,
+      : _$currentQuestionsServiceModeHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef QuestionsServiceModeRef
-    = AutoDisposeFutureProviderRef<QuestionsServiceMode>;
+typedef _$CurrentQuestionsServiceMode = Notifier<QuestionsServiceMode>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

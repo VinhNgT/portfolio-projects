@@ -6,7 +6,7 @@ part of 'questions_exam_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$currentExamHash() => r'ce6897f6a6b00789b192139cb5edb64ce2f98555';
+String _$currentExamHash() => r'c9af02dd5adfcdbecde1aed92c5a2645ccad45aa';
 
 /// See also [currentExam].
 @ProviderFor(currentExam)

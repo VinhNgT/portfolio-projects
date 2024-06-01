@@ -225,7 +225,7 @@ extension _FilterExtension on InMemoryUserAnswersRepository {
   }
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 InMemoryUserAnswersRepository inMemoryUserAnswersRepository(
   InMemoryUserAnswersRepositoryRef ref,
 ) {

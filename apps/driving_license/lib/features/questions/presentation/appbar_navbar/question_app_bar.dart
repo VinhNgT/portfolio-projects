@@ -1,4 +1,3 @@
-import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
@@ -25,34 +24,31 @@ class QuestionAppBar extends HookConsumerWidget implements PreferredSizeWidget {
     final currentPageIndex = ref.watch(currentPageIndexProvider);
     final currentPageScrollController =
         ref.watch(questionPageScrollControllerProvider(currentPageIndex));
-    final isExamMode = ref.watchConvertAsyncValue(
-      questionsServiceModeProvider,
-      (valueData) => valueData is ExamOperatingMode,
+    final isExamMode = ref.watch(
+      currentQuestionsServiceModeProvider
+          .select((value) => value is ExamOperatingMode),
     );
 
-    return AsyncValueWidget(
-      value: isExamMode,
-      builder: (isExamModeValue) => CommonAppBar(
-        title: _QuestionTitle(
-          currentPageIndex: currentPageIndex,
+    return CommonAppBar(
+      title: _QuestionTitle(
+        currentPageIndex: currentPageIndex,
 
-          // Hide the danger icon in ExamOperatingMode
-          showIsDanger: !isExamModeValue,
-        ),
-        actions: [
-          const BookmarkButton(),
-          IconButton(
-            icon: const Icon(Symbols.restart_alt),
-            onPressed: controllerState.isLoading
-                ? null
-                : () async {
-                    resetSelectedAnswer(ref);
-                    await resetQuestionPageScrollPosition(ref);
-                  },
-          ),
-        ],
-        scaffoldBodyScrollController: currentPageScrollController,
+        // Hide the danger icon in ExamOperatingMode
+        showIsDanger: !isExamMode,
       ),
+      actions: [
+        const BookmarkButton(),
+        IconButton(
+          icon: const Icon(Symbols.restart_alt),
+          onPressed: controllerState.isLoading
+              ? null
+              : () async {
+                  resetSelectedAnswer(ref);
+                  await resetQuestionPageScrollPosition(ref);
+                },
+        ),
+      ],
+      scaffoldBodyScrollController: currentPageScrollController,
     );
   }
 
