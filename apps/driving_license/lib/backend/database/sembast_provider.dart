@@ -4,6 +4,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
+import 'package:sembast/sembast_memory.dart';
 
 part 'sembast_provider.g.dart';
 
@@ -28,4 +29,13 @@ Future<Database> sembast(SembastRef ref) async {
   ref.onDispose(dbController.database.close);
 
   return dbController.database;
+}
+
+@riverpod
+Future<Database> inMemorySembast(InMemorySembastRef ref, String dbName) async {
+  final dbFactory = newDatabaseFactoryMemory();
+  final db = await dbFactory.openDatabase(dbName);
+
+  ref.onDispose(db.close);
+  return db;
 }
