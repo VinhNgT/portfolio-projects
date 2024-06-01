@@ -26,8 +26,8 @@ class SembastController {
 @Riverpod(keepAlive: true)
 Future<Database> sembast(SembastRef ref) async {
   final dbController = await SembastController.makeDefault();
-  ref.onDispose(dbController.database.close);
 
+  ref.onDispose(dbController.database.close);
   return dbController.database;
 }
 
