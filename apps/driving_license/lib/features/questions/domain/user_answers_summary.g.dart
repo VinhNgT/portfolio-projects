@@ -9,15 +9,17 @@ part of 'user_answers_summary.dart';
 _$UserAnswersSummaryImpl _$$UserAnswersSummaryImplFromJson(
         Map<String, dynamic> json) =>
     _$UserAnswersSummaryImpl(
-      correctAnswers: (json['correctAnswers'] as num).toInt(),
-      wrongAnswers: (json['wrongAnswers'] as num).toInt(),
-      wrongAnswersIsDanger: (json['wrongAnswersIsDanger'] as num).toInt(),
+      correct: (json['correct'] as num).toInt(),
+      wrong: (json['wrong'] as num).toInt(),
+      isDanger: (json['isDanger'] as num).toInt(),
+      wrongIsDanger: (json['wrongIsDanger'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$UserAnswersSummaryImplToJson(
         _$UserAnswersSummaryImpl instance) =>
     <String, dynamic>{
-      'correctAnswers': instance.correctAnswers,
-      'wrongAnswers': instance.wrongAnswers,
-      'wrongAnswersIsDanger': instance.wrongAnswersIsDanger,
+      'correct': instance.correct,
+      'wrong': instance.wrong,
+      'isDanger': instance.isDanger,
+      'wrongIsDanger': instance.wrongIsDanger,
     };

@@ -20,9 +20,10 @@ UserAnswersSummary _$UserAnswersSummaryFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserAnswersSummary {
-  int get correctAnswers => throw _privateConstructorUsedError;
-  int get wrongAnswers => throw _privateConstructorUsedError;
-  int get wrongAnswersIsDanger => throw _privateConstructorUsedError;
+  int get correct => throw _privateConstructorUsedError;
+  int get wrong => throw _privateConstructorUsedError;
+  int get isDanger => throw _privateConstructorUsedError;
+  int get wrongIsDanger => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +37,7 @@ abstract class $UserAnswersSummaryCopyWith<$Res> {
           UserAnswersSummary value, $Res Function(UserAnswersSummary) then) =
       _$UserAnswersSummaryCopyWithImpl<$Res, UserAnswersSummary>;
   @useResult
-  $Res call({int correctAnswers, int wrongAnswers, int wrongAnswersIsDanger});
+  $Res call({int correct, int wrong, int isDanger, int wrongIsDanger});
 }
 
 /// @nodoc
@@ -52,22 +53,27 @@ class _$UserAnswersSummaryCopyWithImpl<$Res, $Val extends UserAnswersSummary>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? correctAnswers = null,
-    Object? wrongAnswers = null,
-    Object? wrongAnswersIsDanger = null,
+    Object? correct = null,
+    Object? wrong = null,
+    Object? isDanger = null,
+    Object? wrongIsDanger = null,
   }) {
     return _then(_value.copyWith(
-      correctAnswers: null == correctAnswers
-          ? _value.correctAnswers
-          : correctAnswers // ignore: cast_nullable_to_non_nullable
+      correct: null == correct
+          ? _value.correct
+          : correct // ignore: cast_nullable_to_non_nullable
               as int,
-      wrongAnswers: null == wrongAnswers
-          ? _value.wrongAnswers
-          : wrongAnswers // ignore: cast_nullable_to_non_nullable
+      wrong: null == wrong
+          ? _value.wrong
+          : wrong // ignore: cast_nullable_to_non_nullable
               as int,
-      wrongAnswersIsDanger: null == wrongAnswersIsDanger
-          ? _value.wrongAnswersIsDanger
-          : wrongAnswersIsDanger // ignore: cast_nullable_to_non_nullable
+      isDanger: null == isDanger
+          ? _value.isDanger
+          : isDanger // ignore: cast_nullable_to_non_nullable
+              as int,
+      wrongIsDanger: null == wrongIsDanger
+          ? _value.wrongIsDanger
+          : wrongIsDanger // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
   }
@@ -81,7 +87,7 @@ abstract class _$$UserAnswersSummaryImplCopyWith<$Res>
       __$$UserAnswersSummaryImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int correctAnswers, int wrongAnswers, int wrongAnswersIsDanger});
+  $Res call({int correct, int wrong, int isDanger, int wrongIsDanger});
 }
 
 /// @nodoc
@@ -95,22 +101,27 @@ class __$$UserAnswersSummaryImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? correctAnswers = null,
-    Object? wrongAnswers = null,
-    Object? wrongAnswersIsDanger = null,
+    Object? correct = null,
+    Object? wrong = null,
+    Object? isDanger = null,
+    Object? wrongIsDanger = null,
   }) {
     return _then(_$UserAnswersSummaryImpl(
-      correctAnswers: null == correctAnswers
-          ? _value.correctAnswers
-          : correctAnswers // ignore: cast_nullable_to_non_nullable
+      correct: null == correct
+          ? _value.correct
+          : correct // ignore: cast_nullable_to_non_nullable
               as int,
-      wrongAnswers: null == wrongAnswers
-          ? _value.wrongAnswers
-          : wrongAnswers // ignore: cast_nullable_to_non_nullable
+      wrong: null == wrong
+          ? _value.wrong
+          : wrong // ignore: cast_nullable_to_non_nullable
               as int,
-      wrongAnswersIsDanger: null == wrongAnswersIsDanger
-          ? _value.wrongAnswersIsDanger
-          : wrongAnswersIsDanger // ignore: cast_nullable_to_non_nullable
+      isDanger: null == isDanger
+          ? _value.isDanger
+          : isDanger // ignore: cast_nullable_to_non_nullable
+              as int,
+      wrongIsDanger: null == wrongIsDanger
+          ? _value.wrongIsDanger
+          : wrongIsDanger // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }
@@ -120,24 +131,27 @@ class __$$UserAnswersSummaryImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserAnswersSummaryImpl extends _UserAnswersSummary {
   const _$UserAnswersSummaryImpl(
-      {required this.correctAnswers,
-      required this.wrongAnswers,
-      required this.wrongAnswersIsDanger})
+      {required this.correct,
+      required this.wrong,
+      required this.isDanger,
+      required this.wrongIsDanger})
       : super._();
 
   factory _$UserAnswersSummaryImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserAnswersSummaryImplFromJson(json);
 
   @override
-  final int correctAnswers;
+  final int correct;
   @override
-  final int wrongAnswers;
+  final int wrong;
   @override
-  final int wrongAnswersIsDanger;
+  final int isDanger;
+  @override
+  final int wrongIsDanger;
 
   @override
   String toString() {
-    return 'UserAnswersSummary(correctAnswers: $correctAnswers, wrongAnswers: $wrongAnswers, wrongAnswersIsDanger: $wrongAnswersIsDanger)';
+    return 'UserAnswersSummary(correct: $correct, wrong: $wrong, isDanger: $isDanger, wrongIsDanger: $wrongIsDanger)';
   }
 
   @override
@@ -145,18 +159,18 @@ class _$UserAnswersSummaryImpl extends _UserAnswersSummary {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserAnswersSummaryImpl &&
-            (identical(other.correctAnswers, correctAnswers) ||
-                other.correctAnswers == correctAnswers) &&
-            (identical(other.wrongAnswers, wrongAnswers) ||
-                other.wrongAnswers == wrongAnswers) &&
-            (identical(other.wrongAnswersIsDanger, wrongAnswersIsDanger) ||
-                other.wrongAnswersIsDanger == wrongAnswersIsDanger));
+            (identical(other.correct, correct) || other.correct == correct) &&
+            (identical(other.wrong, wrong) || other.wrong == wrong) &&
+            (identical(other.isDanger, isDanger) ||
+                other.isDanger == isDanger) &&
+            (identical(other.wrongIsDanger, wrongIsDanger) ||
+                other.wrongIsDanger == wrongIsDanger));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, correctAnswers, wrongAnswers, wrongAnswersIsDanger);
+  int get hashCode =>
+      Object.hash(runtimeType, correct, wrong, isDanger, wrongIsDanger);
 
   @JsonKey(ignore: true)
   @override
@@ -175,20 +189,23 @@ class _$UserAnswersSummaryImpl extends _UserAnswersSummary {
 
 abstract class _UserAnswersSummary extends UserAnswersSummary {
   const factory _UserAnswersSummary(
-      {required final int correctAnswers,
-      required final int wrongAnswers,
-      required final int wrongAnswersIsDanger}) = _$UserAnswersSummaryImpl;
+      {required final int correct,
+      required final int wrong,
+      required final int isDanger,
+      required final int wrongIsDanger}) = _$UserAnswersSummaryImpl;
   const _UserAnswersSummary._() : super._();
 
   factory _UserAnswersSummary.fromJson(Map<String, dynamic> json) =
       _$UserAnswersSummaryImpl.fromJson;
 
   @override
-  int get correctAnswers;
+  int get correct;
   @override
-  int get wrongAnswers;
+  int get wrong;
   @override
-  int get wrongAnswersIsDanger;
+  int get isDanger;
+  @override
+  int get wrongIsDanger;
   @override
   @JsonKey(ignore: true)
   _$$UserAnswersSummaryImplCopyWith<_$UserAnswersSummaryImpl> get copyWith =>

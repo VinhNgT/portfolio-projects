@@ -32,6 +32,7 @@ abstract class UserAnswersMap with _$UserAnswersMap {
     int correctAnswers = 0;
     int wrongAnswers = 0;
     int wrongAnswersIsDanger = 0;
+    int isDanger = 0;
 
     for (final userAnswer in userAnswers) {
       resultAnswersMap[userAnswer.questionMetadata.questionDbIndex] =
@@ -46,14 +47,19 @@ abstract class UserAnswersMap with _$UserAnswersMap {
           wrongAnswersIsDanger++;
         }
       }
+
+      if (userAnswer.questionMetadata.isDanger) {
+        isDanger++;
+      }
     }
 
     return UserAnswersMap(
       answersMap: resultAnswersMap,
       summary: UserAnswersSummary(
-        correctAnswers: correctAnswers,
-        wrongAnswers: wrongAnswers,
-        wrongAnswersIsDanger: wrongAnswersIsDanger,
+        correct: correctAnswers,
+        wrong: wrongAnswers,
+        wrongIsDanger: wrongAnswersIsDanger,
+        isDanger: isDanger,
       ),
     );
   }
@@ -64,11 +70,7 @@ abstract class UserAnswersMap with _$UserAnswersMap {
   /// to zero.
   static const empty = UserAnswersMap(
     answersMap: {},
-    summary: UserAnswersSummary(
-      correctAnswers: 0,
-      wrongAnswers: 0,
-      wrongAnswersIsDanger: 0,
-    ),
+    summary: UserAnswersSummary.empty,
   );
 }
 

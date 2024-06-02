@@ -8,7 +8,9 @@ import 'package:driving_license/features/questions/domain/user_answers_summary.d
 import 'package:rxdart/rxdart.dart';
 import 'package:sembast/sembast.dart';
 
-class SembastUserAnswersRepository implements UserAnswersRepository {
+class SembastUserAnswersRepository
+    with _FilterMixin
+    implements UserAnswersRepository {
   SembastUserAnswersRepository(this.db);
 
   final Database db;
@@ -107,57 +109,46 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
     Chapter? chapter,
     bool filterDangerAnswers = false,
   }) {
-    final correctAnswersCountStream = allAnswersStore
-        .query(
-          finder: Finder(
-            filter: Filter.and([
-              _licenseFilter(license),
-              _correctAnswersFilter,
-              if (chapter != null) _chapterFilter(chapter),
-              if (filterDangerAnswers) _dangerQuestionsFilter,
-            ]),
-          ),
-        )
-        .onCount(db);
-
-    final wrongAnswersCountStream = allAnswersStore
-        .query(
-          finder: Finder(
-            filter: Filter.and([
-              _licenseFilter(license),
-              _wrongAnswersFilter,
-              if (chapter != null) _chapterFilter(chapter),
-              if (filterDangerAnswers) _dangerQuestionsFilter,
-            ]),
-          ),
-        )
-        .onCount(db);
-
-    final wrongAnswerIsDangerCountStream = allAnswersStore
-        .query(
-          finder: Finder(
-            filter: Filter.and([
-              _licenseFilter(license),
-              _wrongAnswersFilter,
-              _dangerQuestionsFilter,
-              if (chapter != null) _chapterFilter(chapter),
-            ]),
-          ),
-        )
-        .onCount(db);
-
-    return Rx.combineLatest3(
-      correctAnswersCountStream,
-      wrongAnswersCountStream,
-      wrongAnswerIsDangerCountStream,
-      (int correct, int wrong, int danger) {
-        return UserAnswersSummary(
-          correctAnswers: correct,
-          wrongAnswers: wrong,
-          wrongAnswersIsDanger: danger,
-        );
-      },
+    final counter = _Counter(
+      db: db,
+      store: allAnswersStore,
+      license: license,
+      chapter: chapter,
     );
+
+    final correctCountStream = counter.count([
+      _correctAnswersFilter,
+      if (filterDangerAnswers) _dangerQuestionsFilter,
+    ]);
+
+    final wrongCountStream = counter.count([
+      _wrongAnswersFilter,
+      if (filterDangerAnswers) _dangerQuestionsFilter,
+    ]);
+
+    final isDangerCountStream = counter.count([
+      _dangerQuestionsFilter,
+    ]);
+
+    final wrongIsDangerCountStream = counter.count([
+      _wrongAnswersFilter,
+      _dangerQuestionsFilter,
+    ]);
+
+    return Rx.combineLatestList([
+      correctCountStream,
+      wrongCountStream,
+      isDangerCountStream,
+      wrongIsDangerCountStream,
+    ]).map((counts) {
+      final [correct, wrong, isDanger, wrongIsDanger] = counts;
+      return UserAnswersSummary(
+        correct: correct,
+        wrong: wrong,
+        isDanger: isDanger,
+        wrongIsDanger: wrongIsDanger,
+      );
+    });
   }
 
   @override
@@ -200,7 +191,7 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
   }
 }
 
-extension _FilterExtension on SembastUserAnswersRepository {
+mixin _FilterMixin {
   Filter _chapterFilter(Chapter chapter) {
     return Filter.equals(
       'questionMetadata.chapterDbIndex',
@@ -237,5 +228,33 @@ extension _FilterExtension on SembastUserAnswersRepository {
 
   Filter get _dangerQuestionsFilter {
     return Filter.equals('questionMetadata.isDanger', true);
+  }
+}
+
+class _Counter with _FilterMixin {
+  _Counter({
+    required this.db,
+    required this.store,
+    required this.license,
+    this.chapter,
+  });
+
+  final Database db;
+  final StoreRef store;
+  final License license;
+  final Chapter? chapter;
+
+  Stream<int> count(List<Filter> filters) {
+    return store
+        .query(
+          finder: Finder(
+            filter: Filter.and([
+              _licenseFilter(license),
+              if (chapter != null) _chapterFilter(chapter!),
+              ...filters,
+            ]),
+          ),
+        )
+        .onCount(db);
   }
 }

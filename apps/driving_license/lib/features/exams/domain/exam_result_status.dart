@@ -13,9 +13,9 @@ sealed class ExamResultStatus {
     required Exam exam,
     required UserAnswersSummary userAnswersSummary,
   }) {
-    final correctAnswersCount = userAnswersSummary.correctAnswers;
+    final correctAnswersCount = userAnswersSummary.correct;
     final minimalPassingScore = exam.minimumPassingScore;
-    final wrongAnswersIsDangerCount = userAnswersSummary.wrongAnswersIsDanger;
+    final wrongAnswersIsDangerCount = userAnswersSummary.wrongIsDanger;
 
     if (wrongAnswersIsDangerCount > 0) {
       return ExamResultStatusFailed(
@@ -40,9 +40,9 @@ sealed class ExamResultStatus {
   final UserAnswersSummary userAnswersSummary;
 
   int get totalQuestionsCount => exam.questionsCount;
-  int get correctAnswersCount => userAnswersSummary.correctAnswers;
-  int get wrongAnswersCount => userAnswersSummary.wrongAnswers;
-  int get wrongAnswersIsDangerCount => userAnswersSummary.wrongAnswersIsDanger;
+  int get correctAnswersCount => userAnswersSummary.correct;
+  int get wrongAnswersCount => userAnswersSummary.wrong;
+  int get wrongAnswersIsDangerCount => userAnswersSummary.wrongIsDanger;
 }
 
 class ExamResultStatusPassed extends ExamResultStatus {

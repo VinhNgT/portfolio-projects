@@ -54,7 +54,6 @@ class ExamResultScreen extends HookConsumerWidget {
 }
 
 class AnswersResultList extends HookConsumerWidget {
-
   const AnswersResultList({
     super.key,
     required this.scrollController,
@@ -180,7 +179,7 @@ class _SummaryCounts extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Đúng: ${userAnswersSummary.correctAnswers} / ${exam.questionsCount}',
+                    'Đúng: ${userAnswersSummary.correct} / ${exam.questionsCount}',
                   ),
                   kGap_2,
                   Text(
@@ -205,7 +204,7 @@ class _SummaryCounts extends StatelessWidget {
             kGap_8,
             Expanded(
               child: Text(
-                'Sai: ${userAnswersSummary.wrongAnswers}',
+                'Sai: ${userAnswersSummary.wrong}',
               ),
             ),
           ],
@@ -220,7 +219,7 @@ class _SummaryCounts extends StatelessWidget {
             kGap_8,
             Expanded(
               child: Text(
-                'Sai câu điểm liệt: ${userAnswersSummary.wrongAnswersIsDanger}',
+                'Sai câu điểm liệt: ${userAnswersSummary.wrongIsDanger}',
               ),
             ),
           ],

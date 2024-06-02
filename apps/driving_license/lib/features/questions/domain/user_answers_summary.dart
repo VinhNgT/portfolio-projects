@@ -8,14 +8,22 @@ part 'user_answers_summary.g.dart';
 @freezed
 abstract class UserAnswersSummary with _$UserAnswersSummary {
   const factory UserAnswersSummary({
-    required int correctAnswers,
-    required int wrongAnswers,
-    required int wrongAnswersIsDanger,
+    required int correct,
+    required int wrong,
+    required int isDanger,
+    required int wrongIsDanger,
   }) = _UserAnswersSummary;
   const UserAnswersSummary._();
 
   factory UserAnswersSummary.fromJson(Map<String, dynamic> json) =>
       _$UserAnswersSummaryFromJson(json);
 
-  int get answeredQuestions => correctAnswers + wrongAnswers;
+  static const empty = UserAnswersSummary(
+    correct: 0,
+    wrong: 0,
+    isDanger: 0,
+    wrongIsDanger: 0,
+  );
+
+  int get total => correct + wrong;
 }

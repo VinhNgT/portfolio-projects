@@ -9,7 +9,6 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:vector_graphics/vector_graphics.dart';
 
 class ChapterCard extends StatelessWidget {
-
   const ChapterCard({
     super.key,
     required this.iconAssetPath,
@@ -17,6 +16,7 @@ class ChapterCard extends StatelessWidget {
     required this.completionStatus,
     this.onPressed,
   });
+
   final String iconAssetPath;
   final String chapterName;
   final ({int questionsCount, UserAnswersSummary summary}) completionStatus;
@@ -73,11 +73,11 @@ class ChapterCard extends StatelessWidget {
     ({int questionsCount, UserAnswersSummary summary}) status,
   ) {
     final StringBuffer buffer = StringBuffer(
-      'Đã hoàn thành ${status.summary.answeredQuestions} / ${status.questionsCount}',
+      'Đã hoàn thành ${status.summary.total} / ${status.questionsCount}',
     );
 
-    if (status.summary.wrongAnswers > 0) {
-      buffer.write(' - Sai ${status.summary.wrongAnswers} câu');
+    if (status.summary.wrong > 0) {
+      buffer.write(' - Sai ${status.summary.wrong} câu');
     }
 
     return buffer.toString();
