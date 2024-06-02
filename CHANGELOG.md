@@ -15,6 +15,28 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`driving_license` - `v0.1.5-dev.1`](#driving_license---v015-dev1)
+
+---
+
+#### `driving_license` - `v0.1.5-dev.1`
+
+ - **FEAT**(drv_lcn): handle grading case when user does not answer danger questions.
+ - **FEAT**(drv_lcn): reduce remove config logger important.
+
+
+## 2024-06-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`driving_license` - `v0.1.5-dev.0`](#driving_license---v015-dev0)
 
 ---

@@ -1,3 +1,8 @@
+## 0.1.5-dev.1
+
+ - **FEAT**(drv_lcn): handle grading case when user does not answer danger questions.
+ - **FEAT**(drv_lcn): reduce remove config logger important.
+
 ## 0.1.5-dev.0
 
  - **REFACTOR**(drv_lcn): move provider CurrentQuestionsServiceMode to file questions_service.dart.
