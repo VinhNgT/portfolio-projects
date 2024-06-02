@@ -1,3 +1,4 @@
+import 'package:driving_license/logging/logger_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -35,7 +36,13 @@ Future<Database> sembast(SembastRef ref) async {
 Future<Database> inMemorySembast(InMemorySembastRef ref, String dbName) async {
   final dbFactory = newDatabaseFactoryMemory();
   final db = await dbFactory.openDatabase(dbName);
+  final logger = ref.watch(loggerProvider);
 
-  ref.onDispose(db.close);
+  logger.i('Open in-memory database: $dbName');
+  ref.onDispose(() {
+    logger.i('Close in-memory database: $dbName');
+    db.close();
+  });
+
   return db;
 }
