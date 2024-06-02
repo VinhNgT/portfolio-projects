@@ -4,7 +4,6 @@ import 'package:driving_license/features/chapters/domain/chapter.dart';
 import 'package:driving_license/features/exams/domain/exam.dart';
 import 'package:driving_license/features/licenses/data/providers/user_selected_license_provider.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
-import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
 import 'package:driving_license/features/questions/application/question/questions_handler.dart';
 import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
 import 'package:driving_license/features/questions/application/user_answer/user_answers_handler.dart';
@@ -233,5 +232,17 @@ FutureOr<QuestionsService> questionsService(QuestionsServiceRef ref) async {
             await ref.refresh(inMemoryUserAnswersRepositoryProvider.future),
         exam: exam,
       );
+  }
+}
+
+/// A provider that controls the current mode of the questions service.
+@Riverpod(keepAlive: true)
+class CurrentQuestionsServiceMode extends _$CurrentQuestionsServiceMode {
+  @override
+  QuestionsServiceMode build() => const FullOperatingMode();
+
+  set mode(QuestionsServiceMode mode) {
+    state = mode;
+    ref.notifyListeners();
   }
 }

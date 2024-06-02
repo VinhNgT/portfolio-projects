@@ -1,6 +1,6 @@
 import 'package:driving_license/features/exams/data/exams_repository.dart';
 import 'package:driving_license/features/exams/domain/exam.dart';
-import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
+import 'package:driving_license/features/questions/application/question/questions_service.dart';
 import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

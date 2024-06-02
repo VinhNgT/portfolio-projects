@@ -1,22 +1,9 @@
 import 'package:driving_license/features/questions/application/question/questions_service.dart';
-import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
 import 'package:driving_license/features/questions/domain/question.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'questions_providers.g.dart';
-
-/// A provider that controls the current mode of the questions service.
-@Riverpod(keepAlive: true)
-class CurrentQuestionsServiceMode extends _$CurrentQuestionsServiceMode {
-  @override
-  QuestionsServiceMode build() => const FullOperatingMode();
-
-  set mode(QuestionsServiceMode mode) {
-    state = mode;
-    ref.notifyListeners();
-  }
-}
 
 @riverpod
 FutureOr<Question> questionFuture(

@@ -1,6 +1,6 @@
 import 'package:driving_license/common_widgets/misc/fast_scroll_physics.dart';
 import 'package:driving_license/constants/app_sizes.dart';
-import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
+import 'package:driving_license/features/questions/application/question/questions_service.dart';
 import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
 import 'package:driving_license/features/questions/presentation/question/question_page.dart';
 import 'package:driving_license/features/questions/presentation/question_screen_controller.dart';
