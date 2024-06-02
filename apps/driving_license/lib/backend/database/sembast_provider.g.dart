@@ -20,7 +20,7 @@ final sembastProvider = FutureProvider<Database>.internal(
 );
 
 typedef SembastRef = FutureProviderRef<Database>;
-String _$inMemorySembastHash() => r'28a933a79eed8451dbca57f896fd7f0c80c4f7c1';
+String _$inMemorySembastHash() => r'81057202af159c1b479e3d783e2492fb19bc6334';
 
 /// Copied from Dart SDK
 class _SystemHash {
