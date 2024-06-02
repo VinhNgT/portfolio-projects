@@ -185,7 +185,10 @@ class SembastUserAnswersRepository implements UserAnswersRepository {
     final recordSnapshot = await allAnswersStore.find(
       db,
       finder: Finder(
-        filter: Filter.inList('questionDbIndex', dbIndexes.toList()),
+        filter: Filter.inList(
+          'questionMetadata.questionDbIndex',
+          dbIndexes.toList(),
+        ),
       ),
     );
 
