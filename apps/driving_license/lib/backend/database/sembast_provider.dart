@@ -33,16 +33,38 @@ Future<Database> sembast(SembastRef ref) async {
 }
 
 @riverpod
-Future<Database> inMemorySembast(InMemorySembastRef ref, String dbName) async {
-  final dbFactory = newDatabaseFactoryMemory();
-  final db = await dbFactory.openDatabase(dbName);
-  final logger = ref.watch(loggerProvider);
+class InMemorySembast extends _$InMemorySembast {
+  int _listenerCount = 0;
 
-  logger.i('Open in-memory database: $dbName');
-  ref.onDispose(() {
-    logger.i('Close in-memory database: $dbName');
-    db.close();
-  });
+  @override
+  Future<Database> build(String dbName) async {
+    final dbFactory = newDatabaseFactoryMemory();
+    final db = await dbFactory.openDatabase(dbName);
+    final logger = ref.watch(loggerProvider);
 
-  return db;
+    logger.i('Open in-memory database: $dbName');
+    ref.onDispose(() {
+      logger.i('Close in-memory database: $dbName');
+      db.close();
+    });
+
+    ref.onAddListener(() {
+      _listenerCount++;
+      if (_listenerCount > 1) {
+        logger.w(
+          'There are more than one listener for in-memory database: $dbName\n\n'
+          'This is most likely because you\'re trying to create multiple '
+          'databases with the same name. This is not allowed and all of them '
+          'will point to the same in-memory database. If this is want you '
+          'want, create a new provider that listens to the in-memory database '
+          '"$dbName" and move all of the listeners to that provider.',
+        );
+      }
+    });
+    ref.onRemoveListener(() {
+      _listenerCount--;
+    });
+
+    return db;
+  }
 }

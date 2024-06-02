@@ -20,7 +20,7 @@ final sembastProvider = FutureProvider<Database>.internal(
 );
 
 typedef SembastRef = FutureProviderRef<Database>;
-String _$inMemorySembastHash() => r'9b2867dafad1df52bd5d258bd8b5cb8f77ac78e1';
+String _$inMemorySembastHash() => r'5226060b3dbef8a683c9f451211378b0f4a3833c';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -43,16 +43,25 @@ class _SystemHash {
   }
 }
 
-/// See also [inMemorySembast].
-@ProviderFor(inMemorySembast)
+abstract class _$InMemorySembast
+    extends BuildlessAutoDisposeAsyncNotifier<Database> {
+  late final String dbName;
+
+  FutureOr<Database> build(
+    String dbName,
+  );
+}
+
+/// See also [InMemorySembast].
+@ProviderFor(InMemorySembast)
 const inMemorySembastProvider = InMemorySembastFamily();
 
-/// See also [inMemorySembast].
+/// See also [InMemorySembast].
 class InMemorySembastFamily extends Family<AsyncValue<Database>> {
-  /// See also [inMemorySembast].
+  /// See also [InMemorySembast].
   const InMemorySembastFamily();
 
-  /// See also [inMemorySembast].
+  /// See also [InMemorySembast].
   InMemorySembastProvider call(
     String dbName,
   ) {
@@ -85,16 +94,14 @@ class InMemorySembastFamily extends Family<AsyncValue<Database>> {
   String? get name => r'inMemorySembastProvider';
 }
 
-/// See also [inMemorySembast].
-class InMemorySembastProvider extends AutoDisposeFutureProvider<Database> {
-  /// See also [inMemorySembast].
+/// See also [InMemorySembast].
+class InMemorySembastProvider
+    extends AutoDisposeAsyncNotifierProviderImpl<InMemorySembast, Database> {
+  /// See also [InMemorySembast].
   InMemorySembastProvider(
     String dbName,
   ) : this._internal(
-          (ref) => inMemorySembast(
-            ref as InMemorySembastRef,
-            dbName,
-          ),
+          () => InMemorySembast()..dbName = dbName,
           from: inMemorySembastProvider,
           name: r'inMemorySembastProvider',
           debugGetCreateSourceHash:
@@ -120,13 +127,20 @@ class InMemorySembastProvider extends AutoDisposeFutureProvider<Database> {
   final String dbName;
 
   @override
-  Override overrideWith(
-    FutureOr<Database> Function(InMemorySembastRef provider) create,
+  FutureOr<Database> runNotifierBuild(
+    covariant InMemorySembast notifier,
   ) {
+    return notifier.build(
+      dbName,
+    );
+  }
+
+  @override
+  Override overrideWith(InMemorySembast Function() create) {
     return ProviderOverride(
       origin: this,
       override: InMemorySembastProvider._internal(
-        (ref) => create(ref as InMemorySembastRef),
+        () => create()..dbName = dbName,
         from: from,
         name: null,
         dependencies: null,
@@ -138,7 +152,8 @@ class InMemorySembastProvider extends AutoDisposeFutureProvider<Database> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<Database> createElement() {
+  AutoDisposeAsyncNotifierProviderElement<InMemorySembast, Database>
+      createElement() {
     return _InMemorySembastProviderElement(this);
   }
 
@@ -156,13 +171,14 @@ class InMemorySembastProvider extends AutoDisposeFutureProvider<Database> {
   }
 }
 
-mixin InMemorySembastRef on AutoDisposeFutureProviderRef<Database> {
+mixin InMemorySembastRef on AutoDisposeAsyncNotifierProviderRef<Database> {
   /// The parameter `dbName` of this provider.
   String get dbName;
 }
 
 class _InMemorySembastProviderElement
-    extends AutoDisposeFutureProviderElement<Database> with InMemorySembastRef {
+    extends AutoDisposeAsyncNotifierProviderElement<InMemorySembast, Database>
+    with InMemorySembastRef {
   _InMemorySembastProviderElement(super.provider);
 
   @override
