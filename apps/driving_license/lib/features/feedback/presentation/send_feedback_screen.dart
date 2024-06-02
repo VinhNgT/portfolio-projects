@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:driving_license/backend/in_app_purchase/data/purchases_repository.dart';
 import 'package:driving_license/common_widgets/async_value/async_snapshot_controller.dart';
 import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/feedback/domain/feedback_form.dart';
 import 'package:driving_license/features/feedback/presentation/send_feedback_controller.dart';
+import 'package:driving_license/features/home/presentation/debug_menu_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:driving_license/utils/extensions/async_snapshot_ext.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +62,11 @@ class SendFeedbackScreen extends HookConsumerWidget {
       child: Scaffold(
         appBar: CommonAppBar(
           backgroundColor: context.materialScheme.surfaceContainer,
-          title: const Text('Báo lỗi'),
+          title: GestureDetector(
+            onLongPress: () =>
+                ref.read(debugMenuControllerProvider.notifier).trigger(),
+            child: const Text('Báo lỗi'),
+          ),
           actions: [
             TextButton(
               child: const Text('Gửi'),
@@ -169,6 +175,7 @@ class SendFeedbackScreen extends HookConsumerWidget {
                             isFormSubmitted.value.remove('content'),
                       ),
                     ),
+                    const DebugButtons(),
                   ],
                 ),
               ),
@@ -176,6 +183,36 @@ class SendFeedbackScreen extends HookConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class DebugButtons extends HookConsumerWidget {
+  const DebugButtons({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final debugMenuEnable = ref.watch(debugMenuControllerProvider);
+
+    if (!debugMenuEnable) {
+      return const SizedBox.shrink();
+    }
+
+    return Wrap(
+      children: [
+        TextButton(
+          child: const Text('Print all purchases'),
+          onPressed: () {
+            ref.read(purchasesRepositoryProvider).printAllPurchases();
+          },
+        ),
+        TextButton(
+          child: const Text('Clear all purchases'),
+          onPressed: () {
+            ref.read(purchasesRepositoryProvider).clearAllPurchases();
+          },
+        ),
+      ],
     );
   }
 }

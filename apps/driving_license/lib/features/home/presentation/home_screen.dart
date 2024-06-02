@@ -4,7 +4,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/backend/ads/ad_unit.dart';
 import 'package:driving_license/backend/ads/admob_provider.dart';
 import 'package:driving_license/backend/ads/inline_banner_ad/inline_banner_ad_builder.dart';
-import 'package:driving_license/backend/in_app_purchase/data/purchases_repository.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_scaffold.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/common_widgets/common_app_bar.dart';
@@ -95,7 +94,6 @@ class HomeScreen extends HookConsumerWidget {
                     builder: (isUserDonatedValue) => Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const DebugButtons(),
                         DonateCard(isUserDonated: isUserDonatedValue),
                         kGap_20,
                         const FeatureSelection(),
@@ -351,29 +349,6 @@ extension ChapterSelectionX on ChapterSelection {
         ),
       );
     }
-  }
-}
-
-class DebugButtons extends HookConsumerWidget {
-  const DebugButtons({super.key});
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Wrap(
-      children: [
-        TextButton(
-          onPressed: () {
-            ref.read(purchasesRepositoryProvider).printAllPurchases();
-          },
-          child: const Text('Print all purchases'),
-        ),
-        TextButton(
-          onPressed: () {
-            ref.read(purchasesRepositoryProvider).clearAllPurchases();
-          },
-          child: const Text('Clear all purchases'),
-        ),
-      ],
-    );
   }
 }
 
