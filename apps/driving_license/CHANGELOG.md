@@ -1,3 +1,16 @@
+## 0.1.5-dev.0
+
+ - **REFACTOR**(drv_lcn): move provider CurrentQuestionsServiceMode to file questions_service.dart.
+ - **REFACTOR**(drv_lcn): move QuestionService creation logic to its provider, remove the need for config.
+ - **REFACTOR**(drv_lcn): keep alive all in-memory databases.
+ - **REFACTOR**(drv_lcn): rename provider questionsServiceController to questionsService.
+ - **FIX**(drv_lcn): force provider CurrentQuestionsServiceMode to notifyListeners when set state.
+ - **FIX**(drv_lcn): fix SembastUserAnswersRepository getAnswersByQuestionDbIndexes wrong db field.
+ - **FIX**(drv_lcn): fix null assertion when getting ConfirmExitExamDialog result.
+ - **FEAT**(drv_lcn): dispose in mem db when provider inMemoryUserAnswersRepository is disposed.
+ - **FEAT**(drv_lcn): add warning when there are more than one listener for the same in-memory database.
+ - **FEAT**(drv_lcn): add logger to provider inMemorySembast.
+
 ## 0.1.4
 
  - Graduate package to a stable release. See pre-releases prior to this version for changelog entries.
