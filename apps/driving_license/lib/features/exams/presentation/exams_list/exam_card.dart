@@ -14,7 +14,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class ExamCard extends StatelessWidget {
-
   const ExamCard({
     super.key,
     required this.exam,
@@ -22,6 +21,7 @@ class ExamCard extends StatelessWidget {
     this.customCompletionStatusText,
     this.onPressed,
   });
+
   final Exam exam;
   final ExamsListState state;
   final String? customCompletionStatusText;
@@ -125,11 +125,12 @@ class ExamCard extends StatelessWidget {
       case ExamResultStatusPassed(:final correctAnswersCount):
         return '$correctAnswersCount điểm - Đỗ';
 
-      case ExamResultStatusFailed(:final correctAnswersCount, isDanger: false):
-        return '$correctAnswersCount điểm - Trượt';
-
-      case ExamResultStatusFailed(isDanger: true):
+      case ExamResultStatusFailed(isDanger: true) ||
+            ExamResultStatusFailed(isDangerNotAnswered: true):
         return 'Sai câu điểm liệt - Trượt';
+
+      case ExamResultStatusFailed(:final correctAnswersCount):
+        return '$correctAnswersCount điểm - Trượt';
     }
   }
 }

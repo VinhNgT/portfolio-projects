@@ -147,6 +147,8 @@ class _ExamResultSummary extends HookConsumerWidget {
     return switch (examResult) {
       ExamResultStatusPassed(:final isPerfect) =>
         isPerfect ? 'Đạt - Đúng toàn bộ' : 'Đạt',
+      ExamResultStatusFailed(isDangerNotAnswered: true) =>
+        'Không đạt - Chưa trả lời câu điểm liệt',
       ExamResultStatusFailed(:final isDanger) => isDanger
           ? 'Không đạt - Sai câu điểm liệt'
           : 'Không đạt - Không đủ điểm',

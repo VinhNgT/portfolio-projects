@@ -13,18 +13,20 @@ sealed class ExamResultStatus {
     required Exam exam,
     required UserAnswersSummary userAnswersSummary,
   }) {
-    final correctAnswersCount = userAnswersSummary.correct;
-    final minimalPassingScore = exam.minimumPassingScore;
-    final wrongAnswersIsDangerCount = userAnswersSummary.wrongIsDanger;
+    // User has answered an isDanger question wrong.
+    final bool hasWrongDangerAnswers = userAnswersSummary.wrongIsDanger > 0;
 
-    if (wrongAnswersIsDangerCount > 0) {
-      return ExamResultStatusFailed(
-        exam: exam,
-        userAnswersSummary: userAnswersSummary,
-      );
-    }
+    // User did not answer isDanger questions.
+    final bool hasUnansweredDangerQuestions =
+        userAnswersSummary.isDanger < exam.dangerQuestionsCount;
 
-    if (correctAnswersCount < minimalPassingScore) {
+    // User has skill issue.
+    final bool notEnoughScore =
+        userAnswersSummary.correct < exam.minimumPassingScore;
+
+    if (hasWrongDangerAnswers ||
+        hasUnansweredDangerQuestions ||
+        notEnoughScore) {
       return ExamResultStatusFailed(
         exam: exam,
         userAnswersSummary: userAnswersSummary,
@@ -43,6 +45,7 @@ sealed class ExamResultStatus {
   int get correctAnswersCount => userAnswersSummary.correct;
   int get wrongAnswersCount => userAnswersSummary.wrong;
   int get wrongAnswersIsDangerCount => userAnswersSummary.wrongIsDanger;
+  int get isDangerCount => userAnswersSummary.isDanger;
 }
 
 class ExamResultStatusPassed extends ExamResultStatus {
@@ -61,4 +64,5 @@ class ExamResultStatusFailed extends ExamResultStatus {
   });
 
   bool get isDanger => wrongAnswersIsDangerCount > 0;
+  bool get isDangerNotAnswered => isDangerCount < exam.dangerQuestionsCount;
 }

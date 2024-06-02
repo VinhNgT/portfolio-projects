@@ -47,6 +47,8 @@ extension ExamOperations on Exam {
       Duration(minutes: license.examInfo.examDurationInMinutes);
   int get minimumPassingScore => license.examInfo.minimumPassingScore;
   int get questionsCount => questionDbIndexes.length;
+  int get dangerQuestionsCount =>
+      license.examInfo.examStructure.dangerQuestionsCount;
 
   ExamResultStatus get examResult => ExamResultStatus.grade(
         exam: this,
