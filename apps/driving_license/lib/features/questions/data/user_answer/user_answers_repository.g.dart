@@ -23,12 +23,12 @@ final userAnswersRepositoryProvider = Provider<UserAnswersRepository>.internal(
 
 typedef UserAnswersRepositoryRef = ProviderRef<UserAnswersRepository>;
 String _$inMemoryUserAnswersRepositoryHash() =>
-    r'f82b3e65a515405bbd729cf9b5448d7479c9e277';
+    r'315ffc53e0f55f32d1ee3e5bc8a4b446b7eae566';
 
 /// See also [inMemoryUserAnswersRepository].
 @ProviderFor(inMemoryUserAnswersRepository)
 final inMemoryUserAnswersRepositoryProvider =
-    AutoDisposeFutureProvider<UserAnswersRepository>.internal(
+    FutureProvider<UserAnswersRepository>.internal(
   inMemoryUserAnswersRepository,
   name: r'inMemoryUserAnswersRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -39,6 +39,6 @@ final inMemoryUserAnswersRepositoryProvider =
 );
 
 typedef InMemoryUserAnswersRepositoryRef
-    = AutoDisposeFutureProviderRef<UserAnswersRepository>;
+    = FutureProviderRef<UserAnswersRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

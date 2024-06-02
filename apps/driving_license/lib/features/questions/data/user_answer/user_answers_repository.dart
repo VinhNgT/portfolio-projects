@@ -46,7 +46,7 @@ UserAnswersRepository userAnswersRepository(UserAnswersRepositoryRef ref) {
   return SembastUserAnswersRepository(sembastDatabase);
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 FutureOr<UserAnswersRepository> inMemoryUserAnswersRepository(
   InMemoryUserAnswersRepositoryRef ref,
 ) async {

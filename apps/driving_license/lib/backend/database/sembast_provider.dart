@@ -32,7 +32,7 @@ Future<Database> sembast(SembastRef ref) async {
   return dbController.database;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class InMemorySembast extends _$InMemorySembast {
   int _listenerCount = 0;
 

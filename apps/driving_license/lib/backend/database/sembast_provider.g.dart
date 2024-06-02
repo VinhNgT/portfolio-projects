@@ -20,7 +20,7 @@ final sembastProvider = FutureProvider<Database>.internal(
 );
 
 typedef SembastRef = FutureProviderRef<Database>;
-String _$inMemorySembastHash() => r'5226060b3dbef8a683c9f451211378b0f4a3833c';
+String _$inMemorySembastHash() => r'28a933a79eed8451dbca57f896fd7f0c80c4f7c1';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -43,8 +43,7 @@ class _SystemHash {
   }
 }
 
-abstract class _$InMemorySembast
-    extends BuildlessAutoDisposeAsyncNotifier<Database> {
+abstract class _$InMemorySembast extends BuildlessAsyncNotifier<Database> {
   late final String dbName;
 
   FutureOr<Database> build(
@@ -96,7 +95,7 @@ class InMemorySembastFamily extends Family<AsyncValue<Database>> {
 
 /// See also [InMemorySembast].
 class InMemorySembastProvider
-    extends AutoDisposeAsyncNotifierProviderImpl<InMemorySembast, Database> {
+    extends AsyncNotifierProviderImpl<InMemorySembast, Database> {
   /// See also [InMemorySembast].
   InMemorySembastProvider(
     String dbName,
@@ -152,8 +151,7 @@ class InMemorySembastProvider
   }
 
   @override
-  AutoDisposeAsyncNotifierProviderElement<InMemorySembast, Database>
-      createElement() {
+  AsyncNotifierProviderElement<InMemorySembast, Database> createElement() {
     return _InMemorySembastProviderElement(this);
   }
 
@@ -171,13 +169,13 @@ class InMemorySembastProvider
   }
 }
 
-mixin InMemorySembastRef on AutoDisposeAsyncNotifierProviderRef<Database> {
+mixin InMemorySembastRef on AsyncNotifierProviderRef<Database> {
   /// The parameter `dbName` of this provider.
   String get dbName;
 }
 
 class _InMemorySembastProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<InMemorySembast, Database>
+    extends AsyncNotifierProviderElement<InMemorySembast, Database>
     with InMemorySembastRef {
   _InMemorySembastProviderElement(super.provider);
 
