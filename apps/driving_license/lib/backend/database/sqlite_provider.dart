@@ -14,7 +14,7 @@ class SqliteController {
 
   /// This value must match the PRAGMA user_version of the database in the
   /// assets otherwise an Exception will be thrown
-  static const dataBaseUserVersionConst = 4;
+  static const dataBaseUserVersionConst = 5;
 
   @factory
   static Future<SqliteController> makeDefault(String dbName) async {
