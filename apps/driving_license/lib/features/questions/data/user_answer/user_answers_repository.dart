@@ -52,5 +52,7 @@ FutureOr<UserAnswersRepository> inMemoryUserAnswersRepository(
 ) async {
   final sembastDatabase =
       await ref.watch(inMemorySembastProvider('user_answers').future);
+  ref.onDispose(() => ref.invalidate(inMemorySembastProvider('user_answers')));
+
   return SembastUserAnswersRepository(sembastDatabase);
 }
