@@ -6,12 +6,11 @@ part of 'questions_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$questionsServiceHash() => r'81d8d00b72a780f58e991499001cfafacb1a9c47';
+String _$questionsServiceHash() => r'693fdcdca6f7d700cd85c90781dd94cbdbe0ecb3';
 
 /// See also [questionsService].
 @ProviderFor(questionsService)
-final questionsServiceProvider =
-    AutoDisposeFutureProvider<QuestionsService>.internal(
+final questionsServiceProvider = FutureProvider<QuestionsService>.internal(
   questionsService,
   name: r'questionsServiceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,6 +20,6 @@ final questionsServiceProvider =
   allTransitiveDependencies: null,
 );
 
-typedef QuestionsServiceRef = AutoDisposeFutureProviderRef<QuestionsService>;
+typedef QuestionsServiceRef = FutureProviderRef<QuestionsService>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

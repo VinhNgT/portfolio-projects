@@ -6,7 +6,6 @@ import 'package:driving_license/features/licenses/data/providers/user_selected_l
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
 import 'package:driving_license/features/questions/application/question/questions_handler.dart';
-import 'package:driving_license/features/questions/application/question/questions_service_config.dart';
 import 'package:driving_license/features/questions/application/question/questions_service_mode.dart';
 import 'package:driving_license/features/questions/application/user_answer/user_answers_handler.dart';
 import 'package:driving_license/features/questions/data/question/questions_repository.dart';
@@ -131,75 +130,6 @@ class QuestionsService {
 
   final QuestionsHandler questionsHandler;
   final UserAnswersHandler userAnswersHandler;
-
-  static Future<QuestionsService> createService(
-    QuestionsServiceConfig config,
-  ) async {
-    switch (config.operatingMode) {
-      case final FullOperatingMode _:
-        return QuestionsService._full(
-          questionsRepository: config.questionsRepository,
-          userAnswersRepository: config.userAnswersRepository,
-        );
-
-      case ChapterOperatingMode(:final chapter):
-        return QuestionsService._chapter(
-          questionsRepository: config.questionsRepository,
-          userAnswersRepository: config.userAnswersRepository,
-          license: config.license,
-          chapter: chapter,
-        );
-
-      case final DangerOperatingMode _:
-        return QuestionsService._danger(
-          questionsRepository: config.questionsRepository,
-          userAnswersRepository: config.userAnswersRepository,
-          license: config.license,
-        );
-
-      case final DifficultOperatingMode _:
-        final difficultQuestionUserAnswers = await config.userAnswersRepository
-            .getAllAnswers(config.license, filterDifficultAnswers: true);
-
-        return QuestionsService._difficult(
-          questionsRepository: config.questionsRepository,
-          userAnswersRepository: config.userAnswersRepository,
-          inMemoryUserAnswersRepository: config.tempUserAnswersRepository,
-          difficultQuestionUserAnswers: difficultQuestionUserAnswers,
-          license: config.license,
-        );
-
-      case final WrongAnswersOperatingMode _:
-        final wrongUserAnswers = await config.userAnswersRepository
-            .getAllAnswers(config.license, filterWrongAnswers: true);
-
-        return QuestionsService._wrongAnswers(
-          questionsRepository: config.questionsRepository,
-          userAnswersRepository: config.userAnswersRepository,
-          inMemoryUserAnswersRepository: config.tempUserAnswersRepository,
-          wrongUserAnswers: wrongUserAnswers,
-        );
-
-      case final BookmarkOperatingMode _:
-        final bookmarks = await config.bookmarksRepository
-            .getAllBookmarksByLicense(config.license);
-        final bookmarkQuestionDbIndexes =
-            bookmarks.map((e) => e.questionDbIndex).toList();
-
-        return QuestionsService._bookmarked(
-          questionsRepository: config.questionsRepository,
-          userAnswersRepository: config.userAnswersRepository,
-          bookmarkedQuestionDbIndexes: bookmarkQuestionDbIndexes,
-        );
-
-      case ExamOperatingMode(:final exam):
-        return QuestionsService._exam(
-          questionsRepository: config.questionsRepository,
-          inMemoryUserAnswersRepository: config.tempUserAnswersRepository,
-          exam: exam,
-        );
-    }
-  }
 }
 
 extension QuestionsServiceMethods on QuestionsService {
@@ -229,24 +159,79 @@ extension QuestionsServiceMethods on QuestionsService {
       userAnswersHandler.getAnswersByQuestionDbIndexes(dbIndexes);
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 FutureOr<QuestionsService> questionsService(QuestionsServiceRef ref) async {
   final currentMode = ref.watch(currentQuestionsServiceModeProvider);
   final license = await ref.watch(userSelectedLicenseProvider.future);
   final questionsRepository = ref.watch(questionsRepositoryProvider);
   final bookmarksRepository = ref.watch(bookmarksRepositoryProvider);
   final userAnswersRepository = ref.watch(userAnswersRepositoryProvider);
-  final inMemoryUserAnswersRepository =
-      await ref.watch(inMemoryUserAnswersRepositoryProvider.future);
 
-  final config = QuestionsServiceConfig(
-    operatingMode: currentMode,
-    license: license,
-    questionsRepository: questionsRepository,
-    bookmarksRepository: bookmarksRepository,
-    userAnswersRepository: userAnswersRepository,
-    tempUserAnswersRepository: inMemoryUserAnswersRepository,
-  );
+  switch (currentMode) {
+    case FullOperatingMode():
+      return QuestionsService._full(
+        questionsRepository: questionsRepository,
+        userAnswersRepository: userAnswersRepository,
+      );
 
-  return QuestionsService.createService(config);
+    case ChapterOperatingMode(:final chapter):
+      return QuestionsService._chapter(
+        questionsRepository: questionsRepository,
+        userAnswersRepository: userAnswersRepository,
+        license: license,
+        chapter: chapter,
+      );
+
+    case DangerOperatingMode():
+      return QuestionsService._danger(
+        questionsRepository: questionsRepository,
+        userAnswersRepository: userAnswersRepository,
+        license: license,
+      );
+
+    case DifficultOperatingMode():
+      final difficultQuestionUserAnswers = await userAnswersRepository
+          .getAllAnswers(license, filterDifficultAnswers: true);
+
+      return QuestionsService._difficult(
+        questionsRepository: questionsRepository,
+        userAnswersRepository: userAnswersRepository,
+        inMemoryUserAnswersRepository:
+            await ref.refresh(inMemoryUserAnswersRepositoryProvider.future),
+        difficultQuestionUserAnswers: difficultQuestionUserAnswers,
+        license: license,
+      );
+
+    case WrongAnswersOperatingMode():
+      final wrongUserAnswers = await userAnswersRepository
+          .getAllAnswers(license, filterWrongAnswers: true);
+
+      return QuestionsService._wrongAnswers(
+        questionsRepository: questionsRepository,
+        userAnswersRepository: userAnswersRepository,
+        inMemoryUserAnswersRepository:
+            await ref.refresh(inMemoryUserAnswersRepositoryProvider.future),
+        wrongUserAnswers: wrongUserAnswers,
+      );
+
+    case BookmarkOperatingMode():
+      final bookmarks =
+          await bookmarksRepository.getAllBookmarksByLicense(license);
+      final bookmarkQuestionDbIndexes =
+          bookmarks.map((e) => e.questionDbIndex).toList();
+
+      return QuestionsService._bookmarked(
+        questionsRepository: questionsRepository,
+        userAnswersRepository: userAnswersRepository,
+        bookmarkedQuestionDbIndexes: bookmarkQuestionDbIndexes,
+      );
+
+    case ExamOperatingMode(:final exam):
+      return QuestionsService._exam(
+        questionsRepository: questionsRepository,
+        inMemoryUserAnswersRepository:
+            await ref.refresh(inMemoryUserAnswersRepositoryProvider.future),
+        exam: exam,
+      );
+  }
 }
