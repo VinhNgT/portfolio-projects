@@ -1,4 +1,5 @@
 import 'package:driving_license/backend/ads/ad_unit.dart';
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 
@@ -18,14 +19,14 @@ mixin AdStatusLogger {
         );
 
       case AsyncValue(isLoading: true):
-        logger.i('Loading $adUnit ad');
+        debugPrint('Loading $adUnit ad');
 
       case AsyncValue(:final value):
         if (previous?.value == value) {
-          logger.i('$adUnit ad updated');
+          debugPrint('$adUnit ad updated');
           return;
         }
-        logger.i('$adUnit ad loaded');
+        debugPrint('$adUnit ad loaded');
     }
   }
 }
