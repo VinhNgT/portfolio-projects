@@ -14,6 +14,7 @@ class CurrentQuestionsServiceMode extends _$CurrentQuestionsServiceMode {
 
   set mode(QuestionsServiceMode mode) {
     state = mode;
+    ref.notifyListeners();
   }
 }
 

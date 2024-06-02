@@ -568,7 +568,7 @@ class _UserSelectedAnswerIndexProviderElement
 }
 
 String _$currentQuestionsServiceModeHash() =>
-    r'eaca0984d4a9cb8dad6fd6857db4eb395752a498';
+    r'09796b481abf2edddf167d12c987c52369ff00df';
 
 /// A provider that controls the current mode of the questions service.
 ///
