@@ -42,9 +42,9 @@ class InMemorySembast extends _$InMemorySembast {
     final db = await dbFactory.openDatabase(dbName);
     final logger = ref.watch(loggerProvider);
 
-    debugPrint('Open in-memory database: $dbName');
+    debugPrint('Create in-memory database: $dbName');
     ref.onDispose(() {
-      debugPrint('Close in-memory database: $dbName');
+      debugPrint('Dispose in-memory database: $dbName');
       db.close();
     });
 
