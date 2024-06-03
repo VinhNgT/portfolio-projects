@@ -20,6 +20,7 @@ jobs:
       package_name: ${{ steps.get_tag_info.outputs.PACKAGE_NAME }}
       version: ${{ steps.get_tag_info.outputs.VERSION }}
       is_app: ${{ steps.check_is_app.outputs.IS_APP }}
+      android_fastlane_exist: ${{ steps.check_android_fastlane.outputs.ANDROID_FASTLANE_EXIST }}
 
     steps:
       - name: Get package name and version from tag
@@ -53,6 +54,13 @@ jobs:
             if [ -d "apps/$PACKAGE_NAME" ]; then echo true; else echo false; fi
           )" >> $GITHUB_OUTPUT
 
+      - name: Check if android fastlane folder exists
+        id: check_android_fastlane
+        run: |
+          echo "ANDROID_FASTLANE_EXIST=$(
+            if [ -d "apps/$PACKAGE_NAME/android/fastlane" ]; then echo true; else echo false; fi
+          )" >> $GITHUB_OUTPUT
+
   build-android:
     needs: get-variables
     if: ${{ needs.get-variables.outputs.is_app == 'true' }}
@@ -68,6 +76,7 @@ jobs:
       should-setup-android-sdk: ${{ vars.SHOULD_SETUP_ANDROID_SDK == 'true' }} # Cast from string to boolean
 
   deploy-playstore:
+    if: ${{ needs.get-variables.outputs.android_fastlane_exist == 'true' }}
     needs:
       - get-variables
       - build-android
