@@ -36,8 +36,8 @@ def setup_global_var(package_name: str, build_mode: BuildMode):
     build_number = get_build_number(PROJECT_ROOT)
     BUILD_COMMAND = (
         f"flutter build {build_mode.value} --flavor prod --obfuscate "
-        "--split-debug-info=ci/build_obfuscation "
-        "--extra-gen-snapshot-options=--save-obfuscation-map=ci/build_obfuscation/app.obfuscation.map.json "
+        "--split-debug-info=build_result/build_obfuscation "
+        "--extra-gen-snapshot-options=--save-obfuscation-map=build_result/build_obfuscation/app.obfuscation.map.json "
         f"--build-number={build_number}"
     )
 

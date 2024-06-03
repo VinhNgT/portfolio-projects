@@ -152,7 +152,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ inputs.package-name }}-v${{ inputs.version }}-obfuscation
-          path: apps/${{ inputs.package-name }}/ci/build_obfuscation/obfuscation.zip
+          path: apps/${{ inputs.package-name }}/build_result/build_obfuscation/obfuscation.zip
 
       - name: Upload build info
         uses: actions/upload-artifact@v3

@@ -64,7 +64,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ inputs.package-name }}-v${{ inputs.version }}-obfuscation
-          path: apps/${{ inputs.package-name }}/ci/build_obfuscation
+          path: apps/${{ inputs.package-name }}/build_result/build_obfuscation
 
       - name: Create release
         uses: softprops/action-gh-release@v2
@@ -74,7 +74,7 @@ jobs:
             apps/${{ inputs.package-name }}/build/app/outputs/bundle/prodRelease/app-prod-release.aab
             apps/${{ inputs.package-name }}/build/app/intermediates/merged_native_libs/prodRelease/out/lib/native-debug-symbols.zip
             apps/${{ inputs.package-name }}/build/app/outputs/mapping/prodRelease/mapping.txt
-            apps/${{ inputs.package-name }}/ci/build_obfuscation/obfuscation.zip
+            apps/${{ inputs.package-name }}/build_result/build_obfuscation/obfuscation.zip
 
           fail_on_unmatched_files: true
           body_path: ${{ steps.get_changelog_file_path.outputs.CHANGELOG_FILE }}
