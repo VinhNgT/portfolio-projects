@@ -24,8 +24,8 @@ scripts:
 
   secrets-crypt:
     # How to run:
-    # melos run app-secrets-crypt -- -p driving_license -e
-    # melos run app-secrets-crypt -- -p driving_license -d <password>
+    # melos run secrets-crypt -- -p driving_license -e
+    # melos run secrets-crypt -- -p driving_license -d <password>
     description: Encrypt or decrypt the secrets of a Flutter app
     run: python scripts/ci/secrets_crypt.py
 
