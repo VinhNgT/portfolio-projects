@@ -51,7 +51,9 @@ def setup_global_var(package_name: str, build_mode: BuildMode):
         "out",
         "lib",
     )
-    BUILD_OBFUSCATION_DIR = os.path.join(PROJECT_ROOT, "ci", "build_obfuscation")
+    BUILD_OBFUSCATION_DIR = os.path.join(
+        PROJECT_ROOT, "build_result", "build_obfuscation"
+    )
 
     DEBUG_SYMBOLS_ZIP_NAME = "native-debug-symbols.zip"
     BUILD_OBFUSCATION_ZIP_NAME = "obfuscation.zip"
