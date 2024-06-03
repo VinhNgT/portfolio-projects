@@ -74,28 +74,37 @@ def decrypt_files(password: str, decrypt_to_zip: bool = False) -> StatusCode:
 
 
 def pack_targets() -> BytesIO:
-    # Create an in memory zip file containing all of the targets
-    im_memory_zip = BytesIO()
+    # A list of target files to be encrypted
+    target_files = []
 
-    with ZipFile(im_memory_zip, "w", ZIP_DEFLATED) as zipf:
-        for target in TARGETS:
-            if os.path.isdir(target):
-                for root, dirs, files in os.walk(target):
-                    for file in files:
-                        zipf.write(
-                            os.path.join(root, file),
-                            os.path.relpath(os.path.join(root, file), PROJECT_ROOT),
-                        )
-            else:
-                zipf.write(
-                    target,
-                    os.path.relpath(target, PROJECT_ROOT),
-                )
+    for target in TARGETS:
+        if not os.path.exists(target):
+            print(f"Target not found: {target}")
+            continue
+
+        if os.path.isdir(target):
+            for root, dirs, files in os.walk(target):
+                for file in files:
+                    target_files.append(os.path.join(root, file))
+
+        else:
+            target_files.append(target)
+
+    if not target_files:
+        print("No files to encrypt. Exiting...")
+        exit(0)
+
+    # Create an in memory zip file containing all of the targets
+    in_memory_zip = BytesIO()
+
+    with ZipFile(in_memory_zip, "w", ZIP_DEFLATED) as zipf:
+        for file in target_files:
+            zipf.write(file, os.path.relpath(file, PROJECT_ROOT))
 
     # Reset the file pointer to the beginning of the data
-    im_memory_zip.seek(0)
+    in_memory_zip.seek(0)
 
-    return im_memory_zip
+    return in_memory_zip
 
 
 def unpack_targets(file: BytesIO):
@@ -110,7 +119,7 @@ def main(mode: Mode, password: str):
         print(f"Secrets encrypted successfully. Encrypted file in: {SECRETS_GPG}")
 
     elif mode == Mode.DECRYPT:
-        statusCode = decrypt_files(password)
+        statusCode = decrypt_files(password, decrypt_to_zip=False)
         if statusCode == StatusCode.FAILURE:
             print("Failed to decrypt secrets.gpg. Please check your password.")
             exit(1)
