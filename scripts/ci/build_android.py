@@ -7,7 +7,7 @@ from ruamel.yaml import YAML
 import argparse
 
 sys.path.append(os.getcwd())
-from ci.local.common import build_yaml
+from scripts.common import build_yaml
 
 
 class BuildMode(Enum):

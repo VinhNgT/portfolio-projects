@@ -75,7 +75,7 @@ jobs:
           path: apps/${{ inputs.package-name }}/build/app/outputs/mapping/prodRelease
 
       - name: Extract secrets
-        run: python ci/local/secrets_crypt.py -p ${{ inputs.package-name }} -d $SECRETS_KEY
+        run: python scripts/ci/secrets_crypt.py -p ${{ inputs.package-name }} -d $SECRETS_KEY
 
       - name: Upload to Play Store
         working-directory: apps/${{ inputs.package-name }}/android

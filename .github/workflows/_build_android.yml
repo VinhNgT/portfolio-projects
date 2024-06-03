@@ -116,13 +116,13 @@ jobs:
           cmdline-tools-version: ${{ inputs.android-cmd-version }}
 
       - name: Extract secrets
-        run: python ci/local/secrets_crypt.py -p ${{ inputs.package-name }} -d $SECRETS_KEY
+        run: python scripts/ci/secrets_crypt.py -p ${{ inputs.package-name }} -d $SECRETS_KEY
 
       - name: Build APK
-        run: python ci/local/build_android.py -p ${{ inputs.package-name }} --apk
+        run: python scripts/ci/build_android.py -p ${{ inputs.package-name }} --apk
 
       - name: Build app bundle
-        run: python ci/local/build_android.py -p ${{ inputs.package-name }} --appbundle
+        run: python scripts/ci/build_android.py -p ${{ inputs.package-name }} --appbundle
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v3

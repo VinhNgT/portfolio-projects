@@ -19,7 +19,7 @@ scripts:
       flutter: true
 
     steps:
-      - python ci/global/upd_apps_build_num.py
+      - python scripts/melos/upd_apps_build_num.py
       - git add *build_info.yaml *pubspec.yaml
 
   secrets-crypt:
@@ -27,21 +27,21 @@ scripts:
     # melos run app-secrets-crypt -- -p driving_license -e
     # melos run app-secrets-crypt -- -p driving_license -d <password>
     description: Encrypt or decrypt the secrets of a Flutter app
-    run: python ci/local/secrets_crypt.py
+    run: python scripts/ci/secrets_crypt.py
 
   build-android-release:
     # How to run:
     # melos run build-android-release -- -p driving_license --appbundle
     # melos run build-android-release -- -p driving_license --apk
     description: Build the release version of a Flutter app
-    run: python ci/local/build_android.py
+    run: python scripts/ci/build_android.py
 
   deploy-playstore:
     # How to run:
     # melos run deploy-playstore -- -p driving_license
     # melos run deploy-playstore -- -p driving_license --dryrun
     description: Deploy the release version of a Flutter app to the Play Store
-    run: python ci/local/deploy_playstore.py
+    run: python scripts/ci/deploy_playstore.py
 
   act:
     description: Test GitHub Actions workflows with act
