@@ -15,6 +15,14 @@ dart pub global activate rename
 - Create `.vscode` folder and symlink files in `common/.vscode_flutter` to this `.vscode`.
 - Update `analysis_options.yaml` and `build.yaml`, you can copy them from other stable projects.
 - In the `.githooks/add_package_name.py` file, assign a short name of this app to the `PACKAGE_NAME_SHORT` variable.
+- Setup `pubspec.yaml`.
+- Run rename to set app name and bundle id (remember to use `_` for android and `-` for ios):
+
+  ```powershell
+  rename setAppName --value "YourAppName"
+  rename setBundleId --targets android --value "com.example.bundle_Id"
+  rename setBundleId --targets ios --value "com.example.bundle-Id"
+  ```
 
 ## Make app compatible with CI/CD
 
