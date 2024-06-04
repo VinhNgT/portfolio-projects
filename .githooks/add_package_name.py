@@ -5,6 +5,7 @@ import re
 
 PACKAGE_NAME_SHORT = {
     "driving_license": "drv_lcn",
+    "e_commerce": "e_com",
 }
 
 
