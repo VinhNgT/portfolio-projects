@@ -38,6 +38,8 @@ abstract interface class UserAnswersRepository {
   FutureOr<UserAnswersMap> getAnswersByQuestionDbIndexes(
     Iterable<int> dbIndexes,
   );
+
+  Stream<int> watchUserAnswersCount(License license);
 }
 
 @Riverpod(keepAlive: true)

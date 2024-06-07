@@ -189,6 +189,15 @@ class SembastUserAnswersRepository
       ),
     );
   }
+
+  @override
+  Stream<int> watchUserAnswersCount(License license) {
+    return _Counter(
+      db: db,
+      store: allAnswersStore,
+      license: license,
+    ).count();
+  }
 }
 
 mixin _FilterMixin {
@@ -231,6 +240,7 @@ mixin _FilterMixin {
   }
 }
 
+/// A helper class to count the number of records in an user answers store.
 class _Counter with _FilterMixin {
   _Counter({
     required this.db,
@@ -244,7 +254,7 @@ class _Counter with _FilterMixin {
   final License license;
   final Chapter? chapter;
 
-  Stream<int> count(List<Filter> filters) {
+  Stream<int> count([List<Filter> filters = const []]) {
     return store
         .query(
           finder: Finder(
