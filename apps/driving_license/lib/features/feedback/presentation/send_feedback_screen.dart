@@ -9,6 +9,7 @@ import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/feedback/domain/feedback_form.dart';
 import 'package:driving_license/features/feedback/presentation/send_feedback_controller.dart';
 import 'package:driving_license/features/home/presentation/debug_menu_controller.dart';
+import 'package:driving_license/features/home/presentation/review_cta_card_controller.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:driving_license/utils/extensions/async_snapshot_ext.dart';
 import 'package:flutter/material.dart';
@@ -210,6 +211,12 @@ class DebugButtons extends HookConsumerWidget {
           child: const Text('Clear all purchases'),
           onPressed: () {
             ref.read(purchasesRepositoryProvider).clearAllPurchases();
+          },
+        ),
+        TextButton(
+          child: const Text('Show review cta card'),
+          onPressed: () {
+            ref.read(reviewCtaCardControllerFutureProvider).showReviewCtaCard();
           },
         ),
       ],

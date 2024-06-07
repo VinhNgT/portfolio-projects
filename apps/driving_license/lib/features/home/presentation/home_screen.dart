@@ -20,6 +20,7 @@ import 'package:driving_license/features/home/presentation/dialogs/clear_chapter
 import 'package:driving_license/features/home/presentation/dialogs/no_wrong_answers_dialog.dart';
 import 'package:driving_license/features/home/presentation/donate_card.dart';
 import 'package:driving_license/features/home/presentation/feature_card.dart';
+import 'package:driving_license/features/home/presentation/review_cta_card.dart';
 import 'package:driving_license/features/licenses/data/providers/user_selected_license_provider.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/features/questions/application/question/providers/questions_providers.dart';
@@ -97,6 +98,15 @@ class HomeScreen extends HookConsumerWidget {
                         DonateCard(isUserDonated: isUserDonatedValue),
                         kGap_20,
                         const FeatureSelection(),
+                        AsyncAnimatedReviewCtaCard(
+                          builder: (card) => Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              kGap_32,
+                              card,
+                            ],
+                          ),
+                        ),
                         kGap_32,
                         const ChapterSelection(),
                         if (!isUserDonatedValue)
