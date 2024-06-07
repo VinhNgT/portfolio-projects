@@ -20,9 +20,16 @@ UserAnswersSummary _$UserAnswersSummaryFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserAnswersSummary {
+  /// Number of correct answers in an UserAnswers list.
   int get correct => throw _privateConstructorUsedError;
+
+  /// Number of wrong answers in an UserAnswers list.
   int get wrong => throw _privateConstructorUsedError;
+
+  /// Number of isDanger questions in an UserAnswers list.
   int get isDanger => throw _privateConstructorUsedError;
+
+  /// Number of wrong answers in isDanger questions in an UserAnswers list.
   int get wrongIsDanger => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -140,12 +147,19 @@ class _$UserAnswersSummaryImpl extends _UserAnswersSummary {
   factory _$UserAnswersSummaryImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserAnswersSummaryImplFromJson(json);
 
+  /// Number of correct answers in an UserAnswers list.
   @override
   final int correct;
+
+  /// Number of wrong answers in an UserAnswers list.
   @override
   final int wrong;
+
+  /// Number of isDanger questions in an UserAnswers list.
   @override
   final int isDanger;
+
+  /// Number of wrong answers in isDanger questions in an UserAnswers list.
   @override
   final int wrongIsDanger;
 
@@ -199,12 +213,20 @@ abstract class _UserAnswersSummary extends UserAnswersSummary {
       _$UserAnswersSummaryImpl.fromJson;
 
   @override
+
+  /// Number of correct answers in an UserAnswers list.
   int get correct;
   @override
+
+  /// Number of wrong answers in an UserAnswers list.
   int get wrong;
   @override
+
+  /// Number of isDanger questions in an UserAnswers list.
   int get isDanger;
   @override
+
+  /// Number of wrong answers in isDanger questions in an UserAnswers list.
   int get wrongIsDanger;
   @override
   @JsonKey(ignore: true)
