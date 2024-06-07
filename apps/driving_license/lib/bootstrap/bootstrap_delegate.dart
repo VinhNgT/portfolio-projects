@@ -3,6 +3,7 @@ import 'package:driving_license/backend/database/sembast_provider.dart';
 import 'package:driving_license/backend/database/sqlite_provider.dart';
 import 'package:driving_license/backend/in_app_purchase/iap_service.dart';
 import 'package:driving_license/backend/remote_config/firebase_remote_config.dart';
+import 'package:driving_license/backend/shared_preferences/share_preferences_provider.dart';
 import 'package:driving_license/firebase_options.dart';
 import 'package:driving_license/logging/error_logger.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -30,6 +31,9 @@ class ProductionBootstrapDelegate extends BootstrapDelegate {
 
     // Initialize AdMob
     container.read(adMobProvider);
+
+    // Initialize shared preferences
+    await container.read(sharedPreferencesProvider.future);
 
     // Initialize the SQLite database
     await container.read(sqliteProvider.future);
