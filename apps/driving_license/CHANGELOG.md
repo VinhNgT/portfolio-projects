@@ -1,3 +1,10 @@
+## 1.1.0
+
+ - **FEAT**(drv_lcn): ask user to review app after they's answered 100 questions.
+ - **FEAT**(drv_lcn): add method watchUserAnswersCount to UserAnswersRepository.
+ - **FEAT**(drv_lcn): load sharedPreferencesProvider on app start.
+ - **DOCS**(drv_lcn): add document for UserAnswersSummary.
+
 ## 1.0.0
 
  - **REFACTOR**(drv_lcn): move debug menu to feedback screen.

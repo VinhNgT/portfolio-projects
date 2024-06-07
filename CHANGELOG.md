@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-06-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v1.1.0`](#driving_license---v110)
+
+---
+
+#### `driving_license` - `v1.1.0`
+
+ - **FEAT**(drv_lcn): ask user to review app after they's answered 100 questions.
+ - **FEAT**(drv_lcn): add method watchUserAnswersCount to UserAnswersRepository.
+ - **FEAT**(drv_lcn): load sharedPreferencesProvider on app start.
+ - **DOCS**(drv_lcn): add document for UserAnswersSummary.
+
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## 2024-06-02
 
 ### Changes
