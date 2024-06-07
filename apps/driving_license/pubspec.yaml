@@ -86,8 +86,9 @@ dependencies:
   # Ads
   google_mobile_ads: ^5.1.0
 
-  # Payment
+  # Play Store
   in_app_purchase: ^3.2.0
+  in_app_review: ^2.0.9
 
 dev_dependencies:
   flutter_test:
