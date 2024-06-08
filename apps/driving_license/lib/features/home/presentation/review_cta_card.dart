@@ -99,18 +99,20 @@ class AnimatedReviewCtaCard extends HookConsumerWidget {
     required this.isShow,
     required this.builder,
     this.onDismissPressed,
+    this.animationDuration,
   });
 
   final bool isShow;
   final Widget Function(Widget card) builder;
   final VoidCallback? onDismissPressed;
+  final Duration? animationDuration;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AnimatedCrossFade(
       crossFadeState:
           isShow ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-      duration: Durations.short3,
+      duration: animationDuration ?? Durations.short4,
       sizeCurve: Curves.easeOutCubic,
       firstCurve: Curves.easeOutCubic,
       secondCurve: Curves.easeOutCubic,
@@ -125,8 +127,11 @@ class AsyncAnimatedReviewCtaCard extends HookConsumerWidget {
   const AsyncAnimatedReviewCtaCard({
     super.key,
     required this.builder,
+    this.animationDuration,
   });
+
   final Widget Function(Widget card) builder;
+  final Duration? animationDuration;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -136,6 +141,7 @@ class AsyncAnimatedReviewCtaCard extends HookConsumerWidget {
       AsyncValue(value: final showCard) when showCard != null =>
         AnimatedReviewCtaCard(
           isShow: showCard,
+          animationDuration: animationDuration,
           onDismissPressed: () {
             ref.read(reviewCtaCardControllerFutureProvider).hideReviewCtaCard();
           },
