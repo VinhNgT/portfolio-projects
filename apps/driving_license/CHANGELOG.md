@@ -1,3 +1,8 @@
+## 1.1.1
+
+ - **FIX**(drv_lcn): add animation curve for AnimatedReviewCtaCard.
+ - **FIX**(drv_lcn): fix AsyncAnimatedReviewCtaCard builder doesn't work.
+
 ## 1.1.0
 
  - **FEAT**(drv_lcn): ask user to review app after they's answered 100 questions.
