@@ -109,11 +109,14 @@ class AnimatedReviewCtaCard extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return AnimatedCrossFade(
       crossFadeState:
-          isShow ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+          isShow ? CrossFadeState.showFirst : CrossFadeState.showSecond,
       duration: Durations.short3,
+      sizeCurve: Curves.easeOutCubic,
+      firstCurve: Curves.easeOutCubic,
+      secondCurve: Curves.easeOutCubic,
       alignment: Alignment.topCenter,
-      firstChild: Container(width: double.infinity),
-      secondChild: builder(ReviewCtaCard(onDismissPressed: onDismissPressed)),
+      firstChild: builder(ReviewCtaCard(onDismissPressed: onDismissPressed)),
+      secondChild: Container(width: double.infinity),
     );
   }
 }
