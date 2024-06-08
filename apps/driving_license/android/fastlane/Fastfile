@@ -39,27 +39,8 @@ platform :android do
         validate_only: !publish,
         track: 'internal',
         # release_status: 'draft',
-        # skip_upload_images: true,
-        # skip_upload_screenshots: true,
-        aab: '../build/app/outputs/bundle/prodRelease/app-prod-release.aab',
-        mapping_paths: [
-          '../build/app/intermediates/merged_native_libs/prodRelease/out/lib/native-debug-symbols.zip',
-          '../build/app/outputs/mapping/prodRelease/mapping.txt'
-        ],
-    )
-  end
-
-  desc "Submit current bundle to the Release Candidate track in the Google Play"
-  lane :deploy_release_candidate do |options|
-    publish = get_publish_par(options)
-
-    # Deploy the current bundle to the RC track in the Google Play.
-    upload_to_play_store(
-        validate_only: !publish,
-        track: 'Release Candidate',
-        # release_status: 'draft',
-        # skip_upload_images: true,
-        # skip_upload_screenshots: true,
+        # skip_upload_metadata: true,
+        sync_image_upload: true,
         aab: '../build/app/outputs/bundle/prodRelease/app-prod-release.aab',
         mapping_paths: [
           '../build/app/intermediates/merged_native_libs/prodRelease/out/lib/native-debug-symbols.zip',
