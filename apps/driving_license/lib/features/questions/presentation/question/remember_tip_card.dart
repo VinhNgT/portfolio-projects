@@ -8,7 +8,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class RememberTipCard extends HookConsumerWidget {
-
   const RememberTipCard({super.key, required this.content});
   final String content;
 
@@ -20,6 +19,7 @@ class RememberTipCard extends HookConsumerWidget {
       surfaceColor: context.materialScheme.secondaryContainer,
       onSurfaceColor: context.materialScheme.onSecondaryContainer,
       child: AnimatedCrossFade(
+        //todo: set curve and change duration
         duration: Durations.short2,
         firstChild: const _CollapsedContent(),
         secondChild: _ExpandedContent(content: content),
@@ -71,7 +71,6 @@ class _CollapsedContent extends StatelessWidget {
 }
 
 class _ExpandedContent extends StatelessWidget {
-
   const _ExpandedContent({required this.content});
   final String content;
 
