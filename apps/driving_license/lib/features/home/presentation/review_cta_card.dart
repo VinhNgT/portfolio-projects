@@ -136,13 +136,7 @@ class AsyncAnimatedReviewCtaCard extends HookConsumerWidget {
           onDismissPressed: () {
             ref.read(reviewCtaCardControllerFutureProvider).hideReviewCtaCard();
           },
-          builder: (card) => Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              kGap_32,
-              card,
-            ],
-          ),
+          builder: builder,
         ),
       _ => const SizedBox.shrink(),
     };
