@@ -1,3 +1,7 @@
+## 1.1.2
+
+ - **REFACTOR**(drv_lcn): make AnimatedReviewCtaCard duration configurable.
+
 ## 1.1.1
 
  - **FIX**(drv_lcn): add animation curve for AnimatedReviewCtaCard.

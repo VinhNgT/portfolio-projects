@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`driving_license` - `v1.1.2`](#driving_license---v112)
+
+---
+
+#### `driving_license` - `v1.1.2`
+
+ - **REFACTOR**(drv_lcn): make AnimatedReviewCtaCard duration configurable.
+
+
+## 2024-06-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`driving_license` - `v1.1.1`](#driving_license---v111)
 
 ---
