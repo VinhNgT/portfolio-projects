@@ -14,10 +14,9 @@ command:
 # .venv\Scripts\activate
 scripts:
   update-apps-build-number:
-    description: Increase the build number of all Flutter packages that is updated
+    description: Increase the build number of all Flutter packages that is updated.
     packageFilters:
       flutter: true
-
     steps:
       - python scripts/melos/upd_apps_build_num.py
       - git add *build_info.yaml *pubspec.yaml
@@ -26,21 +25,21 @@ scripts:
     # How to run:
     # melos run secrets-crypt -- -p driving_license -e
     # melos run secrets-crypt -- -p driving_license -d <password>
-    description: Encrypt or decrypt the secrets of a Flutter app
+    description: Encrypt or decrypt the secrets of a Flutter app.
     run: python scripts/ci/secrets_crypt.py
 
   build-android-release:
     # How to run:
     # melos run build-android-release -- -p driving_license --appbundle
     # melos run build-android-release -- -p driving_license --apk
-    description: Build the release version of a Flutter app
+    description: Build the release version of a Flutter app.
     run: python scripts/ci/build_android.py
 
   deploy-playstore:
     # How to run:
     # melos run deploy-playstore -- -p driving_license
     # melos run deploy-playstore -- -p driving_license --dryrun
-    description: Deploy the release version of a Flutter app to the Play Store
+    description: Deploy the release version of a Flutter app to the Play Store.
     run: python scripts/ci/deploy_playstore.py
 
   fix-build-results-symlinks:
@@ -50,7 +49,7 @@ scripts:
     run: python scripts/melos/fix_build_results_symlinks.py
 
   act:
-    description: Test GitHub Actions workflows with act
+    description: Test GitHub Actions workflows with act.
     # https://nektosact.com/
     run: |
       act -e act.dir/act.event.json --secret-file act.dir/act.secrets \
