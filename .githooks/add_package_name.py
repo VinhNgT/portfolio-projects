@@ -77,8 +77,6 @@ def remove_existing_package_name(commit_message: str) -> str:
 
 
 def main():
-    print("Adding package name to commit message...")
-
     # Get the commit message
     with open(COMMIT_MSG_FILE, "r") as file:
         commit_message = file.read()
@@ -123,6 +121,7 @@ def main():
 
     # Add the package name to the commit message
     if len(package_names) != 0:
+        print("Adding package name to commit message...")
         commit_message = add_package_name(commit_message, list(package_names))
 
     # Write the new commit message
