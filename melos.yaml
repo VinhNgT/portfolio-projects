@@ -43,6 +43,12 @@ scripts:
     description: Deploy the release version of a Flutter app to the Play Store
     run: python scripts/ci/deploy_playstore.py
 
+  fix-build-results-symlinks:
+    # How to run:
+    # melos run fix-build-results-symlinks -- -p driving_license
+    description: Fix the symlinks of the build results folder in an app package.
+    run: python scripts/melos/fix_build_results_symlinks.py
+
   act:
     description: Test GitHub Actions workflows with act
     # https://nektosact.com/
