@@ -1,15 +1,14 @@
 targets:
   $default:
     builders:
-      freezed:
+      json_serializable:
+        options:
+          explicit_to_json: true
         generate_for:
           include:
             - 'lib/**/domain/**.dart'
 
-      json_serializable:
-        options:
-          explicit_to_json: true
-
+      freezed:
         generate_for:
           include:
             - 'lib/**/domain/**.dart'
@@ -19,7 +18,7 @@ targets:
           include:
             - 'lib/backend/**.dart'
             - 'lib/exceptions/**.dart'
-            - 'lib/routing/**.dart'
+            - 'lib/router/**.dart'
             - 'lib/logging/**.dart'
             - 'lib/**/**_repository.dart'
             - 'lib/**/**_service.dart'
@@ -30,5 +29,5 @@ targets:
       auto_route_generator:
         generate_for:
           include:
-            - '**_screen.dart'
             - 'lib/routing/**.dart'
+            - '**_screen.dart'
