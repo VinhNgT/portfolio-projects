@@ -1,6 +1,7 @@
 import 'package:driving_license/backend/in_app_purchase/domain/iap_product.dart';
 import 'package:driving_license/backend/in_app_purchase/domain/iap_product_purchase.dart';
 import 'package:driving_license/common_widgets/button_card.dart';
+import 'package:driving_license/common_widgets/hooks/use_future_callback.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/donate/domain/donate_product_entry.dart';
@@ -19,8 +20,9 @@ class BanknoteCard extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.watch(banknoteCardControllerProvider);
 
-    final pendingFuture = useState<Future<IapProductPurchaseState>?>(null);
-    final snapshot = useFuture(pendingFuture.value);
+    final pendingFutureFunction =
+        useState<Future<IapProductPurchaseState> Function()?>(null);
+    final snapshot = useFutureCallback(pendingFutureFunction.value);
 
     useValueChanged<SnapshotState, void>(snapshot.state,
         (previousState, oldResult) {
@@ -83,7 +85,7 @@ class BanknoteCard extends HookConsumerWidget {
           return;
         }
 
-        pendingFuture.value = controller.buyProduct(product);
+        pendingFutureFunction.value = () => controller.buyProduct(product);
       },
     );
   }
