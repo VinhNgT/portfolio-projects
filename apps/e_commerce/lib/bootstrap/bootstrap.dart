@@ -5,6 +5,8 @@ import 'package:e_commerce/bootstrap/bootstrap_delegate.dart';
 import 'package:e_commerce/constants/app_flavors.dart';
 import 'package:e_commerce/exceptions/app_error_widget.dart';
 import 'package:e_commerce/logging/async_error_logger.dart';
+import 'package:e_commerce/logging/error_logger.dart';
+import 'package:e_commerce/logging/logger_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -25,23 +27,22 @@ class Bootstrap {
   }
 
   void setupErrorHandlers(ProviderContainer container) {
-    final errorLogger = delegate.getErrorLogger(container);
+    final appErrorLogger = ErrorLogger(container.read(loggerProvider));
 
-    // Log all asynchronous errors
+    // Log all Riverpod asynchronous errors
     container.observers.addAll([
-      AsyncErrorLogger(errorLogger),
-      // ProviderDebugObserver(),
+      AsyncErrorLogger(appErrorLogger),
     ]);
 
     // Show some error UI if any uncaught exception happens
     FlutterError.onError = (FlutterErrorDetails details) {
       FlutterError.presentError(details);
-      errorLogger.logError(details.exception, details.stack);
+      appErrorLogger.log(details.exception, details.stack);
     };
 
     // Handle errors from the underlying platform/OS
     PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
-      errorLogger.logError(error, stack);
+      appErrorLogger.log(error, stack);
       return true;
     };
 

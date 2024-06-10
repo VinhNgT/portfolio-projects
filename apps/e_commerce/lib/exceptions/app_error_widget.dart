@@ -8,7 +8,6 @@ import 'package:vector_graphics/vector_graphics.dart';
 
 /// Error widget that show when an app level error occurs.
 class AppErrorWidget extends HookConsumerWidget {
-  /// Create an app level error widget.
   const AppErrorWidget({super.key, this.errorMessage});
 
   final String? errorMessage;
@@ -53,7 +52,6 @@ class AppErrorWidget extends HookConsumerWidget {
 
 /// Error widget that show when a widget level error occurs.
 class WidgetErrorWidget extends HookConsumerWidget {
-  /// Create a widget level error widget.
   const WidgetErrorWidget({super.key, this.errorMessage});
 
   final String? errorMessage;

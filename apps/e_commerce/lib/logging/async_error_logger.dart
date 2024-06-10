@@ -1,9 +1,12 @@
-import 'package:e_commerce/exceptions/app_exceptions.dart';
+import 'package:e_commerce/bootstrap/bootstrap.dart';
 import 'package:e_commerce/logging/error_logger.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-/// Error logger class to keep track of all AsyncError states that are set
-/// by the controllers in the app
+/// Riverpod error logger class to keep track of all AsyncError states that are
+/// set by providers in the app.
+///
+/// Should be added to [ProviderContainer.observers] via [Bootstrap] when app
+/// starts.
 class AsyncErrorLogger extends ProviderObserver {
   AsyncErrorLogger(this.errorLogger);
   ErrorLogger errorLogger;
@@ -16,13 +19,7 @@ class AsyncErrorLogger extends ProviderObserver {
     ProviderContainer container,
   ) {
     if (newValue case AsyncError(:final error, :final stackTrace)) {
-      switch (error) {
-        case (final AppException exception):
-          errorLogger.logAppException(exception, stackTrace);
-
-        case _:
-          errorLogger.logError(error, stackTrace);
-      }
+      errorLogger.log(error, stackTrace);
     }
   }
 }

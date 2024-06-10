@@ -5,11 +5,17 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'logger_provider.g.dart';
 
+/// Provides an instance of [Logger].
+///
+/// All errors, exceptions, and events in the app should be logged using this
+/// [Logger] instance.
 @Riverpod(keepAlive: true)
 Logger logger(LoggerRef ref) {
   final logger = Logger(
-    filter: CombineFilter([
-      DevelopmentFlavorFilter(),
+    filter: DevelopmentFlavorFilter(),
+    output: MultiOutput([
+      ConsoleOutput(),
+      // Todo: Implement firebase crashlytics
     ]),
   );
 
@@ -17,16 +23,7 @@ Logger logger(LoggerRef ref) {
   return logger;
 }
 
-class CombineFilter extends LogFilter {
-  CombineFilter(this.filters);
-  final List<LogFilter> filters;
-
-  @override
-  bool shouldLog(LogEvent event) {
-    return filters.every((filter) => filter.shouldLog(event));
-  }
-}
-
+/// A filter that only logs messages if the app is not in production mode.
 class DevelopmentFlavorFilter extends LogFilter {
   @override
   bool shouldLog(LogEvent event) {

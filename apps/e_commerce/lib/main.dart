@@ -6,6 +6,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   const bootstrap = Bootstrap(ProductionBootstrapDelegate());
-  final app = await bootstrap.initApp() as Widget;
+  final app = await bootstrap.initApp();
   runApp(app);
 }

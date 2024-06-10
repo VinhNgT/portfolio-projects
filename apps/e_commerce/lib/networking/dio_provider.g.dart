@@ -6,9 +6,13 @@ part of 'dio_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dioHash() => r'fad7c13d4d39c880a471e9cd5c9a85e49b3926d4';
+String _$dioHash() => r'e6558d0af3edd58af007908781f26a7c79bc3a4e';
 
-/// See also [dio].
+/// Provides the instance of [Dio].
+///
+/// This [Dio] instance will be used to handle all network requests in the app.
+///
+/// Copied from [dio].
 @ProviderFor(dio)
 final dioProvider = Provider<Dio>.internal(
   dio,

@@ -1,39 +1,18 @@
 import 'package:e_commerce/exceptions/app_exceptions.dart';
-import 'package:e_commerce/logging/logger_provider.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'error_logger.g.dart';
-
-// Generic error logger that logs errors
-@immutable
-sealed class ErrorLogger {
-  const ErrorLogger();
-
-  void logError(Object error, StackTrace? stackTrace);
-  void logAppException(AppException exception, StackTrace? stackTrace);
-}
-
-// A console error logger that logs errors to the console
-class ConsoleErrorLogger extends ErrorLogger {
-  const ConsoleErrorLogger(this.logger);
+/// A logger that logs all errors and exceptions in the app.
+class ErrorLogger {
+  ErrorLogger(this.logger);
   final Logger logger;
 
-  @override
-  void logError(Object error, StackTrace? stackTrace) {
-    logger.e('Unexpected error', error: error, stackTrace: stackTrace);
-  }
+  void log(Object error, StackTrace? stackTrace) {
+    switch (error) {
+      case (final AppException exception):
+        logger.w('App exception', error: exception, stackTrace: stackTrace);
 
-  @override
-  void logAppException(AppException exception, StackTrace? stackTrace) {
-    logger.w('App exception', error: exception, stackTrace: stackTrace);
+      case _:
+        logger.e('Unexpected error', error: error, stackTrace: stackTrace);
+    }
   }
-}
-
-@riverpod
-ConsoleErrorLogger consoleErrorLogger(ConsoleErrorLoggerRef ref) {
-  final logger = ref.watch(loggerProvider);
-  return ConsoleErrorLogger(logger);
 }
