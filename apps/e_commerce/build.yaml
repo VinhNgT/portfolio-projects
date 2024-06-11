@@ -18,7 +18,7 @@ targets:
           include:
             - 'lib/backend/**.dart'
             - 'lib/exceptions/**.dart'
-            - 'lib/router/**.dart'
+            - 'lib/routing/**.dart'
             - 'lib/logging/**.dart'
             - 'lib/**/**_repository.dart'
             - 'lib/**/**_service.dart'
