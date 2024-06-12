@@ -38,7 +38,7 @@ linter:
     # - discarded_futures
     - unnecessary_await_in_return
     - unnecessary_breaks
-    # - unnecessary_lambdas
+    - unnecessary_lambdas
     - unnecessary_statements
     - prefer_final_in_for_each
     - prefer_final_locals
