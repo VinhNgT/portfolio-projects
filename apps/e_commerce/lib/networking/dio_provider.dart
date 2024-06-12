@@ -6,12 +6,12 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dio_provider.g.dart';
 
-/// Provides the instance of [Dio].
-///
-/// This [Dio] instance will be used to handle all network requests in the app.
+/// Provider of a [Dio] instance for connecting to https://dummyjson.com API.
 @Riverpod(keepAlive: true)
-Dio dio(DioRef ref) {
-  final dio = Dio();
+Dio dummyJsonDio(DummyJsonDioRef ref) {
+  final dio = Dio(
+    BaseOptions(baseUrl: 'https://dummyjson.com'),
+  );
   final logger = ref.watch(loggerProvider);
 
   dio.interceptors.addAll([

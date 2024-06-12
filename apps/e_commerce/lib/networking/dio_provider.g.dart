@@ -6,23 +6,21 @@ part of 'dio_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dioHash() => r'e6558d0af3edd58af007908781f26a7c79bc3a4e';
+String _$dummyJsonDioHash() => r'f074f75749b41dffd34767931bf7007452dfaf1e';
 
-/// Provides the instance of [Dio].
+/// Provider of a [Dio] instance for connecting to https://dummyjson.com API.
 ///
-/// This [Dio] instance will be used to handle all network requests in the app.
-///
-/// Copied from [dio].
-@ProviderFor(dio)
-final dioProvider = Provider<Dio>.internal(
-  dio,
-  name: r'dioProvider',
+/// Copied from [dummyJsonDio].
+@ProviderFor(dummyJsonDio)
+final dummyJsonDioProvider = Provider<Dio>.internal(
+  dummyJsonDio,
+  name: r'dummyJsonDioProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$dioHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$dummyJsonDioHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef DioRef = ProviderRef<Dio>;
+typedef DummyJsonDioRef = ProviderRef<Dio>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
