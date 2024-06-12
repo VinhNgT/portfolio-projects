@@ -17,6 +17,9 @@ class MyApp extends HookConsumerWidget {
       iconTheme: flexTheme.iconTheme.copyWith(
         opticalSize: kSize_24,
       ),
+      appBarTheme: flexTheme.appBarTheme.copyWith(
+        toolbarHeight: kSize_64,
+      ),
     );
 
     return MaterialApp.router(
