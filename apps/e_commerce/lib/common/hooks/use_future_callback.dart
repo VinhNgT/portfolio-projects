@@ -6,8 +6,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 /// Use this instead of [useFuture] when you want to get the [AsyncSnapshot] of
 /// a future, but don't want to call the future right away because if the future
 /// completes with an error immediately (e.g. by Future.error) before
-/// [useFuture] is called then it is considered unhandled. This hook advoids
-/// this issue by ensure both of them are called at the same time.
+/// [useFuture] is called then it is considered unhandled. This hook avoids
+/// this issue by ensuring both of them are called at the same time.
 ///
 /// The [initialData], [preserveState] parameters are the same as [useFuture].
 ///
@@ -16,7 +16,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 /// all of the errors to be handled and reported in a single place (for Sentry,
 /// Crashlytics, etc).
 ///
-/// Example usecase:
+/// Example use case:
 /// ```dart
 /// final futureFunction =
 ///   useState<Future<CartItems> Function()?>(null);
