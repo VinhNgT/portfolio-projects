@@ -1,4 +1,3 @@
-import 'package:driving_license/common_widgets/misc/ink_well_overlay_color.dart';
 import 'package:flutter/material.dart';
 
 class ButtonCard extends StatelessWidget {
@@ -9,6 +8,7 @@ class ButtonCard extends StatelessWidget {
     required this.child,
     this.onPressed,
     this.borderRadius,
+    this.reduceSplashOpacity = false,
   });
 
   final Color surfaceColor;
@@ -16,6 +16,7 @@ class ButtonCard extends StatelessWidget {
   final Widget child;
   final VoidCallback? onPressed;
   final double? borderRadius;
+  final bool reduceSplashOpacity;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,10 @@ class ButtonCard extends StatelessWidget {
             )
           : null,
       child: InkWell(
-        overlayColor: InkWellBackgroundColor(onSurfaceColor),
+        // overlayColor: InkWellBackgroundColor(onSurfaceColor),
+        // splashFactory: NoSplash.splashFactory,
+        splashColor:
+            reduceSplashOpacity ? onSurfaceColor.withOpacity(0.04) : null,
         onTap: onPressed,
         child: child,
       ),

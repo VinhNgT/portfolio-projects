@@ -25,6 +25,7 @@ class AnswerCard extends StatelessWidget {
       surfaceColor: containerSurfaceColor,
       onSurfaceColor: containerOnSurfaceColor,
       onPressed: onPressed,
+      reduceSplashOpacity: true,
       child: Padding(
         padding: const EdgeInsets.all(kSize_16),
         child: Row(
