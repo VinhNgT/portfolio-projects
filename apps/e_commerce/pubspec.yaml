@@ -75,6 +75,9 @@ dependencies:
   package_info_plus: ^8.0.0
   equatable: ^2.0.0
 
+  # Localization
+  intl: ^0.18.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
