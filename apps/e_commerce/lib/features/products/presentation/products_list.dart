@@ -2,13 +2,22 @@ import 'package:e_commerce/common/hooks/use_paging_controller.dart';
 import 'package:e_commerce/features/products/data/product_providers.dart';
 import 'package:e_commerce/features/products/data/product_repository.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
+import 'package:e_commerce/features/products/presentation/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class ProductsList extends HookConsumerWidget {
-  const ProductsList({super.key, this.scrollController});
+  const ProductsList({
+    super.key,
+    this.scrollController,
+    required this.axisSpacing,
+    required this.axisExtend,
+  });
+
   final ScrollController? scrollController;
+  final double axisSpacing;
+  final double axisExtend;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,14 +38,17 @@ class ProductsList extends HookConsumerWidget {
       getNextPageKey: (currentPageKey, _) => ++currentPageKey,
     );
 
-    return PagedListView<int, Product>(
+    return PagedSliverGrid<int, Product>(
       pagingController: pagingController,
-      scrollController: scrollController,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: axisSpacing,
+        mainAxisSpacing: axisSpacing,
+        // childAspectRatio: 0.6,
+        mainAxisExtent: axisExtend,
+      ),
       builderDelegate: PagedChildBuilderDelegate<Product>(
-        itemBuilder: (context, item, index) => ListTile(
-          title: Text(item.title!),
-          subtitle: Text(item.description!),
-        ),
+        itemBuilder: (context, item, index) => ProductCard(product: item),
       ),
     );
   }

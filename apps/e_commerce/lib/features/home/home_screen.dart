@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:e_commerce/common/intrinsic_size.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/products/data/product_providers.dart';
+import 'package:e_commerce/features/products/domain/product.dart';
+import 'package:e_commerce/features/products/presentation/product_card.dart';
 import 'package:e_commerce/features/products/presentation/products_list.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
@@ -17,11 +20,13 @@ class HomeScreen extends HookConsumerWidget {
     final searchBarFocusNode = useFocusNode();
     final scrollController = useScrollController();
 
+    // +4 because the notch is too close to the search bar.
+    final homeScreenAppBarHeight = useRef(context.appBarHeight + 4);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        // +4 because the notch is too close to the search bar.
-        toolbarHeight: context.appBarHeight + 4,
+        toolbarHeight: homeScreenAppBarHeight.value,
         scrolledUnderElevation: 0,
         backgroundColor: Colors.transparent,
         flexibleSpace: Align(
@@ -94,8 +99,44 @@ class HomeScreen extends HookConsumerWidget {
           ),
         ),
       ),
-      body: ProductsList(
-        scrollController: scrollController,
+      body: IntrinsicSize(
+        prototype: LayoutBuilder(
+          builder: (context, constraints) => ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: (constraints.maxWidth - kSize_12 * 2 - kSize_8) / 2,
+            ),
+            child: const ProductCard(product: Product.prototype),
+          ),
+        ),
+        builder: (context, prototypeSize, prototype, child) => CustomScrollView(
+          controller: scrollController,
+          slivers: [
+            // SliverSafeArea(
+            //   bottom: false,
+            //   sliver: SliverToBoxAdapter(
+            //     child: Text(
+            //       'Gợi ý hôm nay',
+            //       style: context.theme.textTheme.titleLarge,
+            //     ),
+            //   ),
+            // ),
+            SliverSafeArea(
+              // top: false,
+              sliver: SliverPadding(
+                padding: const EdgeInsets.only(
+                  top: kSize_16,
+                  left: kSize_12,
+                  right: kSize_12,
+                ),
+                sliver: ProductsList(
+                  scrollController: scrollController,
+                  axisSpacing: kSize_8,
+                  axisExtend: prototypeSize.height,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
