@@ -39,8 +39,9 @@ platform :android do
         validate_only: !publish,
         track: 'internal',
         # release_status: 'draft',
-        # skip_upload_metadata: true,
+        skip_upload_metadata: true,
         sync_image_upload: true,
+        changes_not_sent_for_review: true,
         aab: '../build/app/outputs/bundle/prodRelease/app-prod-release.aab',
         mapping_paths: [
           '../build/app/intermediates/merged_native_libs/prodRelease/out/lib/native-debug-symbols.zip',
