@@ -1,3 +1,9 @@
+## 1.2.0
+
+ - **REFACTOR**(drv_lcn): add new hook 'useFutureCallback'.
+ - **FIX**(drv_lcn): fix broken symlinks.
+ - **FEAT**(drv_lcn): reduce answer_card splash opacity.
+
 ## 1.1.2
 
  - **REFACTOR**(drv_lcn): make AnimatedReviewCtaCard duration configurable.

@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-06-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v1.2.0`](#driving_license---v120)
+
+---
+
+#### `driving_license` - `v1.2.0`
+
+ - **REFACTOR**(drv_lcn): add new hook 'useFutureCallback'.
+ - **FIX**(drv_lcn): fix broken symlinks.
+ - **FEAT**(drv_lcn): reduce answer_card splash opacity.
+
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## 2024-06-08
 
 ### Changes
