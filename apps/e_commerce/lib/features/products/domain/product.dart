@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'product.freezed.dart';
 part 'product.g.dart';
+part 'product.proto.dart';
 
 @freezed
 class Product with _$Product {
@@ -32,7 +33,19 @@ class Product with _$Product {
     String? thumbnail,
     List<String>? images,
   }) = _Product;
+  const Product._();
 
   factory Product.fromJson(Map<String, Object?> json) =>
       _$ProductFromJson(json);
+
+  static const prototype = _ProductPrototypeX._prototype;
+}
+
+extension ProductPriceX on Product {
+  // Estimated price in VND.
+  int get vndPrice => (price! * 23000 / 1000).round() * 1000;
+
+  // Discounted price in VND.
+  int get vndDiscountedPrice =>
+      (price! * 23000 * (1 - discountPercentage! / 100) / 1000).round() * 1000;
 }
