@@ -20,6 +20,9 @@ class MyApp extends HookConsumerWidget {
       appBarTheme: flexTheme.appBarTheme.copyWith(
         toolbarHeight: kSize_64,
       ),
+      cardTheme: flexTheme.cardTheme.copyWith(
+        margin: EdgeInsets.zero,
+      ),
     );
 
     return MaterialApp.router(
