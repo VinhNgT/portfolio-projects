@@ -15,18 +15,23 @@ import 'package:material_symbols_icons/material_symbols_icons.dart';
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
 
+  // We use these 2 constants below to calculate the width and height of the
+  // product card for accurate grid layouts.
+  static const _productGridLeftRightPading = kSize_12;
+  static const _productCardAxisSpacing = kSize_8;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final searchBarFocusNode = useFocusNode();
     final scrollController = useScrollController();
 
-    // +4 because the notch is too close to the search bar.
-    final homeScreenAppBarHeight = useRef(context.appBarHeight + 4);
+    // +4 because the notch is a bit too close to the search bar.
+    final homeScreenAppBarHeight = context.appBarHeight + 4;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        toolbarHeight: homeScreenAppBarHeight.value,
+        toolbarHeight: homeScreenAppBarHeight,
         scrolledUnderElevation: 0,
         backgroundColor: Colors.transparent,
         flexibleSpace: Align(
@@ -38,6 +43,7 @@ class HomeScreen extends HookConsumerWidget {
                 return ListenableBuilder(
                   listenable: scrollController,
                   builder: (context, _) {
+                    // Hide the shadow when user scrolls down 4px.
                     final shadowColor = scrollController.hasClients &&
                             scrollController.offset > 4
                         ? context.theme.searchBarTheme.shadowColor
@@ -101,22 +107,25 @@ class HomeScreen extends HookConsumerWidget {
       ),
       body: IntrinsicSize(
         prototype: LayoutBuilder(
-          builder: (context, constraints) => ConstrainedBox(
-            constraints: BoxConstraints(
-              maxWidth: (constraints.maxWidth - kSize_12 * 2 - kSize_8) / 2,
-            ),
-            child: const ProductCard(product: Product.prototype),
-          ),
+          builder: (context, constraints) {
+            final rowWidthWithoutSpacing = constraints.maxWidth -
+                _productGridLeftRightPading * 2 -
+                _productCardAxisSpacing;
+
+            final productCardWidth = rowWidthWithoutSpacing / 2;
+
+            return ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: productCardWidth),
+              child: const ProductCard(product: Product.prototype),
+            );
+          },
         ),
-        builder: (context, prototypeSize, prototype, child) => CustomScrollView(
+        builder: (context, prototypeSize, _, child) => CustomScrollView(
           controller: scrollController,
           slivers: [
-            // SliverSafeArea(
-            //   bottom: false,
-            //   sliver: SliverToBoxAdapter(
-            //     child: Text(
-            //       'Gợi ý hôm nay',
-            //       style: context.theme.textTheme.titleLarge,
+            // SliverSafeArea( bottom: false, sliver: SliverToBoxAdapter( child:
+            //   Text( 'Gợi ý hôm nay', style:
+            //   context.theme.textTheme.titleLarge,
             //     ),
             //   ),
             // ),
@@ -125,12 +134,12 @@ class HomeScreen extends HookConsumerWidget {
               sliver: SliverPadding(
                 padding: const EdgeInsets.only(
                   top: kSize_16,
-                  left: kSize_12,
-                  right: kSize_12,
+                  left: _productGridLeftRightPading,
+                  right: _productGridLeftRightPading,
                 ),
                 sliver: ProductsList(
                   scrollController: scrollController,
-                  axisSpacing: kSize_8,
+                  axisSpacing: _productCardAxisSpacing,
                   axisExtend: prototypeSize.height,
                 ),
               ),
