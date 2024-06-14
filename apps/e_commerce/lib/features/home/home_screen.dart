@@ -25,13 +25,10 @@ class HomeScreen extends HookConsumerWidget {
     final searchBarFocusNode = useFocusNode();
     final scrollController = useScrollController();
 
-    // +4 because the notch is a bit too close to the search bar.
-    final homeScreenAppBarHeight = context.appBarHeight + 4;
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        toolbarHeight: homeScreenAppBarHeight,
+        toolbarHeight: context.appBarHeight,
         scrolledUnderElevation: 0,
         backgroundColor: Colors.transparent,
         flexibleSpace: Align(
