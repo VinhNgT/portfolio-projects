@@ -1,6 +1,7 @@
-import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/routing/app_router.dart';
+import 'package:e_commerce/theme/custom_app_theme.dart';
 import 'package:e_commerce/theme/flex_color_theme.dart';
+import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,31 +13,28 @@ class MyApp extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appRouter = ref.watch(appRouterProvider);
 
-    final flexTheme = FlexColorTheme.light;
-    final theme = flexTheme.copyWith(
-      iconTheme: flexTheme.iconTheme.copyWith(
-        opticalSize: kSize_24,
-      ),
-      appBarTheme: flexTheme.appBarTheme.copyWith(
-        toolbarHeight: kSize_64,
-      ),
-      cardTheme: flexTheme.cardTheme.copyWith(
-        margin: EdgeInsets.zero,
-      ),
-    );
-
     return MaterialApp.router(
       title: 'Shopey',
       debugShowCheckedModeBanner: false,
-      theme: theme,
+      theme: FlexColorTheme.light,
       builder: (context, child) {
-        return AnnotatedRegion(
-          value: FlexColorScheme.themedSystemNavigationBar(
-            context,
-            systemNavBarStyle: FlexSystemNavBarStyle.transparent,
-            useDivider: false,
+        return AnimatedTheme(
+          /// We use CustomAppTheme in this builder instead of calling
+          /// CustomAppTheme(FlexColorTheme.light).create() directly in
+          /// MaterialApp.router is because [ThemeData.textTheme] sizes are only
+          /// available after the app is loaded (when this builder is called).
+          ///
+          /// We need it to be available so that CustomAppTheme can create a new
+          /// textTheme based on the existing one.
+          data: CustomAppTheme(context.theme).create(),
+          child: AnnotatedRegion(
+            value: FlexColorScheme.themedSystemNavigationBar(
+              context,
+              systemNavBarStyle: FlexSystemNavBarStyle.transparent,
+              useDivider: false,
+            ),
+            child: child!,
           ),
-          child: child!,
         );
       },
       routerConfig: appRouter.config(),
