@@ -326,6 +326,22 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_animate:
+    dependency: transitive
+    description:
+      name: flutter_animate
+      sha256: "7c8a6594a9252dad30cc2ef16e33270b6248c4dedc3b3d06c86c4f3f4dc05ae5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.5.0"
+  flutter_custom_carousel:
+    dependency: "direct main"
+    description:
+      name: flutter_custom_carousel
+      sha256: f5e09ea7c300dfa02210abb845d7bb2df01200a1e24040daf29ae5895ab46692
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0+1"
   flutter_form_builder:
     dependency: "direct main"
     description:
@@ -427,6 +443,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.5.1"
+  flutter_shaders:
+    dependency: transitive
+    description:
+      name: flutter_shaders
+      sha256: "02750b545c01ff4d8e9bbe8f27a7731aa3778402506c67daa1de7f5fc3f4befe"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
   flutter_staggered_grid_view:
     dependency: transitive
     description:
@@ -673,10 +697,10 @@ packages:
     dependency: "direct main"
     description:
       name: material_symbols_icons
-      sha256: b2d3cbc3c42b8a217715b0d97ff03aebb14b2b4592875736e5599c603fb2db7e
+      sha256: a2c78726048c755f0f90fd2b7c8799cd94338e2e9b7ab6498ae56503262c14bc
       url: "https://pub.dev"
     source: hosted
-    version: "4.2758.0"
+    version: "4.2762.0"
   meta:
     dependency: transitive
     description:
@@ -793,10 +817,10 @@ packages:
     dependency: transitive
     description:
       name: platform
-      sha256: "12220bb4b65720483f8fa9450b4332347737cf8213dd2840d8b2c823e47243ec"
+      sha256: "9b71283fc13df574056616011fb138fd3b793ea47cc509c189a6c3fa5f8a1a65"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.4"
+    version: "3.1.5"
   plugin_platform_interface:
     dependency: transitive
     description:
