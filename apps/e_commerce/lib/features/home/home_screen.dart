@@ -36,7 +36,7 @@ class HomeScreen extends HookConsumerWidget {
         flexibleSpace: Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kSize_16),
+            padding: const EdgeInsets.symmetric(horizontal: kSize_12),
             child: SearchAnchor(
               builder: (BuildContext context, SearchController controller) {
                 return ListenableBuilder(
@@ -49,6 +49,11 @@ class HomeScreen extends HookConsumerWidget {
                         : const MaterialStatePropertyAll(Colors.transparent);
 
                     return SearchBar(
+                      shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(kSize_12),
+                        ),
+                      ),
                       focusNode: searchBarFocusNode,
                       controller: controller,
                       shadowColor: shadowColor,
@@ -124,23 +129,46 @@ class HomeScreen extends HookConsumerWidget {
           slivers: [
             const SliverSafeArea(
               bottom: false,
-              sliver: SliverGap(kSize_16),
+              sliver: SliverGap(kSize_12),
             ),
-            const SliverToBoxAdapter(
-              child: BannersCarousel(),
+            SliverToBoxAdapter(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const BannersCarousel(),
+                  const Gap(kSize_12),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: kSize_12),
+                    child: Image.asset(
+                      'assets/shopee_banners/banner_buttons.png',
+                    ),
+                  ),
+                ],
+              ),
             ),
             SliverSafeArea(
               top: false,
               sliver: SliverPadding(
                 padding: const EdgeInsets.only(
-                  top: kSize_16,
+                  top: kSize_32,
                   left: _productGridLeftRightPading,
                   right: _productGridLeftRightPading,
                 ),
-                sliver: ProductsList(
-                  scrollController: scrollController,
-                  axisSpacing: _productCardAxisSpacing,
-                  axisExtend: prototypeSize.height,
+                sliver: SliverMainAxisGroup(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Text(
+                        'Gợi ý hôm nay',
+                        style: context.theme.textTheme.titleLarge,
+                      ),
+                    ),
+                    const SliverGap(kSize_16),
+                    ProductsList(
+                      scrollController: scrollController,
+                      axisSpacing: _productCardAxisSpacing,
+                      axisExtend: prototypeSize.height,
+                    ),
+                  ],
                 ),
               ),
             ),
