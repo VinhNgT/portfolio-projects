@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce/common/intrinsic_size.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
+import 'package:e_commerce/features/home/components/banners_carousel.dart';
 import 'package:e_commerce/features/products/data/product_providers.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/presentation/product_card.dart';
@@ -8,6 +9,7 @@ import 'package:e_commerce/features/products/presentation/products_list.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
@@ -120,14 +122,15 @@ class HomeScreen extends HookConsumerWidget {
         builder: (context, prototypeSize, _, child) => CustomScrollView(
           controller: scrollController,
           slivers: [
-            // SliverSafeArea( bottom: false, sliver: SliverToBoxAdapter( child:
-            //   Text( 'Gợi ý hôm nay', style:
-            //   context.theme.textTheme.titleLarge,
-            //     ),
-            //   ),
-            // ),
+            const SliverSafeArea(
+              bottom: false,
+              sliver: SliverGap(kSize_16),
+            ),
+            const SliverToBoxAdapter(
+              child: BannersCarousel(),
+            ),
             SliverSafeArea(
-              // top: false,
+              top: false,
               sliver: SliverPadding(
                 padding: const EdgeInsets.only(
                   top: kSize_16,
