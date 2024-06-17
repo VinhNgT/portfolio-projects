@@ -1,5 +1,4 @@
 import 'package:e_commerce/constants/app_sizes.dart';
-import 'package:e_commerce/theme/components/navigation_bar_text_style.dart';
 import 'package:flutter/material.dart';
 
 /// Modifies an existing [ThemeData] to create a custom fine tuned theme.
@@ -9,6 +8,9 @@ class CustomAppTheme {
 
   ThemeData create() {
     return theme.copyWith(
+      dividerTheme: theme.dividerTheme.copyWith(
+        space: 0,
+      ),
       iconTheme: theme.iconTheme.copyWith(
         opticalSize: kSize_24,
       ),
@@ -20,11 +22,11 @@ class CustomAppTheme {
       ),
       navigationBarTheme: theme.navigationBarTheme.copyWith(
         height: kSize_64,
-        labelTextStyle: NavigationBarTextStyle(
-          selectedTextStyle: theme.textTheme.labelMedium!
-              .copyWith(fontWeight: FontWeight.w600),
-          unselectedTextStyle: theme.textTheme.labelMedium!,
-        ),
+        // labelTextStyle: NavigationBarTextStyle(
+        //   selectedTextStyle: theme.textTheme.labelMedium!
+        //       .copyWith(fontWeight: FontWeight.w600),
+        //   unselectedTextStyle: theme.textTheme.labelMedium!,
+        // ),
       ),
     );
   }
