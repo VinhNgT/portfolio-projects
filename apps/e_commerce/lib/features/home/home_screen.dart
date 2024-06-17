@@ -120,7 +120,6 @@ class HomeScreen extends HookConsumerWidget {
             ),
             SliverToBoxAdapter(
               child: Column(
-                mainAxisSize: MainAxisSize.min,
                 children: [
                   const BannersCarousel(),
                   const Gap(kSize_12),
@@ -133,31 +132,32 @@ class HomeScreen extends HookConsumerWidget {
                 ],
               ),
             ),
-            SliverSafeArea(
-              top: false,
-              sliver: SliverPadding(
-                padding: const EdgeInsets.only(
-                  top: kSize_32,
-                  left: _productGridLeftRightPading,
-                  right: _productGridLeftRightPading,
-                ),
-                sliver: SliverMainAxisGroup(
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: Text(
-                        'Gợi ý hôm nay',
-                        style: context.theme.textTheme.titleLarge,
-                      ),
-                    ),
-                    const SliverGap(kSize_16),
-                    ProductsList(
-                      scrollController: scrollController,
-                      axisSpacing: _productCardAxisSpacing,
-                      axisExtend: prototypeSize.height,
-                    ),
-                  ],
-                ),
+            SliverPadding(
+              padding: const EdgeInsets.only(
+                top: kSize_32,
+                left: _productGridLeftRightPading,
+                right: _productGridLeftRightPading,
               ),
+              sliver: SliverMainAxisGroup(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Text(
+                      'Gợi ý hôm nay',
+                      style: context.theme.textTheme.titleLarge,
+                    ),
+                  ),
+                  const SliverGap(kSize_16),
+                  ProductsList(
+                    scrollController: scrollController,
+                    axisSpacing: _productCardAxisSpacing,
+                    axisExtend: prototypeSize.height,
+                  ),
+                ],
+              ),
+            ),
+            const SliverSafeArea(
+              top: false,
+              sliver: SliverGap(kSize_24),
             ),
           ],
         ),
