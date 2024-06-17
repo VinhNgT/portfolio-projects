@@ -31,7 +31,6 @@ class MyApp extends HookConsumerWidget {
             value: FlexColorScheme.themedSystemNavigationBar(
               context,
               systemNavBarStyle: FlexSystemNavBarStyle.transparent,
-              useDivider: false,
             ),
             child: child!,
           ),

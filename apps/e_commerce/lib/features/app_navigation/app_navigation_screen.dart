@@ -18,16 +18,17 @@ class AppNavigationScreen extends HookConsumerWidget {
         HomeRoute(),
       ],
       bottomNavigationBuilder: (_, tabsRouter) {
-        return SafeArea(
-          // 'maintainBottomViewPadding' needs to be set to true. This prevents
-          // the NavigationBar from moving downwards when the bottom screen
-          // padding is 0 (e.g. when the keyboard is opened).
-          maintainBottomViewPadding: true,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Divider(),
-              NavigationBar(
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Divider(),
+            SafeArea(
+              // 'maintainBottomViewPadding' needs to be set to true. This
+              // prevents the NavigationBar from moving downwards when the
+              // bottom screen padding is 0 (e.g. when the keyboard is opened).
+              maintainBottomViewPadding: true,
+              child: NavigationBar(
+                elevation: 0,
                 selectedIndex: tabsRouter.activeIndex,
                 onDestinationSelected: (index) {},
                 destinations: const [
@@ -53,8 +54,8 @@ class AppNavigationScreen extends HookConsumerWidget {
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );
