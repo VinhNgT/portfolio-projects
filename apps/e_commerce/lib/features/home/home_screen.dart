@@ -48,11 +48,6 @@ class HomeScreen extends HookConsumerWidget {
                         : const MaterialStatePropertyAll(Colors.transparent);
 
                     return SearchBar(
-                      shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(kSize_12),
-                        ),
-                      ),
                       focusNode: searchBarFocusNode,
                       controller: controller,
                       shadowColor: shadowColor,
