@@ -18,37 +18,43 @@ class AppNavigationScreen extends HookConsumerWidget {
         HomeRoute(),
       ],
       bottomNavigationBuilder: (_, tabsRouter) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Divider(),
-            NavigationBar(
-              selectedIndex: tabsRouter.activeIndex,
-              onDestinationSelected: (index) {},
-              destinations: const [
-                NavigationDestination(
-                  label: 'Trang chủ',
-                  icon: Icon(Symbols.home),
-                  selectedIcon: Icon(Symbols.home, fill: 1),
-                ),
-                NavigationDestination(
-                  label: 'Giỏ hàng',
-                  icon: Icon(Symbols.shopping_cart),
-                  selectedIcon: Icon(Symbols.shopping_cart, fill: 1),
-                ),
-                NavigationDestination(
-                  label: 'Đơn hàng',
-                  icon: Icon(Symbols.assignment),
-                  selectedIcon: Icon(Symbols.assignment, fill: 1),
-                ),
-                NavigationDestination(
-                  label: 'Cá nhân',
-                  icon: Icon(Symbols.person),
-                  selectedIcon: Icon(Symbols.person, fill: 1),
-                ),
-              ],
-            ),
-          ],
+        return SafeArea(
+          // 'maintainBottomViewPadding' needs to be set to true. This prevents
+          // the NavigationBar from moving downwards when the bottom screen
+          // padding is 0 (e.g. when the keyboard is opened).
+          maintainBottomViewPadding: true,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Divider(),
+              NavigationBar(
+                selectedIndex: tabsRouter.activeIndex,
+                onDestinationSelected: (index) {},
+                destinations: const [
+                  NavigationDestination(
+                    label: 'Trang chủ',
+                    icon: Icon(Symbols.home),
+                    selectedIcon: Icon(Symbols.home, fill: 1),
+                  ),
+                  NavigationDestination(
+                    label: 'Giỏ hàng',
+                    icon: Icon(Symbols.shopping_cart),
+                    selectedIcon: Icon(Symbols.shopping_cart, fill: 1),
+                  ),
+                  NavigationDestination(
+                    label: 'Đơn hàng',
+                    icon: Icon(Symbols.assignment),
+                    selectedIcon: Icon(Symbols.assignment, fill: 1),
+                  ),
+                  NavigationDestination(
+                    label: 'Cá nhân',
+                    icon: Icon(Symbols.person),
+                    selectedIcon: Icon(Symbols.person, fill: 1),
+                  ),
+                ],
+              ),
+            ],
+          ),
         );
       },
     );
