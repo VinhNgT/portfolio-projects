@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce/common/intrinsic_size.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/home/components/banners_carousel.dart';
-import 'package:e_commerce/features/products/data/product_providers.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/presentation/product_card.dart';
 import 'package:e_commerce/features/products/presentation/products_list.dart';
@@ -91,14 +90,7 @@ class HomeScreen extends HookConsumerWidget {
                   return ListTile(
                     title: Consumer(
                       builder: (context, ref, child) {
-                        final product = ref.watch(productFutureProvider(index));
-                        return Text(
-                          product.when(
-                            data: (product) => product.title!,
-                            loading: () => 'Loading...',
-                            error: (error, _) => 'Error: $error',
-                          ),
-                        );
+                        return Text(Product.prototype.title!);
                       },
                     ),
                     onTap: () {},
