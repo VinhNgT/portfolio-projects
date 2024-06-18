@@ -131,14 +131,16 @@ class _ProductCardCompactColumn extends HookConsumerWidget {
     final vndPriceFormat = useRef(product.vndPriceFormatter);
 
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Container(
           color: Colors.white,
           child: Image.network(product.thumbnail!),
         ),
         const Divider(),
-        Expanded(
-          child: Center(
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(kSize_8),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
