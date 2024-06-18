@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-typedef IntrinsicSizeBuilder = Widget Function(
+typedef PrototypeSizeBuilder = Widget Function(
   BuildContext context,
   Size prototypeSize,
   Widget prototype,
@@ -24,11 +24,12 @@ typedef IntrinsicSizeBuilder = Widget Function(
 /// See also:
 /// - StackOverflow post describing this technique by Rémi Rousselet:
 ///   https://stackoverflow.com/a/49650741
-class IntrinsicSize extends HookConsumerWidget {
-  const IntrinsicSize({
+class PrototypeSize extends HookConsumerWidget {
+  const PrototypeSize({
     super.key,
     required this.prototype,
     required this.builder,
+    this.loadingWidget = const SizedBox.shrink(),
     this.child,
   });
 
@@ -36,7 +37,11 @@ class IntrinsicSize extends HookConsumerWidget {
   final Widget prototype;
 
   /// The builder that will be called when the prototype size is measured.
-  final IntrinsicSizeBuilder builder;
+  final PrototypeSizeBuilder builder;
+
+  /// The widget that will be displayed while the prototype size is being
+  /// measured.
+  final Widget loadingWidget;
 
   /// The subtree widget that does not depend on the prototype size.
   final Widget? child;
@@ -76,7 +81,7 @@ class IntrinsicSize extends HookConsumerWidget {
       valueListenable: sizeNotifier,
       builder: (context, value, child) {
         return value == null
-            ? const SizedBox.shrink()
+            ? loadingWidget
             : builder(context, value, prototype, child);
       },
       child: child,
@@ -95,18 +100,41 @@ class _ReportSizeWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // useDidChangeMetricRebuild();
-
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   onSizeChangedNotifier.value = context.size;
-    // });
-
     Future.microtask(() => onSizeChangedNotifier.value = context.size);
 
     return WidgetResizeObserver(
       onResized: (oldSize, newSize) {
         Future.microtask(() => onSizeChangedNotifier.value = newSize);
       },
+      child: child,
+    );
+  }
+}
+
+/// A sliver version of [PrototypeSize].
+class PrototypeSizeSliver extends HookConsumerWidget {
+  const PrototypeSizeSliver({
+    super.key,
+    required this.prototype,
+    required this.builder,
+    this.child,
+  });
+
+  /// The widget whose size will be measured.
+  final Widget prototype;
+
+  /// The builder that will be called when the prototype size is measured.
+  final PrototypeSizeBuilder builder;
+
+  /// The subtree widget that does not depend on the prototype size.
+  final Widget? child;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return PrototypeSize(
+      prototype: prototype,
+      builder: builder,
+      loadingWidget: const SliverToBoxAdapter(child: SizedBox.shrink()),
       child: child,
     );
   }
