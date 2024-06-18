@@ -18,6 +18,8 @@ import 'package:material_symbols_icons/material_symbols_icons.dart';
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
 
+  static const _searchBarBottomPadding = kSize_12;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final searchBarFocusNode = useFocusNode();
@@ -38,9 +40,11 @@ class HomeScreen extends HookConsumerWidget {
                 return ListenableBuilder(
                   listenable: scrollController,
                   builder: (context, _) {
-                    // Hide the shadow when user scrolls down 4px.
+                    // Show the shadow when user scrolls down by
+                    // (_searchBarBottomPadding - 4) px.
                     final shadowColor = scrollController.hasClients &&
-                            scrollController.offset > 4
+                            scrollController.offset >
+                                _searchBarBottomPadding - 4
                         ? context.theme.searchBarTheme.shadowColor
                         : const MaterialStatePropertyAll(Colors.transparent);
 
@@ -98,7 +102,7 @@ class HomeScreen extends HookConsumerWidget {
         slivers: const [
           SliverSafeArea(
             bottom: false,
-            sliver: SliverGap(kSize_12),
+            sliver: SliverGap(_searchBarBottomPadding),
           ),
           _BannersSliver(),
           SliverGap(kSize_32),
