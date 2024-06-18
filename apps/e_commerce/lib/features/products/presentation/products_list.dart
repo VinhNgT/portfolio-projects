@@ -10,12 +10,10 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 class ProductsList extends HookConsumerWidget {
   const ProductsList({
     super.key,
-    this.scrollController,
     required this.axisSpacing,
     required this.axisExtend,
   });
 
-  final ScrollController? scrollController;
   final double axisSpacing;
   final double axisExtend;
 

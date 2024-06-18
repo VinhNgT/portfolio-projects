@@ -2,6 +2,7 @@ import 'package:e_commerce/features/products/domain/product_dimensions.dart';
 import 'package:e_commerce/features/products/domain/product_meta.dart';
 import 'package:e_commerce/features/products/domain/product_reviews.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:intl/intl.dart';
 
 part 'product.freezed.dart';
 part 'product.g.dart';
@@ -48,4 +49,11 @@ extension ProductPriceX on Product {
   // Discounted price in VND.
   int get vndDiscountedPrice =>
       (price! * 23000 * (1 - discountPercentage! / 100) / 1000).round() * 1000;
+
+  NumberFormat get vndPriceFormatter => NumberFormat.currency(
+        locale: 'vi_VN',
+        symbol: '₫',
+        decimalDigits: 0,
+        customPattern: '¤#,###',
+      );
 }
