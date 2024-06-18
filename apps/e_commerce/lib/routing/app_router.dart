@@ -17,22 +17,15 @@ class AppRouter extends $AppRouter {
           page: AppNavigationRoute.page,
           initial: true,
           children: [
-            AutoRoute(page: HomeRoute.page),
+            AutoRoute(
+              page: HomeTabNavigationRoute.page,
+              children: [
+                AutoRoute(page: HomeRoute.page),
+                AutoRoute(page: ProductDetailRoute.page),
+              ],
+            ),
           ],
         ),
-        // AutoRoute(page: LicenseSelectionRoute.page),
-        // AutoRoute(
-        //   page: HomeRoute.page,
-        //   guards: [HomeRouteGuard(ref)],
-        //   initial: true,
-        // ),
-        // AutoRoute(page: QuestionRoute.page),
-        // AutoRoute(page: ExamsListRoute.page),
-        // AutoRoute(page: ExamDetailRoute.page),
-        // AutoRoute(page: ExamResultRoute.page),
-        // AutoRoute(page: SendFeedbackRoute.page),
-        // AutoRoute(page: RewardedAdRoute.page),
-        // AutoRoute(page: DonateRoute.page),
       ];
 
   @override
