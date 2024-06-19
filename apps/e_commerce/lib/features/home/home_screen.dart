@@ -28,7 +28,6 @@ class HomeScreen extends HookConsumerWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        toolbarHeight: context.appBarHeight,
         scrolledUnderElevation: 0,
         backgroundColor: Colors.transparent,
         flexibleSpace: Align(
