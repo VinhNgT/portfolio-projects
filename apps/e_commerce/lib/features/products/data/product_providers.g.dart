@@ -6,7 +6,7 @@ part of 'product_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$productFutureHash() => r'342266125354e5823553cf43cbe7654325dacd80';
+String _$productFutureHash() => r'742f96f44341b48e88c22403806b379514abbe8a';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -153,6 +153,136 @@ class _ProductFutureProviderElement
 
   @override
   int get id => (origin as ProductFutureProvider).id;
+}
+
+String _$productFromListFutureHash() =>
+    r'1378982f4d625e9b57f434b59e6d1623138a827f';
+
+/// See also [productFromListFuture].
+@ProviderFor(productFromListFuture)
+const productFromListFutureProvider = ProductFromListFutureFamily();
+
+/// See also [productFromListFuture].
+class ProductFromListFutureFamily extends Family<AsyncValue<Product>> {
+  /// See also [productFromListFuture].
+  const ProductFromListFutureFamily();
+
+  /// See also [productFromListFuture].
+  ProductFromListFutureProvider call(
+    int id,
+  ) {
+    return ProductFromListFutureProvider(
+      id,
+    );
+  }
+
+  @override
+  ProductFromListFutureProvider getProviderOverride(
+    covariant ProductFromListFutureProvider provider,
+  ) {
+    return call(
+      provider.id,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'productFromListFutureProvider';
+}
+
+/// See also [productFromListFuture].
+class ProductFromListFutureProvider extends AutoDisposeFutureProvider<Product> {
+  /// See also [productFromListFuture].
+  ProductFromListFutureProvider(
+    int id,
+  ) : this._internal(
+          (ref) => productFromListFuture(
+            ref as ProductFromListFutureRef,
+            id,
+          ),
+          from: productFromListFutureProvider,
+          name: r'productFromListFutureProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$productFromListFutureHash,
+          dependencies: ProductFromListFutureFamily._dependencies,
+          allTransitiveDependencies:
+              ProductFromListFutureFamily._allTransitiveDependencies,
+          id: id,
+        );
+
+  ProductFromListFutureProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.id,
+  }) : super.internal();
+
+  final int id;
+
+  @override
+  Override overrideWith(
+    FutureOr<Product> Function(ProductFromListFutureRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: ProductFromListFutureProvider._internal(
+        (ref) => create(ref as ProductFromListFutureRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        id: id,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Product> createElement() {
+    return _ProductFromListFutureProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ProductFromListFutureProvider && other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, id.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin ProductFromListFutureRef on AutoDisposeFutureProviderRef<Product> {
+  /// The parameter `id` of this provider.
+  int get id;
+}
+
+class _ProductFromListFutureProviderElement
+    extends AutoDisposeFutureProviderElement<Product>
+    with ProductFromListFutureRef {
+  _ProductFromListFutureProviderElement(super.provider);
+
+  @override
+  int get id => (origin as ProductFromListFutureProvider).id;
 }
 
 String _$productsListFutureHash() =>

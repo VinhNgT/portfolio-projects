@@ -5,10 +5,16 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'product_providers.g.dart';
 
+/// A provider that fetches a product from the repository.
 @riverpod
-Future<Product> productFuture(ProductFutureRef ref, int id) {
-  final productRepository = ref.watch(productRepositoryProvider);
+FutureOr<Product> productFuture(ProductFutureRef ref, int id) async {
+  final pageNumber = id ~/ ProductRepository.productPageSizeLimit;
 
+  if (ref.exists(productsListFutureProvider(pageNumber))) {
+    return ref.watch(productFromListFutureProvider(id).future);
+  }
+
+  final productRepository = ref.watch(productRepositoryProvider);
   final CancelToken cancelToken = CancelToken();
   ref.onDispose(cancelToken.cancel);
 
@@ -18,6 +24,23 @@ Future<Product> productFuture(ProductFutureRef ref, int id) {
   );
 }
 
+/// A provider that fetches a list of products from the repository, and then
+/// returns a product from that list.
+@riverpod
+Future<Product> productFromListFuture(
+  ProductFromListFutureRef ref,
+  int id,
+) async {
+  final pageNumber = id ~/ ProductRepository.productPageSizeLimit;
+
+  final questionPage = await ref.watch(
+    productsListFutureProvider(pageNumber).future,
+  );
+
+  return questionPage[id % ProductRepository.productPageSizeLimit];
+}
+
+/// A provider that fetches a list of products from the repository.
 @riverpod
 Future<List<Product>> productsListFuture(
   ProductsListFutureRef ref,
