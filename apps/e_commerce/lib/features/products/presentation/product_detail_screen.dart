@@ -20,7 +20,7 @@ class ProductDetailScreen extends HookConsumerWidget {
           IconButton(onPressed: () {}, icon: const Icon(Symbols.more_vert)),
         ],
       ),
-      body: Container(),
+      body: const CustomScrollView(),
     );
   }
 }

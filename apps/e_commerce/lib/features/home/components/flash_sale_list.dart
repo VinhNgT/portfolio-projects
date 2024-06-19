@@ -3,7 +3,7 @@ import 'package:e_commerce/common/prototype_size.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/products/data/product_providers.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
-import 'package:e_commerce/features/products/presentation/product_card.dart';
+import 'package:e_commerce/features/products/presentation/components/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

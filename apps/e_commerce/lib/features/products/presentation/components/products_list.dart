@@ -2,7 +2,7 @@ import 'package:e_commerce/common/hooks/use_paging_controller.dart';
 import 'package:e_commerce/features/products/data/product_providers.dart';
 import 'package:e_commerce/features/products/data/product_repository.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
-import 'package:e_commerce/features/products/presentation/product_card.dart';
+import 'package:e_commerce/features/products/presentation/components/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
