@@ -1,4 +1,5 @@
 import 'package:e_commerce/constants/app_flavors.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -14,7 +15,7 @@ Logger logger(LoggerRef ref) {
   final logger = Logger(
     filter: DevelopmentFlavorFilter(),
     output: MultiOutput([
-      ConsoleOutput(),
+      LevelConsoleOutput(Level.info),
       // Todo: Implement firebase crashlytics
     ]),
   );
@@ -29,5 +30,21 @@ class DevelopmentFlavorFilter extends LogFilter {
   bool shouldLog(LogEvent event) {
     return (appFlavor != AppFlavors.production) &&
         event.level.value >= level!.value;
+  }
+}
+
+/// A [LogOutput] implementation that outputs log messages to the console based
+/// on the specified log level.
+class LevelConsoleOutput extends LogOutput {
+  LevelConsoleOutput(this.level);
+
+  /// The log level to filter log messages.
+  final Level level;
+
+  @override
+  void output(OutputEvent event) {
+    if (event.level.value >= level.value) {
+      event.lines.forEach(debugPrint);
+    }
   }
 }
