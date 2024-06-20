@@ -49,3 +49,6 @@ app.*.map.json
 
 # act related
 act.*
+
+# FVM Version Cache
+.fvm/
