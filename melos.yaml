@@ -16,7 +16,7 @@ command:
       preCommit: melos run update-apps-build-number
 
 # Make sure to active the Python virtual environment since alot of this is using Python.
-# .venv\Scripts\activate
+# scripts\.venv\Scripts\activate
 scripts:
   update-apps-build-number:
     description: Increase the build number of all Flutter packages that is updated.

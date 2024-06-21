@@ -189,7 +189,7 @@ melos version -a -g
 
 #### Cài đặt các Python dependency
 
-Tại thư mục root của monorepo, chạy các lệnh sau để thiết lập môi trường Python:
+Tại thư mục `scripts` của monorepo, chạy các lệnh sau để thiết lập môi trường Python:
 
 ```powershell
 python -m venv .venv

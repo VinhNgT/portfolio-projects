@@ -1,3 +1,4 @@
 {
+  "python.defaultInterpreterPath": "${workspaceFolder}/scripts/.venv",
   "dart.flutterSdkPath": ".fvm/versions/3.19.6"
 }
