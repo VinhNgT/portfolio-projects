@@ -58,3 +58,6 @@ secrets.zip
 
 # scan temporary files
 **/fastlane/test_output
+
+# FVM Version Cache
+.fvm/

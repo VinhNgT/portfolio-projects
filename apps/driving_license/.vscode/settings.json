@@ -1,1 +1,4 @@
-../../../common/.vscode_flutter/settings.json
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/../../scripts/.venv",
+  "dart.flutterSdkPath": ".fvm/versions/3.19.6"
+}
