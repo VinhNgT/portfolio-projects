@@ -59,3 +59,10 @@ scripts:
     run: |
       act -e act.dir/act.event.json --secret-file act.dir/act.secrets \
         --env-file act.dir/act.env --var-file act.dir/act.var --artifact-server-path act.dir/act.artifacts
+
+  fvm-get:
+    description: Run pub get using the Flutter SDK version configured for each package.
+    run: |
+      ".fvm/flutter_sdk/bin/flutter" pub get
+    exec:
+      concurrency: 1
