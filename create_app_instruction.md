@@ -29,10 +29,11 @@ _We plan to have a script that automate all of this._
 - Run `melos bootstrap`.
 - Navigate (`cd`) to the new app's folder.
 - Create `.vscode` folder and symlink files in `common/.vscode_flutter` to this `.vscode`.
-- Add this to settings.json, create this file if missing, without this some
-  melos scripts will not run:
+- Add this to settings.json, create this file if missing, read `/vscode/settings_explain.md for more info:
   ```json
+  "python.terminal.activateEnvironment": false,
   "python.defaultInterpreterPath": "${workspaceFolder}/../../scripts/.venv"
+  "dart.promptToGetPackages": false,
   ```
 - Update `analysis_options.yaml` and `build.yaml`, you can copy them from other stable projects.
 - In the `.githooks/add_package_name.py` file, assign a short name of this app to the `PACKAGE_NAME_SHORT` variable.

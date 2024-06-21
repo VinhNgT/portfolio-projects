@@ -1,4 +1,6 @@
 {
+  "python.terminal.activateEnvironment": false,
   "python.defaultInterpreterPath": "${workspaceFolder}/../../scripts/.venv",
+  "dart.promptToGetPackages": false,
   "dart.flutterSdkPath": ".fvm/versions/3.19.6"
 }
