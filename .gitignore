@@ -43,7 +43,6 @@ app.*.map.json
 /android/app/release
 
 # Environment configurations
-*.venv
 *.env
 *.env.*
 
