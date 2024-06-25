@@ -1,5 +1,9 @@
 import os
+import sys
 from win32com.client import Dispatch
+
+sys.path.append(os.getcwd())
+from scripts.common import get_packages_list
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 CODE_DIR = "C:\\Users\\victo\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
@@ -19,18 +23,6 @@ TARGETS = [
     TargetEntry("packages", "box.ico"),
     TargetEntry("submodules", "cubes.ico"),
 ]
-
-
-def get_packages_list(path: str) -> list[str]:
-    if not os.path.exists(path):
-        return []
-
-    packages = []
-    for package in os.listdir(path):
-        if os.path.isdir(os.path.join(path, package)):
-            packages.append(package)
-
-    return packages
 
 
 def create_shortcut(path: str, destination_path: str, icon: str):
