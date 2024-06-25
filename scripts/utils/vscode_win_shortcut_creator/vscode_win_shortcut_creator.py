@@ -48,7 +48,20 @@ def create_shortcut(path: str, destination_path: str, icon: str):
     shortcut.save()
 
 
+def create_shortcut_repo():
+    os.makedirs(os.path.join(SCRIPT_DIR, "results"), exist_ok=True)
+    current_dir = os.path.basename(os.getcwd())
+
+    create_shortcut(
+        os.path.join(SCRIPT_DIR, "results", f"{current_dir}.lnk"),
+        ".",
+        "folder.ico",
+    )
+
+
 def main():
+    create_shortcut_repo()
+
     for target in TARGETS:
         packages = get_packages_list(target.path)
 
