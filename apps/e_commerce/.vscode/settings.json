@@ -1,6 +1,10 @@
 {
   "python.terminal.activateEnvironment": false,
   "python.defaultInterpreterPath": "${workspaceFolder}/../../scripts/.venv",
-  "dart.promptToGetPackages": false,
-  "dart.flutterSdkPath": ".fvm/versions/3.19.6"
+  "dart.flutterSdkPath": ".fvm/versions/3.19.6",
+  "terminal.integrated.env.windows": {
+    "PATH": "${workspaceFolder}/../../scripts/.venv/Scripts;${env:PATH}",
+    "VIRTUAL_ENV": "${workspaceFolder}/../../scripts/.venv",
+    "VIRTUAL_ENV_PROMPT": ".venv"
+  }
 }
