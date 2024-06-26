@@ -6,7 +6,7 @@ part of 'product_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$productFutureHash() => r'742f96f44341b48e88c22403806b379514abbe8a';
+String _$productFutureHash() => r'4f09c09285493c12753025439ce7d4a8f7edd5f9';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,16 +29,24 @@ class _SystemHash {
   }
 }
 
-/// See also [productFuture].
+/// A provider that fetches a product from the repository.
+///
+/// Copied from [productFuture].
 @ProviderFor(productFuture)
 const productFutureProvider = ProductFutureFamily();
 
-/// See also [productFuture].
+/// A provider that fetches a product from the repository.
+///
+/// Copied from [productFuture].
 class ProductFutureFamily extends Family<AsyncValue<Product>> {
-  /// See also [productFuture].
+  /// A provider that fetches a product from the repository.
+  ///
+  /// Copied from [productFuture].
   const ProductFutureFamily();
 
-  /// See also [productFuture].
+  /// A provider that fetches a product from the repository.
+  ///
+  /// Copied from [productFuture].
   ProductFutureProvider call(
     int id,
   ) {
@@ -71,9 +79,13 @@ class ProductFutureFamily extends Family<AsyncValue<Product>> {
   String? get name => r'productFutureProvider';
 }
 
-/// See also [productFuture].
+/// A provider that fetches a product from the repository.
+///
+/// Copied from [productFuture].
 class ProductFutureProvider extends AutoDisposeFutureProvider<Product> {
-  /// See also [productFuture].
+  /// A provider that fetches a product from the repository.
+  ///
+  /// Copied from [productFuture].
   ProductFutureProvider(
     int id,
   ) : this._internal(
@@ -158,16 +170,28 @@ class _ProductFutureProviderElement
 String _$productFromListFutureHash() =>
     r'1378982f4d625e9b57f434b59e6d1623138a827f';
 
-/// See also [productFromListFuture].
+/// A provider that fetches a list of products from the repository, and then
+/// returns a product from that list.
+///
+/// Copied from [productFromListFuture].
 @ProviderFor(productFromListFuture)
 const productFromListFutureProvider = ProductFromListFutureFamily();
 
-/// See also [productFromListFuture].
+/// A provider that fetches a list of products from the repository, and then
+/// returns a product from that list.
+///
+/// Copied from [productFromListFuture].
 class ProductFromListFutureFamily extends Family<AsyncValue<Product>> {
-  /// See also [productFromListFuture].
+  /// A provider that fetches a list of products from the repository, and then
+  /// returns a product from that list.
+  ///
+  /// Copied from [productFromListFuture].
   const ProductFromListFutureFamily();
 
-  /// See also [productFromListFuture].
+  /// A provider that fetches a list of products from the repository, and then
+  /// returns a product from that list.
+  ///
+  /// Copied from [productFromListFuture].
   ProductFromListFutureProvider call(
     int id,
   ) {
@@ -200,9 +224,15 @@ class ProductFromListFutureFamily extends Family<AsyncValue<Product>> {
   String? get name => r'productFromListFutureProvider';
 }
 
-/// See also [productFromListFuture].
+/// A provider that fetches a list of products from the repository, and then
+/// returns a product from that list.
+///
+/// Copied from [productFromListFuture].
 class ProductFromListFutureProvider extends AutoDisposeFutureProvider<Product> {
-  /// See also [productFromListFuture].
+  /// A provider that fetches a list of products from the repository, and then
+  /// returns a product from that list.
+  ///
+  /// Copied from [productFromListFuture].
   ProductFromListFutureProvider(
     int id,
   ) : this._internal(
@@ -288,16 +318,24 @@ class _ProductFromListFutureProviderElement
 String _$productsListFutureHash() =>
     r'74277a40c151f523c0e3bc89ffbb482ab455eac6';
 
-/// See also [productsListFuture].
+/// A provider that fetches a list of products from the repository.
+///
+/// Copied from [productsListFuture].
 @ProviderFor(productsListFuture)
 const productsListFutureProvider = ProductsListFutureFamily();
 
-/// See also [productsListFuture].
+/// A provider that fetches a list of products from the repository.
+///
+/// Copied from [productsListFuture].
 class ProductsListFutureFamily extends Family<AsyncValue<List<Product>>> {
-  /// See also [productsListFuture].
+  /// A provider that fetches a list of products from the repository.
+  ///
+  /// Copied from [productsListFuture].
   const ProductsListFutureFamily();
 
-  /// See also [productsListFuture].
+  /// A provider that fetches a list of products from the repository.
+  ///
+  /// Copied from [productsListFuture].
   ProductsListFutureProvider call(
     int page,
   ) {
@@ -330,10 +368,14 @@ class ProductsListFutureFamily extends Family<AsyncValue<List<Product>>> {
   String? get name => r'productsListFutureProvider';
 }
 
-/// See also [productsListFuture].
+/// A provider that fetches a list of products from the repository.
+///
+/// Copied from [productsListFuture].
 class ProductsListFutureProvider
     extends AutoDisposeFutureProvider<List<Product>> {
-  /// See also [productsListFuture].
+  /// A provider that fetches a list of products from the repository.
+  ///
+  /// Copied from [productsListFuture].
   ProductsListFutureProvider(
     int page,
   ) : this._internal(
