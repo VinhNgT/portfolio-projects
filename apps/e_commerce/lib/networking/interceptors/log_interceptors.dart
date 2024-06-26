@@ -57,7 +57,6 @@ class LoggerIntercepter extends Interceptor {
       'Error: ${err.requestOptions.method} ${err.requestOptions.uri} => '
       '${err.response?.statusCode ?? 'No response'}',
     );
-    logger.e(err);
 
     handler.next(err);
   }
