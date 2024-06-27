@@ -19,13 +19,13 @@ class AsyncValueWidget<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return switch (asyncValue) {
-      // When data
-      AsyncValue(:final value, hasValue: true) when value != null =>
-        builder(value),
-
       // When error
       AsyncValue(:final error?, hasError: true) =>
         AsyncErrorWidget(error.toString()),
+
+      // When data
+      AsyncValue(:final value, hasValue: true) when value != null =>
+        builder(value),
 
       // When loading
       AsyncValue(isLoading: true) => showLoadingIndicator
