@@ -36,8 +36,12 @@ class Bootstrap {
 
     // Show some error UI if any uncaught exception happens
     FlutterError.onError = (FlutterErrorDetails details) {
-      FlutterError.presentError(details);
-      appErrorLogger.log(details.exception, details.stack);
+      Future(() async {
+        FlutterError.presentError(details);
+        // Wait for the before command to finish
+        await Future.delayed(Duration.zero);
+        appErrorLogger.log(details.exception, details.stack);
+      });
     };
 
     // Handle errors from the underlying platform/OS
