@@ -16,10 +16,13 @@ class CacheManager {
   ///
   /// If [serializer] is provided, it will be used to serialize and deserialize
   /// the data for storage. Otherwise, jsonEncode and jsonDecode will be used.
+  ///
+  /// [cacheError] determines if the error thrown by [queryFn] should be cached.
   Future<T> query<T extends Object>({
     required String key,
     required FutureOr<T> Function() queryFn,
     ObjectSerializer<T>? serializer,
+    bool cacheError = false,
   }) async {
     final query = Query<T>(
       key: key,
@@ -34,6 +37,9 @@ class CacheManager {
 
     final result = await query.result;
     if (result.status == QueryStatus.error) {
+      if (!cacheError) {
+        cachedQuery.deleteCache(key: key);
+      }
       throw result.error;
     }
 
@@ -54,10 +60,10 @@ Future<CacheManager> cacheManager(CacheManagerRef ref) async {
       shouldRefetch: (p0, afterStorage) => false,
 
       // Time to keep the cache in disk
-      storageDuration: const Duration(minutes: 5),
+      storageDuration: const Duration(minutes: 1),
 
       // Time to keep the cache in RAM
-      cacheDuration: const Duration(minutes: 1),
+      cacheDuration: const Duration(seconds: 30),
     ),
   );
 
