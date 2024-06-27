@@ -13,9 +13,9 @@ typedef PrototypeSizeBuilder = Widget Function(
 );
 
 /// A widget that measures the size of another widget (referred to as the
-/// prototype widget) by rendering the prototype off-screen using
-/// the [Overlay] widget. This technique allows us to measure the size of the
-/// prototype without actually displaying it on the screen.
+/// prototype widget) by rendering the prototype off-screen using the [Overlay]
+/// widget. This technique allows us to measure the size of the prototype
+/// without actually displaying it on the screen.
 ///
 /// While the prototype widget size is being determined, a SizedBox.shrink() is
 /// put in place of the [builder] widget. Once the size has been determined,
@@ -30,6 +30,7 @@ class PrototypeSize extends HookConsumerWidget {
     required this.prototype,
     required this.builder,
     this.loadingWidget = const SizedBox.shrink(),
+    this.showOverlay = false,
     this.child,
   });
 
@@ -42,6 +43,9 @@ class PrototypeSize extends HookConsumerWidget {
   /// The widget that will be displayed while the prototype size is being
   /// measured.
   final Widget loadingWidget;
+
+  /// Whether to show the overlay widget or not. This is useful for debugging.
+  final bool showOverlay;
 
   /// The subtree widget that does not depend on the prototype size.
   final Widget? child;
@@ -58,7 +62,7 @@ class PrototypeSize extends HookConsumerWidget {
               child: Offstage(
                 // Change this line to `offstage: false` to show the overlay for
                 // debuging purpose.
-                offstage: true,
+                offstage: !showOverlay,
                 child: _ReportSizeWidget(
                   onSizeChangedNotifier: sizeNotifier,
                   child: prototype,
@@ -117,6 +121,7 @@ class PrototypeSizeSliver extends HookConsumerWidget {
     super.key,
     required this.prototype,
     required this.builder,
+    this.showOverlay = false,
     this.child,
   });
 
@@ -125,6 +130,9 @@ class PrototypeSizeSliver extends HookConsumerWidget {
 
   /// The builder that will be called when the prototype size is measured.
   final PrototypeSizeBuilder builder;
+
+  /// Whether to show the overlay widget or not. This is useful for debugging.
+  final bool showOverlay;
 
   /// The subtree widget that does not depend on the prototype size.
   final Widget? child;
@@ -135,6 +143,7 @@ class PrototypeSizeSliver extends HookConsumerWidget {
       prototype: prototype,
       builder: builder,
       loadingWidget: const SliverToBoxAdapter(child: SizedBox.shrink()),
+      showOverlay: showOverlay,
       child: child,
     );
   }
