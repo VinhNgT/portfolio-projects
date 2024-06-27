@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:e_commerce/backend/cache/cache_manager.dart';
+import 'package:e_commerce/backend/cache/cache_manager_provider.dart';
 import 'package:e_commerce/backend/utils/object_serializer.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/products.dart';

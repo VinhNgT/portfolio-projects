@@ -1,4 +1,4 @@
-import 'package:e_commerce/backend/cache/cache_manager.dart';
+import 'package:e_commerce/backend/cache/cache_manager_provider.dart';
 import 'package:e_commerce/backend/database/sembast_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

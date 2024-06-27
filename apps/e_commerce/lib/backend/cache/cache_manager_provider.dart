@@ -5,7 +5,7 @@ import 'package:e_commerce/backend/cache/cache_storage.dart';
 import 'package:e_commerce/backend/utils/object_serializer.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'cache_manager.g.dart';
+part 'cache_manager_provider.g.dart';
 
 class CacheManager {
   CacheManager(this.cachedQuery);
