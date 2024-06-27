@@ -33,8 +33,8 @@ class ProductsList extends HookConsumerWidget {
           productsListFutureProvider(pageKey).future,
         );
 
-        // The result should be fetched and saved in the Dio cache by now, so
-        // can safely dispose the provider.
+        // The result should be fetched and saved in the cache by now, so we can
+        // safely dispose the provider.
         keepAlive.close();
         return products.map((e) => e.id!).toList();
       },
