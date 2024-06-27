@@ -48,79 +48,85 @@ class _ProductCardColumn extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final vndPriceFormat = useRef(product.vndPriceFormatter);
 
-    return IntrinsicHeight(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            color: Colors.white,
-            child: Image.network(product.thumbnail!),
-          ),
-          const Divider(),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(kSize_8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  // Title
-                  Text(
-                    product.title!,
-                    style: context.textTheme.bodySmall,
-                    maxLines: 2,
-                    overflow: TextOverflow.fade,
-                  ),
-                  const Gap(kSize_4),
-
-                  // Pricing
-                  Text(
-                    vndPriceFormat.value.format(product.vndDiscountedPrice),
-                    style: context.textTheme.titleMedium!.copyWith(
-                      color: context.theme.colorScheme.primary,
-                    ),
-                  ),
-                  Text(
-                    vndPriceFormat.value.format(product.vndPrice),
-                    style: context.textTheme.labelMedium!.copyWith(
-                      decoration: TextDecoration.lineThrough,
-                      color: context.theme.colorScheme.onSurfaceVariant
-                          .withOpacity(kGoldenRatioDivide_1),
-                    ),
-                  ),
-                  const Gap(kSize_6),
-
-                  // Rating
-                  RatingStars(rating: product.rating!),
-                  const Gap(kSize_8),
-
-                  // Location
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Symbols.location_on,
-                            size: 16,
-                            color: context.theme.colorScheme.onSurfaceVariant
-                                .withOpacity(kGoldenRatioDivide_1),
-                          ),
-                          const Gap(kSize_2),
-                          Text(
-                            'Quảng Ninh',
-                            style: context.textTheme.bodySmall,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+    return LayoutBuilder(
+      builder: (context, constraints) => IntrinsicHeight(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              color: Colors.white,
+              child: Image.network(
+                product.thumbnail!,
+                height: constraints.maxWidth,
+                width: constraints.maxWidth,
               ),
             ),
-          ),
-        ],
+            const Divider(),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(kSize_8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    // Title
+                    Text(
+                      product.title!,
+                      style: context.textTheme.bodySmall,
+                      maxLines: 2,
+                      overflow: TextOverflow.fade,
+                    ),
+                    const Gap(kSize_4),
+
+                    // Pricing
+                    Text(
+                      vndPriceFormat.value.format(product.vndDiscountedPrice),
+                      style: context.textTheme.titleMedium!.copyWith(
+                        color: context.theme.colorScheme.primary,
+                      ),
+                    ),
+                    Text(
+                      vndPriceFormat.value.format(product.vndPrice),
+                      style: context.textTheme.labelMedium!.copyWith(
+                        decoration: TextDecoration.lineThrough,
+                        color: context.theme.colorScheme.onSurfaceVariant
+                            .withOpacity(kGoldenRatioDivide_1),
+                      ),
+                    ),
+                    const Gap(kSize_6),
+
+                    // Rating
+                    RatingStars(rating: product.rating!),
+                    const Gap(kSize_8),
+
+                    // Location
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Symbols.location_on,
+                              size: 16,
+                              color: context.theme.colorScheme.onSurfaceVariant
+                                  .withOpacity(kGoldenRatioDivide_1),
+                            ),
+                            const Gap(kSize_2),
+                            Text(
+                              'Quảng Ninh',
+                              style: context.textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -137,9 +143,15 @@ class _ProductCardCompactColumn extends HookConsumerWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Container(
-          color: Colors.white,
-          child: Image.network(product.thumbnail!),
+        LayoutBuilder(
+          builder: (context, constraints) => Container(
+            color: Colors.white,
+            child: Image.network(
+              product.thumbnail!,
+              height: constraints.maxWidth,
+              width: constraints.maxWidth,
+            ),
+          ),
         ),
         const Divider(),
         Center(
