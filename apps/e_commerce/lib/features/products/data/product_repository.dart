@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:e_commerce/backend/cache/cache_manager.dart';
+import 'package:e_commerce/backend/utils/object_serializer.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/products.dart';
 import 'package:e_commerce/networking/dio_provider.dart';
@@ -7,9 +9,13 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'product_repository.g.dart';
 
 class ProductRepository {
-  const ProductRepository(this.dio);
+  const ProductRepository({
+    required this.dio,
+    required this.cacheManager,
+  });
 
   final Dio dio;
+  final CacheManager cacheManager;
   static const int productPageSizeLimit = 10;
 
   /// Fetches a [Product] by its [id].
@@ -21,14 +27,25 @@ class ProductRepository {
       throw ArgumentError('The id must be greater than or equal to 0');
     }
 
-    final response = await dio.get(
-      // The API id starts from 1
-      '/products/${id + 1}',
-      cancelToken: cancelToken,
+    return cacheManager.query(
+      key: 'ProductRepository-getProduct-$id',
+      queryFn: () async {
+        final response = await dio.get(
+          // The API id starts from 1
+          '/products/${id + 1}',
+          cancelToken: cancelToken,
+        );
+
+        return Product.fromJson(response.data!);
+      },
+      serializer: ObjectSerializer(
+        fromJson: Product.fromJson,
+        toJson: (product) => product.toJson(),
+      ),
     );
-    return Product.fromJson(response.data);
   }
 
+  /// Fetches a list of [Product]s with pagination.
   Future<List<Product>> getProductsList({
     required int page,
     CancelToken? cancelToken,
@@ -37,20 +54,39 @@ class ProductRepository {
       throw ArgumentError('The page must be greater than or equal to 0');
     }
 
-    final response = await dio.get(
-      '/products',
-      queryParameters: {
-        'limit': productPageSizeLimit,
-        'skip': productPageSizeLimit * page,
+    return cacheManager.query(
+      key: 'ProductRepository-getProductsList-$page',
+      queryFn: () async {
+        final response = await dio.get(
+          '/products',
+          queryParameters: {
+            'limit': productPageSizeLimit,
+            'skip': productPageSizeLimit * page,
+          },
+          cancelToken: cancelToken,
+        );
+
+        return Products.fromJson(response.data!).products!;
       },
-      cancelToken: cancelToken,
+      serializer: ObjectSerializer(
+        fromJson: (productListJson) => [
+          for (final productJson in productListJson['products'] as List)
+            Product.fromJson(productJson as Map<String, dynamic>),
+        ],
+        toJson: (products) =>
+            {'products': products.map((e) => e.toJson()).toList()},
+      ),
     );
-    return Products.fromJson(response.data).products!;
   }
 }
 
 @riverpod
 ProductRepository productRepository(ProductRepositoryRef ref) {
   final dio = ref.watch(dummyJsonDioProvider);
-  return ProductRepository(dio);
+  final cacheManager = ref.read(cacheManagerProvider).requireValue;
+
+  return ProductRepository(
+    dio: dio,
+    cacheManager: cacheManager,
+  );
 }
