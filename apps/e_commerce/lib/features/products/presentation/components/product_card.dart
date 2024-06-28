@@ -30,7 +30,7 @@ class ProductCard extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          context.navigateTo(ProductDetailRoute(product: product));
+          context.navigateTo(ProductDetailsRoute(productId: product.id!));
         },
         child: isCompact
             ? _ProductCardCompactColumn(product: product)

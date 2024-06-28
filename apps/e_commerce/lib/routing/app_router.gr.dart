@@ -14,8 +14,7 @@ import 'package:e_commerce/features/app_navigation/app_navigation_screen.dart'
 import 'package:e_commerce/features/app_navigation/home_tab_navigation_screen.dart'
     as _i3;
 import 'package:e_commerce/features/home/home_screen.dart' as _i2;
-import 'package:e_commerce/features/products/domain/product.dart' as _i7;
-import 'package:e_commerce/features/products/presentation/product_detail_screen.dart'
+import 'package:e_commerce/features/products/presentation/product_details_screen.dart'
     as _i4;
 import 'package:flutter/material.dart' as _i6;
 
@@ -42,13 +41,13 @@ abstract class $AppRouter extends _i5.RootStackRouter {
         child: const _i3.HomeTabNavigationScreen(),
       );
     },
-    ProductDetailRoute.name: (routeData) {
-      final args = routeData.argsAs<ProductDetailRouteArgs>();
+    ProductDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<ProductDetailsRouteArgs>();
       return _i5.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i4.ProductDetailScreen(
+        child: _i4.ProductDetailsScreen(
           key: args.key,
-          product: args.product,
+          productId: args.productId,
         ),
       );
     },
@@ -98,39 +97,39 @@ class HomeTabNavigationRoute extends _i5.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.ProductDetailScreen]
-class ProductDetailRoute extends _i5.PageRouteInfo<ProductDetailRouteArgs> {
-  ProductDetailRoute({
+/// [_i4.ProductDetailsScreen]
+class ProductDetailsRoute extends _i5.PageRouteInfo<ProductDetailsRouteArgs> {
+  ProductDetailsRoute({
     _i6.Key? key,
-    required _i7.Product product,
+    required int productId,
     List<_i5.PageRouteInfo>? children,
   }) : super(
-          ProductDetailRoute.name,
-          args: ProductDetailRouteArgs(
+          ProductDetailsRoute.name,
+          args: ProductDetailsRouteArgs(
             key: key,
-            product: product,
+            productId: productId,
           ),
           initialChildren: children,
         );
 
-  static const String name = 'ProductDetailRoute';
+  static const String name = 'ProductDetailsRoute';
 
-  static const _i5.PageInfo<ProductDetailRouteArgs> page =
-      _i5.PageInfo<ProductDetailRouteArgs>(name);
+  static const _i5.PageInfo<ProductDetailsRouteArgs> page =
+      _i5.PageInfo<ProductDetailsRouteArgs>(name);
 }
 
-class ProductDetailRouteArgs {
-  const ProductDetailRouteArgs({
+class ProductDetailsRouteArgs {
+  const ProductDetailsRouteArgs({
     this.key,
-    required this.product,
+    required this.productId,
   });
 
   final _i6.Key? key;
 
-  final _i7.Product product;
+  final int productId;
 
   @override
   String toString() {
-    return 'ProductDetailRouteArgs{key: $key, product: $product}';
+    return 'ProductDetailsRouteArgs{key: $key, productId: $productId}';
   }
 }
