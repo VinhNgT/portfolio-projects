@@ -31,8 +31,7 @@ class ProductRepository {
       key: 'ProductRepository-getProduct-$id',
       queryFn: () async {
         final response = await dio.get(
-          // The API id starts from 1
-          '/products/${id + 1}',
+          '/products/$id',
           cancelToken: cancelToken,
         );
 
