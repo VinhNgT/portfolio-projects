@@ -10,6 +10,9 @@ part 'cache_manager_provider.g.dart';
 const kDefaultCacheDuration = Duration(minutes: 5);
 const kDefaultCacheStorageDuration = Duration(minutes: 30);
 
+// const kDefaultCacheDuration = Duration(seconds: 5);
+// const kDefaultCacheStorageDuration = Duration(seconds: 10);
+
 class CacheManager {
   CacheManager(this.cachedQuery);
   final CachedQuery cachedQuery;
@@ -37,8 +40,9 @@ class CacheManager {
   /// [kDefaultCacheDuration].
   ///
   /// [storageDuration] - Specifies the time to keep the cache on disk
-  /// (persistent storage). The cache will no longer vaild after this duration
-  /// and cannot be refreshed. Defaults to [kDefaultCacheStorageDuration].
+  /// (persistent storage). This duration cannot be refreshed and the cache will
+  /// be removed and refetched on next call. Defaults to
+  /// [kDefaultCacheStorageDuration].
   Future<T> query<T extends Object>({
     required String key,
     required FutureOr<T> Function() queryFn,
@@ -49,6 +53,8 @@ class CacheManager {
     Duration? cacheDuration,
     Duration? storageDuration,
   }) async {
+    // CachedQuery does not automatically remove expired cache from the
+    // persistent storage, so we need to do it manually.
     await _clearExpiredCache(key, force: forceRefresh);
 
     final query = Query<T>(
@@ -88,7 +94,6 @@ class CacheManager {
     }
 
     final QueryState cachedResult = await query.result;
-
     if (query.config.storageDuration != null &&
         cachedResult.timeCreated
             .add(query.config.storageDuration!)
