@@ -7,21 +7,40 @@ part 'product_providers.g.dart';
 
 /// A provider that fetches a product from the repository.
 @riverpod
-FutureOr<Product> productFuture(ProductFutureRef ref, int id) async {
-  final pageNumber = id ~/ ProductRepository.productPageSizeLimit;
+class ProductFuture extends _$ProductFuture {
+  Future<Product> _getProduct() {
+    final productRepository = ref.watch(productRepositoryProvider);
+    final CancelToken cancelToken = CancelToken();
+    ref.onDispose(cancelToken.cancel);
 
-  if (ref.exists(productsListFutureProvider(pageNumber))) {
-    return ref.watch(productFromListFutureProvider(id).future);
+    return productRepository.getProduct(
+      id: id,
+      cancelToken: cancelToken,
+    );
   }
 
-  final productRepository = ref.watch(productRepositoryProvider);
-  final CancelToken cancelToken = CancelToken();
-  ref.onDispose(cancelToken.cancel);
+  @override
+  FutureOr<Product> build(int id) async {
+    final pageNumber = id ~/ ProductRepository.productPageSizeLimit;
 
-  return productRepository.getProduct(
-    id: id,
-    cancelToken: cancelToken,
-  );
+    if (ref.exists(productsListFutureProvider(pageNumber))) {
+      return ref.watch(productFromListFutureProvider(id).future);
+    }
+    return _getProduct();
+  }
+
+  // Force provider to refresh product directly from the repository.
+  void refresh() async {
+    try {
+      state = const AsyncLoading();
+      state = await AsyncValue.guard(_getProduct);
+    } catch (e) {
+      if (e case StateError()) {
+        return;
+      }
+      rethrow;
+    }
+  }
 }
 
 /// A provider that fetches a list of products from the repository, and then
