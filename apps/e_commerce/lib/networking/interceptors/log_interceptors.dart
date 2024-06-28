@@ -58,8 +58,25 @@ class LoggerIntercepter extends Interceptor {
       _ => err.message,
     };
 
+    final buffer = StringBuffer();
+    final logContent = [
+      err.requestOptions.method,
+      err.requestOptions.uri.toString(),
+    ];
+
+    for (final string in logContent) {
+      if (string.isEmpty) {
+        continue;
+      }
+
+      if (buffer.isNotEmpty) {
+        buffer.write(' ');
+      }
+      buffer.write(string);
+    }
+
     debugPrint(
-      'Error: ${err.requestOptions.method} ${err.requestOptions.uri} => '
+      'Error: ${buffer.toString()} => '
       '${err.response?.statusCode ?? errName}',
     );
 
