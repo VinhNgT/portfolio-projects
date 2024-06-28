@@ -53,9 +53,14 @@ class LoggerIntercepter extends Interceptor {
     DioException err,
     ErrorInterceptorHandler handler,
   ) {
+    final errName = switch (err) {
+      DioException(type: DioExceptionType.cancel) => 'Canceled',
+      _ => err.message,
+    };
+
     debugPrint(
       'Error: ${err.requestOptions.method} ${err.requestOptions.uri} => '
-      '${err.response?.statusCode ?? 'No response'}',
+      '${err.response?.statusCode ?? errName}',
     );
 
     handler.next(err);
