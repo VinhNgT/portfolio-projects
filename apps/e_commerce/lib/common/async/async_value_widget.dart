@@ -8,11 +8,13 @@ class AsyncValueWidget<T> extends StatelessWidget {
   const AsyncValueWidget({
     super.key,
     required this.asyncValue,
+    this.showPreviousDataWhileLoading = false,
     this.showLoadingIndicator = false,
     required this.builder,
   });
 
   final AsyncValue<T> asyncValue;
+  final bool showPreviousDataWhileLoading;
   final bool showLoadingIndicator;
   final AsyncValueWidgetBuilder<T> builder;
 
@@ -23,14 +25,16 @@ class AsyncValueWidget<T> extends StatelessWidget {
       AsyncValue(:final error?, hasError: true) =>
         AsyncErrorWidget(error.toString()),
 
+      // When loading
+      AsyncValue(isLoading: true, :final hasValue)
+          when !hasValue || (hasValue && !showPreviousDataWhileLoading) =>
+        showLoadingIndicator
+            ? const Center(child: CircularProgressIndicator())
+            : const SizedBox.shrink(),
+
       // When data
       AsyncValue(:final value, hasValue: true) when value != null =>
         builder(value),
-
-      // When loading
-      AsyncValue(isLoading: true) => showLoadingIndicator
-          ? const Center(child: CircularProgressIndicator())
-          : const SizedBox.shrink(),
       _ => throw UnimplementedError(),
     };
   }
