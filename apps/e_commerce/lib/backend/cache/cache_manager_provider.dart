@@ -7,23 +7,50 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'cache_manager_provider.g.dart';
 
+const kDefaultCacheDuration = Duration(minutes: 5);
+const kDefaultCacheStorageDuration = Duration(minutes: 30);
+
 class CacheManager {
   CacheManager(this.cachedQuery);
   final CachedQuery cachedQuery;
 
-  /// Queries the cache with the given [key], if the cache is empty or expired,
+  /// Queries the cache with the given [key]. If the cache is empty or expired,
   /// it will call [queryFn] to fetch the data.
   ///
-  /// If [serializer] is provided, it will be used to serialize and deserialize
-  /// the data for storage. Otherwise, jsonEncode and jsonDecode will be used.
+  /// If a [serializer] is provided, it will be used to serialize and
+  /// deserialize the data for storage. Otherwise, `jsonEncode` and `jsonDecode`
+  /// will be used.
   ///
-  /// [cacheError] determines if the error thrown by [queryFn] should be cached.
+  /// [cacheError] - Determines if the error thrown by [queryFn] should be
+  /// cached. Defaults to `false`.
+  ///
+  /// [neverExpire] - Whether to keep the cache indefinitely. Defaults to
+  /// `false`.
+  ///
+  /// [forceRefresh] - Force fetching new data from [queryFn], ignore existing
+  /// cache and [neverExpire] flag. Defaults to `false`.
+  ///
+  /// [cacheDuration] - Specifies the time to keep the cache in RAM (temporary,
+  /// in-memory storage). The duration is refreshed every time the data is
+  /// accessed, allowing the cached data to potentially remain in RAM longer
+  /// than it does in the persistent storage. Defaults to
+  /// [kDefaultCacheDuration].
+  ///
+  /// [storageDuration] - Specifies the time to keep the cache on disk
+  /// (persistent storage). The cache will no longer vaild after this duration
+  /// and cannot be refreshed. Defaults to [kDefaultCacheStorageDuration].
   Future<T> query<T extends Object>({
     required String key,
     required FutureOr<T> Function() queryFn,
     ObjectSerializer<T>? serializer,
     bool cacheError = false,
+    bool neverExpire = false,
+    bool forceRefresh = false,
+    Duration? cacheDuration,
+    Duration? storageDuration,
   }) async {
+    await _clearExpiredCache(key, force: forceRefresh);
+
     final query = Query<T>(
       key: key,
       queryFn: () async => queryFn(),
@@ -32,6 +59,9 @@ class CacheManager {
             serializer != null ? (object) => serializer.toJson(object) : null,
         storageDeserializer:
             serializer != null ? (json) => serializer.fromJson(json) : null,
+        cacheDuration: cacheDuration,
+        storageDuration: storageDuration,
+        ignoreCacheDuration: neverExpire,
       ),
     );
 
@@ -45,6 +75,27 @@ class CacheManager {
 
     return result.data!;
   }
+
+  Future<void> _clearExpiredCache(String key, {bool force = false}) async {
+    final query = cachedQuery.getQuery(key);
+    if (query == null) {
+      return;
+    }
+
+    if (force) {
+      cachedQuery.deleteCache(key: key, deleteStorage: true);
+      return;
+    }
+
+    final QueryState cachedResult = await query.result;
+
+    if (query.config.storageDuration != null &&
+        cachedResult.timeCreated
+            .add(query.config.storageDuration!)
+            .isBefore(DateTime.now())) {
+      cachedQuery.deleteCache(key: key, deleteStorage: true);
+    }
+  }
 }
 
 /// Provides a [CacheManager] instance.
@@ -54,16 +105,18 @@ Future<CacheManager> cacheManager(CacheManagerRef ref) async {
   cachedQuery.config(
     storage: await SembastCachedStorage.makeDefault(),
 
-    // Default configuration for all queries
+    // Default configuration for all queries.
     config: QueryConfig(
-      // Do not refetch the data in background
+      // Do not refetch the data in background.
       shouldRefetch: (p0, afterStorage) => false,
 
-      // Time to keep the cache in disk
-      storageDuration: const Duration(minutes: 1),
+      // Time to keep the cache in RAM, it will be refreshed every time the data
+      // is accessed.
+      cacheDuration: kDefaultCacheDuration,
 
-      // Time to keep the cache in RAM
-      cacheDuration: const Duration(seconds: 30),
+      // Time to keep the cache in disk. The cache will be deleted after this
+      // duration.
+      storageDuration: kDefaultCacheStorageDuration,
     ),
   );
 

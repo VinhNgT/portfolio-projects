@@ -6,7 +6,7 @@ part of 'cache_manager_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$cacheManagerHash() => r'42a8f728488997ab5fa47bed54455fceed42be74';
+String _$cacheManagerHash() => r'9d68659bcf8795b41b47658dad1b599a65285d93';
 
 /// Provides a [CacheManager] instance.
 ///
