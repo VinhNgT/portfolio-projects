@@ -51,9 +51,9 @@ class ProductsList extends HookConsumerWidget {
         mainAxisExtent: axisExtend,
       ),
       builderDelegate: PagedChildBuilderDelegate<ProductId>(
-        itemBuilder: (context, ProductId _, index) => Consumer(
+        itemBuilder: (context, ProductId id, _) => Consumer(
           builder: (context, ref, child) {
-            final product = ref.watch(productFromListFutureProvider(index));
+            final product = ref.watch(productFromListFutureProvider(id));
             return AsyncValueWidget(
               asyncValue: product,
               builder: (productValue) => ProductCard(product: productValue),
