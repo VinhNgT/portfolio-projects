@@ -1,21 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:e_commerce/constants/app_flavors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
-
-class ProductionLogInterceptor extends LogInterceptor {
-  ProductionLogInterceptor()
-      : super(
-          // LogInterceptor by default only logs when in debug mode. We change
-          // it to always log when the app is not in production.
-          logPrint: (object) {
-            if (appFlavor != AppFlavors.production) {
-              debugPrint(object.toString());
-            }
-          },
-        );
-}
 
 /// Interceptor to log sensitive data using [Logger].
 class LoggerIntercepter extends Interceptor {

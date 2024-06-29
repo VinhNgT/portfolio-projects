@@ -1,6 +1,5 @@
-import 'package:e_commerce/constants/app_flavors.dart';
+import 'package:e_commerce/backend/env/env_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -12,25 +11,18 @@ part 'logger_provider.g.dart';
 /// [Logger] instance.
 @Riverpod(keepAlive: true)
 Logger logger(LoggerRef ref) {
+  final logLevel = ref.watch(envProvider).loggerLevel;
+
   final logger = Logger(
-    filter: DevelopmentFlavorFilter(),
+    filter: ProductionFilter(),
     output: MultiOutput([
-      LevelConsoleOutput(Level.info),
+      LevelConsoleOutput(logLevel),
       // Todo: Implement firebase crashlytics
     ]),
   );
 
   ref.onDispose(logger.close);
   return logger;
-}
-
-/// A filter that only logs messages if the app is not in production mode.
-class DevelopmentFlavorFilter extends LogFilter {
-  @override
-  bool shouldLog(LogEvent event) {
-    return (appFlavor != AppFlavors.production) &&
-        event.level.value >= level!.value;
-  }
 }
 
 /// A [LogOutput] implementation that outputs log messages to the console based

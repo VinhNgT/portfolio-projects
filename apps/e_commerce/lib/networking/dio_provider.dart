@@ -14,7 +14,6 @@ Dio dummyJsonDio(DummyJsonDioRef ref) {
   final logger = ref.watch(loggerProvider);
 
   dio.interceptors.addAll([
-    // ProductionLogInterceptor(),
     LoggerIntercepter(logger),
   ]);
 
