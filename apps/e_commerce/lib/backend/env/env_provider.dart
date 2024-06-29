@@ -9,7 +9,8 @@ class Env {
     const cacheDuration = String.fromEnvironment('CACHE_DURATION_SECONDS');
     const storageDuration =
         String.fromEnvironment('CACHE_STORAGE_DURATION_SECONDS');
-    return CacheConfig(
+
+    return CacheConfig.fromSeconds(
       cacheDurationSeconds: int.tryParse(cacheDuration),
       storageDurationSeconds: int.tryParse(storageDuration),
     );
