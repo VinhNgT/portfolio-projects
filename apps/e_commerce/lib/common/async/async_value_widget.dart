@@ -1,4 +1,4 @@
-import 'package:e_commerce/common/async/async_error_widget.dart';
+import 'package:e_commerce/exceptions/app_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -23,7 +23,7 @@ class AsyncValueWidget<T> extends StatelessWidget {
     return switch (asyncValue) {
       // When error
       AsyncValue(:final error?, hasError: true) =>
-        AsyncErrorWidget(error.toString()),
+        WidgetErrorWidget(errorMessage: error.toString()),
 
       // When loading
       AsyncValue(isLoading: true, :final hasValue)

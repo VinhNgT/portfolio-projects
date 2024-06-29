@@ -1,6 +1,5 @@
-import 'package:e_commerce/constants/app_flavors.dart';
+import 'package:e_commerce/backend/env/env_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -15,7 +14,8 @@ class AppErrorWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final resolvedErrorMessage = useRef(_resolveErrorMessage());
+    final showDetailedError = ref.watch(envProvider).showDetailedError;
+    final resolvedErrorMessage = _resolveErrorMessage(showDetailedError);
 
     return Material(
       child: Center(
@@ -31,7 +31,7 @@ class AppErrorWidget extends HookConsumerWidget {
               ),
               const SizedBox(height: 24),
               Text(
-                resolvedErrorMessage.value,
+                resolvedErrorMessage,
                 style: Theme.of(context).textTheme.titleMedium,
                 textAlign: TextAlign.center,
               ),
@@ -42,11 +42,11 @@ class AppErrorWidget extends HookConsumerWidget {
     );
   }
 
-  String _resolveErrorMessage() {
-    if (appFlavor == AppFlavors.production) {
-      return _defaultErrorMessage;
+  String _resolveErrorMessage(bool showDetailedError) {
+    if (showDetailedError) {
+      return errorMessage ?? _defaultErrorMessage;
     }
-    return errorMessage ?? _defaultErrorMessage;
+    return _defaultErrorMessage;
   }
 }
 
@@ -59,23 +59,23 @@ class WidgetErrorWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final resolvedErrorMessage = useRef(_resolveErrorMessage());
+    final showDetailedError = ref.watch(envProvider).showDetailedError;
+    final resolvedErrorWidget = _resolveErrorWidget(showDetailedError);
 
-    if (appFlavor == AppFlavors.production) {
-      return Center(child: Text(resolvedErrorMessage.value));
-    }
-
-    return Text(
-      resolvedErrorMessage.value,
-      style:
-          Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.red),
-    );
+    return resolvedErrorWidget;
   }
 
-  String _resolveErrorMessage() {
-    if (appFlavor == AppFlavors.production) {
-      return _defaultErrorMessage;
+  Widget _resolveErrorWidget(bool showDetailedError) {
+    if (showDetailedError) {
+      return Text(
+        errorMessage ?? _defaultErrorMessage,
+        style: Theme.of(useContext())
+            .textTheme
+            .titleLarge!
+            .copyWith(color: Colors.red),
+      );
     }
-    return errorMessage ?? _defaultErrorMessage;
+
+    return Center(child: Text(_defaultErrorMessage));
   }
 }

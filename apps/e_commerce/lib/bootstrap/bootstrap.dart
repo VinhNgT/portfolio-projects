@@ -1,14 +1,13 @@
 import 'dart:ui';
 
 import 'package:e_commerce/app.dart';
+import 'package:e_commerce/backend/env/env_provider.dart';
 import 'package:e_commerce/bootstrap/bootstrap_delegate.dart';
-import 'package:e_commerce/constants/app_flavors.dart';
 import 'package:e_commerce/exceptions/app_error_widget.dart';
 import 'package:e_commerce/logging/async_error_logger.dart';
 import 'package:e_commerce/logging/error_logger.dart';
 import 'package:e_commerce/logging/logger_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class Bootstrap {
@@ -28,6 +27,7 @@ class Bootstrap {
 
   void setupErrorHandlers(ProviderContainer container) {
     final appErrorLogger = ErrorLogger(container.read(loggerProvider));
+    final showDetailedError = container.read(envProvider).showDetailedError;
 
     // Log all Riverpod asynchronous errors
     container.observers.addAll([
@@ -56,12 +56,12 @@ class Bootstrap {
           ? details.exception as FlutterError
           : null;
 
-      return appFlavor == AppFlavors.production
-          ? const AppErrorWidget()
-          : ErrorWidget.withDetails(
+      return showDetailedError
+          ? ErrorWidget.withDetails(
               message: details.exceptionAsString(),
               error: error,
-            );
+            )
+          : const AppErrorWidget();
     };
   }
 }

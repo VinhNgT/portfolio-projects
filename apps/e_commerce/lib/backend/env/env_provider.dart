@@ -16,12 +16,12 @@ class Env {
   }();
 
   final Level loggerLevel = () {
-    const logLevel = String.fromEnvironment('LOG_LEVEL');
-    return Level.values.firstWhere(
-      (e) => e.name == logLevel,
-      orElse: () => Level.info,
-    );
+    const logLevel = String.fromEnvironment('LOG_LEVEL', defaultValue: 'debug');
+    return Level.values.firstWhere((e) => e.name == logLevel);
   }();
+
+  final showDetailedError =
+      const bool.fromEnvironment('SHOW_DETAILED_ERROR', defaultValue: true);
 }
 
 @Riverpod(keepAlive: true)
