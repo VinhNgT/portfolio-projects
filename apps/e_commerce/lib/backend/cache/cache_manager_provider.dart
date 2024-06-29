@@ -2,19 +2,16 @@ import 'dart:async';
 
 import 'package:cached_query/cached_query.dart';
 import 'package:e_commerce/backend/cache/cache_storage.dart';
+import 'package:e_commerce/backend/cache/domain/cache_config.dart';
+import 'package:e_commerce/backend/env/env.dart';
 import 'package:e_commerce/backend/utils/object_serializer.dart';
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'cache_manager_provider.g.dart';
 
-const kDefaultCacheDuration = Duration(minutes: 5);
-const kDefaultCacheStorageDuration = Duration(minutes: 30);
-
-// const kDefaultCacheDuration = Duration(seconds: 5);
-// const kDefaultCacheStorageDuration = Duration(seconds: 10);
-
 class CacheManager {
-  CacheManager(this.cachedQuery);
+  const CacheManager(this.cachedQuery);
   final CachedQuery cachedQuery;
 
   /// Queries the cache with the given [key]. If the cache is empty or expired,
@@ -37,12 +34,12 @@ class CacheManager {
   /// in-memory storage). The duration is refreshed every time the data is
   /// accessed, allowing the cached data to potentially remain in RAM longer
   /// than it does in the persistent storage. Defaults to
-  /// [kDefaultCacheDuration].
+  /// [kDefaultCacheDuration], this can be changed using dotenv.
   ///
   /// [storageDuration] - Specifies the time to keep the cache on disk
   /// (persistent storage). This duration cannot be refreshed and the cache will
   /// be removed and refetched on next call. Defaults to
-  /// [kDefaultCacheStorageDuration].
+  /// [kDefaultCacheStorageDuration], this can be changed using dotenv.
   Future<T> query<T extends Object>({
     required String key,
     required FutureOr<T> Function() queryFn,
@@ -107,6 +104,12 @@ class CacheManager {
 @Riverpod(keepAlive: true)
 Future<CacheManager> cacheManager(CacheManagerRef ref) async {
   final cachedQuery = CachedQuery.instance;
+
+  // Grab the cache configuration from the environment variables.
+  final cacheConfig = ref.read(envProvider).cacheConfig;
+  debugPrint(cacheConfig.toString());
+
+  // Configure CachedQuery backend.
   cachedQuery.config(
     storage: await SembastCachedStorage.makeDefault(),
 
@@ -117,11 +120,11 @@ Future<CacheManager> cacheManager(CacheManagerRef ref) async {
 
       // Time to keep the cache in RAM, it will be refreshed every time the data
       // is accessed.
-      cacheDuration: kDefaultCacheDuration,
+      cacheDuration: cacheConfig.cacheDuration,
 
       // Time to keep the cache in disk. The cache will be deleted after this
       // duration.
-      storageDuration: kDefaultCacheStorageDuration,
+      storageDuration: cacheConfig.storageDuration,
     ),
   );
 
