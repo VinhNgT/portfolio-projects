@@ -2,7 +2,7 @@ import 'package:e_commerce/backend/cache/domain/cache_config.dart';
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'env.g.dart';
+part 'env_provider.g.dart';
 
 class Env {
   final CacheConfig cacheConfig = () {
