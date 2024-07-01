@@ -1,4 +1,4 @@
-import 'package:e_commerce/backend/cache/cache_manager_provider.dart';
+import 'package:e_commerce/backend/cache/client_cache_manager_provider.dart';
 import 'package:e_commerce/backend/database/sembast_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -19,7 +19,7 @@ class ProductionBootstrapDelegate extends BootstrapDelegate {
     await container.read(sembastProvider.future);
 
     // Initialize CachedQuery
-    await container.read(cacheManagerProvider.future);
+    await container.read(clientCacheManagerProvider.future);
   }
 }
 

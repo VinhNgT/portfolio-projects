@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
+import 'package:e_commerce/features/products/data/product_providers.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,9 @@ class ProductSearchBar extends HookConsumerWidget {
               leading: const Icon(Symbols.search),
               trailing: <Widget>[
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    ref.invalidate(productsListFutureProvider(0));
+                  },
                   icon: const Icon(Symbols.notifications),
                 ),
               ],

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:e_commerce/backend/cache/cache_manager_provider.dart';
+import 'package:e_commerce/backend/cache/client_cache_manager_provider.dart';
 import 'package:e_commerce/backend/utils/object_serializer.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/products.dart';
@@ -11,11 +11,11 @@ part 'product_repository.g.dart';
 class ProductRepository {
   const ProductRepository({
     required this.dio,
-    required this.cacheManager,
+    required this.clientCacheManager,
   });
 
   final Dio dio;
-  final CacheManager cacheManager;
+  final ClientCacheManager clientCacheManager;
   static const int productPageSizeLimit = 10;
 
   /// Fetches a [Product] by its [id].
@@ -27,7 +27,7 @@ class ProductRepository {
       throw ArgumentError('The id must be greater than or equal to 0');
     }
 
-    return cacheManager.query(
+    return clientCacheManager.query(
       key: 'ProductRepository-getProduct-$id',
       queryFn: () async {
         final response = await dio.get(
@@ -53,7 +53,7 @@ class ProductRepository {
       throw ArgumentError('The page must be greater than or equal to 0');
     }
 
-    return cacheManager.query(
+    return clientCacheManager.query(
       key: 'ProductRepository-getProductsList-$page',
       queryFn: () async {
         final response = await dio.get(
@@ -82,10 +82,10 @@ class ProductRepository {
 @riverpod
 ProductRepository productRepository(ProductRepositoryRef ref) {
   final dio = ref.watch(dummyJsonDioProvider);
-  final cacheManager = ref.read(cacheManagerProvider).requireValue;
+  final cacheManager = ref.read(clientCacheManagerProvider).requireValue;
 
   return ProductRepository(
     dio: dio,
-    cacheManager: cacheManager,
+    clientCacheManager: cacheManager,
   );
 }

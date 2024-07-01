@@ -8,10 +8,10 @@ import 'package:e_commerce/backend/utils/object_serializer.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'cache_manager_provider.g.dart';
+part 'client_cache_manager_provider.g.dart';
 
-class CacheManager {
-  const CacheManager(this.cachedQuery);
+class ClientCacheManager {
+  const ClientCacheManager(this.cachedQuery);
   final CachedQuery cachedQuery;
 
   /// Queries the cache with the given [key]. If the cache is empty or expired,
@@ -100,9 +100,9 @@ class CacheManager {
   }
 }
 
-/// Provides a [CacheManager] instance.
+/// Provides a [ClientCacheManager] instance.
 @Riverpod(keepAlive: true)
-Future<CacheManager> cacheManager(CacheManagerRef ref) async {
+Future<ClientCacheManager> clientCacheManager(ClientCacheManagerRef ref) async {
   final cachedQuery = CachedQuery.instance;
 
   // Grab the cache configuration from the environment variables.
@@ -128,5 +128,5 @@ Future<CacheManager> cacheManager(CacheManagerRef ref) async {
     ),
   );
 
-  return CacheManager(cachedQuery);
+  return ClientCacheManager(cachedQuery);
 }
