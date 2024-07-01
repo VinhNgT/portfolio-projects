@@ -6,7 +6,7 @@ part of 'dio_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dummyJsonDioHash() => r'604258ec40e8b55b860697967a3b210cf25e4629';
+String _$dummyJsonDioHash() => r'b17efefb61ff7f4eb1fab675b53b07c5672f8713';
 
 /// Provider of a [Dio] instance for connecting to https://dummyjson.com API.
 ///

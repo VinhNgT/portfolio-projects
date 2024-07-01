@@ -1,5 +1,6 @@
 import 'package:e_commerce/backend/cache/client_cache_manager_provider.dart';
 import 'package:e_commerce/backend/database/sembast_provider.dart';
+import 'package:e_commerce/networking/interceptors/cache_interceptor_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -15,11 +16,9 @@ class ProductionBootstrapDelegate extends BootstrapDelegate {
 
   @override
   Future<void> setupServices(ProviderContainer container) async {
-    // Initialize the Sembast database
     await container.read(sembastProvider.future);
-
-    // Initialize CachedQuery
     await container.read(clientCacheManagerProvider.future);
+    await container.read(dioCacheInterceptorProvider.future);
   }
 }
 

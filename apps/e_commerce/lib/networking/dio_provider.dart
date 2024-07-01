@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:e_commerce/logging/logger_provider.dart';
+import 'package:e_commerce/networking/interceptors/cache_interceptor_provider.dart';
 import 'package:e_commerce/networking/interceptors/log_interceptors.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -11,9 +12,12 @@ Dio dummyJsonDio(DummyJsonDioRef ref) {
   final dio = Dio(
     BaseOptions(baseUrl: 'https://dummyjson.com'),
   );
+
   final logger = ref.watch(loggerProvider);
+  final cacheInterceptor = ref.watch(dioCacheInterceptorProvider).requireValue;
 
   dio.interceptors.addAll([
+    cacheInterceptor,
     LoggerIntercepter(logger),
   ]);
 
