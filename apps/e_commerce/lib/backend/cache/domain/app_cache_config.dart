@@ -1,26 +1,26 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'cache_config.freezed.dart';
-part 'cache_config.g.dart';
+part 'app_cache_config.freezed.dart';
+part 'app_cache_config.g.dart';
 
 const kDefaultCacheDuration = Duration(minutes: 5);
 const kDefaultCacheStorageDuration = Duration(minutes: 30);
 
 @freezed
-class CacheConfig with _$CacheConfig {
-  const factory CacheConfig({
+class AppCacheConfig with _$AppCacheConfig {
+  const factory AppCacheConfig({
     @Default(kDefaultCacheDuration) Duration cacheDuration,
     @Default(kDefaultCacheStorageDuration) Duration storageDuration,
-  }) = _CacheConfig;
+  }) = _AppCacheConfig;
 
-  factory CacheConfig.fromJson(Map<String, dynamic> json) =>
-      _$CacheConfigFromJson(json);
+  factory AppCacheConfig.fromJson(Map<String, dynamic> json) =>
+      _$AppCacheConfigFromJson(json);
 
-  factory CacheConfig.fromSeconds({
+  factory AppCacheConfig.fromSeconds({
     int? cacheDurationSeconds,
     int? storageDurationSeconds,
   }) {
-    return CacheConfig(
+    return AppCacheConfig(
       cacheDuration: Duration(
         seconds: cacheDurationSeconds ?? kDefaultCacheDuration.inSeconds,
       ),

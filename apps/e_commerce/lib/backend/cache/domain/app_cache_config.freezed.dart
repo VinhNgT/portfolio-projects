@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'cache_config.dart';
+part of 'app_cache_config.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,34 +14,34 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-CacheConfig _$CacheConfigFromJson(Map<String, dynamic> json) {
-  return _CacheConfig.fromJson(json);
+AppCacheConfig _$AppCacheConfigFromJson(Map<String, dynamic> json) {
+  return _AppCacheConfig.fromJson(json);
 }
 
 /// @nodoc
-mixin _$CacheConfig {
+mixin _$AppCacheConfig {
   Duration get cacheDuration => throw _privateConstructorUsedError;
   Duration get storageDuration => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $CacheConfigCopyWith<CacheConfig> get copyWith =>
+  $AppCacheConfigCopyWith<AppCacheConfig> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CacheConfigCopyWith<$Res> {
-  factory $CacheConfigCopyWith(
-          CacheConfig value, $Res Function(CacheConfig) then) =
-      _$CacheConfigCopyWithImpl<$Res, CacheConfig>;
+abstract class $AppCacheConfigCopyWith<$Res> {
+  factory $AppCacheConfigCopyWith(
+          AppCacheConfig value, $Res Function(AppCacheConfig) then) =
+      _$AppCacheConfigCopyWithImpl<$Res, AppCacheConfig>;
   @useResult
   $Res call({Duration cacheDuration, Duration storageDuration});
 }
 
 /// @nodoc
-class _$CacheConfigCopyWithImpl<$Res, $Val extends CacheConfig>
-    implements $CacheConfigCopyWith<$Res> {
-  _$CacheConfigCopyWithImpl(this._value, this._then);
+class _$AppCacheConfigCopyWithImpl<$Res, $Val extends AppCacheConfig>
+    implements $AppCacheConfigCopyWith<$Res> {
+  _$AppCacheConfigCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -68,22 +68,22 @@ class _$CacheConfigCopyWithImpl<$Res, $Val extends CacheConfig>
 }
 
 /// @nodoc
-abstract class _$$CacheConfigImplCopyWith<$Res>
-    implements $CacheConfigCopyWith<$Res> {
-  factory _$$CacheConfigImplCopyWith(
-          _$CacheConfigImpl value, $Res Function(_$CacheConfigImpl) then) =
-      __$$CacheConfigImplCopyWithImpl<$Res>;
+abstract class _$$AppCacheConfigImplCopyWith<$Res>
+    implements $AppCacheConfigCopyWith<$Res> {
+  factory _$$AppCacheConfigImplCopyWith(_$AppCacheConfigImpl value,
+          $Res Function(_$AppCacheConfigImpl) then) =
+      __$$AppCacheConfigImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Duration cacheDuration, Duration storageDuration});
 }
 
 /// @nodoc
-class __$$CacheConfigImplCopyWithImpl<$Res>
-    extends _$CacheConfigCopyWithImpl<$Res, _$CacheConfigImpl>
-    implements _$$CacheConfigImplCopyWith<$Res> {
-  __$$CacheConfigImplCopyWithImpl(
-      _$CacheConfigImpl _value, $Res Function(_$CacheConfigImpl) _then)
+class __$$AppCacheConfigImplCopyWithImpl<$Res>
+    extends _$AppCacheConfigCopyWithImpl<$Res, _$AppCacheConfigImpl>
+    implements _$$AppCacheConfigImplCopyWith<$Res> {
+  __$$AppCacheConfigImplCopyWithImpl(
+      _$AppCacheConfigImpl _value, $Res Function(_$AppCacheConfigImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -92,7 +92,7 @@ class __$$CacheConfigImplCopyWithImpl<$Res>
     Object? cacheDuration = null,
     Object? storageDuration = null,
   }) {
-    return _then(_$CacheConfigImpl(
+    return _then(_$AppCacheConfigImpl(
       cacheDuration: null == cacheDuration
           ? _value.cacheDuration
           : cacheDuration // ignore: cast_nullable_to_non_nullable
@@ -107,13 +107,13 @@ class __$$CacheConfigImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CacheConfigImpl implements _CacheConfig {
-  const _$CacheConfigImpl(
+class _$AppCacheConfigImpl implements _AppCacheConfig {
+  const _$AppCacheConfigImpl(
       {this.cacheDuration = kDefaultCacheDuration,
       this.storageDuration = kDefaultCacheStorageDuration});
 
-  factory _$CacheConfigImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CacheConfigImplFromJson(json);
+  factory _$AppCacheConfigImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AppCacheConfigImplFromJson(json);
 
   @override
   @JsonKey()
@@ -124,14 +124,14 @@ class _$CacheConfigImpl implements _CacheConfig {
 
   @override
   String toString() {
-    return 'CacheConfig(cacheDuration: $cacheDuration, storageDuration: $storageDuration)';
+    return 'AppCacheConfig(cacheDuration: $cacheDuration, storageDuration: $storageDuration)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CacheConfigImpl &&
+            other is _$AppCacheConfigImpl &&
             (identical(other.cacheDuration, cacheDuration) ||
                 other.cacheDuration == cacheDuration) &&
             (identical(other.storageDuration, storageDuration) ||
@@ -145,24 +145,25 @@ class _$CacheConfigImpl implements _CacheConfig {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CacheConfigImplCopyWith<_$CacheConfigImpl> get copyWith =>
-      __$$CacheConfigImplCopyWithImpl<_$CacheConfigImpl>(this, _$identity);
+  _$$AppCacheConfigImplCopyWith<_$AppCacheConfigImpl> get copyWith =>
+      __$$AppCacheConfigImplCopyWithImpl<_$AppCacheConfigImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CacheConfigImplToJson(
+    return _$$AppCacheConfigImplToJson(
       this,
     );
   }
 }
 
-abstract class _CacheConfig implements CacheConfig {
-  const factory _CacheConfig(
+abstract class _AppCacheConfig implements AppCacheConfig {
+  const factory _AppCacheConfig(
       {final Duration cacheDuration,
-      final Duration storageDuration}) = _$CacheConfigImpl;
+      final Duration storageDuration}) = _$AppCacheConfigImpl;
 
-  factory _CacheConfig.fromJson(Map<String, dynamic> json) =
-      _$CacheConfigImpl.fromJson;
+  factory _AppCacheConfig.fromJson(Map<String, dynamic> json) =
+      _$AppCacheConfigImpl.fromJson;
 
   @override
   Duration get cacheDuration;
@@ -170,6 +171,6 @@ abstract class _CacheConfig implements CacheConfig {
   Duration get storageDuration;
   @override
   @JsonKey(ignore: true)
-  _$$CacheConfigImplCopyWith<_$CacheConfigImpl> get copyWith =>
+  _$$AppCacheConfigImplCopyWith<_$AppCacheConfigImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

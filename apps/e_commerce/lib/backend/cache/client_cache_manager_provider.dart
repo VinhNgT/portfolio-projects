@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cached_query/cached_query.dart';
 import 'package:e_commerce/backend/cache/cached_storage.dart';
-import 'package:e_commerce/backend/cache/domain/cache_config.dart';
+import 'package:e_commerce/backend/cache/domain/app_cache_config.dart';
 import 'package:e_commerce/backend/env/env_provider.dart';
 import 'package:e_commerce/backend/utils/object_serializer.dart';
 import 'package:flutter/material.dart';
@@ -106,7 +106,7 @@ Future<ClientCacheManager> clientCacheManager(ClientCacheManagerRef ref) async {
   final cachedQuery = CachedQuery.instance;
 
   // Grab the cache configuration from the environment variables.
-  final cacheConfig = ref.read(envProvider).cacheConfig;
+  final cacheConfig = ref.read(envProvider).appCacheConfig;
   debugPrint(cacheConfig.toString());
 
   // Configure CachedQuery backend.
