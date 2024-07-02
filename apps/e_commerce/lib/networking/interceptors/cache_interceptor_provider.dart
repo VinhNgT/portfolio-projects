@@ -49,12 +49,12 @@ class DioAppCacheInterceptor extends DioCacheInterceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) {
-    const minFresh = null;
-    final maxAge = cacheConfig?.cacheDuration;
-
     final cacheControl = CacheControl.fromHeader(
       _headerValuesAsList(options.headers, _cacheControlHeader),
-    ).copyWith(minFresh: minFresh?.inSeconds, maxAge: maxAge?.inSeconds);
+    ).copyWith(
+      minFresh: cacheConfig?.minCacheDuration.inSeconds,
+      maxAge: cacheConfig?.maxCacheDuration.inSeconds,
+    );
 
     options.headers[_cacheControlHeader] = cacheControl.toHeader();
     return super.onRequest(options, handler);

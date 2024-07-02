@@ -1,45 +1,32 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:dart_mappable/dart_mappable.dart';
 
-part 'app_cache_config.freezed.dart';
-part 'app_cache_config.g.dart';
+part 'app_cache_config.mapper.dart';
 
-const kDefaultMinCacheDuration = Duration(minutes: 5);
-const kDefaultMaxCacheDuration = Duration(minutes: 30);
+const kDefaultMinCacheDuration = Duration.zero;
+const kDefaultMaxCacheDuration = Duration(minutes: 5);
 
-@freezed
-class AppCacheConfig with _$AppCacheConfig {
-  const factory AppCacheConfig({
-    /// Minimum cache duration
-    @Default(kDefaultMinCacheDuration)
-    @DurationSecondsConverter()
-    Duration minCacheDuration,
-
-    /// Maximum cache duration
-    @Default(kDefaultMaxCacheDuration)
-    @DurationSecondsConverter()
-    Duration maxCacheDuration,
-  }) = _AppCacheConfig;
-
-  factory AppCacheConfig.fromJson(Map<String, dynamic> json) =>
-      _$AppCacheConfigFromJson(json);
-
-  factory AppCacheConfig.fromSeconds({
-    int? minCacheDurationSeconds,
-    int? maxCacheDurationSecond,
+@MappableClass()
+class AppCacheConfig with AppCacheConfigMappable {
+  AppCacheConfig({
+    Duration? minCacheDuration,
+    Duration? maxCacheDuration,
   }) {
-    return AppCacheConfig.fromJson({
-      'minCacheDuration': minCacheDurationSeconds,
-      'maxCacheDuration': maxCacheDurationSecond,
-    });
+    this.minCacheDuration = minCacheDuration ?? kDefaultMinCacheDuration;
+    this.maxCacheDuration = maxCacheDuration ?? kDefaultMaxCacheDuration;
   }
-}
 
-class DurationSecondsConverter implements JsonConverter<Duration, int> {
-  const DurationSecondsConverter();
+  AppCacheConfig.fromSeconds({
+    required int? minCacheDurationSeconds,
+    required int? maxCacheDurationSecond,
+  }) : this(
+          minCacheDuration: minCacheDurationSeconds != null
+              ? Duration(seconds: minCacheDurationSeconds)
+              : null,
+          maxCacheDuration: maxCacheDurationSecond != null
+              ? Duration(seconds: maxCacheDurationSecond)
+              : null,
+        );
 
-  @override
-  Duration fromJson(int seconds) => Duration(seconds: seconds);
-
-  @override
-  int toJson(Duration duration) => duration.inSeconds;
+  late final Duration minCacheDuration;
+  late final Duration maxCacheDuration;
 }

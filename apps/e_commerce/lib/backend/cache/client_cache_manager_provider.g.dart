@@ -7,7 +7,7 @@ part of 'client_cache_manager_provider.dart';
 // **************************************************************************
 
 String _$clientCacheManagerHash() =>
-    r'b413ef4c4ce0eb9159c3c85fe4587f673fd4da41';
+    r'8f065102725b981369cc046bb3697a37e089dc30';
 
 /// Provides a [ClientCacheManager] instance.
 ///

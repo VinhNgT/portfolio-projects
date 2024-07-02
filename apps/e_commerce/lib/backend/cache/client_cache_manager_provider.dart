@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:cached_query/cached_query.dart';
 import 'package:e_commerce/backend/cache/cached_storage.dart';
-import 'package:e_commerce/backend/cache/domain/app_cache_config.dart';
 import 'package:e_commerce/backend/env/env_provider.dart';
 import 'package:e_commerce/backend/utils/object_serializer.dart';
 import 'package:flutter/material.dart';
@@ -120,11 +119,11 @@ Future<ClientCacheManager> clientCacheManager(ClientCacheManagerRef ref) async {
 
       // Time to keep the cache in RAM, it will be refreshed every time the data
       // is accessed.
-      cacheDuration: cacheConfig.cacheDuration,
+      cacheDuration: cacheConfig.maxCacheDuration,
 
       // Time to keep the cache in disk. The cache will be deleted after this
       // duration.
-      storageDuration: cacheConfig.storageDuration,
+      storageDuration: cacheConfig.maxCacheDuration,
     ),
   );
 
