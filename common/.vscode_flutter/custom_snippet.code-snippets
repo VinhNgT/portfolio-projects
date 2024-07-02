@@ -34,5 +34,23 @@
       "Gap($0),"
     ],
     "description": "Add a gap"
+  },
+
+  "Dart Mappable": {
+    "scope": "dart",
+    "prefix": "mclass",
+    "body": [
+      "import 'package:dart_mappable/dart_mappable.dart';\r\n\r\npart '$TM_FILENAME_BASE.mapper.dart';\r\n\r\n@MappableClass()\r\nclass ${TM_FILENAME_BASE/(^|_)([a-z])/${2:/capitalize}/g} with ${TM_FILENAME_BASE/(^|_)([a-z])/${2:/capitalize}/g}Mappable {\r\n  $0\r\n}"
+    ],
+    "description": "Create a Dart Mappable class"
+  },
+
+  "Entity Dart Mappable Class": {
+    "scope": "dart",
+    "prefix": "emclass",
+    "body": [
+      "import 'package:dart_mappable/dart_mappable.dart';\r\nimport 'package:dio_cache_interceptor_objectbox_store/objectbox.g.dart';\r\n\r\npart '$TM_FILENAME_BASE.mapper.dart';\r\n\r\n@Entity()\r\n@MappableClass()\r\nclass ${TM_FILENAME_BASE/(^|_)([a-z])/${2:/capitalize}/g} with ${TM_FILENAME_BASE/(^|_)([a-z])/${2:/capitalize}/g}Mappable {\r\n  @Id()\r\n  int id = 0;\r\n\r\n  $0\r\n}\r\n"
+    ],
+    "description": "Create an ObjectBox Entity Dart Mappable class"
   }
 }

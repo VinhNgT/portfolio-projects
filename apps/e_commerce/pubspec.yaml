@@ -87,6 +87,7 @@ dependencies:
 
   # Localization
   intl: ^0.18.1
+  dart_mappable: ^4.2.2
 
 dependency_overrides:
   # Version ^8.1.4 is unstable in Flutter 3.19
@@ -123,6 +124,7 @@ dev_dependencies:
 
   # Database / File System
   objectbox_generator: any
+  dart_mappable_builder: ^4.2.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -13,6 +13,17 @@ targets:
           include:
             - 'lib/**/domain/**.dart'
 
+      dart_mappable_builder:
+        generate_for:
+          include:
+            - 'lib/**/domain/**.dart'
+        options:
+          renameMethods:
+            fromJson: fromJsonString
+            toJson: toJsonString
+            fromMap: fromJson
+            toMap: toJson
+
       riverpod_generator:
         generate_for:
           include:
