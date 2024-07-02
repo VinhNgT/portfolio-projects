@@ -9,11 +9,11 @@ class Env {
   /// operations and libraries in the app.
   final AppCacheConfig appCacheConfig = () {
     return AppCacheConfig.fromSeconds(
-      minCacheDurationSeconds: int.tryParse(
-        const String.fromEnvironment('MIN_CACHE_DURATION_SECONDS'),
+      clientCacheDurationSeconds: int.tryParse(
+        const String.fromEnvironment('CLIENT_CACHE_DURATION_SECONDS'),
       ),
-      maxCacheDurationSecond: int.tryParse(
-        const String.fromEnvironment('MAX_CACHE_DURATION_SECONDS'),
+      networkCacheDurationSecond: int.tryParse(
+        const String.fromEnvironment('NETWORK_CACHE_DURATION_SECONDS'),
       ),
     );
   }();

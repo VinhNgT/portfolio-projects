@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cached_query/cached_query.dart';
 import 'package:e_commerce/backend/cache/cached_storage.dart';
+import 'package:e_commerce/backend/cache/domain/app_cache_config.dart';
 import 'package:e_commerce/backend/env/env_provider.dart';
 import 'package:e_commerce/backend/utils/object_serializer.dart';
 import 'package:flutter/material.dart';
@@ -29,16 +30,16 @@ class ClientCacheManager {
   /// [forceRefresh] - Force fetching new data from [queryFn], ignore existing
   /// cache and [neverExpire] flag. Defaults to `false`.
   ///
-  /// [cacheDuration] - Specifies the time to keep the cache in RAM (temporary,
-  /// in-memory storage). The duration is refreshed every time the data is
-  /// accessed, allowing the cached data to potentially remain in RAM longer
-  /// than it does in the persistent storage. Defaults to
-  /// [kDefaultCacheDuration], this can be changed using dotenv.
+  /// [ramCacheDuration] - Specifies the time to keep the cache in RAM
+  /// (temporary, in-memory storage). The duration is refreshed every time the
+  /// data is accessed, allowing the cached data to potentially remain in RAM
+  /// longer than it does in the persistent storage. Defaults to
+  /// [Duration.zero].
   ///
-  /// [storageDuration] - Specifies the time to keep the cache on disk
-  /// (persistent storage). This duration cannot be refreshed and the cache will
-  /// be removed and refetched on next call. Defaults to
-  /// [kDefaultCacheStorageDuration], this can be changed using dotenv.
+  /// [cacheDuration] - Specifies the time to keep the cache on disk (persistent
+  /// storage). This duration cannot be refreshed and the cache will be removed
+  /// and refetched on next call. Defaults to [kDefaultClientCacheDuration],
+  /// which can be changed using [Env.appCacheConfig].
   Future<T> query<T extends Object>({
     required String key,
     required FutureOr<T> Function() queryFn,
@@ -46,8 +47,8 @@ class ClientCacheManager {
     bool cacheError = false,
     bool neverExpire = false,
     bool forceRefresh = false,
+    Duration? ramCacheDuration,
     Duration? cacheDuration,
-    Duration? storageDuration,
   }) async {
     // CachedQuery does not automatically remove expired cache from the
     // persistent storage, so we need to do it manually.
@@ -61,8 +62,8 @@ class ClientCacheManager {
             serializer != null ? (object) => serializer.toJson(object) : null,
         storageDeserializer:
             serializer != null ? (json) => serializer.fromJson(json) : null,
-        cacheDuration: cacheDuration,
-        storageDuration: storageDuration,
+        cacheDuration: ramCacheDuration,
+        storageDuration: cacheDuration,
         ignoreCacheDuration: neverExpire,
       ),
     );
@@ -105,7 +106,7 @@ Future<ClientCacheManager> clientCacheManager(ClientCacheManagerRef ref) async {
   final cachedQuery = CachedQuery.instance;
 
   // Grab the cache configuration from the environment variables.
-  final cacheConfig = ref.read(envProvider).appCacheConfig;
+  final AppCacheConfig cacheConfig = ref.read(envProvider).appCacheConfig;
   debugPrint(cacheConfig.toString());
 
   // Configure CachedQuery backend.
@@ -119,11 +120,14 @@ Future<ClientCacheManager> clientCacheManager(ClientCacheManagerRef ref) async {
 
       // Time to keep the cache in RAM, it will be refreshed every time the data
       // is accessed.
-      cacheDuration: cacheConfig.maxCacheDuration,
+      //
+      // Set to Duration.zero because the underlying database is already having
+      // a cache of its own.
+      cacheDuration: Duration.zero,
 
       // Time to keep the cache in disk. The cache will be deleted after this
       // duration.
-      storageDuration: cacheConfig.maxCacheDuration,
+      storageDuration: cacheConfig.clientCacheDuration,
     ),
   );
 

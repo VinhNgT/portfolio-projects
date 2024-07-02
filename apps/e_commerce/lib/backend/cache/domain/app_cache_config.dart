@@ -2,31 +2,34 @@ import 'package:dart_mappable/dart_mappable.dart';
 
 part 'app_cache_config.mapper.dart';
 
-const kDefaultMinCacheDuration = Duration.zero;
-const kDefaultMaxCacheDuration = Duration(minutes: 5);
+const kDefaultClientCacheDuration = Duration(minutes: 5);
+const kDefaultNetworkCacheDuration = Duration(minutes: 5);
 
 @MappableClass()
 class AppCacheConfig with AppCacheConfigMappable {
   AppCacheConfig({
-    Duration? minCacheDuration,
-    Duration? maxCacheDuration,
+    Duration? clientCacheDuration,
+    Duration? networkCacheDuration,
   }) {
-    this.minCacheDuration = minCacheDuration ?? kDefaultMinCacheDuration;
-    this.maxCacheDuration = maxCacheDuration ?? kDefaultMaxCacheDuration;
+    clientCacheDuration = clientCacheDuration ?? kDefaultClientCacheDuration;
+    networkCacheDuration = networkCacheDuration ?? kDefaultNetworkCacheDuration;
   }
 
   AppCacheConfig.fromSeconds({
-    required int? minCacheDurationSeconds,
-    required int? maxCacheDurationSecond,
+    required int? clientCacheDurationSeconds,
+    required int? networkCacheDurationSecond,
   }) : this(
-          minCacheDuration: minCacheDurationSeconds != null
-              ? Duration(seconds: minCacheDurationSeconds)
+          clientCacheDuration: clientCacheDurationSeconds != null
+              ? Duration(seconds: clientCacheDurationSeconds)
               : null,
-          maxCacheDuration: maxCacheDurationSecond != null
-              ? Duration(seconds: maxCacheDurationSecond)
+          networkCacheDuration: networkCacheDurationSecond != null
+              ? Duration(seconds: networkCacheDurationSecond)
               : null,
         );
 
-  late final Duration minCacheDuration;
-  late final Duration maxCacheDuration;
+  /// The max cache duration of client generated data.
+  late final Duration clientCacheDuration;
+
+  /// The max cache duration of network fetched data.
+  late final Duration networkCacheDuration;
 }

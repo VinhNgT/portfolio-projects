@@ -20,23 +20,25 @@ class AppCacheConfigMapper extends ClassMapperBase<AppCacheConfig> {
   @override
   final String id = 'AppCacheConfig';
 
-  static Duration _$minCacheDuration(AppCacheConfig v) => v.minCacheDuration;
-  static const Field<AppCacheConfig, Duration> _f$minCacheDuration =
-      Field('minCacheDuration', _$minCacheDuration, opt: true);
-  static Duration _$maxCacheDuration(AppCacheConfig v) => v.maxCacheDuration;
-  static const Field<AppCacheConfig, Duration> _f$maxCacheDuration =
-      Field('maxCacheDuration', _$maxCacheDuration, opt: true);
+  static Duration _$clientCacheDuration(AppCacheConfig v) =>
+      v.clientCacheDuration;
+  static const Field<AppCacheConfig, Duration> _f$clientCacheDuration =
+      Field('clientCacheDuration', _$clientCacheDuration, opt: true);
+  static Duration _$networkCacheDuration(AppCacheConfig v) =>
+      v.networkCacheDuration;
+  static const Field<AppCacheConfig, Duration> _f$networkCacheDuration =
+      Field('networkCacheDuration', _$networkCacheDuration, opt: true);
 
   @override
   final MappableFields<AppCacheConfig> fields = const {
-    #minCacheDuration: _f$minCacheDuration,
-    #maxCacheDuration: _f$maxCacheDuration,
+    #clientCacheDuration: _f$clientCacheDuration,
+    #networkCacheDuration: _f$networkCacheDuration,
   };
 
   static AppCacheConfig _instantiate(DecodingData data) {
     return AppCacheConfig(
-        minCacheDuration: data.dec(_f$minCacheDuration),
-        maxCacheDuration: data.dec(_f$maxCacheDuration));
+        clientCacheDuration: data.dec(_f$clientCacheDuration),
+        networkCacheDuration: data.dec(_f$networkCacheDuration));
   }
 
   @override
@@ -92,7 +94,7 @@ extension AppCacheConfigValueCopy<$R, $Out>
 
 abstract class AppCacheConfigCopyWith<$R, $In extends AppCacheConfig, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  $R call({Duration? minCacheDuration, Duration? maxCacheDuration});
+  $R call({Duration? clientCacheDuration, Duration? networkCacheDuration});
   AppCacheConfigCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -107,18 +109,20 @@ class _AppCacheConfigCopyWithImpl<$R, $Out>
       AppCacheConfigMapper.ensureInitialized();
   @override
   $R call(
-          {Object? minCacheDuration = $none,
-          Object? maxCacheDuration = $none}) =>
+          {Object? clientCacheDuration = $none,
+          Object? networkCacheDuration = $none}) =>
       $apply(FieldCopyWithData({
-        if (minCacheDuration != $none) #minCacheDuration: minCacheDuration,
-        if (maxCacheDuration != $none) #maxCacheDuration: maxCacheDuration
+        if (clientCacheDuration != $none)
+          #clientCacheDuration: clientCacheDuration,
+        if (networkCacheDuration != $none)
+          #networkCacheDuration: networkCacheDuration
       }));
   @override
   AppCacheConfig $make(CopyWithData data) => AppCacheConfig(
-      minCacheDuration:
-          data.get(#minCacheDuration, or: $value.minCacheDuration),
-      maxCacheDuration:
-          data.get(#maxCacheDuration, or: $value.maxCacheDuration));
+      clientCacheDuration:
+          data.get(#clientCacheDuration, or: $value.clientCacheDuration),
+      networkCacheDuration:
+          data.get(#networkCacheDuration, or: $value.networkCacheDuration));
 
   @override
   AppCacheConfigCopyWith<$R2, AppCacheConfig, $Out2> $chain<$R2, $Out2>(
