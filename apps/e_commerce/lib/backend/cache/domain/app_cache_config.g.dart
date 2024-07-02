@@ -8,17 +8,21 @@ part of 'app_cache_config.dart';
 
 _$AppCacheConfigImpl _$$AppCacheConfigImplFromJson(Map<String, dynamic> json) =>
     _$AppCacheConfigImpl(
-      cacheDuration: json['cacheDuration'] == null
-          ? kDefaultCacheDuration
-          : Duration(microseconds: (json['cacheDuration'] as num).toInt()),
-      storageDuration: json['storageDuration'] == null
-          ? kDefaultCacheStorageDuration
-          : Duration(microseconds: (json['storageDuration'] as num).toInt()),
+      minCacheDuration: json['minCacheDuration'] == null
+          ? kDefaultMinCacheDuration
+          : const DurationSecondsConverter()
+              .fromJson((json['minCacheDuration'] as num).toInt()),
+      maxCacheDuration: json['maxCacheDuration'] == null
+          ? kDefaultMaxCacheDuration
+          : const DurationSecondsConverter()
+              .fromJson((json['maxCacheDuration'] as num).toInt()),
     );
 
 Map<String, dynamic> _$$AppCacheConfigImplToJson(
         _$AppCacheConfigImpl instance) =>
     <String, dynamic>{
-      'cacheDuration': instance.cacheDuration.inMicroseconds,
-      'storageDuration': instance.storageDuration.inMicroseconds,
+      'minCacheDuration':
+          const DurationSecondsConverter().toJson(instance.minCacheDuration),
+      'maxCacheDuration':
+          const DurationSecondsConverter().toJson(instance.maxCacheDuration),
     };

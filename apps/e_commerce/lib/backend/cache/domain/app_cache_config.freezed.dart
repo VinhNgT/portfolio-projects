@@ -20,8 +20,13 @@ AppCacheConfig _$AppCacheConfigFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AppCacheConfig {
-  Duration get cacheDuration => throw _privateConstructorUsedError;
-  Duration get storageDuration => throw _privateConstructorUsedError;
+  /// Minimum cache duration
+  @DurationSecondsConverter()
+  Duration get minCacheDuration => throw _privateConstructorUsedError;
+
+  /// Maximum cache duration
+  @DurationSecondsConverter()
+  Duration get maxCacheDuration => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +40,9 @@ abstract class $AppCacheConfigCopyWith<$Res> {
           AppCacheConfig value, $Res Function(AppCacheConfig) then) =
       _$AppCacheConfigCopyWithImpl<$Res, AppCacheConfig>;
   @useResult
-  $Res call({Duration cacheDuration, Duration storageDuration});
+  $Res call(
+      {@DurationSecondsConverter() Duration minCacheDuration,
+      @DurationSecondsConverter() Duration maxCacheDuration});
 }
 
 /// @nodoc
@@ -51,17 +58,17 @@ class _$AppCacheConfigCopyWithImpl<$Res, $Val extends AppCacheConfig>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? cacheDuration = null,
-    Object? storageDuration = null,
+    Object? minCacheDuration = null,
+    Object? maxCacheDuration = null,
   }) {
     return _then(_value.copyWith(
-      cacheDuration: null == cacheDuration
-          ? _value.cacheDuration
-          : cacheDuration // ignore: cast_nullable_to_non_nullable
+      minCacheDuration: null == minCacheDuration
+          ? _value.minCacheDuration
+          : minCacheDuration // ignore: cast_nullable_to_non_nullable
               as Duration,
-      storageDuration: null == storageDuration
-          ? _value.storageDuration
-          : storageDuration // ignore: cast_nullable_to_non_nullable
+      maxCacheDuration: null == maxCacheDuration
+          ? _value.maxCacheDuration
+          : maxCacheDuration // ignore: cast_nullable_to_non_nullable
               as Duration,
     ) as $Val);
   }
@@ -75,7 +82,9 @@ abstract class _$$AppCacheConfigImplCopyWith<$Res>
       __$$AppCacheConfigImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Duration cacheDuration, Duration storageDuration});
+  $Res call(
+      {@DurationSecondsConverter() Duration minCacheDuration,
+      @DurationSecondsConverter() Duration maxCacheDuration});
 }
 
 /// @nodoc
@@ -89,17 +98,17 @@ class __$$AppCacheConfigImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? cacheDuration = null,
-    Object? storageDuration = null,
+    Object? minCacheDuration = null,
+    Object? maxCacheDuration = null,
   }) {
     return _then(_$AppCacheConfigImpl(
-      cacheDuration: null == cacheDuration
-          ? _value.cacheDuration
-          : cacheDuration // ignore: cast_nullable_to_non_nullable
+      minCacheDuration: null == minCacheDuration
+          ? _value.minCacheDuration
+          : minCacheDuration // ignore: cast_nullable_to_non_nullable
               as Duration,
-      storageDuration: null == storageDuration
-          ? _value.storageDuration
-          : storageDuration // ignore: cast_nullable_to_non_nullable
+      maxCacheDuration: null == maxCacheDuration
+          ? _value.maxCacheDuration
+          : maxCacheDuration // ignore: cast_nullable_to_non_nullable
               as Duration,
     ));
   }
@@ -109,22 +118,29 @@ class __$$AppCacheConfigImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$AppCacheConfigImpl implements _AppCacheConfig {
   const _$AppCacheConfigImpl(
-      {this.cacheDuration = kDefaultCacheDuration,
-      this.storageDuration = kDefaultCacheStorageDuration});
+      {@DurationSecondsConverter()
+      this.minCacheDuration = kDefaultMinCacheDuration,
+      @DurationSecondsConverter()
+      this.maxCacheDuration = kDefaultMaxCacheDuration});
 
   factory _$AppCacheConfigImpl.fromJson(Map<String, dynamic> json) =>
       _$$AppCacheConfigImplFromJson(json);
 
+  /// Minimum cache duration
   @override
   @JsonKey()
-  final Duration cacheDuration;
+  @DurationSecondsConverter()
+  final Duration minCacheDuration;
+
+  /// Maximum cache duration
   @override
   @JsonKey()
-  final Duration storageDuration;
+  @DurationSecondsConverter()
+  final Duration maxCacheDuration;
 
   @override
   String toString() {
-    return 'AppCacheConfig(cacheDuration: $cacheDuration, storageDuration: $storageDuration)';
+    return 'AppCacheConfig(minCacheDuration: $minCacheDuration, maxCacheDuration: $maxCacheDuration)';
   }
 
   @override
@@ -132,15 +148,16 @@ class _$AppCacheConfigImpl implements _AppCacheConfig {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AppCacheConfigImpl &&
-            (identical(other.cacheDuration, cacheDuration) ||
-                other.cacheDuration == cacheDuration) &&
-            (identical(other.storageDuration, storageDuration) ||
-                other.storageDuration == storageDuration));
+            (identical(other.minCacheDuration, minCacheDuration) ||
+                other.minCacheDuration == minCacheDuration) &&
+            (identical(other.maxCacheDuration, maxCacheDuration) ||
+                other.maxCacheDuration == maxCacheDuration));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, cacheDuration, storageDuration);
+  int get hashCode =>
+      Object.hash(runtimeType, minCacheDuration, maxCacheDuration);
 
   @JsonKey(ignore: true)
   @override
@@ -159,16 +176,23 @@ class _$AppCacheConfigImpl implements _AppCacheConfig {
 
 abstract class _AppCacheConfig implements AppCacheConfig {
   const factory _AppCacheConfig(
-      {final Duration cacheDuration,
-      final Duration storageDuration}) = _$AppCacheConfigImpl;
+          {@DurationSecondsConverter() final Duration minCacheDuration,
+          @DurationSecondsConverter() final Duration maxCacheDuration}) =
+      _$AppCacheConfigImpl;
 
   factory _AppCacheConfig.fromJson(Map<String, dynamic> json) =
       _$AppCacheConfigImpl.fromJson;
 
   @override
-  Duration get cacheDuration;
+
+  /// Minimum cache duration
+  @DurationSecondsConverter()
+  Duration get minCacheDuration;
   @override
-  Duration get storageDuration;
+
+  /// Maximum cache duration
+  @DurationSecondsConverter()
+  Duration get maxCacheDuration;
   @override
   @JsonKey(ignore: true)
   _$$AppCacheConfigImplCopyWith<_$AppCacheConfigImpl> get copyWith =>
