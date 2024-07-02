@@ -7,7 +7,7 @@ part of 'cache_interceptor_provider.dart';
 // **************************************************************************
 
 String _$dioCacheInterceptorHash() =>
-    r'd8b0fa7d11cab8b28f99cb08bf0374e34b7b795a';
+    r'6dab8a9d36a1c1cb19da8b47cd0a5c9930932d44';
 
 /// See also [dioCacheInterceptor].
 @ProviderFor(dioCacheInterceptor)
