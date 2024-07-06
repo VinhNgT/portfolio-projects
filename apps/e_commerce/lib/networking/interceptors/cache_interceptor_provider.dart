@@ -29,14 +29,16 @@ FutureOr<DioCacheInterceptor> dioCacheInterceptor(
 
 /// A [DioCacheInterceptor] that adds app specific cache control headers to the
 /// request.
-///
-/// Parameters:
-///   - [cacheConfig] - App specific configuration settings [AppCacheConfig] for
-///     the cache. These settings are typically obtained from [envProvider].
-///   - [options] - An instance of [CacheOptions] that specifies various options
-///     for caching behavior. These options are passed to the superclass
-///     [DioCacheInterceptor] to configure its caching strategy.
 class DioAppCacheInterceptor extends DioCacheInterceptor {
+  /// Creates a new instance of [DioAppCacheInterceptor].
+  ///
+  /// Parameters:
+  ///   - [cacheConfig] - App specific configuration settings [AppCacheConfig]
+  ///     for the cache. These settings are typically obtained from
+  ///     [envProvider].
+  ///   - [options] - An instance of [CacheOptions] that specifies various
+  ///     options for caching behavior. These options are passed to the
+  ///     superclass
   DioAppCacheInterceptor(
     this.cacheConfig, {
     required super.options,
@@ -50,11 +52,17 @@ class DioAppCacheInterceptor extends DioCacheInterceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) {
-    final cacheControl = CacheControl.fromHeader(
+    final reqCacheCtl = CacheControl.fromHeader(
       _headerValuesAsList(options.headers, _cacheControlHeader),
-    ).copyWith(maxAge: cacheConfig?.networkCacheDuration.inSeconds);
+    );
 
-    options.headers[_cacheControlHeader] = cacheControl.toHeader();
+    final cacheReqCacheCtl = reqCacheCtl.maxAge == -1
+        ? reqCacheCtl.copyWith(
+            maxAge: cacheConfig?.networkCacheDuration.inSeconds,
+          )
+        : reqCacheCtl;
+
+    options.headers[_cacheControlHeader] = cacheReqCacheCtl.toHeader();
     return super.onRequest(options, handler);
   }
 
