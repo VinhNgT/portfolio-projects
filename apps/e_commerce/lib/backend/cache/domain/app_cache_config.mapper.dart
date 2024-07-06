@@ -13,6 +13,7 @@ class AppCacheConfigMapper extends ClassMapperBase<AppCacheConfig> {
   static AppCacheConfigMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = AppCacheConfigMapper._());
+      MapperContainer.globals.useAll([DurationSecondsMapper()]);
     }
     return _instance!;
   }

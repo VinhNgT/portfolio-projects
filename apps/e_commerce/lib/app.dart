@@ -1,4 +1,4 @@
-import 'package:e_commerce/routing/app_router.dart';
+import 'package:e_commerce/routing/app_router_provider.dart';
 import 'package:e_commerce/theme/custom_app_theme.dart';
 import 'package:e_commerce/theme/flex_color_theme.dart';
 import 'package:e_commerce/utils/context_extensions.dart';

@@ -9,7 +9,6 @@ part 'products.realm.dart';
 @MappableClass()
 class Products with ProductsMappable {
   const Products({
-    required this.id,
     required this.products,
     required this.total,
     required this.skip,
@@ -18,7 +17,6 @@ class Products with ProductsMappable {
 
   factory Products.fromRealm(ProductsRealm realm) {
     return Products(
-      id: realm.id,
       products: realm.products.map(Product.fromRealm).toList(),
       total: realm.total,
       skip: realm.skip,
@@ -28,7 +26,6 @@ class Products with ProductsMappable {
 
   ProductsRealm toRealm() {
     return ProductsRealm(
-      id: id,
       products: products.map((e) => e.toRealm()).toList(),
       total: total,
       skip: skip,
@@ -36,7 +33,6 @@ class Products with ProductsMappable {
     );
   }
 
-  final int id;
   final List<Product> products;
   final int total;
   final int skip;
@@ -45,9 +41,6 @@ class Products with ProductsMappable {
 
 @realm
 class $ProductsRealm {
-  @PrimaryKey()
-  late int id;
-
   late List<$ProductRealm> products;
   late int total;
   late int skip;

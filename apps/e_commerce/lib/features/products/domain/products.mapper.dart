@@ -21,8 +21,6 @@ class ProductsMapper extends ClassMapperBase<Products> {
   @override
   final String id = 'Products';
 
-  static int _$id(Products v) => v.id;
-  static const Field<Products, int> _f$id = Field('id', _$id);
   static List<Product> _$products(Products v) => v.products;
   static const Field<Products, List<Product>> _f$products =
       Field('products', _$products);
@@ -35,7 +33,6 @@ class ProductsMapper extends ClassMapperBase<Products> {
 
   @override
   final MappableFields<Products> fields = const {
-    #id: _f$id,
     #products: _f$products,
     #total: _f$total,
     #skip: _f$skip,
@@ -44,7 +41,6 @@ class ProductsMapper extends ClassMapperBase<Products> {
 
   static Products _instantiate(DecodingData data) {
     return Products(
-        id: data.dec(_f$id),
         products: data.dec(_f$products),
         total: data.dec(_f$total),
         skip: data.dec(_f$skip),
@@ -101,8 +97,7 @@ extension ProductsValueCopy<$R, $Out> on ObjectCopyWith<$R, Products, $Out> {
 abstract class ProductsCopyWith<$R, $In extends Products, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, Product, ProductCopyWith<$R, Product, Product>> get products;
-  $R call(
-      {int? id, List<Product>? products, int? total, int? skip, int? limit});
+  $R call({List<Product>? products, int? total, int? skip, int? limit});
   ProductsCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -119,14 +114,8 @@ class _ProductsCopyWithImpl<$R, $Out>
       get products => ListCopyWith($value.products,
           (v, t) => v.copyWith.$chain(t), (v) => call(products: v));
   @override
-  $R call(
-          {int? id,
-          List<Product>? products,
-          int? total,
-          int? skip,
-          int? limit}) =>
+  $R call({List<Product>? products, int? total, int? skip, int? limit}) =>
       $apply(FieldCopyWithData({
-        if (id != null) #id: id,
         if (products != null) #products: products,
         if (total != null) #total: total,
         if (skip != null) #skip: skip,
@@ -134,7 +123,6 @@ class _ProductsCopyWithImpl<$R, $Out>
       }));
   @override
   Products $make(CopyWithData data) => Products(
-      id: data.get(#id, or: $value.id),
       products: data.get(#products, or: $value.products),
       total: data.get(#total, or: $value.total),
       skip: data.get(#skip, or: $value.skip),

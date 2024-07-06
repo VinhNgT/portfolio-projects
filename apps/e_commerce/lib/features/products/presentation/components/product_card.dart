@@ -3,7 +3,7 @@ import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/constants/golden_ratios.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/presentation/components/rating_stars.dart';
-import 'package:e_commerce/routing/app_router.gr.dart';
+import 'package:e_commerce/routing/app_router_provider.gr.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';

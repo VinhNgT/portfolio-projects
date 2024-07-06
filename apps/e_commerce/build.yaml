@@ -5,6 +5,7 @@ targets:
         generate_for:
           include:
             - 'lib/**/domain/**.dart'
+            - 'lib/**/**_provider.dart'
         options:
           renameMethods:
             fromJson: fromJsonString
@@ -15,10 +16,6 @@ targets:
       riverpod_generator:
         generate_for:
           include:
-            - 'lib/backend/**.dart'
-            - 'lib/exceptions/**.dart'
-            - 'lib/routing/**.dart'
-            - 'lib/logging/**.dart'
             - 'lib/**/**_repository.dart'
             - 'lib/**/**_service.dart'
             - 'lib/**/**_provider.dart'

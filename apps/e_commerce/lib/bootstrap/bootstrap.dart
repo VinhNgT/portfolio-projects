@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:dart_mappable/dart_mappable.dart';
 import 'package:e_commerce/app.dart';
 import 'package:e_commerce/backend/env/env_provider.dart';
 import 'package:e_commerce/bootstrap/bootstrap_delegate.dart';
@@ -7,6 +8,7 @@ import 'package:e_commerce/exceptions/app_error_widget.dart';
 import 'package:e_commerce/logging/async_error_logger.dart';
 import 'package:e_commerce/logging/error_logger.dart';
 import 'package:e_commerce/logging/logger_provider.dart';
+import 'package:e_commerce/mappers/logger_level.mapper.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -16,13 +18,25 @@ class Bootstrap {
 
   Future<UncontrolledProviderScope> initApp() async {
     final container = ProviderContainer();
-    await delegate.setupServices(container);
+
+    setupMappers();
+    printEnviromentVariables(container);
     setupErrorHandlers(container);
+    await delegate.setupServices(container);
 
     return UncontrolledProviderScope(
       container: container,
       child: const MyApp(),
     );
+  }
+
+  void printEnviromentVariables(ProviderContainer container) {
+    final env = container.read(envProvider);
+    container.read(loggerProvider).i(env.toJson());
+  }
+
+  void setupMappers() {
+    MapperContainer.globals.use(const LoggerLevelMapper());
   }
 
   void setupErrorHandlers(ProviderContainer container) {

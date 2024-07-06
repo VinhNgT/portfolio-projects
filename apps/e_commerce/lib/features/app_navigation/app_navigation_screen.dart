@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:e_commerce/routing/app_router.gr.dart';
+import 'package:e_commerce/routing/app_router_provider.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';

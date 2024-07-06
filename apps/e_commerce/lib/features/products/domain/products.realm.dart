@@ -10,13 +10,11 @@ part of 'products.dart';
 class ProductsRealm extends $ProductsRealm
     with RealmEntity, RealmObjectBase, RealmObject {
   ProductsRealm({
-    required int id,
     Iterable<ProductRealm> products = const [],
     required int total,
     required int skip,
     required int limit,
   }) {
-    RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set<RealmList<ProductRealm>>(
         this, 'products', RealmList<ProductRealm>(products));
     RealmObjectBase.set(this, 'total', total);
@@ -25,11 +23,6 @@ class ProductsRealm extends $ProductsRealm
   }
 
   ProductsRealm._();
-
-  @override
-  int get id => RealmObjectBase.get<int>(this, 'id') as int;
-  @override
-  set id(int value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   RealmList<ProductRealm> get products =>
@@ -68,7 +61,6 @@ class ProductsRealm extends $ProductsRealm
 
   EJsonValue toEJson() {
     return <String, dynamic>{
-      'id': id.toEJson(),
       'products': products.toEJson(),
       'total': total.toEJson(),
       'skip': skip.toEJson(),
@@ -80,14 +72,12 @@ class ProductsRealm extends $ProductsRealm
   static ProductsRealm _fromEJson(EJsonValue ejson) {
     return switch (ejson) {
       {
-        'id': EJsonValue id,
         'products': EJsonValue products,
         'total': EJsonValue total,
         'skip': EJsonValue skip,
         'limit': EJsonValue limit,
       } =>
         ProductsRealm(
-          id: fromEJson(id),
           products: fromEJson(products),
           total: fromEJson(total),
           skip: fromEJson(skip),
@@ -102,7 +92,6 @@ class ProductsRealm extends $ProductsRealm
     register(_toEJson, _fromEJson);
     return SchemaObject(
         ObjectType.realmObject, ProductsRealm, 'ProductsRealm', [
-      SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
       SchemaProperty('products', RealmPropertyType.object,
           linkTarget: 'ProductRealm', collectionType: RealmCollectionType.list),
       SchemaProperty('total', RealmPropertyType.int),

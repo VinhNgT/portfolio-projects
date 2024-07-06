@@ -27,7 +27,7 @@ class ProductRepository {
       throw ArgumentError('The id must be greater than or equal to 0');
     }
 
-    return clientCacheManager.query(
+    final result = await clientCacheManager.query(
       key: 'ProductRepository-getProduct-$id',
       queryFn: () async {
         final response = await dio.get(
@@ -42,6 +42,8 @@ class ProductRepository {
         toJson: (product) => product.toJson(),
       ),
     );
+
+    return result;
   }
 
   /// Fetches a list of [Product]s with pagination.
@@ -53,7 +55,7 @@ class ProductRepository {
       throw ArgumentError('The page must be greater than or equal to 0');
     }
 
-    return clientCacheManager.query(
+    final result = await clientCacheManager.query(
       key: 'ProductRepository-getProductsList-$page',
       queryFn: () async {
         final response = await dio.get(
@@ -76,13 +78,15 @@ class ProductRepository {
             {'products': products.map((e) => e.toJson()).toList()},
       ),
     );
+
+    return result;
   }
 }
 
 @riverpod
 ProductRepository productRepository(ProductRepositoryRef ref) {
   final dio = ref.watch(dummyJsonDioProvider);
-  final cacheManager = ref.read(clientCacheManagerProvider).requireValue;
+  final cacheManager = ref.watch(clientCacheManagerProvider).requireValue;
 
   return ProductRepository(
     dio: dio,
