@@ -11,7 +11,7 @@ part 'product.realm.dart';
 
 @MappableClass()
 class Product with ProductMappable {
-  const Product({
+  Product({
     required this.id,
     required this.title,
     required this.description,
@@ -77,14 +77,14 @@ class Product with ProductMappable {
       brand: brand,
       sku: sku,
       weight: weight,
-      dimensions: dimensions.toRealm(),
+      dimensions: dimensions?.toRealm(),
       warrantyInformation: warrantyInformation,
       shippingInformation: shippingInformation,
       availabilityStatus: availabilityStatus,
       reviews: reviews.map((e) => e.toRealm()).toList(),
       returnPolicy: returnPolicy,
       minimumOrderQuantity: minimumOrderQuantity,
-      meta: meta.toRealm(),
+      meta: meta?.toRealm(),
       thumbnail: thumbnail,
       images: images,
     );
@@ -93,36 +93,36 @@ class Product with ProductMappable {
   static Product get prototype => _ProductPrototypeX._prototype;
 
   final int id;
-  final String title;
-  final String description;
-  final String category;
-  final double price;
-  final double discountPercentage;
-  final double rating;
-  final int stock;
+  final String? title;
+  final String? description;
+  final String? category;
+  final double? price;
+  final double? discountPercentage;
+  final double? rating;
+  final int? stock;
   final List<String> tags;
-  final String brand;
-  final String sku;
-  final int weight;
-  final ProductDimensions dimensions;
-  final String warrantyInformation;
-  final String shippingInformation;
-  final String availabilityStatus;
+  final String? brand;
+  final String? sku;
+  final int? weight;
+  final ProductDimensions? dimensions;
+  final String? warrantyInformation;
+  final String? shippingInformation;
+  final String? availabilityStatus;
   final List<ProductReviews> reviews;
-  final String returnPolicy;
-  final int minimumOrderQuantity;
-  final ProductMeta meta;
-  final String thumbnail;
+  final String? returnPolicy;
+  final int? minimumOrderQuantity;
+  final ProductMeta? meta;
+  final String? thumbnail;
   final List<String> images;
 }
 
 extension ProductPriceX on Product {
   // Estimated price in VND.
-  int get vndPrice => (price * 23000 / 1000).round() * 1000;
+  int get vndPrice => (price! * 23000 / 1000).round() * 1000;
 
   // Discounted price in VND.
   int get vndDiscountedPrice =>
-      (price * 23000 * (1 - discountPercentage / 100) / 1000).round() * 1000;
+      (price! * 23000 * (1 - discountPercentage! / 100) / 1000).round() * 1000;
 
   NumberFormat get vndPriceFormatter => NumberFormat.currency(
         locale: 'vi_VN',
@@ -178,25 +178,25 @@ class $ProductRealm {
   @PrimaryKey()
   late int id;
 
-  late String title;
-  late String description;
-  late String category;
-  late double price;
-  late double discountPercentage;
-  late double rating;
-  late int stock;
+  late String? title;
+  late String? description;
+  late String? category;
+  late double? price;
+  late double? discountPercentage;
+  late double? rating;
+  late int? stock;
   late List<String> tags;
-  late String brand;
-  late String sku;
-  late int weight;
+  late String? brand;
+  late String? sku;
+  late int? weight;
   late $ProductDimensionsRealm? dimensions;
-  late String warrantyInformation;
-  late String shippingInformation;
-  late String availabilityStatus;
+  late String? warrantyInformation;
+  late String? shippingInformation;
+  late String? availabilityStatus;
   late List<$ProductReviewsRealm> reviews;
-  late String returnPolicy;
-  late int minimumOrderQuantity;
+  late String? returnPolicy;
+  late int? minimumOrderQuantity;
   late $ProductMetaRealm? meta;
-  late String thumbnail;
+  late String? thumbnail;
   late List<String> images;
 }

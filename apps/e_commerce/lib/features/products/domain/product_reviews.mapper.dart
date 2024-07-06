@@ -20,17 +20,17 @@ class ProductReviewsMapper extends ClassMapperBase<ProductReviews> {
   @override
   final String id = 'ProductReviews';
 
-  static int _$rating(ProductReviews v) => v.rating;
+  static int? _$rating(ProductReviews v) => v.rating;
   static const Field<ProductReviews, int> _f$rating = Field('rating', _$rating);
-  static String _$comment(ProductReviews v) => v.comment;
+  static String? _$comment(ProductReviews v) => v.comment;
   static const Field<ProductReviews, String> _f$comment =
       Field('comment', _$comment);
-  static String _$date(ProductReviews v) => v.date;
+  static String? _$date(ProductReviews v) => v.date;
   static const Field<ProductReviews, String> _f$date = Field('date', _$date);
-  static String _$reviewerName(ProductReviews v) => v.reviewerName;
+  static String? _$reviewerName(ProductReviews v) => v.reviewerName;
   static const Field<ProductReviews, String> _f$reviewerName =
       Field('reviewerName', _$reviewerName);
-  static String _$reviewerEmail(ProductReviews v) => v.reviewerEmail;
+  static String? _$reviewerEmail(ProductReviews v) => v.reviewerEmail;
   static const Field<ProductReviews, String> _f$reviewerEmail =
       Field('reviewerEmail', _$reviewerEmail);
 
@@ -125,17 +125,17 @@ class _ProductReviewsCopyWithImpl<$R, $Out>
       ProductReviewsMapper.ensureInitialized();
   @override
   $R call(
-          {int? rating,
-          String? comment,
-          String? date,
-          String? reviewerName,
-          String? reviewerEmail}) =>
+          {Object? rating = $none,
+          Object? comment = $none,
+          Object? date = $none,
+          Object? reviewerName = $none,
+          Object? reviewerEmail = $none}) =>
       $apply(FieldCopyWithData({
-        if (rating != null) #rating: rating,
-        if (comment != null) #comment: comment,
-        if (date != null) #date: date,
-        if (reviewerName != null) #reviewerName: reviewerName,
-        if (reviewerEmail != null) #reviewerEmail: reviewerEmail
+        if (rating != $none) #rating: rating,
+        if (comment != $none) #comment: comment,
+        if (date != $none) #date: date,
+        if (reviewerName != $none) #reviewerName: reviewerName,
+        if (reviewerEmail != $none) #reviewerEmail: reviewerEmail
       }));
   @override
   ProductReviews $make(CopyWithData data) => ProductReviews(

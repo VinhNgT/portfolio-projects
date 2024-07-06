@@ -35,18 +35,18 @@ class ProductReviews with ProductReviewsMappable {
     );
   }
 
-  final int rating;
-  final String comment;
-  final String date;
-  final String reviewerName;
-  final String reviewerEmail;
+  final int? rating;
+  final String? comment;
+  final String? date;
+  final String? reviewerName;
+  final String? reviewerEmail;
 }
 
 @realmEmbedded
 class $ProductReviewsRealm {
-  late int rating;
-  late String comment;
-  late String date;
-  late String reviewerName;
-  late String reviewerEmail;
+  late int? rating;
+  late String? comment;
+  late String? date;
+  late String? reviewerName;
+  late String? reviewerEmail;
 }

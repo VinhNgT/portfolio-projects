@@ -29,14 +29,14 @@ class ProductDimensions with ProductDimensionsMappable {
     );
   }
 
-  final double width;
-  final double height;
-  final double depth;
+  final double? width;
+  final double? height;
+  final double? depth;
 }
 
 @realmEmbedded
 class $ProductDimensionsRealm {
-  late double width;
-  late double height;
-  late double depth;
+  late double? width;
+  late double? height;
+  late double? depth;
 }

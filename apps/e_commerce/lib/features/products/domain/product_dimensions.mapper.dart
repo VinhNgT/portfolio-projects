@@ -20,13 +20,13 @@ class ProductDimensionsMapper extends ClassMapperBase<ProductDimensions> {
   @override
   final String id = 'ProductDimensions';
 
-  static double _$width(ProductDimensions v) => v.width;
+  static double? _$width(ProductDimensions v) => v.width;
   static const Field<ProductDimensions, double> _f$width =
       Field('width', _$width);
-  static double _$height(ProductDimensions v) => v.height;
+  static double? _$height(ProductDimensions v) => v.height;
   static const Field<ProductDimensions, double> _f$height =
       Field('height', _$height);
-  static double _$depth(ProductDimensions v) => v.depth;
+  static double? _$depth(ProductDimensions v) => v.depth;
   static const Field<ProductDimensions, double> _f$depth =
       Field('depth', _$depth);
 
@@ -113,11 +113,14 @@ class _ProductDimensionsCopyWithImpl<$R, $Out>
   late final ClassMapperBase<ProductDimensions> $mapper =
       ProductDimensionsMapper.ensureInitialized();
   @override
-  $R call({double? width, double? height, double? depth}) =>
+  $R call(
+          {Object? width = $none,
+          Object? height = $none,
+          Object? depth = $none}) =>
       $apply(FieldCopyWithData({
-        if (width != null) #width: width,
-        if (height != null) #height: height,
-        if (depth != null) #depth: depth
+        if (width != $none) #width: width,
+        if (height != $none) #height: height,
+        if (depth != $none) #depth: depth
       }));
   @override
   ProductDimensions $make(CopyWithData data) => ProductDimensions(
