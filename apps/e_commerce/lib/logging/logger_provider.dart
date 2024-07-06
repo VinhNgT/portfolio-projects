@@ -15,6 +15,10 @@ Logger logger(LoggerRef ref) {
 
   final logger = Logger(
     filter: ProductionFilter(),
+    printer: PrettyPrinter(
+      methodCount: 1,
+      printEmojis: false,
+    ),
     output: MultiOutput([
       LevelConsoleOutput(logLevel),
       // Todo: Implement firebase crashlytics
