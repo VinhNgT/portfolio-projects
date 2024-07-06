@@ -5,8 +5,23 @@ import 'package:realm/realm.dart';
 part 'product_reviews.mapper.dart';
 part 'product_reviews.realm.dart';
 
+@realmEmbedded
+class $ProductReviewsRealm {
+  late int? rating;
+  late String? comment;
+  late String? date;
+  late String? reviewerName;
+  late String? reviewerEmail;
+}
+
 @MappableClass()
 class ProductReviews with ProductReviewsMappable {
+  final int? rating;
+  final String? comment;
+  final String? date;
+  final String? reviewerName;
+  final String? reviewerEmail;
+
   const ProductReviews({
     required this.rating,
     required this.comment,
@@ -34,19 +49,4 @@ class ProductReviews with ProductReviewsMappable {
       reviewerEmail: reviewerEmail,
     );
   }
-
-  final int? rating;
-  final String? comment;
-  final String? date;
-  final String? reviewerName;
-  final String? reviewerEmail;
-}
-
-@realmEmbedded
-class $ProductReviewsRealm {
-  late int? rating;
-  late String? comment;
-  late String? date;
-  late String? reviewerName;
-  late String? reviewerEmail;
 }

@@ -5,8 +5,21 @@ import 'package:realm/realm.dart';
 part 'product_meta.mapper.dart';
 part 'product_meta.realm.dart';
 
+@realmEmbedded
+class $ProductMetaRealm {
+  late DateTime? createdAt;
+  late DateTime? updatedAt;
+  late String? barcode;
+  late String? qrCode;
+}
+
 @MappableClass()
 class ProductMeta with ProductMetaMappable {
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final String? barcode;
+  final String? qrCode;
+
   const ProductMeta({
     required this.createdAt,
     required this.updatedAt,
@@ -31,17 +44,4 @@ class ProductMeta with ProductMetaMappable {
       qrCode: qrCode,
     );
   }
-
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final String? barcode;
-  final String? qrCode;
-}
-
-@realmEmbedded
-class $ProductMetaRealm {
-  late DateTime? createdAt;
-  late DateTime? updatedAt;
-  late String? barcode;
-  late String? qrCode;
 }
