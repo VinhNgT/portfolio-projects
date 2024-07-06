@@ -38,7 +38,7 @@ class ClientCacheManager {
   /// [cacheDuration] - Specifies the time to keep the cache on disk (persistent
   /// storage). This duration cannot be refreshed and the cache will be removed
   /// and refetched on next call. Defaults to [kDefaultClientCacheDuration],
-  /// which can be changed using [Env.appCacheConfig].
+  /// which can be changed using [AppCacheConfig.clientCacheDuration] in [env].
   Future<T> query<T extends Object>({
     required String key,
     required FutureOr<T> Function() queryFn,
