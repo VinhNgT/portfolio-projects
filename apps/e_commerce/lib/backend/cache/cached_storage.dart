@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:cached_query/cached_query.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';

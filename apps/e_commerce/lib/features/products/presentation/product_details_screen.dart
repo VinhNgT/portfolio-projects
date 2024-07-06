@@ -33,7 +33,7 @@ class ProductDetailsScreen extends HookConsumerWidget {
         asyncValue: product,
         showPreviousDataWhileLoading: true,
         builder: (dataValue) {
-          return Text(dataValue.title!);
+          return Text(dataValue.title);
         },
       ),
     );

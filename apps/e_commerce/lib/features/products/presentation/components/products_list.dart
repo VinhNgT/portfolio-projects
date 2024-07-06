@@ -36,7 +36,7 @@ class ProductsList extends HookConsumerWidget {
         // The result should be fetched and saved in the cache by now, so we can
         // safely dispose the provider.
         keepAlive.close();
-        return products.map((e) => e.id!).toList();
+        return products.map((e) => e.id).toList();
       },
       getNextPageKey: (currentPageKey, _) => ++currentPageKey,
     );

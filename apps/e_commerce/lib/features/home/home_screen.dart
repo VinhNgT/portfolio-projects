@@ -155,7 +155,7 @@ class _ProductListSliver extends StatelessWidget {
 
           return ConstrainedBox(
             constraints: BoxConstraints(maxWidth: productCardWidth),
-            child: const ProductCard(product: Product.prototype),
+            child: ProductCard(product: Product.prototype),
           );
         },
       ),

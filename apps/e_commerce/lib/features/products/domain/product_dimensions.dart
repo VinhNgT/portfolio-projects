@@ -1,16 +1,42 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:dart_mappable/dart_mappable.dart';
+import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
+import 'package:realm/realm.dart';
 
-part 'product_dimensions.freezed.dart';
-part 'product_dimensions.g.dart';
+part 'product_dimensions.mapper.dart';
+part 'product_dimensions.realm.dart';
 
-@freezed
-class ProductDimensions with _$ProductDimensions {
-  const factory ProductDimensions({
-    double? width,
-    double? height,
-    double? depth,
-  }) = _ProductDimensions;
+@MappableClass()
+class ProductDimensions with ProductDimensionsMappable {
+  const ProductDimensions({
+    required this.width,
+    required this.height,
+    required this.depth,
+  });
 
-  factory ProductDimensions.fromJson(Map<String, Object?> json) =>
-      _$ProductDimensionsFromJson(json);
+  factory ProductDimensions.fromRealm(ProductDimensionsRealm realm) {
+    return ProductDimensions(
+      width: realm.width,
+      height: realm.height,
+      depth: realm.depth,
+    );
+  }
+
+  ProductDimensionsRealm toRealm() {
+    return ProductDimensionsRealm(
+      width: width,
+      height: height,
+      depth: depth,
+    );
+  }
+
+  final double width;
+  final double height;
+  final double depth;
+}
+
+@realmEmbedded
+class $ProductDimensionsRealm {
+  late double width;
+  late double height;
+  late double depth;
 }

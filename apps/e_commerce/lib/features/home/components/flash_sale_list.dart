@@ -22,7 +22,7 @@ class FlashSaleList extends HookConsumerWidget {
       prototype: ConstrainedBox(
         // Set product card width to 150
         constraints: const BoxConstraints.tightFor(width: 150),
-        child: const ProductCard(
+        child: ProductCard(
           product: Product.prototype,
           isCompact: true,
         ),

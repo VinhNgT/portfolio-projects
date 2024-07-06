@@ -35,10 +35,10 @@ class ProductRepository {
           cancelToken: cancelToken,
         );
 
-        return Product.fromJson(response.data!);
+        return ProductMapper.fromJson(response.data!);
       },
       serializer: ObjectSerializer(
-        fromJson: Product.fromJson,
+        fromJson: ProductMapper.fromJson,
         toJson: (product) => product.toJson(),
       ),
     );
@@ -65,12 +65,12 @@ class ProductRepository {
           cancelToken: cancelToken,
         );
 
-        return Products.fromJson(response.data!).products!;
+        return ProductsMapper.fromJson(response.data!).products;
       },
       serializer: ObjectSerializer(
         fromJson: (productListJson) => [
           for (final productJson in productListJson['products'] as List)
-            Product.fromJson(productJson as Map<String, dynamic>),
+            ProductMapper.fromJson(productJson as Map<String, dynamic>),
         ],
         toJson: (products) =>
             {'products': products.map((e) => e.toJson()).toList()},
