@@ -1,5 +1,6 @@
 import 'package:e_commerce/backend/env/env_provider.dart';
-import 'package:flutter/material.dart';
+import 'package:e_commerce/logging/log_outputs/level_console_output.dart';
+import 'package:e_commerce/logging/printers/lower_level_hybird_printer.dart';
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -15,9 +16,13 @@ Logger logger(LoggerRef ref) {
 
   final logger = Logger(
     filter: ProductionFilter(),
-    printer: PrettyPrinter(
-      methodCount: 1,
-      printEmojis: false,
+    printer: LowerLevelHybridPrinter(
+      lowerPrinter: SimplePrinter(),
+      normalPrinter: PrettyPrinter(
+        methodCount: 1,
+        printEmojis: false,
+      ),
+      evalLevel: Level.info,
     ),
     output: MultiOutput([
       LevelConsoleOutput(logLevel),
@@ -27,20 +32,4 @@ Logger logger(LoggerRef ref) {
 
   ref.onDispose(logger.close);
   return logger;
-}
-
-/// A [LogOutput] implementation that outputs log messages to the console based
-/// on the specified log level.
-class LevelConsoleOutput extends LogOutput {
-  LevelConsoleOutput(this.level);
-
-  /// The log level to filter log messages.
-  final Level level;
-
-  @override
-  void output(OutputEvent event) {
-    if (event.level.value >= level.value) {
-      event.lines.forEach(debugPrint);
-    }
-  }
 }

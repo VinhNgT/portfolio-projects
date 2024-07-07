@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
 /// Interceptor to log sensitive data using [Logger].
@@ -9,14 +8,14 @@ class LoggerIntercepter extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    debugPrint('Request: ${options.method} ${options.uri}');
+    logger.d('Request: ${options.method} ${options.uri}');
 
     if (options.queryParameters.isNotEmpty) {
-      logger.d(options.queryParameters);
+      logger.t(options.queryParameters);
     }
 
     if (options.data != null) {
-      logger.d(options.data);
+      logger.t(options.data);
     }
 
     handler.next(options);
@@ -24,11 +23,11 @@ class LoggerIntercepter extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    debugPrint(
+    logger.d(
       'Response: ${response.requestOptions.method} ${response.realUri} => '
       '${response.statusCode}',
     );
-    logger.d(response.data);
+    logger.t(response.data);
 
     handler.next(response);
   }
@@ -60,7 +59,7 @@ class LoggerIntercepter extends Interceptor {
       buffer.write(string);
     }
 
-    debugPrint(
+    logger.d(
       'Error: ${buffer.toString()} => '
       '${err.response?.statusCode ?? errName}',
     );
