@@ -6,13 +6,25 @@ class ErrorLogger {
   ErrorLogger(this.logger);
   final Logger logger;
 
-  void log(Object error, StackTrace? stackTrace) {
+  void log(
+    String? message, {
+    required Object error,
+    StackTrace? stackTrace,
+  }) {
     switch (error) {
       case (final AppException exception):
-        logger.w('App exception', error: exception, stackTrace: stackTrace);
+        logger.w(
+          message ?? 'App exception',
+          error: exception,
+          stackTrace: stackTrace,
+        );
 
       case _:
-        logger.e('Unexpected error', error: error, stackTrace: stackTrace);
+        logger.e(
+          message ?? 'Unexpected error',
+          error: error,
+          stackTrace: stackTrace,
+        );
     }
   }
 }

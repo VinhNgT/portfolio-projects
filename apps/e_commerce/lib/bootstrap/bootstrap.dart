@@ -54,13 +54,17 @@ class Bootstrap {
         FlutterError.presentError(details);
         // Wait for the before command to finish
         await Future.delayed(Duration.zero);
-        appErrorLogger.log(details.exception, details.stack);
+        appErrorLogger.log(
+          'Flutter error',
+          error: details.exception,
+          stackTrace: details.stack,
+        );
       });
     };
 
     // Handle errors from the underlying platform/OS
     PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
-      appErrorLogger.log(error, stack);
+      appErrorLogger.log('Platform error', error: error, stackTrace: stack);
       return true;
     };
 

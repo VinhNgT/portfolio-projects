@@ -19,7 +19,11 @@ class AsyncErrorLogger extends ProviderObserver {
     ProviderContainer container,
   ) {
     if (newValue case AsyncError(:final error, :final stackTrace)) {
-      errorLogger.log(error, stackTrace);
+      errorLogger.log(
+        'Provider error: ${provider.toString()}',
+        error: error,
+        stackTrace: stackTrace,
+      );
     }
   }
 }

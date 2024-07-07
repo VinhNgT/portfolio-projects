@@ -20,6 +20,9 @@ Logger logger(LoggerRef ref) {
       lowerPrinter: SimplePrinter(),
       normalPrinter: PrettyPrinter(
         methodCount: 1,
+        excludePaths: [
+          'package:e_commerce/logging',
+        ],
         printEmojis: false,
       ),
       evalLevel: Level.info,
