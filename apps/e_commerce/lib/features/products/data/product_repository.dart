@@ -18,13 +18,34 @@ class ProductRepository {
   final ClientCacheManager clientCacheManager;
   static const int productPageSizeLimit = 10;
 
+  /// Returns the page index of a product in a paginated list. Returns 0-based
+  /// page index.
+  ///
+  /// Example when [productPageSizeLimit] is `10`:
+  ///   - getProductPageIndex(1) => 0
+  ///   - getProductPageIndex(10) => 0
+  ///   - getProductPageIndex(11) => 1
+  ///   - getProductPageIndex(23) => 2
+  static int getProductPageIndex(int productId) =>
+      (productId - 1) ~/ productPageSizeLimit;
+
+  /// Returns the index of a product in a page. Returns 0-based index.
+  ///
+  /// Example when [productPageSizeLimit] is `10`:
+  ///   - getProductIndexInPage(1) => 0
+  ///   - getProductIndexInPage(10) => 9
+  ///   - getProductIndexInPage(11) => 0
+  ///   - getProductIndexInPage(23) => 2
+  static int getProductIndexInPage(int productId) =>
+      (productId - 1) % productPageSizeLimit;
+
   /// Fetches a [Product] by its [id].
   Future<Product> getProduct({
     required int id,
     CancelToken? cancelToken,
   }) async {
-    if (id < 0) {
-      throw ArgumentError('The id must be greater than or equal to 0');
+    if (id < 1) {
+      throw ArgumentError('The id must be greater than or equal to 1');
     }
 
     final result = await clientCacheManager.query(

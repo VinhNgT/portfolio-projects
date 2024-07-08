@@ -21,9 +21,9 @@ class ProductFuture extends _$ProductFuture {
 
   @override
   FutureOr<Product> build(int id) async {
-    final pageNumber = id ~/ ProductRepository.productPageSizeLimit;
+    final pageId = ProductRepository.getProductPageIndex(id);
 
-    if (ref.exists(productsListFutureProvider(pageNumber))) {
+    if (ref.exists(productsListFutureProvider(pageId))) {
       return ref.watch(productFromListFutureProvider(id).future);
     }
     return _getProduct();
@@ -50,20 +50,20 @@ Future<Product> productFromListFuture(
   ProductFromListFutureRef ref,
   int id,
 ) async {
-  final pageNumber = id ~/ ProductRepository.productPageSizeLimit;
+  final pageId = ProductRepository.getProductPageIndex(id);
 
   final questionPage = await ref.watch(
-    productsListFutureProvider(pageNumber).future,
+    productsListFutureProvider(pageId).future,
   );
 
-  return questionPage[id % ProductRepository.productPageSizeLimit];
+  return questionPage[ProductRepository.getProductIndexInPage(id)];
 }
 
 /// A provider that fetches a list of products from the repository.
 @riverpod
 Future<List<Product>> productsListFuture(
   ProductsListFutureRef ref,
-  int page,
+  int pageId,
 ) async {
   final productRepository = ref.watch(productRepositoryProvider);
 
@@ -71,7 +71,7 @@ Future<List<Product>> productsListFuture(
   ref.onDispose(cancelToken.cancel);
 
   final products = await productRepository.getProductsList(
-    page: page,
+    page: pageId,
     cancelToken: cancelToken,
   );
 

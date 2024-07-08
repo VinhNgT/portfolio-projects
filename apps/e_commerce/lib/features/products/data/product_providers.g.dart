@@ -7,7 +7,7 @@ part of 'product_providers.dart';
 // **************************************************************************
 
 String _$productFromListFutureHash() =>
-    r'1378982f4d625e9b57f434b59e6d1623138a827f';
+    r'83d32169c01106eecab4547ac2f8473bebad4408';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -176,7 +176,7 @@ class _ProductFromListFutureProviderElement
 }
 
 String _$productsListFutureHash() =>
-    r'74277a40c151f523c0e3bc89ffbb482ab455eac6';
+    r'556e554785b2fd309615cc1dbd31ece4d2d0ec27';
 
 /// A provider that fetches a list of products from the repository.
 ///
@@ -197,10 +197,10 @@ class ProductsListFutureFamily extends Family<AsyncValue<List<Product>>> {
   ///
   /// Copied from [productsListFuture].
   ProductsListFutureProvider call(
-    int page,
+    int pageId,
   ) {
     return ProductsListFutureProvider(
-      page,
+      pageId,
     );
   }
 
@@ -209,7 +209,7 @@ class ProductsListFutureFamily extends Family<AsyncValue<List<Product>>> {
     covariant ProductsListFutureProvider provider,
   ) {
     return call(
-      provider.page,
+      provider.pageId,
     );
   }
 
@@ -237,11 +237,11 @@ class ProductsListFutureProvider
   ///
   /// Copied from [productsListFuture].
   ProductsListFutureProvider(
-    int page,
+    int pageId,
   ) : this._internal(
           (ref) => productsListFuture(
             ref as ProductsListFutureRef,
-            page,
+            pageId,
           ),
           from: productsListFutureProvider,
           name: r'productsListFutureProvider',
@@ -252,7 +252,7 @@ class ProductsListFutureProvider
           dependencies: ProductsListFutureFamily._dependencies,
           allTransitiveDependencies:
               ProductsListFutureFamily._allTransitiveDependencies,
-          page: page,
+          pageId: pageId,
         );
 
   ProductsListFutureProvider._internal(
@@ -262,10 +262,10 @@ class ProductsListFutureProvider
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.page,
+    required this.pageId,
   }) : super.internal();
 
-  final int page;
+  final int pageId;
 
   @override
   Override overrideWith(
@@ -280,7 +280,7 @@ class ProductsListFutureProvider
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        page: page,
+        pageId: pageId,
       ),
     );
   }
@@ -292,21 +292,21 @@ class ProductsListFutureProvider
 
   @override
   bool operator ==(Object other) {
-    return other is ProductsListFutureProvider && other.page == page;
+    return other is ProductsListFutureProvider && other.pageId == pageId;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, page.hashCode);
+    hash = _SystemHash.combine(hash, pageId.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin ProductsListFutureRef on AutoDisposeFutureProviderRef<List<Product>> {
-  /// The parameter `page` of this provider.
-  int get page;
+  /// The parameter `pageId` of this provider.
+  int get pageId;
 }
 
 class _ProductsListFutureProviderElement
@@ -315,10 +315,10 @@ class _ProductsListFutureProviderElement
   _ProductsListFutureProviderElement(super.provider);
 
   @override
-  int get page => (origin as ProductsListFutureProvider).page;
+  int get pageId => (origin as ProductsListFutureProvider).pageId;
 }
 
-String _$productFutureHash() => r'd2c743fc17a93e7ee77458c8a21db947cd20a725';
+String _$productFutureHash() => r'da634f9a7f9e209a4f1e9c65ba569ea95c932fe6';
 
 abstract class _$ProductFuture
     extends BuildlessAutoDisposeAsyncNotifier<Product> {
