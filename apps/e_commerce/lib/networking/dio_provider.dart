@@ -17,8 +17,8 @@ Dio dummyJsonDio(DummyJsonDioRef ref) {
   final cacheInterceptor = ref.watch(dioCacheInterceptorProvider).requireValue;
 
   dio.interceptors.addAll([
-    cacheInterceptor,
     LoggerIntercepter(logger),
+    cacheInterceptor,
   ]);
 
   ref.onDispose(dio.close);
