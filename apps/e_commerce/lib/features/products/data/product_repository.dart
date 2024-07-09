@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:e_commerce/backend/cache/client_cache_manager_provider.dart';
-import 'package:e_commerce/backend/utils/object_serializer.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/products.dart';
 import 'package:e_commerce/networking/dio_provider.dart';
@@ -48,23 +47,12 @@ class ProductRepository {
       throw ArgumentError('The id must be greater than or equal to 1');
     }
 
-    final result = await clientCacheManager.query(
-      key: 'ProductRepository-getProduct-$id',
-      queryFn: () async {
-        final response = await dio.get(
-          '/products/$id',
-          cancelToken: cancelToken,
-        );
-
-        return ProductMapper.fromJson(response.data!);
-      },
-      serializer: ObjectSerializer(
-        fromJson: ProductMapper.fromJson,
-        toJson: (product) => product.toJson(),
-      ),
+    final response = await dio.get(
+      '/products/$id',
+      cancelToken: cancelToken,
     );
 
-    return result;
+    return ProductMapper.fromJson(response.data!);
   }
 
   /// Fetches a list of [Product]s with pagination.
@@ -76,31 +64,16 @@ class ProductRepository {
       throw ArgumentError('The page must be greater than or equal to 0');
     }
 
-    final result = await clientCacheManager.query(
-      key: 'ProductRepository-getProductsList-$page',
-      queryFn: () async {
-        final response = await dio.get(
-          '/products',
-          queryParameters: {
-            'limit': productPageSizeLimit,
-            'skip': productPageSizeLimit * page,
-          },
-          cancelToken: cancelToken,
-        );
-
-        return ProductsMapper.fromJson(response.data!).products;
+    final response = await dio.get(
+      '/products',
+      queryParameters: {
+        'limit': productPageSizeLimit,
+        'skip': productPageSizeLimit * page,
       },
-      serializer: ObjectSerializer(
-        fromJson: (productListJson) => [
-          for (final productJson in productListJson['products'] as List)
-            ProductMapper.fromJson(productJson as Map<String, dynamic>),
-        ],
-        toJson: (products) =>
-            {'products': products.map((e) => e.toJson()).toList()},
-      ),
+      cancelToken: cancelToken,
     );
 
-    return result;
+    return ProductsMapper.fromJson(response.data!).products;
   }
 }
 
