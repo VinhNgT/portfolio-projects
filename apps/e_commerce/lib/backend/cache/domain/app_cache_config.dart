@@ -3,8 +3,7 @@ import 'package:e_commerce/mappers/duration_seconds_mapper.dart';
 
 part 'app_cache_config.mapper.dart';
 
-const kDefaultClientCacheDuration = Duration(minutes: 5);
-const kDefaultNetworkCacheDuration = Duration(minutes: 5);
+const Duration kDefaultClientCacheDuration = Duration(minutes: 5);
 
 /// The cache configurations that will be used across all caching related
 /// operations and libraries in the app.
@@ -14,12 +13,10 @@ const kDefaultNetworkCacheDuration = Duration(minutes: 5);
 class AppCacheConfig with AppCacheConfigMappable {
   AppCacheConfig({
     Duration? clientCacheDuration,
-    Duration? networkCacheDuration,
+    this.networkCacheDuration,
   }) {
     this.clientCacheDuration =
         clientCacheDuration ?? kDefaultClientCacheDuration;
-    this.networkCacheDuration =
-        networkCacheDuration ?? kDefaultNetworkCacheDuration;
   }
 
   factory AppCacheConfig.fromSeconds({
@@ -36,11 +33,14 @@ class AppCacheConfig with AppCacheConfigMappable {
     );
   }
 
-  /// The max cache duration of client generated data. Defaults to
+  /// The cache duration of client generated data. Defaults to
   /// [kDefaultClientCacheDuration]
   late final Duration clientCacheDuration;
 
-  /// The max cache duration of network fetched data. Defaults to
-  /// [kDefaultNetworkCacheDuration]
-  late final Duration networkCacheDuration;
+  /// The cache duration for network fetched data.
+  ///
+  /// - `null` means let server decide the cache duration.
+  /// - A [Duration] value means the cache expiration should depend on both how
+  ///   the server want and this duration, whichever comes first.
+  final Duration? networkCacheDuration;
 }

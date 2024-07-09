@@ -25,7 +25,7 @@ class AppCacheConfigMapper extends ClassMapperBase<AppCacheConfig> {
       v.clientCacheDuration;
   static const Field<AppCacheConfig, Duration> _f$clientCacheDuration =
       Field('clientCacheDuration', _$clientCacheDuration, opt: true);
-  static Duration _$networkCacheDuration(AppCacheConfig v) =>
+  static Duration? _$networkCacheDuration(AppCacheConfig v) =>
       v.networkCacheDuration;
   static const Field<AppCacheConfig, Duration> _f$networkCacheDuration =
       Field('networkCacheDuration', _$networkCacheDuration, opt: true);
