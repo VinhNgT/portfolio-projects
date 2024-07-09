@@ -35,7 +35,7 @@ def create_shortcut(path: str, destination_path: str, icon: str):
     shell = Dispatch("WScript.Shell")
     shortcut = shell.CreateShortCut(os.path.abspath(path))
     shortcut.Targetpath = CODE_DIR
-    shortcut.Arguments = os.path.abspath(destination_path)
+    shortcut.Arguments = f'"{os.path.abspath(destination_path)}"'
     shortcut.IconLocation = f"{icon_path}, 0"
     shortcut.save()
 
