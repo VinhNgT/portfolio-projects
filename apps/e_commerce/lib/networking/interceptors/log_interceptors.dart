@@ -23,9 +23,15 @@ class LoggerIntercepter extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
+    final resName = switch (response) {
+      // The cache interceptor responsed with data from the local cache.
+      Response(statusCode: 304) => 'LocalCache',
+      _ => null,
+    };
+
     logger.d(
-      'Response: ${response.requestOptions.method} ${response.realUri} => '
-      '${response.statusCode}',
+      '${resName ?? 'Response'}: ${response.requestOptions.method} '
+      '${response.realUri} => ${response.statusCode}',
     );
     logger.t(response.data);
 
@@ -38,15 +44,37 @@ class LoggerIntercepter extends Interceptor {
     ErrorInterceptorHandler handler,
   ) {
     final errName = switch (err) {
-      DioException(type: DioExceptionType.cancel) => 'Canceled',
-      _ => err.message,
+      // The request is cancelled
+      DioException(type: DioExceptionType.cancel) => 'Cancel',
+
+      /// Server responsed that the resource has not been modified.
+      /// https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/304
+      ///
+      /// The cache interceptor will reuse the local cache, even if it's
+      /// expired.
+      DioException(response: Response(statusCode: 304)) => 'LocalCacheReuse',
+
+      // Others.
+      _ => null,
     };
 
-    final buffer = StringBuffer();
-    final logContent = [
+    String? errMessage = err.response?.statusCode.toString();
+    errMessage ??= errName == null ? err.message : null;
+
+    final requestLog = _buildLogMessage([
       err.requestOptions.method,
       err.requestOptions.uri.toString(),
-    ];
+      if (errMessage?.isNotEmpty ?? false) '=> $errMessage',
+    ]);
+
+    logger.d('${errName ?? 'Error'}: $requestLog');
+
+    handler.next(err);
+  }
+
+  /// Build log message. With no extra spaces when some of the strings is empty.
+  String _buildLogMessage(List<String> logContent) {
+    final buffer = StringBuffer();
 
     for (final string in logContent) {
       if (string.isEmpty) {
@@ -59,11 +87,6 @@ class LoggerIntercepter extends Interceptor {
       buffer.write(string);
     }
 
-    logger.d(
-      'Error: ${buffer.toString()} => '
-      '${err.response?.statusCode ?? errName}',
-    );
-
-    handler.next(err);
+    return buffer.toString();
   }
 }
