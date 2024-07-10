@@ -6,6 +6,7 @@ import 'package:e_commerce/features/products/data/product_providers.dart';
 import 'package:e_commerce/features/products/presentation/components/product_details/benefits_card.dart';
 import 'package:e_commerce/features/products/presentation/components/product_details/product_images_carousel.dart';
 import 'package:e_commerce/features/products/presentation/components/product_details/product_info_widget.dart';
+import 'package:e_commerce/features/seller/presentation/seller_card.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -68,6 +69,12 @@ class ProductDetailsScreen extends HookConsumerWidget {
                 ),
               ),
               const SliverGap(kSize_20),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: kSize_16),
+                  child: SellerCard(product: product),
+                ),
+              ),
             ],
           );
         },
