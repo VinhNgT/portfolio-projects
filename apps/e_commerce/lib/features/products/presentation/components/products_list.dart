@@ -25,7 +25,7 @@ class ProductsList extends HookConsumerWidget {
       firstPageKey: 0,
       pageSize: ProductRepository.productPageSizeLimit,
       fetchPage: (pageKey) async {
-        final keepAlive = ref.listenManual(
+        ref.listenManual(
           productsListFutureProvider(pageKey),
           (_, __) {},
         );
@@ -33,9 +33,6 @@ class ProductsList extends HookConsumerWidget {
           productsListFutureProvider(pageKey).future,
         );
 
-        // The result should be fetched and saved in the cache by now, so we can
-        // safely dispose the provider.
-        keepAlive.close();
         return products.map((e) => e.id).toList();
       },
       getNextPageKey: (currentPageKey, _) => ++currentPageKey,
