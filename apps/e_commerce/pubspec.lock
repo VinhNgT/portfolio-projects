@@ -369,13 +369,13 @@ packages:
     source: hosted
     version: "1.0.1"
   ejson:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: ejson
-      sha256: "42bdc6f57444e8c9cbf2c8dc8044424c27890a1d8cf64953b95f02d289afd88b"
+      sha256: f336c6fb6c5c97db8ae59ba8ed207f542241f1db39cf2ef03776d308de3432ff
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.1"
+    version: "0.3.0"
   ejson_annotation:
     dependency: transitive
     description:
@@ -1053,13 +1053,13 @@ packages:
     source: hosted
     version: "0.27.7"
   sane_uuid:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: sane_uuid
-      sha256: "5b3fd581f51d01aef0526344c175e198d04ff701249c1a75186429dbb4367265"
+      sha256: "5e83f796a7d19d38d3ba3a940642998fdd8c4a4049be135ed25404e37f76a18c"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.0.0-alpha.5"
   sembast:
     dependency: "direct main"
     description:
