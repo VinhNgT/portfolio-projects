@@ -16,7 +16,6 @@ class FlexColorTheme {
     ),
     surfaceMode: FlexSurfaceMode.highBackgroundLowScaffold,
     blendLevel: 1,
-    appBarStyle: FlexAppBarStyle.background,
     bottomAppBarElevation: 2.0,
     subThemesData: const FlexSubThemesData(
       interactionEffects: false,
