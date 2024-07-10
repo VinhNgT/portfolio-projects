@@ -83,6 +83,8 @@ class FlexColorTheme {
     useMaterial3: true,
     // To use the Playground font, add GoogleFonts package and uncomment
     // fontFamily: GoogleFonts.notoSans().fontFamily,
+  ).copyWith(
+    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
   );
 
   /// NOT READY FOR USAGE, dark theme created by FlexColorScheme playground.
@@ -164,5 +166,7 @@ class FlexColorTheme {
     useMaterial3: true,
     // To use the Playground font, add GoogleFonts package and uncomment
     // fontFamily: GoogleFonts.notoSans().fontFamily,
+  ).copyWith(
+    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
   );
 }
