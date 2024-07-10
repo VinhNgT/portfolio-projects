@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce/common/async/async_value_widget.dart';
 import 'package:e_commerce/common/hooks/use_run_first_build.dart';
 import 'package:e_commerce/features/products/data/product_providers.dart';
+import 'package:e_commerce/features/products/presentation/components/product_details/product_images_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
@@ -13,12 +14,14 @@ class ProductDetailsScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final product = ref.watch(productFutureProvider(productId));
+    final productAsync = ref.watch(productFutureProvider(productId));
     useInitState(() {
       Future(
         () => ref.read(productFutureProvider(productId).notifier).refresh(),
       );
     });
+
+    // final realm = ref.watch(realmProvider).requireValue;
 
     return Scaffold(
       appBar: AppBar(
@@ -30,10 +33,44 @@ class ProductDetailsScreen extends HookConsumerWidget {
         ],
       ),
       body: AsyncValueWidget(
-        asyncValue: product,
+        asyncValue: productAsync,
         showPreviousDataWhileLoading: true,
-        builder: (dataValue) {
-          return Text(dataValue.title!);
+        builder: (product) {
+          return CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    ProductImagesCarousel(product: product),
+                    // ElevatedButton(
+                    //   onPressed: () {
+                    //     final realmProduct = Product.prototype
+                    //         .copyWith(
+                    //           meta: Product.prototype.meta!.copyWith(
+                    //               createdAt: DateTime.now().toLocal()),
+                    //         )
+                    //         .toRealm();
+                    //     realm.write(() {
+                    //       realm.add(realmProduct, update: true);
+                    //     });
+
+                    //     final readTest =
+                    //         realm.find<ProductRealm>(realmProduct.id);
+
+                    //     print(readTest);
+                    //   },
+                    //   child: const Text('hello'),
+                    // ),
+
+                    // CachedNetworkImage(imageUrl: dataValue.images),
+                    // Text(dataValue.data!.name),
+                    // Text(dataValue.data!.description),
+                    // Text(dataValue.data!.price.toString()),
+                  ],
+                ),
+              ),
+            ],
+          );
         },
       ),
     );
