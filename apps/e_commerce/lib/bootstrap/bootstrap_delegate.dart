@@ -1,4 +1,5 @@
 import 'package:e_commerce/backend/cache/client_cache_manager_provider.dart';
+import 'package:e_commerce/backend/database/realm/realm_provider.dart';
 import 'package:e_commerce/backend/database/sembast_provider.dart';
 import 'package:e_commerce/networking/interceptors/cache_interceptor_provider.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class ProductionBootstrapDelegate extends BootstrapDelegate {
 
   @override
   Future<void> setupServices(ProviderContainer container) async {
+    await container.read(realmProvider.future);
     await container.read(sembastProvider.future);
     await container.read(clientCacheManagerProvider.future);
     await container.read(dioCacheInterceptorProvider.future);
