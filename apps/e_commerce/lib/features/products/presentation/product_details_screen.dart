@@ -56,6 +56,18 @@ class ProductDetailsScreen extends HookConsumerWidget {
                   child: BenefitsCard(),
                 ),
               ),
+              const SliverGap(kSize_20),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: kSize_16),
+                  child: FilledButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(Symbols.add_shopping_cart),
+                    label: const Text('Thêm vào giỏ hàng'),
+                  ),
+                ),
+              ),
+              const SliverGap(kSize_20),
             ],
           );
         },
