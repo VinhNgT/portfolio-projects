@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/constants/golden_ratios.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
@@ -56,8 +57,8 @@ class _ProductCardColumn extends HookConsumerWidget {
           children: <Widget>[
             Container(
               color: Colors.white,
-              child: Image.network(
-                product.thumbnail!,
+              child: CachedNetworkImage(
+                imageUrl: product.thumbnail!,
                 height: constraints.maxWidth,
                 width: constraints.maxWidth,
               ),
@@ -146,8 +147,8 @@ class _ProductCardCompactColumn extends HookConsumerWidget {
         LayoutBuilder(
           builder: (context, constraints) => Container(
             color: Colors.white,
-            child: Image.network(
-              product.thumbnail!,
+            child: CachedNetworkImage(
+              imageUrl: product.thumbnail!,
               height: constraints.maxWidth,
               width: constraints.maxWidth,
             ),
