@@ -3,6 +3,7 @@ import 'package:e_commerce/common/async/async_value_widget.dart';
 import 'package:e_commerce/common/hooks/use_run_first_build.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/products/data/product_providers.dart';
+import 'package:e_commerce/features/products/presentation/components/product_details/benefits_card.dart';
 import 'package:e_commerce/features/products/presentation/components/product_details/product_images_carousel.dart';
 import 'package:e_commerce/features/products/presentation/components/product_details/product_info_widget.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,13 @@ class ProductDetailsScreen extends HookConsumerWidget {
               const SliverGap(kSize_12),
               SliverToBoxAdapter(
                 child: ProductInfoWidget(product: product),
+              ),
+              const SliverGap(kSize_20),
+              const SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: kSize_16),
+                  child: BenefitsCard(),
+                ),
               ),
             ],
           );
