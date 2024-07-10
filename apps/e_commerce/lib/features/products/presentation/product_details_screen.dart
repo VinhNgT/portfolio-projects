@@ -1,9 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce/common/async/async_value_widget.dart';
 import 'package:e_commerce/common/hooks/use_run_first_build.dart';
+import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/products/data/product_providers.dart';
 import 'package:e_commerce/features/products/presentation/components/product_details/product_images_carousel.dart';
+import 'package:e_commerce/features/products/presentation/components/product_details/product_info_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
@@ -39,35 +42,11 @@ class ProductDetailsScreen extends HookConsumerWidget {
           return CustomScrollView(
             slivers: [
               SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    ProductImagesCarousel(product: product),
-                    // ElevatedButton(
-                    //   onPressed: () {
-                    //     final realmProduct = Product.prototype
-                    //         .copyWith(
-                    //           meta: Product.prototype.meta!.copyWith(
-                    //               createdAt: DateTime.now().toLocal()),
-                    //         )
-                    //         .toRealm();
-                    //     realm.write(() {
-                    //       realm.add(realmProduct, update: true);
-                    //     });
-
-                    //     final readTest =
-                    //         realm.find<ProductRealm>(realmProduct.id);
-
-                    //     print(readTest);
-                    //   },
-                    //   child: const Text('hello'),
-                    // ),
-
-                    // CachedNetworkImage(imageUrl: dataValue.images),
-                    // Text(dataValue.data!.name),
-                    // Text(dataValue.data!.description),
-                    // Text(dataValue.data!.price.toString()),
-                  ],
-                ),
+                child: ProductImagesCarousel(product: product),
+              ),
+              const SliverGap(kSize_12),
+              SliverToBoxAdapter(
+                child: ProductInfoWidget(product: product),
               ),
             ],
           );
