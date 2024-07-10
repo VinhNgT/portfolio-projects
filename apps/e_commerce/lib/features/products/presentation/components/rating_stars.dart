@@ -5,8 +5,18 @@ import 'package:gap/gap.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class RatingStars extends StatelessWidget {
-  const RatingStars({super.key, required this.rating});
+  const RatingStars({
+    super.key,
+    required this.rating,
+    this.starSize = kSize_16,
+    this.starOpticalSize = kSize_48,
+    this.textStyle,
+  });
+
   final double rating;
+  final double starSize;
+  final double starOpticalSize;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +29,7 @@ class RatingStars extends StatelessWidget {
         const Gap(kSize_4),
         Text(
           ratingRoundedDown.toString(),
-          style: context.textTheme.labelMedium,
+          style: textStyle ?? context.textTheme.labelMedium,
         ),
       ],
     );
@@ -30,12 +40,12 @@ class RatingStars extends StatelessWidget {
     for (var i = 1; i <= 5; i++) {
       if (i <= rating) {
         stars.add(
-          const Icon(
+          Icon(
             Symbols.star,
             color: Colors.amber,
             fill: 1,
-            size: 16,
-            opticalSize: 48,
+            size: starSize,
+            opticalSize: starOpticalSize,
           ),
         );
         continue;
@@ -43,23 +53,23 @@ class RatingStars extends StatelessWidget {
 
       if (i == rating.ceil()) {
         stars.add(
-          const Icon(
+          Icon(
             Symbols.star_half,
             color: Colors.amber,
             fill: 1,
-            size: 16,
-            opticalSize: 48,
+            size: starSize,
+            opticalSize: starOpticalSize,
           ),
         );
         continue;
       }
 
       stars.add(
-        const Icon(
+        Icon(
           Symbols.star,
           color: Colors.amber,
-          size: 16,
-          opticalSize: 48,
+          size: starSize,
+          opticalSize: starOpticalSize,
         ),
       );
     }
