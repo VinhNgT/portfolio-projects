@@ -94,7 +94,7 @@ class _FlashSaleSliver extends HookConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: kSize_16, right: kSize_0),
+            padding: const EdgeInsets.only(left: kSize_16, right: kSize_2),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
