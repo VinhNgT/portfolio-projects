@@ -5,8 +5,10 @@ import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/delivery/presentation/product_delivery_card.dart';
 import 'package:e_commerce/features/products/data/product_providers.dart';
 import 'package:e_commerce/features/products/presentation/components/product_details/benefits_card.dart';
+import 'package:e_commerce/features/products/presentation/components/product_details/product_description_widget.dart';
 import 'package:e_commerce/features/products/presentation/components/product_details/product_images_carousel.dart';
 import 'package:e_commerce/features/products/presentation/components/product_details/product_info_widget.dart';
+import 'package:e_commerce/features/products/presentation/components/product_details/product_reviews_widget.dart';
 import 'package:e_commerce/features/seller/presentation/seller_card.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -82,6 +84,17 @@ class ProductDetailsScreen extends HookConsumerWidget {
                   padding: const EdgeInsets.symmetric(horizontal: kSize_16),
                   child: ProductDeliveryCard(product: product),
                 ),
+              ),
+              const SliverGap(kSize_32),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: kSize_16),
+                  child: ProductDescriptionWidget(product: product),
+                ),
+              ),
+              const SliverGap(kSize_32),
+              SliverToBoxAdapter(
+                child: ProductReviewsWidget(product: product),
               ),
               const SliverGap(kSize_32),
             ],
