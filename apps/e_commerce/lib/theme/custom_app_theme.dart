@@ -28,6 +28,7 @@ class CustomAppTheme {
         //   unselectedTextStyle: theme.textTheme.labelMedium!,
         // ),
       ),
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
     );
   }
 }
