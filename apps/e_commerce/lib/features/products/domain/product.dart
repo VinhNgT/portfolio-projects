@@ -145,19 +145,24 @@ class Product with ProductMappable {
 }
 
 extension ProductPriceX on Product {
-  // Estimated price in VND.
-  int get vndPrice => (price! * 23000 / 1000).round() * 1000;
-
-  // Discounted price in VND.
-  int get vndDiscountedPrice =>
-      (price! * 23000 * (1 - discountPercentage! / 100) / 1000).round() * 1000;
-
   NumberFormat get vndPriceFormatter => NumberFormat.currency(
         locale: 'vi_VN',
         symbol: '₫',
         decimalDigits: 0,
         customPattern: '¤#,###',
       );
+
+  // Estimated price in VND.
+  int get vndPrice => (price! * 23000 / 1000).round() * 1000;
+
+  // Discounted price in VND.
+  int get vndDiscountedPrice =>
+      (price! * 23000 * (1 - discountPercentage! / 100) / 1000).round() * 1000;
+}
+
+extension MockProductPropertiesX on Product {
+  int get mockSoldCount => reviews.length * 12;
+  int get mockShippingFee => weight! * 10000;
 }
 
 extension _ProductPrototypeX on Product {

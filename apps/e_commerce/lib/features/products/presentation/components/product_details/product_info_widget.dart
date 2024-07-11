@@ -104,7 +104,7 @@ class _ReviewStarsAndSold extends StatelessWidget {
         ),
         const Gap(kSize_16),
         Text(
-          'Đã bán ${product.reviews.length * 12}', // 12 is a random number :P
+          'Đã bán ${product.mockSoldCount}',
           style: context.theme.textTheme.bodyMedium,
         ),
       ],
