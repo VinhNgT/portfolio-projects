@@ -29,6 +29,11 @@ class CustomAppTheme {
         // ),
       ),
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      iconButtonTheme: IconButtonThemeData(
+        style: IconButton.styleFrom(
+          tapTargetSize: MaterialTapTargetSize.padded,
+        ),
+      ),
     );
   }
 }
