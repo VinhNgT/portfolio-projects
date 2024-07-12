@@ -1,3 +1,4 @@
+import 'package:e_commerce/backend/env/env_provider.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_dimensions.dart';
 import 'package:e_commerce/features/products/domain/product_meta.dart';
@@ -24,6 +25,8 @@ Future<Realm> realm(RealmRef ref) async {
   final config = Configuration.local(
     schemas,
     path: '${realmPath.path}/data.realm',
+    shouldDeleteIfMigrationNeeded:
+        ref.watch(envProvider).realmShouldDeleteIfMigrationNeeded,
   );
 
   return Realm(config);

@@ -24,9 +24,15 @@ Env env(EnvRef ref) {
   const showDetailedError =
       bool.fromEnvironment('SHOW_DETAILED_ERROR', defaultValue: true);
 
+  const realmShouldDeleteIfMigrationNeeded = bool.fromEnvironment(
+    'REALM_DELETE_IF_MIGRATION_NEEDED',
+    defaultValue: false,
+  );
+
   return Env(
     appCacheConfig: appCacheConfig,
     loggerLevel: loggerLevel,
     showDetailedError: showDetailedError,
+    realmShouldDeleteIfMigrationNeeded: realmShouldDeleteIfMigrationNeeded,
   );
 }
