@@ -7,18 +7,18 @@ part 'product_meta.realm.dart';
 
 @realmEmbedded
 class $ProductMetaRealm {
-  late DateTime? createdAt;
-  late DateTime? updatedAt;
-  late String? barcode;
-  late String? qrCode;
+  late DateTime createdAt;
+  late DateTime updatedAt;
+  late String barcode;
+  late String qrCode;
 }
 
 @MappableClass()
 class ProductMeta with ProductMetaMappable {
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final String? barcode;
-  final String? qrCode;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final String barcode;
+  final String qrCode;
 
   const ProductMeta({
     required this.createdAt,

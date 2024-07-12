@@ -10,9 +10,9 @@ part of 'product_dimensions.dart';
 class ProductDimensionsRealm extends $ProductDimensionsRealm
     with RealmEntity, RealmObjectBase, EmbeddedObject {
   ProductDimensionsRealm({
-    double? width,
-    double? height,
-    double? depth,
+    required double width,
+    required double height,
+    required double depth,
   }) {
     RealmObjectBase.set(this, 'width', width);
     RealmObjectBase.set(this, 'height', height);
@@ -22,19 +22,19 @@ class ProductDimensionsRealm extends $ProductDimensionsRealm
   ProductDimensionsRealm._();
 
   @override
-  double? get width => RealmObjectBase.get<double>(this, 'width') as double?;
+  double get width => RealmObjectBase.get<double>(this, 'width') as double;
   @override
-  set width(double? value) => RealmObjectBase.set(this, 'width', value);
+  set width(double value) => RealmObjectBase.set(this, 'width', value);
 
   @override
-  double? get height => RealmObjectBase.get<double>(this, 'height') as double?;
+  double get height => RealmObjectBase.get<double>(this, 'height') as double;
   @override
-  set height(double? value) => RealmObjectBase.set(this, 'height', value);
+  set height(double value) => RealmObjectBase.set(this, 'height', value);
 
   @override
-  double? get depth => RealmObjectBase.get<double>(this, 'depth') as double?;
+  double get depth => RealmObjectBase.get<double>(this, 'depth') as double;
   @override
-  set depth(double? value) => RealmObjectBase.set(this, 'depth', value);
+  set depth(double value) => RealmObjectBase.set(this, 'depth', value);
 
   @override
   Stream<RealmObjectChanges<ProductDimensionsRealm>> get changes =>
@@ -79,9 +79,9 @@ class ProductDimensionsRealm extends $ProductDimensionsRealm
     register(_toEJson, _fromEJson);
     return SchemaObject(ObjectType.embeddedObject, ProductDimensionsRealm,
         'ProductDimensionsRealm', [
-      SchemaProperty('width', RealmPropertyType.double, optional: true),
-      SchemaProperty('height', RealmPropertyType.double, optional: true),
-      SchemaProperty('depth', RealmPropertyType.double, optional: true),
+      SchemaProperty('width', RealmPropertyType.double),
+      SchemaProperty('height', RealmPropertyType.double),
+      SchemaProperty('depth', RealmPropertyType.double),
     ]);
   }();
 

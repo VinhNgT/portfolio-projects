@@ -10,10 +10,10 @@ part of 'product_meta.dart';
 class ProductMetaRealm extends $ProductMetaRealm
     with RealmEntity, RealmObjectBase, EmbeddedObject {
   ProductMetaRealm({
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    String? barcode,
-    String? qrCode,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    required String barcode,
+    required String qrCode,
   }) {
     RealmObjectBase.set(this, 'createdAt', createdAt);
     RealmObjectBase.set(this, 'updatedAt', updatedAt);
@@ -24,29 +24,28 @@ class ProductMetaRealm extends $ProductMetaRealm
   ProductMetaRealm._();
 
   @override
-  DateTime? get createdAt =>
-      RealmObjectBase.get<DateTime>(this, 'createdAt') as DateTime?;
+  DateTime get createdAt =>
+      RealmObjectBase.get<DateTime>(this, 'createdAt') as DateTime;
   @override
-  set createdAt(DateTime? value) =>
+  set createdAt(DateTime value) =>
       RealmObjectBase.set(this, 'createdAt', value);
 
   @override
-  DateTime? get updatedAt =>
-      RealmObjectBase.get<DateTime>(this, 'updatedAt') as DateTime?;
+  DateTime get updatedAt =>
+      RealmObjectBase.get<DateTime>(this, 'updatedAt') as DateTime;
   @override
-  set updatedAt(DateTime? value) =>
+  set updatedAt(DateTime value) =>
       RealmObjectBase.set(this, 'updatedAt', value);
 
   @override
-  String? get barcode =>
-      RealmObjectBase.get<String>(this, 'barcode') as String?;
+  String get barcode => RealmObjectBase.get<String>(this, 'barcode') as String;
   @override
-  set barcode(String? value) => RealmObjectBase.set(this, 'barcode', value);
+  set barcode(String value) => RealmObjectBase.set(this, 'barcode', value);
 
   @override
-  String? get qrCode => RealmObjectBase.get<String>(this, 'qrCode') as String?;
+  String get qrCode => RealmObjectBase.get<String>(this, 'qrCode') as String;
   @override
-  set qrCode(String? value) => RealmObjectBase.set(this, 'qrCode', value);
+  set qrCode(String value) => RealmObjectBase.set(this, 'qrCode', value);
 
   @override
   Stream<RealmObjectChanges<ProductMetaRealm>> get changes =>
@@ -94,10 +93,10 @@ class ProductMetaRealm extends $ProductMetaRealm
     register(_toEJson, _fromEJson);
     return SchemaObject(
         ObjectType.embeddedObject, ProductMetaRealm, 'ProductMetaRealm', [
-      SchemaProperty('createdAt', RealmPropertyType.timestamp, optional: true),
-      SchemaProperty('updatedAt', RealmPropertyType.timestamp, optional: true),
-      SchemaProperty('barcode', RealmPropertyType.string, optional: true),
-      SchemaProperty('qrCode', RealmPropertyType.string, optional: true),
+      SchemaProperty('createdAt', RealmPropertyType.timestamp),
+      SchemaProperty('updatedAt', RealmPropertyType.timestamp),
+      SchemaProperty('barcode', RealmPropertyType.string),
+      SchemaProperty('qrCode', RealmPropertyType.string),
     ]);
   }();
 

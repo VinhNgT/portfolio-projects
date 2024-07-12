@@ -11,9 +11,9 @@ class ProductsRealm extends $ProductsRealm
     with RealmEntity, RealmObjectBase, RealmObject {
   ProductsRealm({
     Iterable<ProductRealm> products = const [],
-    int? total,
-    int? skip,
-    int? limit,
+    required int total,
+    required int skip,
+    required int limit,
   }) {
     RealmObjectBase.set<RealmList<ProductRealm>>(
         this, 'products', RealmList<ProductRealm>(products));
@@ -33,19 +33,19 @@ class ProductsRealm extends $ProductsRealm
       throw RealmUnsupportedSetError();
 
   @override
-  int? get total => RealmObjectBase.get<int>(this, 'total') as int?;
+  int get total => RealmObjectBase.get<int>(this, 'total') as int;
   @override
-  set total(int? value) => RealmObjectBase.set(this, 'total', value);
+  set total(int value) => RealmObjectBase.set(this, 'total', value);
 
   @override
-  int? get skip => RealmObjectBase.get<int>(this, 'skip') as int?;
+  int get skip => RealmObjectBase.get<int>(this, 'skip') as int;
   @override
-  set skip(int? value) => RealmObjectBase.set(this, 'skip', value);
+  set skip(int value) => RealmObjectBase.set(this, 'skip', value);
 
   @override
-  int? get limit => RealmObjectBase.get<int>(this, 'limit') as int?;
+  int get limit => RealmObjectBase.get<int>(this, 'limit') as int;
   @override
-  set limit(int? value) => RealmObjectBase.set(this, 'limit', value);
+  set limit(int value) => RealmObjectBase.set(this, 'limit', value);
 
   @override
   Stream<RealmObjectChanges<ProductsRealm>> get changes =>
@@ -94,9 +94,9 @@ class ProductsRealm extends $ProductsRealm
         ObjectType.realmObject, ProductsRealm, 'ProductsRealm', [
       SchemaProperty('products', RealmPropertyType.object,
           linkTarget: 'ProductRealm', collectionType: RealmCollectionType.list),
-      SchemaProperty('total', RealmPropertyType.int, optional: true),
-      SchemaProperty('skip', RealmPropertyType.int, optional: true),
-      SchemaProperty('limit', RealmPropertyType.int, optional: true),
+      SchemaProperty('total', RealmPropertyType.int),
+      SchemaProperty('skip', RealmPropertyType.int),
+      SchemaProperty('limit', RealmPropertyType.int),
     ]);
   }();
 

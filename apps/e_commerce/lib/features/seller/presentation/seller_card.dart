@@ -64,7 +64,7 @@ class _SellerInfo extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  product.rating!.toString(),
+                  product.rating.toString(),
                   style: context.theme.textTheme.labelMedium,
                 ),
                 const Gap(kSize_2),

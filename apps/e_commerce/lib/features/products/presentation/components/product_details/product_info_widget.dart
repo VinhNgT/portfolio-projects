@@ -19,7 +19,7 @@ class ProductInfoWidget extends HookConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            product.title!,
+            product.title,
             style: Theme.of(context).textTheme.titleMedium,
           ),
           _Pricing(product),
@@ -98,7 +98,7 @@ class _ReviewStarsAndSold extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         RatingStars(
-          rating: product.rating!,
+          rating: product.rating,
           starSize: kSize_16 + 2,
           textStyle: context.textTheme.labelLarge,
         ),

@@ -10,11 +10,11 @@ part of 'product_reviews.dart';
 class ProductReviewsRealm extends $ProductReviewsRealm
     with RealmEntity, RealmObjectBase, EmbeddedObject {
   ProductReviewsRealm({
-    int? rating,
-    String? comment,
-    String? date,
-    String? reviewerName,
-    String? reviewerEmail,
+    required int rating,
+    required String comment,
+    required String date,
+    required String reviewerName,
+    required String reviewerEmail,
   }) {
     RealmObjectBase.set(this, 'rating', rating);
     RealmObjectBase.set(this, 'comment', comment);
@@ -26,33 +26,32 @@ class ProductReviewsRealm extends $ProductReviewsRealm
   ProductReviewsRealm._();
 
   @override
-  int? get rating => RealmObjectBase.get<int>(this, 'rating') as int?;
+  int get rating => RealmObjectBase.get<int>(this, 'rating') as int;
   @override
-  set rating(int? value) => RealmObjectBase.set(this, 'rating', value);
+  set rating(int value) => RealmObjectBase.set(this, 'rating', value);
 
   @override
-  String? get comment =>
-      RealmObjectBase.get<String>(this, 'comment') as String?;
+  String get comment => RealmObjectBase.get<String>(this, 'comment') as String;
   @override
-  set comment(String? value) => RealmObjectBase.set(this, 'comment', value);
+  set comment(String value) => RealmObjectBase.set(this, 'comment', value);
 
   @override
-  String? get date => RealmObjectBase.get<String>(this, 'date') as String?;
+  String get date => RealmObjectBase.get<String>(this, 'date') as String;
   @override
-  set date(String? value) => RealmObjectBase.set(this, 'date', value);
+  set date(String value) => RealmObjectBase.set(this, 'date', value);
 
   @override
-  String? get reviewerName =>
-      RealmObjectBase.get<String>(this, 'reviewerName') as String?;
+  String get reviewerName =>
+      RealmObjectBase.get<String>(this, 'reviewerName') as String;
   @override
-  set reviewerName(String? value) =>
+  set reviewerName(String value) =>
       RealmObjectBase.set(this, 'reviewerName', value);
 
   @override
-  String? get reviewerEmail =>
-      RealmObjectBase.get<String>(this, 'reviewerEmail') as String?;
+  String get reviewerEmail =>
+      RealmObjectBase.get<String>(this, 'reviewerEmail') as String;
   @override
-  set reviewerEmail(String? value) =>
+  set reviewerEmail(String value) =>
       RealmObjectBase.set(this, 'reviewerEmail', value);
 
   @override
@@ -104,11 +103,11 @@ class ProductReviewsRealm extends $ProductReviewsRealm
     register(_toEJson, _fromEJson);
     return SchemaObject(
         ObjectType.embeddedObject, ProductReviewsRealm, 'ProductReviewsRealm', [
-      SchemaProperty('rating', RealmPropertyType.int, optional: true),
-      SchemaProperty('comment', RealmPropertyType.string, optional: true),
-      SchemaProperty('date', RealmPropertyType.string, optional: true),
-      SchemaProperty('reviewerName', RealmPropertyType.string, optional: true),
-      SchemaProperty('reviewerEmail', RealmPropertyType.string, optional: true),
+      SchemaProperty('rating', RealmPropertyType.int),
+      SchemaProperty('comment', RealmPropertyType.string),
+      SchemaProperty('date', RealmPropertyType.string),
+      SchemaProperty('reviewerName', RealmPropertyType.string),
+      SchemaProperty('reviewerEmail', RealmPropertyType.string),
     ]);
   }();
 

@@ -74,7 +74,7 @@ class ProductSearchBar extends HookConsumerWidget {
           return ListTile(
             title: Consumer(
               builder: (context, ref, child) {
-                return Text(Product.prototype.title!);
+                return Text(Product.prototype.title);
               },
             ),
             onTap: () {},

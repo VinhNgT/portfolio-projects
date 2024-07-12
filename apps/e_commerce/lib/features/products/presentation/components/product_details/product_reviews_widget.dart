@@ -78,7 +78,7 @@ class _ReviewsOverview extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: kSize_4),
               child: RatingStars(
-                rating: product.rating!,
+                rating: product.rating,
                 starSize: kSize_20,
               ),
             ),
@@ -218,16 +218,16 @@ class _ReviewContentCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                RatingStars(rating: review.rating!.toDouble()),
+                RatingStars(rating: review.rating.toDouble()),
                 Text(
-                  DateFormatter.format(DateTime.parse(review.date!)),
+                  DateFormatter.format(DateTime.parse(review.date)),
                   style: context.textTheme.bodySmall,
                 ),
               ],
             ),
             const Gap(kSize_2),
             Text(
-              review.reviewerName!,
+              review.reviewerName,
               style: context.textTheme.labelLarge,
             ),
             const Gap(kSize_2),
@@ -239,7 +239,7 @@ class _ReviewContentCard extends StatelessWidget {
             ),
             const Gap(kSize_8),
             Text(
-              review.comment!,
+              review.comment,
               style: context.textTheme.bodyMedium,
             ),
           ],

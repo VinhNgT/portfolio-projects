@@ -7,16 +7,16 @@ part 'product_dimensions.realm.dart';
 
 @realmEmbedded
 class $ProductDimensionsRealm {
-  late double? width;
-  late double? height;
-  late double? depth;
+  late double width;
+  late double height;
+  late double depth;
 }
 
 @MappableClass()
 class ProductDimensions with ProductDimensionsMappable {
-  final double? width;
-  final double? height;
-  final double? depth;
+  final double width;
+  final double height;
+  final double depth;
 
   const ProductDimensions({
     required this.width,

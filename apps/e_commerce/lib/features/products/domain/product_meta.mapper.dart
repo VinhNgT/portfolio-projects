@@ -20,16 +20,16 @@ class ProductMetaMapper extends ClassMapperBase<ProductMeta> {
   @override
   final String id = 'ProductMeta';
 
-  static DateTime? _$createdAt(ProductMeta v) => v.createdAt;
+  static DateTime _$createdAt(ProductMeta v) => v.createdAt;
   static const Field<ProductMeta, DateTime> _f$createdAt =
       Field('createdAt', _$createdAt);
-  static DateTime? _$updatedAt(ProductMeta v) => v.updatedAt;
+  static DateTime _$updatedAt(ProductMeta v) => v.updatedAt;
   static const Field<ProductMeta, DateTime> _f$updatedAt =
       Field('updatedAt', _$updatedAt);
-  static String? _$barcode(ProductMeta v) => v.barcode;
+  static String _$barcode(ProductMeta v) => v.barcode;
   static const Field<ProductMeta, String> _f$barcode =
       Field('barcode', _$barcode);
-  static String? _$qrCode(ProductMeta v) => v.qrCode;
+  static String _$qrCode(ProductMeta v) => v.qrCode;
   static const Field<ProductMeta, String> _f$qrCode = Field('qrCode', _$qrCode);
 
   @override
@@ -117,15 +117,15 @@ class _ProductMetaCopyWithImpl<$R, $Out>
       ProductMetaMapper.ensureInitialized();
   @override
   $R call(
-          {Object? createdAt = $none,
-          Object? updatedAt = $none,
-          Object? barcode = $none,
-          Object? qrCode = $none}) =>
+          {DateTime? createdAt,
+          DateTime? updatedAt,
+          String? barcode,
+          String? qrCode}) =>
       $apply(FieldCopyWithData({
-        if (createdAt != $none) #createdAt: createdAt,
-        if (updatedAt != $none) #updatedAt: updatedAt,
-        if (barcode != $none) #barcode: barcode,
-        if (qrCode != $none) #qrCode: qrCode
+        if (createdAt != null) #createdAt: createdAt,
+        if (updatedAt != null) #updatedAt: updatedAt,
+        if (barcode != null) #barcode: barcode,
+        if (qrCode != null) #qrCode: qrCode
       }));
   @override
   ProductMeta $make(CopyWithData data) => ProductMeta(

@@ -25,55 +25,55 @@ class ProductMapper extends ClassMapperBase<Product> {
 
   static int _$id(Product v) => v.id;
   static const Field<Product, int> _f$id = Field('id', _$id);
-  static String? _$title(Product v) => v.title;
+  static String _$title(Product v) => v.title;
   static const Field<Product, String> _f$title = Field('title', _$title);
-  static String? _$description(Product v) => v.description;
+  static String _$description(Product v) => v.description;
   static const Field<Product, String> _f$description =
       Field('description', _$description);
-  static String? _$category(Product v) => v.category;
+  static String _$category(Product v) => v.category;
   static const Field<Product, String> _f$category =
       Field('category', _$category);
-  static double? _$price(Product v) => v.price;
+  static double _$price(Product v) => v.price;
   static const Field<Product, double> _f$price = Field('price', _$price);
-  static double? _$discountPercentage(Product v) => v.discountPercentage;
+  static double _$discountPercentage(Product v) => v.discountPercentage;
   static const Field<Product, double> _f$discountPercentage =
       Field('discountPercentage', _$discountPercentage);
-  static double? _$rating(Product v) => v.rating;
+  static double _$rating(Product v) => v.rating;
   static const Field<Product, double> _f$rating = Field('rating', _$rating);
-  static int? _$stock(Product v) => v.stock;
+  static int _$stock(Product v) => v.stock;
   static const Field<Product, int> _f$stock = Field('stock', _$stock);
   static List<String> _$tags(Product v) => v.tags;
   static const Field<Product, List<String>> _f$tags = Field('tags', _$tags);
   static String? _$brand(Product v) => v.brand;
   static const Field<Product, String> _f$brand = Field('brand', _$brand);
-  static String? _$sku(Product v) => v.sku;
+  static String _$sku(Product v) => v.sku;
   static const Field<Product, String> _f$sku = Field('sku', _$sku);
-  static int? _$weight(Product v) => v.weight;
+  static int _$weight(Product v) => v.weight;
   static const Field<Product, int> _f$weight = Field('weight', _$weight);
-  static ProductDimensions? _$dimensions(Product v) => v.dimensions;
+  static ProductDimensions _$dimensions(Product v) => v.dimensions;
   static const Field<Product, ProductDimensions> _f$dimensions =
       Field('dimensions', _$dimensions);
-  static String? _$warrantyInformation(Product v) => v.warrantyInformation;
+  static String _$warrantyInformation(Product v) => v.warrantyInformation;
   static const Field<Product, String> _f$warrantyInformation =
       Field('warrantyInformation', _$warrantyInformation);
-  static String? _$shippingInformation(Product v) => v.shippingInformation;
+  static String _$shippingInformation(Product v) => v.shippingInformation;
   static const Field<Product, String> _f$shippingInformation =
       Field('shippingInformation', _$shippingInformation);
-  static String? _$availabilityStatus(Product v) => v.availabilityStatus;
+  static String _$availabilityStatus(Product v) => v.availabilityStatus;
   static const Field<Product, String> _f$availabilityStatus =
       Field('availabilityStatus', _$availabilityStatus);
   static List<ProductReviews> _$reviews(Product v) => v.reviews;
   static const Field<Product, List<ProductReviews>> _f$reviews =
       Field('reviews', _$reviews);
-  static String? _$returnPolicy(Product v) => v.returnPolicy;
+  static String _$returnPolicy(Product v) => v.returnPolicy;
   static const Field<Product, String> _f$returnPolicy =
       Field('returnPolicy', _$returnPolicy);
-  static int? _$minimumOrderQuantity(Product v) => v.minimumOrderQuantity;
+  static int _$minimumOrderQuantity(Product v) => v.minimumOrderQuantity;
   static const Field<Product, int> _f$minimumOrderQuantity =
       Field('minimumOrderQuantity', _$minimumOrderQuantity);
-  static ProductMeta? _$meta(Product v) => v.meta;
+  static ProductMeta _$meta(Product v) => v.meta;
   static const Field<Product, ProductMeta> _f$meta = Field('meta', _$meta);
-  static String? _$thumbnail(Product v) => v.thumbnail;
+  static String _$thumbnail(Product v) => v.thumbnail;
   static const Field<Product, String> _f$thumbnail =
       Field('thumbnail', _$thumbnail);
   static List<String> _$images(Product v) => v.images;
@@ -182,11 +182,11 @@ extension ProductValueCopy<$R, $Out> on ObjectCopyWith<$R, Product, $Out> {
 abstract class ProductCopyWith<$R, $In extends Product, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get tags;
-  ProductDimensionsCopyWith<$R, ProductDimensions, ProductDimensions>?
+  ProductDimensionsCopyWith<$R, ProductDimensions, ProductDimensions>
       get dimensions;
   ListCopyWith<$R, ProductReviews,
       ProductReviewsCopyWith<$R, ProductReviews, ProductReviews>> get reviews;
-  ProductMetaCopyWith<$R, ProductMeta, ProductMeta>? get meta;
+  ProductMetaCopyWith<$R, ProductMeta, ProductMeta> get meta;
   ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get images;
   $R call(
       {int? id,
@@ -227,17 +227,17 @@ class _ProductCopyWithImpl<$R, $Out>
       ListCopyWith($value.tags, (v, t) => ObjectCopyWith(v, $identity, t),
           (v) => call(tags: v));
   @override
-  ProductDimensionsCopyWith<$R, ProductDimensions, ProductDimensions>?
+  ProductDimensionsCopyWith<$R, ProductDimensions, ProductDimensions>
       get dimensions =>
-          $value.dimensions?.copyWith.$chain((v) => call(dimensions: v));
+          $value.dimensions.copyWith.$chain((v) => call(dimensions: v));
   @override
   ListCopyWith<$R, ProductReviews,
           ProductReviewsCopyWith<$R, ProductReviews, ProductReviews>>
       get reviews => ListCopyWith($value.reviews,
           (v, t) => v.copyWith.$chain(t), (v) => call(reviews: v));
   @override
-  ProductMetaCopyWith<$R, ProductMeta, ProductMeta>? get meta =>
-      $value.meta?.copyWith.$chain((v) => call(meta: v));
+  ProductMetaCopyWith<$R, ProductMeta, ProductMeta> get meta =>
+      $value.meta.copyWith.$chain((v) => call(meta: v));
   @override
   ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get images =>
       ListCopyWith($value.images, (v, t) => ObjectCopyWith(v, $identity, t),
@@ -245,54 +245,52 @@ class _ProductCopyWithImpl<$R, $Out>
   @override
   $R call(
           {int? id,
-          Object? title = $none,
-          Object? description = $none,
-          Object? category = $none,
-          Object? price = $none,
-          Object? discountPercentage = $none,
-          Object? rating = $none,
-          Object? stock = $none,
+          String? title,
+          String? description,
+          String? category,
+          double? price,
+          double? discountPercentage,
+          double? rating,
+          int? stock,
           List<String>? tags,
           Object? brand = $none,
-          Object? sku = $none,
-          Object? weight = $none,
-          Object? dimensions = $none,
-          Object? warrantyInformation = $none,
-          Object? shippingInformation = $none,
-          Object? availabilityStatus = $none,
+          String? sku,
+          int? weight,
+          ProductDimensions? dimensions,
+          String? warrantyInformation,
+          String? shippingInformation,
+          String? availabilityStatus,
           List<ProductReviews>? reviews,
-          Object? returnPolicy = $none,
-          Object? minimumOrderQuantity = $none,
-          Object? meta = $none,
-          Object? thumbnail = $none,
+          String? returnPolicy,
+          int? minimumOrderQuantity,
+          ProductMeta? meta,
+          String? thumbnail,
           List<String>? images}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
-        if (title != $none) #title: title,
-        if (description != $none) #description: description,
-        if (category != $none) #category: category,
-        if (price != $none) #price: price,
-        if (discountPercentage != $none)
-          #discountPercentage: discountPercentage,
-        if (rating != $none) #rating: rating,
-        if (stock != $none) #stock: stock,
+        if (title != null) #title: title,
+        if (description != null) #description: description,
+        if (category != null) #category: category,
+        if (price != null) #price: price,
+        if (discountPercentage != null) #discountPercentage: discountPercentage,
+        if (rating != null) #rating: rating,
+        if (stock != null) #stock: stock,
         if (tags != null) #tags: tags,
         if (brand != $none) #brand: brand,
-        if (sku != $none) #sku: sku,
-        if (weight != $none) #weight: weight,
-        if (dimensions != $none) #dimensions: dimensions,
-        if (warrantyInformation != $none)
+        if (sku != null) #sku: sku,
+        if (weight != null) #weight: weight,
+        if (dimensions != null) #dimensions: dimensions,
+        if (warrantyInformation != null)
           #warrantyInformation: warrantyInformation,
-        if (shippingInformation != $none)
+        if (shippingInformation != null)
           #shippingInformation: shippingInformation,
-        if (availabilityStatus != $none)
-          #availabilityStatus: availabilityStatus,
+        if (availabilityStatus != null) #availabilityStatus: availabilityStatus,
         if (reviews != null) #reviews: reviews,
-        if (returnPolicy != $none) #returnPolicy: returnPolicy,
-        if (minimumOrderQuantity != $none)
+        if (returnPolicy != null) #returnPolicy: returnPolicy,
+        if (minimumOrderQuantity != null)
           #minimumOrderQuantity: minimumOrderQuantity,
-        if (meta != $none) #meta: meta,
-        if (thumbnail != $none) #thumbnail: thumbnail,
+        if (meta != null) #meta: meta,
+        if (thumbnail != null) #thumbnail: thumbnail,
         if (images != null) #images: images
       }));
   @override

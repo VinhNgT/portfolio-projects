@@ -18,7 +18,7 @@ class ProductDescriptionWidget extends StatelessWidget {
           style: context.textTheme.titleLarge,
         ),
         const Gap(kSize_12),
-        Text(product.description!),
+        Text(product.description),
       ],
     );
   }

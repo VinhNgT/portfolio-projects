@@ -24,11 +24,11 @@ class ProductsMapper extends ClassMapperBase<Products> {
   static List<Product> _$products(Products v) => v.products;
   static const Field<Products, List<Product>> _f$products =
       Field('products', _$products);
-  static int? _$total(Products v) => v.total;
+  static int _$total(Products v) => v.total;
   static const Field<Products, int> _f$total = Field('total', _$total);
-  static int? _$skip(Products v) => v.skip;
+  static int _$skip(Products v) => v.skip;
   static const Field<Products, int> _f$skip = Field('skip', _$skip);
-  static int? _$limit(Products v) => v.limit;
+  static int _$limit(Products v) => v.limit;
   static const Field<Products, int> _f$limit = Field('limit', _$limit);
 
   @override
@@ -114,16 +114,12 @@ class _ProductsCopyWithImpl<$R, $Out>
       get products => ListCopyWith($value.products,
           (v, t) => v.copyWith.$chain(t), (v) => call(products: v));
   @override
-  $R call(
-          {List<Product>? products,
-          Object? total = $none,
-          Object? skip = $none,
-          Object? limit = $none}) =>
+  $R call({List<Product>? products, int? total, int? skip, int? limit}) =>
       $apply(FieldCopyWithData({
         if (products != null) #products: products,
-        if (total != $none) #total: total,
-        if (skip != $none) #skip: skip,
-        if (limit != $none) #limit: limit
+        if (total != null) #total: total,
+        if (skip != null) #skip: skip,
+        if (limit != null) #limit: limit
       }));
   @override
   Products $make(CopyWithData data) => Products(

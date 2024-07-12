@@ -9,17 +9,17 @@ part 'products.realm.dart';
 @realm
 class $ProductsRealm {
   late List<$ProductRealm> products;
-  late int? total;
-  late int? skip;
-  late int? limit;
+  late int total;
+  late int skip;
+  late int limit;
 }
 
 @MappableClass()
 class Products with ProductsMappable {
   final List<Product> products;
-  final int? total;
-  final int? skip;
-  final int? limit;
+  final int total;
+  final int skip;
+  final int limit;
 
   const Products({
     required this.products,

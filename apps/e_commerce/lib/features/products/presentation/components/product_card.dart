@@ -58,7 +58,7 @@ class _ProductCardColumn extends HookConsumerWidget {
             Container(
               color: Colors.white,
               child: CachedNetworkImage(
-                imageUrl: product.thumbnail!,
+                imageUrl: product.thumbnail,
                 height: constraints.maxWidth,
                 width: constraints.maxWidth,
               ),
@@ -72,7 +72,7 @@ class _ProductCardColumn extends HookConsumerWidget {
                   children: <Widget>[
                     // Title
                     Text(
-                      product.title!,
+                      product.title,
                       style: context.textTheme.bodySmall,
                       maxLines: 2,
                       overflow: TextOverflow.fade,
@@ -97,7 +97,7 @@ class _ProductCardColumn extends HookConsumerWidget {
                     const Gap(kSize_6),
 
                     // Rating
-                    RatingStars(rating: product.rating!),
+                    RatingStars(rating: product.rating),
                     const Gap(kSize_8),
 
                     // Location
@@ -148,7 +148,7 @@ class _ProductCardCompactColumn extends HookConsumerWidget {
           builder: (context, constraints) => Container(
             color: Colors.white,
             child: CachedNetworkImage(
-              imageUrl: product.thumbnail!,
+              imageUrl: product.thumbnail,
               height: constraints.maxWidth,
               width: constraints.maxWidth,
             ),
