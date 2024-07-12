@@ -3,6 +3,8 @@ import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
 import 'package:e_commerce/features/products/domain/product_dimensions.dart';
 import 'package:e_commerce/features/products/domain/product_meta.dart';
 import 'package:e_commerce/features/products/domain/product_reviews.dart';
+import 'package:e_commerce/features/products/domain/product_variant.dart';
+import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:intl/intl.dart';
 import 'package:realm/realm.dart';
 
@@ -35,6 +37,7 @@ class $ProductRealm {
   late $ProductMetaRealm? meta;
   late String thumbnail;
   late List<String> images;
+  late List<$ProductVariantGroupRealm> variantGroups;
 }
 
 @MappableClass()
@@ -61,8 +64,9 @@ class Product with ProductMappable {
   final ProductMeta meta;
   final String thumbnail;
   final List<String> images;
+  final List<ProductVariantGroup> variantsGroup;
 
-  Product({
+  const Product({
     required this.id,
     required this.title,
     required this.description,
@@ -85,7 +89,34 @@ class Product with ProductMappable {
     required this.meta,
     required this.thumbnail,
     required this.images,
+    required this.variantsGroup,
   });
+
+  @MappableConstructor()
+  Product.mock({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.category,
+    required this.price,
+    required this.discountPercentage,
+    required this.rating,
+    required this.stock,
+    required this.tags,
+    required this.brand,
+    required this.sku,
+    required this.weight,
+    required this.dimensions,
+    required this.warrantyInformation,
+    required this.shippingInformation,
+    required this.availabilityStatus,
+    required this.reviews,
+    required this.returnPolicy,
+    required this.minimumOrderQuantity,
+    required this.meta,
+    required this.thumbnail,
+    required this.images,
+  }) : variantsGroup = prototype.variantsGroup;
 
   factory Product.fromRealm(ProductRealm realm) {
     return Product(
@@ -111,6 +142,8 @@ class Product with ProductMappable {
       meta: ProductMeta.fromRealm(realm.meta!),
       thumbnail: realm.thumbnail,
       images: realm.images,
+      variantsGroup:
+          realm.variantGroups.map(ProductVariantGroup.fromRealm).toList(),
     );
   }
 
@@ -138,6 +171,7 @@ class Product with ProductMappable {
       meta: meta.toRealm(),
       thumbnail: thumbnail,
       images: images,
+      variantGroups: variantsGroup.map((e) => e.toRealm()).toList(),
     );
   }
 
@@ -203,5 +237,37 @@ extension _ProductPrototypeX on Product {
     ],
     thumbnail:
         'https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png',
+    variantsGroup: [
+      ProductVariantGroup(
+        groupName: 'Color',
+        variants: [
+          ProductVariant(
+            id: Uuid.fromString('6db990bd-9d6f-4fc6-b978-78e378dd9f50'),
+            name: 'Black',
+          ),
+          ProductVariant(
+            id: Uuid.fromString('4dc94875-d336-41a2-b291-18afbb97cca8'),
+            name: 'Brown',
+          ),
+        ],
+      ),
+      ProductVariantGroup(
+        groupName: 'Size',
+        variants: [
+          ProductVariant(
+            id: Uuid.fromString('ee97d2ad-b3e9-49b2-b86f-3c30091eea9a'),
+            name: 'S',
+          ),
+          ProductVariant(
+            id: Uuid.fromString('835e5d1b-c1b1-43d4-a228-9746bb155f68'),
+            name: 'M',
+          ),
+          ProductVariant(
+            id: Uuid.fromString('7299624f-7d85-4c30-8d0f-7e4828b5eb08'),
+            name: 'L',
+          ),
+        ],
+      ),
+    ],
   );
 }

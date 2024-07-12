@@ -3,6 +3,8 @@ import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_dimensions.dart';
 import 'package:e_commerce/features/products/domain/product_meta.dart';
 import 'package:e_commerce/features/products/domain/product_reviews.dart';
+import 'package:e_commerce/features/products/domain/product_variant.dart';
+import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:e_commerce/features/products/domain/products.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:realm/realm.dart';
@@ -19,6 +21,8 @@ Future<Realm> realm(RealmRef ref) async {
     ProductReviewsRealm.schema,
     ProductRealm.schema,
     ProductsRealm.schema,
+    ProductVariantGroupRealm.schema,
+    ProductVariantRealm.schema,
   ];
 
   final realmPath = await getApplicationDocumentsDirectory();

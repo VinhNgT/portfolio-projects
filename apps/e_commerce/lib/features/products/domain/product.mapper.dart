@@ -79,6 +79,10 @@ class ProductMapper extends ClassMapperBase<Product> {
   static List<String> _$images(Product v) => v.images;
   static const Field<Product, List<String>> _f$images =
       Field('images', _$images);
+  static List<ProductVariantGroup> _$variantsGroup(Product v) =>
+      v.variantsGroup;
+  static const Field<Product, List<ProductVariantGroup>> _f$variantsGroup =
+      Field('variantsGroup', _$variantsGroup, mode: FieldMode.member);
 
   @override
   final MappableFields<Product> fields = const {
@@ -104,10 +108,11 @@ class ProductMapper extends ClassMapperBase<Product> {
     #meta: _f$meta,
     #thumbnail: _f$thumbnail,
     #images: _f$images,
+    #variantsGroup: _f$variantsGroup,
   };
 
   static Product _instantiate(DecodingData data) {
-    return Product(
+    return Product.mock(
         id: data.dec(_f$id),
         title: data.dec(_f$title),
         description: data.dec(_f$description),
@@ -294,7 +299,7 @@ class _ProductCopyWithImpl<$R, $Out>
         if (images != null) #images: images
       }));
   @override
-  Product $make(CopyWithData data) => Product(
+  Product $make(CopyWithData data) => Product.mock(
       id: data.get(#id, or: $value.id),
       title: data.get(#title, or: $value.title),
       description: data.get(#description, or: $value.description),

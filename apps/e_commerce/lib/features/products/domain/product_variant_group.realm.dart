@@ -1,0 +1,86 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'product_variant_group.dart';
+
+// **************************************************************************
+// RealmObjectGenerator
+// **************************************************************************
+
+// ignore_for_file: type=lint
+class ProductVariantGroupRealm extends $ProductVariantGroupRealm
+    with RealmEntity, RealmObjectBase, EmbeddedObject {
+  ProductVariantGroupRealm({
+    required String groupName,
+    Iterable<ProductVariantRealm> variants = const [],
+  }) {
+    RealmObjectBase.set(this, 'groupName', groupName);
+    RealmObjectBase.set<RealmList<ProductVariantRealm>>(
+        this, 'variants', RealmList<ProductVariantRealm>(variants));
+  }
+
+  ProductVariantGroupRealm._();
+
+  @override
+  String get groupName =>
+      RealmObjectBase.get<String>(this, 'groupName') as String;
+  @override
+  set groupName(String value) => RealmObjectBase.set(this, 'groupName', value);
+
+  @override
+  RealmList<ProductVariantRealm> get variants =>
+      RealmObjectBase.get<ProductVariantRealm>(this, 'variants')
+          as RealmList<ProductVariantRealm>;
+  @override
+  set variants(covariant RealmList<ProductVariantRealm> value) =>
+      throw RealmUnsupportedSetError();
+
+  @override
+  Stream<RealmObjectChanges<ProductVariantGroupRealm>> get changes =>
+      RealmObjectBase.getChanges<ProductVariantGroupRealm>(this);
+
+  @override
+  Stream<RealmObjectChanges<ProductVariantGroupRealm>> changesFor(
+          [List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<ProductVariantGroupRealm>(this, keyPaths);
+
+  @override
+  ProductVariantGroupRealm freeze() =>
+      RealmObjectBase.freezeObject<ProductVariantGroupRealm>(this);
+
+  EJsonValue toEJson() {
+    return <String, dynamic>{
+      'groupName': groupName.toEJson(),
+      'variants': variants.toEJson(),
+    };
+  }
+
+  static EJsonValue _toEJson(ProductVariantGroupRealm value) => value.toEJson();
+  static ProductVariantGroupRealm _fromEJson(EJsonValue ejson) {
+    return switch (ejson) {
+      {
+        'groupName': EJsonValue groupName,
+        'variants': EJsonValue variants,
+      } =>
+        ProductVariantGroupRealm(
+          groupName: fromEJson(groupName),
+          variants: fromEJson(variants),
+        ),
+      _ => raiseInvalidEJson(ejson),
+    };
+  }
+
+  static final schema = () {
+    RealmObjectBase.registerFactory(ProductVariantGroupRealm._);
+    register(_toEJson, _fromEJson);
+    return SchemaObject(ObjectType.embeddedObject, ProductVariantGroupRealm,
+        'ProductVariantGroupRealm', [
+      SchemaProperty('groupName', RealmPropertyType.string),
+      SchemaProperty('variants', RealmPropertyType.object,
+          linkTarget: 'ProductVariantRealm',
+          collectionType: RealmCollectionType.list),
+    ]);
+  }();
+
+  @override
+  SchemaObject get objectSchema => RealmObjectBase.getSchema(this) ?? schema;
+}

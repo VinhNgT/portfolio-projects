@@ -32,6 +32,7 @@ class ProductRealm extends $ProductRealm
     ProductMetaRealm? meta,
     required String thumbnail,
     Iterable<String> images = const [],
+    Iterable<ProductVariantGroupRealm> variantGroups = const [],
   }) {
     RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'title', title);
@@ -58,6 +59,8 @@ class ProductRealm extends $ProductRealm
     RealmObjectBase.set(this, 'thumbnail', thumbnail);
     RealmObjectBase.set<RealmList<String>>(
         this, 'images', RealmList<String>(images));
+    RealmObjectBase.set<RealmList<ProductVariantGroupRealm>>(this,
+        'variantGroups', RealmList<ProductVariantGroupRealm>(variantGroups));
   }
 
   ProductRealm._();
@@ -201,6 +204,14 @@ class ProductRealm extends $ProductRealm
       throw RealmUnsupportedSetError();
 
   @override
+  RealmList<ProductVariantGroupRealm> get variantGroups =>
+      RealmObjectBase.get<ProductVariantGroupRealm>(this, 'variantGroups')
+          as RealmList<ProductVariantGroupRealm>;
+  @override
+  set variantGroups(covariant RealmList<ProductVariantGroupRealm> value) =>
+      throw RealmUnsupportedSetError();
+
+  @override
   Stream<RealmObjectChanges<ProductRealm>> get changes =>
       RealmObjectBase.getChanges<ProductRealm>(this);
 
@@ -236,6 +247,7 @@ class ProductRealm extends $ProductRealm
       'meta': meta.toEJson(),
       'thumbnail': thumbnail.toEJson(),
       'images': images.toEJson(),
+      'variantGroups': variantGroups.toEJson(),
     };
   }
 
@@ -265,6 +277,7 @@ class ProductRealm extends $ProductRealm
         'meta': EJsonValue meta,
         'thumbnail': EJsonValue thumbnail,
         'images': EJsonValue images,
+        'variantGroups': EJsonValue variantGroups,
       } =>
         ProductRealm(
           id: fromEJson(id),
@@ -289,6 +302,7 @@ class ProductRealm extends $ProductRealm
           meta: fromEJson(meta),
           thumbnail: fromEJson(thumbnail),
           images: fromEJson(images),
+          variantGroups: fromEJson(variantGroups),
         ),
       _ => raiseInvalidEJson(ejson),
     };
@@ -325,6 +339,9 @@ class ProductRealm extends $ProductRealm
           optional: true, linkTarget: 'ProductMetaRealm'),
       SchemaProperty('thumbnail', RealmPropertyType.string),
       SchemaProperty('images', RealmPropertyType.string,
+          collectionType: RealmCollectionType.list),
+      SchemaProperty('variantGroups', RealmPropertyType.object,
+          linkTarget: 'ProductVariantGroupRealm',
           collectionType: RealmCollectionType.list),
     ]);
   }();
