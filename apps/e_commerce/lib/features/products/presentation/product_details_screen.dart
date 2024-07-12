@@ -9,6 +9,7 @@ import 'package:e_commerce/features/products/presentation/components/product_det
 import 'package:e_commerce/features/products/presentation/components/product_details/product_images_carousel.dart';
 import 'package:e_commerce/features/products/presentation/components/product_details/product_info_widget.dart';
 import 'package:e_commerce/features/products/presentation/components/product_details/product_reviews_widget.dart';
+import 'package:e_commerce/features/products/presentation/components/products_list.dart';
 import 'package:e_commerce/features/seller/presentation/seller_card.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -97,6 +98,7 @@ class ProductDetailsScreen extends HookConsumerWidget {
                 child: ProductReviewsWidget(product: product),
               ),
               const SliverGap(kSize_32),
+              const ProductListSliver(),
             ],
           );
         },

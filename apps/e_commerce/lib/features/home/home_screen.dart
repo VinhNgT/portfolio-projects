@@ -1,11 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:e_commerce/common/prototype_size.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/home/components/banners_carousel.dart';
 import 'package:e_commerce/features/home/components/flash_sale_list.dart';
 import 'package:e_commerce/features/home/components/product_search_bar.dart';
-import 'package:e_commerce/features/products/domain/product.dart';
-import 'package:e_commerce/features/products/presentation/components/product_card.dart';
 import 'package:e_commerce/features/products/presentation/components/products_list.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +48,7 @@ class HomeScreen extends HookConsumerWidget {
           SliverGap(kSize_32),
           _FlashSaleSliver(),
           SliverGap(kSize_32),
-          _ProductListSliver(),
+          ProductListSliver(),
           SliverSafeArea(
             top: false,
             sliver: SliverGap(kSize_24),
@@ -128,59 +125,6 @@ class _FlashSaleSliver extends HookConsumerWidget {
           ),
           const Gap(kSize_8),
           const FlashSaleList(),
-        ],
-      ),
-    );
-  }
-}
-
-class _ProductListSliver extends StatelessWidget {
-  const _ProductListSliver();
-
-  // We use these 2 constants below to calculate the width and height of the
-  // product card for accurate grid layouts.
-  static const _productGridLeftRightPading = kSize_12;
-  static const _productCardAxisSpacing = kSize_8;
-
-  @override
-  Widget build(BuildContext context) {
-    return PrototypeSizeSliver(
-      prototype: LayoutBuilder(
-        builder: (context, constraints) {
-          final rowWidthWithoutSpacing = constraints.maxWidth -
-              _productGridLeftRightPading * 2 -
-              _productCardAxisSpacing;
-
-          final productCardWidth = rowWidthWithoutSpacing / 2;
-
-          return ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: productCardWidth),
-            child: ProductCard(product: Product.prototype),
-          );
-        },
-      ),
-      builder: (context, prototypeSize, _, __) => SliverMainAxisGroup(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kSize_16),
-              child: Text(
-                'Gợi ý hôm nay',
-                style: context.theme.textTheme.titleLarge,
-              ),
-            ),
-          ),
-          const SliverGap(kSize_16),
-          SliverPadding(
-            padding: const EdgeInsets.only(
-              left: _productGridLeftRightPading,
-              right: _productGridLeftRightPading,
-            ),
-            sliver: ProductsList(
-              axisSpacing: _productCardAxisSpacing,
-              axisExtend: prototypeSize.height,
-            ),
-          ),
         ],
       ),
     );
