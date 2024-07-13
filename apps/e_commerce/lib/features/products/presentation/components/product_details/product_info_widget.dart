@@ -1,5 +1,6 @@
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
+import 'package:e_commerce/features/products/presentation/components/product_details/flash_sale_widget.dart';
 import 'package:e_commerce/features/products/presentation/components/rating_stars.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,7 @@ class _Pricing extends HookConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Gap(kSize_6),
-        const _FlashSale(),
+        const FlashSale(),
         const Gap(kSize_2),
         Text(
           vndPriceFormatter.value.format(product.vndDiscountedPrice),
@@ -58,32 +59,6 @@ class _Pricing extends HookConsumerWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _FlashSale extends StatelessWidget {
-  const _FlashSale();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: kSize_4),
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: kSize_2,
-          horizontal: kSize_8,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(kSize_20),
-          color: context.theme.colorScheme.primaryContainer,
-        ),
-        child: Text(
-          'Flash sale kết thúc sau 2 giờ',
-          style: context.theme.textTheme.labelSmall!
-              .copyWith(color: context.theme.colorScheme.onPrimaryContainer),
-        ),
-      ),
     );
   }
 }
