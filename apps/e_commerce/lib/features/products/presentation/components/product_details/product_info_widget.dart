@@ -44,7 +44,10 @@ class _Pricing extends HookConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Gap(kSize_6),
-        const FlashSale(),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: kSize_4),
+          child: FlashSaleWidget(),
+        ),
         const Gap(kSize_2),
         Text(
           vndPriceFormatter.value.format(product.vndDiscountedPrice),
