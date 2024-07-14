@@ -10,15 +10,22 @@ part of 'product_variant_group.dart';
 class ProductVariantGroupRealm extends $ProductVariantGroupRealm
     with RealmEntity, RealmObjectBase, EmbeddedObject {
   ProductVariantGroupRealm({
+    required Uuid id,
     required String groupName,
     Iterable<ProductVariantRealm> variants = const [],
   }) {
+    RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'groupName', groupName);
     RealmObjectBase.set<RealmList<ProductVariantRealm>>(
         this, 'variants', RealmList<ProductVariantRealm>(variants));
   }
 
   ProductVariantGroupRealm._();
+
+  @override
+  Uuid get id => RealmObjectBase.get<Uuid>(this, 'id') as Uuid;
+  @override
+  set id(Uuid value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get groupName =>
@@ -49,6 +56,7 @@ class ProductVariantGroupRealm extends $ProductVariantGroupRealm
 
   EJsonValue toEJson() {
     return <String, dynamic>{
+      'id': id.toEJson(),
       'groupName': groupName.toEJson(),
       'variants': variants.toEJson(),
     };
@@ -58,10 +66,12 @@ class ProductVariantGroupRealm extends $ProductVariantGroupRealm
   static ProductVariantGroupRealm _fromEJson(EJsonValue ejson) {
     return switch (ejson) {
       {
+        'id': EJsonValue id,
         'groupName': EJsonValue groupName,
         'variants': EJsonValue variants,
       } =>
         ProductVariantGroupRealm(
+          id: fromEJson(id),
           groupName: fromEJson(groupName),
           variants: fromEJson(variants),
         ),
@@ -74,6 +84,8 @@ class ProductVariantGroupRealm extends $ProductVariantGroupRealm
     register(_toEJson, _fromEJson);
     return SchemaObject(ObjectType.embeddedObject, ProductVariantGroupRealm,
         'ProductVariantGroupRealm', [
+      SchemaProperty('id', RealmPropertyType.uuid,
+          indexType: RealmIndexType.regular),
       SchemaProperty('groupName', RealmPropertyType.string),
       SchemaProperty('variants', RealmPropertyType.object,
           linkTarget: 'ProductVariantRealm',

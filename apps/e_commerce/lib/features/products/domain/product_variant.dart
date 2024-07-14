@@ -19,6 +19,10 @@ class ProductVariant {
     required this.name,
   });
 
+  ProductVariant.newId({
+    required this.name,
+  }) : id = Uuid.v4();
+
   ProductVariantRealm toRealm() {
     return ProductVariantRealm(id: id, name: name);
   }
@@ -28,5 +32,10 @@ class ProductVariant {
       id: realm.id,
       name: realm.name,
     );
+  }
+
+  @override
+  String toString() {
+    return '${id}_$name';
   }
 }

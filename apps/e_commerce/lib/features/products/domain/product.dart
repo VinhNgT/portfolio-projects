@@ -239,6 +239,7 @@ extension _ProductPrototypeX on Product {
         'https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png',
     variantsGroup: [
       ProductVariantGroup(
+        id: Uuid.fromString('84216062-a550-4cb3-a4f5-05548ddfb614'),
         groupName: 'Color',
         variants: [
           ProductVariant(
@@ -252,6 +253,7 @@ extension _ProductPrototypeX on Product {
         ],
       ),
       ProductVariantGroup(
+        id: Uuid.fromString('3b8a645c-3ba1-4a22-8d9e-7ccc9f30b780'),
         groupName: 'Size',
         variants: [
           ProductVariant(
