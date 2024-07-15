@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
-import 'package:e_commerce/features/home/components/banners_carousel.dart';
-import 'package:e_commerce/features/home/components/flash_sale_list.dart';
-import 'package:e_commerce/features/home/components/product_search_bar.dart';
+import 'package:e_commerce/features/home/presentation/components/banners_carousel.dart';
+import 'package:e_commerce/features/home/presentation/components/flash_sale_list.dart';
+import 'package:e_commerce/features/home/presentation/components/product_search_bar.dart';
 import 'package:e_commerce/features/products/presentation/components/products_list.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:flutter/material.dart';

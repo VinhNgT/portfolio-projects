@@ -9,11 +9,11 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i5;
-import 'package:e_commerce/features/app_navigation/app_navigation_screen.dart'
+import 'package:e_commerce/features/app_navigation/presentation/app_navigation_screen.dart'
     as _i1;
-import 'package:e_commerce/features/app_navigation/home_tab_navigation_screen.dart'
+import 'package:e_commerce/features/app_navigation/presentation/home_tab_navigation_screen.dart'
     as _i3;
-import 'package:e_commerce/features/home/home_screen.dart' as _i2;
+import 'package:e_commerce/features/home/presentation/home_screen.dart' as _i2;
 import 'package:e_commerce/features/products/presentation/product_details_screen.dart'
     as _i4;
 import 'package:flutter/material.dart' as _i6;

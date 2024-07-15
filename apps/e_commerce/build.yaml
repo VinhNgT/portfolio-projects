@@ -26,4 +26,4 @@ targets:
         generate_for:
           include:
             - 'lib/routing/**.dart'
-            - '**_screen.dart'
+            - 'lib/**/presentation/**.dart'
