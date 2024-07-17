@@ -5,15 +5,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 @RoutePage()
-class AppNavigationScreen extends HookConsumerWidget {
-  const AppNavigationScreen({super.key});
+class AppNavScreen extends HookConsumerWidget {
+  const AppNavScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AutoTabsScaffold(
       routes: const [
-        HomeRoute(),
-        HomeRoute(),
+        HomeTabNavRoute(),
+        CartTabNavRoute(),
         HomeRoute(),
         HomeRoute(),
       ],
@@ -30,7 +30,11 @@ class AppNavigationScreen extends HookConsumerWidget {
               child: NavigationBar(
                 elevation: 0,
                 selectedIndex: tabsRouter.activeIndex,
-                onDestinationSelected: (index) {},
+                onDestinationSelected: (index) {
+                  if (index < 2) {
+                    tabsRouter.setActiveIndex(index);
+                  }
+                },
                 destinations: const [
                   NavigationDestination(
                     label: 'Trang chủ',
