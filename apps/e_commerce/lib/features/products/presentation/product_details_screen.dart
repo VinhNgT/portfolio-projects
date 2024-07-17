@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce/common/async/async_value_widget.dart';
-import 'package:e_commerce/common/hooks/use_run_first_build.dart';
+import 'package:e_commerce/common/hooks/use_init_state.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/cart/presentation/add_to_cart_sheet.dart';
 import 'package:e_commerce/features/delivery/presentation/product_delivery_card.dart';
