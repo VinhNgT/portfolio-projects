@@ -270,15 +270,15 @@ class _QuantitySelectionContainer extends HookConsumerWidget {
               const _QuantitySelectionButtons(),
             ],
           ),
-          const Gap(kSize_8),
-          IconButton(
-            style: IconButton.styleFrom(
-              backgroundColor: context.colorScheme.surface,
-              foregroundColor: context.colorScheme.onSurface,
-            ),
-            onPressed: () {},
-            icon: const Icon(Symbols.keyboard),
-          ),
+          // const Gap(kSize_8),
+          // IconButton(
+          //   style: IconButton.styleFrom(
+          //     backgroundColor: context.colorScheme.surface,
+          //     foregroundColor: context.colorScheme.onSurface,
+          //   ),
+          //   onPressed: () {},
+          //   icon: const Icon(Symbols.keyboard),
+          // ),
         ],
       ),
     );
