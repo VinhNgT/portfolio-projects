@@ -69,7 +69,6 @@ class _AutoRouteTabsScaffold extends HookConsumerWidget {
               // bottom screen padding is 0 (e.g. when the keyboard is opened).
               maintainBottomViewPadding: true,
               child: NavigationBar(
-                elevation: 0,
                 selectedIndex: currentTabIndex,
                 onDestinationSelected: (index) {
                   if (index < 2) {

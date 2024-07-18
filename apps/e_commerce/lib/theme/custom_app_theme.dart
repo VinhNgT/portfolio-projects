@@ -22,6 +22,7 @@ class CustomAppTheme {
       ),
       navigationBarTheme: theme.navigationBarTheme.copyWith(
         height: kSize_64,
+        elevation: 0,
         // labelTextStyle: NavigationBarTextStyle(
         //   selectedTextStyle: theme.textTheme.labelMedium!
         //       .copyWith(fontWeight: FontWeight.w600),
