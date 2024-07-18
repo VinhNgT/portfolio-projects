@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce/routing/app_router_provider.gr.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
@@ -10,15 +11,55 @@ class AppNavScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return AutoTabsScaffold(
+    return AutoTabsRouter(
       routes: const [
         HomeTabNavRoute(),
         CartTabNavRoute(),
         HomeRoute(),
         HomeRoute(),
       ],
-      bottomNavigationBuilder: (_, tabsRouter) {
-        return Column(
+      builder: (context, child) {
+        return _AutoRouteTabsScaffold(
+          popTabIndex: 0,
+          child: child,
+        );
+      },
+    );
+  }
+}
+
+class _AutoRouteTabsScaffold extends HookConsumerWidget {
+  const _AutoRouteTabsScaffold({
+    required this.child,
+    this.popTabIndex = 0,
+  });
+
+  final Widget child;
+
+  /// Index of the tab that popping will be allowed.
+  ///
+  /// If the current tab index is not equal to this value and a pop event is
+  /// received, then it will be set to this value instead of popping.
+  final int popTabIndex;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tabsRouter = AutoTabsRouter.of(context);
+    final currentTabIndex = useListenableSelector(
+      tabsRouter,
+      () => tabsRouter.activeIndex,
+    );
+
+    return PopScope(
+      canPop: currentTabIndex == popTabIndex,
+      onPopInvoked: (_) {
+        if (currentTabIndex != popTabIndex) {
+          tabsRouter.setActiveIndex(popTabIndex);
+        }
+      },
+      child: Scaffold(
+        body: child,
+        bottomNavigationBar: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const Divider(),
@@ -29,7 +70,7 @@ class AppNavScreen extends HookConsumerWidget {
               maintainBottomViewPadding: true,
               child: NavigationBar(
                 elevation: 0,
-                selectedIndex: tabsRouter.activeIndex,
+                selectedIndex: currentTabIndex,
                 onDestinationSelected: (index) {
                   if (index < 2) {
                     tabsRouter.setActiveIndex(index);
@@ -60,8 +101,8 @@ class AppNavScreen extends HookConsumerWidget {
               ),
             ),
           ],
-        );
-      },
+        ),
+      ),
     );
   }
 }
