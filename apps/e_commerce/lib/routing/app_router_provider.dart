@@ -6,7 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_router_provider.g.dart';
 
-@AutoRouterConfig(replaceInRouteName: 'Page|Screen,Route')
+@AutoRouterConfig(replaceInRouteName: 'Page|Screen|Sheet,Route')
 class AppRouter extends $AppRouter {
   AppRouter(this.ref) : super();
   final AppRouterRef ref;
@@ -32,6 +32,17 @@ class AppRouter extends $AppRouter {
               ],
             ),
           ],
+        ),
+        CustomRoute(
+          page: AddToCartRoute.page,
+          customRouteBuilder: (context, child, page) {
+            return ModalBottomSheetRoute(
+              settings: page,
+              isScrollControlled: false,
+              scrollControlDisabledMaxHeightRatio: 3 / 4,
+              builder: (_) => child,
+            );
+          },
         ),
       ];
 

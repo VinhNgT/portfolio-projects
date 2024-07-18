@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce/common/ui/container_badge.dart';
 import 'package:e_commerce/common/ui/simple_bottom_sheet.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
@@ -13,6 +14,7 @@ import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
+@RoutePage()
 class AddToCartSheet extends HookConsumerWidget {
   const AddToCartSheet({super.key, required this.product});
   final Product product;

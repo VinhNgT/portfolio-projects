@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce/common/async/async_value_widget.dart';
 import 'package:e_commerce/common/hooks/use_init_state.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
-import 'package:e_commerce/features/cart/presentation/add_to_cart_sheet.dart';
 import 'package:e_commerce/features/delivery/presentation/product_delivery_card.dart';
 import 'package:e_commerce/features/products/data/product_providers.dart';
 import 'package:e_commerce/features/products/presentation/components/product_details/benefits_card.dart';
@@ -12,6 +11,7 @@ import 'package:e_commerce/features/products/presentation/components/product_det
 import 'package:e_commerce/features/products/presentation/components/product_details/product_reviews_widget.dart';
 import 'package:e_commerce/features/products/presentation/components/products_list.dart';
 import 'package:e_commerce/features/seller/presentation/seller_card.dart';
+import 'package:e_commerce/routing/app_router_provider.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -70,11 +70,8 @@ class ProductDetailsScreen extends HookConsumerWidget {
                     icon: const Icon(Symbols.add_shopping_cart),
                     label: const Text('Thêm vào giỏ hàng'),
                     onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        useRootNavigator: true,
-                        scrollControlDisabledMaxHeightRatio: 3 / 4,
-                        builder: (_) => AddToCartSheet(product: product),
+                      context.pushRoute(
+                        AddToCartRoute(product: product),
                       );
                     },
                   ),
