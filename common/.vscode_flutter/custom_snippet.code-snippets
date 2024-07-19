@@ -40,7 +40,7 @@
     "scope": "dart",
     "prefix": "map",
     "body": [
-      "import 'package:dart_mappable/dart_mappable.dart';\r\n\r\npart '$TM_FILENAME_BASE.mapper.dart';\r\n\r\n@MappableClass()\r\nclass ${TM_FILENAME_BASE/(^|_)([a-z])/${2:/capitalize}/g} with ${TM_FILENAME_BASE/(^|_)([a-z])/${2:/capitalize}/g}Mappable {\r\n  const ${TM_FILENAME_BASE/(^|_)([a-z])/${2:/capitalize}/g}();\r\n\r\n  $0\r\n}"
+      "import 'package:dart_mappable/dart_mappable.dart';\r\n\r\npart '$TM_FILENAME_BASE.mapper.dart';\r\n\r\n@MappableClass()\r\nclass ${TM_FILENAME_BASE/(^|_)([a-z])/${2:/capitalize}/g} with ${TM_FILENAME_BASE/(^|_)([a-z])/${2:/capitalize}/g}Mappable {\r\n  $0\r\n\r\n  const ${TM_FILENAME_BASE/(^|_)([a-z])/${2:/capitalize}/g}();\r\n}"
     ],
     "description": "Create a Dart Mappable class"
   },
