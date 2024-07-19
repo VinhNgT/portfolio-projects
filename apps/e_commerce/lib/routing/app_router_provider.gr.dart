@@ -11,7 +11,7 @@
 import 'package:auto_route/auto_route.dart' as _i7;
 import 'package:e_commerce/features/app_navigation/presentation/app_nav_screen.dart'
     as _i2;
-import 'package:e_commerce/features/app_navigation/presentation/tab_screen.dart'
+import 'package:e_commerce/features/app_navigation/presentation/tabs_screen.dart'
     as _i4;
 import 'package:e_commerce/features/cart/presentation/add_to_cart_sheet.dart'
     as _i1;
