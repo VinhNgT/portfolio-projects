@@ -32,6 +32,7 @@ class CustomAppTheme {
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       iconButtonTheme: IconButtonThemeData(
         style: IconButton.styleFrom(
+          padding: EdgeInsets.zero,
           tapTargetSize: MaterialTapTargetSize.padded,
         ),
       ),
