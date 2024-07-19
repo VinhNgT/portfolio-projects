@@ -33,5 +33,8 @@ Future<Realm> realm(RealmRef ref) async {
         ref.watch(envProvider).realmShouldDeleteIfMigrationNeeded,
   );
 
-  return Realm(config);
+  final realm = Realm(config);
+  ref.onDispose(realm.close);
+
+  return realm;
 }
