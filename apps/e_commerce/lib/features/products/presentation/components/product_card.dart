@@ -24,10 +24,10 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Card.outlined(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(kSize_12),
-        side: const BorderSide(width: 0.1),
+        side: BorderSide(color: context.colorScheme.outlineVariant),
       ),
       child: InkWell(
         onTap: () {
