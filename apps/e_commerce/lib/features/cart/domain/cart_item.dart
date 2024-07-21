@@ -14,7 +14,7 @@ class $CartItemRealm {
   late Uuid id;
 
   late $ProductRealm? product;
-  late Set<$ProductVariantRealm> selectedVariants;
+  late List<$ProductVariantRealm> selectedVariants;
   late int quantity;
 }
 
@@ -22,14 +22,14 @@ class $CartItemRealm {
 class CartItem with CartItemMappable {
   final Uuid id;
   final Product product;
-  final Set<ProductVariant> selectedVariants;
+  final List<ProductVariant> selectedVariants;
   final int quantity;
 
   CartItem({
     required this.id,
     required this.product,
     required this.quantity,
-    this.selectedVariants = const {},
+    this.selectedVariants = const [],
   }) {
     if (quantity <= 0) {
       throw ArgumentError('Quantity must be greater than 0');
@@ -47,9 +47,9 @@ class CartItem with CartItemMappable {
   }
 
   CartItem.newId({
-    required product,
-    required quantity,
-    selectedVariants = const {},
+    required Product product,
+    required List<ProductVariant> selectedVariants,
+    required int quantity,
   }) : this(
           id: Uuid.v4(),
           product: product,
@@ -62,7 +62,7 @@ class CartItem with CartItemMappable {
       id: obj.id,
       product: Product.fromRealmObj(obj.product!),
       selectedVariants:
-          obj.selectedVariants.map(ProductVariant.fromRealmObj).toSet(),
+          obj.selectedVariants.map(ProductVariant.fromRealmObj).toList(),
       quantity: obj.quantity,
     );
   }
@@ -77,7 +77,7 @@ class CartItem with CartItemMappable {
           .firstWhereOrNull((element) => element.id == e.id);
 
       return existingVariant ?? e.toRealmObj();
-    }).toSet();
+    });
 
     return CartItemRealm(
       id: id,
@@ -99,7 +99,7 @@ extension CartItemMutation on CartItem {
   //   return copyWith(quantity: this.quantity - quantity);
   // }
 
-  CartItem updateSelectedVariants(Set<ProductVariant> selectedVariants) {
+  CartItem updateSelectedVariants(List<ProductVariant> selectedVariants) {
     return copyWith(selectedVariants: selectedVariants);
   }
 
@@ -115,9 +115,9 @@ extension _Proto on CartItem {
     id: Uuid.fromString('7988a4d0-e32b-412f-8a02-b5dbcc730f06'),
     product: Product.prototype,
     quantity: 1,
-    selectedVariants: {
+    selectedVariants: [
       Product.prototype.variantsGroup[0].variants[0],
       Product.prototype.variantsGroup[1].variants[0],
-    },
+    ],
   );
 }

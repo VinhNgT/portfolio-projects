@@ -12,13 +12,13 @@ class CartItemRealm extends $CartItemRealm
   CartItemRealm({
     required Uuid id,
     ProductRealm? product,
-    Set<ProductVariantRealm> selectedVariants = const {},
+    Iterable<ProductVariantRealm> selectedVariants = const [],
     required int quantity,
   }) {
     RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'product', product);
-    RealmObjectBase.set<RealmSet<ProductVariantRealm>>(this, 'selectedVariants',
-        RealmSet<ProductVariantRealm>(selectedVariants));
+    RealmObjectBase.set<RealmList<ProductVariantRealm>>(this,
+        'selectedVariants', RealmList<ProductVariantRealm>(selectedVariants));
     RealmObjectBase.set(this, 'quantity', quantity);
   }
 
@@ -37,11 +37,11 @@ class CartItemRealm extends $CartItemRealm
       RealmObjectBase.set(this, 'product', value);
 
   @override
-  RealmSet<ProductVariantRealm> get selectedVariants =>
+  RealmList<ProductVariantRealm> get selectedVariants =>
       RealmObjectBase.get<ProductVariantRealm>(this, 'selectedVariants')
-          as RealmSet<ProductVariantRealm>;
+          as RealmList<ProductVariantRealm>;
   @override
-  set selectedVariants(covariant RealmSet<ProductVariantRealm> value) =>
+  set selectedVariants(covariant RealmList<ProductVariantRealm> value) =>
       throw RealmUnsupportedSetError();
 
   @override
@@ -99,7 +99,7 @@ class CartItemRealm extends $CartItemRealm
           optional: true, linkTarget: 'ProductRealm'),
       SchemaProperty('selectedVariants', RealmPropertyType.object,
           linkTarget: 'ProductVariantRealm',
-          collectionType: RealmCollectionType.set),
+          collectionType: RealmCollectionType.list),
       SchemaProperty('quantity', RealmPropertyType.int),
     ]);
   }();

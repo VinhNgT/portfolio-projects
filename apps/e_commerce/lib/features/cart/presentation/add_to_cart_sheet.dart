@@ -60,7 +60,7 @@ class AddToCartSheet extends HookConsumerWidget {
                         quantity: formKey.currentState?.value['quantity'],
                         selectedVariants: selectedVariant.values
                             .whereType<ProductVariant>()
-                            .toSet(),
+                            .toList(),
                       );
 
                       ref

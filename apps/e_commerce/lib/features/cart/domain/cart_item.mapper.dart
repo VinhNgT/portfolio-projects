@@ -29,10 +29,10 @@ class CartItemMapper extends ClassMapperBase<CartItem> {
       Field('product', _$product);
   static int _$quantity(CartItem v) => v.quantity;
   static const Field<CartItem, int> _f$quantity = Field('quantity', _$quantity);
-  static Set<ProductVariant> _$selectedVariants(CartItem v) =>
+  static List<ProductVariant> _$selectedVariants(CartItem v) =>
       v.selectedVariants;
-  static const Field<CartItem, Set<ProductVariant>> _f$selectedVariants =
-      Field('selectedVariants', _$selectedVariants, opt: true, def: const {});
+  static const Field<CartItem, List<ProductVariant>> _f$selectedVariants =
+      Field('selectedVariants', _$selectedVariants, opt: true, def: const []);
 
   @override
   final MappableFields<CartItem> fields = const {
@@ -100,11 +100,14 @@ extension CartItemValueCopy<$R, $Out> on ObjectCopyWith<$R, CartItem, $Out> {
 abstract class CartItemCopyWith<$R, $In extends CartItem, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   ProductCopyWith<$R, Product, Product> get product;
+  ListCopyWith<$R, ProductVariant,
+          ProductVariantCopyWith<$R, ProductVariant, ProductVariant>>
+      get selectedVariants;
   $R call(
       {Uuid? id,
       Product? product,
       int? quantity,
-      Set<ProductVariant>? selectedVariants});
+      List<ProductVariant>? selectedVariants});
   CartItemCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -120,11 +123,16 @@ class _CartItemCopyWithImpl<$R, $Out>
   ProductCopyWith<$R, Product, Product> get product =>
       $value.product.copyWith.$chain((v) => call(product: v));
   @override
+  ListCopyWith<$R, ProductVariant,
+          ProductVariantCopyWith<$R, ProductVariant, ProductVariant>>
+      get selectedVariants => ListCopyWith($value.selectedVariants,
+          (v, t) => v.copyWith.$chain(t), (v) => call(selectedVariants: v));
+  @override
   $R call(
           {Uuid? id,
           Product? product,
           int? quantity,
-          Set<ProductVariant>? selectedVariants}) =>
+          List<ProductVariant>? selectedVariants}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (product != null) #product: product,

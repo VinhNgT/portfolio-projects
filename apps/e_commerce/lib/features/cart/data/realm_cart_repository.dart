@@ -83,10 +83,10 @@ class RealmCartRepository implements CartRepository {
   }
 
   @override
-  Stream<Set<CartItem>> watchCartItems() {
+  Stream<List<CartItem>> watchCartItems() {
     final realmCartItemsList = realm.all<CartItemRealm>();
     return realmCartItemsList.changes
-        .map((event) => event.results.map(CartItem.fromRealmObj).toSet());
+        .map((event) => event.results.map(CartItem.fromRealmObj).toList());
   }
 }
 

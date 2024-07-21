@@ -5,6 +5,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'cart_providers.g.dart';
 
 @riverpod
-Stream<Set<CartItem>> cartItemsList(CartItemsListRef ref) {
+Stream<List<CartItem>> cartItemsList(CartItemsListRef ref) {
   return ref.watch(cartRepositoryProvider).watchCartItems();
 }

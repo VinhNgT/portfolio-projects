@@ -28,7 +28,7 @@ abstract interface class CartRepository {
   Stream<CartItem> watchCartItem(Uuid cartId);
 
   /// Watch all [CartItem]s in the cart.
-  Stream<Set<CartItem>> watchCartItems();
+  Stream<List<CartItem>> watchCartItems();
 }
 
 @riverpod

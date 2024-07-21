@@ -42,7 +42,7 @@ class CartScreen extends HookConsumerWidget {
           itemBuilder: (context, index) {
             return CartItemWidget(
               key: UniqueKey(),
-              cartItem: cartItemsList.toList()[index],
+              cartItem: cartItemsList[index],
             );
           },
         ),
