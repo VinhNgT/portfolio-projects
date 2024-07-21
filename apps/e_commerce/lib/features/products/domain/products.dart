@@ -28,18 +28,21 @@ class Products with ProductsMappable {
     required this.limit,
   });
 
-  factory Products.fromRealm(ProductsRealm realm) {
+  factory Products.fromRealmObj(ProductsRealm realm) {
     return Products(
-      products: realm.products.map(Product.fromRealm).toList(),
+      products: realm.products.map(Product.fromRealmObj).toList(),
       total: realm.total,
       skip: realm.skip,
       limit: realm.limit,
     );
   }
 
-  ProductsRealm toRealm() {
+  ProductsRealm toRealmObj(Realm realm) {
+    final productsRealm = products
+        .map((e) => realm.find<ProductRealm>(e.id) ?? e.toRealmObj(realm));
+
     return ProductsRealm(
-      products: products.map((e) => e.toRealm()).toList(),
+      products: productsRealm,
       total: total,
       skip: skip,
       limit: limit,

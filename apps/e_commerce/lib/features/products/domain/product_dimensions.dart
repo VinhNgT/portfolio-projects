@@ -24,7 +24,7 @@ class ProductDimensions with ProductDimensionsMappable {
     required this.depth,
   });
 
-  factory ProductDimensions.fromRealm(ProductDimensionsRealm realm) {
+  factory ProductDimensions.fromRealmObj(ProductDimensionsRealm realm) {
     return ProductDimensions(
       width: realm.width,
       height: realm.height,
@@ -32,7 +32,7 @@ class ProductDimensions with ProductDimensionsMappable {
     );
   }
 
-  ProductDimensionsRealm toRealm() {
+  ProductDimensionsRealm toRealmObj() {
     return ProductDimensionsRealm(
       width: width,
       height: height,

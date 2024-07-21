@@ -27,7 +27,7 @@ class ProductMeta with ProductMetaMappable {
     required this.qrCode,
   });
 
-  factory ProductMeta.fromRealm(ProductMetaRealm realm) {
+  factory ProductMeta.fromRealmObj(ProductMetaRealm realm) {
     return ProductMeta(
       createdAt: realm.createdAt,
       updatedAt: realm.updatedAt,
@@ -36,7 +36,7 @@ class ProductMeta with ProductMetaMappable {
     );
   }
 
-  ProductMetaRealm toRealm() {
+  ProductMetaRealm toRealmObj() {
     return ProductMetaRealm(
       createdAt: createdAt,
       updatedAt: updatedAt,

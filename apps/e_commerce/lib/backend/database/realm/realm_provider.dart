@@ -1,4 +1,5 @@
 import 'package:e_commerce/backend/env/env_provider.dart';
+import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_dimensions.dart';
 import 'package:e_commerce/features/products/domain/product_meta.dart';
@@ -23,6 +24,9 @@ Future<Realm> realm(RealmRef ref) async {
     ProductsRealm.schema,
     ProductVariantGroupRealm.schema,
     ProductVariantRealm.schema,
+
+    // Cart
+    CartItemRealm.schema,
   ];
 
   final realmPath = await getApplicationDocumentsDirectory();

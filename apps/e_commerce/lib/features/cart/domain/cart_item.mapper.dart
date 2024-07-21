@@ -14,6 +14,7 @@ class CartItemMapper extends ClassMapperBase<CartItem> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = CartItemMapper._());
       ProductMapper.ensureInitialized();
+      ProductVariantMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -21,6 +22,8 @@ class CartItemMapper extends ClassMapperBase<CartItem> {
   @override
   final String id = 'CartItem';
 
+  static Uuid _$id(CartItem v) => v.id;
+  static const Field<CartItem, Uuid> _f$id = Field('id', _$id);
   static Product _$product(CartItem v) => v.product;
   static const Field<CartItem, Product> _f$product =
       Field('product', _$product);
@@ -33,6 +36,7 @@ class CartItemMapper extends ClassMapperBase<CartItem> {
 
   @override
   final MappableFields<CartItem> fields = const {
+    #id: _f$id,
     #product: _f$product,
     #quantity: _f$quantity,
     #selectedVariants: _f$selectedVariants,
@@ -40,6 +44,7 @@ class CartItemMapper extends ClassMapperBase<CartItem> {
 
   static CartItem _instantiate(DecodingData data) {
     return CartItem(
+        id: data.dec(_f$id),
         product: data.dec(_f$product),
         quantity: data.dec(_f$quantity),
         selectedVariants: data.dec(_f$selectedVariants));
@@ -96,7 +101,10 @@ abstract class CartItemCopyWith<$R, $In extends CartItem, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   ProductCopyWith<$R, Product, Product> get product;
   $R call(
-      {Product? product, int? quantity, Set<ProductVariant>? selectedVariants});
+      {Uuid? id,
+      Product? product,
+      int? quantity,
+      Set<ProductVariant>? selectedVariants});
   CartItemCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -113,16 +121,19 @@ class _CartItemCopyWithImpl<$R, $Out>
       $value.product.copyWith.$chain((v) => call(product: v));
   @override
   $R call(
-          {Product? product,
+          {Uuid? id,
+          Product? product,
           int? quantity,
           Set<ProductVariant>? selectedVariants}) =>
       $apply(FieldCopyWithData({
+        if (id != null) #id: id,
         if (product != null) #product: product,
         if (quantity != null) #quantity: quantity,
         if (selectedVariants != null) #selectedVariants: selectedVariants
       }));
   @override
   CartItem $make(CopyWithData data) => CartItem(
+      id: data.get(#id, or: $value.id),
       product: data.get(#product, or: $value.product),
       quantity: data.get(#quantity, or: $value.quantity),
       selectedVariants:

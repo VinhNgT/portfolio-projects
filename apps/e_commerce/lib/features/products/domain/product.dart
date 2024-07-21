@@ -118,7 +118,7 @@ class Product with ProductMappable {
     required this.images,
   }) : variantsGroup = prototype.variantsGroup;
 
-  factory Product.fromRealm(ProductRealm realm) {
+  factory Product.fromRealmObj(ProductRealm realm) {
     return Product(
       id: realm.id,
       title: realm.title,
@@ -132,22 +132,26 @@ class Product with ProductMappable {
       brand: realm.brand,
       sku: realm.sku,
       weight: realm.weight,
-      dimensions: ProductDimensions.fromRealm(realm.dimensions!),
+      dimensions: ProductDimensions.fromRealmObj(realm.dimensions!),
       warrantyInformation: realm.warrantyInformation,
       shippingInformation: realm.shippingInformation,
       availabilityStatus: realm.availabilityStatus,
-      reviews: realm.reviews.map(ProductReviews.fromRealm).toList(),
+      reviews: realm.reviews.map(ProductReviews.fromRealmObj).toList(),
       returnPolicy: realm.returnPolicy,
       minimumOrderQuantity: realm.minimumOrderQuantity,
-      meta: ProductMeta.fromRealm(realm.meta!),
+      meta: ProductMeta.fromRealmObj(realm.meta!),
       thumbnail: realm.thumbnail,
       images: realm.images,
       variantsGroup:
-          realm.variantGroups.map(ProductVariantGroup.fromRealm).toList(),
+          realm.variantGroups.map(ProductVariantGroup.fromRealmObj).toList(),
     );
   }
 
-  ProductRealm toRealm() {
+  ProductRealm toRealmObj(Realm realm) {
+    final variantsGroupRealm = variantsGroup.map(
+      (e) => realm.find<ProductVariantGroupRealm>(e.id) ?? e.toRealmObj(realm),
+    );
+
     return ProductRealm(
       id: id,
       title: title,
@@ -161,17 +165,17 @@ class Product with ProductMappable {
       brand: brand,
       sku: sku,
       weight: weight,
-      dimensions: dimensions.toRealm(),
+      dimensions: dimensions.toRealmObj(),
       warrantyInformation: warrantyInformation,
       shippingInformation: shippingInformation,
       availabilityStatus: availabilityStatus,
-      reviews: reviews.map((e) => e.toRealm()).toList(),
+      reviews: reviews.map((e) => e.toRealmObj()),
       returnPolicy: returnPolicy,
       minimumOrderQuantity: minimumOrderQuantity,
-      meta: meta.toRealm(),
+      meta: meta.toRealmObj(),
       thumbnail: thumbnail,
       images: images,
-      variantGroups: variantsGroup.map((e) => e.toRealm()).toList(),
+      variantGroups: variantsGroupRealm,
     );
   }
 

@@ -1,18 +1,21 @@
+import 'package:dart_mappable/dart_mappable.dart';
 import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:realm/realm.dart';
 
+part 'product_variant_group.mapper.dart';
 part 'product_variant_group.realm.dart';
 
-@realmEmbedded
+@realm
 class $ProductVariantGroupRealm {
-  @Indexed()
+  @PrimaryKey()
   late Uuid id;
   late String groupName;
   late List<$ProductVariantRealm> variants;
 }
 
-class ProductVariantGroup {
+@MappableClass()
+class ProductVariantGroup with ProductVariantGroupMappable {
   final Uuid id;
   final String groupName;
   final List<ProductVariant> variants;
@@ -28,24 +31,27 @@ class ProductVariantGroup {
     required this.variants,
   }) : id = Uuid.v4();
 
-  ProductVariantGroupRealm toRealm() {
-    return ProductVariantGroupRealm(
-      id: id,
-      groupName: groupName,
-      variants: variants.map((e) => e.toRealm()).toList(),
-    );
-  }
-
-  factory ProductVariantGroup.fromRealm(ProductVariantGroupRealm realm) {
+  factory ProductVariantGroup.fromRealmObj(ProductVariantGroupRealm realm) {
     return ProductVariantGroup(
       id: realm.id,
       groupName: realm.groupName,
-      variants: realm.variants.map(ProductVariant.fromRealm).toList(),
+      variants: realm.variants.map(ProductVariant.fromRealmObj).toList(),
+    );
+  }
+
+  ProductVariantGroupRealm toRealmObj(Realm realm) {
+    final variantsRealm = variants
+        .map((e) => realm.find<ProductVariantRealm>(e.id) ?? e.toRealmObj());
+
+    return ProductVariantGroupRealm(
+      id: id,
+      groupName: groupName,
+      variants: variantsRealm,
     );
   }
 
   @override
   String toString() {
-    return '${id}_$groupName';
+    return '$id ($groupName)';
   }
 }

@@ -30,7 +30,7 @@ class ProductReviews with ProductReviewsMappable {
     required this.reviewerEmail,
   });
 
-  factory ProductReviews.fromRealm(ProductReviewsRealm realm) {
+  factory ProductReviews.fromRealmObj(ProductReviewsRealm realm) {
     return ProductReviews(
       rating: realm.rating,
       comment: realm.comment,
@@ -40,7 +40,7 @@ class ProductReviews with ProductReviewsMappable {
     );
   }
 
-  ProductReviewsRealm toRealm() {
+  ProductReviewsRealm toRealmObj() {
     return ProductReviewsRealm(
       rating: rating,
       comment: comment,

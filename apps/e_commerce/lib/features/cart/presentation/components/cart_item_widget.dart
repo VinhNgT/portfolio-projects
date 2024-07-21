@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce/common/ui/container_badge.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
+import 'package:e_commerce/features/cart/data/interface/cart_repository.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
@@ -124,7 +125,7 @@ class _VariantChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return ActionChip(
       avatar: const Icon(Symbols.play_shapes),
-      label: const Text('Phân loại: Vàng'),
+      label: Text('Phân loại: ${_buildVariantText(cartItem)}'),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(kSize_8),
         side: BorderSide(color: context.colorScheme.outlineVariant),
@@ -140,14 +141,20 @@ class _VariantChip extends StatelessWidget {
       onPressed: () {},
     );
   }
+
+  String _buildVariantText(CartItem cartItem) {
+    final variantTexts =
+        cartItem.selectedVariants.map((variant) => variant.name);
+    return variantTexts.join('/');
+  }
 }
 
-class _CartItemBottomPart extends StatelessWidget {
+class _CartItemBottomPart extends HookConsumerWidget {
   const _CartItemBottomPart({required this.cartItem});
   final CartItem cartItem;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(
         top: kSize_4,
@@ -163,7 +170,9 @@ class _CartItemBottomPart extends StatelessWidget {
           _CartItemQuantitySelection(cartItem: cartItem),
           // const Gap(kSize_4),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              ref.read(cartRepositoryProvider).removeCartItem(cartItem.id);
+            },
             icon: const Icon(Symbols.delete_outline),
           ),
         ],
@@ -197,7 +206,7 @@ class _ShippingCost extends StatelessWidget {
           const Gap(kSize_8),
           Expanded(
             child: Text(
-              'Phí VC: ${vndPriceFormat.format(103000)}',
+              'Phí VC: ${vndPriceFormat.format(13000 * cartItem.quantity)}',
               // vndPriceFormat.format(103000),
               style: context.textTheme.bodySmall!.copyWith(
                 color: context.colorScheme.onSurfaceVariant,
@@ -228,6 +237,10 @@ class _CartItemQuantitySelection extends HookConsumerWidget {
           onPressed: () {
             if (count.value > minQuantity) {
               count.value--;
+
+              ref
+                  .read(cartRepositoryProvider)
+                  .updateCartItem(cartItem.copyWith(quantity: count.value));
             }
           },
           icon: const Icon(Symbols.remove),
@@ -244,6 +257,10 @@ class _CartItemQuantitySelection extends HookConsumerWidget {
           onPressed: () {
             if (count.value < maxQuantity) {
               count.value++;
+
+              ref
+                  .read(cartRepositoryProvider)
+                  .updateCartItem(cartItem.copyWith(quantity: count.value));
             }
           },
           icon: const Icon(Symbols.add),

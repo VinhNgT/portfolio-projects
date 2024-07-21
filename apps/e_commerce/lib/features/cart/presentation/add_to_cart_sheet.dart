@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce/common/ui/container_badge.dart';
 import 'package:e_commerce/common/ui/simple_bottom_sheet.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
+import 'package:e_commerce/features/cart/data/interface/cart_repository.dart';
+import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
@@ -46,8 +48,24 @@ class AddToCartSheet extends HookConsumerWidget {
                     icon: const Icon(Symbols.check_circle_outline),
                     label: const Text('Xác nhận'),
                     onPressed: () {
-                      formKey.currentState?.saveAndValidate();
-                      debugPrint(formKey.currentState?.value.toString());
+                      if (!(formKey.currentState?.saveAndValidate() ?? false)) {
+                        return;
+                      }
+
+                      final selectedVariant = formKey.currentState
+                          ?.value['variants'] as Map<String, ProductVariant?>;
+
+                      final cartItem = CartItem.newId(
+                        product: product,
+                        quantity: formKey.currentState?.value['quantity'],
+                        selectedVariants: selectedVariant.values
+                            .whereType<ProductVariant>()
+                            .toSet(),
+                      );
+
+                      ref
+                          .read(cartRepositoryProvider)
+                          .addOrMergeWithDuplicateCartItem(cartItem);
                     },
                   ),
                 ),
@@ -223,8 +241,8 @@ class _VariationSelection extends HookConsumerWidget {
           ),
           spacing: kSize_8,
           runSpacing: kSize_8,
-          options: List.generate(group.variants.length * 2, (index) {
-            final variant = group.variants[index % group.variants.length];
+          options: List.generate(group.variants.length, (index) {
+            final variant = group.variants[index];
 
             return FormBuilderChipOption(
               value: variant,

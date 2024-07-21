@@ -8,7 +8,7 @@ part of 'product_variant.dart';
 
 // ignore_for_file: type=lint
 class ProductVariantRealm extends $ProductVariantRealm
-    with RealmEntity, RealmObjectBase, EmbeddedObject {
+    with RealmEntity, RealmObjectBase, RealmObject {
   ProductVariantRealm({
     required Uuid id,
     required String name,
@@ -68,9 +68,8 @@ class ProductVariantRealm extends $ProductVariantRealm
     RealmObjectBase.registerFactory(ProductVariantRealm._);
     register(_toEJson, _fromEJson);
     return SchemaObject(
-        ObjectType.embeddedObject, ProductVariantRealm, 'ProductVariantRealm', [
-      SchemaProperty('id', RealmPropertyType.uuid,
-          indexType: RealmIndexType.regular),
+        ObjectType.realmObject, ProductVariantRealm, 'ProductVariantRealm', [
+      SchemaProperty('id', RealmPropertyType.uuid, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
     ]);
   }();

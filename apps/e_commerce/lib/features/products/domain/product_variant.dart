@@ -1,16 +1,19 @@
+import 'package:dart_mappable/dart_mappable.dart';
 import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
 import 'package:realm/realm.dart';
 
+part 'product_variant.mapper.dart';
 part 'product_variant.realm.dart';
 
-@realmEmbedded
+@realm
 class $ProductVariantRealm {
-  @Indexed()
+  @PrimaryKey()
   late Uuid id;
   late String name;
 }
 
-class ProductVariant {
+@MappableClass()
+class ProductVariant with ProductVariantMappable {
   final Uuid id;
   final String name;
 
@@ -23,19 +26,19 @@ class ProductVariant {
     required this.name,
   }) : id = Uuid.v4();
 
-  ProductVariantRealm toRealm() {
-    return ProductVariantRealm(id: id, name: name);
-  }
-
-  factory ProductVariant.fromRealm(ProductVariantRealm realm) {
+  factory ProductVariant.fromRealmObj(ProductVariantRealm realm) {
     return ProductVariant(
       id: realm.id,
       name: realm.name,
     );
   }
 
+  ProductVariantRealm toRealmObj() {
+    return ProductVariantRealm(id: id, name: name);
+  }
+
   @override
   String toString() {
-    return '${id}_$name';
+    return '$id ($name)';
   }
 }
