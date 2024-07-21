@@ -9,6 +9,7 @@ import 'package:e_commerce/logging/async_error_logger.dart';
 import 'package:e_commerce/logging/error_logger.dart';
 import 'package:e_commerce/logging/logger_provider.dart';
 import 'package:e_commerce/mappers/logger_level.mapper.dart';
+import 'package:e_commerce/mappers/uuid_mapper.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -37,6 +38,7 @@ class Bootstrap {
 
   void setupMappers() {
     MapperContainer.globals.use(const LoggerLevelMapper());
+    MapperContainer.globals.use(const UuidMapper());
   }
 
   void setupErrorHandlers(ProviderContainer container) {
