@@ -13,18 +13,18 @@ class RealmCartRepository implements CartRepository {
 
   @override
   Future<void> removeCartItem(Uuid cartId) async {
-    final realmCartItem = realm.find<CartItemRealm>(cartId);
-    if (realmCartItem == null) {
+    final cartItemRealm = realm.find<CartItemRealm>(cartId);
+    if (cartItemRealm == null) {
       throw ArgumentError('Cart item with id $cartId not found');
     }
 
-    realm.write(() => realm.delete(realmCartItem));
+    realm.write(() => realm.delete(cartItemRealm));
   }
 
   @override
   Future<void> updateCartItem(CartItem cartItem) async {
-    final realmCartItem = realm.find<CartItemRealm>(cartItem.id);
-    if (realmCartItem == null) {
+    final cartItemRealm = realm.find<CartItemRealm>(cartItem.id);
+    if (cartItemRealm == null) {
       throw ArgumentError('Cart item with id ${cartItem.id} not found');
     }
 
@@ -33,16 +33,16 @@ class RealmCartRepository implements CartRepository {
 
   @override
   Future<void> addOrMergeWithDuplicateCartItem(CartItem cartItem) async {
-    final realmCartItem = cartItem.toRealmObj(realm);
-    final duplicateRealmCartItem =
-        _findDuplicateCartItems(realmCartItem).firstOrNull;
+    final cartItemRealm = cartItem.toRealmObj(realm);
+    final duplicateCartItemRealm =
+        _findDuplicateCartItems(cartItemRealm).firstOrNull;
 
     realm.write(() {
-      if (duplicateRealmCartItem == null) {
-        realm.add(realmCartItem);
+      if (duplicateCartItemRealm == null) {
+        realm.add(cartItemRealm);
       } else {
         realm.add(
-          CartItem.fromRealmObj(duplicateRealmCartItem)
+          CartItem.fromRealmObj(duplicateCartItemRealm)
               .mergeWith(cartItem)
               .toRealmObj(realm),
           update: true,
@@ -53,10 +53,10 @@ class RealmCartRepository implements CartRepository {
 
   @override
   Future<void> purgeDuplicateCartItems() async {
-    final realmCartItems = realm.all<CartItemRealm>();
+    final cartItemsListRealm = realm.all<CartItemRealm>();
     final Set<CartItemRealm> itemsToDelete = {};
 
-    for (final cartItem in realmCartItems) {
+    for (final cartItem in cartItemsListRealm) {
       if (itemsToDelete.contains(cartItem)) {
         continue;
       }
@@ -73,19 +73,19 @@ class RealmCartRepository implements CartRepository {
 
   @override
   Stream<CartItem> watchCartItem(Uuid cartId) {
-    final realmCartItem = realm.find<CartItemRealm>(cartId);
-    if (realmCartItem == null) {
+    final cartItemRealm = realm.find<CartItemRealm>(cartId);
+    if (cartItemRealm == null) {
       throw ArgumentError('Cart item with id $cartId not found');
     }
 
-    return realmCartItem.changes
+    return cartItemRealm.changes
         .map((event) => CartItem.fromRealmObj(event.object));
   }
 
   @override
   Stream<List<CartItem>> watchCartItems() {
-    final realmCartItemsList = realm.all<CartItemRealm>();
-    return realmCartItemsList.changes
+    final cartItemsListRealm = realm.all<CartItemRealm>();
+    return cartItemsListRealm.changes
         .map((event) => event.results.map(CartItem.fromRealmObj).toList());
   }
 }
