@@ -1,6 +1,7 @@
 import 'package:e_commerce/backend/database/realm/realm_provider.dart';
 import 'package:e_commerce/features/cart/data/realm_cart_repository.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
+import 'package:e_commerce/features/orders/domain/order.dart';
 import 'package:realm/realm.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -29,6 +30,9 @@ abstract interface class CartRepository {
 
   /// Watch all [CartItem]s in the cart.
   Stream<List<CartItem>> watchCartItems();
+
+  /// Watch the order information of the cart.
+  Stream<Order> watchCartOrder();
 }
 
 @riverpod

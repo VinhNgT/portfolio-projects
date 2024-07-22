@@ -33,6 +33,9 @@ class CartItemMapper extends ClassMapperBase<CartItem> {
       v.selectedVariants;
   static const Field<CartItem, List<ProductVariant>> _f$selectedVariants =
       Field('selectedVariants', _$selectedVariants, opt: true, def: const []);
+  static bool _$isChecked(CartItem v) => v.isChecked;
+  static const Field<CartItem, bool> _f$isChecked =
+      Field('isChecked', _$isChecked, opt: true, def: true);
 
   @override
   final MappableFields<CartItem> fields = const {
@@ -40,6 +43,7 @@ class CartItemMapper extends ClassMapperBase<CartItem> {
     #product: _f$product,
     #quantity: _f$quantity,
     #selectedVariants: _f$selectedVariants,
+    #isChecked: _f$isChecked,
   };
 
   static CartItem _instantiate(DecodingData data) {
@@ -47,7 +51,8 @@ class CartItemMapper extends ClassMapperBase<CartItem> {
         id: data.dec(_f$id),
         product: data.dec(_f$product),
         quantity: data.dec(_f$quantity),
-        selectedVariants: data.dec(_f$selectedVariants));
+        selectedVariants: data.dec(_f$selectedVariants),
+        isChecked: data.dec(_f$isChecked));
   }
 
   @override
@@ -107,7 +112,8 @@ abstract class CartItemCopyWith<$R, $In extends CartItem, $Out>
       {Uuid? id,
       Product? product,
       int? quantity,
-      List<ProductVariant>? selectedVariants});
+      List<ProductVariant>? selectedVariants,
+      bool? isChecked});
   CartItemCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -132,12 +138,14 @@ class _CartItemCopyWithImpl<$R, $Out>
           {Uuid? id,
           Product? product,
           int? quantity,
-          List<ProductVariant>? selectedVariants}) =>
+          List<ProductVariant>? selectedVariants,
+          bool? isChecked}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (product != null) #product: product,
         if (quantity != null) #quantity: quantity,
-        if (selectedVariants != null) #selectedVariants: selectedVariants
+        if (selectedVariants != null) #selectedVariants: selectedVariants,
+        if (isChecked != null) #isChecked: isChecked
       }));
   @override
   CartItem $make(CopyWithData data) => CartItem(
@@ -145,7 +153,8 @@ class _CartItemCopyWithImpl<$R, $Out>
       product: data.get(#product, or: $value.product),
       quantity: data.get(#quantity, or: $value.quantity),
       selectedVariants:
-          data.get(#selectedVariants, or: $value.selectedVariants));
+          data.get(#selectedVariants, or: $value.selectedVariants),
+      isChecked: data.get(#isChecked, or: $value.isChecked));
 
   @override
   CartItemCopyWith<$R2, CartItem, $Out2> $chain<$R2, $Out2>(

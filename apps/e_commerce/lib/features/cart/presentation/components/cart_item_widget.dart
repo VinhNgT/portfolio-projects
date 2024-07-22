@@ -20,8 +20,6 @@ class CartItemWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isChecked = useState(true);
-
     return Card.outlined(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(kSize_12),
@@ -32,9 +30,11 @@ class CartItemWidget extends HookConsumerWidget {
         children: [
           Checkbox(
             materialTapTargetSize: MaterialTapTargetSize.padded,
-            value: isChecked.value,
+            value: cartItem.isChecked,
             onChanged: (value) {
-              isChecked.value = value!;
+              ref.read(cartRepositoryProvider).updateCartItem(
+                    cartItem.copyWith(isChecked: value),
+                  );
             },
           ),
           Column(

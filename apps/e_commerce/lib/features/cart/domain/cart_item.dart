@@ -16,6 +16,7 @@ class $CartItemRealm {
   late $ProductRealm? product;
   late List<$ProductVariantRealm> selectedVariants;
   late int quantity;
+  late bool isChecked;
 }
 
 @MappableClass()
@@ -24,12 +25,14 @@ class CartItem with CartItemMappable {
   final Product product;
   final List<ProductVariant> selectedVariants;
   final int quantity;
+  final bool isChecked;
 
   CartItem({
     required this.id,
     required this.product,
     required this.quantity,
     this.selectedVariants = const [],
+    this.isChecked = true,
   }) {
     if (quantity <= 0) {
       throw ArgumentError('Quantity must be greater than 0');
@@ -50,11 +53,13 @@ class CartItem with CartItemMappable {
     required Product product,
     required List<ProductVariant> selectedVariants,
     required int quantity,
+    bool isChecked = true,
   }) : this(
           id: Uuid.v4(),
           product: product,
           quantity: quantity,
           selectedVariants: selectedVariants,
+          isChecked: isChecked,
         );
 
   factory CartItem.fromRealmObj(CartItemRealm obj) {
@@ -64,6 +69,7 @@ class CartItem with CartItemMappable {
       selectedVariants:
           obj.selectedVariants.map(ProductVariant.fromRealmObj).toList(),
       quantity: obj.quantity,
+      isChecked: obj.isChecked,
     );
   }
 
@@ -84,10 +90,16 @@ class CartItem with CartItemMappable {
       product: productRealm,
       selectedVariants: selectedVariantsRealm,
       quantity: quantity,
+      isChecked: isChecked,
     );
   }
 
   static final prototype = _Proto.prototype;
+}
+
+extension CartItemMethods on CartItem {
+  double get price => product.vndDiscountedPrice.toDouble() * quantity;
+  double get shippingFee => 13000.0 * quantity;
 }
 
 extension CartItemMutation on CartItem {

@@ -1,5 +1,6 @@
 import 'package:e_commerce/features/cart/data/interface/cart_repository.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
+import 'package:e_commerce/features/orders/domain/order.dart';
 import 'package:realm/realm.dart';
 
 class RealmCartRepository implements CartRepository {
@@ -87,6 +88,16 @@ class RealmCartRepository implements CartRepository {
     final cartItemsListRealm = realm.all<CartItemRealm>();
     return cartItemsListRealm.changes
         .map((event) => event.results.map(CartItem.fromRealmObj).toList());
+  }
+
+  @override
+  Stream<Order> watchCartOrder() {
+    final orderCartItemsRealm = realm.query<CartItemRealm>('isChecked = true');
+
+    return orderCartItemsRealm.changes.map((event) {
+      final items = event.results.map(CartItem.fromRealmObj).toList();
+      return Order(items: items);
+    });
   }
 }
 
