@@ -4,15 +4,15 @@
 // ignore_for_file: unused_element, unnecessary_cast, override_on_non_overriding_member
 // ignore_for_file: strict_raw_type, inference_failure_on_untyped_parameter
 
-part of 'cart_item.dart';
+part of 'order_item.dart';
 
-class CartItemMapper extends ClassMapperBase<CartItem> {
-  CartItemMapper._();
+class OrderItemMapper extends ClassMapperBase<OrderItem> {
+  OrderItemMapper._();
 
-  static CartItemMapper? _instance;
-  static CartItemMapper ensureInitialized() {
+  static OrderItemMapper? _instance;
+  static OrderItemMapper ensureInitialized() {
     if (_instance == null) {
-      MapperContainer.globals.use(_instance = CartItemMapper._());
+      MapperContainer.globals.use(_instance = OrderItemMapper._());
       ProductMapper.ensureInitialized();
       ProductVariantMapper.ensureInitialized();
     }
@@ -20,25 +20,26 @@ class CartItemMapper extends ClassMapperBase<CartItem> {
   }
 
   @override
-  final String id = 'CartItem';
+  final String id = 'OrderItem';
 
-  static Uuid _$id(CartItem v) => v.id;
-  static const Field<CartItem, Uuid> _f$id = Field('id', _$id);
-  static Product _$product(CartItem v) => v.product;
-  static const Field<CartItem, Product> _f$product =
+  static Uuid _$id(OrderItem v) => v.id;
+  static const Field<OrderItem, Uuid> _f$id = Field('id', _$id);
+  static Product _$product(OrderItem v) => v.product;
+  static const Field<OrderItem, Product> _f$product =
       Field('product', _$product);
-  static int _$quantity(CartItem v) => v.quantity;
-  static const Field<CartItem, int> _f$quantity = Field('quantity', _$quantity);
-  static List<ProductVariant> _$selectedVariants(CartItem v) =>
+  static int _$quantity(OrderItem v) => v.quantity;
+  static const Field<OrderItem, int> _f$quantity =
+      Field('quantity', _$quantity);
+  static List<ProductVariant> _$selectedVariants(OrderItem v) =>
       v.selectedVariants;
-  static const Field<CartItem, List<ProductVariant>> _f$selectedVariants =
+  static const Field<OrderItem, List<ProductVariant>> _f$selectedVariants =
       Field('selectedVariants', _$selectedVariants, opt: true, def: const []);
-  static bool _$isChecked(CartItem v) => v.isChecked;
-  static const Field<CartItem, bool> _f$isChecked =
+  static bool _$isChecked(OrderItem v) => v.isChecked;
+  static const Field<OrderItem, bool> _f$isChecked =
       Field('isChecked', _$isChecked, opt: true, def: true);
 
   @override
-  final MappableFields<CartItem> fields = const {
+  final MappableFields<OrderItem> fields = const {
     #id: _f$id,
     #product: _f$product,
     #quantity: _f$quantity,
@@ -46,8 +47,8 @@ class CartItemMapper extends ClassMapperBase<CartItem> {
     #isChecked: _f$isChecked,
   };
 
-  static CartItem _instantiate(DecodingData data) {
-    return CartItem(
+  static OrderItem _instantiate(DecodingData data) {
+    return OrderItem(
         id: data.dec(_f$id),
         product: data.dec(_f$product),
         quantity: data.dec(_f$quantity),
@@ -58,51 +59,52 @@ class CartItemMapper extends ClassMapperBase<CartItem> {
   @override
   final Function instantiate = _instantiate;
 
-  static CartItem fromJson(Map<String, dynamic> map) {
-    return ensureInitialized().decodeMap<CartItem>(map);
+  static OrderItem fromJson(Map<String, dynamic> map) {
+    return ensureInitialized().decodeMap<OrderItem>(map);
   }
 
-  static CartItem fromJsonString(String json) {
-    return ensureInitialized().decodeJson<CartItem>(json);
+  static OrderItem fromJsonString(String json) {
+    return ensureInitialized().decodeJson<OrderItem>(json);
   }
 }
 
-mixin CartItemMappable {
+mixin OrderItemMappable {
   String toJsonString() {
-    return CartItemMapper.ensureInitialized()
-        .encodeJson<CartItem>(this as CartItem);
+    return OrderItemMapper.ensureInitialized()
+        .encodeJson<OrderItem>(this as OrderItem);
   }
 
   Map<String, dynamic> toJson() {
-    return CartItemMapper.ensureInitialized()
-        .encodeMap<CartItem>(this as CartItem);
+    return OrderItemMapper.ensureInitialized()
+        .encodeMap<OrderItem>(this as OrderItem);
   }
 
-  CartItemCopyWith<CartItem, CartItem, CartItem> get copyWith =>
-      _CartItemCopyWithImpl(this as CartItem, $identity, $identity);
+  OrderItemCopyWith<OrderItem, OrderItem, OrderItem> get copyWith =>
+      _OrderItemCopyWithImpl(this as OrderItem, $identity, $identity);
   @override
   String toString() {
-    return CartItemMapper.ensureInitialized().stringifyValue(this as CartItem);
+    return OrderItemMapper.ensureInitialized()
+        .stringifyValue(this as OrderItem);
   }
 
   @override
   bool operator ==(Object other) {
-    return CartItemMapper.ensureInitialized()
-        .equalsValue(this as CartItem, other);
+    return OrderItemMapper.ensureInitialized()
+        .equalsValue(this as OrderItem, other);
   }
 
   @override
   int get hashCode {
-    return CartItemMapper.ensureInitialized().hashValue(this as CartItem);
+    return OrderItemMapper.ensureInitialized().hashValue(this as OrderItem);
   }
 }
 
-extension CartItemValueCopy<$R, $Out> on ObjectCopyWith<$R, CartItem, $Out> {
-  CartItemCopyWith<$R, CartItem, $Out> get $asCartItem =>
-      $base.as((v, t, t2) => _CartItemCopyWithImpl(v, t, t2));
+extension OrderItemValueCopy<$R, $Out> on ObjectCopyWith<$R, OrderItem, $Out> {
+  OrderItemCopyWith<$R, OrderItem, $Out> get $asOrderItem =>
+      $base.as((v, t, t2) => _OrderItemCopyWithImpl(v, t, t2));
 }
 
-abstract class CartItemCopyWith<$R, $In extends CartItem, $Out>
+abstract class OrderItemCopyWith<$R, $In extends OrderItem, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   ProductCopyWith<$R, Product, Product> get product;
   ListCopyWith<$R, ProductVariant,
@@ -114,17 +116,17 @@ abstract class CartItemCopyWith<$R, $In extends CartItem, $Out>
       int? quantity,
       List<ProductVariant>? selectedVariants,
       bool? isChecked});
-  CartItemCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
+  OrderItemCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
-class _CartItemCopyWithImpl<$R, $Out>
-    extends ClassCopyWithBase<$R, CartItem, $Out>
-    implements CartItemCopyWith<$R, CartItem, $Out> {
-  _CartItemCopyWithImpl(super.value, super.then, super.then2);
+class _OrderItemCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, OrderItem, $Out>
+    implements OrderItemCopyWith<$R, OrderItem, $Out> {
+  _OrderItemCopyWithImpl(super.value, super.then, super.then2);
 
   @override
-  late final ClassMapperBase<CartItem> $mapper =
-      CartItemMapper.ensureInitialized();
+  late final ClassMapperBase<OrderItem> $mapper =
+      OrderItemMapper.ensureInitialized();
   @override
   ProductCopyWith<$R, Product, Product> get product =>
       $value.product.copyWith.$chain((v) => call(product: v));
@@ -148,7 +150,7 @@ class _CartItemCopyWithImpl<$R, $Out>
         if (isChecked != null) #isChecked: isChecked
       }));
   @override
-  CartItem $make(CopyWithData data) => CartItem(
+  OrderItem $make(CopyWithData data) => OrderItem(
       id: data.get(#id, or: $value.id),
       product: data.get(#product, or: $value.product),
       quantity: data.get(#quantity, or: $value.quantity),
@@ -157,7 +159,7 @@ class _CartItemCopyWithImpl<$R, $Out>
       isChecked: data.get(#isChecked, or: $value.isChecked));
 
   @override
-  CartItemCopyWith<$R2, CartItem, $Out2> $chain<$R2, $Out2>(
+  OrderItemCopyWith<$R2, OrderItem, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _CartItemCopyWithImpl($value, $cast, t);
+      _OrderItemCopyWithImpl($value, $cast, t);
 }

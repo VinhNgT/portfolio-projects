@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce/common/ui/container_badge.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/cart/data/interface/cart_repository.dart';
-import 'package:e_commerce/features/cart/domain/cart_item.dart';
+import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:e_commerce/utils/list_extention.dart';
@@ -14,7 +14,7 @@ import 'package:material_symbols_icons/symbols.dart';
 
 class CartItemWidget extends HookConsumerWidget {
   const CartItemWidget({super.key, required this.cartItem});
-  final CartItem cartItem;
+  final OrderItem cartItem;
 
   final double imageSize = 80;
 
@@ -74,7 +74,7 @@ class CartItemWidget extends HookConsumerWidget {
 
 class _CartItemTopPart extends StatelessWidget {
   const _CartItemTopPart({required this.cartItem});
-  final CartItem cartItem;
+  final OrderItem cartItem;
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +119,7 @@ class _CartItemTopPart extends StatelessWidget {
 
 class _VariantChip extends StatelessWidget {
   const _VariantChip({required this.cartItem});
-  final CartItem cartItem;
+  final OrderItem cartItem;
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +142,7 @@ class _VariantChip extends StatelessWidget {
     );
   }
 
-  String _buildVariantText(CartItem cartItem) {
+  String _buildVariantText(OrderItem cartItem) {
     final variantTexts =
         cartItem.selectedVariants.map((variant) => variant.name);
     return variantTexts.join('/');
@@ -151,7 +151,7 @@ class _VariantChip extends StatelessWidget {
 
 class _CartItemBottomPart extends HookConsumerWidget {
   const _CartItemBottomPart({required this.cartItem});
-  final CartItem cartItem;
+  final OrderItem cartItem;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -183,7 +183,7 @@ class _CartItemBottomPart extends HookConsumerWidget {
 
 class _ShippingCost extends StatelessWidget {
   const _ShippingCost({required this.cartItem});
-  final CartItem cartItem;
+  final OrderItem cartItem;
 
   @override
   Widget build(BuildContext context) {
@@ -221,7 +221,7 @@ class _ShippingCost extends StatelessWidget {
 
 class _CartItemQuantitySelection extends HookConsumerWidget {
   const _CartItemQuantitySelection({required this.cartItem});
-  final CartItem cartItem;
+  final OrderItem cartItem;
 
   final int minQuantity = 1;
   final int maxQuantity = 12;

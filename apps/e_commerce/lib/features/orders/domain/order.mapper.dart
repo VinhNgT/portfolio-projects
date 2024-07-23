@@ -13,7 +13,7 @@ class OrderMapper extends ClassMapperBase<Order> {
   static OrderMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = OrderMapper._());
-      CartItemMapper.ensureInitialized();
+      OrderItemMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -21,8 +21,8 @@ class OrderMapper extends ClassMapperBase<Order> {
   @override
   final String id = 'Order';
 
-  static List<CartItem> _$items(Order v) => v.items;
-  static const Field<Order, List<CartItem>> _f$items = Field('items', _$items);
+  static List<OrderItem> _$items(Order v) => v.items;
+  static const Field<Order, List<OrderItem>> _f$items = Field('items', _$items);
   static double _$orderDiscount(Order v) => v.orderDiscount;
   static const Field<Order, double> _f$orderDiscount =
       Field('orderDiscount', _$orderDiscount, opt: true, def: 0);
@@ -84,9 +84,9 @@ extension OrderValueCopy<$R, $Out> on ObjectCopyWith<$R, Order, $Out> {
 
 abstract class OrderCopyWith<$R, $In extends Order, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  ListCopyWith<$R, CartItem, CartItemCopyWith<$R, CartItem, CartItem>>
+  ListCopyWith<$R, OrderItem, OrderItemCopyWith<$R, OrderItem, OrderItem>>
       get items;
-  $R call({List<CartItem>? items, double? orderDiscount});
+  $R call({List<OrderItem>? items, double? orderDiscount});
   OrderCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -97,11 +97,11 @@ class _OrderCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Order, $Out>
   @override
   late final ClassMapperBase<Order> $mapper = OrderMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, CartItem, CartItemCopyWith<$R, CartItem, CartItem>>
+  ListCopyWith<$R, OrderItem, OrderItemCopyWith<$R, OrderItem, OrderItem>>
       get items => ListCopyWith(
           $value.items, (v, t) => v.copyWith.$chain(t), (v) => call(items: v));
   @override
-  $R call({List<CartItem>? items, double? orderDiscount}) =>
+  $R call({List<OrderItem>? items, double? orderDiscount}) =>
       $apply(FieldCopyWithData({
         if (items != null) #items: items,
         if (orderDiscount != null) #orderDiscount: orderDiscount

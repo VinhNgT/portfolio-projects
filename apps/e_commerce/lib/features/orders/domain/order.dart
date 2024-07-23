@@ -1,6 +1,6 @@
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
-import 'package:e_commerce/features/cart/domain/cart_item.dart';
+import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:realm/realm.dart';
 
 part 'order.mapper.dart';
@@ -8,13 +8,13 @@ part 'order.realm.dart';
 
 @realmEmbedded
 class $OrderRealm {
-  late List<$CartItemRealm> items;
+  late List<$OrderItemRealm> items;
   late double orderDiscount;
 }
 
 @MappableClass()
 class Order with OrderMappable {
-  final List<CartItem> items;
+  final List<OrderItem> items;
   final double orderDiscount;
 
   const Order({
@@ -23,7 +23,7 @@ class Order with OrderMappable {
   });
 
   factory Order.fromRealmObj(OrderRealm obj) => Order(
-        items: obj.items.map(CartItem.fromRealmObj).toList(),
+        items: obj.items.map(OrderItem.fromRealmObj).toList(),
         orderDiscount: obj.orderDiscount,
       );
 

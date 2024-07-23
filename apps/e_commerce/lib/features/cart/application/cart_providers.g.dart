@@ -6,12 +6,12 @@ part of 'cart_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$cartItemsListHash() => r'4dc98fa7b7477d2ca615a83bc4065b1984722662';
+String _$cartItemsListHash() => r'e62d65ed3aa43bb673f6173a7748c1304a14298f';
 
 /// See also [cartItemsList].
 @ProviderFor(cartItemsList)
 final cartItemsListProvider =
-    AutoDisposeStreamProvider<List<CartItem>>.internal(
+    AutoDisposeStreamProvider<List<OrderItem>>.internal(
   cartItemsList,
   name: r'cartItemsListProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,7 +21,7 @@ final cartItemsListProvider =
   allTransitiveDependencies: null,
 );
 
-typedef CartItemsListRef = AutoDisposeStreamProviderRef<List<CartItem>>;
+typedef CartItemsListRef = AutoDisposeStreamProviderRef<List<OrderItem>>;
 String _$cartOrderHash() => r'66b926f2036d51d0be9ba4417d7ace72a5a91d01';
 
 /// See also [cartOrder].

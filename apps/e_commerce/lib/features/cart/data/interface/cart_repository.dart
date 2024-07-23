@@ -1,35 +1,35 @@
 import 'package:e_commerce/backend/database/realm/realm_provider.dart';
 import 'package:e_commerce/features/cart/data/realm_cart_repository.dart';
-import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/orders/domain/order.dart';
+import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:realm/realm.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'cart_repository.g.dart';
 
 abstract interface class CartRepository {
-  /// Add a [CartItem] to the cart.
-  Future<void> addCartItem(CartItem cartItem);
+  /// Add a [OrderItem] to the cart.
+  Future<void> addCartItem(OrderItem cartItem);
 
-  /// Remove a [CartItem] from the cart.
+  /// Remove a [OrderItem] from the cart.
   Future<void> removeCartItem(Uuid cartId);
 
-  /// Update a [CartItem] in the cart.
-  Future<void> updateCartItem(CartItem cartItem);
+  /// Update a [OrderItem] in the cart.
+  Future<void> updateCartItem(OrderItem cartItem);
 
-  /// Add a [CartItem] to the cart or merges it with an existing one that has
+  /// Add a [OrderItem] to the cart or merges it with an existing one that has
   /// the same product and variants.
-  Future<void> addOrMergeWithDuplicateCartItem(CartItem cartItem);
+  Future<void> addOrMergeWithDuplicateCartItem(OrderItem cartItem);
 
-  /// Purge all duplicate [CartItem]s in the cart (items that have the same
+  /// Purge all duplicate [OrderItem]s in the cart (items that have the same
   /// product and variants).
   Future<void> purgeDuplicateCartItems();
 
-  /// Watch a [CartItem] in the cart.
-  Stream<CartItem> watchCartItem(Uuid cartId);
+  /// Watch a [OrderItem] in the cart.
+  Stream<OrderItem> watchCartItem(Uuid cartId);
 
-  /// Watch all [CartItem]s in the cart.
-  Stream<List<CartItem>> watchCartItems();
+  /// Watch all [OrderItem]s in the cart.
+  Stream<List<OrderItem>> watchCartItems();
 
   /// Watch the order information of the cart.
   Stream<Order> watchCartOrder();

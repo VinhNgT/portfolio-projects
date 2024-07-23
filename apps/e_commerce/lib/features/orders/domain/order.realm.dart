@@ -10,22 +10,22 @@ part of 'order.dart';
 class OrderRealm extends $OrderRealm
     with RealmEntity, RealmObjectBase, EmbeddedObject {
   OrderRealm({
-    Iterable<CartItemRealm> items = const [],
+    Iterable<OrderItemRealm> items = const [],
     required double orderDiscount,
   }) {
-    RealmObjectBase.set<RealmList<CartItemRealm>>(
-        this, 'items', RealmList<CartItemRealm>(items));
+    RealmObjectBase.set<RealmList<OrderItemRealm>>(
+        this, 'items', RealmList<OrderItemRealm>(items));
     RealmObjectBase.set(this, 'orderDiscount', orderDiscount);
   }
 
   OrderRealm._();
 
   @override
-  RealmList<CartItemRealm> get items =>
-      RealmObjectBase.get<CartItemRealm>(this, 'items')
-          as RealmList<CartItemRealm>;
+  RealmList<OrderItemRealm> get items =>
+      RealmObjectBase.get<OrderItemRealm>(this, 'items')
+          as RealmList<OrderItemRealm>;
   @override
-  set items(covariant RealmList<CartItemRealm> value) =>
+  set items(covariant RealmList<OrderItemRealm> value) =>
       throw RealmUnsupportedSetError();
 
   @override
@@ -73,7 +73,7 @@ class OrderRealm extends $OrderRealm
     register(_toEJson, _fromEJson);
     return SchemaObject(ObjectType.embeddedObject, OrderRealm, 'OrderRealm', [
       SchemaProperty('items', RealmPropertyType.object,
-          linkTarget: 'CartItemRealm',
+          linkTarget: 'OrderItemRealm',
           collectionType: RealmCollectionType.list),
       SchemaProperty('orderDiscount', RealmPropertyType.double),
     ]);

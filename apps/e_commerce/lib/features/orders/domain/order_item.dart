@@ -5,11 +5,11 @@ import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:realm/realm.dart';
 
-part 'cart_item.mapper.dart';
-part 'cart_item.realm.dart';
+part 'order_item.mapper.dart';
+part 'order_item.realm.dart';
 
 @realm
-class $CartItemRealm {
+class $OrderItemRealm {
   @PrimaryKey()
   late Uuid id;
 
@@ -20,14 +20,14 @@ class $CartItemRealm {
 }
 
 @MappableClass()
-class CartItem with CartItemMappable {
+class OrderItem with OrderItemMappable {
   final Uuid id;
   final Product product;
   final List<ProductVariant> selectedVariants;
   final int quantity;
   final bool isChecked;
 
-  CartItem({
+  OrderItem({
     required this.id,
     required this.product,
     required this.quantity,
@@ -49,7 +49,7 @@ class CartItem with CartItemMappable {
     }
   }
 
-  CartItem.newId({
+  OrderItem.newId({
     required Product product,
     required List<ProductVariant> selectedVariants,
     required int quantity,
@@ -62,8 +62,8 @@ class CartItem with CartItemMappable {
           isChecked: isChecked,
         );
 
-  factory CartItem.fromRealmObj(CartItemRealm obj) {
-    return CartItem(
+  factory OrderItem.fromRealmObj(OrderItemRealm obj) {
+    return OrderItem(
       id: obj.id,
       product: Product.fromRealmObj(obj.product!),
       selectedVariants:
@@ -73,7 +73,7 @@ class CartItem with CartItemMappable {
     );
   }
 
-  CartItemRealm toRealmObj(Realm realm) {
+  OrderItemRealm toRealmObj(Realm realm) {
     final productRealm =
         realm.find<ProductRealm>(product.id) ?? product.toRealmObj(realm);
 
@@ -85,7 +85,7 @@ class CartItem with CartItemMappable {
       return existingVariant ?? e.toRealmObj();
     });
 
-    return CartItemRealm(
+    return OrderItemRealm(
       id: id,
       product: productRealm,
       selectedVariants: selectedVariantsRealm,
@@ -97,12 +97,12 @@ class CartItem with CartItemMappable {
   static final prototype = _Proto.prototype;
 }
 
-extension CartItemMethods on CartItem {
+extension CartItemMethods on OrderItem {
   double get price => product.vndDiscountedPrice.toDouble() * quantity;
   double get shippingFee => 13000.0 * quantity;
 }
 
-extension CartItemMutation on CartItem {
+extension CartItemMutation on OrderItem {
   // CartItem addQuantity(int quantity) {
   //   return copyWith(quantity: this.quantity + quantity);
   // }
@@ -111,19 +111,19 @@ extension CartItemMutation on CartItem {
   //   return copyWith(quantity: this.quantity - quantity);
   // }
 
-  CartItem updateSelectedVariants(List<ProductVariant> selectedVariants) {
+  OrderItem updateSelectedVariants(List<ProductVariant> selectedVariants) {
     return copyWith(selectedVariants: selectedVariants);
   }
 
-  CartItem mergeWith(CartItem other) {
+  OrderItem mergeWith(OrderItem other) {
     return copyWith(
       quantity: quantity + other.quantity,
     );
   }
 }
 
-extension _Proto on CartItem {
-  static final prototype = CartItem(
+extension _Proto on OrderItem {
+  static final prototype = OrderItem(
     id: Uuid.fromString('7988a4d0-e32b-412f-8a02-b5dbcc730f06'),
     product: Product.prototype,
     quantity: 1,

@@ -1,15 +1,15 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'cart_item.dart';
+part of 'order_item.dart';
 
 // **************************************************************************
 // RealmObjectGenerator
 // **************************************************************************
 
 // ignore_for_file: type=lint
-class CartItemRealm extends $CartItemRealm
+class OrderItemRealm extends $OrderItemRealm
     with RealmEntity, RealmObjectBase, RealmObject {
-  CartItemRealm({
+  OrderItemRealm({
     required Uuid id,
     ProductRealm? product,
     Iterable<ProductVariantRealm> selectedVariants = const [],
@@ -24,7 +24,7 @@ class CartItemRealm extends $CartItemRealm
     RealmObjectBase.set(this, 'isChecked', isChecked);
   }
 
-  CartItemRealm._();
+  OrderItemRealm._();
 
   @override
   Uuid get id => RealmObjectBase.get<Uuid>(this, 'id') as Uuid;
@@ -57,16 +57,16 @@ class CartItemRealm extends $CartItemRealm
   set isChecked(bool value) => RealmObjectBase.set(this, 'isChecked', value);
 
   @override
-  Stream<RealmObjectChanges<CartItemRealm>> get changes =>
-      RealmObjectBase.getChanges<CartItemRealm>(this);
+  Stream<RealmObjectChanges<OrderItemRealm>> get changes =>
+      RealmObjectBase.getChanges<OrderItemRealm>(this);
 
   @override
-  Stream<RealmObjectChanges<CartItemRealm>> changesFor(
+  Stream<RealmObjectChanges<OrderItemRealm>> changesFor(
           [List<String>? keyPaths]) =>
-      RealmObjectBase.getChangesFor<CartItemRealm>(this, keyPaths);
+      RealmObjectBase.getChangesFor<OrderItemRealm>(this, keyPaths);
 
   @override
-  CartItemRealm freeze() => RealmObjectBase.freezeObject<CartItemRealm>(this);
+  OrderItemRealm freeze() => RealmObjectBase.freezeObject<OrderItemRealm>(this);
 
   EJsonValue toEJson() {
     return <String, dynamic>{
@@ -78,8 +78,8 @@ class CartItemRealm extends $CartItemRealm
     };
   }
 
-  static EJsonValue _toEJson(CartItemRealm value) => value.toEJson();
-  static CartItemRealm _fromEJson(EJsonValue ejson) {
+  static EJsonValue _toEJson(OrderItemRealm value) => value.toEJson();
+  static OrderItemRealm _fromEJson(EJsonValue ejson) {
     return switch (ejson) {
       {
         'id': EJsonValue id,
@@ -88,7 +88,7 @@ class CartItemRealm extends $CartItemRealm
         'quantity': EJsonValue quantity,
         'isChecked': EJsonValue isChecked,
       } =>
-        CartItemRealm(
+        OrderItemRealm(
           id: fromEJson(id),
           product: fromEJson(product),
           selectedVariants: fromEJson(selectedVariants),
@@ -100,10 +100,10 @@ class CartItemRealm extends $CartItemRealm
   }
 
   static final schema = () {
-    RealmObjectBase.registerFactory(CartItemRealm._);
+    RealmObjectBase.registerFactory(OrderItemRealm._);
     register(_toEJson, _fromEJson);
     return SchemaObject(
-        ObjectType.realmObject, CartItemRealm, 'CartItemRealm', [
+        ObjectType.realmObject, OrderItemRealm, 'OrderItemRealm', [
       SchemaProperty('id', RealmPropertyType.uuid, primaryKey: true),
       SchemaProperty('product', RealmPropertyType.object,
           optional: true, linkTarget: 'ProductRealm'),
