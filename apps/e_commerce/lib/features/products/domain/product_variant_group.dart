@@ -6,14 +6,6 @@ import 'package:realm/realm.dart';
 part 'product_variant_group.mapper.dart';
 part 'product_variant_group.realm.dart';
 
-@realm
-class $ProductVariantGroupRealm {
-  @PrimaryKey()
-  late Uuid id;
-  late String groupName;
-  late List<$ProductVariantRealm> variants;
-}
-
 @MappableClass()
 class ProductVariantGroup with ProductVariantGroupMappable {
   final Uuid id;
@@ -31,27 +23,37 @@ class ProductVariantGroup with ProductVariantGroupMappable {
     required this.variants,
   }) : id = Uuid.v4();
 
-  factory ProductVariantGroup.fromRealmObj(ProductVariantGroupRealm realm) {
-    return ProductVariantGroup(
-      id: realm.id,
-      groupName: realm.groupName,
-      variants: realm.variants.map(ProductVariant.fromRealmObj).toList(),
-    );
-  }
-
-  ProductVariantGroupRealm toRealmObj(Realm realm) {
-    final variantsRealm = variants
-        .map((e) => realm.find<ProductVariantRealm>(e.id) ?? e.toRealmObj());
-
-    return ProductVariantGroupRealm(
-      id: id,
-      groupName: groupName,
-      variants: variantsRealm,
-    );
-  }
+  factory ProductVariantGroup.fromRealmObj(ProductVariantGroupRealm obj) =>
+      ProductVariantGroupRealmConverter.fromRealmObj(obj);
 
   @override
   String toString() {
     return '$id ($groupName)';
+  }
+}
+
+@realm
+class $ProductVariantGroupRealm {
+  @PrimaryKey()
+  late Uuid id;
+  late String groupName;
+  late List<$ProductVariantRealm> variants;
+}
+
+extension ProductVariantGroupRealmConverter on ProductVariantGroup {
+  static ProductVariantGroup fromRealmObj(ProductVariantGroupRealm obj) {
+    return ProductVariantGroup(
+      id: obj.id,
+      groupName: obj.groupName,
+      variants: obj.variants.map(ProductVariant.fromRealmObj).toList(),
+    );
+  }
+
+  ProductVariantGroupRealm toRealmObj(Realm realm) {
+    return ProductVariantGroupRealm(
+      id: id,
+      groupName: groupName,
+      variants: variants.map((e) => e.toRealmObj()).toList(),
+    );
   }
 }

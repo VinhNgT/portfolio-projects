@@ -5,14 +5,6 @@ import 'package:realm/realm.dart';
 part 'product_meta.mapper.dart';
 part 'product_meta.realm.dart';
 
-@realmEmbedded
-class $ProductMetaRealm {
-  late DateTime createdAt;
-  late DateTime updatedAt;
-  late String barcode;
-  late String qrCode;
-}
-
 @MappableClass()
 class ProductMeta with ProductMetaMappable {
   final DateTime createdAt;
@@ -27,12 +19,25 @@ class ProductMeta with ProductMetaMappable {
     required this.qrCode,
   });
 
-  factory ProductMeta.fromRealmObj(ProductMetaRealm realm) {
+  factory ProductMeta.fromRealmObj(ProductMetaRealm obj) =>
+      ProductMetaRealmConverter.fromRealmObj(obj);
+}
+
+@realmEmbedded
+class $ProductMetaRealm {
+  late DateTime createdAt;
+  late DateTime updatedAt;
+  late String barcode;
+  late String qrCode;
+}
+
+extension ProductMetaRealmConverter on ProductMeta {
+  static ProductMeta fromRealmObj(ProductMetaRealm obj) {
     return ProductMeta(
-      createdAt: realm.createdAt,
-      updatedAt: realm.updatedAt,
-      barcode: realm.barcode,
-      qrCode: realm.qrCode,
+      createdAt: obj.createdAt,
+      updatedAt: obj.updatedAt,
+      barcode: obj.barcode,
+      qrCode: obj.qrCode,
     );
   }
 

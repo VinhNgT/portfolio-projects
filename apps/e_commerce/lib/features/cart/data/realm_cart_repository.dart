@@ -17,7 +17,7 @@ class RealmCartRepository implements CartRepository {
   }
 
   static CartRealm _createNewCart(Realm realm) {
-    final newCart = $CartRealm.createRealmObj(realm, Cart.create());
+    final newCart = Cart.create().toRealmObj(realm);
     realm.write(() {
       // There should be only one cart in the database since this is a local
       // cart.
@@ -30,41 +30,34 @@ class RealmCartRepository implements CartRepository {
 
   @override
   Future<void> addCartItem(CartItem item) async {
-    final mutatedCart = $CartRealm.createRealmObj(
-      realm,
-      Cart.fromRealmObj(cartRealm).addItem(item),
-    );
+    final mutatedCart =
+        Cart.fromRealmObj(cartRealm).addItem(item).toRealmObj(realm);
 
     realm.write(() => realm.add<CartRealm>(mutatedCart, update: true));
   }
 
   @override
   Future<void> removeCartItem(Uuid itemId) async {
-    final mutatedCart = $CartRealm.createRealmObj(
-      realm,
-      Cart.fromRealmObj(cartRealm).removeItem(itemId),
-    );
+    final mutatedCart =
+        Cart.fromRealmObj(cartRealm).removeItem(itemId).toRealmObj(realm);
 
     realm.write(() => realm.add<CartRealm>(mutatedCart, update: true));
   }
 
   @override
   Future<void> setItemSelection(CartItem item, bool isSelected) async {
-    final mutatedCart = $CartRealm.createRealmObj(
-      realm,
-      Cart.fromRealmObj(cartRealm)
-          .setItemSelection(item.orderItem.id, isSelected),
-    );
+    final mutatedCart = Cart.fromRealmObj(cartRealm)
+        .setItemSelection(item.orderItem.id, isSelected)
+        .toRealmObj(realm);
 
     realm.write(() => realm.add<CartRealm>(mutatedCart, update: true));
   }
 
   @override
   Future<void> setItemQuantity(CartItem item, int quantity) async {
-    final mutatedCart = $CartRealm.createRealmObj(
-      realm,
-      Cart.fromRealmObj(cartRealm).setItemQuantity(item.orderItem.id, quantity),
-    );
+    final mutatedCart = Cart.fromRealmObj(cartRealm)
+        .setItemQuantity(item.orderItem.id, quantity)
+        .toRealmObj(realm);
 
     realm.write(() => realm.add<CartRealm>(mutatedCart, update: true));
   }

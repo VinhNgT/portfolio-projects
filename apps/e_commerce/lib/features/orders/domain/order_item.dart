@@ -8,16 +8,6 @@ import 'package:realm/realm.dart';
 part 'order_item.mapper.dart';
 part 'order_item.realm.dart';
 
-@realm
-class $OrderItemRealm {
-  @PrimaryKey()
-  late Uuid id;
-
-  late $ProductRealm? product;
-  late List<$ProductVariantRealm> selectedVariants;
-  late int quantity;
-}
-
 @MappableClass()
 class OrderItem with OrderItemMappable {
   final Uuid id;
@@ -57,35 +47,8 @@ class OrderItem with OrderItemMappable {
           selectedVariants: selectedVariants,
         );
 
-  factory OrderItem.fromRealmObj(OrderItemRealm obj) {
-    return OrderItem(
-      id: obj.id,
-      product: Product.fromRealmObj(obj.product!),
-      selectedVariants:
-          obj.selectedVariants.map(ProductVariant.fromRealmObj).toList(),
-      quantity: obj.quantity,
-    );
-  }
-
-  OrderItemRealm toRealmObj(Realm realm) {
-    final productRealm =
-        realm.find<ProductRealm>(product.id) ?? product.toRealmObj(realm);
-
-    final selectedVariantsRealm = selectedVariants.map((e) {
-      final existingVariant = productRealm.variantGroups
-          .expand((element) => element.variants)
-          .firstWhereOrNull((element) => element.id == e.id);
-
-      return existingVariant ?? e.toRealmObj();
-    });
-
-    return OrderItemRealm(
-      id: id,
-      product: productRealm,
-      selectedVariants: selectedVariantsRealm,
-      quantity: quantity,
-    );
-  }
+  factory OrderItem.fromRealmObj(OrderItemRealm obj) =>
+      OrderItemRealmConverter.fromRealmObj(obj);
 
   static final prototype = _Proto.prototype;
 }
@@ -114,4 +77,46 @@ extension _Proto on OrderItem {
       Product.prototype.variantsGroup[1].variants[0],
     ],
   );
+}
+
+@realm
+class $OrderItemRealm {
+  @PrimaryKey()
+  late Uuid id;
+
+  late $ProductRealm? product;
+  late List<$ProductVariantRealm> selectedVariants;
+  late int quantity;
+}
+
+extension OrderItemRealmConverter on OrderItem {
+  static OrderItem fromRealmObj(OrderItemRealm obj) {
+    return OrderItem(
+      id: obj.id,
+      product: Product.fromRealmObj(obj.product!),
+      selectedVariants:
+          obj.selectedVariants.map(ProductVariant.fromRealmObj).toList(),
+      quantity: obj.quantity,
+    );
+  }
+
+  OrderItemRealm toRealmObj(Realm realm) {
+    final productRealm =
+        realm.find<ProductRealm>(product.id) ?? product.toRealmObj(realm);
+
+    final selectedVariantsRealm = selectedVariants.map((e) {
+      final existingVariant = productRealm.variantGroups
+          .expand((element) => element.variants)
+          .firstWhereOrNull((element) => element.id == e.id);
+
+      return existingVariant ?? e.toRealmObj();
+    });
+
+    return OrderItemRealm(
+      id: id,
+      product: productRealm,
+      selectedVariants: selectedVariantsRealm,
+      quantity: quantity,
+    );
+  }
 }

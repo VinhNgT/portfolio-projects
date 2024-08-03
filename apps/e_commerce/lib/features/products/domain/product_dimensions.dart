@@ -5,13 +5,6 @@ import 'package:realm/realm.dart';
 part 'product_dimensions.mapper.dart';
 part 'product_dimensions.realm.dart';
 
-@realmEmbedded
-class $ProductDimensionsRealm {
-  late double width;
-  late double height;
-  late double depth;
-}
-
 @MappableClass()
 class ProductDimensions with ProductDimensionsMappable {
   final double width;
@@ -24,11 +17,23 @@ class ProductDimensions with ProductDimensionsMappable {
     required this.depth,
   });
 
-  factory ProductDimensions.fromRealmObj(ProductDimensionsRealm realm) {
+  factory ProductDimensions.fromRealmObj(ProductDimensionsRealm obj) =>
+      ProductDimensionsRealmConverter.fromRealmObj(obj);
+}
+
+@realmEmbedded
+class $ProductDimensionsRealm {
+  late double width;
+  late double height;
+  late double depth;
+}
+
+extension ProductDimensionsRealmConverter on ProductDimensions {
+  static ProductDimensions fromRealmObj(ProductDimensionsRealm obj) {
     return ProductDimensions(
-      width: realm.width,
-      height: realm.height,
-      depth: realm.depth,
+      width: obj.width,
+      height: obj.height,
+      depth: obj.depth,
     );
   }
 

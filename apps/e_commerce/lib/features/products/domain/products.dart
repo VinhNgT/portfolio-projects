@@ -6,14 +6,6 @@ import 'package:realm/realm.dart';
 part 'products.mapper.dart';
 part 'products.realm.dart';
 
-@realm
-class $ProductsRealm {
-  late List<$ProductRealm> products;
-  late int total;
-  late int skip;
-  late int limit;
-}
-
 @MappableClass()
 class Products with ProductsMappable {
   final List<Product> products;
@@ -28,7 +20,20 @@ class Products with ProductsMappable {
     required this.limit,
   });
 
-  factory Products.fromRealmObj(ProductsRealm realm) {
+  factory Products.fromRealmObj(ProductsRealm realm) =>
+      ProductsRealmConverter.fromRealmObj(realm);
+}
+
+@realm
+class $ProductsRealm {
+  late List<$ProductRealm> products;
+  late int total;
+  late int skip;
+  late int limit;
+}
+
+extension ProductsRealmConverter on Products {
+  static Products fromRealmObj(ProductsRealm realm) {
     return Products(
       products: realm.products.map(Product.fromRealmObj).toList(),
       total: realm.total,

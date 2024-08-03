@@ -7,23 +7,6 @@ import 'package:realm/realm.dart';
 part 'cart_item.mapper.dart';
 part 'cart_item.realm.dart';
 
-@realm
-class $CartItemRealm {
-  @PrimaryKey()
-  late Uuid id;
-
-  late $OrderItemRealm? orderItem;
-  late bool isSelected;
-
-  static CartItemRealm createRealmObj(Realm realm, CartItem obj) {
-    return CartItemRealm(
-      id: obj.id,
-      orderItem: obj.orderItem.toRealmObj(realm),
-      isSelected: obj.isSelected,
-    );
-  }
-}
-
 @MappableClass()
 class CartItem with CartItemMappable {
   final OrderItem orderItem;
@@ -39,12 +22,8 @@ class CartItem with CartItemMappable {
     this.isSelected = true,
   });
 
-  factory CartItem.fromRealmObj(CartItemRealm obj) {
-    return CartItem(
-      orderItem: OrderItem.fromRealmObj(obj.orderItem!),
-      isSelected: obj.isSelected,
-    );
-  }
+  factory CartItem.fromRealmObj(CartItemRealm obj) =>
+      CartItemRealmConverter.fromRealmObj(obj);
 }
 
 extension CartItemGetters on CartItem {
@@ -67,6 +46,32 @@ extension CartItemMutations on CartItem {
       orderItem: orderItem.copyWith(
         quantity: orderItem.quantity + other.orderItem.quantity,
       ),
+      isSelected: isSelected,
+    );
+  }
+}
+
+@realm
+class $CartItemRealm {
+  @PrimaryKey()
+  late Uuid id;
+
+  late $OrderItemRealm? orderItem;
+  late bool isSelected;
+}
+
+extension CartItemRealmConverter on CartItem {
+  static CartItem fromRealmObj(CartItemRealm obj) {
+    return CartItem(
+      orderItem: OrderItemRealmConverter.fromRealmObj(obj.orderItem!),
+      isSelected: obj.isSelected,
+    );
+  }
+
+  CartItemRealm toRealmObj(Realm realm) {
+    return CartItemRealm(
+      id: id,
+      orderItem: orderItem.toRealmObj(realm),
       isSelected: isSelected,
     );
   }

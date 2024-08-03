@@ -5,15 +5,6 @@ import 'package:realm/realm.dart';
 part 'product_reviews.mapper.dart';
 part 'product_reviews.realm.dart';
 
-@realmEmbedded
-class $ProductReviewsRealm {
-  late int rating;
-  late String comment;
-  late String date;
-  late String reviewerName;
-  late String reviewerEmail;
-}
-
 @MappableClass()
 class ProductReviews with ProductReviewsMappable {
   final int rating;
@@ -30,13 +21,27 @@ class ProductReviews with ProductReviewsMappable {
     required this.reviewerEmail,
   });
 
-  factory ProductReviews.fromRealmObj(ProductReviewsRealm realm) {
+  factory ProductReviews.fromRealmObj(ProductReviewsRealm obj) =>
+      ProductReviewsRealmConverter.fromRealmObj(obj);
+}
+
+@realmEmbedded
+class $ProductReviewsRealm {
+  late int rating;
+  late String comment;
+  late String date;
+  late String reviewerName;
+  late String reviewerEmail;
+}
+
+extension ProductReviewsRealmConverter on ProductReviews {
+  static ProductReviews fromRealmObj(ProductReviewsRealm obj) {
     return ProductReviews(
-      rating: realm.rating,
-      comment: realm.comment,
-      date: realm.date,
-      reviewerName: realm.reviewerName,
-      reviewerEmail: realm.reviewerEmail,
+      rating: obj.rating,
+      comment: obj.comment,
+      date: obj.date,
+      reviewerName: obj.reviewerName,
+      reviewerEmail: obj.reviewerEmail,
     );
   }
 

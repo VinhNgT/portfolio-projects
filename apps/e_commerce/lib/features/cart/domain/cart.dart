@@ -9,21 +9,6 @@ import 'package:realm/realm.dart';
 part 'cart.mapper.dart';
 part 'cart.realm.dart';
 
-@realm
-class $CartRealm {
-  @PrimaryKey()
-  late Uuid id;
-  late List<$CartItemRealm> cartItems;
-
-  static CartRealm createRealmObj(Realm realm, Cart obj) {
-    return CartRealm(
-      id: obj.id,
-      cartItems:
-          obj.cartItems.map((e) => $CartItemRealm.createRealmObj(realm, e)),
-    );
-  }
-}
-
 @MappableClass()
 class Cart with CartMappable {
   final Uuid id;
@@ -38,10 +23,8 @@ class Cart with CartMappable {
     this.cartItems = const [],
   }) : id = Uuid.v4();
 
-  factory Cart.fromRealmObj(CartRealm obj) => Cart(
-        id: obj.id,
-        cartItems: obj.cartItems.map(CartItem.fromRealmObj).toList(),
-      );
+  factory Cart.fromRealmObj(CartRealm obj) =>
+      CartRealmConverter.fromRealmObj(obj);
 }
 
 extension CartGetters on Cart {
@@ -138,6 +121,29 @@ extension CartMutation on Cart {
 
     return copyWith(
       cartItems: cartItems..removeWhere(itemsToDelete.contains),
+    );
+  }
+}
+
+@realm
+class $CartRealm {
+  @PrimaryKey()
+  late Uuid id;
+  late List<$CartItemRealm> cartItems;
+}
+
+extension CartRealmConverter on Cart {
+  static Cart fromRealmObj(CartRealm obj) {
+    return Cart(
+      id: obj.id,
+      cartItems: obj.cartItems.map(CartItem.fromRealmObj).toList(),
+    );
+  }
+
+  CartRealm toRealmObj(Realm realm) {
+    return CartRealm(
+      id: id,
+      cartItems: cartItems.map((e) => e.toRealmObj(realm)).toList(),
     );
   }
 }
