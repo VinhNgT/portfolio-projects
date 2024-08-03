@@ -14,14 +14,12 @@ class OrderItemRealm extends $OrderItemRealm
     ProductRealm? product,
     Iterable<ProductVariantRealm> selectedVariants = const [],
     required int quantity,
-    required bool isChecked,
   }) {
     RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'product', product);
     RealmObjectBase.set<RealmList<ProductVariantRealm>>(this,
         'selectedVariants', RealmList<ProductVariantRealm>(selectedVariants));
     RealmObjectBase.set(this, 'quantity', quantity);
-    RealmObjectBase.set(this, 'isChecked', isChecked);
   }
 
   OrderItemRealm._();
@@ -52,11 +50,6 @@ class OrderItemRealm extends $OrderItemRealm
   set quantity(int value) => RealmObjectBase.set(this, 'quantity', value);
 
   @override
-  bool get isChecked => RealmObjectBase.get<bool>(this, 'isChecked') as bool;
-  @override
-  set isChecked(bool value) => RealmObjectBase.set(this, 'isChecked', value);
-
-  @override
   Stream<RealmObjectChanges<OrderItemRealm>> get changes =>
       RealmObjectBase.getChanges<OrderItemRealm>(this);
 
@@ -74,7 +67,6 @@ class OrderItemRealm extends $OrderItemRealm
       'product': product.toEJson(),
       'selectedVariants': selectedVariants.toEJson(),
       'quantity': quantity.toEJson(),
-      'isChecked': isChecked.toEJson(),
     };
   }
 
@@ -86,14 +78,12 @@ class OrderItemRealm extends $OrderItemRealm
         'product': EJsonValue product,
         'selectedVariants': EJsonValue selectedVariants,
         'quantity': EJsonValue quantity,
-        'isChecked': EJsonValue isChecked,
       } =>
         OrderItemRealm(
           id: fromEJson(id),
           product: fromEJson(product),
           selectedVariants: fromEJson(selectedVariants),
           quantity: fromEJson(quantity),
-          isChecked: fromEJson(isChecked),
         ),
       _ => raiseInvalidEJson(ejson),
     };
@@ -111,7 +101,6 @@ class OrderItemRealm extends $OrderItemRealm
           linkTarget: 'ProductVariantRealm',
           collectionType: RealmCollectionType.list),
       SchemaProperty('quantity', RealmPropertyType.int),
-      SchemaProperty('isChecked', RealmPropertyType.bool),
     ]);
   }();
 

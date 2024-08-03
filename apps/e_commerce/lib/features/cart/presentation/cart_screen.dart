@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce/common/async/async_value_widget.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/cart/application/cart_providers.dart';
+import 'package:e_commerce/features/cart/domain/cart.dart';
+import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/cart/presentation/components/cart_item_widget.dart';
 import 'package:e_commerce/features/orders/domain/order.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
@@ -20,8 +22,7 @@ class CartScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final vndPriceFormatter = Product.prototype.vndPriceFormatter;
 
-    final cartItemsListAsync = ref.watch(cartItemsListProvider);
-    final cartOrderAsync = ref.watch(cartOrderProvider);
+    final cartAsync = ref.watch(cartProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -40,26 +41,27 @@ class CartScreen extends HookConsumerWidget {
         ],
       ),
       body: AsyncValueWidget(
-        asyncValue: cartItemsListAsync,
-        builder: (cartItemsList) => ListView.separated(
+        asyncValue: cartAsync,
+        builder: (cart) => ListView.separated(
           padding: const EdgeInsets.symmetric(
             horizontal: kSize_16,
             vertical: kSize_16,
           ),
           separatorBuilder: (BuildContext context, int index) =>
               const Gap(kSize_16),
-          itemCount: cartItemsList.length,
+          itemCount: cart.cartItems.length,
           itemBuilder: (context, index) {
             return CartItemWidget(
-              key: ValueKey(cartItemsList[index].id),
-              cartItem: cartItemsList[index],
+              key: ValueKey(cart.cartItems[index].id),
+              cartItem: cart.cartItems[index],
+              isSelected: cart.isItemSelected(cart.cartItems[index]),
             );
           },
         ),
       ),
       bottomNavigationBar: AsyncValueWidget(
-        asyncValue: cartOrderAsync,
-        builder: (cartOrder) => Container(
+        asyncValue: cartAsync,
+        builder: (cart) => Container(
           decoration: BoxDecoration(
             color: context.colorScheme.surface,
             boxShadow: UiUtils.reverseBoxShadow(kElevationToShadow[1]!),
@@ -77,12 +79,12 @@ class CartScreen extends HookConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      vndPriceFormatter.format(cartOrder.itemsPrice),
+                      vndPriceFormatter.format(cart.order.itemsPrice),
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     Text(
                       'Phí vận chuyển: '
-                      '${vndPriceFormatter.format(cartOrder.shippingFee)}',
+                      '${vndPriceFormatter.format(cart.order.shippingFee)}',
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ],

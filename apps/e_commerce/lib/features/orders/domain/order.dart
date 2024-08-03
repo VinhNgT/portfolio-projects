@@ -19,8 +19,13 @@ class Order with OrderMappable {
 
   const Order({
     required this.items,
-    this.orderDiscount = 0,
+    required this.orderDiscount,
   });
+
+  Order.create({
+    required List<OrderItem> items,
+    double orderDiscount = 0,
+  }) : this(items: items, orderDiscount: orderDiscount);
 
   factory Order.fromRealmObj(OrderRealm obj) => Order(
         items: obj.items.map(OrderItem.fromRealmObj).toList(),

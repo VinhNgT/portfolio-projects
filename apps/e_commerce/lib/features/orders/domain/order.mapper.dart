@@ -25,7 +25,7 @@ class OrderMapper extends ClassMapperBase<Order> {
   static const Field<Order, List<OrderItem>> _f$items = Field('items', _$items);
   static double _$orderDiscount(Order v) => v.orderDiscount;
   static const Field<Order, double> _f$orderDiscount =
-      Field('orderDiscount', _$orderDiscount, opt: true, def: 0);
+      Field('orderDiscount', _$orderDiscount);
 
   @override
   final MappableFields<Order> fields = const {

@@ -1,120 +1,79 @@
 import 'package:e_commerce/features/cart/data/interface/cart_repository.dart';
-import 'package:e_commerce/features/orders/domain/order.dart';
-import 'package:e_commerce/features/orders/domain/order_item.dart';
+import 'package:e_commerce/features/cart/domain/cart.dart';
+import 'package:e_commerce/features/cart/domain/cart_item.dart';
+import 'package:flutter/foundation.dart';
 import 'package:realm/realm.dart';
 
 class RealmCartRepository implements CartRepository {
-  RealmCartRepository(this.realm);
+  RealmCartRepository(this.realm, {required this.cartRealm});
+
   final Realm realm;
+  final CartRealm cartRealm;
 
-  @override
-  Future<void> addCartItem(OrderItem cartItem) async {
-    realm.write(() => realm.add(cartItem.toRealmObj(realm)));
+  @factory
+  static RealmCartRepository makeDefault(Realm realm) {
+    final cart = realm.all<CartRealm>().firstOrNull ?? _createNewCart(realm);
+    return RealmCartRepository(realm, cartRealm: cart);
   }
 
-  @override
-  Future<void> removeCartItem(Uuid cartId) async {
-    final cartItemRealm = realm.find<OrderItemRealm>(cartId);
-    if (cartItemRealm == null) {
-      throw ArgumentError('Cart item with id $cartId not found');
-    }
-
-    realm.write(() => realm.delete(cartItemRealm));
-  }
-
-  @override
-  Future<void> updateCartItem(OrderItem cartItem) async {
-    final cartItemRealm = realm.find<OrderItemRealm>(cartItem.id);
-    if (cartItemRealm == null) {
-      throw ArgumentError('Cart item with id ${cartItem.id} not found');
-    }
-
-    realm.write(() => realm.add(cartItem.toRealmObj(realm), update: true));
-  }
-
-  @override
-  Future<void> addOrMergeWithDuplicateCartItem(OrderItem cartItem) async {
-    final cartItemRealm = cartItem.toRealmObj(realm);
-    final duplicateOrderItemRealm =
-        _findDuplicateCartItems(cartItemRealm).firstOrNull;
-
+  static CartRealm _createNewCart(Realm realm) {
+    final newCart = $CartRealm.createRealmObj(realm, Cart.create());
     realm.write(() {
-      if (duplicateOrderItemRealm == null) {
-        realm.add(cartItemRealm);
-      } else {
-        realm.add(
-          OrderItem.fromRealmObj(duplicateOrderItemRealm)
-              .mergeWith(cartItem)
-              .toRealmObj(realm),
-          update: true,
-        );
-      }
+      // There should be only one cart in the database since this is a local
+      // cart.
+      realm.deleteAll<CartRealm>();
+      realm.add(newCart);
     });
+
+    return newCart;
   }
 
   @override
-  Future<void> purgeDuplicateCartItems() async {
-    final cartItemsListRealm = realm.all<OrderItemRealm>();
-    final Set<OrderItemRealm> itemsToDelete = {};
+  Future<void> addCartItem(CartItem item) async {
+    final mutatedCart = $CartRealm.createRealmObj(
+      realm,
+      Cart.fromRealmObj(cartRealm).addItem(item),
+    );
 
-    for (final cartItem in cartItemsListRealm) {
-      if (itemsToDelete.contains(cartItem)) {
-        continue;
-      }
-
-      final duplicateCartItems = _findDuplicateCartItems(cartItem);
-      itemsToDelete.addAll(
-        duplicateCartItems
-            .skipWhile((duplicateItem) => duplicateItem == cartItem),
-      );
-    }
-
-    realm.write(() => realm.deleteMany(itemsToDelete));
+    realm.write(() => realm.add<CartRealm>(mutatedCart, update: true));
   }
 
   @override
-  Stream<OrderItem> watchCartItem(Uuid cartId) {
-    final cartItemRealm = realm.find<OrderItemRealm>(cartId);
-    if (cartItemRealm == null) {
-      throw ArgumentError('Cart item with id $cartId not found');
-    }
+  Future<void> removeCartItem(Uuid itemId) async {
+    final mutatedCart = $CartRealm.createRealmObj(
+      realm,
+      Cart.fromRealmObj(cartRealm).removeItem(itemId),
+    );
 
-    return cartItemRealm.changes
-        .map((event) => OrderItem.fromRealmObj(event.object));
+    realm.write(() => realm.add<CartRealm>(mutatedCart, update: true));
   }
 
   @override
-  Stream<List<OrderItem>> watchCartItems() {
-    final cartItemsListRealm = realm.all<OrderItemRealm>();
-    return cartItemsListRealm.changes
-        .map((event) => event.results.map(OrderItem.fromRealmObj).toList());
+  Future<void> setItemSelection(CartItem item, bool isSelected) async {
+    final mutatedCart = $CartRealm.createRealmObj(
+      realm,
+      Cart.fromRealmObj(cartRealm)
+          .setItemSelection(item.orderItem.id, isSelected),
+    );
+
+    realm.write(() => realm.add<CartRealm>(mutatedCart, update: true));
   }
 
   @override
-  Stream<Order> watchCartOrder() {
-    final orderCartItemsRealm = realm.query<OrderItemRealm>('isChecked = true');
+  Future<void> setItemQuantity(CartItem item, int quantity) async {
+    final mutatedCart = $CartRealm.createRealmObj(
+      realm,
+      Cart.fromRealmObj(cartRealm).setItemQuantity(item.orderItem.id, quantity),
+    );
 
-    return orderCartItemsRealm.changes.map((event) {
-      final items = event.results.map(OrderItem.fromRealmObj).toList();
-      return Order(items: items);
+    realm.write(() => realm.add<CartRealm>(mutatedCart, update: true));
+  }
+
+  @override
+  Stream<Cart> watchCart() {
+    return cartRealm.changes.map((event) {
+      final obj = Cart.fromRealmObj(event.object);
+      return obj;
     });
-  }
-}
-
-extension _HelperRealmCartRepository on RealmCartRepository {
-  RealmResults<OrderItemRealm> _findDuplicateCartItems(
-      OrderItemRealm cartItem) {
-    final duplicateItem = realm.query<OrderItemRealm>('''
-
-      product.id = \$0 AND 
-      ALL \$1 IN selectedVariants[*].id AND
-      selectedVariants.@count = ${cartItem.selectedVariants.length}
-
-      ''', [
-      cartItem.product!.id,
-      cartItem.selectedVariants.map((element) => element.id),
-    ]);
-
-    return duplicateItem;
   }
 }

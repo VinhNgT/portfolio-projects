@@ -1,4 +1,7 @@
 import 'package:e_commerce/backend/env/env_provider.dart';
+import 'package:e_commerce/features/cart/domain/cart.dart';
+import 'package:e_commerce/features/cart/domain/cart_item.dart';
+import 'package:e_commerce/features/orders/domain/order.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_dimensions.dart';
@@ -26,6 +29,9 @@ Future<Realm> realm(RealmRef ref) async {
     ProductVariantRealm.schema,
 
     // Cart
+    CartRealm.schema,
+    CartItemRealm.schema,
+    OrderRealm.schema,
     OrderItemRealm.schema,
   ];
 

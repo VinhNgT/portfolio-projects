@@ -16,7 +16,6 @@ class $OrderItemRealm {
   late $ProductRealm? product;
   late List<$ProductVariantRealm> selectedVariants;
   late int quantity;
-  late bool isChecked;
 }
 
 @MappableClass()
@@ -25,14 +24,12 @@ class OrderItem with OrderItemMappable {
   final Product product;
   final List<ProductVariant> selectedVariants;
   final int quantity;
-  final bool isChecked;
 
   OrderItem({
     required this.id,
     required this.product,
     required this.quantity,
-    this.selectedVariants = const [],
-    this.isChecked = true,
+    required this.selectedVariants,
   }) {
     if (quantity <= 0) {
       throw ArgumentError('Quantity must be greater than 0');
@@ -49,17 +46,15 @@ class OrderItem with OrderItemMappable {
     }
   }
 
-  OrderItem.newId({
+  OrderItem.create({
     required Product product,
-    required List<ProductVariant> selectedVariants,
     required int quantity,
-    bool isChecked = true,
+    List<ProductVariant> selectedVariants = const [],
   }) : this(
           id: Uuid.v4(),
           product: product,
           quantity: quantity,
           selectedVariants: selectedVariants,
-          isChecked: isChecked,
         );
 
   factory OrderItem.fromRealmObj(OrderItemRealm obj) {
@@ -69,7 +64,6 @@ class OrderItem with OrderItemMappable {
       selectedVariants:
           obj.selectedVariants.map(ProductVariant.fromRealmObj).toList(),
       quantity: obj.quantity,
-      isChecked: obj.isChecked,
     );
   }
 
@@ -90,35 +84,23 @@ class OrderItem with OrderItemMappable {
       product: productRealm,
       selectedVariants: selectedVariantsRealm,
       quantity: quantity,
-      isChecked: isChecked,
     );
   }
 
   static final prototype = _Proto.prototype;
 }
 
-extension CartItemMethods on OrderItem {
+extension OrderItemGetters on OrderItem {
   double get price => product.vndDiscountedPrice.toDouble() * quantity;
   double get shippingFee => 13000.0 * quantity;
 }
 
-extension CartItemMutation on OrderItem {
-  // CartItem addQuantity(int quantity) {
-  //   return copyWith(quantity: this.quantity + quantity);
-  // }
-
-  // CartItem removeQuantity(int quantity) {
-  //   return copyWith(quantity: this.quantity - quantity);
-  // }
-
-  OrderItem updateSelectedVariants(List<ProductVariant> selectedVariants) {
-    return copyWith(selectedVariants: selectedVariants);
-  }
-
-  OrderItem mergeWith(OrderItem other) {
-    return copyWith(
-      quantity: quantity + other.quantity,
-    );
+extension OrderItemMethods on OrderItem {
+  /// Returns true if [other] has the same product and selected variants.
+  bool hasSameContent(OrderItem other) {
+    return product.id == other.product.id &&
+        ListEquality<ProductVariant>(EqualityBy((variant) => variant.id))
+            .equals(selectedVariants, other.selectedVariants);
   }
 }
 

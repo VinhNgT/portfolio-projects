@@ -33,10 +33,7 @@ class OrderItemMapper extends ClassMapperBase<OrderItem> {
   static List<ProductVariant> _$selectedVariants(OrderItem v) =>
       v.selectedVariants;
   static const Field<OrderItem, List<ProductVariant>> _f$selectedVariants =
-      Field('selectedVariants', _$selectedVariants, opt: true, def: const []);
-  static bool _$isChecked(OrderItem v) => v.isChecked;
-  static const Field<OrderItem, bool> _f$isChecked =
-      Field('isChecked', _$isChecked, opt: true, def: true);
+      Field('selectedVariants', _$selectedVariants);
 
   @override
   final MappableFields<OrderItem> fields = const {
@@ -44,7 +41,6 @@ class OrderItemMapper extends ClassMapperBase<OrderItem> {
     #product: _f$product,
     #quantity: _f$quantity,
     #selectedVariants: _f$selectedVariants,
-    #isChecked: _f$isChecked,
   };
 
   static OrderItem _instantiate(DecodingData data) {
@@ -52,8 +48,7 @@ class OrderItemMapper extends ClassMapperBase<OrderItem> {
         id: data.dec(_f$id),
         product: data.dec(_f$product),
         quantity: data.dec(_f$quantity),
-        selectedVariants: data.dec(_f$selectedVariants),
-        isChecked: data.dec(_f$isChecked));
+        selectedVariants: data.dec(_f$selectedVariants));
   }
 
   @override
@@ -114,8 +109,7 @@ abstract class OrderItemCopyWith<$R, $In extends OrderItem, $Out>
       {Uuid? id,
       Product? product,
       int? quantity,
-      List<ProductVariant>? selectedVariants,
-      bool? isChecked});
+      List<ProductVariant>? selectedVariants});
   OrderItemCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -140,14 +134,12 @@ class _OrderItemCopyWithImpl<$R, $Out>
           {Uuid? id,
           Product? product,
           int? quantity,
-          List<ProductVariant>? selectedVariants,
-          bool? isChecked}) =>
+          List<ProductVariant>? selectedVariants}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (product != null) #product: product,
         if (quantity != null) #quantity: quantity,
-        if (selectedVariants != null) #selectedVariants: selectedVariants,
-        if (isChecked != null) #isChecked: isChecked
+        if (selectedVariants != null) #selectedVariants: selectedVariants
       }));
   @override
   OrderItem $make(CopyWithData data) => OrderItem(
@@ -155,8 +147,7 @@ class _OrderItemCopyWithImpl<$R, $Out>
       product: data.get(#product, or: $value.product),
       quantity: data.get(#quantity, or: $value.quantity),
       selectedVariants:
-          data.get(#selectedVariants, or: $value.selectedVariants),
-      isChecked: data.get(#isChecked, or: $value.isChecked));
+          data.get(#selectedVariants, or: $value.selectedVariants));
 
   @override
   OrderItemCopyWith<$R2, OrderItem, $Out2> $chain<$R2, $Out2>(

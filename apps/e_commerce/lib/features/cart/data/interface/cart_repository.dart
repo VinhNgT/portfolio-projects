@@ -1,42 +1,41 @@
 import 'package:e_commerce/backend/database/realm/realm_provider.dart';
 import 'package:e_commerce/features/cart/data/realm_cart_repository.dart';
-import 'package:e_commerce/features/orders/domain/order.dart';
-import 'package:e_commerce/features/orders/domain/order_item.dart';
+import 'package:e_commerce/features/cart/domain/cart.dart';
+import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:realm/realm.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'cart_repository.g.dart';
 
 abstract interface class CartRepository {
-  /// Add a [OrderItem] to the cart.
-  Future<void> addCartItem(OrderItem cartItem);
+  /// Add an [CartItem] to the cart.
+  Future<void> addCartItem(CartItem item);
 
-  /// Remove a [OrderItem] from the cart.
-  Future<void> removeCartItem(Uuid cartId);
+  /// Remove an [CartItem] from the cart.
+  Future<void> removeCartItem(Uuid itemId);
 
-  /// Update a [OrderItem] in the cart.
-  Future<void> updateCartItem(OrderItem cartItem);
+  /// Update an [CartItem] in the cart.
+  Future<void> setItemSelection(CartItem item, bool isSelected);
 
-  /// Add a [OrderItem] to the cart or merges it with an existing one that has
+  Future<void> setItemQuantity(CartItem item, int quantity);
+
+  /// Add an [CartItem] to the cart or merges it with an existing one that has
   /// the same product and variants.
-  Future<void> addOrMergeWithDuplicateCartItem(OrderItem cartItem);
+  // Future<void> addOrMergeWithDuplicateCartItem(CartItem item);
 
-  /// Purge all duplicate [OrderItem]s in the cart (items that have the same
+  /// Purge all duplicate [CartItem]s in the cart (items that have the same
   /// product and variants).
-  Future<void> purgeDuplicateCartItems();
+  // Future<void> purgeDuplicateCartItems();
 
-  /// Watch a [OrderItem] in the cart.
-  Stream<OrderItem> watchCartItem(Uuid cartId);
+  /// Watch an [CartItem] in the cart.
+  // Stream<OrderItem> watchCartItem(Uuid itemId);
 
-  /// Watch all [OrderItem]s in the cart.
-  Stream<List<OrderItem>> watchCartItems();
-
-  /// Watch the order information of the cart.
-  Stream<Order> watchCartOrder();
+  /// Watch the cart.
+  Stream<Cart> watchCart();
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 CartRepository cartRepository(CartRepositoryRef ref) {
   final realm = ref.watch(realmProvider).requireValue;
-  return RealmCartRepository(realm);
+  return RealmCartRepository.makeDefault(realm);
 }

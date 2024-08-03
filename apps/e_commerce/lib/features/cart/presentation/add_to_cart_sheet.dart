@@ -3,6 +3,7 @@ import 'package:e_commerce/common/ui/container_badge.dart';
 import 'package:e_commerce/common/ui/simple_bottom_sheet.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/cart/data/interface/cart_repository.dart';
+import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
@@ -55,17 +56,17 @@ class AddToCartSheet extends HookConsumerWidget {
                       final selectedVariant = formKey.currentState
                           ?.value['variants'] as Map<String, ProductVariant?>;
 
-                      final cartItem = OrderItem.newId(
-                        product: product,
-                        quantity: formKey.currentState?.value['quantity'],
-                        selectedVariants: selectedVariant.values
-                            .whereType<ProductVariant>()
-                            .toList(),
+                      final cartItem = CartItem.create(
+                        orderItem: OrderItem.create(
+                          product: product,
+                          quantity: formKey.currentState?.value['quantity'],
+                          selectedVariants: selectedVariant.values
+                              .whereType<ProductVariant>()
+                              .toList(),
+                        ),
                       );
 
-                      ref
-                          .read(cartRepositoryProvider)
-                          .addOrMergeWithDuplicateCartItem(cartItem);
+                      ref.read(cartRepositoryProvider).addCartItem(cartItem);
                     },
                   ),
                 ),

@@ -2,19 +2,24 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce/common/ui/container_badge.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/cart/data/interface/cart_repository.dart';
-import 'package:e_commerce/features/orders/domain/order_item.dart';
+import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:e_commerce/utils/list_extention.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class CartItemWidget extends HookConsumerWidget {
-  const CartItemWidget({super.key, required this.cartItem});
-  final OrderItem cartItem;
+  const CartItemWidget({
+    super.key,
+    required this.cartItem,
+    required this.isSelected,
+  });
+
+  final CartItem cartItem;
+  final bool isSelected;
 
   final double imageSize = 80;
 
@@ -30,11 +35,11 @@ class CartItemWidget extends HookConsumerWidget {
         children: [
           Checkbox(
             materialTapTargetSize: MaterialTapTargetSize.padded,
-            value: cartItem.isChecked,
+            value: isSelected,
             onChanged: (value) {
-              ref.read(cartRepositoryProvider).updateCartItem(
-                    cartItem.copyWith(isChecked: value),
-                  );
+              ref
+                  .read(cartRepositoryProvider)
+                  .setItemSelection(cartItem, value!);
             },
           ),
           Column(
@@ -52,7 +57,7 @@ class CartItemWidget extends HookConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: kSize_4),
                       child: CachedNetworkImage(
-                        imageUrl: cartItem.product.thumbnail,
+                        imageUrl: cartItem.orderItem.product.thumbnail,
                         height: imageSize,
                         width: imageSize,
                       ),
@@ -74,23 +79,23 @@ class CartItemWidget extends HookConsumerWidget {
 
 class _CartItemTopPart extends StatelessWidget {
   const _CartItemTopPart({required this.cartItem});
-  final OrderItem cartItem;
+  final CartItem cartItem;
 
   @override
   Widget build(BuildContext context) {
-    final vndPriceFormat = cartItem.product.vndPriceFormatter;
+    final vndPriceFormat = cartItem.orderItem.product.vndPriceFormatter;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          cartItem.product.title,
+          cartItem.orderItem.product.title,
           style: context.textTheme.titleSmall,
         ),
         const Gap(kSize_6),
         ...<Widget>[
           //
-          if (cartItem.selectedVariants.isNotEmpty)
+          if (cartItem.orderItem.selectedVariants.isNotEmpty)
             _VariantChip(cartItem: cartItem),
 
           //
@@ -105,7 +110,8 @@ class _CartItemTopPart extends StatelessWidget {
           //
           Text(
             vndPriceFormat.format(
-              cartItem.product.vndDiscountedPrice * cartItem.quantity,
+              cartItem.orderItem.product.vndDiscountedPrice *
+                  cartItem.orderItem.quantity,
             ),
             style: context.textTheme.titleMedium!.copyWith(
               color: context.colorScheme.primary,
@@ -119,7 +125,7 @@ class _CartItemTopPart extends StatelessWidget {
 
 class _VariantChip extends StatelessWidget {
   const _VariantChip({required this.cartItem});
-  final OrderItem cartItem;
+  final CartItem cartItem;
 
   @override
   Widget build(BuildContext context) {
@@ -142,16 +148,16 @@ class _VariantChip extends StatelessWidget {
     );
   }
 
-  String _buildVariantText(OrderItem cartItem) {
+  String _buildVariantText(CartItem cartItem) {
     final variantTexts =
-        cartItem.selectedVariants.map((variant) => variant.name);
+        cartItem.orderItem.selectedVariants.map((variant) => variant.name);
     return variantTexts.join('/');
   }
 }
 
 class _CartItemBottomPart extends HookConsumerWidget {
   const _CartItemBottomPart({required this.cartItem});
-  final OrderItem cartItem;
+  final CartItem cartItem;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -183,11 +189,11 @@ class _CartItemBottomPart extends HookConsumerWidget {
 
 class _ShippingCost extends StatelessWidget {
   const _ShippingCost({required this.cartItem});
-  final OrderItem cartItem;
+  final CartItem cartItem;
 
   @override
   Widget build(BuildContext context) {
-    final vndPriceFormat = cartItem.product.vndPriceFormatter;
+    final vndPriceFormat = cartItem.orderItem.product.vndPriceFormatter;
 
     return Padding(
       padding: const EdgeInsets.only(
@@ -206,7 +212,7 @@ class _ShippingCost extends StatelessWidget {
           const Gap(kSize_8),
           Expanded(
             child: Text(
-              'Phí VC: ${vndPriceFormat.format(13000 * cartItem.quantity)}',
+              'Phí VC: ${vndPriceFormat.format(13000 * cartItem.orderItem.quantity)}',
               // vndPriceFormat.format(103000),
               style: context.textTheme.bodySmall!.copyWith(
                 color: context.colorScheme.onSurfaceVariant,
@@ -221,26 +227,24 @@ class _ShippingCost extends StatelessWidget {
 
 class _CartItemQuantitySelection extends HookConsumerWidget {
   const _CartItemQuantitySelection({required this.cartItem});
-  final OrderItem cartItem;
+  final CartItem cartItem;
 
   final int minQuantity = 1;
   final int maxQuantity = 12;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final count = useState(cartItem.quantity);
+    // final count = useState(cartItem.quantity);
 
     return Row(
       children: [
         IconButton.filledTonal(
           constraints: BoxConstraints.tight(const Size.square(kSize_36)),
           onPressed: () {
-            if (count.value > minQuantity) {
-              count.value--;
-
+            if (cartItem.orderItem.quantity > minQuantity) {
               ref
                   .read(cartRepositoryProvider)
-                  .updateCartItem(cartItem.copyWith(quantity: count.value));
+                  .setItemQuantity(cartItem, cartItem.orderItem.quantity - 1);
             }
           },
           icon: const Icon(Symbols.remove),
@@ -248,19 +252,17 @@ class _CartItemQuantitySelection extends HookConsumerWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: kSize_4),
           child: Text(
-            '${count.value}',
+            '${cartItem.orderItem.quantity}',
             style: context.textTheme.labelLarge,
           ),
         ),
         IconButton.filledTonal(
           constraints: BoxConstraints.tight(const Size.square(kSize_36)),
           onPressed: () {
-            if (count.value < maxQuantity) {
-              count.value++;
-
+            if (cartItem.orderItem.quantity < maxQuantity) {
               ref
                   .read(cartRepositoryProvider)
-                  .updateCartItem(cartItem.copyWith(quantity: count.value));
+                  .setItemQuantity(cartItem, cartItem.orderItem.quantity + 1);
             }
           },
           icon: const Icon(Symbols.add),
