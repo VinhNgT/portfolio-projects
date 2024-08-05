@@ -35,18 +35,16 @@ extension CartItemGetters on CartItem {
 
 extension CartItemMutations on CartItem {
   CartItem updateSelectedVariants(List<ProductVariant> selectedVariants) {
-    return CartItem(
+    return copyWith(
       orderItem: orderItem.copyWith(selectedVariants: selectedVariants),
-      isSelected: isSelected,
     );
   }
 
   CartItem mergeWith(CartItem other) {
-    return CartItem(
+    return copyWith(
       orderItem: orderItem.copyWith(
         quantity: orderItem.quantity + other.orderItem.quantity,
       ),
-      isSelected: isSelected,
     );
   }
 }
