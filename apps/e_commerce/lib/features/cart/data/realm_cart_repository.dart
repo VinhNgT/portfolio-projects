@@ -1,6 +1,7 @@
 import 'package:e_commerce/features/cart/data/interface/cart_repository.dart';
 import 'package:e_commerce/features/cart/domain/cart.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
+import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:realm/realm.dart';
 
@@ -41,7 +42,20 @@ class RealmCartRepository implements CartRepository {
     final mutatedCart =
         Cart.fromRealmObj(cartRealm).removeItem(itemId).toRealmObj(realm);
 
-    realm.write(() => realm.add<CartRealm>(mutatedCart, update: true));
+    final cartItemToRemove = realm.find<CartItemRealm>(itemId);
+    final orderItemToRemove =
+        realm.find<OrderItemRealm>(cartItemToRemove?.orderItem?.id);
+
+    realm.write(() {
+      if (cartItemToRemove != null) {
+        realm.delete(cartItemToRemove);
+      }
+      if (orderItemToRemove != null) {
+        realm.delete(orderItemToRemove);
+      }
+
+      realm.add<CartRealm>(mutatedCart, update: true);
+    });
   }
 
   @override
