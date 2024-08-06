@@ -12,11 +12,11 @@ class CartItemRealm extends $CartItemRealm
   CartItemRealm({
     required Uuid id,
     OrderItemRealm? orderItem,
-    required bool isSelected,
+    required bool isIncludeInOrder,
   }) {
     RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'orderItem', orderItem);
-    RealmObjectBase.set(this, 'isSelected', isSelected);
+    RealmObjectBase.set(this, 'isIncludeInOrder', isIncludeInOrder);
   }
 
   CartItemRealm._();
@@ -34,9 +34,11 @@ class CartItemRealm extends $CartItemRealm
       RealmObjectBase.set(this, 'orderItem', value);
 
   @override
-  bool get isSelected => RealmObjectBase.get<bool>(this, 'isSelected') as bool;
+  bool get isIncludeInOrder =>
+      RealmObjectBase.get<bool>(this, 'isIncludeInOrder') as bool;
   @override
-  set isSelected(bool value) => RealmObjectBase.set(this, 'isSelected', value);
+  set isIncludeInOrder(bool value) =>
+      RealmObjectBase.set(this, 'isIncludeInOrder', value);
 
   @override
   Stream<RealmObjectChanges<CartItemRealm>> get changes =>
@@ -54,7 +56,7 @@ class CartItemRealm extends $CartItemRealm
     return <String, dynamic>{
       'id': id.toEJson(),
       'orderItem': orderItem.toEJson(),
-      'isSelected': isSelected.toEJson(),
+      'isIncludeInOrder': isIncludeInOrder.toEJson(),
     };
   }
 
@@ -64,12 +66,12 @@ class CartItemRealm extends $CartItemRealm
       {
         'id': EJsonValue id,
         'orderItem': EJsonValue orderItem,
-        'isSelected': EJsonValue isSelected,
+        'isIncludeInOrder': EJsonValue isIncludeInOrder,
       } =>
         CartItemRealm(
           id: fromEJson(id),
           orderItem: fromEJson(orderItem),
-          isSelected: fromEJson(isSelected),
+          isIncludeInOrder: fromEJson(isIncludeInOrder),
         ),
       _ => raiseInvalidEJson(ejson),
     };
@@ -83,7 +85,7 @@ class CartItemRealm extends $CartItemRealm
       SchemaProperty('id', RealmPropertyType.uuid, primaryKey: true),
       SchemaProperty('orderItem', RealmPropertyType.object,
           optional: true, linkTarget: 'OrderItemRealm'),
-      SchemaProperty('isSelected', RealmPropertyType.bool),
+      SchemaProperty('isIncludeInOrder', RealmPropertyType.bool),
     ]);
   }();
 

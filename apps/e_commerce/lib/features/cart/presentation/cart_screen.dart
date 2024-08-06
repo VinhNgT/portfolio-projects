@@ -54,7 +54,8 @@ class CartScreen extends HookConsumerWidget {
             return CartItemWidget(
               key: ValueKey(cart.cartItems[index].id),
               cartItem: cart.cartItems[index],
-              isSelected: cart.isItemSelected(cart.cartItems[index]),
+              isIncludeInOrder:
+                  cart.isItemIncludeInOrder(cart.cartItems[index]),
             );
           },
         ),

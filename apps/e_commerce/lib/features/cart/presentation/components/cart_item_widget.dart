@@ -15,11 +15,11 @@ class CartItemWidget extends HookConsumerWidget {
   const CartItemWidget({
     super.key,
     required this.cartItem,
-    required this.isSelected,
+    required this.isIncludeInOrder,
   });
 
   final CartItem cartItem;
-  final bool isSelected;
+  final bool isIncludeInOrder;
 
   final double imageSize = 80;
 
@@ -35,11 +35,11 @@ class CartItemWidget extends HookConsumerWidget {
         children: [
           Checkbox(
             materialTapTargetSize: MaterialTapTargetSize.padded,
-            value: isSelected,
+            value: isIncludeInOrder,
             onChanged: (value) {
               ref
                   .read(cartRepositoryProvider)
-                  .setItemSelection(cartItem, value!);
+                  .setItemOrderInclusionState(cartItem, value!);
             },
           ),
           Column(

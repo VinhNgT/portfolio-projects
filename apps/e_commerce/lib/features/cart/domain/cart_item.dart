@@ -9,17 +9,21 @@ part 'cart_item.realm.dart';
 
 @MappableClass()
 class CartItem with CartItemMappable {
+  /// The item that is added to the cart.
   final OrderItem orderItem;
-  final bool isSelected;
+
+  /// Whether the item is included in the order when the user checkouts the cart
+  /// contains this item.
+  final bool isIncludeInOrder;
 
   const CartItem({
     required this.orderItem,
-    required this.isSelected,
+    required this.isIncludeInOrder,
   });
 
   CartItem.create({
     required this.orderItem,
-    this.isSelected = true,
+    this.isIncludeInOrder = true,
   });
 
   factory CartItem.fromRealmObj(CartItemRealm obj) =>
@@ -55,14 +59,14 @@ class $CartItemRealm {
   late Uuid id;
 
   late $OrderItemRealm? orderItem;
-  late bool isSelected;
+  late bool isIncludeInOrder;
 }
 
 extension CartItemRealmConverter on CartItem {
   static CartItem fromRealmObj(CartItemRealm obj) {
     return CartItem(
       orderItem: OrderItemRealmConverter.fromRealmObj(obj.orderItem!),
-      isSelected: obj.isSelected,
+      isIncludeInOrder: obj.isIncludeInOrder,
     );
   }
 
@@ -70,7 +74,7 @@ extension CartItemRealmConverter on CartItem {
     return CartItemRealm(
       id: id,
       orderItem: orderItem.toRealmObj(realm),
-      isSelected: isSelected,
+      isIncludeInOrder: isIncludeInOrder,
     );
   }
 }

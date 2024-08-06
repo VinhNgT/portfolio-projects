@@ -24,19 +24,20 @@ class CartItemMapper extends ClassMapperBase<CartItem> {
   static OrderItem _$orderItem(CartItem v) => v.orderItem;
   static const Field<CartItem, OrderItem> _f$orderItem =
       Field('orderItem', _$orderItem);
-  static bool _$isSelected(CartItem v) => v.isSelected;
-  static const Field<CartItem, bool> _f$isSelected =
-      Field('isSelected', _$isSelected);
+  static bool _$isIncludeInOrder(CartItem v) => v.isIncludeInOrder;
+  static const Field<CartItem, bool> _f$isIncludeInOrder =
+      Field('isIncludeInOrder', _$isIncludeInOrder);
 
   @override
   final MappableFields<CartItem> fields = const {
     #orderItem: _f$orderItem,
-    #isSelected: _f$isSelected,
+    #isIncludeInOrder: _f$isIncludeInOrder,
   };
 
   static CartItem _instantiate(DecodingData data) {
     return CartItem(
-        orderItem: data.dec(_f$orderItem), isSelected: data.dec(_f$isSelected));
+        orderItem: data.dec(_f$orderItem),
+        isIncludeInOrder: data.dec(_f$isIncludeInOrder));
   }
 
   @override
@@ -89,7 +90,7 @@ extension CartItemValueCopy<$R, $Out> on ObjectCopyWith<$R, CartItem, $Out> {
 abstract class CartItemCopyWith<$R, $In extends CartItem, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   OrderItemCopyWith<$R, OrderItem, OrderItem> get orderItem;
-  $R call({OrderItem? orderItem, bool? isSelected});
+  $R call({OrderItem? orderItem, bool? isIncludeInOrder});
   CartItemCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -105,15 +106,16 @@ class _CartItemCopyWithImpl<$R, $Out>
   OrderItemCopyWith<$R, OrderItem, OrderItem> get orderItem =>
       $value.orderItem.copyWith.$chain((v) => call(orderItem: v));
   @override
-  $R call({OrderItem? orderItem, bool? isSelected}) =>
+  $R call({OrderItem? orderItem, bool? isIncludeInOrder}) =>
       $apply(FieldCopyWithData({
         if (orderItem != null) #orderItem: orderItem,
-        if (isSelected != null) #isSelected: isSelected
+        if (isIncludeInOrder != null) #isIncludeInOrder: isIncludeInOrder
       }));
   @override
   CartItem $make(CopyWithData data) => CartItem(
       orderItem: data.get(#orderItem, or: $value.orderItem),
-      isSelected: data.get(#isSelected, or: $value.isSelected));
+      isIncludeInOrder:
+          data.get(#isIncludeInOrder, or: $value.isIncludeInOrder));
 
   @override
   CartItemCopyWith<$R2, CartItem, $Out2> $chain<$R2, $Out2>(

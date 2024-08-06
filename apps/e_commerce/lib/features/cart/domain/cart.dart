@@ -29,16 +29,15 @@ class Cart with CartMappable {
 }
 
 extension CartGetters on Cart {
-  bool isItemSelected(CartItem cartItem) =>
+  bool isItemIncludeInOrder(CartItem cartItem) =>
       cartItems
           .firstWhereOrNull((e) => e.orderItem.id == cartItem.orderItem.id)
-          ?.isSelected ??
+          ?.isIncludeInOrder ??
       false;
 
   Order get order => Order.create(
-        // Filter the items that are selected.
         items: cartItems
-            .where((e) => e.isSelected)
+            .where((e) => e.isIncludeInOrder)
             .map((e) => e.orderItem)
             .toList(),
       );
@@ -71,9 +70,8 @@ extension CartMutation on Cart {
     );
   }
 
-  /// Set the selection of the item. If selected, it will be added to the order
-  /// upon checkout.
-  Cart setItemSelection(Uuid itemId, bool isSelected) {
+  /// Set the state of whether the item is included in the order.
+  Cart setItemOrderInclusionState(Uuid itemId, bool isIncludeInOrder) {
     final itemListId = cartItems.indexWhere((e) => e.orderItem.id == itemId);
     if (itemListId == -1) {
       throw ArgumentError('Item $itemId not found');
@@ -81,7 +79,8 @@ extension CartMutation on Cart {
 
     return copyWith(
       cartItems: cartItems
-        ..[itemListId] = cartItems[itemListId].copyWith(isSelected: isSelected),
+        ..[itemListId] =
+            cartItems[itemListId].copyWith(isIncludeInOrder: isIncludeInOrder),
     );
   }
 
