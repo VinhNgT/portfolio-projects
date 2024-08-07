@@ -60,6 +60,14 @@ class RealmCartRepository implements CartRepository {
   }
 
   @override
+  Future<void> updateCartItem(CartItem item) async {
+    final mutatedCart =
+        Cart.fromRealmObj(cartRealm).updateItem(item).toRealmObj(realm);
+
+    realm.write(() => realm.add<CartRealm>(mutatedCart, update: true));
+  }
+
+  @override
   Future<void> setItemOrderInclusionState(
     CartItem item,
     bool isIncludeInOrder,

@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:collection/collection.dart';
 import 'package:e_commerce/common/ui/container_badge.dart';
 import 'package:e_commerce/common/ui/simple_bottom_sheet.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
-import 'package:e_commerce/features/cart/data/interface/cart_repository.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
@@ -17,10 +17,29 @@ import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
+typedef AddToCartSheetCallback = void Function(CartItem item);
+
 @RoutePage()
 class AddToCartSheet extends HookConsumerWidget {
-  const AddToCartSheet({super.key, required this.product});
-  final Product product;
+  const AddToCartSheet({
+    super.key,
+    this.product,
+    this.initialCartItem,
+    this.onConfirm,
+  }) : assert(
+          (product != null) != (initialCartItem != null),
+          'Either product or initialCartItem must be provided, but not both',
+        );
+
+  /// The product to be added to the cart.
+  final Product? product;
+
+  /// The initial data of the cart.
+  final CartItem? initialCartItem;
+
+  /// The callback that will be called when the user confirms adding the
+  /// product.
+  final AddToCartSheetCallback? onConfirm;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,11 +54,18 @@ class AddToCartSheet extends HookConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              _ProductOverview(product: product),
+              _ProductOverview(
+                product: product ?? initialCartItem!.orderItem.product,
+              ),
               const Gap(kSize_16),
-              _VariationGroups(product: product),
+              _VariationGroups(
+                product: product ?? initialCartItem!.orderItem.product,
+                initialVariants: initialCartItem?.orderItem.selectedVariants,
+              ),
               const Gap(kSize_16),
-              const _QuantitySelectionContainer(),
+              _QuantitySelectionContainer(
+                initialQuantity: initialCartItem?.orderItem.quantity,
+              ),
               const Divider(height: kSize_32),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: kSize_16),
@@ -58,7 +84,9 @@ class AddToCartSheet extends HookConsumerWidget {
 
                       final cartItem = CartItem.create(
                         orderItem: OrderItem.create(
-                          product: product,
+                          id: initialCartItem?.orderItem.id,
+                          product:
+                              product ?? initialCartItem!.orderItem.product,
                           quantity: formKey.currentState?.value['quantity'],
                           selectedVariants: selectedVariant.values
                               .whereType<ProductVariant>()
@@ -66,7 +94,7 @@ class AddToCartSheet extends HookConsumerWidget {
                         ),
                       );
 
-                      ref.read(cartRepositoryProvider).addCartItem(cartItem);
+                      onConfirm?.call(cartItem);
                     },
                   ),
                 ),
@@ -132,8 +160,13 @@ class _ProductOverview extends HookConsumerWidget {
 }
 
 class _VariationGroups extends HookConsumerWidget {
-  const _VariationGroups({required this.product});
+  const _VariationGroups({
+    required this.product,
+    required this.initialVariants,
+  });
+
   final Product product;
+  final List<ProductVariant>? initialVariants;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -142,7 +175,7 @@ class _VariationGroups extends HookConsumerWidget {
     return FormBuilderField(
       name: 'variants',
       initialValue: <String, ProductVariant?>{
-        for (final element in product.variantsGroup) element.toString(): null,
+        for (final element in product.variantGroups) element.toString(): null,
       },
       validator: (value) {
         if (value!.values.any((selectedVariant) => selectedVariant == null)) {
@@ -202,10 +235,14 @@ class _VariationGroups extends HookConsumerWidget {
                     left: kSize_16,
                     right: kSize_16,
                   ),
-                  itemCount: product.variantsGroup.length,
+                  itemCount: product.variantGroups.length,
                   itemBuilder: (context, index) {
                     return _VariationSelection(
-                      group: product.variantsGroup[index],
+                      group: product.variantGroups[index],
+                      initialVariant: initialVariants?.firstWhereOrNull(
+                        (e) =>
+                            product.variantGroups[index].variants.contains(e),
+                      ),
                     );
                   },
                 ),
@@ -220,8 +257,13 @@ class _VariationGroups extends HookConsumerWidget {
 }
 
 class _VariationSelection extends HookConsumerWidget {
-  const _VariationSelection({required this.group});
+  const _VariationSelection({
+    required this.group,
+    this.initialVariant,
+  });
+
   final ProductVariantGroup group;
+  final ProductVariant? initialVariant;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -236,6 +278,7 @@ class _VariationSelection extends HookConsumerWidget {
         const Gap(kSize_8),
         FormBuilderChoiceChip<ProductVariant>(
           name: group.toString(),
+          initialValue: initialVariant,
           decoration: const InputDecoration(
             enabledBorder: InputBorder.none,
             isCollapsed: true,
@@ -257,7 +300,8 @@ class _VariationSelection extends HookConsumerWidget {
 }
 
 class _QuantitySelectionContainer extends HookConsumerWidget {
-  const _QuantitySelectionContainer();
+  const _QuantitySelectionContainer({this.initialQuantity});
+  final int? initialQuantity;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -288,7 +332,9 @@ class _QuantitySelectionContainer extends HookConsumerWidget {
                 ),
               ),
               const Gap(kSize_6),
-              const _QuantitySelectionButtons(),
+              _QuantitySelectionButtons(
+                initialQuantity: initialQuantity,
+              ),
             ],
           ),
           // const Gap(kSize_8),
@@ -307,18 +353,19 @@ class _QuantitySelectionContainer extends HookConsumerWidget {
 }
 
 class _QuantitySelectionButtons extends HookConsumerWidget {
-  const _QuantitySelectionButtons();
+  const _QuantitySelectionButtons({required this.initialQuantity});
 
   final int minQuantity = 1;
   final int maxQuantity = 12;
+  final int? initialQuantity;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final count = useState(minQuantity);
+    final count = useState(initialQuantity ?? 1);
 
     return FormBuilderField<int>(
       name: 'quantity',
-      initialValue: minQuantity,
+      initialValue: initialQuantity,
       builder: (field) => Row(
         children: [
           IconButton(

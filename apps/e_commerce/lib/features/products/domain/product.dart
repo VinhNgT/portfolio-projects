@@ -35,7 +35,7 @@ class Product with ProductMappable {
   final ProductMeta meta;
   final String thumbnail;
   final List<String> images;
-  final List<ProductVariantGroup> variantsGroup;
+  final List<ProductVariantGroup> variantGroups;
 
   const Product({
     required this.id,
@@ -60,7 +60,7 @@ class Product with ProductMappable {
     required this.meta,
     required this.thumbnail,
     required this.images,
-    required this.variantsGroup,
+    required this.variantGroups,
   });
 
   @MappableConstructor()
@@ -87,7 +87,7 @@ class Product with ProductMappable {
     required this.meta,
     required this.thumbnail,
     required this.images,
-  }) : variantsGroup = prototype.variantsGroup;
+  }) : variantGroups = prototype.variantGroups;
 
   factory Product.fromRealmObj(ProductRealm realm) =>
       ProductRealmConverter.fromRealmObj(realm);
@@ -96,6 +96,26 @@ class Product with ProductMappable {
       ProductMapper.fromJson(json);
 
   static Product get prototype => _ProductPrototypeX._prototype;
+}
+
+extension ProductMethods on Product {
+  /// Check if all of the [variantsSelection] are present in the
+  /// [variantGroups].
+  bool checkVariantsSelectionValid(List<ProductVariant> variantsSelection) {
+    final Map<Uuid, bool> variantsSelectionValidMap = {
+      for (final variant in variantsSelection) variant.id: false,
+    };
+
+    for (final group in variantGroups) {
+      for (final variant in group.variants) {
+        if (variantsSelectionValidMap.containsKey(variant.id)) {
+          variantsSelectionValidMap[variant.id] = true;
+        }
+      }
+    }
+
+    return variantsSelectionValidMap.values.every((e) => e);
+  }
 }
 
 extension ProductPriceX on Product {
@@ -157,7 +177,7 @@ extension _ProductPrototypeX on Product {
     ],
     thumbnail:
         'https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png',
-    variantsGroup: [
+    variantGroups: [
       ProductVariantGroup(
         id: Uuid.fromString('84216062-a550-4cb3-a4f5-05548ddfb614'),
         groupName: 'Color',
@@ -248,13 +268,13 @@ extension ProductRealmConverter on Product {
       meta: ProductMeta.fromRealmObj(obj.meta!),
       thumbnail: obj.thumbnail,
       images: obj.images,
-      variantsGroup:
+      variantGroups:
           obj.variantGroups.map(ProductVariantGroup.fromRealmObj).toList(),
     );
   }
 
   ProductRealm toRealmObj(Realm realm) {
-    final variantsGroupRealm = variantsGroup.map(
+    final variantGroupsRealm = variantGroups.map(
       (e) => realm.find<ProductVariantGroupRealm>(e.id) ?? e.toRealmObj(realm),
     );
 
@@ -281,7 +301,7 @@ extension ProductRealmConverter on Product {
       meta: meta.toRealmObj(),
       thumbnail: thumbnail,
       images: images,
-      variantGroups: variantsGroupRealm,
+      variantGroups: variantGroupsRealm,
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
+import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:realm/realm.dart';
 
@@ -21,10 +22,14 @@ class CartItem with CartItemMappable {
     required this.isIncludeInOrder,
   });
 
-  CartItem.create({
+  const CartItem.create({
     required this.orderItem,
     this.isIncludeInOrder = true,
   });
+
+  CartItem.createWithProduct({
+    required Product product,
+  }) : this.create(orderItem: OrderItem.create(product: product));
 
   factory CartItem.fromRealmObj(CartItemRealm obj) =>
       CartItemRealmConverter.fromRealmObj(obj);

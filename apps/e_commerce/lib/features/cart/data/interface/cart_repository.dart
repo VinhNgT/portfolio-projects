@@ -15,6 +15,9 @@ abstract interface class CartRepository {
   /// Remove a [CartItem] from the cart.
   Future<void> removeCartItem(Uuid itemId);
 
+  /// Update a [CartItem] in the cart.
+  Future<void> updateCartItem(CartItem item);
+
   /// Update the order inclusion state of a [CartItem] in the cart.
   Future<void> setItemOrderInclusionState(CartItem item, bool isSelected);
 

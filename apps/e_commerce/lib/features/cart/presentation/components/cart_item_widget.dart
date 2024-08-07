@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce/common/ui/container_badge.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/cart/data/interface/cart_repository.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
+import 'package:e_commerce/routing/app_router_provider.gr.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:e_commerce/utils/list_extention.dart';
 import 'package:flutter/material.dart';
@@ -123,12 +125,12 @@ class _CartItemTopPart extends StatelessWidget {
   }
 }
 
-class _VariantChip extends StatelessWidget {
+class _VariantChip extends HookConsumerWidget {
   const _VariantChip({required this.cartItem});
   final CartItem cartItem;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ActionChip(
       avatar: const Icon(Symbols.play_shapes),
       label: Text('Phân loại: ${_buildVariantText(cartItem)}'),
@@ -144,7 +146,22 @@ class _VariantChip extends StatelessWidget {
       ),
       labelPadding: const EdgeInsets.only(left: kSize_8),
       labelStyle: context.textTheme.labelMedium,
-      onPressed: () {},
+      onPressed: () {
+        context.pushRoute(
+          AddToCartRoute(
+            initialCartItem: cartItem,
+            onConfirm: (cartItem) async {
+              await ref.read(cartRepositoryProvider).updateCartItem(cartItem);
+              if (context.mounted) {
+                // Pop the AddToCartSheet if it's still on the stack
+                context.router.root.popUntil(
+                  (route) => !ModalRoute.withName(AddToCartRoute.name)(route),
+                );
+              }
+            },
+          ),
+        );
+      },
     );
   }
 

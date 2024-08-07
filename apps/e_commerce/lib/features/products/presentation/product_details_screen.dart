@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce/common/async/async_value_widget.dart';
 import 'package:e_commerce/common/hooks/use_init_state.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
+import 'package:e_commerce/features/cart/data/interface/cart_repository.dart';
 import 'package:e_commerce/features/delivery/presentation/product_delivery_card.dart';
 import 'package:e_commerce/features/products/data/product_providers.dart';
 import 'package:e_commerce/features/products/presentation/components/product_details/benefits_card.dart';
@@ -30,8 +31,6 @@ class ProductDetailsScreen extends HookConsumerWidget {
         () => ref.read(productFutureProvider(productId).notifier).refresh(),
       );
     });
-
-    // final realm = ref.watch(realmProvider).requireValue;
 
     return Scaffold(
       appBar: AppBar(
@@ -71,7 +70,12 @@ class ProductDetailsScreen extends HookConsumerWidget {
                     label: const Text('Thêm vào giỏ hàng'),
                     onPressed: () {
                       context.pushRoute(
-                        AddToCartRoute(product: product),
+                        AddToCartRoute(
+                          product: product,
+                          onConfirm: (cartItem) => ref
+                              .read(cartRepositoryProvider)
+                              .addCartItem(cartItem),
+                        ),
                       );
                     },
                   ),

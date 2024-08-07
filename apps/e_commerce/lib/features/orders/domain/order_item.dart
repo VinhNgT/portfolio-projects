@@ -26,7 +26,7 @@ class OrderItem with OrderItemMappable {
     }
 
     // For every group that the product has...
-    for (final group in product.variantsGroup) {
+    for (final group in product.variantGroups) {
       // Check if none of the selected variants are in this group.
       if (selectedVariants.none(group.variants.contains)) {
         throw ArgumentError(
@@ -37,11 +37,12 @@ class OrderItem with OrderItemMappable {
   }
 
   OrderItem.create({
+    Uuid? id,
     required Product product,
-    required int quantity,
+    int quantity = 1,
     List<ProductVariant> selectedVariants = const [],
   }) : this(
-          id: Uuid.v4(),
+          id: id ?? Uuid.v4(),
           product: product,
           quantity: quantity,
           selectedVariants: selectedVariants,
@@ -73,8 +74,8 @@ extension _Proto on OrderItem {
     product: Product.prototype,
     quantity: 1,
     selectedVariants: [
-      Product.prototype.variantsGroup[0].variants[0],
-      Product.prototype.variantsGroup[1].variants[0],
+      Product.prototype.variantGroups[0].variants[0],
+      Product.prototype.variantGroups[1].variants[0],
     ],
   );
 }

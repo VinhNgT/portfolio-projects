@@ -70,11 +70,24 @@ extension CartMutation on Cart {
     );
   }
 
+  /// Update the item in the cart.
+  Cart updateItem(CartItem cartItem) {
+    final itemListId =
+        cartItems.indexWhere((e) => e.orderItem.id == cartItem.orderItem.id);
+    if (itemListId == -1) {
+      throw CartNoItemFoundError(cartItem.orderItem.id);
+    }
+
+    return copyWith(
+      cartItems: cartItems..[itemListId] = cartItem,
+    );
+  }
+
   /// Set the state of whether the item is included in the order.
   Cart setItemOrderInclusionState(Uuid itemId, bool isIncludeInOrder) {
     final itemListId = cartItems.indexWhere((e) => e.orderItem.id == itemId);
     if (itemListId == -1) {
-      throw ArgumentError('Item $itemId not found');
+      throw CartNoItemFoundError(itemId);
     }
 
     return copyWith(
@@ -88,7 +101,7 @@ extension CartMutation on Cart {
   Cart setItemQuantity(Uuid itemId, int quantity) {
     final itemListId = cartItems.indexWhere((e) => e.orderItem.id == itemId);
     if (itemListId == -1) {
-      throw ArgumentError('Item $itemId not found');
+      throw CartNoItemFoundError(itemId);
     }
 
     final targetCartItem = cartItems[itemListId];
@@ -104,7 +117,7 @@ extension CartMutation on Cart {
   Cart updateItemVariant(Uuid itemId, ProductVariant variant) {
     final itemListId = cartItems.indexWhere((e) => e.orderItem.id == itemId);
     if (itemListId == -1) {
-      throw ArgumentError('Item $itemId not found');
+      throw CartNoItemFoundError(itemId);
     }
 
     final targetCartItem = cartItems[itemListId];
@@ -136,6 +149,16 @@ extension CartMutation on Cart {
     return copyWith(
       cartItems: cartItems..removeWhere(itemsToDelete.contains),
     );
+  }
+}
+
+class CartNoItemFoundError extends Error {
+  final Uuid itemId;
+  CartNoItemFoundError(this.itemId);
+
+  @override
+  String toString() {
+    return 'Item $itemId not found in cart';
   }
 }
 

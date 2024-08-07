@@ -79,10 +79,10 @@ class ProductMapper extends ClassMapperBase<Product> {
   static List<String> _$images(Product v) => v.images;
   static const Field<Product, List<String>> _f$images =
       Field('images', _$images);
-  static List<ProductVariantGroup> _$variantsGroup(Product v) =>
-      v.variantsGroup;
-  static const Field<Product, List<ProductVariantGroup>> _f$variantsGroup =
-      Field('variantsGroup', _$variantsGroup, mode: FieldMode.member);
+  static List<ProductVariantGroup> _$variantGroups(Product v) =>
+      v.variantGroups;
+  static const Field<Product, List<ProductVariantGroup>> _f$variantGroups =
+      Field('variantGroups', _$variantGroups, mode: FieldMode.member);
 
   @override
   final MappableFields<Product> fields = const {
@@ -108,7 +108,7 @@ class ProductMapper extends ClassMapperBase<Product> {
     #meta: _f$meta,
     #thumbnail: _f$thumbnail,
     #images: _f$images,
-    #variantsGroup: _f$variantsGroup,
+    #variantGroups: _f$variantGroups,
   };
 
   static Product _instantiate(DecodingData data) {

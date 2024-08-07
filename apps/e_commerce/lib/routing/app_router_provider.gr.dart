@@ -13,6 +13,7 @@ import 'package:e_commerce/features/app_navigation/presentation/app_nav_screen.d
     as _i2;
 import 'package:e_commerce/features/app_navigation/presentation/tabs_screen.dart'
     as _i4;
+import 'package:e_commerce/features/cart/domain/cart_item.dart' as _i10;
 import 'package:e_commerce/features/cart/presentation/add_to_cart_sheet.dart'
     as _i1;
 import 'package:e_commerce/features/cart/presentation/cart_screen.dart' as _i3;
@@ -28,12 +29,15 @@ abstract class $AppRouter extends _i7.RootStackRouter {
   @override
   final Map<String, _i7.PageFactory> pagesMap = {
     AddToCartRoute.name: (routeData) {
-      final args = routeData.argsAs<AddToCartRouteArgs>();
+      final args = routeData.argsAs<AddToCartRouteArgs>(
+          orElse: () => const AddToCartRouteArgs());
       return _i7.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i1.AddToCartSheet(
           key: args.key,
           product: args.product,
+          initialCartItem: args.initialCartItem,
+          onConfirm: args.onConfirm,
         ),
       );
     },
@@ -85,13 +89,17 @@ abstract class $AppRouter extends _i7.RootStackRouter {
 class AddToCartRoute extends _i7.PageRouteInfo<AddToCartRouteArgs> {
   AddToCartRoute({
     _i8.Key? key,
-    required _i9.Product product,
+    _i9.Product? product,
+    _i10.CartItem? initialCartItem,
+    void Function(_i10.CartItem)? onConfirm,
     List<_i7.PageRouteInfo>? children,
   }) : super(
           AddToCartRoute.name,
           args: AddToCartRouteArgs(
             key: key,
             product: product,
+            initialCartItem: initialCartItem,
+            onConfirm: onConfirm,
           ),
           initialChildren: children,
         );
@@ -105,16 +113,22 @@ class AddToCartRoute extends _i7.PageRouteInfo<AddToCartRouteArgs> {
 class AddToCartRouteArgs {
   const AddToCartRouteArgs({
     this.key,
-    required this.product,
+    this.product,
+    this.initialCartItem,
+    this.onConfirm,
   });
 
   final _i8.Key? key;
 
-  final _i9.Product product;
+  final _i9.Product? product;
+
+  final _i10.CartItem? initialCartItem;
+
+  final void Function(_i10.CartItem)? onConfirm;
 
   @override
   String toString() {
-    return 'AddToCartRouteArgs{key: $key, product: $product}';
+    return 'AddToCartRouteArgs{key: $key, product: $product, initialCartItem: $initialCartItem, onConfirm: $onConfirm}';
   }
 }
 
