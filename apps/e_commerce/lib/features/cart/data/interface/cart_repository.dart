@@ -2,7 +2,7 @@ import 'package:e_commerce/backend/database/realm/realm_provider.dart';
 import 'package:e_commerce/features/cart/data/realm_cart_repository.dart';
 import 'package:e_commerce/features/cart/domain/cart.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
-import 'package:e_commerce/features/products/domain/product_variant.dart';
+import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:realm/realm.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -21,8 +21,11 @@ abstract interface class CartRepository {
   /// Update the order inclusion state of a [CartItem] in the cart.
   Future<void> setItemOrderInclusionState(CartItem item, bool isSelected);
 
-  /// Update the selected variants of a [CartItem] in the cart.
-  Future<void> updateItemVariant(CartItem item, ProductVariant variant);
+  /// Update the selected variant of a [CartItem] in the cart.
+  Future<void> updateItemVariantSelection(
+    CartItem item,
+    VariantSelection variantSelection,
+  );
 
   /// Update the quantity of a [CartItem] in the cart.
   Future<void> setItemQuantity(CartItem item, int quantity);

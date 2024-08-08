@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:collection/collection.dart';
 import 'package:e_commerce/common/ui/container_badge.dart';
 import 'package:e_commerce/common/ui/simple_bottom_sheet.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
@@ -16,6 +15,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:realm/realm.dart';
 
 typedef AddToCartSheetCallback = void Function(CartItem item);
 
@@ -60,7 +60,8 @@ class AddToCartSheet extends HookConsumerWidget {
               const Gap(kSize_16),
               _VariationGroups(
                 product: product ?? initialCartItem!.orderItem.product,
-                initialVariants: initialCartItem?.orderItem.selectedVariants,
+                initialVariants:
+                    initialCartItem?.orderItem.variantSelection ?? {},
               ),
               const Gap(kSize_16),
               _QuantitySelectionContainer(
@@ -80,7 +81,7 @@ class AddToCartSheet extends HookConsumerWidget {
                       }
 
                       final selectedVariant = formKey.currentState
-                          ?.value['variants'] as Map<String, ProductVariant?>;
+                          ?.value['variant'] as Map<String, ProductVariant?>;
 
                       final cartItem = CartItem.create(
                         orderItem: OrderItem.create(
@@ -88,9 +89,11 @@ class AddToCartSheet extends HookConsumerWidget {
                           product:
                               product ?? initialCartItem!.orderItem.product,
                           quantity: formKey.currentState?.value['quantity'],
-                          selectedVariants: selectedVariant.values
-                              .whereType<ProductVariant>()
-                              .toList(),
+                          variantSelection: {
+                            for (final entry in selectedVariant.entries)
+                              if (entry.value != null)
+                                Uuid.fromString(entry.key): entry.value,
+                          },
                         ),
                       );
 
@@ -166,16 +169,17 @@ class _VariationGroups extends HookConsumerWidget {
   });
 
   final Product product;
-  final List<ProductVariant>? initialVariants;
+  final VariantSelection initialVariants;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final variationFormKey = useRef(GlobalKey<FormBuilderState>()).value;
 
     return FormBuilderField(
-      name: 'variants',
+      name: 'variant',
       initialValue: <String, ProductVariant?>{
-        for (final element in product.variantGroups) element.toString(): null,
+        for (final group in product.variantGroups)
+          group.id.toString(): initialVariants[group.id],
       },
       validator: (value) {
         if (value!.values.any((selectedVariant) => selectedVariant == null)) {
@@ -239,10 +243,8 @@ class _VariationGroups extends HookConsumerWidget {
                   itemBuilder: (context, index) {
                     return _VariationSelection(
                       group: product.variantGroups[index],
-                      initialVariant: initialVariants?.firstWhereOrNull(
-                        (e) =>
-                            product.variantGroups[index].variants.contains(e),
-                      ),
+                      initialVariant:
+                          initialVariants[product.variantGroups[index].id],
                     );
                   },
                 ),
@@ -277,7 +279,7 @@ class _VariationSelection extends HookConsumerWidget {
         ),
         const Gap(kSize_8),
         FormBuilderChoiceChip<ProductVariant>(
-          name: group.toString(),
+          name: group.id.toString(),
           initialValue: initialVariant,
           decoration: const InputDecoration(
             enabledBorder: InputBorder.none,
@@ -361,11 +363,12 @@ class _QuantitySelectionButtons extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final count = useState(initialQuantity ?? 1);
+    final evaluatedInitialQuantity = useRef(initialQuantity ?? 1).value;
+    final count = useState(evaluatedInitialQuantity);
 
     return FormBuilderField<int>(
       name: 'quantity',
-      initialValue: initialQuantity,
+      initialValue: evaluatedInitialQuantity,
       builder: (field) => Row(
         children: [
           IconButton(

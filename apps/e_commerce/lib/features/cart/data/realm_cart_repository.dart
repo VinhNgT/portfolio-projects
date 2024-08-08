@@ -2,7 +2,7 @@ import 'package:e_commerce/features/cart/data/interface/cart_repository.dart';
 import 'package:e_commerce/features/cart/domain/cart.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
-import 'package:e_commerce/features/products/domain/product_variant.dart';
+import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:flutter/foundation.dart';
 import 'package:realm/realm.dart';
 
@@ -80,9 +80,12 @@ class RealmCartRepository implements CartRepository {
   }
 
   @override
-  Future<void> updateItemVariant(CartItem item, ProductVariant variant) async {
+  Future<void> updateItemVariantSelection(
+    CartItem item,
+    VariantSelection variantSelection,
+  ) async {
     final mutatedCart = Cart.fromRealmObj(cartRealm)
-        .updateItemVariant(item.orderItem.id, variant)
+        .updateItemVariantSelection(item.orderItem.id, variantSelection)
         .toRealmObj(realm);
 
     realm.write(() => realm.add<CartRealm>(mutatedCart, update: true));

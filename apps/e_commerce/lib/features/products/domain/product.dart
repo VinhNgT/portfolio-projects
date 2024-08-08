@@ -99,22 +99,22 @@ class Product with ProductMappable {
 }
 
 extension ProductMethods on Product {
-  /// Check if all of the [variantsSelection] are present in the
+  /// Check if all of the [variantSelection] are present in the
   /// [variantGroups].
-  bool checkVariantsSelectionValid(List<ProductVariant> variantsSelection) {
-    final Map<Uuid, bool> variantsSelectionValidMap = {
-      for (final variant in variantsSelection) variant.id: false,
+  bool checkVariantSelectionValid(List<ProductVariant> variantSelection) {
+    final Map<Uuid, bool> variantSelectionValidMap = {
+      for (final variant in variantSelection) variant.id: false,
     };
 
     for (final group in variantGroups) {
       for (final variant in group.variants) {
-        if (variantsSelectionValidMap.containsKey(variant.id)) {
-          variantsSelectionValidMap[variant.id] = true;
+        if (variantSelectionValidMap.containsKey(variant.id)) {
+          variantSelectionValidMap[variant.id] = true;
         }
       }
     }
 
-    return variantsSelectionValidMap.values.every((e) => e);
+    return variantSelectionValidMap.values.every((e) => e);
   }
 }
 

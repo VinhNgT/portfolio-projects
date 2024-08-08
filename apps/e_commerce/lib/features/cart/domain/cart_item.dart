@@ -2,7 +2,7 @@ import 'package:dart_mappable/dart_mappable.dart';
 import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
-import 'package:e_commerce/features/products/domain/product_variant.dart';
+import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:realm/realm.dart';
 
 part 'cart_item.mapper.dart';
@@ -43,9 +43,11 @@ extension CartItemGetters on CartItem {
 }
 
 extension CartItemMutations on CartItem {
-  CartItem updateSelectedVariants(List<ProductVariant> selectedVariants) {
+  CartItem updateVariantSelection(
+    VariantSelection variantSelection,
+  ) {
     return copyWith(
-      orderItem: orderItem.copyWith(selectedVariants: selectedVariants),
+      orderItem: orderItem.copyWith(variantSelection: variantSelection),
     );
   }
 

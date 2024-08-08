@@ -12,13 +12,13 @@ class OrderItemRealm extends $OrderItemRealm
   OrderItemRealm({
     required Uuid id,
     ProductRealm? product,
-    Iterable<ProductVariantRealm> selectedVariants = const [],
+    Map<String, ProductVariantRealm?> variantSelection = const {},
     required int quantity,
   }) {
     RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'product', product);
-    RealmObjectBase.set<RealmList<ProductVariantRealm>>(this,
-        'selectedVariants', RealmList<ProductVariantRealm>(selectedVariants));
+    RealmObjectBase.set<RealmMap<ProductVariantRealm?>>(this,
+        'variantSelection', RealmMap<ProductVariantRealm?>(variantSelection));
     RealmObjectBase.set(this, 'quantity', quantity);
   }
 
@@ -37,11 +37,11 @@ class OrderItemRealm extends $OrderItemRealm
       RealmObjectBase.set(this, 'product', value);
 
   @override
-  RealmList<ProductVariantRealm> get selectedVariants =>
-      RealmObjectBase.get<ProductVariantRealm>(this, 'selectedVariants')
-          as RealmList<ProductVariantRealm>;
+  RealmMap<ProductVariantRealm?> get variantSelection =>
+      RealmObjectBase.get<ProductVariantRealm?>(this, 'variantSelection')
+          as RealmMap<ProductVariantRealm?>;
   @override
-  set selectedVariants(covariant RealmList<ProductVariantRealm> value) =>
+  set variantSelection(covariant RealmMap<ProductVariantRealm?> value) =>
       throw RealmUnsupportedSetError();
 
   @override
@@ -65,7 +65,7 @@ class OrderItemRealm extends $OrderItemRealm
     return <String, dynamic>{
       'id': id.toEJson(),
       'product': product.toEJson(),
-      'selectedVariants': selectedVariants.toEJson(),
+      'variantSelection': variantSelection.toEJson(),
       'quantity': quantity.toEJson(),
     };
   }
@@ -76,13 +76,13 @@ class OrderItemRealm extends $OrderItemRealm
       {
         'id': EJsonValue id,
         'product': EJsonValue product,
-        'selectedVariants': EJsonValue selectedVariants,
+        'variantSelection': EJsonValue variantSelection,
         'quantity': EJsonValue quantity,
       } =>
         OrderItemRealm(
           id: fromEJson(id),
           product: fromEJson(product),
-          selectedVariants: fromEJson(selectedVariants),
+          variantSelection: fromEJson(variantSelection),
           quantity: fromEJson(quantity),
         ),
       _ => raiseInvalidEJson(ejson),
@@ -97,9 +97,10 @@ class OrderItemRealm extends $OrderItemRealm
       SchemaProperty('id', RealmPropertyType.uuid, primaryKey: true),
       SchemaProperty('product', RealmPropertyType.object,
           optional: true, linkTarget: 'ProductRealm'),
-      SchemaProperty('selectedVariants', RealmPropertyType.object,
+      SchemaProperty('variantSelection', RealmPropertyType.object,
+          optional: true,
           linkTarget: 'ProductVariantRealm',
-          collectionType: RealmCollectionType.list),
+          collectionType: RealmCollectionType.map),
       SchemaProperty('quantity', RealmPropertyType.int),
     ]);
   }();

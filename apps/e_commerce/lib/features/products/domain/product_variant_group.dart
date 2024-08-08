@@ -6,9 +6,12 @@ import 'package:realm/realm.dart';
 part 'product_variant_group.mapper.dart';
 part 'product_variant_group.realm.dart';
 
+typedef ProductVariantGroupId = Uuid;
+typedef VariantSelection = Map<ProductVariantGroupId, ProductVariant?>;
+
 @MappableClass()
 class ProductVariantGroup with ProductVariantGroupMappable {
-  final Uuid id;
+  final ProductVariantGroupId id;
   final String groupName;
   final List<ProductVariant> variants;
 

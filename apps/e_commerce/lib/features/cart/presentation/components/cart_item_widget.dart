@@ -4,6 +4,7 @@ import 'package:e_commerce/common/ui/container_badge.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/cart/data/interface/cart_repository.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
+import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/routing/app_router_provider.gr.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
@@ -97,7 +98,7 @@ class _CartItemTopPart extends StatelessWidget {
         const Gap(kSize_6),
         ...<Widget>[
           //
-          if (cartItem.orderItem.selectedVariants.isNotEmpty)
+          if (cartItem.orderItem.variantSelection.isNotEmpty)
             _VariantChip(cartItem: cartItem),
 
           //
@@ -167,7 +168,7 @@ class _VariantChip extends HookConsumerWidget {
 
   String _buildVariantText(CartItem cartItem) {
     final variantTexts =
-        cartItem.orderItem.selectedVariants.map((variant) => variant.name);
+        cartItem.orderItem.orderedVariantSelection.map((e) => e.name).toList();
     return variantTexts.join('/');
   }
 }

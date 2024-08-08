@@ -3,6 +3,7 @@ import 'package:dart_mappable/dart_mappable.dart';
 import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
+import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:realm/realm.dart';
 
 part 'order_item.mapper.dart';
@@ -10,27 +11,48 @@ part 'order_item.realm.dart';
 
 @MappableClass()
 class OrderItem with OrderItemMappable {
+  /// The unique identifier of this order item.
   final Uuid id;
+
+  /// The product that this order item represents.
   final Product product;
-  final List<ProductVariant> selectedVariants;
+
+  /// The quantity of this order item.
   final int quantity;
+
+  /// The map of the selected variant for each variant group.
+  /// The key is the variant group's id.
+  final VariantSelection variantSelection;
 
   OrderItem({
     required this.id,
     required this.product,
     required this.quantity,
-    required this.selectedVariants,
+    required this.variantSelection,
   }) {
+    // Validate the quantity.
     if (quantity <= 0) {
       throw ArgumentError('Quantity must be greater than 0');
     }
 
-    // For every group that the product has...
+    // Validate the selected variant.
     for (final group in product.variantGroups) {
-      // Check if none of the selected variants are in this group.
-      if (selectedVariants.none(group.variants.contains)) {
-        throw ArgumentError(
-          'The group ${group.groupName} is not selected',
+      final groupSelectedVariant = variantSelection[group.id];
+
+      if (groupSelectedVariant == null) {
+        throw ArgumentError.value(
+          variantSelection,
+          'variantSelection',
+          'The group ${group.groupName} does not have a selected variant',
+        );
+      }
+
+      if (!group.variants.contains(groupSelectedVariant)) {
+        throw ArgumentError.value(
+          variantSelection,
+          'variantSelection',
+          'The selected variant ${groupSelectedVariant.name} is not in the '
+              'group ${group.groupName}',
         );
       }
     }
@@ -40,12 +62,12 @@ class OrderItem with OrderItemMappable {
     Uuid? id,
     required Product product,
     int quantity = 1,
-    List<ProductVariant> selectedVariants = const [],
+    VariantSelection variantSelection = const {},
   }) : this(
           id: id ?? Uuid.v4(),
           product: product,
           quantity: quantity,
-          selectedVariants: selectedVariants,
+          variantSelection: variantSelection,
         );
 
   factory OrderItem.fromRealmObj(OrderItemRealm obj) =>
@@ -57,14 +79,24 @@ class OrderItem with OrderItemMappable {
 extension OrderItemGetters on OrderItem {
   double get price => product.vndDiscountedPrice.toDouble() * quantity;
   double get shippingFee => 13000.0 * quantity;
+
+  List<ProductVariant> get orderedVariantSelection => variantSelection.entries
+      .sortedBy<num>(
+        (selectedEntry) => product.variantGroups
+            .indexWhere((group) => group.id == selectedEntry.key),
+      )
+      .map((e) => e.value)
+      .whereNotNull()
+      .toList();
 }
 
 extension OrderItemMethods on OrderItem {
-  /// Returns true if [other] has the same product and selected variants.
+  /// Returns true if [other] has the same product and selected variant.
   bool hasSameContent(OrderItem other) {
     return product.id == other.product.id &&
-        ListEquality<ProductVariant>(EqualityBy((variant) => variant.id))
-            .equals(selectedVariants, other.selectedVariants);
+        MapEquality<Uuid, ProductVariant?>(
+          values: EqualityBy((variant) => variant?.id),
+        ).equals(variantSelection, other.variantSelection);
   }
 }
 
@@ -73,10 +105,10 @@ extension _Proto on OrderItem {
     id: Uuid.fromString('7988a4d0-e32b-412f-8a02-b5dbcc730f06'),
     product: Product.prototype,
     quantity: 1,
-    selectedVariants: [
-      Product.prototype.variantGroups[0].variants[0],
-      Product.prototype.variantGroups[1].variants[0],
-    ],
+    variantSelection: {
+      for (final group in Product.prototype.variantGroups)
+        group.id: group.variants.first,
+    },
   );
 }
 
@@ -86,7 +118,7 @@ class $OrderItemRealm {
   late Uuid id;
 
   late $ProductRealm? product;
-  late List<$ProductVariantRealm> selectedVariants;
+  late Map<String, $ProductVariantRealm?> variantSelection;
   late int quantity;
 }
 
@@ -95,8 +127,12 @@ extension OrderItemRealmConverter on OrderItem {
     return OrderItem(
       id: obj.id,
       product: Product.fromRealmObj(obj.product!),
-      selectedVariants:
-          obj.selectedVariants.map(ProductVariant.fromRealmObj).toList(),
+      variantSelection: obj.variantSelection.map(
+        (uuidString, value) => MapEntry(
+          Uuid.fromString(uuidString),
+          ProductVariant.fromRealmObj(value!),
+        ),
+      ),
       quantity: obj.quantity,
     );
   }
@@ -105,18 +141,20 @@ extension OrderItemRealmConverter on OrderItem {
     final productRealm =
         realm.find<ProductRealm>(product.id) ?? product.toRealmObj(realm);
 
-    final selectedVariantsRealm = selectedVariants.map((e) {
-      final existingVariant = productRealm.variantGroups
-          .expand((element) => element.variants)
-          .firstWhereOrNull((element) => element.id == e.id);
-
-      return existingVariant ?? e.toRealmObj();
-    });
+    final variantSelectionRealm = {
+      for (final group in productRealm.variantGroups)
+        group.id.toString(): group.variants.firstWhere(
+          (realmVariant) {
+            final selectedVariantId = variantSelection[group.id]!.id;
+            return realmVariant.id == selectedVariantId;
+          },
+        ),
+    };
 
     return OrderItemRealm(
       id: id,
       product: productRealm,
-      selectedVariants: selectedVariantsRealm,
+      variantSelection: variantSelectionRealm,
       quantity: quantity,
     );
   }

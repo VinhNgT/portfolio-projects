@@ -4,7 +4,7 @@ import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/orders/domain/order.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
-import 'package:e_commerce/features/products/domain/product_variant.dart';
+import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:realm/realm.dart';
 
 part 'cart.mapper.dart';
@@ -113,8 +113,11 @@ extension CartMutation on Cart {
     );
   }
 
-  /// Update the selected variants of the item.
-  Cart updateItemVariant(Uuid itemId, ProductVariant variant) {
+  /// Update the selected variant of the item.
+  Cart updateItemVariantSelection(
+    Uuid itemId,
+    VariantSelection variantSelection,
+  ) {
     final itemListId = cartItems.indexWhere((e) => e.orderItem.id == itemId);
     if (itemListId == -1) {
       throw CartNoItemFoundError(itemId);
@@ -123,7 +126,8 @@ extension CartMutation on Cart {
     final targetCartItem = cartItems[itemListId];
     return copyWith(
       cartItems: cartItems
-        ..[itemListId] = targetCartItem.updateSelectedVariants([variant]),
+        ..[itemListId] =
+            targetCartItem.updateVariantSelection(variantSelection),
     );
   }
 

@@ -30,17 +30,17 @@ class OrderItemMapper extends ClassMapperBase<OrderItem> {
   static int _$quantity(OrderItem v) => v.quantity;
   static const Field<OrderItem, int> _f$quantity =
       Field('quantity', _$quantity);
-  static List<ProductVariant> _$selectedVariants(OrderItem v) =>
-      v.selectedVariants;
-  static const Field<OrderItem, List<ProductVariant>> _f$selectedVariants =
-      Field('selectedVariants', _$selectedVariants);
+  static Map<Uuid, ProductVariant?> _$variantSelection(OrderItem v) =>
+      v.variantSelection;
+  static const Field<OrderItem, Map<Uuid, ProductVariant?>>
+      _f$variantSelection = Field('variantSelection', _$variantSelection);
 
   @override
   final MappableFields<OrderItem> fields = const {
     #id: _f$id,
     #product: _f$product,
     #quantity: _f$quantity,
-    #selectedVariants: _f$selectedVariants,
+    #variantSelection: _f$variantSelection,
   };
 
   static OrderItem _instantiate(DecodingData data) {
@@ -48,7 +48,7 @@ class OrderItemMapper extends ClassMapperBase<OrderItem> {
         id: data.dec(_f$id),
         product: data.dec(_f$product),
         quantity: data.dec(_f$quantity),
-        selectedVariants: data.dec(_f$selectedVariants));
+        variantSelection: data.dec(_f$variantSelection));
   }
 
   @override
@@ -102,14 +102,14 @@ extension OrderItemValueCopy<$R, $Out> on ObjectCopyWith<$R, OrderItem, $Out> {
 abstract class OrderItemCopyWith<$R, $In extends OrderItem, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   ProductCopyWith<$R, Product, Product> get product;
-  ListCopyWith<$R, ProductVariant,
-          ProductVariantCopyWith<$R, ProductVariant, ProductVariant>>
-      get selectedVariants;
+  MapCopyWith<$R, Uuid, ProductVariant?,
+          ProductVariantCopyWith<$R, ProductVariant, ProductVariant>?>
+      get variantSelection;
   $R call(
       {Uuid? id,
       Product? product,
       int? quantity,
-      List<ProductVariant>? selectedVariants});
+      Map<Uuid, ProductVariant?>? variantSelection});
   OrderItemCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -125,29 +125,29 @@ class _OrderItemCopyWithImpl<$R, $Out>
   ProductCopyWith<$R, Product, Product> get product =>
       $value.product.copyWith.$chain((v) => call(product: v));
   @override
-  ListCopyWith<$R, ProductVariant,
-          ProductVariantCopyWith<$R, ProductVariant, ProductVariant>>
-      get selectedVariants => ListCopyWith($value.selectedVariants,
-          (v, t) => v.copyWith.$chain(t), (v) => call(selectedVariants: v));
+  MapCopyWith<$R, Uuid, ProductVariant?,
+          ProductVariantCopyWith<$R, ProductVariant, ProductVariant>?>
+      get variantSelection => MapCopyWith($value.variantSelection,
+          (v, t) => v?.copyWith.$chain(t), (v) => call(variantSelection: v));
   @override
   $R call(
           {Uuid? id,
           Product? product,
           int? quantity,
-          List<ProductVariant>? selectedVariants}) =>
+          Map<Uuid, ProductVariant?>? variantSelection}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (product != null) #product: product,
         if (quantity != null) #quantity: quantity,
-        if (selectedVariants != null) #selectedVariants: selectedVariants
+        if (variantSelection != null) #variantSelection: variantSelection
       }));
   @override
   OrderItem $make(CopyWithData data) => OrderItem(
       id: data.get(#id, or: $value.id),
       product: data.get(#product, or: $value.product),
       quantity: data.get(#quantity, or: $value.quantity),
-      selectedVariants:
-          data.get(#selectedVariants, or: $value.selectedVariants));
+      variantSelection:
+          data.get(#variantSelection, or: $value.variantSelection));
 
   @override
   OrderItemCopyWith<$R2, OrderItem, $Out2> $chain<$R2, $Out2>(
