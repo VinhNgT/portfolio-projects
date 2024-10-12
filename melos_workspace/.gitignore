@@ -42,8 +42,5 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# act work directory
-/act.dir
-
 # FVM Version Cache
 .fvm/

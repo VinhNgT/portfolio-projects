@@ -1,6 +1,0 @@
-[submodule "submodules/cached_query"]
-	path = submodules/cached_query
-	url = https://github.com/VinhNgT/cached_query.git
-[submodule "submodules/dio_cache_interceptor"]
-	path = submodules/dio_cache_interceptor
-	url = https://github.com/VinhNgT/dio_cache_interceptor.git

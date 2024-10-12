@@ -2,9 +2,6 @@ name: portfolio_projects
 
 sdkPath: .fvm/flutter_sdk
 
-ide:
-  intellij: false
-
 packages:
   - apps/*
   - packages/*
