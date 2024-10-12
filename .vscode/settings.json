@@ -1,14 +1,7 @@
 {
-  // "python.terminal.activateEnvironment": false,
-  // "python.defaultInterpreterPath": "${workspaceFolder}/scripts/.venv",
-  // "terminal.integrated.env.windows": {
-  //   "PATH": "${workspaceFolder}/scripts/.venv/Scripts;${env:PATH}",
-  //   "VIRTUAL_ENV": "${workspaceFolder}/scripts/.venv",
-  //   "VIRTUAL_ENV_PROMPT": ".venv"
-  // },
   "dart.promptToGetPackages": false,
   "dart.analysisExcludedFolders": [
     "melos_workspace/apps",
-    "melos_workspace/submodules"
+    "external_submodules"
   ]
 }

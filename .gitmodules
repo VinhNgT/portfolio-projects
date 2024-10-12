@@ -1,0 +1,3 @@
+[submodule "external_submodules/dio_cache_interceptor/repo"]
+	path = external_submodules/dio_cache_interceptor/dio_cache_interceptor
+	url = https://github.com/VinhNgT/dio_cache_interceptor.git
