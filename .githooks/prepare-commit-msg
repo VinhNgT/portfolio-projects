@@ -11,8 +11,8 @@
 # esac
 
 case "$OSTYPE" in
-darwin* | linux*) source scripts/.venv/bin/activate ;;
-msys* | cygwin*) source scripts/.venv/Scripts/activate ;;
+darwin* | linux*) source .venv/bin/activate ;;
+msys* | cygwin*) source .venv/Scripts/activate ;;
 *) exit 1 ;;
 esac
 

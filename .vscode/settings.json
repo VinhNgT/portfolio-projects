@@ -1,4 +1,7 @@
 {
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.autoImportCompletions": true,
+
   "dart.promptToGetPackages": false,
   "dart.analysisExcludedFolders": [
     "melos_workspace/apps",
