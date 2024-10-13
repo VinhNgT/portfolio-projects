@@ -12,7 +12,6 @@ The workaround for this issue is to set it to 'false' and manually configure PAT
 "terminal.integrated.env.windows": {
   "PATH": "${workspaceFolder}\\scripts\\.venv\\Scripts;${env:PATH}",
   "VIRTUAL_ENV": "${workspaceFolder}\\scripts\\.venv",
-  "VIRTUAL_ENV_PROMPT": ".venv"
 },
 ```
 

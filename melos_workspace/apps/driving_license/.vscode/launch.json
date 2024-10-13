@@ -8,7 +8,7 @@
       "name": "driving_license",
       "request": "launch",
       "type": "dart",
-      "program": "lib/main.dart",
+      "program": "app_workspace/lib/main.dart",
       "args": ["--flavor", "dev"]
     },
     {
@@ -16,7 +16,7 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile",
-      "program": "lib/main.dart",
+      "program": "app_workspace/lib/main.dart",
       "args": ["--flavor", "dev"]
     },
     {
@@ -24,14 +24,14 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "release",
-      "program": "lib/main.dart",
+      "program": "app_workspace/lib/main.dart",
       "args": ["--flavor", "dev"]
     },
     {
       "name": "driving_license (test iap mode, WILL OVERWRITE EXISTING DATA)",
       "request": "launch",
       "type": "dart",
-      "program": "lib/main.dart",
+      "program": "app_workspace/lib/main.dart",
       "args": ["--flavor", "iapTest"]
     }
   ]
