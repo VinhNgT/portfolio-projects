@@ -20,4 +20,4 @@ COMMIT_MSG_FILE=$1
 COMMIT_SOURCE=$2
 SHA1=$3
 
-python .githooks/add_package_name.py "$COMMIT_MSG_FILE" "$COMMIT_SOURCE" "$SHA1"
+python scripts/git/add_package_name.py "$COMMIT_MSG_FILE" "$COMMIT_SOURCE" "$SHA1"
