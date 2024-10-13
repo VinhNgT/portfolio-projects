@@ -1,7 +1,10 @@
+import re
 import subprocess
 import sys
-import re
 
+PACKAGE_DIRS = [
+    "melos_workspace/apps",
+]
 
 PACKAGE_NAME_SHORT = {
     "driving_license": "drv_lcn",
@@ -76,7 +79,27 @@ def remove_existing_package_name(commit_message: str) -> str:
     return commit_type + ":" + parts[1]
 
 
+def get_pkg_names_from_dir(paths: list[str], dir: str) -> set[str]:
+    if not dir.endswith("/"):
+        dir += "/"
+
+    paths_in_pkg_dir = filter(lambda x: x.startswith(dir), paths)
+    paths_in_pkg_dir_without_dir = map(
+        lambda x: x[len(dir) :] if x.startswith(dir) else x, paths_in_pkg_dir
+    )
+
+    pkg_entries = set()
+    for path in paths_in_pkg_dir_without_dir:
+        parts = path.split("/")
+        if len(parts) > 1:
+            pkg_entries.add(parts[0])
+
+    return pkg_entries
+
+
 def main():
+    print("Adding package name to commit message...")
+
     # Get the commit message
     with open(COMMIT_MSG_FILE, "r") as file:
         commit_message = file.read()
@@ -100,29 +123,21 @@ def main():
     result = subprocess.run(
         ["git", "diff", "--name-only", "--cached"], capture_output=True, text=True
     )
+
     changed_files = result.stdout.splitlines()
-
-    # Filter only get the one in apps/ and packages/
-    changed_files = [
-        file
-        for file in changed_files
-        if file.startswith("apps/") or file.startswith("packages/")
-    ]
-
-    # Extract the package name from each path and ensure uniqueness
     package_names = set()
-    for file in changed_files:
-        parts = file.split("/")
-        if len(parts) > 1:
-            if parts[1] in PACKAGE_NAME_SHORT:
-                package_names.add(PACKAGE_NAME_SHORT[parts[1]])
-            else:
-                package_names.add(parts[1])
+    for dir in PACKAGE_DIRS:
+        package_names.update(get_pkg_names_from_dir(changed_files, dir))
+
+    print("Dettected package names: ", package_names)
 
     # Add the package name to the commit message
     if len(package_names) != 0:
-        print("Adding package name to commit message...")
-        commit_message = add_package_name(commit_message, list(package_names))
+        git_pkg_name = map(
+            lambda x: PACKAGE_NAME_SHORT[x] if x in PACKAGE_NAME_SHORT else x,
+            package_names,
+        )
+        commit_message = add_package_name(commit_message, list(git_pkg_name))
 
     # Write the new commit message
     with open(COMMIT_MSG_FILE, "w") as file:
