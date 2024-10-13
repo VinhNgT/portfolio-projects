@@ -11,6 +11,8 @@ PACKAGE_NAME_SHORT = {
     "e_commerce": "e_com",
 }
 
+DEBUG_PRINT = False
+
 
 def setup_global_vars():
     global COMMIT_MSG_FILE
@@ -98,7 +100,8 @@ def get_pkg_names_from_dir(paths: list[str], dir: str) -> set[str]:
 
 
 def main():
-    print("Adding package name to commit message...")
+    if DEBUG_PRINT:
+        print("Adding package name to commit message...")
 
     # Get the commit message
     with open(COMMIT_MSG_FILE, "r") as file:
@@ -106,9 +109,10 @@ def main():
 
     # Check if the commit message follows the conventional commit format
     if not check_conventional_commit(commit_message):
-        print(
-            "Commit message does not follow the conventional commit format. Skipping..."
-        )
+        if DEBUG_PRINT:
+            print(
+                "Commit message does not follow the conventional commit format. Skipping..."
+            )
         sys.exit(0)
 
     # Check if the commit message already contains package name
@@ -129,7 +133,8 @@ def main():
     for dir in PACKAGE_DIRS:
         package_names.update(get_pkg_names_from_dir(changed_files, dir))
 
-    print("Dettected package names: ", package_names)
+    if DEBUG_PRINT:
+        print("Dettected package names: ", package_names)
 
     # Add the package name to the commit message
     if len(package_names) != 0:
