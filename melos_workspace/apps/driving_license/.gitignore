@@ -1,5 +1,8 @@
 # App signing keys and secrets
 /keys
 
+# Build results
+/build_result
+
 # FVM Version Cache
 .fvm/
