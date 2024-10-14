@@ -63,9 +63,18 @@ class LicenseSelectionScreen extends HookConsumerWidget {
                   },
                 ),
                 const Gap(kSize_16),
-                TextButton(
-                  onPressed: _openPrivacyPolicy,
-                  child: const Text('Chính sách bảo mật'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                      onPressed: _openPrivacyPolicy,
+                      child: const Text('Chính sách bảo mật'),
+                    ),
+                    TextButton(
+                      onPressed: _openLicenses,
+                      child: const Text('Giấy phép sử dụng'),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -79,6 +88,19 @@ class LicenseSelectionScreen extends HookConsumerWidget {
     final url = Uri.parse(
       'https://raw.githubusercontent.com/VinhNgT/'
       'vinhngt.github.io/refs/heads/main/drv_lcn_privacy_policy.md',
+    );
+
+    if (!await launchUrl(url)) {
+      throw LaunchUrlFailed(url);
+    }
+  }
+
+  void _openLicenses() async {
+    final url = Uri.parse(
+      'https://htmlpreview.github.io/?'
+      'https://github.com/VinhNgT/portfolio-projects/blob/main/'
+      'melos_workspace/apps/driving_license/licenses/'
+      'flaticon_attribution.html',
     );
 
     if (!await launchUrl(url)) {
