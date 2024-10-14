@@ -11,9 +11,8 @@ if (localPropertiesFile.exists()) {
         localProperties.load(reader)
     }
 }
-
 def keystoreProperties = new Properties()
-def keystorePropertiesFile = rootProject.file('key.properties')
+def keystorePropertiesFile = new File(rootProject.projectDir, '../../keys/android/key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
