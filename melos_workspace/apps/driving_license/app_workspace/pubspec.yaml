@@ -143,7 +143,7 @@ flutter:
   assets:
     - assets/questions.db
     - assets/images/question_images/
-    - assets/images/bank_notes/
+    # - assets/images/bank_notes/
     - assets/icons/donation/_compiled/
     - assets/icons/error/_compiled/
     - assets/icons/home_screen/_compiled/

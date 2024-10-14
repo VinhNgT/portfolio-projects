@@ -208,6 +208,24 @@ class _IapProductsListFutureProviderElement
       (origin as IapProductsListFutureProvider).iapProductEntries;
 }
 
+String _$mockIapProductsListFutureHash() =>
+    r'ee6f210256fcae879b7bf01be9b8edd56c6dcaed';
+
+/// See also [mockIapProductsListFuture].
+@ProviderFor(mockIapProductsListFuture)
+final mockIapProductsListFutureProvider =
+    AutoDisposeFutureProvider<List<IapProduct>>.internal(
+  mockIapProductsListFuture,
+  name: r'mockIapProductsListFutureProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$mockIapProductsListFutureHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef MockIapProductsListFutureRef
+    = AutoDisposeFutureProviderRef<List<IapProduct>>;
 String _$isAnyPurchaseCompletedStreamHash() =>
     r'2309d9c79f1ba3bfd235c3b83285fd4f2141cb28';
 

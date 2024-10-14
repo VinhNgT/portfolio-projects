@@ -252,7 +252,8 @@ class ChapterSelection extends HookConsumerWidget {
               return AsyncValueWidget(
                 value: dangerCompletionStatus,
                 builder: (dangerCompletionStatusValue) => ChapterCard(
-                  iconAssetPath: 'assets/icons/compiled/danger_fire.svg.vec',
+                  iconAssetPath:
+                      'assets/icons/home_screen/_compiled/danger_fire.svg.vec',
                   chapterName: 'Các câu hỏi điểm liệt',
                   completionStatus: dangerCompletionStatusValue,
                   onPressed: () async {

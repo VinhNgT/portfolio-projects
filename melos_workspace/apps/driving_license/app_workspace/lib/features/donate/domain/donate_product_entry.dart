@@ -3,32 +3,32 @@ import 'package:driving_license/backend/in_app_purchase/domain/iap_product.dart'
 enum DonateProductEntry implements IapProductEntry {
   unlockFullAccess10k(
     id: 'unlock_full_access_10k',
-    imagePath: 'assets/images/bank_notes/10k.jpg',
+    iconPath: 'assets/icons/donation/_compiled/coin.svg.vec',
   ),
   unlockFullAccess20k(
     id: 'unlock_full_access_20k',
-    imagePath: 'assets/images/bank_notes/20k.jpg',
+    iconPath: 'assets/icons/donation/_compiled/coin_bag.svg.vec',
   ),
   unlockFullAccess50k(
     id: 'unlock_full_access_50k',
-    imagePath: 'assets/images/bank_notes/50k.jpg',
+    iconPath: 'assets/icons/donation/_compiled/banknotes_coins.svg.vec',
   ),
   unlockFullAccess100k(
     id: 'unlock_full_access_100k',
-    imagePath: 'assets/images/bank_notes/100k.jpg',
+    iconPath: 'assets/icons/donation/_compiled/banknotes.svg.vec',
   ),
   unlockFullAccess200k(
     id: 'unlock_full_access_200k',
-    imagePath: 'assets/images/bank_notes/200k.jpg',
+    iconPath: 'assets/icons/donation/_compiled/diamond_gold.svg.vec',
   ),
   unlockFullAccess500k(
     id: 'unlock_full_access_500k',
-    imagePath: 'assets/images/bank_notes/500k.jpg',
+    iconPath: 'assets/icons/donation/_compiled/diamond_blue.svg.vec',
   );
 
-  const DonateProductEntry({required this.id, required this.imagePath});
+  const DonateProductEntry({required this.id, required this.iconPath});
 
   @override
   final String id;
-  final String imagePath;
+  final String iconPath;
 }

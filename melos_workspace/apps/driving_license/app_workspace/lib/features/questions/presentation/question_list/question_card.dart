@@ -23,7 +23,6 @@ import 'package:vector_graphics/vector_graphics.dart';
 const double _kQuestionCardImageSize = 66.0;
 
 class QuestionCard extends HookConsumerWidget {
-
   const QuestionCard({
     super.key,
     required this.questionPageIndex,
@@ -34,6 +33,7 @@ class QuestionCard extends HookConsumerWidget {
     this.showIsBookmarked = true,
     this.evalAnswerStateDelegate = const ShowResultEvalAnswerStateDelegate(),
   });
+
   final int questionPageIndex;
   final Question question;
   final bool isSelected;
@@ -130,7 +130,6 @@ class QuestionCard extends HookConsumerWidget {
 }
 
 class QuestionCardTitle extends StatelessWidget {
-
   const QuestionCardTitle({
     super.key,
     required this.questionPageIndex,
@@ -150,7 +149,7 @@ class QuestionCardTitle extends StatelessWidget {
         if (question.isDanger && showIsDanger) ...[
           const SvgPicture(
             AssetBytesLoader(
-              'assets/icons/compiled/danger_fire.svg.vec',
+              'assets/icons/home_screen/_compiled/danger_fire.svg.vec',
             ),
             height: kSize_16,
             width: kSize_16,
@@ -173,7 +172,6 @@ class QuestionCardTitle extends StatelessWidget {
 
 // QC stands for QuestionCard
 class _QCAnswerStateCheckbox extends HookConsumerWidget {
-
   const _QCAnswerStateCheckbox({
     required this.question,
     required this.evalDelegate,
@@ -221,7 +219,6 @@ class _QCIsBookmarkedIcon extends HookConsumerWidget {
 }
 
 class AsyncQuestionCard extends HookConsumerWidget {
-
   const AsyncQuestionCard({
     super.key,
     required this.questionPageIndex,

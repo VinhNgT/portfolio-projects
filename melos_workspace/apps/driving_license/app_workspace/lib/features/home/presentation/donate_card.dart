@@ -28,7 +28,7 @@ class DonateCard extends StatelessWidget {
               children: [
                 const SvgPicture(
                   AssetBytesLoader(
-                    'assets/icons/compiled/heart.svg.vec',
+                    'assets/icons/home_screen/_compiled/heart.svg.vec',
                   ),
                 ),
                 kGap_16,
@@ -93,7 +93,7 @@ class DonateCardTemp extends StatelessWidget {
               children: [
                 const SvgPicture(
                   AssetBytesLoader(
-                    'assets/icons/compiled/heart.svg.vec',
+                    'assets/icons/home_screen/_compiled/heart.svg.vec',
                   ),
                 ),
                 kGap_16,

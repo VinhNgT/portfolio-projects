@@ -55,7 +55,9 @@ class DonateScreen extends HookConsumerWidget {
               child: Column(
                 children: [
                   const SvgPicture(
-                    AssetBytesLoader('assets/icons/compiled/donate.svg.vec'),
+                    AssetBytesLoader(
+                      'assets/icons/donation/_compiled/donate.svg.vec',
+                    ),
                     height: 96,
                   ),
                   kGap_24,
