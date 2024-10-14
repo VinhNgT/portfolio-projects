@@ -91,6 +91,9 @@ dependencies:
   in_app_purchase: ^3.2.0
   in_app_review: ^2.0.9
 
+dependency_overrides:
+  auto_route: 8.1.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -141,7 +144,10 @@ flutter:
     - assets/questions.db
     - assets/images/question_images/
     - assets/images/bank_notes/
-    - assets/icons/compiled/
+    - assets/icons/donation/_compiled/
+    - assets/icons/error/_compiled/
+    - assets/icons/home_screen/_compiled/
+    - assets/icons/vehicles/_compiled/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
