@@ -36,5 +36,8 @@ find icons -type d | while read -r dir; do
 
     # Run the vector_graphics_compiler command
     echo "Compiling .svg files in $dir..."
-    vector_graphics_compiler --input-dir "$dir" --out-dir "$dir/_compiled" --no-optimize-overdraw
+    vector_graphics_compiler \
+        --input-dir "$dir" \
+        --out-dir "$dir/_compiled" \
+        --no-optimize-overdraw
 done
