@@ -1,8 +1,5 @@
 plugins {
     id "com.android.application"
-    // START: FlutterFire Configuration
-    id 'com.google.gms.google-services'
-    // END: FlutterFire Configuration
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 }
@@ -25,15 +22,9 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-def keystoreProperties = new Properties()
-def keystorePropertiesFile = rootProject.file('key.properties')
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-}
-
 android {
     namespace "com.example.driving_license"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -51,44 +42,20 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.vikapps.driving_license"
+        applicationId "com.example.driving_license"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-
-        // minSdkVersion flutter.minSdkVersion
-        minSdkVersion 21
-
+        minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
 
-    signingConfigs {
+    buildTypes {
         release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile keystoreProperties['storeFile'] ? file("../../${keystoreProperties['storeFile']}") : null
-            storePassword keystoreProperties['storePassword']
-        }
-    }
-
-    flavorDimensions "environment"
-    productFlavors {
-        dev {
-            dimension "environment"
-            resValue 'string', 'app_name', 'driving_license_dev'
-            applicationIdSuffix ".dev"
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
-        }
-        iapTest {
-            dimension "environment"
-            resValue 'string', 'app_name', 'driving_license_iap_test'
-            signingConfig signingConfigs.debug
-        }
-        prod {
-            dimension "environment"
-            resValue 'string', 'app_name', 'Drive Ready'
-            signingConfig signingConfigs.release
         }
     }
 }
