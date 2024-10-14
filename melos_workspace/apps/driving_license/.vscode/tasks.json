@@ -17,7 +17,7 @@
       "command": "dart",
       "args": ["run", "build_runner", "watch", "--delete-conflicting-outputs"],
       "options": {
-        "cwd": "${workspaceFolder}/app"
+        "cwd": "${workspaceFolder}/app_workspace"
       },
       "isBackground": true,
       "icon": {
