@@ -110,7 +110,7 @@ dev_dependencies:
   custom_lint: ^0.6.0
 
   # App icons
-  flutter_launcher_icons: "^0.13.1"
+  flutter_launcher_icons: ^0.14.1
 
   # Riverpod
   riverpod_generator: ^2.3.11
