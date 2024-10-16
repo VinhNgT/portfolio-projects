@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/backend/ads/ad_unit.dart';
 import 'package:driving_license/backend/ads/admob_provider.dart';
 import 'package:driving_license/backend/ads/inline_banner_ad/inline_banner_ad_builder.dart';
+import 'package:driving_license/backend/remote_config/application/remote_config_providers.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_scaffold.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/common_widgets/common_app_bar.dart';
@@ -46,6 +47,10 @@ class HomeScreen extends HookConsumerWidget {
     final licenseName = ref.watch(userSelectedLicenseProvider);
     final scrollController = useScrollController();
     final isUserDonated = ref.watch(isUserDonatedProvider);
+    final isAdHiddenByRemoteConfig = ref
+        .watch(remoteConfigDataFutureProvider)
+        .requireValue
+        .unlockAllFeatures;
 
     return AsyncValueScaffold(
       value: licenseName,
@@ -109,7 +114,7 @@ class HomeScreen extends HookConsumerWidget {
                         ),
                         kGap_32,
                         const ChapterSelection(),
-                        if (!isUserDonatedValue)
+                        if (!isUserDonatedValue && !isAdHiddenByRemoteConfig)
                           InlineBannerAdBuilder(
                             adUnit: AdUnit.homeBanner,
                             builder: (adWidget) {
