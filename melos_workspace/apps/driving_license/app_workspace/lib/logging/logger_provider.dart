@@ -1,35 +1,37 @@
-import 'package:driving_license/constants/app_flavor.dart';
+import 'package:driving_license/logging/log_outputs/level_console_output.dart';
+import 'package:driving_license/logging/printers/lower_level_hybird_printer.dart';
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'logger_provider.g.dart';
 
+/// Provides an instance of [Logger].
+///
+/// All errors, exceptions, and events in the app should be logged using this
+/// [Logger] instance.
 @Riverpod(keepAlive: true)
 Logger logger(LoggerRef ref) {
+  const logLevel = Level.debug;
+
   final logger = Logger(
-    filter: CombineFilter([
-      DevelopmentFlavorFilter(),
+    filter: ProductionFilter(),
+    printer: LowerLevelHybridPrinter(
+      lowerPrinter: SimplePrinter(),
+      normalPrinter: PrettyPrinter(
+        methodCount: 1,
+        excludePaths: [
+          'package:driving_license/logging',
+        ],
+        printEmojis: false,
+      ),
+      evalLevel: Level.info,
+    ),
+    output: MultiOutput([
+      LevelConsoleOutput(logLevel),
+      // Todo: Implement firebase crashlytics
     ]),
   );
 
   ref.onDispose(logger.close);
   return logger;
-}
-
-class CombineFilter extends LogFilter {
-  CombineFilter(this.filters);
-  final List<LogFilter> filters;
-
-  @override
-  bool shouldLog(LogEvent event) {
-    return filters.every((filter) => filter.shouldLog(event));
-  }
-}
-
-class DevelopmentFlavorFilter extends LogFilter {
-  @override
-  bool shouldLog(LogEvent event) {
-    return !isAppBuiltWithFlavor(AppFlavor.prod) &&
-        event.level.value >= level!.value;
-  }
 }

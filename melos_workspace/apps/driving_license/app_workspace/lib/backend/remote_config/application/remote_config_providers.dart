@@ -21,9 +21,8 @@ class RemoteConfigDataFuture extends _$RemoteConfigDataFuture {
 
     try {
       await remoteConfig.fetchAndActivate();
-    } on FirebaseException catch (e) {
-      debugPrint('Error fetching remote config: ${e.message}');
-      unawaited(Future.error(e));
+    } on FirebaseException catch (e, st) {
+      unawaited(Future.error(e, st));
     }
 
     ref.listen(_remoteConfigUpdateStreamProvider, (_, __) async {

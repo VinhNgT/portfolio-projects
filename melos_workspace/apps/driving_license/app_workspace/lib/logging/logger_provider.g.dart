@@ -6,9 +6,14 @@ part of 'logger_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$loggerHash() => r'6ab6b53a815c7e1d37e499afbaa749b4c82db919';
+String _$loggerHash() => r'b55362f6a49f96a1cfcd56b8e35169fa175c2d17';
 
-/// See also [logger].
+/// Provides an instance of [Logger].
+///
+/// All errors, exceptions, and events in the app should be logged using this
+/// [Logger] instance.
+///
+/// Copied from [logger].
 @ProviderFor(logger)
 final loggerProvider = Provider<Logger>.internal(
   logger,

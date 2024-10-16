@@ -7,7 +7,6 @@ import 'package:driving_license/backend/remote_config/application/remote_config_
 import 'package:driving_license/backend/remote_config/firebase_remote_config.dart';
 import 'package:driving_license/backend/shared_preferences/share_preferences_provider.dart';
 import 'package:driving_license/firebase_options.dart';
-import 'package:driving_license/logging/error_logger.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -17,7 +16,6 @@ abstract class BootstrapDelegate {
   const BootstrapDelegate();
 
   Future<void> setupServices(ProviderContainer container);
-  ErrorLogger getErrorLogger(ProviderContainer container);
 }
 
 class ProductionBootstrapDelegate extends BootstrapDelegate {
@@ -50,11 +48,6 @@ class ProductionBootstrapDelegate extends BootstrapDelegate {
     // Initialize in-app purchase service
     container.read(iapServiceProvider);
   }
-
-  @override
-  ErrorLogger getErrorLogger(ProviderContainer container) {
-    return container.read(consoleErrorLoggerProvider);
-  }
 }
 
 class TestBootstrapDelegate extends BootstrapDelegate {
@@ -63,10 +56,5 @@ class TestBootstrapDelegate extends BootstrapDelegate {
   @override
   Future<void> setupServices(ProviderContainer container) async {
     return;
-  }
-
-  @override
-  ErrorLogger getErrorLogger(ProviderContainer container) {
-    return container.read(consoleErrorLoggerProvider);
   }
 }

@@ -1,10 +1,13 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:driving_license/app.dart';
+import 'package:driving_license/backend/env/application/env_provider.dart';
 import 'package:driving_license/bootstrap/bootstrap_delegate.dart';
-import 'package:driving_license/constants/app_flavor.dart';
 import 'package:driving_license/exceptions/app_error_widget.dart';
-import 'package:driving_license/logging/async_error_logger.dart';
+import 'package:driving_license/logging/error_loggers/async_error_logger.dart';
+import 'package:driving_license/logging/error_loggers/error_logger.dart';
+import 'package:driving_license/logging/logger_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -14,8 +17,15 @@ class Bootstrap {
 
   Future<UncontrolledProviderScope> initApp() async {
     final container = ProviderContainer();
-    await delegate.setupServices(container);
-    setupErrorHandlers(container);
+    final errorLogger = ErrorLogger(container.read(loggerProvider));
+
+    await runZonedGuarded(() async {
+      await delegate.setupServices(container);
+    }, (error, stackTrace) {
+      errorLogger.log(null, error: error, stackTrace: stackTrace);
+    });
+
+    setupErrorHandlers(container, errorLogger);
 
     return UncontrolledProviderScope(
       container: container,
@@ -23,24 +33,34 @@ class Bootstrap {
     );
   }
 
-  void setupErrorHandlers(ProviderContainer container) {
-    final errorLogger = delegate.getErrorLogger(container);
+  void setupErrorHandlers(
+    ProviderContainer container,
+    ErrorLogger errorLogger,
+  ) {
+    final showDetailedError = container.read(envProvider).showDetailedError;
 
-    // Log all asynchronous errors
+    // Log all Riverpod asynchronous errors
     container.observers.addAll([
       AsyncErrorLogger(errorLogger),
-      // ProviderDebugObserver(),
     ]);
 
     // Show some error UI if any uncaught exception happens
     FlutterError.onError = (FlutterErrorDetails details) {
-      FlutterError.presentError(details);
-      errorLogger.logError(details.exception, details.stack);
+      Future(() async {
+        FlutterError.presentError(details);
+        // Wait for the previous command to finish
+        await Future.delayed(const Duration(milliseconds: 10));
+        errorLogger.log(
+          'Flutter error',
+          error: details.exception,
+          stackTrace: details.stack,
+        );
+      });
     };
 
     // Handle errors from the underlying platform/OS
     PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
-      errorLogger.logError(error, stack);
+      errorLogger.log('Platform error', error: error, stackTrace: stack);
       return true;
     };
 
@@ -50,12 +70,12 @@ class Bootstrap {
           ? details.exception as FlutterError
           : null;
 
-      return isAppBuiltWithFlavor(AppFlavor.prod)
-          ? const AppErrorWidget.defaultMessage()
-          : ErrorWidget.withDetails(
+      return showDetailedError
+          ? ErrorWidget.withDetails(
               message: details.exceptionAsString(),
               error: error,
-            );
+            )
+          : const AppErrorWidget();
     };
   }
 }
