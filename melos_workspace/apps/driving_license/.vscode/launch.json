@@ -8,31 +8,55 @@
       "name": "driving_license",
       "request": "launch",
       "type": "dart",
-      "program": "app_workspace/lib/main.dart",
-      "args": ["--flavor", "dev"]
+      "cwd": "app_workspace",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor",
+        "dev",
+        "--dart-define-from-file",
+        "../envs/.env.development"
+      ]
     },
     {
       "name": "driving_license (profile mode)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile",
-      "program": "app_workspace/lib/main.dart",
-      "args": ["--flavor", "dev"]
+      "cwd": "app_workspace",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor",
+        "dev",
+        "--dart-define-from-file",
+        "../envs/.env.development"
+      ]
     },
     {
       "name": "driving_license (release mode)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release",
-      "program": "app_workspace/lib/main.dart",
-      "args": ["--flavor", "dev"]
+      "cwd": "app_workspace",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor",
+        "dev",
+        "--dart-define-from-file",
+        "../envs/.env.development"
+      ]
     },
     {
       "name": "driving_license (test iap mode, WILL OVERWRITE EXISTING DATA)",
       "request": "launch",
       "type": "dart",
-      "program": "app_workspace/lib/main.dart",
-      "args": ["--flavor", "iapTest"]
+      "cwd": "app_workspace",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor",
+        "iapTest",
+        "--dart-define-from-file",
+        "../envs/.env.development"
+      ]
     }
   ]
 }

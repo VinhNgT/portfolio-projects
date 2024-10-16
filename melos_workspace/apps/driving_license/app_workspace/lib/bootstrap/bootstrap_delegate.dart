@@ -1,6 +1,7 @@
 import 'package:driving_license/backend/ads/admob_provider.dart';
 import 'package:driving_license/backend/database/sembast_provider.dart';
 import 'package:driving_license/backend/database/sqlite_provider.dart';
+import 'package:driving_license/backend/env/application/env_provider.dart';
 import 'package:driving_license/backend/in_app_purchase/iap_service.dart';
 import 'package:driving_license/backend/remote_config/application/remote_config_providers.dart';
 import 'package:driving_license/backend/remote_config/firebase_remote_config.dart';
@@ -24,6 +25,8 @@ class ProductionBootstrapDelegate extends BootstrapDelegate {
 
   @override
   Future<void> setupServices(ProviderContainer container) async {
+    container.read(envProvider);
+
     // Initialize Firebase
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,

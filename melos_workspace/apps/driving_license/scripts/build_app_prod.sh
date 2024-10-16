@@ -8,13 +8,20 @@ build_number=$(jq -r '.build_number' .appversion)
 # Build the app for production
 build_appbundle() {
     local build_obfuscation_dir="$1"
+    local env_path = "$2"
 
-    ./../.fvm/flutter_sdk/bin/flutter build apk --flavor prod --obfuscate \
+    ./../.fvm/flutter_sdk/bin/flutter build apk \
+        --flavor prod \
+        --dart-define-from-file=$env_path \
+        --obfuscate \
         --split-debug-info=$build_obfuscation_dir \
         --extra-gen-snapshot-options=--save-obfuscation-map=$build_obfuscation_dir/app.obfuscation.map.json \
         --build-number=$build_number
 
-    ./../.fvm/flutter_sdk/bin/flutter build appbundle --flavor prod --obfuscate \
+    ./../.fvm/flutter_sdk/bin/flutter build appbundle \
+        --flavor prod \
+        --dart-define-from-file=$env_path \
+        --obfuscate \
         --split-debug-info=$build_obfuscation_dir \
         --extra-gen-snapshot-options=--save-obfuscation-map=$build_obfuscation_dir/app.obfuscation.map.json \
         --build-number=$build_number
@@ -48,7 +55,7 @@ mkdir -p $obfuscation_dir
 rm -rf $release_dir
 mkdir -p $release_dir
 
-(cd app_workspace && build_appbundle "../$obfuscation_dir")
+(cd app_workspace && build_appbundle "../$obfuscation_dir" "../envs/.env.production")
 
 make_file_links $release_dir
 make_native_debug_symbols_zip $release_dir
