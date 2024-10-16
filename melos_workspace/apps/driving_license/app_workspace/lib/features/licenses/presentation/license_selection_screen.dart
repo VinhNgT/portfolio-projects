@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/common_widgets/button_card.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
-import 'package:driving_license/exceptions/exceptions.dart';
+import 'package:driving_license/exceptions/app_exception.dart';
 import 'package:driving_license/features/licenses/data/providers/user_selected_license_provider.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/routing/app_router.gr.dart';

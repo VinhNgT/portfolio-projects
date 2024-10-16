@@ -19,7 +19,7 @@ class AsyncErrorLogger extends ProviderObserver {
   ) {
     if (newValue case AsyncError(:final error, :final stackTrace)) {
       errorLogger.log(
-        'Provider error: ${provider.toString()}',
+        source: ErrorSource.riverpodProvider,
         error: error,
         stackTrace: stackTrace,
       );

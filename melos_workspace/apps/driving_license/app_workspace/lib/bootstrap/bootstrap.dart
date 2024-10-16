@@ -22,7 +22,11 @@ class Bootstrap {
     await runZonedGuarded(() async {
       await delegate.setupServices(container);
     }, (error, stackTrace) {
-      errorLogger.log(null, error: error, stackTrace: stackTrace);
+      errorLogger.log(
+        source: ErrorSource.bootstrap,
+        error: error,
+        stackTrace: stackTrace,
+      );
     });
 
     setupErrorHandlers(container, errorLogger);
@@ -51,7 +55,7 @@ class Bootstrap {
         // Wait for the previous command to finish
         await Future.delayed(const Duration(milliseconds: 10));
         errorLogger.log(
-          'Flutter error',
+          source: ErrorSource.flutter,
           error: details.exception,
           stackTrace: details.stack,
         );
@@ -60,7 +64,11 @@ class Bootstrap {
 
     // Handle errors from the underlying platform/OS
     PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
-      errorLogger.log('Platform error', error: error, stackTrace: stack);
+      errorLogger.log(
+        source: ErrorSource.rootIsolate,
+        error: error,
+        stackTrace: stack,
+      );
       return true;
     };
 
