@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:driving_license/backend/remote_config/domain/remote_config_data.dart';
 import 'package:driving_license/backend/remote_config/firebase_remote_config.dart';
 import 'package:driving_license/logging/logger_provider.dart';
 import 'package:driving_license/utils/stringify.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -16,7 +19,12 @@ class RemoteConfigDataFuture extends _$RemoteConfigDataFuture {
         ref.watch(firebaseRemoteConfigFutureProvider).requireValue;
     final logger = ref.watch(loggerProvider);
 
-    await remoteConfig.fetchAndActivate();
+    try {
+      await remoteConfig.fetchAndActivate();
+    } on FirebaseException catch (e) {
+      debugPrint('Error fetching remote config: ${e.message}');
+      unawaited(Future.error(e));
+    }
 
     ref.listen(_remoteConfigUpdateStreamProvider, (_, __) async {
       final oldValue = remoteConfig.getAll();
