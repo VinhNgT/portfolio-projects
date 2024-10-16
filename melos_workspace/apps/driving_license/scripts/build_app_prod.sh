@@ -8,7 +8,7 @@ build_number=$(jq -r '.build_number' .appversion)
 # Build the app for production
 build_appbundle() {
     local build_obfuscation_dir="$1"
-    local env_path = "$2"
+    local env_path="$2"
 
     ./../.fvm/flutter_sdk/bin/flutter build apk \
         --flavor prod \
@@ -39,7 +39,7 @@ make_native_debug_symbols_zip() {
     local absolute_release_dir=$(realpath "$1")
 
     (cd app_workspace/build/app/intermediates/merged_native_libs/prodRelease/out/lib &&
-        zip -r $absolute_release_dir/native_debug_symbols.zip .)
+        zip -r $absolute_release_dir/native-debug-symbols.zip .)
 }
 
 build_result_dir="build_result"
