@@ -12,9 +12,9 @@ FutureOr<FirebaseRemoteConfig> firebaseRemoteConfigFuture(
 
   await remoteConfig.setConfigSettings(
     RemoteConfigSettings(
-      fetchTimeout: const Duration(minutes: 1),
-      minimumFetchInterval: const Duration(minutes: 30),
-      // minimumFetchInterval: const Duration(hours: 24),
+      fetchTimeout: const Duration(seconds: 5),
+      // minimumFetchInterval: const Duration(minutes: 30),
+      minimumFetchInterval: const Duration(days: 1),
     ),
   );
 
