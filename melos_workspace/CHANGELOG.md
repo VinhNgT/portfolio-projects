@@ -3,6 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-10-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v1.3.0-dev.0`](#driving_license---v130-dev0)
+
+---
+
+#### `driving_license` - `v1.3.0-dev.0`
+
+ - **REFACTOR**(drv_lcn): change remote config timeout and fetch interval.
+ - **REFACTOR**(drv_lcn): recreate android folder.
+ - **FIX**(drv_lcn): fix .gitignore issue.
+ - **FEAT**(drv_lcn): add playstore publish script.
+ - **FEAT**(drv_lcn): re-add publish app google play lane.
+ - **FEAT**(drv_lcn): re-add fastlane.
+ - **FEAT**(drv_lcn): re-add app icon.
+ - **FEAT**(drv_lcn): add remote config support for unlocking features.
+ - **FEAT**(drv_lcn): better exception printing.
+ - **FEAT**(drv_lcn): better logs.
+ - **FEAT**(drv_lcn): add env support.
+ - **FEAT**(drv_lcn): throw error when remote config fetch failed.
+ - **FEAT**(drv_lcn): more robust remote config logic.
+ - **FEAT**(drv_lcn): re-add firebase config.
+ - **FEAT**(drv_lcn): add license page link.
+ - **FEAT**(drv_lcn): temporary disable in-app-purchase for testing and implement new icons.
+ - **FEAT**(drv_lcn): add compiled SVGs along with their helper script.
+ - **FEAT**(drv_lcn): add new icons for the donation page.
+ - **FEAT**(drv_lcn): add privacy policy button.
+
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## 2024-06-14
 
 ### Changes
