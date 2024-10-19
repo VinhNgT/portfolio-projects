@@ -356,7 +356,7 @@ packages:
   dio_cache_interceptor_realm_store:
     dependency: "direct main"
     description:
-      path: "../../submodules/dio_cache_interceptor/dio_cache_interceptor_realm_store"
+      path: "../../../external_submodules/dio_cache_interceptor/dio_cache_interceptor/dio_cache_interceptor_realm_store"
       relative: true
     source: path
     version: "1.0.0"
