@@ -1,0 +1,15 @@
+name: Build & deploy app
+run-name: Build & deploy ${{ github.ref_name }}
+
+on:
+  push:
+    tags:
+      - "*-v*.*.*"
+
+jobs:
+  print-github-context:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          GITHUB_VAR: ${{ toJson(github) }}
+        run: echo "$GITHUB_VAR"

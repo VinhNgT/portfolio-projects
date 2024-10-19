@@ -1,0 +1,36 @@
+# Enable/Disable the github actions CD pipeline for this project.
+enable: false
+
+# The secrets that need to be decrypted before deployments. You need to set the
+# environment variable $SECRETS_KEY to the secret value stored in
+# secret_key_variables.
+secrets:
+  decryption_script: scripts/cicd_secrets_gpg.sh
+  args:
+    - "-d"
+    - "-p"
+    - "$SECRETS_KEY"
+  secret_key_variables: DRIVING_LICENSE_SECRETS_KEY
+
+# CD deployment configuration.
+deployments:
+  android:
+    # The script to build the app.
+    build_script: scripts/build_app_prod.sh
+
+    # Deployment targets.
+    publish:
+      playstore:
+        publish_script: scripts/publish_playstore.sh
+        args:
+          - "-p"
+          - "-d"
+
+      github:
+        use_fastlane_changelog: true
+        files_paths:
+          - build_result/release/app-prod-release.apk
+          - build_result/release/app-prod-release.aab
+          - build_result/release/native-debug-symbols.zip
+          - build_result/release/mapping.txt
+          - build_result/release/obfuscation.zip
