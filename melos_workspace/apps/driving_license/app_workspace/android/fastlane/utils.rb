@@ -29,3 +29,13 @@ def get_publish_par(options)
 
   publish
 end
+
+def get_draft_par(options)
+  is_draft = options.fetch(:is_draft, false)
+
+  if is_draft == true
+    UI.important("Warning: is_draft is set to true. After app upload, please go to Google Play Console to finish the deployment.")
+  end
+
+  is_draft
+end

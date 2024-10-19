@@ -61,4 +61,4 @@ make_file_links $release_dir
 make_native_debug_symbols_zip $release_dir
 
 # Zip build_result folder
-zip -r --filesync build_result.zip build_result
+# zip -r --filesync build_result.zip build_result

@@ -33,20 +33,21 @@ platform :android do
   desc "Submit current bundle to the internal track in the Google Play"
   lane :deploy_internal do |options|
     publish = get_publish_par(options)
+    is_draft = get_draft_par(options)
 
     # Deploy the current bundle to the internal track in the Google Play.
     upload_to_play_store(
         validate_only: !publish,
         track: 'internal',
-        release_status: 'draft',
-        skip_upload_metadata: true,
+        release_status: is_draft ? 'draft' : 'completed',
+        # skip_upload_metadata: true,
         sync_image_upload: true,
         changes_not_sent_for_review: true,
         aab: '../../build_result/release/app-prod-release.aab',
         mapping_paths: [
           '../../build_result/release/native-debug-symbols.zip',
           '../../build_result/release/mapping.txt'
-        ],
+        ]
     )
   end
 end
