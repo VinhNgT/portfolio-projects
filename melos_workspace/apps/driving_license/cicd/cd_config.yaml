@@ -1,16 +1,16 @@
 # Enable/Disable the github actions CD pipeline for this project.
-enable: false
+enable: true
 
 # The secrets that need to be decrypted before deployments. You need to set the
-# environment variable $SECRETS_KEY to the secret value stored in
-# secret_key_variables.
+# runner environment variable SECRETS_KEY to the secret value stored in
+# key_name, which will replace the {SECRETS_KEY} placeholder in the args.
 secrets:
   decryption_script: scripts/cicd_secrets_gpg.sh
   args:
-    - "-d"
-    - "-p"
-    - "$SECRETS_KEY"
-  secret_key_variables: DRIVING_LICENSE_SECRETS_KEY
+    - '-d'
+    - '-p'
+    - '{SECRETS_KEY}'
+  key_name: DRIVING_LICENSE_SECRETS_KEY
 
 # CD deployment configuration.
 deployments:
@@ -23,8 +23,8 @@ deployments:
       playstore:
         publish_script: scripts/publish_playstore.sh
         args:
-          - "-p"
-          - "-d"
+          - '-p'
+          - '-d'
 
       github:
         use_fastlane_changelog: true

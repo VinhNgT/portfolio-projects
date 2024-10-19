@@ -4,7 +4,7 @@ run-name: Build & deploy ${{ github.ref_name }}
 on:
   push:
     tags:
-      - "*-v*.*.*"
+      - '*-v*.*.*'
 
 jobs:
   print-github-context:
@@ -13,3 +13,114 @@ jobs:
       - env:
           GITHUB_VAR: ${{ toJson(github) }}
         run: echo "$GITHUB_VAR"
+
+  get-variables:
+    runs-on: ubuntu-latest
+    outputs:
+      package_name: ${{ steps.get_tag_info.outputs.PACKAGE_NAME }}
+      package_version: ${{ steps.get_package_info.outputs.PACKAGE_VERSION }}
+      package_location: ${{ steps.get_package_info.outputs.PACKAGE_LOCATION }}
+      package_enable_cd: ${{ steps.read_cd_config.outputs.PACKAGE_ENABLE_CD }}
+      deployments_json_list: ${{ steps.read_cd_config.outputs.DEPLOYMENTS_JSON_LIST }}
+      # cd_config_yaml: ${{ steps.read_cd_config.outputs.CD_CONFIG_YAML }}
+
+    steps:
+      - name: Get package name
+        id: get_tag_info
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          PACKAGE_NAME=$(echo $TAG | awk -F '-v' '{print $1}')
+          # VERSION=$(echo $TAG | awk -F '-v' '{print $2}')
+
+          if [ -z "$PACKAGE_NAME" ]; then
+            echo "::error::No package name found"
+            exit 1
+          fi
+
+          # if [ -z "$VERSION" ]; then
+          #   echo "::error::No version found"
+          #   exit 1
+          # fi
+
+          echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_OUTPUT
+          # echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: kuhnroyal/flutter-fvm-config-action/setup@v3
+        with:
+          path: melos_workspace/.fvmrc
+
+      - name: Create symlink .fvm/flutter_sdk
+        working-directory: melos_workspace
+        run: |
+          mkdir -p .fvm
+          ln -s $FLUTTER_ROOT .fvm/flutter_sdk
+
+      - name: Setup melos
+        working-directory: melos_workspace
+        run: |
+          dart pub global activate melos
+          melos bootstrap --skip-linking
+
+      - name: Get package info
+        id: get_package_info
+        working-directory: melos_workspace
+        env:
+          PACKAGE_NAME: ${{ steps.get_tag_info.outputs.PACKAGE_NAME }}
+        run: |
+          PACKAGE_INFO_JSON=$(melos list -r --json --scope="$PACKAGE_NAME")
+
+          # Example content of PACKAGE_INFO_JSON:
+          #
+          # [
+          #   {
+          #     "name": "driving_license",
+          #     "version": "1.3.0-dev.0",
+          #     "private": true,
+          #     "location": "apps/driving_license/app_workspace",
+          #     "type": 3
+          #   }
+          # ]
+          #
+
+          PACKAGE_VERSION=$(echo $PACKAGE_INFO_JSON | jq -r '.[0].version')
+
+          # Remove the last part of the path to get the package location.
+          PACKAGE_LOCATION=$(echo $PACKAGE_INFO_JSON | jq -r '.[0].location' | sed 's:/[^/]*$::')
+
+          echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
+          echo "PACKAGE_LOCATION=$PACKAGE_LOCATION" >> $GITHUB_OUTPUT
+
+      - name: Read package CD config
+        id: read_cd_config
+        working-directory: melos_workspace/${{ steps.get_package_info.outputs.PACKAGE_LOCATION }}
+        run: |
+          CD_CONFIG_YAML=$(cat cicd/cd_config.yaml)
+
+          PACKAGE_ENABLE_CD=$(echo "$CD_CONFIG_YAML" | yq '.enable')
+          DEPLOYMENTS_JSON_LIST=$(echo "$CD_CONFIG_YAML" | yq '.deployments | keys' -o json | jq -c .)
+
+          echo "PACKAGE_ENABLE_CD=$PACKAGE_ENABLE_CD" >> $GITHUB_OUTPUT
+          echo "DEPLOYMENTS_JSON_LIST=$DEPLOYMENTS_JSON_LIST" >> $GITHUB_OUTPUT
+
+          # Multilines handling.
+          # echo "CD_CONFIG_YAML<<EOF" >> $GITHUB_OUTPUT
+          # echo "$CD_CONFIG_YAML" >> $GITHUB_OUTPUT
+          # echo "EOF" >> $GITHUB_OUTPUT
+
+  deploy_android:
+    needs: get-variables
+    if: ${{
+      needs.get-variables.outputs.package_enable_cd == 'true' &&
+      contains(fromJSON(needs.get-variables.outputs.deployments_json_list), 'android')
+      }}
+    uses: ./.github/workflows/deploy_android.yml
+    secrets: inherit
+    with:
+      # config-yaml: ${{ needs.get-variables.outputs.cd_config_yaml }}
+      package-name: ${{ needs.get-variables.outputs.package_name }}
+      version: ${{ needs.get-variables.outputs.package_version }}
+      package-location: ${{ needs.get-variables.outputs.package_location }}

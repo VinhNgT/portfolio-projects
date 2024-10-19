@@ -1,0 +1,96 @@
+name: Deploy android app
+run-name: Deploy android app ${{ inputs.package-name }}-v${{ inputs.version }}
+
+on:
+  workflow_call:
+    inputs:
+      # config-yaml:
+      #   type: string
+      #   required: true
+
+      package-name:
+        type: string
+        required: true
+
+      version:
+        type: string
+        required: true
+
+      package-location:
+        type: string
+        required: true
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: melos_workspace/${{ inputs.package-location }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get secrets config
+        id: get_secrets_config
+        run: |
+          CD_CONFIG_YAML=$(cat cicd/cd_config.yaml)
+
+          # Secrets config example:
+          #
+          # secrets:
+          #   decryption_script: scripts/cicd_secrets_gpg.sh
+          #   args:
+          #     - '-d'
+          #     - '-p'
+          #     - '{SECRETS_KEY}'
+          #   secret_key_variables: DRIVING_LICENSE_SECRETS_KEY
+          #
+
+          DECRYPTION_SCRIPT=$(echo "$CD_CONFIG_YAML" | yq e '.secrets.decryption_script')
+          ARGS=$(echo "$CD_CONFIG_YAML" | yq e '.secrets.args[]' | xargs)
+          SECRETS_KEY_NAME=$(echo "$CD_CONFIG_YAML" | yq e '.secrets.key_name')
+
+          echo "DECRYPTION_SCRIPT=$DECRYPTION_SCRIPT" >> $GITHUB_OUTPUT
+          echo "ARGS=$ARGS" >> $GITHUB_OUTPUT
+          echo "SECRETS_KEY_NAME=$SECRETS_KEY_NAME" >> $GITHUB_OUTPUT
+
+      - name: Decrypt secrets
+        env:
+          DECRYPTION_SCRIPT: ${{ steps.get_secrets_config.outputs.DECRYPTION_SCRIPT }}
+          ARGS: ${{ steps.get_secrets_config.outputs.ARGS }}
+          SECRETS_KEY: ${{ secrets[steps.get_secrets_config.outputs.SECRETS_KEY_NAME] }}
+        run: |
+          chmod +x $DECRYPTION_SCRIPT
+
+          # Replace {SECRETS_KEY} placeholder with the actual secret value
+          ARGS=$(echo "$ARGS" | sed "s/{SECRETS_KEY}/$SECRETS_KEY/g")
+
+          $DECRYPTION_SCRIPT $ARGS
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: ${{ vars.JAVA_SDK_VERSION }}
+          cache: gradle
+          cache-dependency-path: |
+            **/android/*.gradle*
+            **/android/**/gradle-wrapper.properties
+
+      - name: Setup Flutter
+        uses: kuhnroyal/flutter-fvm-config-action/setup@v3
+        with:
+          path: melos_workspace/${{ inputs.package-location }}/.fvmrc
+
+      - name: Create symlink .fvm/flutter_sdk
+        run: |
+          mkdir -p .fvm
+          ln -s $FLUTTER_ROOT .fvm/flutter_sdk
+
+      - name: Build android app
+        run: |
+          CD_CONFIG_YAML=$(cat cicd/cd_config.yaml)
+
+          BUILD_SCRIPT=$(echo "$CD_CONFIG_YAML" | yq e '.deployments.android.build_script')
+          chmod +x $BUILD_SCRIPT
+          $BUILD_SCRIPT
