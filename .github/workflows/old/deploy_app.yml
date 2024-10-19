@@ -1,0 +1,102 @@
+name: Build & deploy app to Play Store, Github release
+run-name: Build & deploy ${{ github.ref_name }}
+
+on:
+  push:
+    tags:
+      - "*-v*.*.*"
+
+jobs:
+  print-github-context:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          GITHUB_VAR: ${{ toJson(github) }}
+        run: echo "$GITHUB_VAR"
+
+  get-variables:
+    runs-on: ubuntu-latest
+    outputs:
+      package_name: ${{ steps.get_tag_info.outputs.PACKAGE_NAME }}
+      version: ${{ steps.get_tag_info.outputs.VERSION }}
+      is_app: ${{ steps.check_is_app.outputs.IS_APP }}
+      android_fastlane_exist: ${{ steps.check_android_fastlane.outputs.ANDROID_FASTLANE_EXIST }}
+
+    steps:
+      - name: Get package name and version from tag
+        id: get_tag_info
+        run: |
+          TAG=${{github.ref_name}}
+          PACKAGE_NAME=$(echo $TAG | awk -F '-v' '{print $1}')
+          VERSION=$(echo $TAG | awk -F '-v' '{print $2}')
+
+          if [ -z "$PACKAGE_NAME" ]; then
+            echo "::error::No package name found"
+            exit 1
+          fi
+
+          if [ -z "$VERSION" ]; then
+            echo "::error::No version found"
+            exit 1
+          fi
+
+          echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_OUTPUT
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+      - uses: actions/checkout@v4
+
+      - name: Check if package is an app (existing in apps/folder)
+        id: check_is_app
+        env:
+          PACKAGE_NAME: ${{ steps.get_tag_info.outputs.PACKAGE_NAME }}
+        run: |
+          echo "IS_APP=$(
+            if [ -d "apps/$PACKAGE_NAME" ]; then echo true; else echo false; fi
+          )" >> $GITHUB_OUTPUT
+
+      - name: Check if android fastlane folder exists
+        id: check_android_fastlane
+        env:
+          PACKAGE_NAME: ${{ steps.get_tag_info.outputs.PACKAGE_NAME }}
+        run: |
+          echo "ANDROID_FASTLANE_EXIST=$(
+            if [ -d "apps/$PACKAGE_NAME/android/fastlane" ]; then echo true; else echo false; fi
+          )" >> $GITHUB_OUTPUT
+
+  build-android:
+    needs: get-variables
+    if: ${{ needs.get-variables.outputs.is_app == 'true' }}
+    uses: ./.github/workflows/_build_android.yml
+    secrets: inherit
+    with:
+      package-name: ${{ needs.get-variables.outputs.package_name }}
+      version: ${{ needs.get-variables.outputs.version }}
+      flutter-sdk-version: ${{ vars.FLUTTER_SDK_VERSION }}
+      android-cmd-version: 10406996
+      java-version: 17
+      python-version: 3.12.3
+      should-setup-android-sdk: ${{ vars.SHOULD_SETUP_ANDROID_SDK == 'true' }} # Cast from string to boolean
+
+  deploy-playstore:
+    if: ${{ needs.get-variables.outputs.android_fastlane_exist == 'true' }}
+    needs:
+      - get-variables
+      - build-android
+    uses: ./.github/workflows/_deploy_playstore.yml
+    secrets: inherit
+    with:
+      package-name: ${{ needs.get-variables.outputs.package_name }}
+      version: ${{ needs.get-variables.outputs.version }}
+      ruby-version: 3.2.4
+      python-version: 3.12.3
+
+  deploy-github-release:
+    if: ${{ vars.CREATE_GITHUB_RELEASE == 'true' }}
+    needs:
+      - get-variables
+      - build-android
+    uses: ./.github/workflows/_deploy_github_release.yml
+    secrets: inherit
+    with:
+      package-name: ${{ needs.get-variables.outputs.package_name }}
+      version: ${{ needs.get-variables.outputs.version }}
