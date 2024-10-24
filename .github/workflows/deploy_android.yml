@@ -23,15 +23,12 @@ on:
 jobs:
   build-android:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: melos_workspace/${{ inputs.package-location }}
-
     steps:
       - uses: actions/checkout@v4
 
       - name: Get secrets config
         id: get_secrets_config
+        working-directory: melos_workspace/${{ inputs.package-location }}
         run: |
           CD_CONFIG_YAML=$(cat cicd/cd_config.yaml)
 
@@ -55,6 +52,7 @@ jobs:
           echo "SECRETS_KEY_NAME=$SECRETS_KEY_NAME" >> $GITHUB_OUTPUT
 
       - name: Decrypt secrets
+        working-directory: melos_workspace/${{ inputs.package-location }}
         env:
           DECRYPTION_SCRIPT: ${{ steps.get_secrets_config.outputs.DECRYPTION_SCRIPT }}
           ARGS: ${{ steps.get_secrets_config.outputs.ARGS }}
@@ -70,12 +68,12 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          distribution: "temurin"
+          distribution: 'temurin'
           java-version: ${{ vars.JAVA_SDK_VERSION }}
           cache: gradle
           cache-dependency-path: |
-            **/android/*.gradle*
-            **/android/**/gradle-wrapper.properties
+            melos_workspace/${{ inputs.package-location }}/app_workspace/android/*.gradle*
+            melos_workspace/${{ inputs.package-location }}/app_workspace/android/**/gradle-wrapper.properties
 
       - name: Setup Flutter
         uses: kuhnroyal/flutter-fvm-config-action/setup@v3
@@ -83,11 +81,13 @@ jobs:
           path: melos_workspace/${{ inputs.package-location }}/.fvmrc
 
       - name: Create symlink .fvm/flutter_sdk
+        working-directory: melos_workspace/${{ inputs.package-location }}
         run: |
           mkdir -p .fvm
           ln -s $FLUTTER_ROOT .fvm/flutter_sdk
 
       - name: Build android app
+        working-directory: melos_workspace/${{ inputs.package-location }}
         run: |
           CD_CONFIG_YAML=$(cat cicd/cd_config.yaml)
 
