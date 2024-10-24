@@ -94,3 +94,52 @@ jobs:
           BUILD_SCRIPT=$(echo "$CD_CONFIG_YAML" | yq e '.deployments.android.build_script')
           chmod +x $BUILD_SCRIPT
           $BUILD_SCRIPT
+
+      - name: Upload android build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-build-artifacts
+          path: melos_workspace/${{ inputs.package-location }}/build_result/release
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 0
+
+  publish-playstore:
+    runs-on: ubuntu-latest
+    needs: build-android
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get publish config
+        id: get_publish_config
+        working-directory: melos_workspace/${{ inputs.package-location }}
+        run: |
+          CD_CONFIG_YAML=$(cat cicd/cd_config.yaml)
+
+          PUBLISH_SCRIPT=$(echo "$CD_CONFIG_YAML" | yq e '.deployments.android.publish.playstore.publish_script')
+          ARGS=$(echo "$CD_CONFIG_YAML" | yq e '.deployments.android.publish.playstore.args[]' | xargs)
+
+          echo "PUBLISH_SCRIPT=$PUBLISH_SCRIPT" >> $GITHUB_OUTPUT
+          echo "ARGS=$ARGS" >> $GITHUB_OUTPUT
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ vars.RUBY_VERSION }}
+          bundler-cache: true
+          working-directory: melos_workspace/${{ inputs.package-location }}/app_workspace/android
+
+      - name: Download android build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: android-build-artifacts
+          path: melos_workspace/${{ inputs.package-location }}/build_result/
+
+      - name: Publish android app to Playstore
+        working-directory: melos_workspace/${{ inputs.package-location }}
+        env:
+          PUBLISH_SCRIPT: ${{ steps.get_publish_config.outputs.PUBLISH_SCRIPT }}
+          ARGS: ${{ steps.get_publish_config.outputs.ARGS }}
+        run: |
+          chmod +x $PUBLISH_SCRIPT
+          $PUBLISH_SCRIPT $ARGS
