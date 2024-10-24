@@ -5,7 +5,6 @@ sdkPath: .fvm/flutter_sdk
 packages:
   - apps/**
   - packages/**
-
 # command:
 #   version:
 #     branch: main
@@ -14,52 +13,52 @@ packages:
 
 # Make sure to active the Python virtual environment since alot of this is using Python.
 # scripts\.venv\Scripts\activate
-scripts:
-  # update-apps-build-number:
-  #   description: Increase the build number of all Flutter packages that is updated.
-  #   packageFilters:
-  #     flutter: true
-  #   steps:
-  #     - python scripts/melos/upd_apps_build_num.py
-  #     - git add *build_info.yaml *pubspec.yaml
+# scripts:
+#   update-apps-build-number:
+#     description: Increase the build number of all Flutter packages that is updated.
+#     packageFilters:
+#       flutter: true
+#     steps:
+#       - python scripts/melos/upd_apps_build_num.py
+#       - git add *build_info.yaml *pubspec.yaml
 
-  # secrets-crypt:
-  #   # How to run:
-  #   # melos run secrets-crypt -- -p driving_license -e
-  #   # melos run secrets-crypt -- -p driving_license -d <password>
-  #   description: Encrypt or decrypt the secrets of a Flutter app.
-  #   run: python scripts/ci/secrets_crypt.py
+#   secrets-crypt:
+#     # How to run:
+#     # melos run secrets-crypt -- -p driving_license -e
+#     # melos run secrets-crypt -- -p driving_license -d <password>
+#     description: Encrypt or decrypt the secrets of a Flutter app.
+#     run: python scripts/ci/secrets_crypt.py
 
-  # build-android-release:
-  #   # How to run:
-  #   # melos run build-android-release -- -p driving_license --appbundle
-  #   # melos run build-android-release -- -p driving_license --apk
-  #   description: Build the release version of a Flutter app.
-  #   run: python scripts/ci/build_android.py
+#   build-android-release:
+#     # How to run:
+#     # melos run build-android-release -- -p driving_license --appbundle
+#     # melos run build-android-release -- -p driving_license --apk
+#     description: Build the release version of a Flutter app.
+#     run: python scripts/ci/build_android.py
 
-  # deploy-playstore:
-  #   # How to run:
-  #   # melos run deploy-playstore -- -p driving_license
-  #   # melos run deploy-playstore -- -p driving_license --dryrun
-  #   description: Deploy the release version of a Flutter app to the Play Store.
-  #   run: python scripts/ci/deploy_playstore.py
+#   deploy-playstore:
+#     # How to run:
+#     # melos run deploy-playstore -- -p driving_license
+#     # melos run deploy-playstore -- -p driving_license --dryrun
+#     description: Deploy the release version of a Flutter app to the Play Store.
+#     run: python scripts/ci/deploy_playstore.py
 
-  # fix-build-results-symlinks:
-  #   # How to run:
-  #   # melos run fix-build-results-symlinks -- -p driving_license
-  #   description: Fix the symlinks of the build results folder in an app package.
-  #   run: python scripts/melos/fix_build_results_symlinks.py
+#   fix-build-results-symlinks:
+#     # How to run:
+#     # melos run fix-build-results-symlinks -- -p driving_license
+#     description: Fix the symlinks of the build results folder in an app package.
+#     run: python scripts/melos/fix_build_results_symlinks.py
 
-  # act:
-  #   description: Test GitHub Actions workflows with act.
-  #   # https://nektosact.com/
-  #   run: |
-  #     act -e act.dir/act.event.json --secret-file act.dir/act.secrets \
-  #       --env-file act.dir/act.env --var-file act.dir/act.var --artifact-server-path act.dir/act.artifacts
+#   act:
+#     description: Test GitHub Actions workflows with act.
+#     # https://nektosact.com/
+#     run: |
+#       act -e act.dir/act.event.json --secret-file act.dir/act.secrets \
+#         --env-file act.dir/act.env --var-file act.dir/act.var --artifact-server-path act.dir/act.artifacts
 
-  # fvm-get:
-  #   description: Run pub get using the Flutter SDK version configured for each package.
-  #   run: |
-  #     ".fvm/flutter_sdk/bin/flutter" pub get
-  #   exec:
-  #     concurrency: 1
+#   fvm-get:
+#     description: Run pub get using the Flutter SDK version configured for each package.
+#     run: |
+#       ".fvm/flutter_sdk/bin/flutter" pub get
+#     exec:
+#       concurrency: 1
