@@ -4,6 +4,7 @@ set -e
 
 # Read the current build_number
 build_number=$(jq -r '.build_number' .appversion)
+echo "Build number: $build_number"
 
 # Build the app for production
 build_appbundle() {
