@@ -1,0 +1,37 @@
+name: Decrypt package secrets
+description: Decrypt package secrets using configs from read-package-secrets-config action
+
+inputs:
+  working-directory:
+    description: 'The directory where the decryption will take place.'
+    required: true
+
+  decryption-script:
+    description: 'The script to use for decryption.'
+    required: true
+
+  args:
+    description: 'The arguments to pass to the decryption script.'
+    required: true
+
+  secrets-key:
+    description: 'The secret key to use for decryption.'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Decrypt secrets
+      working-directory: ${{ inputs.working-directory }}
+      env:
+        DECRYPTION_SCRIPT: ${{ inputs.decryption-script }}
+        ARGS: ${{ inputs.args }}
+        SECRETS_KEY: ${{ inputs.secrets-key }}
+      shell: bash
+      run: |
+        chmod +x $DECRYPTION_SCRIPT
+
+        # Replace {SECRETS_KEY} placeholder with the actual secret value
+        ARGS=$(echo "$ARGS" | sed "s/{SECRETS_KEY}/$SECRETS_KEY/g")
+
+        $DECRYPTION_SCRIPT $ARGS

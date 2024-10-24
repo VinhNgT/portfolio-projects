@@ -26,44 +26,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Get secrets config
+      - name: Read package secrets config
         id: get_secrets_config
-        working-directory: melos_workspace/${{ inputs.package-location }}
-        run: |
-          CD_CONFIG_YAML=$(cat cicd/cd_config.yaml)
+        uses: ./.github/workflows/actions/read-package-secrets-config
+        with:
+          working-directory: melos_workspace/${{ inputs.package-location }}
 
-          # Secrets config example:
-          #
-          # secrets:
-          #   decryption_script: scripts/cicd_secrets_gpg.sh
-          #   args:
-          #     - '-d'
-          #     - '-p'
-          #     - '{SECRETS_KEY}'
-          #   secret_key_variables: DRIVING_LICENSE_SECRETS_KEY
-          #
-
-          DECRYPTION_SCRIPT=$(echo "$CD_CONFIG_YAML" | yq e '.secrets.decryption_script')
-          ARGS=$(echo "$CD_CONFIG_YAML" | yq e '.secrets.args[]' | xargs)
-          SECRETS_KEY_NAME=$(echo "$CD_CONFIG_YAML" | yq e '.secrets.key_name')
-
-          echo "DECRYPTION_SCRIPT=$DECRYPTION_SCRIPT" >> $GITHUB_OUTPUT
-          echo "ARGS=$ARGS" >> $GITHUB_OUTPUT
-          echo "SECRETS_KEY_NAME=$SECRETS_KEY_NAME" >> $GITHUB_OUTPUT
-
-      - name: Decrypt secrets
-        working-directory: melos_workspace/${{ inputs.package-location }}
-        env:
-          DECRYPTION_SCRIPT: ${{ steps.get_secrets_config.outputs.DECRYPTION_SCRIPT }}
-          ARGS: ${{ steps.get_secrets_config.outputs.ARGS }}
-          SECRETS_KEY: ${{ secrets[steps.get_secrets_config.outputs.SECRETS_KEY_NAME] }}
-        run: |
-          chmod +x $DECRYPTION_SCRIPT
-
-          # Replace {SECRETS_KEY} placeholder with the actual secret value
-          ARGS=$(echo "$ARGS" | sed "s/{SECRETS_KEY}/$SECRETS_KEY/g")
-
-          $DECRYPTION_SCRIPT $ARGS
+      - name: Decrypt package secrets
+        uses: ./.github/workflows/actions/decrypt-package-secrets
+        with:
+          working-directory: melos_workspace/${{ inputs.package-location }}
+          decryption-script: ${{ steps.get_secrets_config.outputs.decryption-script }}
+          args: ${{ steps.get_secrets_config.outputs.args }}
+          secrets-key: ${{ secrets[steps.get_secrets_config.outputs.secrets-key-name] }}
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -110,6 +85,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Read package secrets config
+        id: get_secrets_config
+        uses: ./.github/workflows/actions/read-package-secrets-config
+        with:
+          working-directory: melos_workspace/${{ inputs.package-location }}
+
+      - name: Decrypt package secrets
+        uses: ./.github/workflows/actions/decrypt-package-secrets
+        with:
+          working-directory: melos_workspace/${{ inputs.package-location }}
+          decryption-script: ${{ steps.get_secrets_config.outputs.decryption-script }}
+          args: ${{ steps.get_secrets_config.outputs.args }}
+          secrets-key: ${{ secrets[steps.get_secrets_config.outputs.secrets-key-name] }}
+
       - name: Get publish config
         id: get_publish_config
         working-directory: melos_workspace/${{ inputs.package-location }}
@@ -133,7 +122,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: android-build-artifacts
-          path: melos_workspace/${{ inputs.package-location }}/build_result/
+          path: melos_workspace/${{ inputs.package-location }}/build_result/release/
 
       - name: Publish android app to Playstore
         working-directory: melos_workspace/${{ inputs.package-location }}

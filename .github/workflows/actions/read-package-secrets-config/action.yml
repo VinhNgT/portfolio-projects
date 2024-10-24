@@ -1,0 +1,49 @@
+name: Read package secrets config
+description: Read package secrets config from cicd/cd_config.yaml
+
+inputs:
+  working-directory:
+    description: 'The location to read cicd/cd_config.yaml from.'
+    required: true
+
+outputs:
+  decryption-script:
+    description: 'The script to use for decryption.'
+    value: ${{ steps.get_secrets_config.outputs.DECRYPTION_SCRIPT }}
+
+  args:
+    description: 'The arguments to pass to the decryption script.'
+    value: ${{ steps.get_secrets_config.outputs.ARGS }}
+
+  secrets-key-name:
+    description: 'The secret key to use for decryption.'
+    value: ${{ steps.get_secrets_config.outputs.SECRETS_KEY_NAME }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Get secrets config
+      id: get_secrets_config
+      working-directory: ${{ inputs.working-directory }}
+      shell: bash
+      run: |
+        CD_CONFIG_YAML=$(cat cicd/cd_config.yaml)
+
+        # Secrets config example:
+        #
+        # secrets:
+        #   decryption_script: scripts/cicd_secrets_gpg.sh
+        #   args:
+        #     - '-d'
+        #     - '-p'
+        #     - '{SECRETS_KEY}'
+        #   secret_key_variables: DRIVING_LICENSE_SECRETS_KEY
+        #
+
+        DECRYPTION_SCRIPT=$(echo "$CD_CONFIG_YAML" | yq e '.secrets.decryption_script')
+        ARGS=$(echo "$CD_CONFIG_YAML" | yq e '.secrets.args[]' | xargs)
+        SECRETS_KEY_NAME=$(echo "$CD_CONFIG_YAML" | yq e '.secrets.key_name')
+
+        echo "DECRYPTION_SCRIPT=$DECRYPTION_SCRIPT" >> $GITHUB_OUTPUT
+        echo "ARGS=$ARGS" >> $GITHUB_OUTPUT
+        echo "SECRETS_KEY_NAME=$SECRETS_KEY_NAME" >> $GITHUB_OUTPUT
