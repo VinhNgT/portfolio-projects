@@ -42,6 +42,14 @@ make_native_debug_symbols_zip() {
         zip -r $absolute_release_dir/native-debug-symbols.zip .)
 }
 
+make_obfuscation_zip() {
+    local absolute_obfuscation_dir=$(realpath "$1")
+    local absolute_release_dir=$(realpath "$2")
+
+    (cd $absolute_obfuscation_dir &&
+        zip -r $absolute_release_dir/obfuscation.zip .)
+}
+
 build_result_dir="build_result"
 obfuscation_dir="$build_result_dir/obfuscation"
 release_dir="$build_result_dir/release"
@@ -59,6 +67,7 @@ mkdir -p $release_dir
 
 make_file_links $release_dir
 make_native_debug_symbols_zip $release_dir
+make_obfuscation_zip $obfuscation_dir $release_dir
 
 # Zip build_result folder
 # zip -r --filesync build_result.zip build_result
