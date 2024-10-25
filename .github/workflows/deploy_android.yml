@@ -47,8 +47,8 @@ jobs:
           java-version: ${{ vars.JAVA_SDK_VERSION }}
           cache: gradle
           cache-dependency-path: |
-            melos_workspace/${{ inputs.package-location }}/app_workspace/android/*.gradle*
-            melos_workspace/${{ inputs.package-location }}/app_workspace/android/**/gradle-wrapper.properties
+            melos_workspace/${{ inputs.package-location }}/pkg_workspace/android/*.gradle*
+            melos_workspace/${{ inputs.package-location }}/pkg_workspace/android/**/gradle-wrapper.properties
 
       - name: Setup Flutter
         uses: kuhnroyal/flutter-fvm-config-action/setup@v3
@@ -116,7 +116,7 @@ jobs:
         with:
           ruby-version: ${{ vars.RUBY_VERSION }}
           bundler-cache: true
-          working-directory: melos_workspace/${{ inputs.package-location }}/app_workspace/android
+          working-directory: melos_workspace/${{ inputs.package-location }}/pkg_workspace/android
 
       - name: Download android build artifacts
         uses: actions/download-artifact@v4

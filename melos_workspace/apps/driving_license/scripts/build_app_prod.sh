@@ -31,15 +31,15 @@ build_appbundle() {
 make_file_links() {
     local relative_release_dir="$1"
 
-    ln -s ../../app_workspace/build/app/outputs/bundle/prodRelease/app-prod-release.aab $relative_release_dir/app-prod-release.aab
-    ln -s ../../app_workspace/build/app/outputs/flutter-apk/app-prod-release.apk $relative_release_dir/app-prod-release.apk
-    ln -s ../../app_workspace/build/app/outputs/mapping/prodRelease/mapping.txt $relative_release_dir/mapping.txt
+    ln -s ../../pkg_workspace/build/app/outputs/bundle/prodRelease/app-prod-release.aab $relative_release_dir/app-prod-release.aab
+    ln -s ../../pkg_workspace/build/app/outputs/flutter-apk/app-prod-release.apk $relative_release_dir/app-prod-release.apk
+    ln -s ../../pkg_workspace/build/app/outputs/mapping/prodRelease/mapping.txt $relative_release_dir/mapping.txt
 }
 
 make_native_debug_symbols_zip() {
     local absolute_release_dir=$(realpath "$1")
 
-    (cd app_workspace/build/app/intermediates/merged_native_libs/prodRelease/out/lib &&
+    (cd pkg_workspace/build/app/intermediates/merged_native_libs/prodRelease/out/lib &&
         zip -r $absolute_release_dir/native-debug-symbols.zip .)
 }
 
@@ -64,7 +64,7 @@ mkdir -p $obfuscation_dir
 rm -rf $release_dir
 mkdir -p $release_dir
 
-(cd app_workspace && build_appbundle "../$obfuscation_dir" "../envs/.env.production")
+(cd pkg_workspace && build_appbundle "../$obfuscation_dir" "../envs/.env.production")
 
 make_file_links $release_dir
 make_native_debug_symbols_zip $release_dir

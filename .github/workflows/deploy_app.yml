@@ -80,7 +80,7 @@ jobs:
           #     "name": "driving_license",
           #     "version": "1.3.0-dev.0",
           #     "private": true,
-          #     "location": "apps/driving_license/app_workspace",
+          #     "location": "apps/driving_license/pkg_workspace",
           #     "type": 3
           #   }
           # ]

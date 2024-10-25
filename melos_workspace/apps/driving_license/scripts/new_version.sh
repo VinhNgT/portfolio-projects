@@ -8,7 +8,7 @@ PACKAGE_NAME="driving_license"
 if [ ! -f .appversion ]; then
     create_appversion() {
         local default_build_number=0
-        local default_build_name=$(yq e '.version' app_workspace/pubspec.yaml)
+        local default_build_name=$(yq e '.version' pkg_workspace/pubspec.yaml)
 
         jq -n \
             --arg build_number "$default_build_number" \
@@ -73,7 +73,7 @@ bump_version() {
     local json="$1"
     local new_build_number=$(jq -r '.build_number' <<<"$json")
     ((new_build_number += 1))
-    local new_build_name=$(yq e '.version' app_workspace/pubspec.yaml)
+    local new_build_name=$(yq e '.version' pkg_workspace/pubspec.yaml)
 
     local result=$(echo "$JSON" |
         jq --argjson new_build_number "$new_build_number" \
@@ -91,7 +91,7 @@ melos version --all --no-git-tag-version --scope="$PACKAGE_NAME" \
 
 # Check if the field 'version' in pubspec.yaml has changed. If not, it means melos did not
 # update the package's version.
-if [ $(yq e '.version' app_workspace/pubspec.yaml) == "$build_name" ]; then
+if [ $(yq e '.version' pkg_workspace/pubspec.yaml) == "$build_name" ]; then
     echo "version in pubspec.yaml has not changed"
     exit 0
 fi

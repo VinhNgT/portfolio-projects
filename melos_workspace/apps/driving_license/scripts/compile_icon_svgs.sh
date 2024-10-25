@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # This script compiles all .svg files within the 'icons' folder of the
-# app_workspace/assets directory
+# pkg_workspace/assets directory
 
 set -e
 
@@ -14,7 +14,7 @@ msys* | cygwin*)
     ;;
 esac
 
-cd app_workspace/assets
+cd pkg_workspace/assets
 
 # Find all directories within the 'icons' folder
 find icons -type d | while read -r dir; do

@@ -34,5 +34,5 @@ msys* | cygwin*)
     ;;
 esac
 
-cd app_workspace/android
+cd pkg_workspace/android
 bundle exec fastlane deploy_internal publish:$publish is_draft:$is_draft
