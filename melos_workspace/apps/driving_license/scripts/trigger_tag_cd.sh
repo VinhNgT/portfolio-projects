@@ -8,7 +8,7 @@
 
 set -e
 
-TRIGGER_TAG_SUFFIX="trigger_cd"
+TRIGGER_TAG_SUFFIX="dev.trigger_cd"
 
 # Get the latest tag, if there is no tag, use "no_tag-v0.0.1"
 latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "no_tag-v0.0.1")
