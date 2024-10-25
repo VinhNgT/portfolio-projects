@@ -22,13 +22,6 @@ msys* | cygwin*)
     ;;
 esac
 
-# Install, activate and bootstrap melos
-echo "Setting up melos workspace..."
-
-cd "$MELOS_WORKSPACE_DIR"
-dart pub global activate melos
-melos bootstrap --skip-linking
-
 # Helper function to run fvm use in a directory
 run_use_fvm() {
     dir=$1
@@ -47,10 +40,16 @@ run_use_fvm() {
     (cd "$dir" && fvm use --skip-pub-get)
 }
 
-# FVM configuration
+# Install, activate and bootstrap melos
+echo "Setting up melos workspace..."
+
+cd "$MELOS_WORKSPACE_DIR"
 echo "Configuring FVM for melos workspace..."
 run_use_fvm .
+dart pub global activate melos
+melos bootstrap --skip-linking
 
+# FVM configuration for melos packages and external submodules
 echo "Configuring FVM for melos packages..."
 melos_packages_info_json=$(melos list -r --json)
 melos_package_locations=$(echo "$melos_packages_info_json" | jq -r '.[].location' | sed 's/\/[^/]*$//')
