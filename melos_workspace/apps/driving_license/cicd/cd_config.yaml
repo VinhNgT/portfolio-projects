@@ -14,6 +14,7 @@ secrets:
 
 # CD deployment configuration.
 deployments:
+  # Build and publish the app for android.
   android:
     # The script to build the app.
     build_script: scripts/build_app_prod.sh
@@ -24,13 +25,28 @@ deployments:
         publish_script: scripts/publish_playstore.sh
         args:
           - '-p'
-          - '-d'
+          - '-d' # Is draft.
 
-      github:
-        use_fastlane_changelog: true
-        files_paths:
-          - build_result/release/app-prod-release.apk
-          - build_result/release/app-prod-release.aab
-          - build_result/release/native-debug-symbols.zip
-          - build_result/release/mapping.txt
-          - build_result/release/obfuscation.zip
+  # Placeholder for future deployment of ios target.
+  # We can't build and publish for ios yet.
+  ios:
+    # The script to build the app.
+    build_script: scripts/build_app_prod_ios.sh
+
+    # Deployment targets.
+    publish:
+      appstore:
+        publish_script: scripts/publish_appstore.sh
+        args:
+          - '-p'
+          - '-d' # Is draft.
+
+  # Upload the build artifacts to github releases.
+  github:
+    draft: true
+    file_paths:
+      - build_result/release/app-prod-release.apk
+      - build_result/release/app-prod-release.aab
+      - build_result/release/native-debug-symbols.zip
+      - build_result/release/mapping.txt
+      - build_result/release/obfuscation.zip
