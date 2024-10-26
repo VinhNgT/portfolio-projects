@@ -7,7 +7,7 @@ part 'local_config_providers.g.dart';
 AppConfigData localConfigData(LocalConfigDataRef ref) {
   return const AppConfigData(
     gsFeedbackPostLink: '',
-    disableDonationCard: false,
+    disableDonationCard: true,
     unlockAllFeatures: true,
   );
 }

@@ -6,7 +6,7 @@ part of 'local_config_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$localConfigDataHash() => r'912c1053ad647b5718a02603347ef7db5c1af1b6';
+String _$localConfigDataHash() => r'26376fc92a51f0a7e8443ef85f9ba0a949fa558a';
 
 /// See also [localConfigData].
 @ProviderFor(localConfigData)
