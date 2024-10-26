@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-10-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v1.3.0`](#driving_license---v130)
+
+Packages graduated to a stable release (see pre-releases prior to the stable version for changelog entries):
+
+ - `driving_license` - `v1.3.0`
+
+---
+
+#### `driving_license` - `v1.3.0`
+
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## 2024-10-19
 
 ### Changes
