@@ -46,7 +46,7 @@
       ]
     },
     {
-      "name": "driving_license (test iap mode, WILL OVERWRITE EXISTING DATA)",
+      "name": "driving_license (test iap mode, WILL OVERWRITE PRODUCTION DATA)",
       "request": "launch",
       "type": "dart",
       "cwd": "pkg_workspace",
@@ -56,6 +56,20 @@
         "iapTest",
         "--dart-define-from-file",
         "../envs/.env.development"
+      ]
+    },
+    {
+      "name": "driving_license (production)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "cwd": "pkg_workspace",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor",
+        "prod",
+        "--dart-define-from-file",
+        "../envs/.env.production"
       ]
     }
   ]
