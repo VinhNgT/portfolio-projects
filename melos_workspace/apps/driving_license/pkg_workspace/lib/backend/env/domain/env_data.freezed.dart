@@ -22,6 +22,7 @@ EnvData _$EnvDataFromJson(Map<String, dynamic> json) {
 mixin _$EnvData {
   Level get loggerLevel => throw _privateConstructorUsedError;
   bool get showDetailedError => throw _privateConstructorUsedError;
+  bool get enableRemoteConfig => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -33,7 +34,8 @@ abstract class $EnvDataCopyWith<$Res> {
   factory $EnvDataCopyWith(EnvData value, $Res Function(EnvData) then) =
       _$EnvDataCopyWithImpl<$Res, EnvData>;
   @useResult
-  $Res call({Level loggerLevel, bool showDetailedError});
+  $Res call(
+      {Level loggerLevel, bool showDetailedError, bool enableRemoteConfig});
 }
 
 /// @nodoc
@@ -51,6 +53,7 @@ class _$EnvDataCopyWithImpl<$Res, $Val extends EnvData>
   $Res call({
     Object? loggerLevel = null,
     Object? showDetailedError = null,
+    Object? enableRemoteConfig = null,
   }) {
     return _then(_value.copyWith(
       loggerLevel: null == loggerLevel
@@ -60,6 +63,10 @@ class _$EnvDataCopyWithImpl<$Res, $Val extends EnvData>
       showDetailedError: null == showDetailedError
           ? _value.showDetailedError
           : showDetailedError // ignore: cast_nullable_to_non_nullable
+              as bool,
+      enableRemoteConfig: null == enableRemoteConfig
+          ? _value.enableRemoteConfig
+          : enableRemoteConfig // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
   }
@@ -72,7 +79,8 @@ abstract class _$$EnvDataImplCopyWith<$Res> implements $EnvDataCopyWith<$Res> {
       __$$EnvDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Level loggerLevel, bool showDetailedError});
+  $Res call(
+      {Level loggerLevel, bool showDetailedError, bool enableRemoteConfig});
 }
 
 /// @nodoc
@@ -88,6 +96,7 @@ class __$$EnvDataImplCopyWithImpl<$Res>
   $Res call({
     Object? loggerLevel = null,
     Object? showDetailedError = null,
+    Object? enableRemoteConfig = null,
   }) {
     return _then(_$EnvDataImpl(
       loggerLevel: null == loggerLevel
@@ -98,6 +107,10 @@ class __$$EnvDataImplCopyWithImpl<$Res>
           ? _value.showDetailedError
           : showDetailedError // ignore: cast_nullable_to_non_nullable
               as bool,
+      enableRemoteConfig: null == enableRemoteConfig
+          ? _value.enableRemoteConfig
+          : enableRemoteConfig // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -106,7 +119,9 @@ class __$$EnvDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$EnvDataImpl implements _EnvData {
   const _$EnvDataImpl(
-      {required this.loggerLevel, required this.showDetailedError});
+      {required this.loggerLevel,
+      required this.showDetailedError,
+      required this.enableRemoteConfig});
 
   factory _$EnvDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$EnvDataImplFromJson(json);
@@ -115,10 +130,12 @@ class _$EnvDataImpl implements _EnvData {
   final Level loggerLevel;
   @override
   final bool showDetailedError;
+  @override
+  final bool enableRemoteConfig;
 
   @override
   String toString() {
-    return 'EnvData(loggerLevel: $loggerLevel, showDetailedError: $showDetailedError)';
+    return 'EnvData(loggerLevel: $loggerLevel, showDetailedError: $showDetailedError, enableRemoteConfig: $enableRemoteConfig)';
   }
 
   @override
@@ -129,12 +146,15 @@ class _$EnvDataImpl implements _EnvData {
             (identical(other.loggerLevel, loggerLevel) ||
                 other.loggerLevel == loggerLevel) &&
             (identical(other.showDetailedError, showDetailedError) ||
-                other.showDetailedError == showDetailedError));
+                other.showDetailedError == showDetailedError) &&
+            (identical(other.enableRemoteConfig, enableRemoteConfig) ||
+                other.enableRemoteConfig == enableRemoteConfig));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, loggerLevel, showDetailedError);
+  int get hashCode => Object.hash(
+      runtimeType, loggerLevel, showDetailedError, enableRemoteConfig);
 
   @JsonKey(ignore: true)
   @override
@@ -153,7 +173,8 @@ class _$EnvDataImpl implements _EnvData {
 abstract class _EnvData implements EnvData {
   const factory _EnvData(
       {required final Level loggerLevel,
-      required final bool showDetailedError}) = _$EnvDataImpl;
+      required final bool showDetailedError,
+      required final bool enableRemoteConfig}) = _$EnvDataImpl;
 
   factory _EnvData.fromJson(Map<String, dynamic> json) = _$EnvDataImpl.fromJson;
 
@@ -161,6 +182,8 @@ abstract class _EnvData implements EnvData {
   Level get loggerLevel;
   @override
   bool get showDetailedError;
+  @override
+  bool get enableRemoteConfig;
   @override
   @JsonKey(ignore: true)
   _$$EnvDataImplCopyWith<_$EnvDataImpl> get copyWith =>

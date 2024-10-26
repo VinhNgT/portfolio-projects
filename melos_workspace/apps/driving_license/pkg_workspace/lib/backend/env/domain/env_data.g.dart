@@ -10,12 +10,14 @@ _$EnvDataImpl _$$EnvDataImplFromJson(Map<String, dynamic> json) =>
     _$EnvDataImpl(
       loggerLevel: $enumDecode(_$LevelEnumMap, json['loggerLevel']),
       showDetailedError: json['showDetailedError'] as bool,
+      enableRemoteConfig: json['enableRemoteConfig'] as bool,
     );
 
 Map<String, dynamic> _$$EnvDataImplToJson(_$EnvDataImpl instance) =>
     <String, dynamic>{
       'loggerLevel': _$LevelEnumMap[instance.loggerLevel]!,
       'showDetailedError': instance.showDetailedError,
+      'enableRemoteConfig': instance.enableRemoteConfig,
     };
 
 const _$LevelEnumMap = {
