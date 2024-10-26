@@ -9,6 +9,7 @@ part 'remote_config_data.g.dart';
 class RemoteConfigData with _$RemoteConfigData {
   const factory RemoteConfigData({
     @JsonKey(name: 'gs_feedback_post_link') required String gsFeedbackPostLink,
+    @JsonKey(name: 'disable_donation_card') required bool disableDonationCard,
     @JsonKey(name: 'unlock_all_features') required bool unlockAllFeatures,
   }) = _RemoteConfigData;
 

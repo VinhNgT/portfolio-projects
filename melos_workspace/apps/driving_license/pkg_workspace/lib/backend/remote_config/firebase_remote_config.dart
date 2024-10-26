@@ -21,6 +21,7 @@ FutureOr<FirebaseRemoteConfig> firebaseRemoteConfigFuture(
   await remoteConfig.setDefaults(
     const RemoteConfigData(
       gsFeedbackPostLink: '',
+      disableDonationCard: true,
       unlockAllFeatures: true,
     ).toJson(),
   );

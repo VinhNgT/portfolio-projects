@@ -6,7 +6,7 @@ part of 'env_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$envHash() => r'17e256a14fc212dfb90b8f552cb8f8967db27102';
+String _$envHash() => r'6585e37fdbb1270c2f7a18110a4a862744074ec3';
 
 /// See also [env].
 @ProviderFor(env)

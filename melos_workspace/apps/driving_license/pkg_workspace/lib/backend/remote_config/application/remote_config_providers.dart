@@ -39,6 +39,7 @@ class RemoteConfigDataFuture extends _$RemoteConfigDataFuture {
 
     final remoteConfigData = RemoteConfigData(
       gsFeedbackPostLink: remoteConfig.getString('gs_feedback_post_link'),
+      disableDonationCard: remoteConfig.getBool('disable_donation_card'),
       unlockAllFeatures: remoteConfig.getBool('unlock_all_features'),
     );
 

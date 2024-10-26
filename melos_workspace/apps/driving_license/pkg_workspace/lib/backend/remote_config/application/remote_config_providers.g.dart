@@ -24,7 +24,7 @@ final _remoteConfigUpdateStreamProvider =
 
 typedef _RemoteConfigUpdateStreamRef = StreamProviderRef<RemoteConfigUpdate>;
 String _$remoteConfigDataFutureHash() =>
-    r'c49925eec69afdbef085859a01a87d6af098a725';
+    r'7ea86c96aa0af312732be3cb92f7b4eb28126a60';
 
 /// See also [RemoteConfigDataFuture].
 @ProviderFor(RemoteConfigDataFuture)

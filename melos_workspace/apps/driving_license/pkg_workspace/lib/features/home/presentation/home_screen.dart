@@ -47,10 +47,16 @@ class HomeScreen extends HookConsumerWidget {
     final licenseName = ref.watch(userSelectedLicenseProvider);
     final scrollController = useScrollController();
     final isUserDonated = ref.watch(isUserDonatedProvider);
-    final isAdHiddenByRemoteConfig = ref
-        .watch(remoteConfigDataFutureProvider)
-        .requireValue
-        .unlockAllFeatures;
+
+    final isDonationCardDisabledByRemoteConfig = ref.watch(
+      remoteConfigDataFutureProvider
+          .select((value) => value.requireValue.disableDonationCard),
+    );
+
+    final isAdHiddenByRemoteConfig = ref.watch(
+      remoteConfigDataFutureProvider
+          .select((value) => value.requireValue.unlockAllFeatures),
+    );
 
     return AsyncValueScaffold(
       value: licenseName,
@@ -100,7 +106,9 @@ class HomeScreen extends HookConsumerWidget {
                     builder: (isUserDonatedValue) => Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        DonateCard(isUserDonated: isUserDonatedValue),
+                        !isDonationCardDisabledByRemoteConfig
+                            ? DonateCard(isUserDonated: isUserDonatedValue)
+                            : const DonateCardReview(),
                         kGap_20,
                         const FeatureSelection(),
                         AsyncAnimatedReviewCtaCard(

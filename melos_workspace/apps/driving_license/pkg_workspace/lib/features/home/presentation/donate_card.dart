@@ -71,8 +71,8 @@ class DonateCard extends StatelessWidget {
   }
 }
 
-class DonateCardTemp extends StatelessWidget {
-  const DonateCardTemp({
+class DonateCardReview extends StatelessWidget {
+  const DonateCardReview({
     super.key,
   });
 

@@ -22,6 +22,8 @@ RemoteConfigData _$RemoteConfigDataFromJson(Map<String, dynamic> json) {
 mixin _$RemoteConfigData {
   @JsonKey(name: 'gs_feedback_post_link')
   String get gsFeedbackPostLink => throw _privateConstructorUsedError;
+  @JsonKey(name: 'disable_donation_card')
+  bool get disableDonationCard => throw _privateConstructorUsedError;
   @JsonKey(name: 'unlock_all_features')
   bool get unlockAllFeatures => throw _privateConstructorUsedError;
 
@@ -39,6 +41,7 @@ abstract class $RemoteConfigDataCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'gs_feedback_post_link') String gsFeedbackPostLink,
+      @JsonKey(name: 'disable_donation_card') bool disableDonationCard,
       @JsonKey(name: 'unlock_all_features') bool unlockAllFeatures});
 }
 
@@ -56,6 +59,7 @@ class _$RemoteConfigDataCopyWithImpl<$Res, $Val extends RemoteConfigData>
   @override
   $Res call({
     Object? gsFeedbackPostLink = null,
+    Object? disableDonationCard = null,
     Object? unlockAllFeatures = null,
   }) {
     return _then(_value.copyWith(
@@ -63,6 +67,10 @@ class _$RemoteConfigDataCopyWithImpl<$Res, $Val extends RemoteConfigData>
           ? _value.gsFeedbackPostLink
           : gsFeedbackPostLink // ignore: cast_nullable_to_non_nullable
               as String,
+      disableDonationCard: null == disableDonationCard
+          ? _value.disableDonationCard
+          : disableDonationCard // ignore: cast_nullable_to_non_nullable
+              as bool,
       unlockAllFeatures: null == unlockAllFeatures
           ? _value.unlockAllFeatures
           : unlockAllFeatures // ignore: cast_nullable_to_non_nullable
@@ -81,6 +89,7 @@ abstract class _$$RemoteConfigDataImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: 'gs_feedback_post_link') String gsFeedbackPostLink,
+      @JsonKey(name: 'disable_donation_card') bool disableDonationCard,
       @JsonKey(name: 'unlock_all_features') bool unlockAllFeatures});
 }
 
@@ -96,6 +105,7 @@ class __$$RemoteConfigDataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? gsFeedbackPostLink = null,
+    Object? disableDonationCard = null,
     Object? unlockAllFeatures = null,
   }) {
     return _then(_$RemoteConfigDataImpl(
@@ -103,6 +113,10 @@ class __$$RemoteConfigDataImplCopyWithImpl<$Res>
           ? _value.gsFeedbackPostLink
           : gsFeedbackPostLink // ignore: cast_nullable_to_non_nullable
               as String,
+      disableDonationCard: null == disableDonationCard
+          ? _value.disableDonationCard
+          : disableDonationCard // ignore: cast_nullable_to_non_nullable
+              as bool,
       unlockAllFeatures: null == unlockAllFeatures
           ? _value.unlockAllFeatures
           : unlockAllFeatures // ignore: cast_nullable_to_non_nullable
@@ -116,6 +130,7 @@ class __$$RemoteConfigDataImplCopyWithImpl<$Res>
 class _$RemoteConfigDataImpl implements _RemoteConfigData {
   const _$RemoteConfigDataImpl(
       {@JsonKey(name: 'gs_feedback_post_link') required this.gsFeedbackPostLink,
+      @JsonKey(name: 'disable_donation_card') required this.disableDonationCard,
       @JsonKey(name: 'unlock_all_features') required this.unlockAllFeatures});
 
   factory _$RemoteConfigDataImpl.fromJson(Map<String, dynamic> json) =>
@@ -125,12 +140,15 @@ class _$RemoteConfigDataImpl implements _RemoteConfigData {
   @JsonKey(name: 'gs_feedback_post_link')
   final String gsFeedbackPostLink;
   @override
+  @JsonKey(name: 'disable_donation_card')
+  final bool disableDonationCard;
+  @override
   @JsonKey(name: 'unlock_all_features')
   final bool unlockAllFeatures;
 
   @override
   String toString() {
-    return 'RemoteConfigData(gsFeedbackPostLink: $gsFeedbackPostLink, unlockAllFeatures: $unlockAllFeatures)';
+    return 'RemoteConfigData(gsFeedbackPostLink: $gsFeedbackPostLink, disableDonationCard: $disableDonationCard, unlockAllFeatures: $unlockAllFeatures)';
   }
 
   @override
@@ -140,14 +158,16 @@ class _$RemoteConfigDataImpl implements _RemoteConfigData {
             other is _$RemoteConfigDataImpl &&
             (identical(other.gsFeedbackPostLink, gsFeedbackPostLink) ||
                 other.gsFeedbackPostLink == gsFeedbackPostLink) &&
+            (identical(other.disableDonationCard, disableDonationCard) ||
+                other.disableDonationCard == disableDonationCard) &&
             (identical(other.unlockAllFeatures, unlockAllFeatures) ||
                 other.unlockAllFeatures == unlockAllFeatures));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, gsFeedbackPostLink, unlockAllFeatures);
+  int get hashCode => Object.hash(
+      runtimeType, gsFeedbackPostLink, disableDonationCard, unlockAllFeatures);
 
   @JsonKey(ignore: true)
   @override
@@ -168,6 +188,8 @@ abstract class _RemoteConfigData implements RemoteConfigData {
   const factory _RemoteConfigData(
       {@JsonKey(name: 'gs_feedback_post_link')
       required final String gsFeedbackPostLink,
+      @JsonKey(name: 'disable_donation_card')
+      required final bool disableDonationCard,
       @JsonKey(name: 'unlock_all_features')
       required final bool unlockAllFeatures}) = _$RemoteConfigDataImpl;
 
@@ -177,6 +199,9 @@ abstract class _RemoteConfigData implements RemoteConfigData {
   @override
   @JsonKey(name: 'gs_feedback_post_link')
   String get gsFeedbackPostLink;
+  @override
+  @JsonKey(name: 'disable_donation_card')
+  bool get disableDonationCard;
   @override
   @JsonKey(name: 'unlock_all_features')
   bool get unlockAllFeatures;
