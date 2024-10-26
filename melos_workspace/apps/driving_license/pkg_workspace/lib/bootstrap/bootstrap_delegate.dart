@@ -22,15 +22,19 @@ class ProductionBootstrapDelegate extends BootstrapDelegate {
 
   @override
   Future<void> setupServices(ProviderContainer container) async {
-    container.read(envProvider);
+    final envVars = container.read(envProvider);
 
     // Initialize Firebase
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    await container.read(firebaseRemoteConfigFutureProvider.future);
-    await container.read(remoteConfigDataFutureProvider.future);
-    container.listen(remoteConfigDataFutureProvider.future, (_, __) {});
+
+    // Initialize Firebase remote config
+    if (envVars.enableRemoteConfig) {
+      await container.read(firebaseRemoteConfigFutureProvider.future);
+      await container.read(remoteConfigDataFutureProvider.future);
+      container.listen(remoteConfigDataFutureProvider.future, (_, __) {});
+    }
 
     // Initialize AdMob
     container.read(adMobProvider);
