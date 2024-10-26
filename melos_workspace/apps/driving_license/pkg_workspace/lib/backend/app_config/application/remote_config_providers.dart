@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:driving_license/backend/remote_config/domain/remote_config_data.dart';
-import 'package:driving_license/backend/remote_config/firebase_remote_config.dart';
+import 'package:driving_license/backend/app_config/application/local_config_providers.dart';
+import 'package:driving_license/backend/app_config/domain/app_config_data.dart';
 import 'package:driving_license/exceptions/app_exception.dart';
 import 'package:driving_license/logging/logger_provider.dart';
 import 'package:driving_license/utils/stringify.dart';
@@ -13,9 +13,30 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'remote_config_providers.g.dart';
 
 @Riverpod(keepAlive: true)
+FutureOr<FirebaseRemoteConfig> firebaseRemoteConfigFuture(
+  FirebaseRemoteConfigFutureRef ref,
+) async {
+  final remoteConfig = FirebaseRemoteConfig.instance;
+
+  await remoteConfig.setConfigSettings(
+    RemoteConfigSettings(
+      fetchTimeout: const Duration(seconds: 5),
+      // minimumFetchInterval: const Duration(minutes: 30),
+      minimumFetchInterval: const Duration(days: 1),
+    ),
+  );
+
+  await remoteConfig.setDefaults(
+    ref.read(localConfigDataProvider).toJson(),
+  );
+
+  return remoteConfig;
+}
+
+@Riverpod(keepAlive: true)
 class RemoteConfigDataFuture extends _$RemoteConfigDataFuture {
   @override
-  FutureOr<RemoteConfigData> build() async {
+  FutureOr<AppConfigData> build() async {
     final remoteConfig =
         ref.watch(firebaseRemoteConfigFutureProvider).requireValue;
     final logger = ref.watch(loggerProvider);
@@ -37,7 +58,7 @@ class RemoteConfigDataFuture extends _$RemoteConfigDataFuture {
       }
     });
 
-    final remoteConfigData = RemoteConfigData(
+    final remoteConfigData = AppConfigData(
       gsFeedbackPostLink: remoteConfig.getString('gs_feedback_post_link'),
       disableDonationCard: remoteConfig.getBool('disable_donation_card'),
       unlockAllFeatures: remoteConfig.getBool('unlock_all_features'),

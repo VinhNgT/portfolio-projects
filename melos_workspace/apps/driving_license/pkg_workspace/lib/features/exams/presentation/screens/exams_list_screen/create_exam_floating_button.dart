@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/backend/ads/ad_unit.dart';
-import 'package:driving_license/backend/remote_config/application/remote_config_providers.dart';
+import 'package:driving_license/backend/app_config/app_config.dart';
 import 'package:driving_license/features/donate/presentation/donate_screen_controller.dart';
 import 'package:driving_license/features/exams/application/exams_service.dart';
 import 'package:driving_license/features/exams/presentation/dialogs/new_exam_dialog.dart';
@@ -21,12 +21,12 @@ class CreateExamFloatingButton extends HookConsumerWidget {
       onPressed: () async {
         var shouldCreateExam = false;
         final isUserDonated = ref.read(isUserDonatedProvider).value ?? false;
-        final isUnlockByRemoteConfig = ref
-            .read(remoteConfigDataFutureProvider)
-            .requireValue
-            .unlockAllFeatures;
+        final isUnlockedByAppConfig = ref.read(
+          appConfigProvider
+              .select((value) => value.requireValue.unlockAllFeatures),
+        );
 
-        if (isUserDonated || isUnlockByRemoteConfig) {
+        if (isUserDonated || isUnlockedByAppConfig) {
           shouldCreateExam = true;
         } else {
           shouldCreateExam = await _getUserAdConsentAndShowAd(context, ref);

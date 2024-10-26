@@ -4,7 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/backend/ads/ad_unit.dart';
 import 'package:driving_license/backend/ads/admob_provider.dart';
 import 'package:driving_license/backend/ads/inline_banner_ad/inline_banner_ad_builder.dart';
-import 'package:driving_license/backend/remote_config/application/remote_config_providers.dart';
+import 'package:driving_license/backend/app_config/app_config.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_scaffold.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/common_widgets/common_app_bar.dart';
@@ -48,14 +48,13 @@ class HomeScreen extends HookConsumerWidget {
     final scrollController = useScrollController();
     final isUserDonated = ref.watch(isUserDonatedProvider);
 
-    final isDonationCardDisabledByRemoteConfig = ref.watch(
-      remoteConfigDataFutureProvider
+    final isDonationCardDisabledByAppConfig = ref.watch(
+      appConfigProvider
           .select((value) => value.requireValue.disableDonationCard),
     );
 
-    final isAdHiddenByRemoteConfig = ref.watch(
-      remoteConfigDataFutureProvider
-          .select((value) => value.requireValue.unlockAllFeatures),
+    final isAdHiddenByAppConfig = ref.watch(
+      appConfigProvider.select((value) => value.requireValue.unlockAllFeatures),
     );
 
     return AsyncValueScaffold(
@@ -106,7 +105,7 @@ class HomeScreen extends HookConsumerWidget {
                     builder: (isUserDonatedValue) => Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        !isDonationCardDisabledByRemoteConfig
+                        !isDonationCardDisabledByAppConfig
                             ? DonateCard(isUserDonated: isUserDonatedValue)
                             : const DonateCardReview(),
                         kGap_20,
@@ -122,7 +121,7 @@ class HomeScreen extends HookConsumerWidget {
                         ),
                         kGap_32,
                         const ChapterSelection(),
-                        if (!isUserDonatedValue && !isAdHiddenByRemoteConfig)
+                        if (!isUserDonatedValue && !isAdHiddenByAppConfig)
                           InlineBannerAdBuilder(
                             adUnit: AdUnit.homeBanner,
                             builder: (adWidget) {

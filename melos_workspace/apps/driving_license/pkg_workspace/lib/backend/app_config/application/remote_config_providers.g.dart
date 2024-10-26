@@ -6,6 +6,23 @@ part of 'remote_config_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$firebaseRemoteConfigFutureHash() =>
+    r'76092a4bb65fdeee97a154cbf652f5df173d297f';
+
+/// See also [firebaseRemoteConfigFuture].
+@ProviderFor(firebaseRemoteConfigFuture)
+final firebaseRemoteConfigFutureProvider =
+    FutureProvider<FirebaseRemoteConfig>.internal(
+  firebaseRemoteConfigFuture,
+  name: r'firebaseRemoteConfigFutureProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$firebaseRemoteConfigFutureHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef FirebaseRemoteConfigFutureRef = FutureProviderRef<FirebaseRemoteConfig>;
 String _$remoteConfigUpdateStreamHash() =>
     r'8a3fcdd2d183c64eefbf2c62a565981c2f7dffbf';
 
@@ -24,12 +41,12 @@ final _remoteConfigUpdateStreamProvider =
 
 typedef _RemoteConfigUpdateStreamRef = StreamProviderRef<RemoteConfigUpdate>;
 String _$remoteConfigDataFutureHash() =>
-    r'7ea86c96aa0af312732be3cb92f7b4eb28126a60';
+    r'7b0ad7debb459273aa63a2ff4c0916c097ec7186';
 
 /// See also [RemoteConfigDataFuture].
 @ProviderFor(RemoteConfigDataFuture)
 final remoteConfigDataFutureProvider =
-    AsyncNotifierProvider<RemoteConfigDataFuture, RemoteConfigData>.internal(
+    AsyncNotifierProvider<RemoteConfigDataFuture, AppConfigData>.internal(
   RemoteConfigDataFuture.new,
   name: r'remoteConfigDataFutureProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -39,6 +56,6 @@ final remoteConfigDataFutureProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$RemoteConfigDataFuture = AsyncNotifier<RemoteConfigData>;
+typedef _$RemoteConfigDataFuture = AsyncNotifier<AppConfigData>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'remote_config_data.dart';
+part of 'app_config_data.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-RemoteConfigData _$RemoteConfigDataFromJson(Map<String, dynamic> json) {
-  return _RemoteConfigData.fromJson(json);
+AppConfigData _$AppConfigDataFromJson(Map<String, dynamic> json) {
+  return _AppConfigData.fromJson(json);
 }
 
 /// @nodoc
-mixin _$RemoteConfigData {
+mixin _$AppConfigData {
   @JsonKey(name: 'gs_feedback_post_link')
   String get gsFeedbackPostLink => throw _privateConstructorUsedError;
   @JsonKey(name: 'disable_donation_card')
@@ -29,15 +29,15 @@ mixin _$RemoteConfigData {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $RemoteConfigDataCopyWith<RemoteConfigData> get copyWith =>
+  $AppConfigDataCopyWith<AppConfigData> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RemoteConfigDataCopyWith<$Res> {
-  factory $RemoteConfigDataCopyWith(
-          RemoteConfigData value, $Res Function(RemoteConfigData) then) =
-      _$RemoteConfigDataCopyWithImpl<$Res, RemoteConfigData>;
+abstract class $AppConfigDataCopyWith<$Res> {
+  factory $AppConfigDataCopyWith(
+          AppConfigData value, $Res Function(AppConfigData) then) =
+      _$AppConfigDataCopyWithImpl<$Res, AppConfigData>;
   @useResult
   $Res call(
       {@JsonKey(name: 'gs_feedback_post_link') String gsFeedbackPostLink,
@@ -46,9 +46,9 @@ abstract class $RemoteConfigDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$RemoteConfigDataCopyWithImpl<$Res, $Val extends RemoteConfigData>
-    implements $RemoteConfigDataCopyWith<$Res> {
-  _$RemoteConfigDataCopyWithImpl(this._value, this._then);
+class _$AppConfigDataCopyWithImpl<$Res, $Val extends AppConfigData>
+    implements $AppConfigDataCopyWith<$Res> {
+  _$AppConfigDataCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -80,11 +80,11 @@ class _$RemoteConfigDataCopyWithImpl<$Res, $Val extends RemoteConfigData>
 }
 
 /// @nodoc
-abstract class _$$RemoteConfigDataImplCopyWith<$Res>
-    implements $RemoteConfigDataCopyWith<$Res> {
-  factory _$$RemoteConfigDataImplCopyWith(_$RemoteConfigDataImpl value,
-          $Res Function(_$RemoteConfigDataImpl) then) =
-      __$$RemoteConfigDataImplCopyWithImpl<$Res>;
+abstract class _$$AppConfigDataImplCopyWith<$Res>
+    implements $AppConfigDataCopyWith<$Res> {
+  factory _$$AppConfigDataImplCopyWith(
+          _$AppConfigDataImpl value, $Res Function(_$AppConfigDataImpl) then) =
+      __$$AppConfigDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -94,11 +94,11 @@ abstract class _$$RemoteConfigDataImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$RemoteConfigDataImplCopyWithImpl<$Res>
-    extends _$RemoteConfigDataCopyWithImpl<$Res, _$RemoteConfigDataImpl>
-    implements _$$RemoteConfigDataImplCopyWith<$Res> {
-  __$$RemoteConfigDataImplCopyWithImpl(_$RemoteConfigDataImpl _value,
-      $Res Function(_$RemoteConfigDataImpl) _then)
+class __$$AppConfigDataImplCopyWithImpl<$Res>
+    extends _$AppConfigDataCopyWithImpl<$Res, _$AppConfigDataImpl>
+    implements _$$AppConfigDataImplCopyWith<$Res> {
+  __$$AppConfigDataImplCopyWithImpl(
+      _$AppConfigDataImpl _value, $Res Function(_$AppConfigDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -108,7 +108,7 @@ class __$$RemoteConfigDataImplCopyWithImpl<$Res>
     Object? disableDonationCard = null,
     Object? unlockAllFeatures = null,
   }) {
-    return _then(_$RemoteConfigDataImpl(
+    return _then(_$AppConfigDataImpl(
       gsFeedbackPostLink: null == gsFeedbackPostLink
           ? _value.gsFeedbackPostLink
           : gsFeedbackPostLink // ignore: cast_nullable_to_non_nullable
@@ -127,14 +127,14 @@ class __$$RemoteConfigDataImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$RemoteConfigDataImpl implements _RemoteConfigData {
-  const _$RemoteConfigDataImpl(
+class _$AppConfigDataImpl implements _AppConfigData {
+  const _$AppConfigDataImpl(
       {@JsonKey(name: 'gs_feedback_post_link') required this.gsFeedbackPostLink,
       @JsonKey(name: 'disable_donation_card') required this.disableDonationCard,
       @JsonKey(name: 'unlock_all_features') required this.unlockAllFeatures});
 
-  factory _$RemoteConfigDataImpl.fromJson(Map<String, dynamic> json) =>
-      _$$RemoteConfigDataImplFromJson(json);
+  factory _$AppConfigDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AppConfigDataImplFromJson(json);
 
   @override
   @JsonKey(name: 'gs_feedback_post_link')
@@ -148,14 +148,14 @@ class _$RemoteConfigDataImpl implements _RemoteConfigData {
 
   @override
   String toString() {
-    return 'RemoteConfigData(gsFeedbackPostLink: $gsFeedbackPostLink, disableDonationCard: $disableDonationCard, unlockAllFeatures: $unlockAllFeatures)';
+    return 'AppConfigData(gsFeedbackPostLink: $gsFeedbackPostLink, disableDonationCard: $disableDonationCard, unlockAllFeatures: $unlockAllFeatures)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RemoteConfigDataImpl &&
+            other is _$AppConfigDataImpl &&
             (identical(other.gsFeedbackPostLink, gsFeedbackPostLink) ||
                 other.gsFeedbackPostLink == gsFeedbackPostLink) &&
             (identical(other.disableDonationCard, disableDonationCard) ||
@@ -172,29 +172,28 @@ class _$RemoteConfigDataImpl implements _RemoteConfigData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$RemoteConfigDataImplCopyWith<_$RemoteConfigDataImpl> get copyWith =>
-      __$$RemoteConfigDataImplCopyWithImpl<_$RemoteConfigDataImpl>(
-          this, _$identity);
+  _$$AppConfigDataImplCopyWith<_$AppConfigDataImpl> get copyWith =>
+      __$$AppConfigDataImplCopyWithImpl<_$AppConfigDataImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RemoteConfigDataImplToJson(
+    return _$$AppConfigDataImplToJson(
       this,
     );
   }
 }
 
-abstract class _RemoteConfigData implements RemoteConfigData {
-  const factory _RemoteConfigData(
+abstract class _AppConfigData implements AppConfigData {
+  const factory _AppConfigData(
       {@JsonKey(name: 'gs_feedback_post_link')
       required final String gsFeedbackPostLink,
       @JsonKey(name: 'disable_donation_card')
       required final bool disableDonationCard,
       @JsonKey(name: 'unlock_all_features')
-      required final bool unlockAllFeatures}) = _$RemoteConfigDataImpl;
+      required final bool unlockAllFeatures}) = _$AppConfigDataImpl;
 
-  factory _RemoteConfigData.fromJson(Map<String, dynamic> json) =
-      _$RemoteConfigDataImpl.fromJson;
+  factory _AppConfigData.fromJson(Map<String, dynamic> json) =
+      _$AppConfigDataImpl.fromJson;
 
   @override
   @JsonKey(name: 'gs_feedback_post_link')
@@ -207,6 +206,6 @@ abstract class _RemoteConfigData implements RemoteConfigData {
   bool get unlockAllFeatures;
   @override
   @JsonKey(ignore: true)
-  _$$RemoteConfigDataImplCopyWith<_$RemoteConfigDataImpl> get copyWith =>
+  _$$AppConfigDataImplCopyWith<_$AppConfigDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
