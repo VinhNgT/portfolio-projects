@@ -109,3 +109,9 @@ git commit --amend --no-edit
 # Tag the commit with the new version using format 'driving_license-v1.1.2'
 new_build_name=$(jq -r '.build_name' <<<"$new_json")
 git tag "$PACKAGE_NAME-v$new_build_name"
+
+# Clean up
+echo "Versioning completed successfully"
+echo
+echo -e "Run \e[1;32mgit push --follow-tags\e[0m to publish the new version."
+echo
