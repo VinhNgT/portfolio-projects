@@ -7,7 +7,7 @@ part of 'debug_menu_controller.dart';
 // **************************************************************************
 
 String _$debugMenuControllerHash() =>
-    r'50e1e07a8ccef280f0c523bdc48d38e4b011547e';
+    r'97b7fb1c314946129a4e811287fcfdac4788c908';
 
 /// See also [DebugMenuController].
 @ProviderFor(DebugMenuController)

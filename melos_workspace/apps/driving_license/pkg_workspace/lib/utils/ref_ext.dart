@@ -1,7 +1,7 @@
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-extension AutoDisposeProviderRefX on AutoDisposeProviderRef {
+extension AutoDisposeProviderRefX on Ref {
   /// Keeps the [provider] alive by listening to its changes.
   ///
   /// The [provider] is a [ProviderListenable] object that notifies its

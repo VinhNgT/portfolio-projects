@@ -6,7 +6,7 @@ part of 'rewarded_ad_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$rewardedAdFutureHash() => r'4dab5e0cb23a616f5f4761869b42419ae788b641';
+String _$rewardedAdFutureHash() => r'dcf94b2807b0b9e4c4e204c087efb660462a3471';
 
 /// Copied from Dart SDK
 class _SystemHash {

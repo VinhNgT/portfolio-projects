@@ -7,7 +7,7 @@ part of 'inline_banner_ad_provider.dart';
 // **************************************************************************
 
 String _$inlineBannerAdStreamHash() =>
-    r'91fff0b3ec257a4d84b288f406fb87ddda53bc75';
+    r'34dab8bac3b3213ff97695569ef741b0cad29756';
 
 /// Copied from Dart SDK
 class _SystemHash {

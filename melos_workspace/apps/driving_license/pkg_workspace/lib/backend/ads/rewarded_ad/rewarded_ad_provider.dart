@@ -16,9 +16,9 @@ class RewardedAdFuture extends _$RewardedAdFuture with AdStatusLogger {
 
   @override
   FutureOr<RewardedAd> build(AdUnit adUnit) {
-    ref.listenSelf(
-      (previous, next) => log(_logger, adUnit, previous, next),
-    );
+    listenSelf((previous, next) {
+      log(_logger, adUnit, previous, next);
+    });
 
     ref.onAddListener(() {
       if (_dirty) {

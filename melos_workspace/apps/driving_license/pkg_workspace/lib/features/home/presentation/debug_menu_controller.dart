@@ -9,7 +9,7 @@ class DebugMenuController extends _$DebugMenuController {
 
   @override
   bool build() {
-    ref.listenSelf((previous, next) {
+    listenSelf((previous, next) {
       if (previous == false && next) {
         debugPrint('Debug menu is enabled');
       }

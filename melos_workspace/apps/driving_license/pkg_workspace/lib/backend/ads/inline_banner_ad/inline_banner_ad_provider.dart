@@ -19,9 +19,9 @@ class InlineBannerAdStream extends _$InlineBannerAdStream with AdStatusLogger {
     AdUnit adUnit,
     InLineBannerAdConfig? config,
   ) {
-    ref.listenSelf(
-      (previous, next) => log(_logger, adUnit, previous, next),
-    );
+    listenSelf((previous, next) {
+      log(_logger, adUnit, previous, next);
+    });
 
     return _getAd();
   }
