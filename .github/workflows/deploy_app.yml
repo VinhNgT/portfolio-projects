@@ -181,3 +181,57 @@ jobs:
           draft: ${{ steps.get_publish_config.outputs.IS_DRAFT }}
           prerelease: ${{ contains(env.VERSION, '-dev.') }}
           make_latest: ${{ !contains(env.VERSION, '-dev.') }}
+
+  notify-telegram:
+    runs-on: ubuntu-latest
+    needs:
+      - get-variables
+      - deploy_android
+      - publish-github
+    if: success() || failure()
+
+    steps:
+      - name: Get current time
+        uses: josStorer/get-current-time@v2
+        id: current-time
+        with:
+          timezone: 'Asia/Ho_Chi_Minh'
+
+      - name: Notify Telegram job status
+        uses: appleboy/telegram-action@master
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          PACKAGE_NAME: ${{ needs.get-variables.outputs.package_name }}
+          PACKAGE_VERSION: ${{ needs.get-variables.outputs.package_version }}
+          PACKAGE_LOCATION: ${{ needs.get-variables.outputs.package_location }}
+          CURRENT_TIME: ${{ steps.current-time.outputs.readableTime }}
+
+          WORKFLOW_STATUS: |
+            ${{
+              needs.deploy_android.result == 'success' &&
+              needs.publish-github.result == 'success'
+            }}
+
+        with:
+          to: ${{ vars.TELEGRAM_CICD_CHANNEL_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          format: html
+          disable_web_page_preview: true
+          message: |
+            Actor: ${{ env.GITHUB_ACTOR }}
+            Commit: <a href="${{ github.event.head_commit.url }}">${{ github.sha }}</a>
+
+            Location: ${{ env.PACKAGE_LOCATION }}
+            Package name: ${{ env.PACKAGE_NAME }}
+            Version: ${{ env.PACKAGE_VERSION }}
+
+            <b>Workflow status:</b>
+            <pre>${{ env.WORKFLOW_STATUS }}</pre>
+
+            Android deployment job status:
+            <pre>${{ needs.deploy_android.result }}</pre>
+
+            GitHub release job status:
+            <pre>${{ needs.publish-github.result }}</pre>
+
+            ${{ env.CURRENT_TIME }}
