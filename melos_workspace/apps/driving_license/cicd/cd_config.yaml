@@ -25,7 +25,7 @@ deployments:
         publish_script: scripts/publish_playstore.sh
         args:
           - '-p'
-          - '-d' # Is draft.
+          # - '-d' # Is draft.
 
   # Placeholder for future deployment of ios target.
   # We can't build and publish for ios yet.
@@ -43,7 +43,7 @@ deployments:
 
   # Upload the build artifacts to github releases.
   github:
-    draft: true
+    # draft: true
     file_paths:
       - build_result/release/app-prod-release.apk
       - build_result/release/app-prod-release.aab
