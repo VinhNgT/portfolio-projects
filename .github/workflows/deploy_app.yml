@@ -197,6 +197,19 @@ jobs:
         with:
           timezone: 'Asia/Ho_Chi_Minh'
 
+      - name: Check workflow status
+        id: check_workflow_status
+        env:
+          DEPLOY_ANDROID_STATUS: ${{ needs.deploy_android.result }}
+          PUBLISH_GITHUB_STATUS: ${{ needs.publish-github.result }}
+        run: |
+          if [ "$DEPLOY_ANDROID_STATUS" == "success" ] &&
+              [ "$PUBLISH_GITHUB_STATUS" == "success" ]; then
+              echo "success" >> $GITHUB_OUTPUT
+          else
+              echo "failure" >> $GITHUB_OUTPUT
+          fi
+
       - name: Notify Telegram job status
         uses: appleboy/telegram-action@master
         env:
@@ -205,12 +218,7 @@ jobs:
           PACKAGE_VERSION: ${{ needs.get-variables.outputs.package_version }}
           PACKAGE_LOCATION: ${{ needs.get-variables.outputs.package_location }}
           CURRENT_TIME: ${{ steps.current-time.outputs.readableTime }}
-
-          WORKFLOW_STATUS: |
-            ${{
-              needs.deploy_android.result == 'success' &&
-              needs.publish-github.result == 'success'
-            }}
+          WORKFLOW_STATUS: ${{ steps.check_workflow_status.outputs.GITHUB_OUTPUT }}
 
         with:
           to: ${{ vars.TELEGRAM_CICD_CHANNEL_ID }}
@@ -218,20 +226,73 @@ jobs:
           format: html
           disable_web_page_preview: true
           message: |
+            <b>🚀 Package Deployment Report</b>
+
             Actor: ${{ env.GITHUB_ACTOR }}
             Commit: <a href="${{ github.event.head_commit.url }}">${{ github.sha }}</a>
 
-            Location: ${{ env.PACKAGE_LOCATION }}
             Package name: ${{ env.PACKAGE_NAME }}
             Version: ${{ env.PACKAGE_VERSION }}
+            Melos location: ${{ env.PACKAGE_LOCATION }}
 
-            <b>Workflow status:</b>
+            Workflow status:
             <pre>${{ env.WORKFLOW_STATUS }}</pre>
 
+            Details:
+            <pre>Ref: ${{ github.ref }}
+
             Android deployment job status:
-            <pre>${{ needs.deploy_android.result }}</pre>
+            ${{ needs.deploy_android.result }}
 
             GitHub release job status:
-            <pre>${{ needs.publish-github.result }}</pre>
+            ${{ needs.publish-github.result }}</pre>
 
             ${{ env.CURRENT_TIME }}
+
+  # test-telegram:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Get current time
+  #       uses: josStorer/get-current-time@v2
+  #       id: current-time
+  #       with:
+  #         timezone: 'Asia/Ho_Chi_Minh'
+
+  #     - name: Notify Telegram job status
+  #       uses: appleboy/telegram-action@v0.1.1
+  #       env:
+  #         GITHUB_ACTOR: ${{ github.actor }}
+  #         PACKAGE_NAME: driving_license
+  #         PACKAGE_VERSION: 1.3.1
+  #         PACKAGE_LOCATION: apps/driving_license
+  #         CURRENT_TIME: ${{ steps.current-time.outputs.readableTime }}
+  #         WORKFLOW_STATUS: 'success'
+
+  #       with:
+  #         to: ${{ vars.TELEGRAM_CICD_CHANNEL_ID }}
+  #         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+  #         format: html
+  #         disable_web_page_preview: true
+  #         message: |
+  #           <b>🚀 Package Deployment Report</b>
+
+  #           Actor: ${{ env.GITHUB_ACTOR }}
+  #           Commit: <a href="${{ github.event.head_commit.url }}">${{ github.sha }}</a>
+
+  #           Package name: ${{ env.PACKAGE_NAME }}
+  #           Version: ${{ env.PACKAGE_VERSION }}
+  #           Melos location: ${{ env.PACKAGE_LOCATION }}
+
+  #           Workflow status:
+  #           <pre>${{ env.WORKFLOW_STATUS }}</pre>
+
+  #           Details:
+  #           <pre>Ref: ${{ github.ref }}
+
+  #           Android deployment job status:
+  #           success
+
+  #           GitHub release job status:
+  #           success</pre>
+
+  #           ${{ env.CURRENT_TIME }}
