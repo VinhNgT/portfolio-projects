@@ -113,5 +113,5 @@ git tag "$PACKAGE_NAME-v$new_build_name"
 # Clean up
 echo "Versioning completed successfully"
 echo
-echo -e "Run \e[1;32mgit push --follow-tags\e[0m to publish the new version."
+echo -e "Run \e[1;32mgit push && git push --tags\e[0m to publish the new version."
 echo
