@@ -15,7 +15,7 @@ abstract interface class BookmarksRepository {
   Stream<bool> watchIsBookmarked(Question question);
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 BookmarksRepository bookmarksRepository(BookmarksRepositoryRef ref) {
   final sembastDatabase = ref.watch(sembastProvider).requireValue;
   return SembastBookmarksRepository(sembastDatabase);

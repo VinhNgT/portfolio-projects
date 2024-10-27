@@ -50,7 +50,7 @@ abstract interface class QuestionsRepository {
   );
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 QuestionsRepository questionsRepository(QuestionsRepositoryRef ref) {
   final sqliteDatabase = ref.watch(sqliteProvider).requireValue;
   return SqliteQuestionsRepository(sqliteDatabase);

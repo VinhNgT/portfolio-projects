@@ -7,11 +7,12 @@ part of 'questions_repository.dart';
 // **************************************************************************
 
 String _$questionsRepositoryHash() =>
-    r'ae2464de01cfdfdc722ba7f9b19d31a1e3ea7adb';
+    r'e4ec09b62d20b7d3e55128e0b3aa70c82d8124a7';
 
 /// See also [questionsRepository].
 @ProviderFor(questionsRepository)
-final questionsRepositoryProvider = Provider<QuestionsRepository>.internal(
+final questionsRepositoryProvider =
+    AutoDisposeProvider<QuestionsRepository>.internal(
   questionsRepository,
   name: r'questionsRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,6 +22,6 @@ final questionsRepositoryProvider = Provider<QuestionsRepository>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef QuestionsRepositoryRef = ProviderRef<QuestionsRepository>;
+typedef QuestionsRepositoryRef = AutoDisposeProviderRef<QuestionsRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

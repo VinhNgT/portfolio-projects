@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 part 'user_selected_license_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class UserSelectedLicense extends _$UserSelectedLicense {
   final _prefsLicenseKey = 'selected_license';
   late SharedPreferences _prefs;

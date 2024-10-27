@@ -42,7 +42,7 @@ abstract interface class UserAnswersRepository {
   Stream<int> watchUserAnswersCount(License license);
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 UserAnswersRepository userAnswersRepository(UserAnswersRepositoryRef ref) {
   final sembastDatabase = ref.watch(sembastProvider).requireValue;
   return SembastUserAnswersRepository(sembastDatabase);

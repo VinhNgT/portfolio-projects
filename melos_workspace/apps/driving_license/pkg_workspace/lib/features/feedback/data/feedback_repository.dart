@@ -47,7 +47,7 @@ class FeedbackRepository {
   }
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 FeedbackRepository feedbackRepository(FeedbackRepositoryRef ref) {
   final dio = ref.watch(dioProvider);
   final feedbackPostLink = ref.watch(

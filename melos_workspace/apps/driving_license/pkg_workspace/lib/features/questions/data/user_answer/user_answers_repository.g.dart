@@ -7,11 +7,12 @@ part of 'user_answers_repository.dart';
 // **************************************************************************
 
 String _$userAnswersRepositoryHash() =>
-    r'57cf165af498949b876158d19e14c314e08a5916';
+    r'2a5da90f5ea307b2649c4744b89894aee181036d';
 
 /// See also [userAnswersRepository].
 @ProviderFor(userAnswersRepository)
-final userAnswersRepositoryProvider = Provider<UserAnswersRepository>.internal(
+final userAnswersRepositoryProvider =
+    AutoDisposeProvider<UserAnswersRepository>.internal(
   userAnswersRepository,
   name: r'userAnswersRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,7 +22,8 @@ final userAnswersRepositoryProvider = Provider<UserAnswersRepository>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef UserAnswersRepositoryRef = ProviderRef<UserAnswersRepository>;
+typedef UserAnswersRepositoryRef
+    = AutoDisposeProviderRef<UserAnswersRepository>;
 String _$inMemoryUserAnswersRepositoryHash() =>
     r'eb05d3fbc5294ee0564827667c485caec1d7f0eb';
 

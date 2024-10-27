@@ -6,11 +6,11 @@ part of 'exams_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$examsRepositoryHash() => r'6cc2cd727ecee706c0baa953946916cb3203bb19';
+String _$examsRepositoryHash() => r'a1ab4d44bd1312440e36b708faa732b2ee2f529a';
 
 /// See also [examsRepository].
 @ProviderFor(examsRepository)
-final examsRepositoryProvider = Provider<ExamsRepository>.internal(
+final examsRepositoryProvider = AutoDisposeProvider<ExamsRepository>.internal(
   examsRepository,
   name: r'examsRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -20,6 +20,6 @@ final examsRepositoryProvider = Provider<ExamsRepository>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef ExamsRepositoryRef = ProviderRef<ExamsRepository>;
+typedef ExamsRepositoryRef = AutoDisposeProviderRef<ExamsRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

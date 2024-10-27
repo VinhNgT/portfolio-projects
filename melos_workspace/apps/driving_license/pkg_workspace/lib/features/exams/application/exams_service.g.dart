@@ -6,11 +6,11 @@ part of 'exams_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$examsServiceHash() => r'fc1c7a9c90de74c65565aeb0899451e4e139164b';
+String _$examsServiceHash() => r'eacd5179925a16d04a8faf90dfad722c6f5a32f7';
 
 /// See also [examsService].
 @ProviderFor(examsService)
-final examsServiceProvider = FutureProvider<ExamsService>.internal(
+final examsServiceProvider = AutoDisposeFutureProvider<ExamsService>.internal(
   examsService,
   name: r'examsServiceProvider',
   debugGetCreateSourceHash:
@@ -19,6 +19,6 @@ final examsServiceProvider = FutureProvider<ExamsService>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef ExamsServiceRef = FutureProviderRef<ExamsService>;
+typedef ExamsServiceRef = AutoDisposeFutureProviderRef<ExamsService>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

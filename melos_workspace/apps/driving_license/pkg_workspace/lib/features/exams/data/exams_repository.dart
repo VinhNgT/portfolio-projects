@@ -20,7 +20,7 @@ abstract interface class ExamsRepository {
   Stream<List<Exam>> watchAllExamsByLicense(License license);
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 ExamsRepository examsRepository(ExamsRepositoryRef ref) {
   final sembastDatabase = ref.watch(sembastProvider).requireValue;
   return SembastExamsRepository(sembastDatabase);

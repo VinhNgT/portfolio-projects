@@ -158,7 +158,7 @@ extension QuestionsServiceMethods on QuestionsService {
       userAnswersHandler.getAnswersByQuestionDbIndexes(dbIndexes);
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 FutureOr<QuestionsService> questionsService(QuestionsServiceRef ref) async {
   final currentMode = ref.watch(currentQuestionsServiceModeProvider);
   final license = await ref.watch(userSelectedLicenseProvider.future);

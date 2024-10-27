@@ -9,7 +9,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'exams_service.g.dart';
 
 class ExamsService {
-
   ExamsService({
     required this.examsRepository,
     required this.questionsRepository,
@@ -20,6 +19,7 @@ class ExamsService {
       questionsRepository: questionsRepository,
     );
   }
+
   final ExamsRepository examsRepository;
   final QuestionsRepository questionsRepository;
   final License license;
@@ -37,7 +37,7 @@ class ExamsService {
   }
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 FutureOr<ExamsService> examsService(ExamsServiceRef ref) async {
   final examsRepository = ref.watch(examsRepositoryProvider);
   final questionsRepository = ref.watch(questionsRepositoryProvider);
