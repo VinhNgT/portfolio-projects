@@ -50,6 +50,12 @@ jobs:
             melos_workspace/${{ inputs.package-location }}/pkg_workspace/android/*.gradle*
             melos_workspace/${{ inputs.package-location }}/pkg_workspace/android/**/gradle-wrapper.properties
 
+      - name: Setup Android SDK
+        if: ${{ vars.NEED_INSTALL_ANDROID_SDK == 'true' }}
+        uses: android-actions/setup-android@v3
+        with:
+          log-accepted-android-sdk-licenses: false
+
       - name: Setup Flutter
         uses: kuhnroyal/flutter-fvm-config-action/setup@v3
         with:
