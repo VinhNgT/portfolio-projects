@@ -1,3 +1,8 @@
+## 1.3.1
+
+ - **REFACTOR**(drv_lcn): replace deprecated riverpod apis.
+ - **PERF**(drv_lcn): improve memory consumption by removing keepAlive from providers that don't need to persist data.
+
 ## 1.3.0
 
  - Graduate package to a stable release. See pre-releases prior to this version for changelog entries.

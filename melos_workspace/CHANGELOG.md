@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-10-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v1.3.1`](#driving_license---v131)
+
+---
+
+#### `driving_license` - `v1.3.1`
+
+ - **REFACTOR**(drv_lcn): replace deprecated riverpod apis.
+ - **PERF**(drv_lcn): improve memory consumption by removing keepAlive from providers that don't need to persist data.
+
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## 2024-10-26
 
 ### Changes
