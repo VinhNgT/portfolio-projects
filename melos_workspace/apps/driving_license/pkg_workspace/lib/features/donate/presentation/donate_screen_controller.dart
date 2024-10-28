@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:driving_license/backend/in_app_purchase/data/iap_providers.dart';
+import 'package:driving_license/backend/in_app_purchase/domain/iap_billing_response.dart';
 import 'package:driving_license/backend/in_app_purchase/domain/iap_product.dart';
 import 'package:driving_license/backend/in_app_purchase/domain/iap_product_purchase.dart';
 import 'package:driving_license/backend/in_app_purchase/iap_service.dart';
+import 'package:driving_license/exceptions/app_billing_exceptions.dart';
 import 'package:driving_license/features/donate/domain/donate_product_entry.dart';
 import 'package:driving_license/logging/logger_provider.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -22,8 +27,18 @@ class BanknoteCardController {
     try {
       return await iapService.buyProduct(product);
     } catch (e, st) {
-      logger.e('Buy product failed', error: e, stackTrace: st);
-      rethrow;
+      if (e is! IAPError) {
+        rethrow;
+      }
+
+      final billingError = IapBillingResponse.byString(e.message);
+      switch (billingError) {
+        case IapBillingResponse.userCanceled:
+          return Future.error(UserCanceledException(product.id), st);
+
+        default:
+          rethrow;
+      }
     }
   }
 }
@@ -53,11 +68,11 @@ FutureOr<bool> isUserDonated(IsUserDonatedRef ref) async {
 FutureOr<List<IapProduct<DonateProductEntry>>> donateProductListFuture(
   DonateProductListFutureRef ref,
 ) async {
-// final iapProductsList = await ref
-//     .watch(iapProductsListFutureProvider(DonateProductEntry.values).future);
+  final iapProductsList = await ref
+      .watch(iapProductsListFutureProvider(DonateProductEntry.values).future);
 
-  final iapProductsList =
-      await ref.watch(mockIapProductsListFutureProvider.future);
+  // final iapProductsList =
+  //     await ref.watch(mockIapProductsListFutureProvider.future);
 
   return iapProductsList
       .map(

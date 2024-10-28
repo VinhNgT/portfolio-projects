@@ -39,9 +39,6 @@ FutureOr<List<IapProduct>> iapProductsListFuture(
 FutureOr<List<IapProduct>> mockIapProductsListFuture(
   MockIapProductsListFutureRef ref,
 ) async {
-  // final iapService = ref.watch(iapServiceProvider);
-  // return iapService.loadPurchases(iapProductEntries);
-
   return [
     for (final entry in DonateProductEntry.values)
       IapProduct(

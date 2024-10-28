@@ -10,10 +10,10 @@ abstract interface class IapProductEntry {
 /// Represents an actual product that can be purchased.
 class IapProduct<T extends IapProductEntry> {
   /// A product that can be purchased.
-  IapProduct(this.productDetails, this.entry);
+  const IapProduct(this.productDetails, this.entry);
 
-  ProductDetails productDetails;
-  T entry;
+  final ProductDetails productDetails;
+  final T entry;
 
   String get id => productDetails.id;
   String get title => productDetails.title;
