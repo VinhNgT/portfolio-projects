@@ -1,3 +1,8 @@
+## 1.4.0
+
+ - **FEAT**(drv_lcn): add support for treating google non-consumables as consumables, useful for testing.
+ - **FEAT**(drv_lcn): restore iap functionality.
+
 ## 1.3.2
 
  - **FIX**(drv_lcn): fix an issue where the driving license can't be selected when the app starts for the first time.

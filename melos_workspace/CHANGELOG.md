@@ -15,6 +15,28 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`driving_license` - `v1.4.0`](#driving_license---v140)
+
+---
+
+#### `driving_license` - `v1.4.0`
+
+ - **FEAT**(drv_lcn): add support for treating google non-consumables as consumables, useful for testing.
+ - **FEAT**(drv_lcn): restore iap functionality.
+
+
+## 2024-10-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`driving_license` - `v1.3.2`](#driving_license---v132)
 
 ---
