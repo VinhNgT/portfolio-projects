@@ -40,7 +40,7 @@ final isUserDonatedProvider = AutoDisposeFutureProvider<bool>.internal(
 
 typedef IsUserDonatedRef = AutoDisposeFutureProviderRef<bool>;
 String _$donateProductListFutureHash() =>
-    r'64ced2cb634a9aab64df5de6da183b69e4ce491b';
+    r'f0a4be7b23c2a93f3e07074abb9e4c98b0cfd69a';
 
 /// See also [donateProductListFuture].
 @ProviderFor(donateProductListFuture)

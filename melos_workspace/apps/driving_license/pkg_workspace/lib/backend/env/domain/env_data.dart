@@ -10,6 +10,7 @@ class EnvData with _$EnvData {
     required Level loggerLevel,
     required bool showDetailedError,
     required bool enableRemoteConfig,
+    required bool treatGoogleIapNonConsumableAsConsumable,
   }) = _EnvData;
 
   factory EnvData.fromJson(Map<String, dynamic> json) =>
@@ -29,6 +30,10 @@ class EnvData with _$EnvData {
       ),
       enableRemoteConfig: const bool.fromEnvironment(
         'ENABLE_REMOTE_CONFIG',
+        defaultValue: false,
+      ),
+      treatGoogleIapNonConsumableAsConsumable: const bool.fromEnvironment(
+        'TREAT_GOOGLE_IAP_NON_CONSUMABLE_AS_CONSUMABLE',
         defaultValue: false,
       ),
     );

@@ -23,6 +23,8 @@ mixin _$EnvData {
   Level get loggerLevel => throw _privateConstructorUsedError;
   bool get showDetailedError => throw _privateConstructorUsedError;
   bool get enableRemoteConfig => throw _privateConstructorUsedError;
+  bool get treatGoogleIapNonConsumableAsConsumable =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +37,10 @@ abstract class $EnvDataCopyWith<$Res> {
       _$EnvDataCopyWithImpl<$Res, EnvData>;
   @useResult
   $Res call(
-      {Level loggerLevel, bool showDetailedError, bool enableRemoteConfig});
+      {Level loggerLevel,
+      bool showDetailedError,
+      bool enableRemoteConfig,
+      bool treatGoogleIapNonConsumableAsConsumable});
 }
 
 /// @nodoc
@@ -54,6 +59,7 @@ class _$EnvDataCopyWithImpl<$Res, $Val extends EnvData>
     Object? loggerLevel = null,
     Object? showDetailedError = null,
     Object? enableRemoteConfig = null,
+    Object? treatGoogleIapNonConsumableAsConsumable = null,
   }) {
     return _then(_value.copyWith(
       loggerLevel: null == loggerLevel
@@ -68,6 +74,11 @@ class _$EnvDataCopyWithImpl<$Res, $Val extends EnvData>
           ? _value.enableRemoteConfig
           : enableRemoteConfig // ignore: cast_nullable_to_non_nullable
               as bool,
+      treatGoogleIapNonConsumableAsConsumable: null ==
+              treatGoogleIapNonConsumableAsConsumable
+          ? _value.treatGoogleIapNonConsumableAsConsumable
+          : treatGoogleIapNonConsumableAsConsumable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -80,7 +91,10 @@ abstract class _$$EnvDataImplCopyWith<$Res> implements $EnvDataCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {Level loggerLevel, bool showDetailedError, bool enableRemoteConfig});
+      {Level loggerLevel,
+      bool showDetailedError,
+      bool enableRemoteConfig,
+      bool treatGoogleIapNonConsumableAsConsumable});
 }
 
 /// @nodoc
@@ -97,6 +111,7 @@ class __$$EnvDataImplCopyWithImpl<$Res>
     Object? loggerLevel = null,
     Object? showDetailedError = null,
     Object? enableRemoteConfig = null,
+    Object? treatGoogleIapNonConsumableAsConsumable = null,
   }) {
     return _then(_$EnvDataImpl(
       loggerLevel: null == loggerLevel
@@ -111,6 +126,11 @@ class __$$EnvDataImplCopyWithImpl<$Res>
           ? _value.enableRemoteConfig
           : enableRemoteConfig // ignore: cast_nullable_to_non_nullable
               as bool,
+      treatGoogleIapNonConsumableAsConsumable: null ==
+              treatGoogleIapNonConsumableAsConsumable
+          ? _value.treatGoogleIapNonConsumableAsConsumable
+          : treatGoogleIapNonConsumableAsConsumable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -121,7 +141,8 @@ class _$EnvDataImpl implements _EnvData {
   const _$EnvDataImpl(
       {required this.loggerLevel,
       required this.showDetailedError,
-      required this.enableRemoteConfig});
+      required this.enableRemoteConfig,
+      required this.treatGoogleIapNonConsumableAsConsumable});
 
   factory _$EnvDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$EnvDataImplFromJson(json);
@@ -132,10 +153,12 @@ class _$EnvDataImpl implements _EnvData {
   final bool showDetailedError;
   @override
   final bool enableRemoteConfig;
+  @override
+  final bool treatGoogleIapNonConsumableAsConsumable;
 
   @override
   String toString() {
-    return 'EnvData(loggerLevel: $loggerLevel, showDetailedError: $showDetailedError, enableRemoteConfig: $enableRemoteConfig)';
+    return 'EnvData(loggerLevel: $loggerLevel, showDetailedError: $showDetailedError, enableRemoteConfig: $enableRemoteConfig, treatGoogleIapNonConsumableAsConsumable: $treatGoogleIapNonConsumableAsConsumable)';
   }
 
   @override
@@ -148,13 +171,17 @@ class _$EnvDataImpl implements _EnvData {
             (identical(other.showDetailedError, showDetailedError) ||
                 other.showDetailedError == showDetailedError) &&
             (identical(other.enableRemoteConfig, enableRemoteConfig) ||
-                other.enableRemoteConfig == enableRemoteConfig));
+                other.enableRemoteConfig == enableRemoteConfig) &&
+            (identical(other.treatGoogleIapNonConsumableAsConsumable,
+                    treatGoogleIapNonConsumableAsConsumable) ||
+                other.treatGoogleIapNonConsumableAsConsumable ==
+                    treatGoogleIapNonConsumableAsConsumable));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, loggerLevel, showDetailedError, enableRemoteConfig);
+  int get hashCode => Object.hash(runtimeType, loggerLevel, showDetailedError,
+      enableRemoteConfig, treatGoogleIapNonConsumableAsConsumable);
 
   @JsonKey(ignore: true)
   @override
@@ -172,9 +199,11 @@ class _$EnvDataImpl implements _EnvData {
 
 abstract class _EnvData implements EnvData {
   const factory _EnvData(
-      {required final Level loggerLevel,
-      required final bool showDetailedError,
-      required final bool enableRemoteConfig}) = _$EnvDataImpl;
+          {required final Level loggerLevel,
+          required final bool showDetailedError,
+          required final bool enableRemoteConfig,
+          required final bool treatGoogleIapNonConsumableAsConsumable}) =
+      _$EnvDataImpl;
 
   factory _EnvData.fromJson(Map<String, dynamic> json) = _$EnvDataImpl.fromJson;
 
@@ -184,6 +213,8 @@ abstract class _EnvData implements EnvData {
   bool get showDetailedError;
   @override
   bool get enableRemoteConfig;
+  @override
+  bool get treatGoogleIapNonConsumableAsConsumable;
   @override
   @JsonKey(ignore: true)
   _$$EnvDataImplCopyWith<_$EnvDataImpl> get copyWith =>

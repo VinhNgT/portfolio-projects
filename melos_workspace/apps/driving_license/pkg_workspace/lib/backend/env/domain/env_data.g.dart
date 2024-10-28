@@ -11,6 +11,8 @@ _$EnvDataImpl _$$EnvDataImplFromJson(Map<String, dynamic> json) =>
       loggerLevel: $enumDecode(_$LevelEnumMap, json['loggerLevel']),
       showDetailedError: json['showDetailedError'] as bool,
       enableRemoteConfig: json['enableRemoteConfig'] as bool,
+      treatGoogleIapNonConsumableAsConsumable:
+          json['treatGoogleIapNonConsumableAsConsumable'] as bool,
     );
 
 Map<String, dynamic> _$$EnvDataImplToJson(_$EnvDataImpl instance) =>
@@ -18,6 +20,8 @@ Map<String, dynamic> _$$EnvDataImplToJson(_$EnvDataImpl instance) =>
       'loggerLevel': _$LevelEnumMap[instance.loggerLevel]!,
       'showDetailedError': instance.showDetailedError,
       'enableRemoteConfig': instance.enableRemoteConfig,
+      'treatGoogleIapNonConsumableAsConsumable':
+          instance.treatGoogleIapNonConsumableAsConsumable,
     };
 
 const _$LevelEnumMap = {

@@ -1,12 +1,15 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
+import 'package:driving_license/backend/env/application/env_provider.dart';
 import 'package:driving_license/backend/in_app_purchase/data/iap_providers.dart';
 import 'package:driving_license/backend/in_app_purchase/data/purchases_repository.dart';
 import 'package:driving_license/backend/in_app_purchase/domain/iap_product.dart';
 import 'package:driving_license/backend/in_app_purchase/domain/iap_product_purchase.dart';
+import 'package:driving_license/logging/logger_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'iap_service.g.dart';
@@ -15,10 +18,17 @@ class IapService {
   IapService({
     required this.iap,
     required this.purchasesRepository,
+    required this.logger,
+    this.treatGoogleIapNonConsumableAsConsumable = false,
   });
 
   final InAppPurchase iap;
   final SembastPurchasesRepository purchasesRepository;
+  final Logger logger;
+
+  // Whether to treat Google IAP non-consumable as consumable.
+  // This is only for testing purposes. Must be false in production.
+  final bool treatGoogleIapNonConsumableAsConsumable;
 
   /// A completer to handle pending purchase.
   ///
@@ -70,7 +80,19 @@ class IapService {
     }
 
     final purchaseParam = PurchaseParam(productDetails: product.productDetails);
-    await iap.buyNonConsumable(purchaseParam: purchaseParam);
+
+    if (treatGoogleIapNonConsumableAsConsumable) {
+      // This part of the code must not be executed in production, it is only
+      // for testing purposes.
+      //
+      // Only non-consumable products are supported by IapService at this time.
+      logger.w('Treating Google IAP non-consumable as consumable so we don\'t '
+          'have to deal with refunding purchases in testing');
+
+      await iap.buyConsumable(purchaseParam: purchaseParam);
+    } else {
+      await iap.buyNonConsumable(purchaseParam: purchaseParam);
+    }
 
     _purchaseInProgress = Completer();
     return _purchaseInProgress!.future;
@@ -119,9 +141,19 @@ class IapService {
 IapService iapService(IapServiceRef ref) {
   final iap = ref.watch(iapProvider);
   final purchasesRepository = ref.watch(purchasesRepositoryProvider);
+  final logger = ref.watch(loggerProvider);
+  final treatGoogleIapNonConsumableAsConsumable = ref.watch(
+    envProvider
+        .select((value) => value.treatGoogleIapNonConsumableAsConsumable),
+  );
 
-  final iapService =
-      IapService(iap: iap, purchasesRepository: purchasesRepository);
+  final iapService = IapService(
+    iap: iap,
+    purchasesRepository: purchasesRepository,
+    logger: logger,
+    treatGoogleIapNonConsumableAsConsumable:
+        treatGoogleIapNonConsumableAsConsumable,
+  );
 
   ref.listen(
     purchaseDetailsListStreamProvider,
