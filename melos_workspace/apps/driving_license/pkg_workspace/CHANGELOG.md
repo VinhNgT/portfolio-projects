@@ -1,3 +1,7 @@
+## 1.3.2
+
+ - **FIX**(drv_lcn): fix an issue where the driving license can't be selected when the app starts for the first time.
+
 ## 1.3.1
 
  - **REFACTOR**(drv_lcn): replace deprecated riverpod apis.

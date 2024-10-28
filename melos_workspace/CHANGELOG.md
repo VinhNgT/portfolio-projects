@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-10-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v1.3.2`](#driving_license---v132)
+
+---
+
+#### `driving_license` - `v1.3.2`
+
+ - **FIX**(drv_lcn): fix an issue where the driving license can't be selected when the app starts for the first time.
+
+
 ## 2024-10-27
 
 ### Changes
