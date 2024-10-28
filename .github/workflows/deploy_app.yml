@@ -205,9 +205,9 @@ jobs:
         run: |
           if [ "$DEPLOY_ANDROID_STATUS" == "success" ] &&
               [ "$PUBLISH_GITHUB_STATUS" == "success" ]; then
-              echo "success" >> $GITHUB_OUTPUT
+              echo "STATUS=success" >> $GITHUB_OUTPUT
           else
-              echo "failure" >> $GITHUB_OUTPUT
+              echo "STATUS=failure" >> $GITHUB_OUTPUT
           fi
 
       - name: Notify Telegram job status
@@ -218,7 +218,7 @@ jobs:
           PACKAGE_VERSION: ${{ needs.get-variables.outputs.package_version }}
           PACKAGE_LOCATION: ${{ needs.get-variables.outputs.package_location }}
           CURRENT_TIME: ${{ steps.current-time.outputs.readableTime }}
-          WORKFLOW_STATUS: ${{ steps.check_workflow_status.outputs.GITHUB_OUTPUT }}
+          WORKFLOW_STATUS: ${{ steps.check_workflow_status.outputs.STATUS }}
 
         with:
           to: ${{ vars.TELEGRAM_CICD_CHANNEL_ID }}

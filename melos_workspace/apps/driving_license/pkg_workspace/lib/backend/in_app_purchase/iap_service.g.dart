@@ -6,7 +6,7 @@ part of 'iap_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$iapServiceHash() => r'267992b8d14a7b373620f104017bcc1bd8ca370e';
+String _$iapServiceHash() => r'57746942ad4fa1b88ef33d6b4460744cedc5b575';
 
 /// See also [iapService].
 @ProviderFor(iapService)

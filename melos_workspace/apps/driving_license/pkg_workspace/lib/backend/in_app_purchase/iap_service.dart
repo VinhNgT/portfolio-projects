@@ -34,6 +34,8 @@ class IapService {
   ///
   /// Return a [bool] that indicate whether the purchase is in pending state
   /// or purchased state.
+  ///
+  /// Only one purchase can be in progress at a time due to API limitations.
   Completer<IapProductPurchaseState>? _purchaseInProgress;
 
   Future<List<IapProduct>> loadPurchases(
@@ -76,7 +78,7 @@ class IapService {
   /// no way to diffrentiate between purchases that are failed/canceled.
   Future<IapProductPurchaseState> buyProduct(IapProduct product) async {
     if (_purchaseInProgress != null) {
-      throw Exception('A purchase is already in progress');
+      throw StateError('A purchase is already in progress');
     }
 
     final purchaseParam = PurchaseParam(productDetails: product.productDetails);
@@ -158,7 +160,15 @@ IapService iapService(IapServiceRef ref) {
   ref.listen(
     purchaseDetailsListStreamProvider,
     (_, next) => next.whenData(
-      (purchaseDetails) => purchaseDetails.forEach(iapService.handlePurchase),
+      (purchaseDetails) {
+        if (purchaseDetails.length > 1) {
+          throw UnsupportedError(
+            'Multiple purchase detail events at once are not supported',
+          );
+        }
+
+        iapService.handlePurchase(purchaseDetails.first);
+      },
     ),
   );
 
