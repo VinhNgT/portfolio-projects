@@ -8,23 +8,18 @@ part 'user_selected_license_provider.g.dart';
 @riverpod
 class UserSelectedLicense extends _$UserSelectedLicense {
   final _prefsLicenseKey = 'selected_license';
-  late SharedPreferences _prefs;
+
+  SharedPreferences get _prefs =>
+      ref.read(sharedPreferencesProvider).requireValue;
 
   @override
   FutureOr<License> build() async {
-    _prefs = await ref.watch(sharedPreferencesProvider.future);
-    // await _prefs.setString(_prefsLicenseKey, 'a4');
     final selectedLicense = _prefs.getString(_prefsLicenseKey);
 
-    return switch (selectedLicense) {
-      'a1' => License.a1,
-      'a2' => License.a2,
-      'a3' => License.a3,
-      'a4' => License.a4,
-      'b1' => License.b1,
-      'b2' => License.b2,
-      _ => License.all,
-    };
+    if (selectedLicense == null) {
+      return License.all;
+    }
+    return License.values.byName(selectedLicense);
   }
 
   Future<void> selectLicense(License license) async {
