@@ -1,53 +1,31 @@
 import 'package:driving_license/backend/in_app_purchase/domain/iap_product.dart';
-import 'package:driving_license/backend/in_app_purchase/domain/iap_product_purchase.dart';
 import 'package:driving_license/common_widgets/button_card.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/donate/domain/donate_product_entry.dart';
-import 'package:driving_license/features/donate/presentation/donate_screen_controller.dart';
-import 'package:driving_license/logging/error_loggers/future_callback_error_logger.dart';
 import 'package:driving_license/utils/context_ext.dart';
-import 'package:driving_license/utils/extensions/async_snapshot_ext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:vector_graphics/vector_graphics.dart';
 
 class BanknoteCard extends HookConsumerWidget {
-  const BanknoteCard({super.key, required this.product});
+  const BanknoteCard({
+    super.key,
+    required this.product,
+    required this.purchaseProductCallback,
+  });
+
   final IapProduct<DonateProductEntry> product;
+  final VoidCallback? purchaseProductCallback;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.watch(banknoteCardControllerProvider);
-
-    final pendingFutureFunction = useState<Future Function()?>(null);
-    final snapshot = useFutureCallbackErrorLogger(pendingFutureFunction.value);
-
-    useValueChanged<SnapshotState, void>(snapshot.state,
-        (previousState, oldResult) {
-      if (snapshot.state == SnapshotState.error) {
-        _showSnackBar(context, 'Giao dịch không thành công');
-      }
-
-      if (previousState == SnapshotState.loading &&
-          snapshot.state == SnapshotState.done &&
-          snapshot.hasData) {
-        if (snapshot.data == IapProductPurchaseState.purchased) {
-          _showSnackBar(context, 'Đóng góp thành công, cảm ơn bạn!');
-        }
-
-        if (snapshot.data == IapProductPurchaseState.pending) {
-          _showSnackBar(context, 'Giao dịch đang chờ xử lý');
-        }
-      }
-    });
-
     return ButtonCard(
       surfaceColor: context.materialScheme.surfaceContainerHigh,
       onSurfaceColor: context.materialScheme.onSurface,
       borderRadius: kSize_16,
+      onPressed: purchaseProductCallback,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: kSize_20,
@@ -79,25 +57,6 @@ class BanknoteCard extends HookConsumerWidget {
           ],
         ),
       ),
-      onPressed: () async {
-        final isUserDonated = await ref.read(isUserDonatedProvider.future);
-
-        if (!context.mounted) {
-          return;
-        }
-
-        if (isUserDonated) {
-          _showSnackBar(context, 'Bạn đã thực hiện đóng góp trước đó');
-          return;
-        }
-
-        if (snapshot.state == SnapshotState.loading) {
-          _showSnackBar(context, 'Giao dịch trước đó đang chờ xử lý');
-          return;
-        }
-
-        pendingFutureFunction.value = () => controller.buyProduct(product);
-      },
     );
   }
 
@@ -107,14 +66,6 @@ class BanknoteCard extends HookConsumerWidget {
         DonateProductEntry.unlockFullAccess50k => 'Đóng góp kha khá',
         DonateProductEntry.unlockFullAccess100k => 'Đóng góp lớn',
         DonateProductEntry.unlockFullAccess200k => 'Đóng góp rất lớn',
-        DonateProductEntry.unlockFullAccess500k => '???',
+        DonateProductEntry.unlockFullAccess500k => '??? 😱',
       };
-
-  void _showSnackBar(BuildContext context, String message) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.showSnackBar(
-        SnackBar(content: Text(message)),
-      );
-    });
-  }
 }

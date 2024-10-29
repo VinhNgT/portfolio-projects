@@ -6,24 +6,24 @@ part of 'donate_screen_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$banknoteCardControllerHash() =>
-    r'b197eeab68052dda76fc4cf95d4039f9d7ea24ca';
+String _$banknotesListControllerHash() =>
+    r'b8923f7e8dbf6734c52b203ed5795118342a6928';
 
-/// See also [banknoteCardController].
-@ProviderFor(banknoteCardController)
-final banknoteCardControllerProvider =
-    AutoDisposeProvider<BanknoteCardController>.internal(
-  banknoteCardController,
-  name: r'banknoteCardControllerProvider',
+/// See also [banknotesListController].
+@ProviderFor(banknotesListController)
+final banknotesListControllerProvider =
+    AutoDisposeProvider<BanknotesListController>.internal(
+  banknotesListController,
+  name: r'banknotesListControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$banknoteCardControllerHash,
+      : _$banknotesListControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef BanknoteCardControllerRef
-    = AutoDisposeProviderRef<BanknoteCardController>;
+typedef BanknotesListControllerRef
+    = AutoDisposeProviderRef<BanknotesListController>;
 String _$isUserDonatedHash() => r'b575cb56ddcb82ee97eee3e4ba98694e95fedcc9';
 
 /// See also [isUserDonated].

@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/backend/in_app_purchase/data/iap_providers.dart';
+import 'package:driving_license/backend/in_app_purchase/domain/iap_product_purchase.dart';
 import 'package:driving_license/common_widgets/async_value/async_value_widget.dart';
 import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/common_widgets/widget_deadzone.dart';
@@ -7,7 +8,9 @@ import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/donate/presentation/banknote_card.dart';
 import 'package:driving_license/features/donate/presentation/donate_screen_controller.dart';
+import 'package:driving_license/logging/error_loggers/future_callback_error_logger.dart';
 import 'package:driving_license/utils/context_ext.dart';
+import 'package:driving_license/utils/extensions/async_snapshot_ext.dart';
 import 'package:driving_license/utils/list_extention.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -114,16 +117,70 @@ class BanknotesList extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.watch(banknotesListControllerProvider);
     final iapProductsList = ref.watch(donateProductListFutureProvider);
+
+    final pendingFutureFunction = useState<Future Function()?>(null);
+    final snapshot = useFutureCallbackErrorLogger(pendingFutureFunction.value);
+
+    useValueChanged<SnapshotState, void>(snapshot.state,
+        (previousState, oldResult) {
+      if (snapshot.state == SnapshotState.error) {
+        _showSnackBar(context, 'Giao dịch không thành công');
+      }
+
+      if (previousState == SnapshotState.loading &&
+          snapshot.state == SnapshotState.done &&
+          snapshot.hasData) {
+        if (snapshot.data == IapProductPurchaseState.purchased) {
+          _showSnackBar(context, 'Đóng góp thành công, cảm ơn bạn!');
+        }
+
+        if (snapshot.data == IapProductPurchaseState.pending) {
+          _showSnackBar(context, 'Giao dịch đang chờ xử lý');
+        }
+      }
+    });
 
     return AsyncValueWidget(
       value: iapProductsList,
       builder: (iapProductsListValue) => Column(
         children: <Widget>[
           for (final product in iapProductsListValue)
-            BanknoteCard(product: product),
+            BanknoteCard(
+              product: product,
+              purchaseProductCallback: () async {
+                final isUserDonated =
+                    await ref.read(isUserDonatedProvider.future);
+
+                if (!context.mounted) {
+                  return;
+                }
+
+                if (isUserDonated) {
+                  _showSnackBar(context, 'Bạn đã thực hiện đóng góp trước đó');
+                  return;
+                }
+
+                if (snapshot.state == SnapshotState.loading) {
+                  _showSnackBar(context, 'Giao dịch trước đó đang chờ xử lý');
+                  return;
+                }
+
+                pendingFutureFunction.value =
+                    () => controller.buyProduct(product);
+              },
+            ),
         ].separated(kGap_16),
       ),
     );
+  }
+
+  void _showSnackBar(BuildContext context, String message) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+    });
   }
 }

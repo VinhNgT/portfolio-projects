@@ -14,8 +14,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'donate_screen_controller.g.dart';
 
-class BanknoteCardController {
-  BanknoteCardController({
+class BanknotesListController {
+  BanknotesListController({
     required this.iapService,
     required this.logger,
   });
@@ -44,11 +44,13 @@ class BanknoteCardController {
 }
 
 @riverpod
-BanknoteCardController banknoteCardController(BanknoteCardControllerRef ref) {
+BanknotesListController banknotesListController(
+  BanknotesListControllerRef ref,
+) {
   final iapService = ref.watch(iapServiceProvider);
   final logger = ref.watch(loggerProvider);
 
-  return BanknoteCardController(iapService: iapService, logger: logger);
+  return BanknotesListController(iapService: iapService, logger: logger);
 }
 
 @riverpod
