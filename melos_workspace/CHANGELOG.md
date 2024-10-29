@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-10-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v1.5.0`](#driving_license---v150)
+
+---
+
+#### `driving_license` - `v1.5.0`
+
+ - **REFACTOR**(drv_lcn): rename user cancel purchase exception.
+ - **REFACTOR**(drv_lcn): rename logger_provider.dart to logger_providers.dart.
+ - **FEAT**(drv_lcn): better handling of errors that are caught by hooks.
+
+
 ## 2024-10-28
 
 ### Changes

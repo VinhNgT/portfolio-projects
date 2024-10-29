@@ -1,3 +1,9 @@
+## 1.5.0
+
+ - **REFACTOR**(drv_lcn): rename user cancel purchase exception.
+ - **REFACTOR**(drv_lcn): rename logger_provider.dart to logger_providers.dart.
+ - **FEAT**(drv_lcn): better handling of errors that are caught by hooks.
+
 ## 1.4.0
 
  - **FEAT**(drv_lcn): add support for treating google non-consumables as consumables, useful for testing.
