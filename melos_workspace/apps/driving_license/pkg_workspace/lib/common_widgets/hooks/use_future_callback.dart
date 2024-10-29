@@ -31,6 +31,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 ///
 /// See also:
 ///   * [useFuture], which this hook uses internally.
+///
+@Deprecated('use useFutureCallbackErrorLogger instead')
 AsyncSnapshot<T> useFutureCallback<T>(
   Future<T> Function()? futureCallback, {
   T? initialData,
