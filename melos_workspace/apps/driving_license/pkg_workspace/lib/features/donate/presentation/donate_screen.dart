@@ -6,8 +6,8 @@ import 'package:driving_license/common_widgets/common_app_bar.dart';
 import 'package:driving_license/common_widgets/widget_deadzone.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
-import 'package:driving_license/features/donate/presentation/banknote_card.dart';
 import 'package:driving_license/features/donate/presentation/donate_screen_controller.dart';
+import 'package:driving_license/features/donate/presentation/purchase_item_card.dart';
 import 'package:driving_license/logging/error_loggers/future_callback_error_logger.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:driving_license/utils/extensions/async_snapshot_ext.dart';
@@ -79,7 +79,7 @@ Toàn bộ quảng cáo trên ứng dụng sẽ được loại bỏ sau khi gia
                   kGap_24,
                   const Divider(),
                   kGap_24,
-                  const BanknotesList(),
+                  const PurchaseItemsList(),
                   kGap_8,
                   TextButton.icon(
                     style: ButtonStyle(
@@ -112,12 +112,12 @@ Toàn bộ quảng cáo trên ứng dụng sẽ được loại bỏ sau khi gia
   }
 }
 
-class BanknotesList extends HookConsumerWidget {
-  const BanknotesList({super.key});
+class PurchaseItemsList extends HookConsumerWidget {
+  const PurchaseItemsList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.watch(banknotesListControllerProvider);
+    final controller = ref.watch(purchaseItemsListControllerProvider);
     final iapProductsList = ref.watch(donateProductListFutureProvider);
 
     final pendingFutureFunction = useState<Future Function()?>(null);
@@ -147,7 +147,7 @@ class BanknotesList extends HookConsumerWidget {
       builder: (iapProductsListValue) => Column(
         children: <Widget>[
           for (final product in iapProductsListValue)
-            BanknoteCard(
+            PurchaseItemCard(
               product: product,
               purchaseProductCallback: () async {
                 final isUserDonated =

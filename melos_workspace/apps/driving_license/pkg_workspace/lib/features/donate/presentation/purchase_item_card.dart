@@ -9,8 +9,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:vector_graphics/vector_graphics.dart';
 
-class BanknoteCard extends HookConsumerWidget {
-  const BanknoteCard({
+class PurchaseItemCard extends HookConsumerWidget {
+  const PurchaseItemCard({
     super.key,
     required this.product,
     required this.purchaseProductCallback,

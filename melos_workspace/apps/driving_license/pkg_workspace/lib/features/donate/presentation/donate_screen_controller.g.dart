@@ -6,24 +6,24 @@ part of 'donate_screen_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$banknotesListControllerHash() =>
-    r'b8923f7e8dbf6734c52b203ed5795118342a6928';
+String _$purchaseItemsListControllerHash() =>
+    r'1987c2f8e89b77d9bf0695b38b78e299d4d35fd3';
 
-/// See also [banknotesListController].
-@ProviderFor(banknotesListController)
-final banknotesListControllerProvider =
-    AutoDisposeProvider<BanknotesListController>.internal(
-  banknotesListController,
-  name: r'banknotesListControllerProvider',
+/// See also [purchaseItemsListController].
+@ProviderFor(purchaseItemsListController)
+final purchaseItemsListControllerProvider =
+    AutoDisposeProvider<PurchaseItemsListController>.internal(
+  purchaseItemsListController,
+  name: r'purchaseItemsListControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$banknotesListControllerHash,
+      : _$purchaseItemsListControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef BanknotesListControllerRef
-    = AutoDisposeProviderRef<BanknotesListController>;
+typedef PurchaseItemsListControllerRef
+    = AutoDisposeProviderRef<PurchaseItemsListController>;
 String _$isUserDonatedHash() => r'b575cb56ddcb82ee97eee3e4ba98694e95fedcc9';
 
 /// See also [isUserDonated].
