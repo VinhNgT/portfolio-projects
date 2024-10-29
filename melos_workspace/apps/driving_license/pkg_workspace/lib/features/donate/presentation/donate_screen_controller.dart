@@ -34,7 +34,7 @@ class BanknoteCardController {
       final billingError = IapBillingResponse.byString(e.message);
       switch (billingError) {
         case IapBillingResponse.userCanceled:
-          return Future.error(UserCanceledException(product.id), st);
+          return Future.error(UserCancelPurchaseException(product.id), st);
 
         default:
           rethrow;

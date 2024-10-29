@@ -4,8 +4,9 @@ abstract class AppBillingException extends AppException {
   const AppBillingException(super.message);
 }
 
-class UserCanceledException extends AppBillingException {
-  const UserCanceledException(this.productId)
+class UserCancelPurchaseException extends AppBillingException {
+  const UserCancelPurchaseException(this.productId)
       : super('User canceled the purchase of $productId');
+
   final String productId;
 }
