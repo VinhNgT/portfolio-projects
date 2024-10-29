@@ -2,16 +2,14 @@ import 'package:driving_license/exceptions/app_exception.dart';
 import 'package:logger/logger.dart';
 
 enum ErrorSource {
-  flutter('Flutter framework exception'),
-  riverpodProvider('Riverpod provider exception'),
-  rootIsolate('Root isolate exception'),
-  bootstrap('Bootstrap exception');
+  flutter('Flutter framework'),
+  riverpodProvider('Riverpod provider'),
+  flutterHook('Flutter hook'),
+  rootIsolate('Root isolate'),
+  bootstrap('Bootstrap');
 
-  const ErrorSource(this._message);
-  final String _message;
-
-  @override
-  String toString() => _message;
+  const ErrorSource(this.name);
+  final String name;
 }
 
 /// A logger that logs all errors and exceptions in the app.
@@ -27,17 +25,21 @@ class ErrorLogger {
     switch (error) {
       case (final AppException exception):
         logger.w(
-          source,
+          _formatMessageSource(source),
           error: exception,
           stackTrace: stackTrace,
         );
 
       case _:
         logger.e(
-          source,
+          _formatMessageSource(source),
           error: error,
           stackTrace: stackTrace,
         );
     }
+  }
+
+  String _formatMessageSource(ErrorSource source) {
+    return 'Caught by ${source.name}';
   }
 }

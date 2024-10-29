@@ -1,11 +1,11 @@
 import 'package:driving_license/backend/in_app_purchase/domain/iap_product.dart';
 import 'package:driving_license/backend/in_app_purchase/domain/iap_product_purchase.dart';
 import 'package:driving_license/common_widgets/button_card.dart';
-import 'package:driving_license/common_widgets/hooks/use_future_callback.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/donate/domain/donate_product_entry.dart';
 import 'package:driving_license/features/donate/presentation/donate_screen_controller.dart';
+import 'package:driving_license/logging/error_loggers/future_callback_error_logger.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:driving_license/utils/extensions/async_snapshot_ext.dart';
 import 'package:flutter/material.dart';
@@ -22,9 +22,8 @@ class BanknoteCard extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.watch(banknoteCardControllerProvider);
 
-    final pendingFutureFunction =
-        useState<Future<IapProductPurchaseState> Function()?>(null);
-    final snapshot = useFutureCallback(pendingFutureFunction.value);
+    final pendingFutureFunction = useState<Future Function()?>(null);
+    final snapshot = useFutureCallbackErrorLogger(pendingFutureFunction.value);
 
     useValueChanged<SnapshotState, void>(snapshot.state,
         (previousState, oldResult) {
@@ -82,8 +81,18 @@ class BanknoteCard extends HookConsumerWidget {
       ),
       onPressed: () async {
         final isUserDonated = await ref.read(isUserDonatedProvider.future);
-        if (isUserDonated && context.mounted) {
+
+        if (!context.mounted) {
+          return;
+        }
+
+        if (isUserDonated) {
           _showSnackBar(context, 'Bạn đã thực hiện đóng góp trước đó');
+          return;
+        }
+
+        if (snapshot.state == SnapshotState.loading) {
+          _showSnackBar(context, 'Giao dịch trước đó đang chờ xử lý');
           return;
         }
 
