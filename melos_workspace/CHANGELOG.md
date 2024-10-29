@@ -15,6 +15,28 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`driving_license` - `v1.5.1`](#driving_license---v151)
+
+---
+
+#### `driving_license` - `v1.5.1`
+
+ - **REFACTOR**(drv_lcn): rename 'Banknote' to 'PurchaseItem'.
+ - **REFACTOR**(drv_lcn): move purchase logic to BanknotesList.
+
+
+## 2024-10-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`driving_license` - `v1.5.0`](#driving_license---v150)
 
 ---

@@ -1,3 +1,8 @@
+## 1.5.1
+
+ - **REFACTOR**(drv_lcn): rename 'Banknote' to 'PurchaseItem'.
+ - **REFACTOR**(drv_lcn): move purchase logic to BanknotesList.
+
 ## 1.5.0
 
  - **REFACTOR**(drv_lcn): rename user cancel purchase exception.
