@@ -4,7 +4,7 @@ import 'package:driving_license/logging/printers/lower_level_hybird_printer.dart
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'logger_provider.g.dart';
+part 'logger_providers.g.dart';
 
 /// Provides an instance of [Logger].
 ///

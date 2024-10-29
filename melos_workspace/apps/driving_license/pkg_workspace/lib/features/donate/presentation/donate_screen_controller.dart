@@ -7,7 +7,7 @@ import 'package:driving_license/backend/in_app_purchase/domain/iap_product_purch
 import 'package:driving_license/backend/in_app_purchase/iap_service.dart';
 import 'package:driving_license/exceptions/app_billing_exceptions.dart';
 import 'package:driving_license/features/donate/domain/donate_product_entry.dart';
-import 'package:driving_license/logging/logger_provider.dart';
+import 'package:driving_license/logging/logger_providers.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

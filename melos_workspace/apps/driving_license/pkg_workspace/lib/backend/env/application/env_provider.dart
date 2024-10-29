@@ -1,5 +1,5 @@
 import 'package:driving_license/backend/env/domain/env_data.dart';
-import 'package:driving_license/logging/logger_provider.dart';
+import 'package:driving_license/logging/logger_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

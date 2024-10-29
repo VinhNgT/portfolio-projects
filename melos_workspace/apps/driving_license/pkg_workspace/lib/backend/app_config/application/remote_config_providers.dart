@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:driving_license/backend/app_config/application/local_config_providers.dart';
 import 'package:driving_license/backend/app_config/domain/app_config_data.dart';
 import 'package:driving_license/exceptions/app_exception.dart';
-import 'package:driving_license/logging/logger_provider.dart';
+import 'package:driving_license/logging/logger_providers.dart';
 import 'package:driving_license/utils/stringify.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';

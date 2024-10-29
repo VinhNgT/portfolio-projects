@@ -1,4 +1,4 @@
-import 'package:driving_license/logging/logger_provider.dart';
+import 'package:driving_license/logging/logger_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';

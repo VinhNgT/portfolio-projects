@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:driving_license/exceptions/app_exception.dart';
 import 'package:driving_license/features/feedback/data/feedback_repository.dart';
 import 'package:driving_license/features/feedback/domain/feedback_form.dart';
-import 'package:driving_license/logging/logger_provider.dart';
+import 'package:driving_license/logging/logger_providers.dart';
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

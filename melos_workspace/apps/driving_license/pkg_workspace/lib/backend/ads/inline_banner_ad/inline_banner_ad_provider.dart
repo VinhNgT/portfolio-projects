@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:driving_license/backend/ads/ad_status_logger.dart';
 import 'package:driving_license/backend/ads/ad_unit.dart';
-import 'package:driving_license/logging/logger_provider.dart';
+import 'package:driving_license/logging/logger_providers.dart';
 import 'package:equatable/equatable.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:logger/logger.dart';

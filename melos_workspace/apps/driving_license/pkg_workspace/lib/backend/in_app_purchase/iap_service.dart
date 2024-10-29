@@ -6,7 +6,7 @@ import 'package:driving_license/backend/in_app_purchase/data/iap_providers.dart'
 import 'package:driving_license/backend/in_app_purchase/data/purchases_repository.dart';
 import 'package:driving_license/backend/in_app_purchase/domain/iap_product.dart';
 import 'package:driving_license/backend/in_app_purchase/domain/iap_product_purchase.dart';
-import 'package:driving_license/logging/logger_provider.dart';
+import 'package:driving_license/logging/logger_providers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:logger/logger.dart';

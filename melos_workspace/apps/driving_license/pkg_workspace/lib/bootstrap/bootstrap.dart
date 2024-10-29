@@ -7,7 +7,7 @@ import 'package:driving_license/bootstrap/bootstrap_delegate.dart';
 import 'package:driving_license/exceptions/app_error_widget.dart';
 import 'package:driving_license/logging/error_loggers/async_error_logger.dart';
 import 'package:driving_license/logging/error_loggers/error_logger.dart';
-import 'package:driving_license/logging/logger_provider.dart';
+import 'package:driving_license/logging/logger_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
