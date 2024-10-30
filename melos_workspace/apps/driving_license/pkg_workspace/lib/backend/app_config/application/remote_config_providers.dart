@@ -22,7 +22,7 @@ FutureOr<FirebaseRemoteConfig> firebaseRemoteConfigFuture(
     RemoteConfigSettings(
       fetchTimeout: const Duration(seconds: 5),
       // minimumFetchInterval: const Duration(minutes: 30),
-      minimumFetchInterval: const Duration(days: 1),
+      minimumFetchInterval: const Duration(hours: 6),
     ),
   );
 
