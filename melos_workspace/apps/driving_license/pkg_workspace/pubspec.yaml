@@ -1,8 +1,8 @@
 name: driving_license
-description: "Drive Ready"
+description: 'Drive Ready'
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: "none" # Remove this line if you wish to publish to pub.dev
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.5.2
 
 environment:
-  sdk: ">=3.2.6 <4.0.0"
+  sdk: '>=3.2.6 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -143,6 +143,8 @@ flutter:
   assets:
     - assets/questions.db
     - assets/images/question_images/
+    - assets/app_licenses/
+
     # - assets/images/bank_notes/
     - assets/icons/donation/_compiled/
     - assets/icons/error/_compiled/
