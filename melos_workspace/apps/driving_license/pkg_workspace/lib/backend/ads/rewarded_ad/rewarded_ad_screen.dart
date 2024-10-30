@@ -49,10 +49,18 @@ class RewardedAdScreen extends HookConsumerWidget {
                   return const SizedBox.shrink();
                 },
               ),
-              error: (_, __) => const AppErrorWidget(
-                errorMessage:
-                    'Hiển thị quảng cáo thất bại, vui lòng thử lại sau',
-              ),
+              error: (e, __) {
+                final errorMessage = switch (e) {
+                  LoadAdError(:final message) => message,
+                  _ => e.toString(),
+                };
+
+                return AppErrorWidget(
+                  errorMessage: errorMessage,
+                  userFriendlyErrorMessage:
+                      'Hiển thị quảng cáo thất bại, vui lòng thử lại sau',
+                );
+              },
               loading: () => const Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [

@@ -7,9 +7,20 @@ import 'package:vector_graphics/vector_graphics.dart';
 
 /// Error widget that show when an app level error occurs.
 class AppErrorWidget extends HookConsumerWidget {
-  const AppErrorWidget({super.key, this.errorMessage});
+  const AppErrorWidget({
+    super.key,
+    this.errorMessage,
+    this.userFriendlyErrorMessage,
+  });
 
+  /// The error message to show when envProvider.showDetailedError is true.
   final String? errorMessage;
+
+  /// The error message to show to the user when envProvider.showDetailedError
+  /// is false.
+  final String? userFriendlyErrorMessage;
+
+  /// The default error message to show when no error message is provided.
   final String _defaultErrorMessage = 'Đã có lỗi xảy ra';
 
   @override
@@ -46,7 +57,7 @@ class AppErrorWidget extends HookConsumerWidget {
     if (showDetailedError) {
       return errorMessage ?? _defaultErrorMessage;
     }
-    return _defaultErrorMessage;
+    return userFriendlyErrorMessage ?? _defaultErrorMessage;
   }
 }
 
