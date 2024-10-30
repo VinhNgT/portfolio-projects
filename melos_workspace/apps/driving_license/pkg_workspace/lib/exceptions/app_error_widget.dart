@@ -26,7 +26,7 @@ class AppErrorWidget extends HookConsumerWidget {
             children: [
               const SvgPicture(
                 AssetBytesLoader(
-                  'assets/icons/compiled/view_error.svg.vec',
+                  'assets/icons/error/_compiled/view_error.svg.vec',
                 ),
               ),
               const SizedBox(height: 24),
@@ -51,6 +51,7 @@ class AppErrorWidget extends HookConsumerWidget {
 }
 
 /// Error widget that show when a widget level error occurs.
+@Deprecated('Use AppErrorWidget instead')
 class WidgetErrorWidget extends HookConsumerWidget {
   const WidgetErrorWidget({super.key, this.errorMessage});
 
