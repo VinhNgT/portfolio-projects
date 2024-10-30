@@ -1,3 +1,8 @@
+## 1.5.2
+
+ - **REFACTOR**(drv_lcn): better error message display for the user.
+ - **FIX**(drv_lcn): fix error svg icon path.
+
 ## 1.5.1
 
  - **REFACTOR**(drv_lcn): rename 'Banknote' to 'PurchaseItem'.

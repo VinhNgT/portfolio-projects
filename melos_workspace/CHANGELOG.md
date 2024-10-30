@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-10-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v1.5.2`](#driving_license---v152)
+
+---
+
+#### `driving_license` - `v1.5.2`
+
+ - **REFACTOR**(drv_lcn): better error message display for the user.
+ - **FIX**(drv_lcn): fix error svg icon path.
+
+
 ## 2024-10-29
 
 ### Changes
