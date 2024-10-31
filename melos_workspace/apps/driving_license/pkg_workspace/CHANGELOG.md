@@ -1,3 +1,8 @@
+## 1.6.0
+
+ - **REFACTOR**(drv_lcn): reduce remote config minimumFetchInterval.
+ - **FEAT**(drv_lcn): open licenses in an in-app-webview.
+
 ## 1.5.2
 
  - **REFACTOR**(drv_lcn): better error message display for the user.

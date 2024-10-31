@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-10-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v1.6.0`](#driving_license---v160)
+
+---
+
+#### `driving_license` - `v1.6.0`
+
+ - **REFACTOR**(drv_lcn): reduce remote config minimumFetchInterval.
+ - **FEAT**(drv_lcn): open licenses in an in-app-webview.
+
+
 ## 2024-10-30
 
 ### Changes
