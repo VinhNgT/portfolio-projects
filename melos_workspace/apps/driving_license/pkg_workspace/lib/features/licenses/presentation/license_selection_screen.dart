@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:driving_license/common_widgets/button_card.dart';
 import 'package:driving_license/constants/app_sizes.dart';
 import 'package:driving_license/constants/gap_sizes.dart';
-import 'package:driving_license/exceptions/app_exception.dart';
 import 'package:driving_license/features/licenses/data/providers/user_selected_license_provider.dart';
 import 'package:driving_license/features/licenses/domain/license.dart';
 import 'package:driving_license/routing/app_router.gr.dart';
@@ -12,7 +11,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:vector_graphics/vector_graphics.dart';
 
 @RoutePage()
@@ -67,11 +65,11 @@ class LicenseSelectionScreen extends HookConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextButton(
-                      onPressed: _openPrivacyPolicy,
+                      onPressed: () => _openPrivacyPolicy(context),
                       child: const Text('Chính sách bảo mật'),
                     ),
                     TextButton(
-                      onPressed: _openLicenses,
+                      onPressed: () => _openLicenses(context),
                       child: const Text('Giấy phép sử dụng'),
                     ),
                   ],
@@ -84,28 +82,18 @@ class LicenseSelectionScreen extends HookConsumerWidget {
     );
   }
 
-  void _openPrivacyPolicy() async {
-    final url = Uri.parse(
-      'https://raw.githubusercontent.com/VinhNgT/'
-      'vinhngt.github.io/refs/heads/main/drv_lcn_privacy_policy.md',
+  void _openPrivacyPolicy(BuildContext context) {
+    context.pushRoute(
+      AppLicenseRoute(
+        htmlAssetPath: 'assets/app_licenses/privacy_policy.html',
+      ),
     );
-
-    if (!await launchUrl(url)) {
-      throw LaunchUrlFailed(url);
-    }
   }
 
-  void _openLicenses() async {
-    final url = Uri.parse(
-      'https://htmlpreview.github.io/?'
-      'https://github.com/VinhNgT/portfolio-projects/blob/main/'
-      'melos_workspace/apps/driving_license/licenses/'
-      'flaticon_attribution.html',
+  void _openLicenses(BuildContext context) {
+    context.pushRoute(
+      AppLicenseRoute(htmlAssetPath: 'assets/app_licenses/licenses.html'),
     );
-
-    if (!await launchUrl(url)) {
-      throw LaunchUrlFailed(url);
-    }
   }
 }
 

@@ -28,6 +28,7 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: SendFeedbackRoute.page),
         AutoRoute(page: RewardedAdRoute.page),
         AutoRoute(page: DonateRoute.page),
+        AutoRoute(page: AppLicenseRoute.page),
       ];
 
   @override
@@ -45,11 +46,15 @@ extension _TransitionX on AppRouter {
       ) {
         final previousRouteName = ref.read(previousRouteObserverProvider).name;
         final currentRouteName = context.topRoute.name;
+        final ignoreCustomTransitionRoutes = [
+          AppLicenseRoute.name,
+        ];
 
         // If the previous or current route is LicenseSelectionRoute,
         // we want to use a different transition
-        if (previousRouteName == LicenseSelectionRoute.name ||
-            currentRouteName == LicenseSelectionRoute.name) {
+        if ((previousRouteName == LicenseSelectionRoute.name ||
+                currentRouteName == LicenseSelectionRoute.name) &&
+            !ignoreCustomTransitionRoutes.contains(currentRouteName)) {
           return _licenseSelectionFromToTransition(
             context,
             animation,
