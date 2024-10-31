@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`driving_license` - `v1.6.1`](#driving_license---v161)
+
+---
+
+#### `driving_license` - `v1.6.1`
+
+ - **FIX**(drv_lcn): fix color missing from AppLicenseScreen appbar.
+
+
+## 2024-10-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`driving_license` - `v1.6.0`](#driving_license---v160)
 
 ---

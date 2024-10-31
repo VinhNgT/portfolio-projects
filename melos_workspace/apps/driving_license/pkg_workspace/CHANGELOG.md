@@ -1,3 +1,7 @@
+## 1.6.1
+
+ - **FIX**(drv_lcn): fix color missing from AppLicenseScreen appbar.
+
 ## 1.6.0
 
  - **REFACTOR**(drv_lcn): reduce remote config minimumFetchInterval.
