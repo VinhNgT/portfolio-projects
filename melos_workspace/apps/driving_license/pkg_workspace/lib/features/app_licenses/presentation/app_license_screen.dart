@@ -41,6 +41,7 @@ class AppLicenseScreen extends HookConsumerWidget {
     return Scaffold(
       appBar: CommonAppBar(
         title: viewTitle.value != null ? Text(viewTitle.value!) : null,
+        backgroundColor: context.materialScheme.surfaceContainer,
       ),
       body: SafeArea(child: WebViewWidget(controller: controller)),
     );
