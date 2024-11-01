@@ -148,6 +148,7 @@ flutter:
 
     # - assets/images/bank_notes/
     - assets/icons/donation/_compiled/
+    - assets/icons/donation/
     - assets/icons/error/_compiled/
     - assets/icons/home_screen/_compiled/
     - assets/icons/vehicles/_compiled/
