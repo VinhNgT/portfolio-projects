@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-11-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v1.6.2`](#driving_license---v162)
+
+---
+
+#### `driving_license` - `v1.6.2`
+
+ - **REFACTOR**(drv_lcn): update donation icon assets.
+ - **PERF**(drv_lcn): switch from using svg to png in donation screen for significant performance improment.
+
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## 2024-10-31
 
 ### Changes

@@ -1,3 +1,8 @@
+## 1.6.2
+
+ - **REFACTOR**(drv_lcn): update donation icon assets.
+ - **PERF**(drv_lcn): switch from using svg to png in donation screen for significant performance improment.
+
 ## 1.6.1
 
  - **FIX**(drv_lcn): fix color missing from AppLicenseScreen appbar.
