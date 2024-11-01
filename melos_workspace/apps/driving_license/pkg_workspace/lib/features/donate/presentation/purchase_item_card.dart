@@ -5,9 +5,7 @@ import 'package:driving_license/constants/gap_sizes.dart';
 import 'package:driving_license/features/donate/domain/donate_product_entry.dart';
 import 'package:driving_license/utils/context_ext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:vector_graphics/vector_graphics.dart';
 
 class PurchaseItemCard extends HookConsumerWidget {
   const PurchaseItemCard({
@@ -50,9 +48,9 @@ class PurchaseItemCard extends HookConsumerWidget {
                 ),
               ],
             ),
-            SvgPicture(
-              AssetBytesLoader(product.entry.iconPath),
-              height: 65,
+            Image.asset(
+              product.entry.iconPath,
+              height: kSize_64,
             ),
           ],
         ),
