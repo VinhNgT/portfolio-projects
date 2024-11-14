@@ -76,7 +76,7 @@ dependencies:
   cached_network_image: ^3.3.1
   dio_cache_interceptor: ^3.5.0
   dio_cache_interceptor_realm_store:
-    path: '../../../external_submodules/dio_cache_interceptor/dio_cache_interceptor/dio_cache_interceptor_realm_store'
+    path: '../../../../external_submodules/dio_cache_interceptor/dio_cache_interceptor/dio_cache_interceptor_realm_store'
 
   # Utils
   collection: ^1.18.0

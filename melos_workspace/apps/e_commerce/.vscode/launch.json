@@ -5,72 +5,30 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "driving_license",
+      "name": "e_commerce",
       "request": "launch",
       "type": "dart",
       "cwd": "pkg_workspace",
       "program": "lib/main.dart",
-      "args": [
-        "--flavor",
-        "dev",
-        "--dart-define-from-file",
-        "../envs/.env.development"
-      ]
+      "args": ["--dart-define-from-file=../envs/.env.development"]
     },
     {
-      "name": "driving_license (profile mode)",
+      "name": "e_commerce (profile mode)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile",
       "cwd": "pkg_workspace",
       "program": "lib/main.dart",
-      "args": [
-        "--flavor",
-        "dev",
-        "--dart-define-from-file",
-        "../envs/.env.development"
-      ]
+      "args": ["--dart-define-from-file=../envs/.env.development"]
     },
     {
-      "name": "driving_license (release mode)",
+      "name": "e_commerce (release mode)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release",
       "cwd": "pkg_workspace",
       "program": "lib/main.dart",
-      "args": [
-        "--flavor",
-        "dev",
-        "--dart-define-from-file",
-        "../envs/.env.development"
-      ]
-    },
-    {
-      "name": "driving_license (test iap mode, WILL OVERWRITE PRODUCTION DATA)",
-      "request": "launch",
-      "type": "dart",
-      "cwd": "pkg_workspace",
-      "program": "lib/main.dart",
-      "args": [
-        "--flavor",
-        "iapTest",
-        "--dart-define-from-file",
-        "../envs/.env.development"
-      ]
-    },
-    {
-      "name": "driving_license (production)",
-      "request": "launch",
-      "type": "dart",
-      "flutterMode": "release",
-      "cwd": "pkg_workspace",
-      "program": "lib/main.dart",
-      "args": [
-        "--flavor",
-        "prod",
-        "--dart-define-from-file",
-        "../envs/.env.production"
-      ]
+      "args": ["--dart-define-from-file=../envs/.env.development"]
     }
   ]
 }
