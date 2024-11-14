@@ -1,0 +1,52 @@
+# Enable/Disable the github actions CD pipeline for this project.
+enable: true
+
+# The secrets that need to be decrypted before deployments. You need to set the
+# runner environment variable SECRETS_KEY to the secret value stored in
+# key_name, which will replace the {SECRETS_KEY} placeholder in the args.
+secrets:
+  decryption_script: scripts/cicd_secrets_gpg.sh
+  args:
+    - '-d'
+    - '-p'
+    - '{SECRETS_KEY}'
+  key_name: DRIVING_LICENSE_SECRETS_KEY
+
+# CD deployment configuration.
+deployments:
+  # Build and publish the app for android.
+  android:
+    # The script to build the app.
+    build_script: scripts/build_app_prod.sh
+
+    # Deployment targets.
+    publish:
+      playstore:
+        publish_script: scripts/publish_playstore.sh
+        args:
+          - '-p'
+          # - '-d' # Is draft.
+
+  # Placeholder for future deployment of ios target.
+  # We can't build and publish for ios yet.
+  ios:
+    # The script to build the app.
+    build_script: scripts/build_app_prod_ios.sh
+
+    # Deployment targets.
+    publish:
+      appstore:
+        publish_script: scripts/publish_appstore.sh
+        args:
+          - '-p'
+          - '-d' # Is draft.
+
+  # Upload the build artifacts to github releases.
+  github:
+    # draft: true
+    file_paths:
+      - build_result/release/app-prod-release.apk
+      - build_result/release/app-prod-release.aab
+      - build_result/release/native-debug-symbols.zip
+      - build_result/release/mapping.txt
+      - build_result/release/obfuscation.zip
