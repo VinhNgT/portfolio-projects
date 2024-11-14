@@ -1,5 +1,5 @@
 # Enable/Disable the github actions CD pipeline for this project.
-enable: true
+enable: false
 
 # The secrets that need to be decrypted before deployments. You need to set the
 # runner environment variable SECRETS_KEY to the secret value stored in
