@@ -1,4 +1,4 @@
-# Steps to create a new app
+# Steps to create a new app (OUTDATED, NEED UPDATE)
 
 ## Install dependencies
 
