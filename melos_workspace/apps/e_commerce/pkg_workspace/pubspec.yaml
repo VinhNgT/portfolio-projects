@@ -67,6 +67,8 @@ dependencies:
   realm_common: ^2.3.0
   path: ^1.9.0
   path_provider: ^2.1.2
+  objectbox: ^4.0.3
+  objectbox_flutter_libs: any
 
   # Network
   dio: ^5.4.3+1
@@ -122,6 +124,9 @@ dev_dependencies:
 
   # Domain (Model)
   dart_mappable_builder: ^4.2.3
+
+  # Database / File System
+  objectbox_generator: any
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
