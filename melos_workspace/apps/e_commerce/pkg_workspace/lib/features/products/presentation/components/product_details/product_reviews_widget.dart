@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/constants/golden_ratios.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
-import 'package:e_commerce/features/products/domain/product_reviews.dart';
+import 'package:e_commerce/features/products/domain/product_review.dart';
 import 'package:e_commerce/features/products/presentation/components/rating_stars.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:e_commerce/utils/date_formatter.dart';
@@ -159,7 +159,7 @@ class _ReviewPictures extends HookConsumerWidget {
 class _ReviewContentsList extends StatelessWidget {
   const _ReviewContentsList(this.reviews);
 
-  final List<ProductReviews> reviews;
+  final List<ProductReview> reviews;
   final double reviewCardWidth = 300;
   final double reviewCardHeight = 150;
 
@@ -198,7 +198,7 @@ class _ReviewContentsList extends StatelessWidget {
 
 class _ReviewContentCard extends StatelessWidget {
   const _ReviewContentCard(this.review);
-  final ProductReviews review;
+  final ProductReview review;
 
   @override
   Widget build(BuildContext context) {

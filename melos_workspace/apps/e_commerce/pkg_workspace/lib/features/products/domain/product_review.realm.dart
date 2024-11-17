@@ -1,15 +1,15 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'product_reviews.dart';
+part of 'product_review.dart';
 
 // **************************************************************************
 // RealmObjectGenerator
 // **************************************************************************
 
 // ignore_for_file: type=lint
-class ProductReviewsRealm extends $ProductReviewsRealm
+class ProductReviewRealm extends $ProductReviewRealm
     with RealmEntity, RealmObjectBase, EmbeddedObject {
-  ProductReviewsRealm({
+  ProductReviewRealm({
     required int rating,
     required String comment,
     required String date,
@@ -23,7 +23,7 @@ class ProductReviewsRealm extends $ProductReviewsRealm
     RealmObjectBase.set(this, 'reviewerEmail', reviewerEmail);
   }
 
-  ProductReviewsRealm._();
+  ProductReviewRealm._();
 
   @override
   int get rating => RealmObjectBase.get<int>(this, 'rating') as int;
@@ -55,17 +55,17 @@ class ProductReviewsRealm extends $ProductReviewsRealm
       RealmObjectBase.set(this, 'reviewerEmail', value);
 
   @override
-  Stream<RealmObjectChanges<ProductReviewsRealm>> get changes =>
-      RealmObjectBase.getChanges<ProductReviewsRealm>(this);
+  Stream<RealmObjectChanges<ProductReviewRealm>> get changes =>
+      RealmObjectBase.getChanges<ProductReviewRealm>(this);
 
   @override
-  Stream<RealmObjectChanges<ProductReviewsRealm>> changesFor(
+  Stream<RealmObjectChanges<ProductReviewRealm>> changesFor(
           [List<String>? keyPaths]) =>
-      RealmObjectBase.getChangesFor<ProductReviewsRealm>(this, keyPaths);
+      RealmObjectBase.getChangesFor<ProductReviewRealm>(this, keyPaths);
 
   @override
-  ProductReviewsRealm freeze() =>
-      RealmObjectBase.freezeObject<ProductReviewsRealm>(this);
+  ProductReviewRealm freeze() =>
+      RealmObjectBase.freezeObject<ProductReviewRealm>(this);
 
   EJsonValue toEJson() {
     return <String, dynamic>{
@@ -77,8 +77,8 @@ class ProductReviewsRealm extends $ProductReviewsRealm
     };
   }
 
-  static EJsonValue _toEJson(ProductReviewsRealm value) => value.toEJson();
-  static ProductReviewsRealm _fromEJson(EJsonValue ejson) {
+  static EJsonValue _toEJson(ProductReviewRealm value) => value.toEJson();
+  static ProductReviewRealm _fromEJson(EJsonValue ejson) {
     return switch (ejson) {
       {
         'rating': EJsonValue rating,
@@ -87,7 +87,7 @@ class ProductReviewsRealm extends $ProductReviewsRealm
         'reviewerName': EJsonValue reviewerName,
         'reviewerEmail': EJsonValue reviewerEmail,
       } =>
-        ProductReviewsRealm(
+        ProductReviewRealm(
           rating: fromEJson(rating),
           comment: fromEJson(comment),
           date: fromEJson(date),
@@ -99,10 +99,10 @@ class ProductReviewsRealm extends $ProductReviewsRealm
   }
 
   static final schema = () {
-    RealmObjectBase.registerFactory(ProductReviewsRealm._);
+    RealmObjectBase.registerFactory(ProductReviewRealm._);
     register(_toEJson, _fromEJson);
     return SchemaObject(
-        ObjectType.embeddedObject, ProductReviewsRealm, 'ProductReviewsRealm', [
+        ObjectType.embeddedObject, ProductReviewRealm, 'ProductReviewRealm', [
       SchemaProperty('rating', RealmPropertyType.int),
       SchemaProperty('comment', RealmPropertyType.string),
       SchemaProperty('date', RealmPropertyType.string),

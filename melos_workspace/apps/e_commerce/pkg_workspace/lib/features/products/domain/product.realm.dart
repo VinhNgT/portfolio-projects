@@ -26,7 +26,7 @@ class ProductRealm extends $ProductRealm
     required String warrantyInformation,
     required String shippingInformation,
     required String availabilityStatus,
-    Iterable<ProductReviewsRealm> reviews = const [],
+    Iterable<ProductReviewRealm> reviews = const [],
     required String returnPolicy,
     required int minimumOrderQuantity,
     ProductMetaRealm? meta,
@@ -51,8 +51,8 @@ class ProductRealm extends $ProductRealm
     RealmObjectBase.set(this, 'warrantyInformation', warrantyInformation);
     RealmObjectBase.set(this, 'shippingInformation', shippingInformation);
     RealmObjectBase.set(this, 'availabilityStatus', availabilityStatus);
-    RealmObjectBase.set<RealmList<ProductReviewsRealm>>(
-        this, 'reviews', RealmList<ProductReviewsRealm>(reviews));
+    RealmObjectBase.set<RealmList<ProductReviewRealm>>(
+        this, 'reviews', RealmList<ProductReviewRealm>(reviews));
     RealmObjectBase.set(this, 'returnPolicy', returnPolicy);
     RealmObjectBase.set(this, 'minimumOrderQuantity', minimumOrderQuantity);
     RealmObjectBase.set(this, 'meta', meta);
@@ -162,11 +162,11 @@ class ProductRealm extends $ProductRealm
       RealmObjectBase.set(this, 'availabilityStatus', value);
 
   @override
-  RealmList<ProductReviewsRealm> get reviews =>
-      RealmObjectBase.get<ProductReviewsRealm>(this, 'reviews')
-          as RealmList<ProductReviewsRealm>;
+  RealmList<ProductReviewRealm> get reviews =>
+      RealmObjectBase.get<ProductReviewRealm>(this, 'reviews')
+          as RealmList<ProductReviewRealm>;
   @override
-  set reviews(covariant RealmList<ProductReviewsRealm> value) =>
+  set reviews(covariant RealmList<ProductReviewRealm> value) =>
       throw RealmUnsupportedSetError();
 
   @override
@@ -331,7 +331,7 @@ class ProductRealm extends $ProductRealm
       SchemaProperty('shippingInformation', RealmPropertyType.string),
       SchemaProperty('availabilityStatus', RealmPropertyType.string),
       SchemaProperty('reviews', RealmPropertyType.object,
-          linkTarget: 'ProductReviewsRealm',
+          linkTarget: 'ProductReviewRealm',
           collectionType: RealmCollectionType.list),
       SchemaProperty('returnPolicy', RealmPropertyType.string),
       SchemaProperty('minimumOrderQuantity', RealmPropertyType.int),

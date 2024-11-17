@@ -6,7 +6,7 @@ import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_dimensions.dart';
 import 'package:e_commerce/features/products/domain/product_meta.dart';
-import 'package:e_commerce/features/products/domain/product_reviews.dart';
+import 'package:e_commerce/features/products/domain/product_review.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:e_commerce/features/products/domain/products.dart';
@@ -22,7 +22,7 @@ Future<Realm> realm(RealmRef ref) async {
     // Products
     ProductDimensionsRealm.schema,
     ProductMetaRealm.schema,
-    ProductReviewsRealm.schema,
+    ProductReviewRealm.schema,
     ProductRealm.schema,
     ProductsRealm.schema,
     ProductVariantGroupRealm.schema,

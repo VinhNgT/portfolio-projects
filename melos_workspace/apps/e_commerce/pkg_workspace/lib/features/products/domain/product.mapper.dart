@@ -14,7 +14,7 @@ class ProductMapper extends ClassMapperBase<Product> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = ProductMapper._());
       ProductDimensionsMapper.ensureInitialized();
-      ProductReviewsMapper.ensureInitialized();
+      ProductReviewMapper.ensureInitialized();
       ProductMetaMapper.ensureInitialized();
     }
     return _instance!;
@@ -62,8 +62,8 @@ class ProductMapper extends ClassMapperBase<Product> {
   static String _$availabilityStatus(Product v) => v.availabilityStatus;
   static const Field<Product, String> _f$availabilityStatus =
       Field('availabilityStatus', _$availabilityStatus);
-  static List<ProductReviews> _$reviews(Product v) => v.reviews;
-  static const Field<Product, List<ProductReviews>> _f$reviews =
+  static List<ProductReview> _$reviews(Product v) => v.reviews;
+  static const Field<Product, List<ProductReview>> _f$reviews =
       Field('reviews', _$reviews);
   static String _$returnPolicy(Product v) => v.returnPolicy;
   static const Field<Product, String> _f$returnPolicy =
@@ -189,8 +189,8 @@ abstract class ProductCopyWith<$R, $In extends Product, $Out>
   ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get tags;
   ProductDimensionsCopyWith<$R, ProductDimensions, ProductDimensions>
       get dimensions;
-  ListCopyWith<$R, ProductReviews,
-      ProductReviewsCopyWith<$R, ProductReviews, ProductReviews>> get reviews;
+  ListCopyWith<$R, ProductReview,
+      ProductReviewCopyWith<$R, ProductReview, ProductReview>> get reviews;
   ProductMetaCopyWith<$R, ProductMeta, ProductMeta> get meta;
   ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get images;
   $R call(
@@ -210,7 +210,7 @@ abstract class ProductCopyWith<$R, $In extends Product, $Out>
       String? warrantyInformation,
       String? shippingInformation,
       String? availabilityStatus,
-      List<ProductReviews>? reviews,
+      List<ProductReview>? reviews,
       String? returnPolicy,
       int? minimumOrderQuantity,
       ProductMeta? meta,
@@ -236,8 +236,8 @@ class _ProductCopyWithImpl<$R, $Out>
       get dimensions =>
           $value.dimensions.copyWith.$chain((v) => call(dimensions: v));
   @override
-  ListCopyWith<$R, ProductReviews,
-          ProductReviewsCopyWith<$R, ProductReviews, ProductReviews>>
+  ListCopyWith<$R, ProductReview,
+          ProductReviewCopyWith<$R, ProductReview, ProductReview>>
       get reviews => ListCopyWith($value.reviews,
           (v, t) => v.copyWith.$chain(t), (v) => call(reviews: v));
   @override
@@ -265,7 +265,7 @@ class _ProductCopyWithImpl<$R, $Out>
           String? warrantyInformation,
           String? shippingInformation,
           String? availabilityStatus,
-          List<ProductReviews>? reviews,
+          List<ProductReview>? reviews,
           String? returnPolicy,
           int? minimumOrderQuantity,
           ProductMeta? meta,

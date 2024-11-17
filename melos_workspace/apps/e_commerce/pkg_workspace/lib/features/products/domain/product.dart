@@ -2,7 +2,7 @@ import 'package:dart_mappable/dart_mappable.dart';
 import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
 import 'package:e_commerce/features/products/domain/product_dimensions.dart';
 import 'package:e_commerce/features/products/domain/product_meta.dart';
-import 'package:e_commerce/features/products/domain/product_reviews.dart';
+import 'package:e_commerce/features/products/domain/product_review.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:intl/intl.dart';
@@ -29,7 +29,7 @@ class Product with ProductMappable {
   final String warrantyInformation;
   final String shippingInformation;
   final String availabilityStatus;
-  final List<ProductReviews> reviews;
+  final List<ProductReview> reviews;
   final String returnPolicy;
   final int minimumOrderQuantity;
   final ProductMeta meta;
@@ -234,7 +234,7 @@ class $ProductRealm {
   late String warrantyInformation;
   late String shippingInformation;
   late String availabilityStatus;
-  late List<$ProductReviewsRealm> reviews;
+  late List<$ProductReviewRealm> reviews;
   late String returnPolicy;
   late int minimumOrderQuantity;
   late $ProductMetaRealm? meta;
@@ -262,7 +262,7 @@ extension ProductRealmConverter on Product {
       warrantyInformation: obj.warrantyInformation,
       shippingInformation: obj.shippingInformation,
       availabilityStatus: obj.availabilityStatus,
-      reviews: obj.reviews.map(ProductReviews.fromRealmObj).toList(),
+      reviews: obj.reviews.map(ProductReview.fromRealmObj).toList(),
       returnPolicy: obj.returnPolicy,
       minimumOrderQuantity: obj.minimumOrderQuantity,
       meta: ProductMeta.fromRealmObj(obj.meta!),
