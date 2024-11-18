@@ -5,7 +5,6 @@ import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
-import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:e_commerce/features/products/presentation/components/product_details/flash_sale_widget.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
@@ -81,7 +80,7 @@ class AddToCartSheet extends HookConsumerWidget {
                       }
 
                       final selectedVariant = formKey.currentState
-                          ?.value['variant'] as Map<String, ProductVariant?>;
+                          ?.value['variant'] as Map<String, ProductVariantId?>;
 
                       final cartItem = CartItem.create(
                         orderItem: OrderItem.create(
@@ -92,7 +91,7 @@ class AddToCartSheet extends HookConsumerWidget {
                           variantSelection: {
                             for (final entry in selectedVariant.entries)
                               if (entry.value != null)
-                                Uuid.fromString(entry.key): entry.value!.id,
+                                Uuid.fromString(entry.key): entry.value,
                           },
                         ),
                       );

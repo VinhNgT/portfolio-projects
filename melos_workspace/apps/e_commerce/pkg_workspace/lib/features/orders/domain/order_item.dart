@@ -51,15 +51,12 @@ class OrderItem with OrderItemMappable {
         );
       }
 
-      for (final variant in group.variants) {
-        if (variant.id == groupSelectedVariant) {
-          break;
-        }
-
+      if (!group.variants
+          .any((variant) => variant.id == groupSelectedVariant)) {
         throw ArgumentError.value(
           variantSelection,
           'variantSelection',
-          'The selected variant ${variant.name} is not in the '
+          'The selected variant $groupSelectedVariant is not in the '
               'group ${group.groupName}',
         );
       }
