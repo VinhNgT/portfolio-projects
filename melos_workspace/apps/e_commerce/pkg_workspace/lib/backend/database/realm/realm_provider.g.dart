@@ -6,7 +6,7 @@ part of 'realm_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$realmHash() => r'0ce8e2d9f7ea8bd0989a135d8068e6b502c72230';
+String _$realmHash() => r'66a6c08084f90ed8f0e5c087c88ca73d998c703a';
 
 /// See also [realm].
 @ProviderFor(realm)

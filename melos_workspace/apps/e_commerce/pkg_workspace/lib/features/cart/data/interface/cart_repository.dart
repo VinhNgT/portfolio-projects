@@ -24,7 +24,7 @@ abstract interface class CartRepository {
   /// Update the selected variant of a [CartItem] in the cart.
   Future<void> updateItemVariantSelection(
     CartItem item,
-    VariantSelection variantSelection,
+    ProductVariantIdsSelection variantSelection,
   );
 
   /// Update the quantity of a [CartItem] in the cart.

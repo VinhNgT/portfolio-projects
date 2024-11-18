@@ -5,6 +5,7 @@ import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/orders/domain/order.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
+import 'package:objectbox/objectbox.dart' hide Order;
 import 'package:realm/realm.dart';
 
 part 'cart.mapper.dart';
@@ -116,7 +117,7 @@ extension CartMutation on Cart {
   /// Update the selected variant of the item.
   Cart updateItemVariantSelection(
     Uuid itemId,
-    VariantSelection variantSelection,
+    ProductVariantIdsSelection variantSelection,
   ) {
     final itemListId = cartItems.indexWhere((e) => e.orderItem.id == itemId);
     if (itemListId == -1) {
@@ -163,6 +164,38 @@ class CartNoItemFoundError extends Error {
   @override
   String toString() {
     return 'Item $itemId not found in cart';
+  }
+}
+
+@Entity()
+class CartObjBox {
+  @Id()
+  int objectBoxId = 0;
+
+  @Index()
+  @Unique(onConflict: ConflictStrategy.replace)
+  final String id;
+  final ToMany<CartItemObjBox> cartItems;
+
+  CartObjBox({
+    required this.id,
+    required this.cartItems,
+  });
+
+  factory CartObjBox.fromEntity(Cart obj) {
+    return CartObjBox(
+      id: obj.id.toString(),
+      cartItems: ToMany<CartItemObjBox>(
+        items: obj.cartItems.map(CartItemObjBox.fromEntity).toList(),
+      ),
+    );
+  }
+
+  Cart toEntity() {
+    return Cart(
+      id: Uuid.fromString(id),
+      cartItems: cartItems.map((e) => e.toEntity()).toList(),
+    );
   }
 }
 

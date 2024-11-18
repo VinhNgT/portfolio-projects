@@ -82,7 +82,7 @@ class RealmCartRepository implements CartRepository {
   @override
   Future<void> updateItemVariantSelection(
     CartItem item,
-    VariantSelection variantSelection,
+    ProductVariantIdsSelection variantSelection,
   ) async {
     final mutatedCart = Cart.fromRealmObj(cartRealm)
         .updateItemVariantSelection(item.orderItem.id, variantSelection)

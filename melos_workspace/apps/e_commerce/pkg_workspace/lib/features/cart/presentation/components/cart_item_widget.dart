@@ -168,7 +168,7 @@ class _VariantChip extends HookConsumerWidget {
 
   String _buildVariantText(CartItem cartItem) {
     final variantTexts =
-        cartItem.orderItem.orderedVariantSelection.map((e) => e.name).toList();
+        cartItem.orderItem.productVariantSelection.map((e) => e.name).toList();
     return variantTexts.join('/');
   }
 }

@@ -73,7 +73,7 @@ class ProductRepository {
       cancelToken: cancelToken,
     );
 
-    return ProductsMapper.fromJson(response.data!).products;
+    return ProductsLazyListMapper.fromJson(response.data!).products;
   }
 }
 

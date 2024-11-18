@@ -92,7 +92,7 @@ class AddToCartSheet extends HookConsumerWidget {
                           variantSelection: {
                             for (final entry in selectedVariant.entries)
                               if (entry.value != null)
-                                Uuid.fromString(entry.key): entry.value,
+                                Uuid.fromString(entry.key): entry.value!.id,
                           },
                         ),
                       );
@@ -169,7 +169,7 @@ class _VariationGroups extends HookConsumerWidget {
   });
 
   final Product product;
-  final VariantSelection initialVariants;
+  final ProductVariantIdsSelection initialVariants;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -177,7 +177,7 @@ class _VariationGroups extends HookConsumerWidget {
 
     return FormBuilderField(
       name: 'variant',
-      initialValue: <String, ProductVariant?>{
+      initialValue: <String, ProductVariantId?>{
         for (final group in product.variantGroups)
           group.id.toString(): initialVariants[group.id],
       },
@@ -191,7 +191,7 @@ class _VariationGroups extends HookConsumerWidget {
         key: variationFormKey,
         onChanged: () => field.didChange(
           variationFormKey.currentState?.instantValue
-              .cast<String, ProductVariant?>(),
+              .cast<String, ProductVariantId?>(),
         ),
         child: Column(
           children: [
@@ -243,7 +243,7 @@ class _VariationGroups extends HookConsumerWidget {
                   itemBuilder: (context, index) {
                     return _VariationSelection(
                       group: product.variantGroups[index],
-                      initialVariant:
+                      initialVariantId:
                           initialVariants[product.variantGroups[index].id],
                     );
                   },
@@ -261,11 +261,11 @@ class _VariationGroups extends HookConsumerWidget {
 class _VariationSelection extends HookConsumerWidget {
   const _VariationSelection({
     required this.group,
-    this.initialVariant,
+    this.initialVariantId,
   });
 
   final ProductVariantGroup group;
-  final ProductVariant? initialVariant;
+  final Uuid? initialVariantId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -278,9 +278,9 @@ class _VariationSelection extends HookConsumerWidget {
           style: context.textTheme.titleMedium,
         ),
         const Gap(kSize_8),
-        FormBuilderChoiceChip<ProductVariant>(
+        FormBuilderChoiceChip<Uuid?>(
           name: group.id.toString(),
-          initialValue: initialVariant,
+          initialValue: initialVariantId,
           decoration: const InputDecoration(
             enabledBorder: InputBorder.none,
             isCollapsed: true,
@@ -291,7 +291,7 @@ class _VariationSelection extends HookConsumerWidget {
             final variant = group.variants[index];
 
             return FormBuilderChipOption(
-              value: variant,
+              value: variant.id,
               child: Text(variant.name),
             );
           }),

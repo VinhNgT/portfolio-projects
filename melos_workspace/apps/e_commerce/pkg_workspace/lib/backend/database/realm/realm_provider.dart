@@ -9,7 +9,6 @@ import 'package:e_commerce/features/products/domain/product_meta.dart';
 import 'package:e_commerce/features/products/domain/product_review.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
-import 'package:e_commerce/features/products/domain/products.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:realm/realm.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -24,7 +23,6 @@ Future<Realm> realm(RealmRef ref) async {
     ProductMetaRealm.schema,
     ProductReviewRealm.schema,
     ProductRealm.schema,
-    ProductsRealm.schema,
     ProductVariantGroupRealm.schema,
     ProductVariantRealm.schema,
 

@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:collection/collection.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
+import 'package:e_commerce/utils/typedefs.dart';
+import 'package:objectbox/objectbox.dart';
 import 'package:realm/realm.dart';
 
 part 'order_item.mapper.dart';
@@ -22,7 +26,7 @@ class OrderItem with OrderItemMappable {
 
   /// The map of the selected variant for each variant group.
   /// The key is the variant group's id.
-  final VariantSelection variantSelection;
+  final ProductVariantIdsSelection variantSelection;
 
   OrderItem({
     required this.id,
@@ -43,15 +47,19 @@ class OrderItem with OrderItemMappable {
         throw ArgumentError.value(
           variantSelection,
           'variantSelection',
-          'The group ${group.groupName} does not have a selected variant',
+          'No variant selected for group ${group.groupName}',
         );
       }
 
-      if (!group.variants.contains(groupSelectedVariant)) {
+      for (final variant in group.variants) {
+        if (variant.id == groupSelectedVariant) {
+          break;
+        }
+
         throw ArgumentError.value(
           variantSelection,
           'variantSelection',
-          'The selected variant ${groupSelectedVariant.name} is not in the '
+          'The selected variant ${variant.name} is not in the '
               'group ${group.groupName}',
         );
       }
@@ -62,7 +70,7 @@ class OrderItem with OrderItemMappable {
     Uuid? id,
     required Product product,
     int quantity = 1,
-    VariantSelection variantSelection = const {},
+    ProductVariantIdsSelection variantSelection = const {},
   }) : this(
           id: id ?? Uuid.v4(),
           product: product,
@@ -80,13 +88,12 @@ extension OrderItemGetters on OrderItem {
   double get price => product.vndDiscountedPrice.toDouble() * quantity;
   double get shippingFee => 13000.0 * quantity;
 
-  List<ProductVariant> get orderedVariantSelection => variantSelection.entries
-      .sortedBy<num>(
-        (selectedEntry) => product.variantGroups
-            .indexWhere((group) => group.id == selectedEntry.key),
+  List<ProductVariant> get productVariantSelection => product.variantGroups
+      .where((groupId) => variantSelection.containsKey(groupId.id))
+      .map(
+        (e) => e.variants
+            .firstWhere((variant) => variant.id == variantSelection[e.id]),
       )
-      .map((e) => e.value)
-      .whereNotNull()
       .toList();
 }
 
@@ -94,9 +101,8 @@ extension OrderItemMethods on OrderItem {
   /// Returns true if [other] has the same product and selected variant.
   bool hasSameContent(OrderItem other) {
     return product.id == other.product.id &&
-        MapEquality<Uuid, ProductVariant?>(
-          values: EqualityBy((variant) => variant?.id),
-        ).equals(variantSelection, other.variantSelection);
+        const MapEquality<ProductVariantGroupId, ProductVariantId?>()
+            .equals(variantSelection, other.variantSelection);
   }
 }
 
@@ -107,9 +113,57 @@ extension _Proto on OrderItem {
     quantity: 1,
     variantSelection: {
       for (final group in Product.prototype.variantGroups)
-        group.id: group.variants.first,
+        group.id: group.variants.first.id,
     },
   );
+}
+
+typedef UuidString = String;
+
+@Entity()
+class OrderItemObjBox {
+  @Id()
+  int objectBoxId = 0;
+
+  @Index()
+  @Unique(onConflict: ConflictStrategy.replace)
+  final UuidString id;
+  final ToOne<ProductObjBox> product;
+  final int quantity;
+  final JsonString variantSelection;
+
+  OrderItemObjBox({
+    required this.id,
+    required this.product,
+    required this.quantity,
+    required this.variantSelection,
+  });
+
+  factory OrderItemObjBox.fromEntity(OrderItem entity) {
+    return OrderItemObjBox(
+      id: entity.id.toString(),
+      product: ToOne(target: ProductObjBox.fromEntity(entity.product)),
+      quantity: entity.quantity,
+      variantSelection: jsonEncode({
+        for (final entry in entity.variantSelection.entries)
+          entry.key.toString(): entry.value?.toString(),
+      }),
+    );
+  }
+
+  OrderItem toEntity() {
+    return OrderItem(
+      id: Uuid.fromString(id),
+      product: product.target!.toEntity(),
+      quantity: quantity,
+      variantSelection: {
+        for (final entry
+            in (jsonDecode(variantSelection) as Map<String, String?>).entries)
+          Uuid.fromString(entry.key):
+              entry.value != null ? Uuid.fromString(entry.value!) : null,
+      },
+    );
+  }
 }
 
 @realm
@@ -118,7 +172,7 @@ class $OrderItemRealm {
   late Uuid id;
 
   late $ProductRealm? product;
-  late Map<String, $ProductVariantRealm?> variantSelection;
+  late Map<String, String?> variantSelection;
   late int quantity;
 }
 
@@ -130,7 +184,7 @@ extension OrderItemRealmConverter on OrderItem {
       variantSelection: obj.variantSelection.map(
         (uuidString, value) => MapEntry(
           Uuid.fromString(uuidString),
-          ProductVariant.fromRealmObj(value!),
+          value != null ? Uuid.fromString(value) : null,
         ),
       ),
       quantity: obj.quantity,
@@ -143,12 +197,15 @@ extension OrderItemRealmConverter on OrderItem {
 
     final variantSelectionRealm = {
       for (final group in productRealm.variantGroups)
-        group.id.toString(): group.variants.firstWhere(
-          (realmVariant) {
-            final selectedVariantId = variantSelection[group.id]!.id;
-            return realmVariant.id == selectedVariantId;
-          },
-        ),
+        group.id.toString(): group.variants
+            .firstWhere(
+              (realmVariant) {
+                final selectedVariantId = variantSelection[group.id]!;
+                return realmVariant.id == selectedVariantId;
+              },
+            )
+            .id
+            .toString(),
     };
 
     return OrderItemRealm(

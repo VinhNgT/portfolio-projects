@@ -17,6 +17,9 @@ class ProductDimensions with ProductDimensionsMappable {
     required this.depth,
   });
 
+  factory ProductDimensions.fromJson(Map<String, dynamic> json) =>
+      ProductDimensionsMapper.fromJson(json);
+
   factory ProductDimensions.fromRealmObj(ProductDimensionsRealm obj) =>
       ProductDimensionsRealmConverter.fromRealmObj(obj);
 }

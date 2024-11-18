@@ -19,6 +19,9 @@ class ProductMeta with ProductMetaMappable {
     required this.qrCode,
   });
 
+  factory ProductMeta.fromJson(Map<String, dynamic> json) =>
+      ProductMetaMapper.fromJson(json);
+
   factory ProductMeta.fromRealmObj(ProductMetaRealm obj) =>
       ProductMetaRealmConverter.fromRealmObj(obj);
 }

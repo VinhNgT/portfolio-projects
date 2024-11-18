@@ -12,13 +12,13 @@ class OrderItemRealm extends $OrderItemRealm
   OrderItemRealm({
     required Uuid id,
     ProductRealm? product,
-    Map<String, ProductVariantRealm?> variantSelection = const {},
+    Map<String, String?> variantSelection = const {},
     required int quantity,
   }) {
     RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'product', product);
-    RealmObjectBase.set<RealmMap<ProductVariantRealm?>>(this,
-        'variantSelection', RealmMap<ProductVariantRealm?>(variantSelection));
+    RealmObjectBase.set<RealmMap<String?>>(
+        this, 'variantSelection', RealmMap<String?>(variantSelection));
     RealmObjectBase.set(this, 'quantity', quantity);
   }
 
@@ -37,11 +37,11 @@ class OrderItemRealm extends $OrderItemRealm
       RealmObjectBase.set(this, 'product', value);
 
   @override
-  RealmMap<ProductVariantRealm?> get variantSelection =>
-      RealmObjectBase.get<ProductVariantRealm?>(this, 'variantSelection')
-          as RealmMap<ProductVariantRealm?>;
+  RealmMap<String?> get variantSelection =>
+      RealmObjectBase.get<String?>(this, 'variantSelection')
+          as RealmMap<String?>;
   @override
-  set variantSelection(covariant RealmMap<ProductVariantRealm?> value) =>
+  set variantSelection(covariant RealmMap<String?> value) =>
       throw RealmUnsupportedSetError();
 
   @override
@@ -97,10 +97,8 @@ class OrderItemRealm extends $OrderItemRealm
       SchemaProperty('id', RealmPropertyType.uuid, primaryKey: true),
       SchemaProperty('product', RealmPropertyType.object,
           optional: true, linkTarget: 'ProductRealm'),
-      SchemaProperty('variantSelection', RealmPropertyType.object,
-          optional: true,
-          linkTarget: 'ProductVariantRealm',
-          collectionType: RealmCollectionType.map),
+      SchemaProperty('variantSelection', RealmPropertyType.string,
+          optional: true, collectionType: RealmCollectionType.map),
       SchemaProperty('quantity', RealmPropertyType.int),
     ]);
   }();

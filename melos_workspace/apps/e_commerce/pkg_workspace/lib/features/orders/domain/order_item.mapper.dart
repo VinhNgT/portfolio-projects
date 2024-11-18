@@ -14,7 +14,6 @@ class OrderItemMapper extends ClassMapperBase<OrderItem> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = OrderItemMapper._());
       ProductMapper.ensureInitialized();
-      ProductVariantMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -30,10 +29,9 @@ class OrderItemMapper extends ClassMapperBase<OrderItem> {
   static int _$quantity(OrderItem v) => v.quantity;
   static const Field<OrderItem, int> _f$quantity =
       Field('quantity', _$quantity);
-  static Map<Uuid, ProductVariant?> _$variantSelection(OrderItem v) =>
-      v.variantSelection;
-  static const Field<OrderItem, Map<Uuid, ProductVariant?>>
-      _f$variantSelection = Field('variantSelection', _$variantSelection);
+  static Map<Uuid, Uuid?> _$variantSelection(OrderItem v) => v.variantSelection;
+  static const Field<OrderItem, Map<Uuid, Uuid?>> _f$variantSelection =
+      Field('variantSelection', _$variantSelection);
 
   @override
   final MappableFields<OrderItem> fields = const {
@@ -102,14 +100,13 @@ extension OrderItemValueCopy<$R, $Out> on ObjectCopyWith<$R, OrderItem, $Out> {
 abstract class OrderItemCopyWith<$R, $In extends OrderItem, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   ProductCopyWith<$R, Product, Product> get product;
-  MapCopyWith<$R, Uuid, ProductVariant?,
-          ProductVariantCopyWith<$R, ProductVariant, ProductVariant>?>
+  MapCopyWith<$R, Uuid, Uuid?, ObjectCopyWith<$R, Uuid?, Uuid?>?>
       get variantSelection;
   $R call(
       {Uuid? id,
       Product? product,
       int? quantity,
-      Map<Uuid, ProductVariant?>? variantSelection});
+      Map<Uuid, Uuid?>? variantSelection});
   OrderItemCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -125,16 +122,17 @@ class _OrderItemCopyWithImpl<$R, $Out>
   ProductCopyWith<$R, Product, Product> get product =>
       $value.product.copyWith.$chain((v) => call(product: v));
   @override
-  MapCopyWith<$R, Uuid, ProductVariant?,
-          ProductVariantCopyWith<$R, ProductVariant, ProductVariant>?>
-      get variantSelection => MapCopyWith($value.variantSelection,
-          (v, t) => v?.copyWith.$chain(t), (v) => call(variantSelection: v));
+  MapCopyWith<$R, Uuid, Uuid?, ObjectCopyWith<$R, Uuid?, Uuid?>?>
+      get variantSelection => MapCopyWith(
+          $value.variantSelection,
+          (v, t) => ObjectCopyWith(v, $identity, t),
+          (v) => call(variantSelection: v));
   @override
   $R call(
           {Uuid? id,
           Product? product,
           int? quantity,
-          Map<Uuid, ProductVariant?>? variantSelection}) =>
+          Map<Uuid, Uuid?>? variantSelection}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (product != null) #product: product,

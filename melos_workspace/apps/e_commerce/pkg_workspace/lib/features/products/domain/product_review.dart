@@ -21,6 +21,9 @@ class ProductReview with ProductReviewMappable {
     required this.reviewerEmail,
   });
 
+  factory ProductReview.fromJson(Map<String, dynamic> json) =>
+      ProductReviewMapper.fromJson(json);
+
   factory ProductReview.fromRealmObj(ProductReviewRealm obj) =>
       ProductReviewRealmConverter.fromRealmObj(obj);
 }
