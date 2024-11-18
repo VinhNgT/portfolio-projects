@@ -38,7 +38,7 @@
           "regexp": "^\\[(WARNING|SEVERE)\\] (.*)",
           "severity": 1,
           "message": 2,
-          "file": 0
+          "file": 99 // A hack to ignore file match
         },
         "background": {
           "activeOnStart": false,
