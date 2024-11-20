@@ -1,6 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
-import 'package:objectbox/objectbox.dart';
 import 'package:realm/realm.dart';
 
 part 'product_variant.mapper.dart';
@@ -29,36 +28,6 @@ class ProductVariant with ProductVariantMappable {
   @override
   String toString() {
     return '$id ($name)';
-  }
-}
-
-@Entity()
-class ProductVariantObjBox {
-  @Id()
-  int objectBoxId = 0;
-
-  @Index()
-  @Unique(onConflict: ConflictStrategy.replace)
-  final String id;
-  final String name;
-
-  ProductVariantObjBox({
-    required this.id,
-    required this.name,
-  });
-
-  factory ProductVariantObjBox.fromEntity(ProductVariant obj) {
-    return ProductVariantObjBox(
-      id: obj.id.toString(),
-      name: obj.name,
-    );
-  }
-
-  ProductVariant toEntity() {
-    return ProductVariant(
-      id: Uuid.fromString(id),
-      name: name,
-    );
   }
 }
 

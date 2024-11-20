@@ -1,7 +1,6 @@
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
-import 'package:objectbox/objectbox.dart';
 import 'package:realm/realm.dart';
 
 part 'product_variant_group.mapper.dart';
@@ -38,42 +37,6 @@ class ProductVariantGroup with ProductVariantGroupMappable {
   @override
   String toString() {
     return '$id ($groupName)';
-  }
-}
-
-@Entity()
-class ProductVariantGroupObjBox {
-  @Id()
-  int objectBoxId = 0;
-
-  @Index()
-  @Unique(onConflict: ConflictStrategy.replace)
-  final String id;
-  final String groupName;
-  final ToMany<ProductVariantObjBox> variants;
-
-  ProductVariantGroupObjBox({
-    required this.id,
-    required this.groupName,
-    required this.variants,
-  });
-
-  factory ProductVariantGroupObjBox.fromEntity(ProductVariantGroup obj) {
-    return ProductVariantGroupObjBox(
-      id: obj.id.toString(),
-      groupName: obj.groupName,
-      variants: ToMany(
-        items: obj.variants.map(ProductVariantObjBox.fromEntity).toList(),
-      ),
-    );
-  }
-
-  ProductVariantGroup toEntity() {
-    return ProductVariantGroup(
-      id: Uuid.fromString(id),
-      groupName: groupName,
-      variants: variants.map((e) => e.toEntity()).toList(),
-    );
   }
 }
 

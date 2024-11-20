@@ -3,7 +3,6 @@ import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
-import 'package:objectbox/objectbox.dart';
 import 'package:realm/realm.dart';
 
 part 'cart_item.mapper.dart';
@@ -57,39 +56,6 @@ extension CartItemMutations on CartItem {
       orderItem: orderItem.copyWith(
         quantity: orderItem.quantity + other.orderItem.quantity,
       ),
-    );
-  }
-}
-
-@Entity()
-class CartItemObjBox {
-  @Id()
-  int objectBoxId = 0;
-
-  @Index()
-  @Unique(onConflict: ConflictStrategy.replace)
-  final String id;
-  final ToOne<OrderItemObjBox> orderItem;
-  final bool isIncludeInOrder;
-
-  CartItemObjBox({
-    required this.id,
-    required this.orderItem,
-    required this.isIncludeInOrder,
-  });
-
-  factory CartItemObjBox.fromEntity(CartItem obj) {
-    return CartItemObjBox(
-      id: obj.id.toString(),
-      orderItem: ToOne(target: OrderItemObjBox.fromEntity(obj.orderItem)),
-      isIncludeInOrder: obj.isIncludeInOrder,
-    );
-  }
-
-  CartItem toEntity() {
-    return CartItem(
-      orderItem: orderItem.target!.toEntity(),
-      isIncludeInOrder: isIncludeInOrder,
     );
   }
 }

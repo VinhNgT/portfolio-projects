@@ -1,13 +1,9 @@
-import 'dart:convert';
-
 import 'package:collection/collection.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
-import 'package:e_commerce/utils/typedefs.dart';
-import 'package:objectbox/objectbox.dart';
 import 'package:realm/realm.dart';
 
 part 'order_item.mapper.dart';
@@ -113,54 +109,6 @@ extension _Proto on OrderItem {
         group.id: group.variants.first.id,
     },
   );
-}
-
-typedef UuidString = String;
-
-@Entity()
-class OrderItemObjBox {
-  @Id()
-  int objectBoxId = 0;
-
-  @Index()
-  @Unique(onConflict: ConflictStrategy.replace)
-  final UuidString id;
-  final ToOne<ProductObjBox> product;
-  final int quantity;
-  final JsonString variantSelection;
-
-  OrderItemObjBox({
-    required this.id,
-    required this.product,
-    required this.quantity,
-    required this.variantSelection,
-  });
-
-  factory OrderItemObjBox.fromEntity(OrderItem entity) {
-    return OrderItemObjBox(
-      id: entity.id.toString(),
-      product: ToOne(target: ProductObjBox.fromEntity(entity.product)),
-      quantity: entity.quantity,
-      variantSelection: jsonEncode({
-        for (final entry in entity.variantSelection.entries)
-          entry.key.toString(): entry.value?.toString(),
-      }),
-    );
-  }
-
-  OrderItem toEntity() {
-    return OrderItem(
-      id: Uuid.fromString(id),
-      product: product.target!.toEntity(),
-      quantity: quantity,
-      variantSelection: {
-        for (final entry
-            in (jsonDecode(variantSelection) as Map<String, String?>).entries)
-          Uuid.fromString(entry.key):
-              entry.value != null ? Uuid.fromString(entry.value!) : null,
-      },
-    );
-  }
 }
 
 @realm

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
 import 'package:e_commerce/features/products/domain/product_dimensions.dart';
@@ -7,9 +5,7 @@ import 'package:e_commerce/features/products/domain/product_meta.dart';
 import 'package:e_commerce/features/products/domain/product_review.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
-import 'package:e_commerce/utils/typedefs.dart';
 import 'package:intl/intl.dart';
-import 'package:objectbox/objectbox.dart';
 import 'package:realm/realm.dart';
 
 part 'product.mapper.dart';
@@ -216,126 +212,6 @@ extension _ProductPrototypeX on Product {
       ),
     ],
   );
-}
-
-@Entity()
-class ProductObjBox {
-  @Id()
-  int objectBoxId = 0;
-
-  @Index()
-  @Unique(onConflict: ConflictStrategy.replace)
-  int id;
-  String title;
-  String description;
-  String category;
-  double price;
-  double discountPercentage;
-  double rating;
-  int stock;
-  List<String> tags;
-  String? brand;
-  String sku;
-  int weight;
-  JsonString dimensions;
-  String warrantyInformation;
-  String shippingInformation;
-  String availabilityStatus;
-  JsonString reviews;
-  String returnPolicy;
-  int minimumOrderQuantity;
-  JsonString meta;
-  String thumbnail;
-  List<String> images;
-  JsonString variantGroups;
-
-  ProductObjBox({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.category,
-    required this.price,
-    required this.discountPercentage,
-    required this.rating,
-    required this.stock,
-    required this.tags,
-    required this.brand,
-    required this.sku,
-    required this.weight,
-    required this.dimensions,
-    required this.warrantyInformation,
-    required this.shippingInformation,
-    required this.availabilityStatus,
-    required this.reviews,
-    required this.returnPolicy,
-    required this.minimumOrderQuantity,
-    required this.meta,
-    required this.thumbnail,
-    required this.images,
-    required this.variantGroups,
-  });
-
-  factory ProductObjBox.fromEntity(Product obj) {
-    return ProductObjBox(
-      id: obj.id,
-      title: obj.title,
-      description: obj.description,
-      category: obj.category,
-      price: obj.price,
-      discountPercentage: obj.discountPercentage,
-      rating: obj.rating,
-      stock: obj.stock,
-      tags: obj.tags,
-      brand: obj.brand,
-      sku: obj.sku,
-      weight: obj.weight,
-      dimensions: jsonEncode(obj.dimensions.toJson()),
-      warrantyInformation: obj.warrantyInformation,
-      shippingInformation: obj.shippingInformation,
-      availabilityStatus: obj.availabilityStatus,
-      reviews: jsonEncode(obj.reviews.map((e) => e.toJson()).toList()),
-      returnPolicy: obj.returnPolicy,
-      minimumOrderQuantity: obj.minimumOrderQuantity,
-      meta: jsonEncode(obj.meta.toJson()),
-      thumbnail: obj.thumbnail,
-      images: obj.images,
-      variantGroups: jsonEncode(
-        obj.variantGroups.map((e) => e.toJson()).toList(),
-      ),
-    );
-  }
-
-  Product toEntity() {
-    return Product(
-      id: id,
-      title: title,
-      description: description,
-      category: category,
-      price: price,
-      discountPercentage: discountPercentage,
-      rating: rating,
-      stock: stock,
-      tags: tags,
-      brand: brand,
-      sku: sku,
-      weight: weight,
-      dimensions: ProductDimensions.fromJson(jsonDecode(dimensions)),
-      warrantyInformation: warrantyInformation,
-      shippingInformation: shippingInformation,
-      availabilityStatus: availabilityStatus,
-      reviews: (jsonDecode(reviews) as List<Map<String, dynamic>>)
-          .map(ProductReview.fromJson)
-          .toList(),
-      returnPolicy: returnPolicy,
-      minimumOrderQuantity: minimumOrderQuantity,
-      meta: ProductMeta.fromJson(jsonDecode(meta)),
-      thumbnail: thumbnail,
-      images: images,
-      variantGroups: (jsonDecode(variantGroups) as List<Map<String, dynamic>>)
-          .map(ProductVariantGroup.fromJson)
-          .toList(),
-    );
-  }
 }
 
 @realm

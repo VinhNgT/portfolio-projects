@@ -5,7 +5,6 @@ import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/orders/domain/order.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
-import 'package:objectbox/objectbox.dart' hide Order;
 import 'package:realm/realm.dart';
 
 part 'cart.mapper.dart';
@@ -164,38 +163,6 @@ class CartNoItemFoundError extends Error {
   @override
   String toString() {
     return 'Item $itemId not found in cart';
-  }
-}
-
-@Entity()
-class CartObjBox {
-  @Id()
-  int objectBoxId = 0;
-
-  @Index()
-  @Unique(onConflict: ConflictStrategy.replace)
-  final String id;
-  final ToMany<CartItemObjBox> cartItems;
-
-  CartObjBox({
-    required this.id,
-    required this.cartItems,
-  });
-
-  factory CartObjBox.fromEntity(Cart obj) {
-    return CartObjBox(
-      id: obj.id.toString(),
-      cartItems: ToMany<CartItemObjBox>(
-        items: obj.cartItems.map(CartItemObjBox.fromEntity).toList(),
-      ),
-    );
-  }
-
-  Cart toEntity() {
-    return Cart(
-      id: Uuid.fromString(id),
-      cartItems: cartItems.map((e) => e.toEntity()).toList(),
-    );
   }
 }
 
