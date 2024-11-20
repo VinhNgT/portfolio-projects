@@ -217,6 +217,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.0"
+  charcode:
+    dependency: transitive
+    description:
+      name: charcode
+      sha256: fb0f1107cac15a5ea6ef0a6ef71a807b9e4267c713bb93e00e92d737cc8dbd8a
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.0"
   checked_yaml:
     dependency: transitive
     description:
@@ -368,6 +376,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+  drift:
+    dependency: "direct main"
+    description:
+      name: drift
+      sha256: "4e0ffee40d23f0b809e6cff1ad202886f51d629649073ed42d9cd1d194ea943e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.19.1+1"
+  drift_dev:
+    dependency: "direct dev"
+    description:
+      name: drift_dev
+      sha256: ac7647c6cedca99724ca300cff9181f6dd799428f8ed71f94159ed0528eaec26
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.19.1"
+  drift_flutter:
+    dependency: "direct main"
+    description:
+      name: drift_flutter
+      sha256: c670c947fe17ad149678a43fdbbfdb69321f0c83d315043e34e8ad2729e11f49
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   ejson:
     dependency: "direct overridden"
     description:
@@ -424,14 +456,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
-  flat_buffers:
-    dependency: transitive
-    description:
-      name: flat_buffers
-      sha256: "380bdcba5664a718bfd4ea20a45d39e13684f5318fcd8883066a55e21f37f4c3"
-      url: "https://pub.dev"
-    source: hosted
-    version: "23.5.26"
   flex_color_scheme:
     dependency: "direct main"
     description:
@@ -820,30 +844,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
-  objectbox:
-    dependency: "direct main"
-    description:
-      name: objectbox
-      sha256: ea823f4bf1d0a636e7aa50b43daabb64dd0fbd80b85a033016ccc1bc4f76f432
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.3"
-  objectbox_flutter_libs:
-    dependency: "direct main"
-    description:
-      name: objectbox_flutter_libs
-      sha256: c91350bbbce5e6c2038255760b5be988faead004c814f833c2cd137445c6ae70
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.3"
-  objectbox_generator:
-    dependency: "direct dev"
-    description:
-      name: objectbox_generator
-      sha256: "96da521f2cef455cd524f8854e31d64495c50711ad5f1e2cf3142a8e527bc75f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.3"
   objectid:
     dependency: transitive
     description:
@@ -972,14 +972,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
-  pointycastle:
-    dependency: transitive
-    description:
-      name: pointycastle
-      sha256: "4be0097fcf3fd3e8449e53730c631200ebc7b88016acecab2b0da2f0149222fe"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.9.1"
   pool:
     dependency: transitive
     description:
@@ -1044,6 +1036,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.0"
+  recase:
+    dependency: transitive
+    description:
+      name: recase
+      sha256: e4eb4ec2dcdee52dcf99cb4ceabaffc631d7424ee55e56f280bc039737f89213
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.1.0"
   riverpod:
     dependency: transitive
     description:
@@ -1177,6 +1177,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.5.4"
+  sqlite3:
+    dependency: transitive
+    description:
+      name: sqlite3
+      sha256: b384f598b813b347c5a7e5ffad82cbaff1bec3d1561af267041e66f6f0899295
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.3"
+  sqlite3_flutter_libs:
+    dependency: transitive
+    description:
+      name: sqlite3_flutter_libs
+      sha256: "7ae52b23366e5295005022e62fa093f64bfe190810223ea0ebf733a4cd140bce"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.26"
+  sqlparser:
+    dependency: transitive
+    description:
+      name: sqlparser
+      sha256: "3be52b4968fc2f098ba735863404756d2fe3ea0729cf006a5b5612618f74ca04"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.37.1"
   stack_trace:
     dependency: transitive
     description:
