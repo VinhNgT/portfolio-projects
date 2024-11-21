@@ -1,4 +1,6 @@
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:drift/drift.dart';
+import 'package:e_commerce/backend/database/drift/drift_provider.dart';
 import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
 import 'package:e_commerce/features/products/domain/product_dimensions.dart';
 import 'package:e_commerce/features/products/domain/product_meta.dart';
@@ -10,6 +12,99 @@ import 'package:realm/realm.dart';
 
 part 'product.mapper.dart';
 part 'product.realm.dart';
+
+class ProductTable extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get title => text()();
+  TextColumn get description => text()();
+  TextColumn get category => text()();
+  RealColumn get price => real()();
+  RealColumn get discountPercentage => real()();
+  RealColumn get rating => real()();
+  IntColumn get stock => integer()();
+  TextColumn get tags => text().map(const DbJsonConverter())();
+  TextColumn get brand => text().nullable()();
+  TextColumn get sku => text()();
+  IntColumn get weight => integer()();
+  TextColumn get dimensions => text().map(const DbJsonConverter())();
+  TextColumn get warrantyInformation => text()();
+  TextColumn get shippingInformation => text()();
+  TextColumn get availabilityStatus => text()();
+  TextColumn get reviews => text().map(const DbJsonConverter())();
+  TextColumn get returnPolicy => text()();
+  IntColumn get minimumOrderQuantity => integer()();
+  TextColumn get meta => text().map(const DbJsonConverter())();
+  TextColumn get thumbnail => text()();
+  TextColumn get images => text().map(const DbJsonConverter())();
+}
+
+extension ProductTableDataConverter on Product {
+  static Future<Product> fromDbData(
+    AppDatabase db,
+    ProductTableData data,
+  ) async {
+    final variantGroupsRowData = await (db.select(db.productVariantGroupTable)
+          ..where((tbl) => tbl.productId.equals(data.id)))
+        .get();
+
+    return Product(
+      id: data.id,
+      title: data.title,
+      description: data.description,
+      category: data.category,
+      price: data.price,
+      discountPercentage: data.discountPercentage,
+      rating: data.rating,
+      stock: data.stock,
+      tags: data.tags,
+      brand: data.brand,
+      sku: data.sku,
+      weight: data.weight,
+      dimensions: ProductDimensions.fromJson(data.dimensions),
+      warrantyInformation: data.warrantyInformation,
+      shippingInformation: data.shippingInformation,
+      availabilityStatus: data.availabilityStatus,
+      reviews: (data.reviews as List<Map<String, dynamic>>)
+          .map(ProductReview.fromJson)
+          .toList(),
+      returnPolicy: data.returnPolicy,
+      minimumOrderQuantity: data.minimumOrderQuantity,
+      meta: ProductMeta.fromJson(data.meta),
+      thumbnail: data.thumbnail,
+      images: data.images,
+      variantGroups: await Future.wait(
+        variantGroupsRowData.map((e) => ProductVariantGroup.fromDbData(db, e)),
+      ),
+    );
+  }
+
+  ProductTableData toDbData() {
+    return ProductTableData(
+      id: id,
+      title: title,
+      description: description,
+      category: category,
+      price: price,
+      discountPercentage: discountPercentage,
+      rating: rating,
+      stock: stock,
+      tags: tags,
+      brand: brand,
+      sku: sku,
+      weight: weight,
+      dimensions: dimensions.toJson(),
+      warrantyInformation: warrantyInformation,
+      shippingInformation: shippingInformation,
+      availabilityStatus: availabilityStatus,
+      reviews: reviews.map((e) => e.toJson()).toList(),
+      returnPolicy: returnPolicy,
+      minimumOrderQuantity: minimumOrderQuantity,
+      meta: meta.toJson(),
+      thumbnail: thumbnail,
+      images: images,
+    );
+  }
+}
 
 @MappableClass()
 class Product with ProductMappable {
@@ -88,6 +183,8 @@ class Product with ProductMappable {
     required this.thumbnail,
     required this.images,
   }) : variantGroups = prototype.variantGroups;
+
+  static const fromDbData = ProductTableDataConverter.fromDbData;
 
   factory Product.fromJson(Map<String, dynamic> json) =>
       ProductMapper.fromJson(json);

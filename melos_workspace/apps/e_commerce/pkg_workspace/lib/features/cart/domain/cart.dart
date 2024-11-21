@@ -1,5 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:drift/drift.dart';
+import 'package:e_commerce/backend/database/drift/drift_provider.dart';
 import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/orders/domain/order.dart';
@@ -9,6 +11,13 @@ import 'package:realm/realm.dart';
 
 part 'cart.mapper.dart';
 part 'cart.realm.dart';
+
+class CartTable extends Table {
+  TextColumn get id => text()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
 
 @MappableClass()
 class Cart with CartMappable {
@@ -23,6 +32,11 @@ class Cart with CartMappable {
   Cart.create({
     this.cartItems = const [],
   }) : id = Uuid.v4();
+
+  Cart.fromDbData(
+    CartTableData data, {
+    required this.cartItems,
+  }) : id = Uuid.fromString(data.id);
 
   factory Cart.fromRealmObj(CartRealm obj) =>
       CartRealmConverter.fromRealmObj(obj);

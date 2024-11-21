@@ -1,4 +1,6 @@
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:drift/drift.dart';
+import 'package:e_commerce/backend/database/drift/drift_provider.dart';
 import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
@@ -7,6 +9,17 @@ import 'package:realm/realm.dart';
 
 part 'cart_item.mapper.dart';
 part 'cart_item.realm.dart';
+
+class CartItemTable extends Table {
+  BoolColumn get isIncludeInOrder =>
+      boolean().withDefault(const Constant(true))();
+
+  TextColumn get orderItemId =>
+      text().references(OrderItemTable, #id, onDelete: KeyAction.cascade)();
+
+  @override
+  Set<Column> get primaryKey => {orderItemId};
+}
 
 @MappableClass()
 class CartItem with CartItemMappable {
@@ -30,6 +43,27 @@ class CartItem with CartItemMappable {
   CartItem.createWithProduct({
     required Product product,
   }) : this.create(orderItem: OrderItem.create(product: product));
+
+  CartItemTableData toDbData() {
+    return CartItemTableData(
+      orderItemId: orderItem.id.toString(),
+      isIncludeInOrder: isIncludeInOrder,
+    );
+  }
+
+  static Future<CartItem> fromDbData(
+    AppDatabase db,
+    CartItemTableData data,
+  ) async {
+    final orderItem = await (db.select(db.orderItemTable)
+          ..where((tbl) => tbl.id.equals(data.orderItemId)))
+        .getSingle();
+
+    return CartItem(
+      orderItem: await OrderItem.fromDbData(db, orderItem),
+      isIncludeInOrder: data.isIncludeInOrder,
+    );
+  }
 
   factory CartItem.fromRealmObj(CartItemRealm obj) =>
       CartItemRealmConverter.fromRealmObj(obj);

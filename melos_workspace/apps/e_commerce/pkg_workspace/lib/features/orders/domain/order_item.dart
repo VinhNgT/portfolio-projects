@@ -1,5 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:drift/drift.dart';
+import 'package:e_commerce/backend/database/drift/drift_provider.dart';
 import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
@@ -8,6 +10,25 @@ import 'package:realm/realm.dart';
 
 part 'order_item.mapper.dart';
 part 'order_item.realm.dart';
+
+class OrderItemTable extends Table {
+  TextColumn get id => text()();
+  // ignore: recursive_getters
+  IntColumn get quantity => integer().check(quantity.isBiggerOrEqualValue(0))();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+class OrderItemVariantSelectionTable extends Table {
+  TextColumn get orderItemId =>
+      text().references(OrderItemTable, #id, onDelete: KeyAction.cascade)();
+  TextColumn get variantId => text()
+      .references(ProductVariantTable, #id, onDelete: KeyAction.cascade)();
+
+  @override
+  Set<Column> get primaryKey => {orderItemId, variantId};
+}
 
 @MappableClass()
 class OrderItem with OrderItemMappable {
@@ -70,6 +91,83 @@ class OrderItem with OrderItemMappable {
           quantity: quantity,
           variantSelection: variantSelection,
         );
+
+  static Future<OrderItem> fromDbData(
+    AppDatabase db,
+    OrderItemTableData data,
+  ) async {
+    final productQuery = db.select(db.productTable).join([
+      innerJoin(
+        db.productVariantGroupTable,
+        db.productVariantGroupTable.productId.equalsExp(db.productTable.id),
+      ),
+      innerJoin(
+        db.productVariantTable,
+        db.productVariantTable.groupId
+            .equalsExp(db.productVariantGroupTable.id),
+      ),
+      innerJoin(
+        db.orderItemVariantSelectionTable,
+        db.orderItemVariantSelectionTable.orderItemId
+            .equalsExp(db.productVariantTable.id),
+      ),
+      innerJoin(
+        db.orderItemTable,
+        db.orderItemTable.id
+            .equalsExp(db.orderItemVariantSelectionTable.orderItemId),
+      ),
+    ])
+      ..where(db.orderItemTable.id.equals(data.id));
+
+    final productData =
+        (await productQuery.getSingle()).readTable(db.productTable);
+
+    final variantSelectionQuery = db
+        .select(db.orderItemVariantSelectionTable)
+        .join([
+      innerJoin(
+        db.productVariantTable,
+        db.productVariantTable.id
+            .equalsExp(db.orderItemVariantSelectionTable.variantId),
+      ),
+      innerJoin(
+        db.productVariantGroupTable,
+        db.productVariantGroupTable.id
+            .equalsExp(db.productVariantTable.groupId),
+      ),
+    ])
+      ..where(db.orderItemVariantSelectionTable.orderItemId.equals(data.id));
+
+    final variantSelectionStringMap = (await variantSelectionQuery.get())
+        .fold(<String, String?>{}, (previousValue, element) {
+      final groupId = element.read(db.productVariantGroupTable.id)!;
+      final variantId = element.read(db.productVariantTable.id);
+
+      return {
+        ...previousValue,
+        groupId: variantId,
+      };
+    });
+
+    return OrderItem(
+      id: Uuid.fromString(data.id),
+      product: await Product.fromDbData(db, productData),
+      quantity: data.quantity,
+      variantSelection: variantSelectionStringMap.map(
+        (key, value) => MapEntry(
+          Uuid.fromString(key),
+          value != null ? Uuid.fromString(value) : null,
+        ),
+      ),
+    );
+  }
+
+  OrderItemTableData toDbData() {
+    return OrderItemTableData(
+      id: id.toString(),
+      quantity: quantity,
+    );
+  }
 
   factory OrderItem.fromRealmObj(OrderItemRealm obj) =>
       OrderItemRealmConverter.fromRealmObj(obj);
