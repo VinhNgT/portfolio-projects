@@ -230,7 +230,8 @@ class _ShippingCost extends StatelessWidget {
           const Gap(kSize_8),
           Expanded(
             child: Text(
-              'Phí VC: ${vndPriceFormat.format(13000 * cartItem.orderItem.quantity)}',
+              'Phí VC: '
+              '${vndPriceFormat.format(13000 * cartItem.orderItem.quantity)}',
               // vndPriceFormat.format(103000),
               style: context.textTheme.bodySmall!.copyWith(
                 color: context.colorScheme.onSurfaceVariant,

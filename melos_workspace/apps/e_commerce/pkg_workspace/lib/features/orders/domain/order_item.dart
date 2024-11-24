@@ -104,10 +104,6 @@ class OrderItem with OrderItemMappable {
     ])
       ..where(db.orderItemTable.id.equals(data.id));
 
-    final test1 = await db.select(db.productTable).get();
-    final test =
-        (await productQuery.get()).map((e) => e.readTable(db.productTable));
-
     final productData =
         (await productQuery.getSingle()).readTable(db.productTable);
 
