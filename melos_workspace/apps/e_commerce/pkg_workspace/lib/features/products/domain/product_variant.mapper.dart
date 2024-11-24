@@ -20,8 +20,8 @@ class ProductVariantMapper extends ClassMapperBase<ProductVariant> {
   @override
   final String id = 'ProductVariant';
 
-  static Uuid _$id(ProductVariant v) => v.id;
-  static const Field<ProductVariant, Uuid> _f$id = Field('id', _$id);
+  static int? _$id(ProductVariant v) => v.id;
+  static const Field<ProductVariant, int> _f$id = Field('id', _$id);
   static String _$name(ProductVariant v) => v.name;
   static const Field<ProductVariant, String> _f$name = Field('name', _$name);
 
@@ -88,7 +88,7 @@ extension ProductVariantValueCopy<$R, $Out>
 
 abstract class ProductVariantCopyWith<$R, $In extends ProductVariant, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  $R call({Uuid? id, String? name});
+  $R call({int? id, String? name});
   ProductVariantCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -102,8 +102,8 @@ class _ProductVariantCopyWithImpl<$R, $Out>
   late final ClassMapperBase<ProductVariant> $mapper =
       ProductVariantMapper.ensureInitialized();
   @override
-  $R call({Uuid? id, String? name}) => $apply(FieldCopyWithData(
-      {if (id != null) #id: id, if (name != null) #name: name}));
+  $R call({Object? id = $none, String? name}) => $apply(FieldCopyWithData(
+      {if (id != $none) #id: id, if (name != null) #name: name}));
   @override
   ProductVariant $make(CopyWithData data) => ProductVariant(
       id: data.get(#id, or: $value.id), name: data.get(#name, or: $value.name));

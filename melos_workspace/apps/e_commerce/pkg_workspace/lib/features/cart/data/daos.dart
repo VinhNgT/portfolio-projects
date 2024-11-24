@@ -3,7 +3,7 @@ import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
-import 'package:sane_uuid/uuid.dart';
+import 'package:e_commerce/utils/typedefs.dart';
 
 part 'daos.g.dart';
 
@@ -15,7 +15,7 @@ class CartItemTableDao extends DatabaseAccessor<AppDatabase>
   Future<void> setItemOrderInclusionState(CartItem item, bool isSelected) {
     return (update(db.cartItemTable)
           ..where(
-            (tbl) => tbl.orderItemId.equals(item.orderItem.id.toString()),
+            (tbl) => tbl.orderItemId.equals(item.orderItem.id!),
           ))
         .write(
       CartItemTableCompanion(
@@ -42,8 +42,8 @@ class OrderItemTableDao extends DatabaseAccessor<AppDatabase>
     return select(db.orderItemTable).watch();
   }
 
-  Future<Uuid?> getExistingOrderItemId(
-    List<String> orderItemVariantSelectionUuid,
+  Future<DatabaseKey?> getExistingOrderItemId(
+    List<DatabaseKey> orderItemVariantSelectionKey,
   ) async {
     final distinctProductVariantCountExp =
         db.orderItemVariantSelectionTable.variantId.count(
@@ -54,7 +54,7 @@ class OrderItemTableDao extends DatabaseAccessor<AppDatabase>
         select(db.orderItemVariantSelectionTable).join([])
           ..where(
             db.orderItemVariantSelectionTable.variantId.isIn(
-              orderItemVariantSelectionUuid,
+              orderItemVariantSelectionKey,
             ),
           )
           ..addColumns([
@@ -63,19 +63,18 @@ class OrderItemTableDao extends DatabaseAccessor<AppDatabase>
           ..groupBy(
             [db.orderItemVariantSelectionTable.orderItemId],
             having: distinctProductVariantCountExp
-                .equals(orderItemVariantSelectionUuid.length),
+                .equals(orderItemVariantSelectionKey.length),
           );
 
     final rowResult = await existingOrderItemQuery.getSingleOrNull();
     final value =
         rowResult?.read(db.orderItemVariantSelectionTable.orderItemId);
 
-    return value != null ? Uuid.fromString(value) : null;
+    return value;
   }
 
-  Future<void> setOrderItemQuantity(Uuid itemId, int quantity) async {
-    await (update(db.orderItemTable)
-          ..where((tbl) => tbl.id.equals(itemId.toString())))
+  Future<void> setOrderItemQuantity(DatabaseKey itemId, int quantity) async {
+    await (update(db.orderItemTable)..where((tbl) => tbl.id.equals(itemId)))
         .write(
       OrderItemTableCompanion(
         quantity: Value(quantity),
@@ -83,9 +82,8 @@ class OrderItemTableDao extends DatabaseAccessor<AppDatabase>
     );
   }
 
-  Future<void> addOrderItemQuantity(Uuid itemId, int quantity) async {
-    await (update(db.orderItemTable)
-          ..where((tbl) => tbl.id.equals(itemId.toString())))
+  Future<void> addOrderItemQuantity(DatabaseKey itemId, int quantity) async {
+    await (update(db.orderItemTable)..where((tbl) => tbl.id.equals(itemId)))
         .write(
       OrderItemTableCompanion.custom(
         quantity: db.orderItemTable.quantity + Variable(quantity),
@@ -93,15 +91,13 @@ class OrderItemTableDao extends DatabaseAccessor<AppDatabase>
     );
   }
 
-  Future<OrderItemTableData?> getOrderItem(Uuid itemId) async {
-    return (select(db.orderItemTable)
-          ..where((tbl) => tbl.id.equals(itemId.toString())))
+  Future<OrderItemTableData?> getOrderItem(DatabaseKey itemId) async {
+    return (select(db.orderItemTable)..where((tbl) => tbl.id.equals(itemId)))
         .getSingleOrNull();
   }
 
-  Future<void> removeOrderItem(Uuid itemId) async {
-    await (delete(db.orderItemTable)
-          ..where((tbl) => tbl.id.equals(itemId.toString())))
+  Future<void> removeOrderItem(DatabaseKey itemId) async {
+    await (delete(db.orderItemTable)..where((tbl) => tbl.id.equals(itemId)))
         .go();
   }
 }
@@ -112,15 +108,15 @@ class OrderItemVariantSelectionTableDao extends DatabaseAccessor<AppDatabase>
   OrderItemVariantSelectionTableDao(super.db);
 
   Future<void> addOrderItemVariantSelection(
-    Uuid orderId,
+    DatabaseKey orderId,
     ProductVariantIdsSelection variantSelection,
   ) async {
     await db.transaction(() async {
       for (final variantId in variantSelection.values) {
         await db.into(db.orderItemVariantSelectionTable).insert(
               OrderItemVariantSelectionTableData(
-                orderItemId: orderId.toString(),
-                variantId: variantId.toString(),
+                orderItemId: orderId,
+                variantId: variantId!,
               ),
             );
       }
@@ -128,16 +124,16 @@ class OrderItemVariantSelectionTableDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<List<OrderItemVariantSelectionTableData>> getOrderItemVariantSelection(
-    Uuid orderId,
+    DatabaseKey orderId,
   ) async {
     return (select(db.orderItemVariantSelectionTable)
-          ..where((tbl) => tbl.orderItemId.equals(orderId.toString())))
+          ..where((tbl) => tbl.orderItemId.equals(orderId)))
         .get();
   }
 
-  Future<void> removeOrderItemVariantSelection(Uuid orderId) async {
+  Future<void> removeOrderItemVariantSelection(DatabaseKey orderId) async {
     await (delete(db.orderItemVariantSelectionTable)
-          ..where((tbl) => tbl.orderItemId.equals(orderId.toString())))
+          ..where((tbl) => tbl.orderItemId.equals(orderId)))
         .go();
   }
 }

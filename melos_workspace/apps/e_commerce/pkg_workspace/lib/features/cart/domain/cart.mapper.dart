@@ -21,8 +21,8 @@ class CartMapper extends ClassMapperBase<Cart> {
   @override
   final String id = 'Cart';
 
-  static Uuid _$id(Cart v) => v.id;
-  static const Field<Cart, Uuid> _f$id = Field('id', _$id);
+  static int? _$id(Cart v) => v.id;
+  static const Field<Cart, int> _f$id = Field('id', _$id);
   static List<CartItem> _$cartItems(Cart v) => v.cartItems;
   static const Field<Cart, List<CartItem>> _f$cartItems =
       Field('cartItems', _$cartItems);
@@ -85,7 +85,7 @@ abstract class CartCopyWith<$R, $In extends Cart, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, CartItem, CartItemCopyWith<$R, CartItem, CartItem>>
       get cartItems;
-  $R call({Uuid? id, List<CartItem>? cartItems});
+  $R call({int? id, List<CartItem>? cartItems});
   CartCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -100,8 +100,11 @@ class _CartCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Cart, $Out>
       get cartItems => ListCopyWith($value.cartItems,
           (v, t) => v.copyWith.$chain(t), (v) => call(cartItems: v));
   @override
-  $R call({Uuid? id, List<CartItem>? cartItems}) => $apply(FieldCopyWithData(
-      {if (id != null) #id: id, if (cartItems != null) #cartItems: cartItems}));
+  $R call({Object? id = $none, List<CartItem>? cartItems}) =>
+      $apply(FieldCopyWithData({
+        if (id != $none) #id: id,
+        if (cartItems != null) #cartItems: cartItems
+      }));
   @override
   Cart $make(CopyWithData data) => Cart(
       id: data.get(#id, or: $value.id),

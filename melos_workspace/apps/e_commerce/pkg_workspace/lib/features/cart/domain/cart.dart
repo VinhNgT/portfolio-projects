@@ -6,20 +6,17 @@ import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/orders/domain/order.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
-import 'package:sane_uuid/uuid.dart';
+import 'package:e_commerce/utils/typedefs.dart';
 
 part 'cart.mapper.dart';
 
 class CartTable extends Table {
-  TextColumn get id => text()();
-
-  @override
-  Set<Column> get primaryKey => {id};
+  IntColumn get id => integer().autoIncrement()();
 }
 
 @MappableClass()
 class Cart with CartMappable {
-  final Uuid id;
+  final int? id;
   final List<CartItem> cartItems;
 
   const Cart({
@@ -27,14 +24,10 @@ class Cart with CartMappable {
     required this.cartItems,
   });
 
-  Cart.create({
-    this.cartItems = const [],
-  }) : id = Uuid.v4();
-
   Cart.fromDbData(
     CartTableData data, {
     required this.cartItems,
-  }) : id = Uuid.fromString(data.id);
+  }) : id = data.id;
 }
 
 extension CartGetters on Cart {
@@ -73,7 +66,7 @@ extension CartMutation on Cart {
   }
 
   /// Remove the item from the cart.
-  Cart removeItem(Uuid itemId) {
+  Cart removeItem(DatabaseKey itemId) {
     return copyWith(
       cartItems: cartItems..removeWhere((e) => e.orderItem.id == itemId),
     );
@@ -84,7 +77,7 @@ extension CartMutation on Cart {
     final itemListId =
         cartItems.indexWhere((e) => e.orderItem.id == cartItem.orderItem.id);
     if (itemListId == -1) {
-      throw CartNoItemFoundError(cartItem.orderItem.id);
+      throw CartNoItemFoundError(cartItem.orderItem.id!);
     }
 
     return copyWith(
@@ -93,7 +86,7 @@ extension CartMutation on Cart {
   }
 
   /// Set the state of whether the item is included in the order.
-  Cart setItemOrderInclusionState(Uuid itemId, bool isIncludeInOrder) {
+  Cart setItemOrderInclusionState(DatabaseKey itemId, bool isIncludeInOrder) {
     final itemListId = cartItems.indexWhere((e) => e.orderItem.id == itemId);
     if (itemListId == -1) {
       throw CartNoItemFoundError(itemId);
@@ -107,7 +100,7 @@ extension CartMutation on Cart {
   }
 
   /// Set the quantity of the item.
-  Cart setItemQuantity(Uuid itemId, int quantity) {
+  Cart setItemQuantity(DatabaseKey itemId, int quantity) {
     final itemListId = cartItems.indexWhere((e) => e.orderItem.id == itemId);
     if (itemListId == -1) {
       throw CartNoItemFoundError(itemId);
@@ -124,7 +117,7 @@ extension CartMutation on Cart {
 
   /// Update the selected variant of the item.
   Cart updateItemVariantSelection(
-    Uuid itemId,
+    DatabaseKey itemId,
     ProductVariantIdsSelection variantSelection,
   ) {
     final itemListId = cartItems.indexWhere((e) => e.orderItem.id == itemId);
@@ -166,7 +159,7 @@ extension CartMutation on Cart {
 }
 
 class CartNoItemFoundError extends Error {
-  final Uuid itemId;
+  final DatabaseKey itemId;
   CartNoItemFoundError(this.itemId);
 
   @override

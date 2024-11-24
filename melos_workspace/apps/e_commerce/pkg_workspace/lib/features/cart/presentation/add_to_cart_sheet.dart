@@ -8,13 +8,13 @@ import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:e_commerce/features/products/presentation/components/product_details/flash_sale_widget.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
+import 'package:e_commerce/utils/typedefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:sane_uuid/uuid.dart';
 
 typedef AddToCartSheetCallback = void Function(CartItem item);
 
@@ -83,7 +83,7 @@ class AddToCartSheet extends HookConsumerWidget {
                           ?.value['variant'] as Map<String, ProductVariantId?>;
 
                       final cartItem = CartItem.create(
-                        orderItem: OrderItem.create(
+                        orderItem: OrderItem(
                           id: initialCartItem?.orderItem.id,
                           product:
                               product ?? initialCartItem!.orderItem.product,
@@ -91,7 +91,7 @@ class AddToCartSheet extends HookConsumerWidget {
                           variantSelection: {
                             for (final entry in selectedVariant.entries)
                               if (entry.value != null)
-                                Uuid.fromString(entry.key): entry.value,
+                                int.parse(entry.key): entry.value,
                           },
                         ),
                       );
@@ -178,7 +178,7 @@ class _VariationGroups extends HookConsumerWidget {
       name: 'variant',
       initialValue: <String, ProductVariantId?>{
         for (final group in product.variantGroups)
-          group.id.toString(): initialVariants[group.id],
+          group.id!.toString(): initialVariants[group.id],
       },
       validator: (value) {
         if (value!.values.any((selectedVariant) => selectedVariant == null)) {
@@ -264,7 +264,7 @@ class _VariationSelection extends HookConsumerWidget {
   });
 
   final ProductVariantGroup group;
-  final Uuid? initialVariantId;
+  final DatabaseKey? initialVariantId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -277,7 +277,7 @@ class _VariationSelection extends HookConsumerWidget {
           style: context.textTheme.titleMedium,
         ),
         const Gap(kSize_8),
-        FormBuilderChoiceChip<Uuid?>(
+        FormBuilderChoiceChip<DatabaseKey?>(
           name: group.id.toString(),
           initialValue: initialVariantId,
           decoration: const InputDecoration(

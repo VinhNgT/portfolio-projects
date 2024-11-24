@@ -69,9 +69,6 @@ dependencies:
   sqlite3: ^2.4.3
   sqlite3_flutter_libs: ^0.5.26
 
-  sane_uuid: 1.0.0-alpha.5
-  ejson: 0.3.0
-
   # Network
   dio: ^5.4.3+1
 

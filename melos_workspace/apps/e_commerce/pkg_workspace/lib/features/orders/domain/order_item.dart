@@ -5,23 +5,19 @@ import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
-import 'package:sane_uuid/uuid.dart';
 
 part 'order_item.mapper.dart';
 
 class OrderItemTable extends Table {
-  TextColumn get id => text()();
+  IntColumn get id => integer().autoIncrement()();
   // ignore: recursive_getters
   IntColumn get quantity => integer().check(quantity.isBiggerOrEqualValue(0))();
-
-  @override
-  Set<Column> get primaryKey => {id};
 }
 
 class OrderItemVariantSelectionTable extends Table {
-  TextColumn get orderItemId =>
-      text().references(OrderItemTable, #id, onDelete: KeyAction.cascade)();
-  TextColumn get variantId => text().references(ProductVariantTable, #id)();
+  IntColumn get orderItemId =>
+      integer().references(OrderItemTable, #id, onDelete: KeyAction.cascade)();
+  IntColumn get variantId => integer().references(ProductVariantTable, #id)();
 
   @override
   Set<Column> get primaryKey => {orderItemId, variantId};
@@ -30,7 +26,7 @@ class OrderItemVariantSelectionTable extends Table {
 @MappableClass()
 class OrderItem with OrderItemMappable {
   /// The unique identifier of this order item.
-  final Uuid id;
+  final int? id;
 
   /// The product that this order item represents.
   final Product product;
@@ -43,7 +39,7 @@ class OrderItem with OrderItemMappable {
   final ProductVariantIdsSelection variantSelection;
 
   OrderItem({
-    required this.id,
+    this.id,
     required this.product,
     required this.quantity,
     required this.variantSelection,
@@ -76,18 +72,6 @@ class OrderItem with OrderItemMappable {
       }
     }
   }
-
-  OrderItem.create({
-    Uuid? id,
-    required Product product,
-    int quantity = 1,
-    ProductVariantIdsSelection variantSelection = const {},
-  }) : this(
-          id: id ?? Uuid.v4(),
-          product: product,
-          quantity: quantity,
-          variantSelection: variantSelection,
-        );
 
   static Future<OrderItem> fromDbData(
     AppDatabase db,
@@ -143,8 +127,8 @@ class OrderItem with OrderItemMappable {
     ])
       ..where(db.orderItemVariantSelectionTable.orderItemId.equals(data.id));
 
-    final variantSelectionStringMap = (await variantSelectionQuery.get())
-        .fold(<String, String?>{}, (previousValue, element) {
+    final variantSelectionStringMap = (await variantSelectionQuery.get()).fold(
+        <ProductVariantGroupId, ProductVariantId?>{}, (previousValue, element) {
       final groupId = element.read(db.productVariantGroupTable.id)!;
       final variantId = element.read(db.productVariantTable.id);
 
@@ -155,22 +139,17 @@ class OrderItem with OrderItemMappable {
     });
 
     return OrderItem(
-      id: Uuid.fromString(data.id),
+      id: data.id,
       product: await Product.fromDbData(db, productData),
       quantity: data.quantity,
-      variantSelection: variantSelectionStringMap.map(
-        (key, value) => MapEntry(
-          Uuid.fromString(key),
-          value != null ? Uuid.fromString(value) : null,
-        ),
-      ),
+      variantSelection: variantSelectionStringMap,
     );
   }
 
-  OrderItemTableData toDbData() {
-    return OrderItemTableData(
-      id: id.toString(),
-      quantity: quantity,
+  OrderItemTableCompanion toDbCompanion() {
+    return OrderItemTableCompanion(
+      id: Value.absentIfNull(id),
+      quantity: Value(quantity),
     );
   }
 
@@ -201,12 +180,12 @@ extension OrderItemMethods on OrderItem {
 
 extension _Proto on OrderItem {
   static final prototype = OrderItem(
-    id: Uuid.fromString('7988a4d0-e32b-412f-8a02-b5dbcc730f06'),
+    id: 999,
     product: Product.prototype,
     quantity: 1,
     variantSelection: {
       for (final group in Product.prototype.variantGroups)
-        group.id: group.variants.first.id,
+        group.id!: group.variants.first.id,
     },
   );
 }

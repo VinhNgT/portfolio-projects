@@ -195,7 +195,7 @@ class _CartItemBottomPart extends HookConsumerWidget {
           // const Gap(kSize_4),
           IconButton(
             onPressed: () {
-              ref.read(cartRepositoryProvider).removeCartItem(cartItem.id);
+              ref.read(cartRepositoryProvider).removeCartItem(cartItem.id!);
             },
             icon: const Icon(Symbols.delete_outline),
           ),

@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
-import 'package:sane_uuid/uuid.dart';
+import 'package:e_commerce/utils/typedefs.dart';
 
 part 'product_table_dao.g.dart';
 
@@ -17,7 +17,7 @@ class ProductTableDao extends DatabaseAccessor<AppDatabase>
   }) async {
     await db.transaction(() async {
       final productTableData = await db.into(db.productTable).insertReturning(
-            item.product.toDbData(),
+            item.product.toDbCompanion(),
             mode: replaceOld ? InsertMode.insertOrReplace : InsertMode.insert,
           );
 
@@ -25,13 +25,13 @@ class ProductTableDao extends DatabaseAccessor<AppDatabase>
         final groupTableData = await db
             .into(db.productVariantGroupTable)
             .insertReturning(
-              group.toDbData(productId: productTableData.id),
+              group.toDbCompanion(productId: productTableData.id),
               mode: replaceOld ? InsertMode.insertOrReplace : InsertMode.insert,
             );
 
         for (final variant in group.variants) {
           await db.into(db.productVariantTable).insert(
-                variant.toDbData(groupId: groupTableData.id),
+                variant.toDbCompanion(groupId: groupTableData.id),
                 mode:
                     replaceOld ? InsertMode.insertOrReplace : InsertMode.insert,
               );
@@ -45,7 +45,7 @@ class ProductTableDao extends DatabaseAccessor<AppDatabase>
         .getSingleOrNull();
   }
 
-  Future<ProductTableData?> getProductByVariantId(Uuid variantId) async {
+  Future<ProductTableData?> getProductByVariantId(DatabaseKey variantId) async {
     final query = select(db.productTable).join([
       innerJoin(
         db.productVariantGroupTable,
@@ -58,7 +58,7 @@ class ProductTableDao extends DatabaseAccessor<AppDatabase>
       ),
     ])
       ..where(
-        db.productVariantTable.id.equals(variantId.toString()),
+        db.productVariantTable.id.equals(variantId),
       );
 
     final result = await query.getSingleOrNull();

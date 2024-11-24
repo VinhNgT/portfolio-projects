@@ -3,41 +3,32 @@ import 'package:drift/drift.dart';
 import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
-import 'package:sane_uuid/uuid.dart';
 
 part 'product_variant_group.mapper.dart';
 
-typedef ProductVariantGroupId = Uuid;
-typedef ProductVariantId = Uuid;
+typedef ProductVariantGroupId = int;
+typedef ProductVariantId = int;
 typedef ProductVariantIdsSelection
     = Map<ProductVariantGroupId, ProductVariantId?>;
 
 class ProductVariantGroupTable extends Table {
-  TextColumn get id => text()();
+  IntColumn get id => integer().autoIncrement()();
   TextColumn get groupName => text()();
 
   IntColumn get productId => integer().references(ProductTable, #id)();
-
-  @override
-  Set<Column> get primaryKey => {id};
 }
 
 @MappableClass()
 class ProductVariantGroup with ProductVariantGroupMappable {
-  final ProductVariantGroupId id;
+  final ProductVariantGroupId? id;
   final String groupName;
   final List<ProductVariant> variants;
 
   const ProductVariantGroup({
-    required this.id,
+    this.id,
     required this.groupName,
     this.variants = const [],
   });
-
-  ProductVariantGroup.newId({
-    required this.groupName,
-    required this.variants,
-  }) : id = Uuid.v4();
 
   static Future<ProductVariantGroup> fromDbData(
     AppDatabase db,
@@ -48,19 +39,19 @@ class ProductVariantGroup with ProductVariantGroupMappable {
         .get();
 
     return ProductVariantGroup(
-      id: Uuid.fromString(data.id),
+      id: data.id,
       groupName: data.groupName,
       variants: variants.map(ProductVariant.fromDbData).toList(),
     );
   }
 
-  ProductVariantGroupTableData toDbData({
+  ProductVariantGroupTableCompanion toDbCompanion({
     required int productId,
   }) {
-    return ProductVariantGroupTableData(
-      id: id.toString(),
-      groupName: groupName,
-      productId: productId,
+    return ProductVariantGroupTableCompanion(
+      id: Value.absentIfNull(id),
+      groupName: Value(groupName),
+      productId: Value(productId),
     );
   }
 

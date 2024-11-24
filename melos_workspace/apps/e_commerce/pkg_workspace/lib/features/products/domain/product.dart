@@ -6,8 +6,8 @@ import 'package:e_commerce/features/products/domain/product_meta.dart';
 import 'package:e_commerce/features/products/domain/product_review.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
+import 'package:e_commerce/utils/typedefs.dart';
 import 'package:intl/intl.dart';
-import 'package:sane_uuid/uuid.dart';
 
 part 'product.mapper.dart';
 
@@ -77,37 +77,37 @@ extension ProductTableDataConverter on Product {
     );
   }
 
-  ProductTableData toDbData() {
-    return ProductTableData(
-      id: id,
-      title: title,
-      description: description,
-      category: category,
-      price: price,
-      discountPercentage: discountPercentage,
-      rating: rating,
-      stock: stock,
-      tags: tags,
-      brand: brand,
-      sku: sku,
-      weight: weight,
-      dimensions: dimensions.toJson(),
-      warrantyInformation: warrantyInformation,
-      shippingInformation: shippingInformation,
-      availabilityStatus: availabilityStatus,
-      reviews: reviews.map((e) => e.toJson()).toList(),
-      returnPolicy: returnPolicy,
-      minimumOrderQuantity: minimumOrderQuantity,
-      meta: meta.toJson(),
-      thumbnail: thumbnail,
-      images: images,
+  ProductTableCompanion toDbCompanion() {
+    return ProductTableCompanion(
+      id: Value.absentIfNull(id),
+      title: Value(title),
+      description: Value(description),
+      category: Value(category),
+      price: Value(price),
+      discountPercentage: Value(discountPercentage),
+      rating: Value(rating),
+      stock: Value(stock),
+      tags: Value(tags),
+      brand: Value(brand),
+      sku: Value(sku),
+      weight: Value(weight),
+      dimensions: Value(dimensions.toJson()),
+      warrantyInformation: Value(warrantyInformation),
+      shippingInformation: Value(shippingInformation),
+      availabilityStatus: Value(availabilityStatus),
+      reviews: Value(reviews.map((e) => e.toJson()).toList()),
+      returnPolicy: Value(returnPolicy),
+      minimumOrderQuantity: Value(minimumOrderQuantity),
+      meta: Value(meta.toJson()),
+      thumbnail: Value(thumbnail),
+      images: Value(images),
     );
   }
 }
 
 @MappableClass()
 class Product with ProductMappable {
-  final int id;
+  final int? id;
   final String title;
   final String description;
   final String category;
@@ -195,14 +195,14 @@ extension ProductMethods on Product {
   /// Check if all of the [variantSelection] are present in the
   /// [variantGroups].
   bool checkVariantSelectionValid(List<ProductVariant> variantSelection) {
-    final Map<Uuid, bool> variantSelectionValidMap = {
-      for (final variant in variantSelection) variant.id: false,
+    final Map<DatabaseKey, bool> variantSelectionValidMap = {
+      for (final variant in variantSelection) variant.id!: false,
     };
 
     for (final group in variantGroups) {
       for (final variant in group.variants) {
         if (variantSelectionValidMap.containsKey(variant.id)) {
-          variantSelectionValidMap[variant.id] = true;
+          variantSelectionValidMap[variant.id!] = true;
         }
       }
     }
@@ -271,34 +271,34 @@ extension _ProductPrototypeX on Product {
     thumbnail:
         'https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png',
     variantGroups: [
-      ProductVariantGroup(
-        id: Uuid.fromString('84216062-a550-4cb3-a4f5-05548ddfb614'),
+      const ProductVariantGroup(
+        id: 1,
         groupName: 'Color',
         variants: [
           ProductVariant(
-            id: Uuid.fromString('6db990bd-9d6f-4fc6-b978-78e378dd9f50'),
+            id: 1,
             name: 'Black',
           ),
           ProductVariant(
-            id: Uuid.fromString('4dc94875-d336-41a2-b291-18afbb97cca8'),
+            id: 2,
             name: 'Brown',
           ),
         ],
       ),
-      ProductVariantGroup(
-        id: Uuid.fromString('3b8a645c-3ba1-4a22-8d9e-7ccc9f30b780'),
+      const ProductVariantGroup(
+        id: 2,
         groupName: 'Size',
         variants: [
           ProductVariant(
-            id: Uuid.fromString('ee97d2ad-b3e9-49b2-b86f-3c30091eea9a'),
+            id: 3,
             name: 'S',
           ),
           ProductVariant(
-            id: Uuid.fromString('835e5d1b-c1b1-43d4-a228-9746bb155f68'),
+            id: 4,
             name: 'M',
           ),
           ProductVariant(
-            id: Uuid.fromString('7299624f-7d85-4c30-8d0f-7e4828b5eb08'),
+            id: 5,
             name: 'L',
           ),
         ],

@@ -2,23 +2,20 @@ import 'package:dart_mappable/dart_mappable.dart';
 import 'package:drift/drift.dart';
 import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
-import 'package:sane_uuid/uuid.dart';
 
 part 'product_variant.mapper.dart';
 
 class ProductVariantTable extends Table {
-  TextColumn get id => text()();
+  IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
 
-  TextColumn get groupId => text().references(ProductVariantGroupTable, #id)();
-
-  @override
-  Set<Column> get primaryKey => {id};
+  IntColumn get groupId =>
+      integer().references(ProductVariantGroupTable, #id)();
 }
 
 @MappableClass()
 class ProductVariant with ProductVariantMappable {
-  final Uuid id;
+  final int? id;
   final String name;
 
   const ProductVariant({
@@ -26,21 +23,17 @@ class ProductVariant with ProductVariantMappable {
     required this.name,
   });
 
-  ProductVariant.newId({
-    required this.name,
-  }) : id = Uuid.v4();
-
   ProductVariant.fromDbData(ProductVariantTableData data)
-      : id = Uuid.fromString(data.id),
+      : id = data.id,
         name = data.name;
 
-  ProductVariantTableData toDbData({
-    required String groupId,
+  ProductVariantTableCompanion toDbCompanion({
+    required int groupId,
   }) {
-    return ProductVariantTableData(
-      id: id.toString(),
-      name: name,
-      groupId: groupId,
+    return ProductVariantTableCompanion(
+      id: Value.absentIfNull(id),
+      name: Value(name),
+      groupId: Value(groupId),
     );
   }
 

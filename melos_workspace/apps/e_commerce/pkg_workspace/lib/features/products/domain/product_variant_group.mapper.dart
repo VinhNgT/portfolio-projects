@@ -21,8 +21,9 @@ class ProductVariantGroupMapper extends ClassMapperBase<ProductVariantGroup> {
   @override
   final String id = 'ProductVariantGroup';
 
-  static Uuid _$id(ProductVariantGroup v) => v.id;
-  static const Field<ProductVariantGroup, Uuid> _f$id = Field('id', _$id);
+  static int? _$id(ProductVariantGroup v) => v.id;
+  static const Field<ProductVariantGroup, int> _f$id =
+      Field('id', _$id, opt: true);
   static String _$groupName(ProductVariantGroup v) => v.groupName;
   static const Field<ProductVariantGroup, String> _f$groupName =
       Field('groupName', _$groupName);
@@ -101,7 +102,7 @@ abstract class ProductVariantGroupCopyWith<$R, $In extends ProductVariantGroup,
     $Out> implements ClassCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, ProductVariant,
       ProductVariantCopyWith<$R, ProductVariant, ProductVariant>> get variants;
-  $R call({Uuid? id, String? groupName, List<ProductVariant>? variants});
+  $R call({int? id, String? groupName, List<ProductVariant>? variants});
   ProductVariantGroupCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -120,9 +121,12 @@ class _ProductVariantGroupCopyWithImpl<$R, $Out>
       get variants => ListCopyWith($value.variants,
           (v, t) => v.copyWith.$chain(t), (v) => call(variants: v));
   @override
-  $R call({Uuid? id, String? groupName, List<ProductVariant>? variants}) =>
+  $R call(
+          {Object? id = $none,
+          String? groupName,
+          List<ProductVariant>? variants}) =>
       $apply(FieldCopyWithData({
-        if (id != null) #id: id,
+        if (id != $none) #id: id,
         if (groupName != null) #groupName: groupName,
         if (variants != null) #variants: variants
       }));

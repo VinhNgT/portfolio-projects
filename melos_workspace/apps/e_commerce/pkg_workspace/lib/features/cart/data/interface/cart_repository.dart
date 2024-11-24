@@ -3,8 +3,8 @@ import 'package:e_commerce/features/cart/data/drift_cart_repository.dart';
 import 'package:e_commerce/features/cart/domain/cart.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
+import 'package:e_commerce/utils/typedefs.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sane_uuid/uuid.dart';
 
 part 'cart_repository.g.dart';
 
@@ -13,7 +13,7 @@ abstract interface class CartRepository {
   Future<void> addCartItem(CartItem item);
 
   /// Remove a [CartItem] from the cart.
-  Future<void> removeCartItem(Uuid itemId);
+  Future<void> removeCartItem(DatabaseKey itemId);
 
   /// Update a [CartItem] in the cart.
   Future<void> updateCartItem(CartItem item);

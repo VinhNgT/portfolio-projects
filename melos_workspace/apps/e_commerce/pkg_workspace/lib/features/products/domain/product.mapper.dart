@@ -23,7 +23,7 @@ class ProductMapper extends ClassMapperBase<Product> {
   @override
   final String id = 'Product';
 
-  static int _$id(Product v) => v.id;
+  static int? _$id(Product v) => v.id;
   static const Field<Product, int> _f$id = Field('id', _$id);
   static String _$title(Product v) => v.title;
   static const Field<Product, String> _f$title = Field('title', _$title);
@@ -249,7 +249,7 @@ class _ProductCopyWithImpl<$R, $Out>
           (v) => call(images: v));
   @override
   $R call(
-          {int? id,
+          {Object? id = $none,
           String? title,
           String? description,
           String? category,
@@ -272,7 +272,7 @@ class _ProductCopyWithImpl<$R, $Out>
           String? thumbnail,
           List<String>? images}) =>
       $apply(FieldCopyWithData({
-        if (id != null) #id: id,
+        if (id != $none) #id: id,
         if (title != null) #title: title,
         if (description != null) #description: description,
         if (category != null) #category: category,

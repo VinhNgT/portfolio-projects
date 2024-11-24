@@ -2,9 +2,8 @@ import 'package:dart_mappable/dart_mappable.dart';
 import 'package:drift/drift.dart';
 import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
-import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
-import 'package:sane_uuid/uuid.dart';
+import 'package:e_commerce/utils/typedefs.dart';
 
 part 'cart_item.mapper.dart';
 
@@ -12,8 +11,8 @@ class CartItemTable extends Table {
   BoolColumn get isIncludeInOrder =>
       boolean().withDefault(const Constant(true))();
 
-  TextColumn get orderItemId =>
-      text().references(OrderItemTable, #id, onDelete: KeyAction.cascade)();
+  IntColumn get orderItemId =>
+      integer().references(OrderItemTable, #id, onDelete: KeyAction.cascade)();
 
   @override
   Set<Column> get primaryKey => {orderItemId};
@@ -38,14 +37,12 @@ class CartItem with CartItemMappable {
     this.isIncludeInOrder = true,
   });
 
-  CartItem.createWithProduct({
-    required Product product,
-  }) : this.create(orderItem: OrderItem.create(product: product));
-
-  CartItemTableData toDbData() {
-    return CartItemTableData(
-      orderItemId: orderItem.id.toString(),
-      isIncludeInOrder: isIncludeInOrder,
+  CartItemTableCompanion toDbCompanion({
+    DatabaseKey? orderItemId,
+  }) {
+    return CartItemTableCompanion(
+      orderItemId: Value(orderItemId ?? orderItem.id!),
+      isIncludeInOrder: Value(isIncludeInOrder),
     );
   }
 
@@ -65,7 +62,7 @@ class CartItem with CartItemMappable {
 }
 
 extension CartItemGetters on CartItem {
-  Uuid get id => orderItem.id;
+  DatabaseKey? get id => orderItem.id;
   // Product get product => orderItem.product;
   // double get price => orderItem.price;
   // double get shippingFee => orderItem.shippingFee;

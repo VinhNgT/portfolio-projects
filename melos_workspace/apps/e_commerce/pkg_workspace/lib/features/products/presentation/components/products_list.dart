@@ -38,7 +38,7 @@ class ProductsList extends HookConsumerWidget {
           productsListFutureProvider(pageKey).future,
         );
 
-        return products.map((e) => e.id).toList();
+        return products.map((e) => e.id!).toList();
       },
       getNextPageKey: (currentPageKey, _) => ++currentPageKey,
     );

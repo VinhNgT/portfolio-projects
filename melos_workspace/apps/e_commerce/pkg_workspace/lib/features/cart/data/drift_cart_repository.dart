@@ -4,8 +4,8 @@ import 'package:e_commerce/features/cart/data/interface/cart_repository.dart';
 import 'package:e_commerce/features/cart/domain/cart.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
+import 'package:e_commerce/utils/typedefs.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:sane_uuid/uuid.dart';
 
 class DriftCartRepository implements CartRepository {
   DriftCartRepository(this.db);
@@ -15,7 +15,7 @@ class DriftCartRepository implements CartRepository {
   Future<void> addCartItem(CartItem item) async {
     final existingOrderItemUuid =
         await db.orderItemTableDao.getExistingOrderItemId(
-      item.orderItem.variantSelection.values.map((e) => e.toString()).toList(),
+      item.orderItem.variantSelection.values.map((e) => e!).toList(),
     );
 
     if (existingOrderItemUuid != null) {
@@ -31,26 +31,30 @@ class DriftCartRepository implements CartRepository {
       await db.productTableDao
           .addProductFromOrderItem(item.orderItem, replaceOld: true);
 
-      await db.into(db.orderItemTable).insert(item.orderItem.toDbData());
+      final orderItemDbData = await db
+          .into(db.orderItemTable)
+          .insertReturning(item.orderItem.toDbCompanion());
 
       await db.orderItemVariantSelectionTableDao.addOrderItemVariantSelection(
-        item.orderItem.id,
+        orderItemDbData.id,
         item.orderItem.variantSelection,
       );
 
-      await db.into(db.cartItemTable).insert(item.toDbData());
+      await db
+          .into(db.cartItemTable)
+          .insert(item.toDbCompanion(orderItemId: orderItemDbData.id));
     });
   }
 
   @override
-  Future<void> removeCartItem(Uuid itemId) async {
+  Future<void> removeCartItem(DatabaseKey itemId) async {
     await db.orderItemTableDao.removeOrderItem(itemId);
   }
 
   @override
   Future<void> updateCartItem(CartItem item) async {
     await db.transaction(() async {
-      await removeCartItem(item.id);
+      await removeCartItem(item.id!);
       await addCartItem(item);
     });
   }
@@ -62,7 +66,7 @@ class DriftCartRepository implements CartRepository {
 
   @override
   Future<void> setItemQuantity(CartItem item, int quantity) {
-    return db.orderItemTableDao.setOrderItemQuantity(item.id, quantity);
+    return db.orderItemTableDao.setOrderItemQuantity(item.id!, quantity);
   }
 
   @override
@@ -71,11 +75,11 @@ class DriftCartRepository implements CartRepository {
     ProductVariantIdsSelection variantSelection,
   ) async {
     await db.orderItemVariantSelectionTableDao.removeOrderItemVariantSelection(
-      item.id,
+      item.id!,
     );
 
     await db.orderItemVariantSelectionTableDao.addOrderItemVariantSelection(
-      item.id,
+      item.id!,
       variantSelection,
     );
   }
@@ -92,7 +96,7 @@ class DriftCartRepository implements CartRepository {
         final cartItemData = await db.cartItemTableDao.getCartItems();
 
         yield Cart(
-          id: Uuid.fromString('12345678-1234-5678-1234-567812345678'),
+          id: 999,
           cartItems: await Future.wait(
             cartItemData.map((e) => CartItem.fromDbData(db, e)),
           ),
