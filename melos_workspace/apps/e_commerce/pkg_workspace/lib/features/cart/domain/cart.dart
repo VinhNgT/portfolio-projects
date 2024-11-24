@@ -1,16 +1,14 @@
 import 'package:collection/collection.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:drift/drift.dart';
-import 'package:e_commerce/backend/database/drift/drift_provider.dart';
-import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
+import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/orders/domain/order.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
-import 'package:realm/realm.dart';
+import 'package:sane_uuid/uuid.dart';
 
 part 'cart.mapper.dart';
-part 'cart.realm.dart';
 
 class CartTable extends Table {
   TextColumn get id => text()();
@@ -37,9 +35,6 @@ class Cart with CartMappable {
     CartTableData data, {
     required this.cartItems,
   }) : id = Uuid.fromString(data.id);
-
-  factory Cart.fromRealmObj(CartRealm obj) =>
-      CartRealmConverter.fromRealmObj(obj);
 }
 
 extension CartGetters on Cart {
@@ -177,28 +172,5 @@ class CartNoItemFoundError extends Error {
   @override
   String toString() {
     return 'Item $itemId not found in cart';
-  }
-}
-
-@realm
-class $CartRealm {
-  @PrimaryKey()
-  late Uuid id;
-  late List<$CartItemRealm> cartItems;
-}
-
-extension CartRealmConverter on Cart {
-  static Cart fromRealmObj(CartRealm obj) {
-    return Cart(
-      id: obj.id,
-      cartItems: obj.cartItems.map(CartItem.fromRealmObj).toList(),
-    );
-  }
-
-  CartRealm toRealmObj(Realm realm) {
-    return CartRealm(
-      id: id,
-      cartItems: cartItems.map((e) => e.toRealmObj(realm)).toList(),
-    );
   }
 }

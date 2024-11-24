@@ -30,27 +30,19 @@ class EnvMapper extends ClassMapperBase<Env> {
   static bool _$showDetailedError(Env v) => v.showDetailedError;
   static const Field<Env, bool> _f$showDetailedError =
       Field('showDetailedError', _$showDetailedError);
-  static bool _$realmShouldDeleteIfMigrationNeeded(Env v) =>
-      v.realmShouldDeleteIfMigrationNeeded;
-  static const Field<Env, bool> _f$realmShouldDeleteIfMigrationNeeded = Field(
-      'realmShouldDeleteIfMigrationNeeded',
-      _$realmShouldDeleteIfMigrationNeeded);
 
   @override
   final MappableFields<Env> fields = const {
     #appCacheConfig: _f$appCacheConfig,
     #loggerLevel: _f$loggerLevel,
     #showDetailedError: _f$showDetailedError,
-    #realmShouldDeleteIfMigrationNeeded: _f$realmShouldDeleteIfMigrationNeeded,
   };
 
   static Env _instantiate(DecodingData data) {
     return Env(
         appCacheConfig: data.dec(_f$appCacheConfig),
         loggerLevel: data.dec(_f$loggerLevel),
-        showDetailedError: data.dec(_f$showDetailedError),
-        realmShouldDeleteIfMigrationNeeded:
-            data.dec(_f$realmShouldDeleteIfMigrationNeeded));
+        showDetailedError: data.dec(_f$showDetailedError));
   }
 
   @override
@@ -103,8 +95,7 @@ abstract class EnvCopyWith<$R, $In extends Env, $Out>
   $R call(
       {AppCacheConfig? appCacheConfig,
       Level? loggerLevel,
-      bool? showDetailedError,
-      bool? realmShouldDeleteIfMigrationNeeded});
+      bool? showDetailedError});
   EnvCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -122,25 +113,18 @@ class _EnvCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Env, $Out>
   $R call(
           {AppCacheConfig? appCacheConfig,
           Level? loggerLevel,
-          bool? showDetailedError,
-          bool? realmShouldDeleteIfMigrationNeeded}) =>
+          bool? showDetailedError}) =>
       $apply(FieldCopyWithData({
         if (appCacheConfig != null) #appCacheConfig: appCacheConfig,
         if (loggerLevel != null) #loggerLevel: loggerLevel,
-        if (showDetailedError != null) #showDetailedError: showDetailedError,
-        if (realmShouldDeleteIfMigrationNeeded != null)
-          #realmShouldDeleteIfMigrationNeeded:
-              realmShouldDeleteIfMigrationNeeded
+        if (showDetailedError != null) #showDetailedError: showDetailedError
       }));
   @override
   Env $make(CopyWithData data) => Env(
       appCacheConfig: data.get(#appCacheConfig, or: $value.appCacheConfig),
       loggerLevel: data.get(#loggerLevel, or: $value.loggerLevel),
       showDetailedError:
-          data.get(#showDetailedError, or: $value.showDetailedError),
-      realmShouldDeleteIfMigrationNeeded: data.get(
-          #realmShouldDeleteIfMigrationNeeded,
-          or: $value.realmShouldDeleteIfMigrationNeeded));
+          data.get(#showDetailedError, or: $value.showDetailedError));
 
   @override
   EnvCopyWith<$R2, Env, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>

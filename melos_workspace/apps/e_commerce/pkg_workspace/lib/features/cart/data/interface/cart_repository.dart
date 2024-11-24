@@ -1,10 +1,10 @@
-import 'package:e_commerce/backend/database/drift/drift_provider.dart';
+import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/features/cart/data/drift_cart_repository.dart';
 import 'package:e_commerce/features/cart/domain/cart.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
-import 'package:realm/realm.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sane_uuid/uuid.dart';
 
 part 'cart_repository.g.dart';
 
@@ -36,9 +36,6 @@ abstract interface class CartRepository {
 
 @Riverpod(keepAlive: true)
 CartRepository cartRepository(CartRepositoryRef ref) {
-  // final realm = ref.watch(realmProvider).requireValue;
-  // return RealmCartRepository.makeDefault(realm);
-
   final db = ref.watch(driftProvider()).requireValue;
   return DriftCartRepository(db);
 }

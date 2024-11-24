@@ -1,12 +1,10 @@
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:drift/drift.dart';
-import 'package:e_commerce/backend/database/drift/drift_provider.dart';
-import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
+import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
-import 'package:realm/realm.dart';
+import 'package:sane_uuid/uuid.dart';
 
 part 'product_variant.mapper.dart';
-part 'product_variant.realm.dart';
 
 class ProductVariantTable extends Table {
   TextColumn get id => text()();
@@ -49,34 +47,8 @@ class ProductVariant with ProductVariantMappable {
   factory ProductVariant.fromJson(Map<String, dynamic> json) =>
       ProductVariantMapper.fromJson(json);
 
-  factory ProductVariant.fromRealmObj(ProductVariantRealm obj) =>
-      ProductVariantRealmConverter.fromRealmObj(obj);
-
   @override
   String toString() {
     return '$id ($name)';
-  }
-}
-
-@realm
-class $ProductVariantRealm {
-  @PrimaryKey()
-  late Uuid id;
-  late String name;
-}
-
-extension ProductVariantRealmConverter on ProductVariant {
-  static ProductVariant fromRealmObj(ProductVariantRealm obj) {
-    return ProductVariant(
-      id: obj.id,
-      name: obj.name,
-    );
-  }
-
-  ProductVariantRealm toRealmObj() {
-    return ProductVariantRealm(
-      id: id,
-      name: name,
-    );
   }
 }

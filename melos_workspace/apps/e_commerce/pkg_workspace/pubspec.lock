@@ -105,14 +105,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.1"
-  build_cli_annotations:
-    dependency: transitive
-    description:
-      name: build_cli_annotations
-      sha256: b59d2769769efd6c9ff6d4c4cede0be115a566afc591705c2040b707534b1172
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.0"
   build_config:
     dependency: transitive
     description:
@@ -201,14 +193,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.4"
-  cancellation_token:
-    dependency: transitive
-    description:
-      name: cancellation_token
-      sha256: ad95acf9d4b2f3563e25dc937f63587e46a70ce534e910b65d10e115490f1027
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.1"
   characters:
     dependency: transitive
     description:
@@ -361,13 +345,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.5.0"
-  dio_cache_interceptor_realm_store:
+  dio_cache_interceptor_db_store:
     dependency: "direct main"
     description:
-      path: "../../../../external_submodules/dio_cache_interceptor/dio_cache_interceptor/dio_cache_interceptor_realm_store"
-      relative: true
-    source: path
-    version: "1.0.0"
+      name: dio_cache_interceptor_db_store
+      sha256: "920d9984b97522dc5bdd78a7d228ab41f3e64df57704490c5a367ca28e682e72"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.1.1"
   dio_web_adapter:
     dependency: transitive
     description:
@@ -393,7 +378,7 @@ packages:
     source: hosted
     version: "2.19.1"
   ejson:
-    dependency: "direct overridden"
+    dependency: "direct main"
     description:
       name: ejson
       sha256: f336c6fb6c5c97db8ae59ba8ed207f542241f1db39cf2ef03776d308de3432ff
@@ -996,38 +981,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.1"
-  realm:
-    dependency: "direct main"
-    description:
-      name: realm
-      sha256: "053b7a7adf3533cc9f507529d6b9ff948bc0270060dd58c502a9029413fcd2d6"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.0"
-  realm_common:
-    dependency: "direct main"
-    description:
-      name: realm_common
-      sha256: "1f36a224f35fd089691b631c0c9c92af274e00d524258203a937706d7d5e9d0c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.0"
-  realm_dart:
-    dependency: transitive
-    description:
-      name: realm_dart
-      sha256: ce2bd5dfb5eee142998fc7f395df34e349e1c179b78582d6d84bb4003c556c81
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.0"
-  realm_generator:
-    dependency: transitive
-    description:
-      name: realm_generator
-      sha256: "183257f345ac5b01b424261dd6e3c400d414bec725d33d390b5b6942274f5a80"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.0"
   recase:
     dependency: transitive
     description:
@@ -1085,7 +1038,7 @@ packages:
     source: hosted
     version: "0.27.7"
   sane_uuid:
-    dependency: "direct overridden"
+    dependency: "direct main"
     description:
       name: sane_uuid
       sha256: "5e83f796a7d19d38d3ba3a940642998fdd8c4a4049be135ed25404e37f76a18c"
@@ -1241,14 +1194,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0+1"
-  tar:
-    dependency: transitive
-    description:
-      name: tar
-      sha256: "22f67e2d77b51050436620b2a5de521c58ca6f0b75af1d9ab3c8cae2eae58fcd"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.5"
   term_glyph:
     dependency: transitive
     description:

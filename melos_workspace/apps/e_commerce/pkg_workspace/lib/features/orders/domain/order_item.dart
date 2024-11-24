@@ -1,15 +1,13 @@
 import 'package:collection/collection.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:drift/drift.dart';
-import 'package:e_commerce/backend/database/drift/drift_provider.dart';
-import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
+import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
-import 'package:realm/realm.dart';
+import 'package:sane_uuid/uuid.dart';
 
 part 'order_item.mapper.dart';
-part 'order_item.realm.dart';
 
 class OrderItemTable extends Table {
   TextColumn get id => text()();
@@ -176,9 +174,6 @@ class OrderItem with OrderItemMappable {
     );
   }
 
-  factory OrderItem.fromRealmObj(OrderItemRealm obj) =>
-      OrderItemRealmConverter.fromRealmObj(obj);
-
   static final prototype = _Proto.prototype;
 }
 
@@ -214,55 +209,4 @@ extension _Proto on OrderItem {
         group.id: group.variants.first.id,
     },
   );
-}
-
-@realm
-class $OrderItemRealm {
-  @PrimaryKey()
-  late Uuid id;
-
-  late $ProductRealm? product;
-  late Map<String, String?> variantSelection;
-  late int quantity;
-}
-
-extension OrderItemRealmConverter on OrderItem {
-  static OrderItem fromRealmObj(OrderItemRealm obj) {
-    return OrderItem(
-      id: obj.id,
-      product: Product.fromRealmObj(obj.product!),
-      variantSelection: obj.variantSelection.map(
-        (uuidString, value) => MapEntry(
-          Uuid.fromString(uuidString),
-          value != null ? Uuid.fromString(value) : null,
-        ),
-      ),
-      quantity: obj.quantity,
-    );
-  }
-
-  OrderItemRealm toRealmObj(Realm realm) {
-    final productRealm =
-        realm.find<ProductRealm>(product.id) ?? product.toRealmObj(realm);
-
-    final variantSelectionRealm = {
-      for (final group in productRealm.variantGroups)
-        group.id.toString(): group.variants
-            .firstWhere(
-              (realmVariant) {
-                final selectedVariantId = variantSelection[group.id]!;
-                return realmVariant.id == selectedVariantId;
-              },
-            )
-            .id
-            .toString(),
-    };
-
-    return OrderItemRealm(
-      id: id,
-      product: productRealm,
-      variantSelection: variantSelectionRealm,
-      quantity: quantity,
-    );
-  }
 }

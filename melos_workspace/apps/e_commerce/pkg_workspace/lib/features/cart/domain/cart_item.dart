@@ -1,14 +1,12 @@
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:drift/drift.dart';
-import 'package:e_commerce/backend/database/drift/drift_provider.dart';
-import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
+import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
-import 'package:realm/realm.dart';
+import 'package:sane_uuid/uuid.dart';
 
 part 'cart_item.mapper.dart';
-part 'cart_item.realm.dart';
 
 class CartItemTable extends Table {
   BoolColumn get isIncludeInOrder =>
@@ -64,9 +62,6 @@ class CartItem with CartItemMappable {
       isIncludeInOrder: data.isIncludeInOrder,
     );
   }
-
-  factory CartItem.fromRealmObj(CartItemRealm obj) =>
-      CartItemRealmConverter.fromRealmObj(obj);
 }
 
 extension CartItemGetters on CartItem {
@@ -90,32 +85,6 @@ extension CartItemMutations on CartItem {
       orderItem: orderItem.copyWith(
         quantity: orderItem.quantity + other.orderItem.quantity,
       ),
-    );
-  }
-}
-
-@realm
-class $CartItemRealm {
-  @PrimaryKey()
-  late Uuid id;
-
-  late $OrderItemRealm? orderItem;
-  late bool isIncludeInOrder;
-}
-
-extension CartItemRealmConverter on CartItem {
-  static CartItem fromRealmObj(CartItemRealm obj) {
-    return CartItem(
-      orderItem: OrderItemRealmConverter.fromRealmObj(obj.orderItem!),
-      isIncludeInOrder: obj.isIncludeInOrder,
-    );
-  }
-
-  CartItemRealm toRealmObj(Realm realm) {
-    return CartItemRealm(
-      id: id,
-      orderItem: orderItem.toRealmObj(realm),
-      isIncludeInOrder: isIncludeInOrder,
     );
   }
 }

@@ -1,17 +1,15 @@
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:drift/drift.dart';
-import 'package:e_commerce/backend/database/drift/drift_provider.dart';
-import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
+import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/features/products/domain/product_dimensions.dart';
 import 'package:e_commerce/features/products/domain/product_meta.dart';
 import 'package:e_commerce/features/products/domain/product_review.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:intl/intl.dart';
-import 'package:realm/realm.dart';
+import 'package:sane_uuid/uuid.dart';
 
 part 'product.mapper.dart';
-part 'product.realm.dart';
 
 class ProductTable extends Table {
   IntColumn get id => integer().autoIncrement()();
@@ -190,9 +188,6 @@ class Product with ProductMappable {
   factory Product.fromJson(Map<String, dynamic> json) =>
       ProductMapper.fromJson(json);
 
-  factory Product.fromRealmObj(ProductRealm realm) =>
-      ProductRealmConverter.fromRealmObj(realm);
-
   static Product get prototype => _ProductPrototypeX._prototype;
 }
 
@@ -310,96 +305,4 @@ extension _ProductPrototypeX on Product {
       ),
     ],
   );
-}
-
-@realm
-class $ProductRealm {
-  @PrimaryKey()
-  late int id;
-
-  late String title;
-  late String description;
-  late String category;
-  late double price;
-  late double discountPercentage;
-  late double rating;
-  late int stock;
-  late List<String> tags;
-  late String? brand;
-  late String sku;
-  late int weight;
-  late $ProductDimensionsRealm? dimensions;
-  late String warrantyInformation;
-  late String shippingInformation;
-  late String availabilityStatus;
-  late List<$ProductReviewRealm> reviews;
-  late String returnPolicy;
-  late int minimumOrderQuantity;
-  late $ProductMetaRealm? meta;
-  late String thumbnail;
-  late List<String> images;
-  late List<$ProductVariantGroupRealm> variantGroups;
-}
-
-extension ProductRealmConverter on Product {
-  static Product fromRealmObj(ProductRealm obj) {
-    return Product(
-      id: obj.id,
-      title: obj.title,
-      description: obj.description,
-      category: obj.category,
-      price: obj.price,
-      discountPercentage: obj.discountPercentage,
-      rating: obj.rating,
-      stock: obj.stock,
-      tags: obj.tags,
-      brand: obj.brand,
-      sku: obj.sku,
-      weight: obj.weight,
-      dimensions: ProductDimensions.fromRealmObj(obj.dimensions!),
-      warrantyInformation: obj.warrantyInformation,
-      shippingInformation: obj.shippingInformation,
-      availabilityStatus: obj.availabilityStatus,
-      reviews: obj.reviews.map(ProductReview.fromRealmObj).toList(),
-      returnPolicy: obj.returnPolicy,
-      minimumOrderQuantity: obj.minimumOrderQuantity,
-      meta: ProductMeta.fromRealmObj(obj.meta!),
-      thumbnail: obj.thumbnail,
-      images: obj.images,
-      variantGroups:
-          obj.variantGroups.map(ProductVariantGroup.fromRealmObj).toList(),
-    );
-  }
-
-  ProductRealm toRealmObj(Realm realm) {
-    final variantGroupsRealm = variantGroups.map(
-      (e) => realm.find<ProductVariantGroupRealm>(e.id) ?? e.toRealmObj(realm),
-    );
-
-    return ProductRealm(
-      id: id,
-      title: title,
-      description: description,
-      category: category,
-      price: price,
-      discountPercentage: discountPercentage,
-      rating: rating,
-      stock: stock,
-      tags: tags,
-      brand: brand,
-      sku: sku,
-      weight: weight,
-      dimensions: dimensions.toRealmObj(),
-      warrantyInformation: warrantyInformation,
-      shippingInformation: shippingInformation,
-      availabilityStatus: availabilityStatus,
-      reviews: reviews.map((e) => e.toRealmObj()),
-      returnPolicy: returnPolicy,
-      minimumOrderQuantity: minimumOrderQuantity,
-      meta: meta.toRealmObj(),
-      thumbnail: thumbnail,
-      images: images,
-      variantGroups: variantGroupsRealm,
-    );
-  }
 }

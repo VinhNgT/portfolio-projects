@@ -1,13 +1,11 @@
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:drift/drift.dart';
-import 'package:e_commerce/backend/database/drift/drift_provider.dart';
-import 'package:e_commerce/backend/database/realm/named_realm_annotations.dart';
+import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
-import 'package:realm/realm.dart';
+import 'package:sane_uuid/uuid.dart';
 
 part 'product_variant_group.mapper.dart';
-part 'product_variant_group.realm.dart';
 
 typedef ProductVariantGroupId = Uuid;
 typedef ProductVariantId = Uuid;
@@ -69,37 +67,8 @@ class ProductVariantGroup with ProductVariantGroupMappable {
   factory ProductVariantGroup.fromJson(Map<String, dynamic> json) =>
       ProductVariantGroupMapper.fromJson(json);
 
-  factory ProductVariantGroup.fromRealmObj(ProductVariantGroupRealm obj) =>
-      ProductVariantGroupRealmConverter.fromRealmObj(obj);
-
   @override
   String toString() {
     return '$id ($groupName)';
-  }
-}
-
-@realm
-class $ProductVariantGroupRealm {
-  @PrimaryKey()
-  late Uuid id;
-  late String groupName;
-  late List<$ProductVariantRealm> variants;
-}
-
-extension ProductVariantGroupRealmConverter on ProductVariantGroup {
-  static ProductVariantGroup fromRealmObj(ProductVariantGroupRealm obj) {
-    return ProductVariantGroup(
-      id: obj.id,
-      groupName: obj.groupName,
-      variants: obj.variants.map(ProductVariant.fromRealmObj).toList(),
-    );
-  }
-
-  ProductVariantGroupRealm toRealmObj(Realm realm) {
-    return ProductVariantGroupRealm(
-      id: id,
-      groupName: groupName,
-      variants: variants.map((e) => e.toRealmObj()).toList(),
-    );
   }
 }

@@ -1,9 +1,9 @@
 import 'package:drift/drift.dart';
-import 'package:e_commerce/backend/database/drift/drift_provider.dart';
+import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
-import 'package:realm_common/realm_common.dart';
+import 'package:sane_uuid/uuid.dart';
 
 part 'daos.g.dart';
 

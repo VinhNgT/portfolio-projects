@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
-import 'package:dio_cache_interceptor_realm_store/dio_cache_interceptor_realm_store.dart';
+import 'package:dio_cache_interceptor_db_store/dio_cache_interceptor_db_store.dart';
 import 'package:e_commerce/backend/cache/domain/app_cache_config.dart';
 import 'package:e_commerce/backend/env/env_provider.dart';
 import 'package:path_provider/path_provider.dart';
@@ -17,7 +17,7 @@ FutureOr<DioCacheInterceptor> dioCacheInterceptor(
 
   final cacheDir = await getApplicationCacheDirectory();
   final cacheOptions = CacheOptions(
-    store: RealmCacheStore(storePath: cacheDir.path),
+    store: DbCacheStore(databasePath: cacheDir.path),
   );
 
   return DioAppCacheInterceptor(

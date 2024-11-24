@@ -10,7 +10,6 @@ class Env with EnvMappable {
     required this.appCacheConfig,
     required this.loggerLevel,
     required this.showDetailedError,
-    required this.realmShouldDeleteIfMigrationNeeded,
   });
 
   /// The cache configurations that will be used across all caching related
@@ -22,7 +21,4 @@ class Env with EnvMappable {
 
   /// Whether to show detailed error messages to the user.
   final bool showDetailedError;
-
-  /// Whether to delete the realm database if a migration is needed.
-  final bool realmShouldDeleteIfMigrationNeeded;
 }
