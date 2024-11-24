@@ -68,7 +68,8 @@ dependencies:
   path: ^1.9.0
   path_provider: ^2.1.2
   drift: ^2.19.1+1
-  drift_flutter: ^0.2.0
+  sqlite3: ^2.4.3
+  sqlite3_flutter_libs: ^0.5.26
 
   # Network
   dio: ^5.4.3+1

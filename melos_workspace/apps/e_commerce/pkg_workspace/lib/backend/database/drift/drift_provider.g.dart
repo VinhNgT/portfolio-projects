@@ -1871,7 +1871,7 @@ class $CartItemTableTable extends CartItemTable
       type: DriftSqlType.string,
       requiredDuringInsert: true,
       defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES order_item_table (id)'));
+          'REFERENCES order_item_table (id) ON DELETE CASCADE'));
   @override
   List<GeneratedColumn> get $columns => [isIncludeInOrder, orderItemId];
   @override
@@ -2055,6 +2055,220 @@ class CartItemTableCompanion extends UpdateCompanion<CartItemTableData> {
   }
 }
 
+class $OrderItemVariantSelectionTableTable
+    extends OrderItemVariantSelectionTable
+    with
+        TableInfo<$OrderItemVariantSelectionTableTable,
+            OrderItemVariantSelectionTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $OrderItemVariantSelectionTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _orderItemIdMeta =
+      const VerificationMeta('orderItemId');
+  @override
+  late final GeneratedColumn<String> orderItemId = GeneratedColumn<String>(
+      'order_item_id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES order_item_table (id) ON DELETE CASCADE'));
+  static const VerificationMeta _variantIdMeta =
+      const VerificationMeta('variantId');
+  @override
+  late final GeneratedColumn<String> variantId = GeneratedColumn<String>(
+      'variant_id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES product_variant_table (id)'));
+  @override
+  List<GeneratedColumn> get $columns => [orderItemId, variantId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'order_item_variant_selection_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<OrderItemVariantSelectionTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('order_item_id')) {
+      context.handle(
+          _orderItemIdMeta,
+          orderItemId.isAcceptableOrUnknown(
+              data['order_item_id']!, _orderItemIdMeta));
+    } else if (isInserting) {
+      context.missing(_orderItemIdMeta);
+    }
+    if (data.containsKey('variant_id')) {
+      context.handle(_variantIdMeta,
+          variantId.isAcceptableOrUnknown(data['variant_id']!, _variantIdMeta));
+    } else if (isInserting) {
+      context.missing(_variantIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {orderItemId, variantId};
+  @override
+  OrderItemVariantSelectionTableData map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return OrderItemVariantSelectionTableData(
+      orderItemId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}order_item_id'])!,
+      variantId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}variant_id'])!,
+    );
+  }
+
+  @override
+  $OrderItemVariantSelectionTableTable createAlias(String alias) {
+    return $OrderItemVariantSelectionTableTable(attachedDatabase, alias);
+  }
+}
+
+class OrderItemVariantSelectionTableData extends DataClass
+    implements Insertable<OrderItemVariantSelectionTableData> {
+  final String orderItemId;
+  final String variantId;
+  const OrderItemVariantSelectionTableData(
+      {required this.orderItemId, required this.variantId});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['order_item_id'] = Variable<String>(orderItemId);
+    map['variant_id'] = Variable<String>(variantId);
+    return map;
+  }
+
+  OrderItemVariantSelectionTableCompanion toCompanion(bool nullToAbsent) {
+    return OrderItemVariantSelectionTableCompanion(
+      orderItemId: Value(orderItemId),
+      variantId: Value(variantId),
+    );
+  }
+
+  factory OrderItemVariantSelectionTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return OrderItemVariantSelectionTableData(
+      orderItemId: serializer.fromJson<String>(json['orderItemId']),
+      variantId: serializer.fromJson<String>(json['variantId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'orderItemId': serializer.toJson<String>(orderItemId),
+      'variantId': serializer.toJson<String>(variantId),
+    };
+  }
+
+  OrderItemVariantSelectionTableData copyWith(
+          {String? orderItemId, String? variantId}) =>
+      OrderItemVariantSelectionTableData(
+        orderItemId: orderItemId ?? this.orderItemId,
+        variantId: variantId ?? this.variantId,
+      );
+  OrderItemVariantSelectionTableData copyWithCompanion(
+      OrderItemVariantSelectionTableCompanion data) {
+    return OrderItemVariantSelectionTableData(
+      orderItemId:
+          data.orderItemId.present ? data.orderItemId.value : this.orderItemId,
+      variantId: data.variantId.present ? data.variantId.value : this.variantId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('OrderItemVariantSelectionTableData(')
+          ..write('orderItemId: $orderItemId, ')
+          ..write('variantId: $variantId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(orderItemId, variantId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is OrderItemVariantSelectionTableData &&
+          other.orderItemId == this.orderItemId &&
+          other.variantId == this.variantId);
+}
+
+class OrderItemVariantSelectionTableCompanion
+    extends UpdateCompanion<OrderItemVariantSelectionTableData> {
+  final Value<String> orderItemId;
+  final Value<String> variantId;
+  final Value<int> rowid;
+  const OrderItemVariantSelectionTableCompanion({
+    this.orderItemId = const Value.absent(),
+    this.variantId = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  OrderItemVariantSelectionTableCompanion.insert({
+    required String orderItemId,
+    required String variantId,
+    this.rowid = const Value.absent(),
+  })  : orderItemId = Value(orderItemId),
+        variantId = Value(variantId);
+  static Insertable<OrderItemVariantSelectionTableData> custom({
+    Expression<String>? orderItemId,
+    Expression<String>? variantId,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (orderItemId != null) 'order_item_id': orderItemId,
+      if (variantId != null) 'variant_id': variantId,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  OrderItemVariantSelectionTableCompanion copyWith(
+      {Value<String>? orderItemId,
+      Value<String>? variantId,
+      Value<int>? rowid}) {
+    return OrderItemVariantSelectionTableCompanion(
+      orderItemId: orderItemId ?? this.orderItemId,
+      variantId: variantId ?? this.variantId,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (orderItemId.present) {
+      map['order_item_id'] = Variable<String>(orderItemId.value);
+    }
+    if (variantId.present) {
+      map['variant_id'] = Variable<String>(variantId.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('OrderItemVariantSelectionTableCompanion(')
+          ..write('orderItemId: $orderItemId, ')
+          ..write('variantId: $variantId, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -2066,6 +2280,18 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $CartTableTable cartTable = $CartTableTable(this);
   late final $OrderItemTableTable orderItemTable = $OrderItemTableTable(this);
   late final $CartItemTableTable cartItemTable = $CartItemTableTable(this);
+  late final $OrderItemVariantSelectionTableTable
+      orderItemVariantSelectionTable =
+      $OrderItemVariantSelectionTableTable(this);
+  late final OrderItemTableDao orderItemTableDao =
+      OrderItemTableDao(this as AppDatabase);
+  late final OrderItemVariantSelectionTableDao
+      orderItemVariantSelectionTableDao =
+      OrderItemVariantSelectionTableDao(this as AppDatabase);
+  late final CartItemTableDao cartItemTableDao =
+      CartItemTableDao(this as AppDatabase);
+  late final ProductTableDao productTableDao =
+      ProductTableDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2076,8 +2302,29 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         productVariantTable,
         cartTable,
         orderItemTable,
-        cartItemTable
+        cartItemTable,
+        orderItemVariantSelectionTable
       ];
+  @override
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
+        [
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('order_item_table',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('cart_item_table', kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('order_item_table',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('order_item_variant_selection_table',
+                  kind: UpdateKind.delete),
+            ],
+          ),
+        ],
+      );
 }
 
 typedef $$ProductTableTableCreateCompanionBuilder = ProductTableCompanion
@@ -2717,6 +2964,26 @@ class $$ProductVariantTableTableFilterComposer
                     parentComposers)));
     return composer;
   }
+
+  ComposableFilter orderItemVariantSelectionTableRefs(
+      ComposableFilter Function(
+              $$OrderItemVariantSelectionTableTableFilterComposer f)
+          f) {
+    final $$OrderItemVariantSelectionTableTableFilterComposer composer =
+        $state.composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $state.db.orderItemVariantSelectionTable,
+            getReferencedColumn: (t) => t.variantId,
+            builder: (joinBuilder, parentComposers) =>
+                $$OrderItemVariantSelectionTableTableFilterComposer(
+                    ComposerState(
+                        $state.db,
+                        $state.db.orderItemVariantSelectionTable,
+                        joinBuilder,
+                        parentComposers)));
+    return f(composer);
+  }
 }
 
 class $$ProductVariantTableTableOrderingComposer
@@ -2889,6 +3156,26 @@ class $$OrderItemTableTableFilterComposer
                 $state.db.cartItemTable, joinBuilder, parentComposers)));
     return f(composer);
   }
+
+  ComposableFilter orderItemVariantSelectionTableRefs(
+      ComposableFilter Function(
+              $$OrderItemVariantSelectionTableTableFilterComposer f)
+          f) {
+    final $$OrderItemVariantSelectionTableTableFilterComposer composer =
+        $state.composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $state.db.orderItemVariantSelectionTable,
+            getReferencedColumn: (t) => t.orderItemId,
+            builder: (joinBuilder, parentComposers) =>
+                $$OrderItemVariantSelectionTableTableFilterComposer(
+                    ComposerState(
+                        $state.db,
+                        $state.db.orderItemVariantSelectionTable,
+                        joinBuilder,
+                        parentComposers)));
+    return f(composer);
+  }
 }
 
 class $$OrderItemTableTableOrderingComposer
@@ -3000,6 +3287,129 @@ class $$CartItemTableTableOrderingComposer
   }
 }
 
+typedef $$OrderItemVariantSelectionTableTableCreateCompanionBuilder
+    = OrderItemVariantSelectionTableCompanion Function({
+  required String orderItemId,
+  required String variantId,
+  Value<int> rowid,
+});
+typedef $$OrderItemVariantSelectionTableTableUpdateCompanionBuilder
+    = OrderItemVariantSelectionTableCompanion Function({
+  Value<String> orderItemId,
+  Value<String> variantId,
+  Value<int> rowid,
+});
+
+class $$OrderItemVariantSelectionTableTableTableManager
+    extends RootTableManager<
+        _$AppDatabase,
+        $OrderItemVariantSelectionTableTable,
+        OrderItemVariantSelectionTableData,
+        $$OrderItemVariantSelectionTableTableFilterComposer,
+        $$OrderItemVariantSelectionTableTableOrderingComposer,
+        $$OrderItemVariantSelectionTableTableCreateCompanionBuilder,
+        $$OrderItemVariantSelectionTableTableUpdateCompanionBuilder> {
+  $$OrderItemVariantSelectionTableTableTableManager(
+      _$AppDatabase db, $OrderItemVariantSelectionTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer:
+              $$OrderItemVariantSelectionTableTableFilterComposer(
+                  ComposerState(db, table)),
+          orderingComposer:
+              $$OrderItemVariantSelectionTableTableOrderingComposer(
+                  ComposerState(db, table)),
+          updateCompanionCallback: ({
+            Value<String> orderItemId = const Value.absent(),
+            Value<String> variantId = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              OrderItemVariantSelectionTableCompanion(
+            orderItemId: orderItemId,
+            variantId: variantId,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String orderItemId,
+            required String variantId,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              OrderItemVariantSelectionTableCompanion.insert(
+            orderItemId: orderItemId,
+            variantId: variantId,
+            rowid: rowid,
+          ),
+        ));
+}
+
+class $$OrderItemVariantSelectionTableTableFilterComposer
+    extends FilterComposer<_$AppDatabase,
+        $OrderItemVariantSelectionTableTable> {
+  $$OrderItemVariantSelectionTableTableFilterComposer(super.$state);
+  $$OrderItemTableTableFilterComposer get orderItemId {
+    final $$OrderItemTableTableFilterComposer composer = $state.composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.orderItemId,
+        referencedTable: $state.db.orderItemTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder, parentComposers) =>
+            $$OrderItemTableTableFilterComposer(ComposerState($state.db,
+                $state.db.orderItemTable, joinBuilder, parentComposers)));
+    return composer;
+  }
+
+  $$ProductVariantTableTableFilterComposer get variantId {
+    final $$ProductVariantTableTableFilterComposer composer =
+        $state.composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.variantId,
+            referencedTable: $state.db.productVariantTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder, parentComposers) =>
+                $$ProductVariantTableTableFilterComposer(ComposerState(
+                    $state.db,
+                    $state.db.productVariantTable,
+                    joinBuilder,
+                    parentComposers)));
+    return composer;
+  }
+}
+
+class $$OrderItemVariantSelectionTableTableOrderingComposer
+    extends OrderingComposer<_$AppDatabase,
+        $OrderItemVariantSelectionTableTable> {
+  $$OrderItemVariantSelectionTableTableOrderingComposer(super.$state);
+  $$OrderItemTableTableOrderingComposer get orderItemId {
+    final $$OrderItemTableTableOrderingComposer composer =
+        $state.composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.orderItemId,
+            referencedTable: $state.db.orderItemTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder, parentComposers) =>
+                $$OrderItemTableTableOrderingComposer(ComposerState($state.db,
+                    $state.db.orderItemTable, joinBuilder, parentComposers)));
+    return composer;
+  }
+
+  $$ProductVariantTableTableOrderingComposer get variantId {
+    final $$ProductVariantTableTableOrderingComposer composer =
+        $state.composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.variantId,
+            referencedTable: $state.db.productVariantTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder, parentComposers) =>
+                $$ProductVariantTableTableOrderingComposer(ComposerState(
+                    $state.db,
+                    $state.db.productVariantTable,
+                    joinBuilder,
+                    parentComposers)));
+    return composer;
+  }
+}
+
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
@@ -3016,13 +3426,17 @@ class $AppDatabaseManager {
       $$OrderItemTableTableTableManager(_db, _db.orderItemTable);
   $$CartItemTableTableTableManager get cartItemTable =>
       $$CartItemTableTableTableManager(_db, _db.cartItemTable);
+  $$OrderItemVariantSelectionTableTableTableManager
+      get orderItemVariantSelectionTable =>
+          $$OrderItemVariantSelectionTableTableTableManager(
+              _db, _db.orderItemVariantSelectionTable);
 }
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$driftHash() => r'5f400c3977940041e66827685a8d8d3627fec03d';
+String _$driftHash() => r'5a0f768a3dbd203c5b71b64f608e83f29a6e4dc8';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -3050,7 +3464,7 @@ class _SystemHash {
 const driftProvider = DriftFamily();
 
 /// See also [drift].
-class DriftFamily extends Family<AppDatabase> {
+class DriftFamily extends Family<AsyncValue<AppDatabase>> {
   /// See also [drift].
   const DriftFamily();
 
@@ -3088,7 +3502,7 @@ class DriftFamily extends Family<AppDatabase> {
 }
 
 /// See also [drift].
-class DriftProvider extends Provider<AppDatabase> {
+class DriftProvider extends FutureProvider<AppDatabase> {
   /// See also [drift].
   DriftProvider({
     String dbName = 'default',
@@ -3122,7 +3536,7 @@ class DriftProvider extends Provider<AppDatabase> {
 
   @override
   Override overrideWith(
-    AppDatabase Function(DriftRef provider) create,
+    FutureOr<AppDatabase> Function(DriftRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -3139,7 +3553,7 @@ class DriftProvider extends Provider<AppDatabase> {
   }
 
   @override
-  ProviderElement<AppDatabase> createElement() {
+  FutureProviderElement<AppDatabase> createElement() {
     return _DriftProviderElement(this);
   }
 
@@ -3157,12 +3571,13 @@ class DriftProvider extends Provider<AppDatabase> {
   }
 }
 
-mixin DriftRef on ProviderRef<AppDatabase> {
+mixin DriftRef on FutureProviderRef<AppDatabase> {
   /// The parameter `dbName` of this provider.
   String get dbName;
 }
 
-class _DriftProviderElement extends ProviderElement<AppDatabase> with DriftRef {
+class _DriftProviderElement extends FutureProviderElement<AppDatabase>
+    with DriftRef {
   _DriftProviderElement(super.provider);
 
   @override

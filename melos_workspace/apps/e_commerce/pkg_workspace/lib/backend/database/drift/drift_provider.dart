@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:drift/drift.dart';
-import 'package:drift_flutter/drift_flutter.dart';
+import 'package:drift/native.dart';
+import 'package:e_commerce/features/cart/data/daos.dart';
 import 'package:e_commerce/features/cart/domain/cart.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
+import 'package:e_commerce/features/products/data/daos/product_table_dao.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
@@ -23,13 +26,25 @@ part 'drift_provider.g.dart';
     CartTable,
     CartItemTable,
     OrderItemTable,
+    OrderItemVariantSelectionTable,
+  ],
+  daos: [
+    OrderItemTableDao,
+    OrderItemVariantSelectionTableDao,
+    CartItemTableDao,
+    ProductTableDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {
-  AppDatabase({required String dbName}) : super(_openConnection(dbName));
+  AppDatabase({
+    required File dbfile,
+    bool inMemmory = false,
+  }) : super(_openConnection(dbfile));
 
-  static QueryExecutor _openConnection(String dbName) {
-    return driftDatabase(name: dbName);
+  AppDatabase.inMemory() : super(NativeDatabase.memory());
+
+  static QueryExecutor _openConnection(File dbfile) {
+    return NativeDatabase.createInBackground(dbfile);
   }
 
   @override
@@ -46,8 +61,10 @@ class AppDatabase extends _$AppDatabase {
 }
 
 @Riverpod(keepAlive: true)
-AppDatabase drift(DriftRef ref, {String dbName = 'default'}) {
-  return AppDatabase(dbName: dbName);
+Future<AppDatabase> drift(DriftRef ref, {String dbName = 'default'}) async {
+  // final dbPath = (await getApplicationDocumentsDirectory()).path;
+  // return AppDatabase(dbfile: File('$dbPath/$dbName.db'));
+  return AppDatabase.inMemory();
 }
 
 class DbJsonConverter extends TypeConverter<dynamic, String> {

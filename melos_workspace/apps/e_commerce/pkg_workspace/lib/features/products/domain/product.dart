@@ -56,7 +56,7 @@ extension ProductTableDataConverter on Product {
       discountPercentage: data.discountPercentage,
       rating: data.rating,
       stock: data.stock,
-      tags: data.tags,
+      tags: (data.tags as List).cast<String>(),
       brand: data.brand,
       sku: data.sku,
       weight: data.weight,
@@ -64,14 +64,15 @@ extension ProductTableDataConverter on Product {
       warrantyInformation: data.warrantyInformation,
       shippingInformation: data.shippingInformation,
       availabilityStatus: data.availabilityStatus,
-      reviews: (data.reviews as List<Map<String, dynamic>>)
+      reviews: (data.reviews as List)
+          .cast<Map<String, dynamic>>()
           .map(ProductReview.fromJson)
           .toList(),
       returnPolicy: data.returnPolicy,
       minimumOrderQuantity: data.minimumOrderQuantity,
       meta: ProductMeta.fromJson(data.meta),
       thumbnail: data.thumbnail,
-      images: data.images,
+      images: (data.images as List).cast<String>(),
       variantGroups: await Future.wait(
         variantGroupsRowData.map((e) => ProductVariantGroup.fromDbData(db, e)),
       ),

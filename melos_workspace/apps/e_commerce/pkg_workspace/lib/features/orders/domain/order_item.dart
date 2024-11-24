@@ -23,8 +23,7 @@ class OrderItemTable extends Table {
 class OrderItemVariantSelectionTable extends Table {
   TextColumn get orderItemId =>
       text().references(OrderItemTable, #id, onDelete: KeyAction.cascade)();
-  TextColumn get variantId => text()
-      .references(ProductVariantTable, #id, onDelete: KeyAction.cascade)();
+  TextColumn get variantId => text().references(ProductVariantTable, #id)();
 
   @override
   Set<Column> get primaryKey => {orderItemId, variantId};
@@ -96,28 +95,36 @@ class OrderItem with OrderItemMappable {
     AppDatabase db,
     OrderItemTableData data,
   ) async {
-    final productQuery = db.select(db.productTable).join([
+    final productQuery = db.select(db.productTable, distinct: true).join([
       innerJoin(
         db.productVariantGroupTable,
         db.productVariantGroupTable.productId.equalsExp(db.productTable.id),
+        useColumns: false,
       ),
       innerJoin(
         db.productVariantTable,
         db.productVariantTable.groupId
             .equalsExp(db.productVariantGroupTable.id),
+        useColumns: false,
       ),
       innerJoin(
         db.orderItemVariantSelectionTable,
-        db.orderItemVariantSelectionTable.orderItemId
+        db.orderItemVariantSelectionTable.variantId
             .equalsExp(db.productVariantTable.id),
+        useColumns: false,
       ),
       innerJoin(
         db.orderItemTable,
         db.orderItemTable.id
             .equalsExp(db.orderItemVariantSelectionTable.orderItemId),
+        useColumns: false,
       ),
     ])
       ..where(db.orderItemTable.id.equals(data.id));
+
+    final test1 = await db.select(db.productTable).get();
+    final test =
+        (await productQuery.get()).map((e) => e.readTable(db.productTable));
 
     final productData =
         (await productQuery.getSingle()).readTable(db.productTable);
