@@ -11,7 +11,7 @@ class NewExamDialog extends StatelessWidget {
       icon: const Icon(Symbols.post_add),
       title: const Text('Tạo bộ đề mới'),
       content: const Text('''
-Bạn sẽ xem một quảng cáo tối đa 30 giây để tạo 1 bộ đề mới, điều này giúp cho nhà phát triển có kinh phí để phát triển và duy trì ứng dụng.
+Bạn sẽ xem một quảng cáo tối đa 60 giây để tạo 1 bộ đề mới, điều này giúp cho nhà phát triển có kinh phí để phát triển và duy trì ứng dụng.
 
   •  Nếu bạn xoá ứng dụng hoặc dữ liệu ứng dụng thì tất cả bộ đề đã tạo sẽ bị mất.
 
