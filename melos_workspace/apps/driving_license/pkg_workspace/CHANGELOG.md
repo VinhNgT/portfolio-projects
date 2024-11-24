@@ -1,3 +1,7 @@
+## 1.6.3
+
+ - **REFACTOR**(drv_lcn): increase ad duration message in NewExamDialog to 60 seconds.
+
 ## 1.6.2
 
  - **REFACTOR**(drv_lcn): update donation icon assets.

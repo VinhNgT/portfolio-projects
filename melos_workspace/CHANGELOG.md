@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-11-24
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`driving_license` - `v1.6.3`](#driving_license---v163)
+
+---
+
+#### `driving_license` - `v1.6.3`
+
+ - **REFACTOR**(drv_lcn): increase ad duration message in NewExamDialog to 60 seconds.
+
+
 ## 2024-11-02
 
 ### Changes
