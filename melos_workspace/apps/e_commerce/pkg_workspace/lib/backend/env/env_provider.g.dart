@@ -6,11 +6,11 @@ part of 'env_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$envHash() => r'f299e5b2ab327a831a9b4a5c78979ecb8ebd4b1d';
+String _$envHash() => r'6585e37fdbb1270c2f7a18110a4a862744074ec3';
 
 /// See also [env].
 @ProviderFor(env)
-final envProvider = Provider<Env>.internal(
+final envProvider = Provider<EnvData>.internal(
   env,
   name: r'envProvider',
   debugGetCreateSourceHash:
@@ -19,6 +19,6 @@ final envProvider = Provider<Env>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef EnvRef = ProviderRef<Env>;
+typedef EnvRef = ProviderRef<EnvData>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

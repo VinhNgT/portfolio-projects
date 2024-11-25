@@ -1,32 +1,17 @@
-import 'package:e_commerce/backend/cache/domain/app_cache_config.dart';
-import 'package:e_commerce/backend/env/domain/env.dart';
-import 'package:logger/logger.dart';
+import 'package:e_commerce/backend/env/domain/env_data.dart';
+import 'package:e_commerce/logging/logger_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'env_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-Env env(EnvRef ref) {
-  final appCacheConfig = AppCacheConfig.fromSeconds(
-    clientCacheDurationSeconds: int.tryParse(
-      const String.fromEnvironment('CLIENT_CACHE_DURATION_SECONDS'),
-    ),
-    networkCacheDurationSeconds: int.tryParse(
-      const String.fromEnvironment('NETWORK_CACHE_DURATION_SECONDS'),
-    ),
-  );
+EnvData env(EnvRef ref) {
+  final envData = EnvData.fromEnviroment();
+  final logger = ref.watch(loggerProvider);
 
-  final loggerLevel = () {
-    const logLevel = String.fromEnvironment('LOG_LEVEL', defaultValue: 'debug');
-    return Level.values.byName(logLevel);
-  }();
+  debugPrint('Environment variables loaded');
+  logger.i(envData.toJson());
 
-  const showDetailedError =
-      bool.fromEnvironment('SHOW_DETAILED_ERROR', defaultValue: true);
-
-  return Env(
-    appCacheConfig: appCacheConfig,
-    loggerLevel: loggerLevel,
-    showDetailedError: showDetailedError,
-  );
+  return envData;
 }

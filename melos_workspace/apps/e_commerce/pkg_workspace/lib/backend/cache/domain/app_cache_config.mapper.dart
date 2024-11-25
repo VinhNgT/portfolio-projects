@@ -24,7 +24,7 @@ class AppCacheConfigMapper extends ClassMapperBase<AppCacheConfig> {
   static Duration _$clientCacheDuration(AppCacheConfig v) =>
       v.clientCacheDuration;
   static const Field<AppCacheConfig, Duration> _f$clientCacheDuration =
-      Field('clientCacheDuration', _$clientCacheDuration, opt: true);
+      Field('clientCacheDuration', _$clientCacheDuration);
   static Duration? _$networkCacheDuration(AppCacheConfig v) =>
       v.networkCacheDuration;
   static const Field<AppCacheConfig, Duration> _f$networkCacheDuration =
@@ -110,10 +110,10 @@ class _AppCacheConfigCopyWithImpl<$R, $Out>
       AppCacheConfigMapper.ensureInitialized();
   @override
   $R call(
-          {Object? clientCacheDuration = $none,
+          {Duration? clientCacheDuration,
           Object? networkCacheDuration = $none}) =>
       $apply(FieldCopyWithData({
-        if (clientCacheDuration != $none)
+        if (clientCacheDuration != null)
           #clientCacheDuration: clientCacheDuration,
         if (networkCacheDuration != $none)
           #networkCacheDuration: networkCacheDuration

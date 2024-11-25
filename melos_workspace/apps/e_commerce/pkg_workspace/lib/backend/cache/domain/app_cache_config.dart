@@ -11,14 +11,27 @@ const Duration kDefaultClientCacheDuration = Duration(minutes: 5);
   includeCustomMappers: [DurationSecondsMapper()],
 )
 class AppCacheConfig with AppCacheConfigMappable {
-  AppCacheConfig({
-    Duration? clientCacheDuration,
-    this.networkCacheDuration,
-  }) {
-    this.clientCacheDuration =
-        clientCacheDuration ?? kDefaultClientCacheDuration;
-  }
+  /// The cache duration of client generated data.
+  final Duration clientCacheDuration;
 
+  /// The cache duration for network fetched data.
+  ///
+  /// - `null` means let server decide the cache duration.
+  /// - A [Duration] value means the cache expiration should depend on both how
+  ///   the server want and this duration, whichever comes first.
+  ///
+  final Duration? networkCacheDuration;
+
+  AppCacheConfig({
+    required this.clientCacheDuration,
+    this.networkCacheDuration,
+  });
+
+  /// Creates an [AppCacheConfig] instance from cache duration in seconds.
+  ///
+  /// - [clientCacheDurationSeconds] defaults to [kDefaultClientCacheDuration].
+  /// - [networkCacheDurationSeconds] defaults to `null`.
+  ///
   factory AppCacheConfig.fromSeconds({
     int? clientCacheDurationSeconds,
     int? networkCacheDurationSeconds,
@@ -26,21 +39,10 @@ class AppCacheConfig with AppCacheConfigMappable {
     return AppCacheConfig(
       clientCacheDuration: clientCacheDurationSeconds != null
           ? Duration(seconds: clientCacheDurationSeconds)
-          : null,
+          : kDefaultClientCacheDuration,
       networkCacheDuration: networkCacheDurationSeconds != null
           ? Duration(seconds: networkCacheDurationSeconds)
           : null,
     );
   }
-
-  /// The cache duration of client generated data. Defaults to
-  /// [kDefaultClientCacheDuration]
-  late final Duration clientCacheDuration;
-
-  /// The cache duration for network fetched data.
-  ///
-  /// - `null` means let server decide the cache duration.
-  /// - A [Duration] value means the cache expiration should depend on both how
-  ///   the server want and this duration, whichever comes first.
-  final Duration? networkCacheDuration;
 }
