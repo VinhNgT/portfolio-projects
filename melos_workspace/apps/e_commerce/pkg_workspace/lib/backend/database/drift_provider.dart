@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
+import 'package:drift_flutter/drift_flutter.dart';
 import 'package:e_commerce/features/cart/data/daos.dart';
 import 'package:e_commerce/features/cart/domain/cart.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
@@ -37,15 +37,11 @@ part 'drift_provider.g.dart';
   ],
 )
 class AppDatabase extends _$AppDatabase {
-  AppDatabase({
-    required File dbfile,
-    bool inMemmory = false,
-  }) : super(_openConnection(dbfile));
-
+  AppDatabase({required String dbName}) : super(_openConnection(dbName));
   AppDatabase.inMemory() : super(NativeDatabase.memory());
 
-  static QueryExecutor _openConnection(File dbfile) {
-    return NativeDatabase.createInBackground(dbfile);
+  static QueryExecutor _openConnection(String name) {
+    return driftDatabase(name: name);
   }
 
   @override
@@ -62,9 +58,8 @@ class AppDatabase extends _$AppDatabase {
 }
 
 @Riverpod(keepAlive: true)
-Future<AppDatabase> drift(Ref ref, {String dbName = 'default'}) async {
-  // final dbPath = (await getApplicationDocumentsDirectory()).path;
-  // return AppDatabase(dbfile: File('$dbPath/$dbName.db'));
+AppDatabase driftAppDatabase(Ref ref) {
+  // return AppDatabase(dbName: 'default');
   return AppDatabase.inMemory();
 }
 

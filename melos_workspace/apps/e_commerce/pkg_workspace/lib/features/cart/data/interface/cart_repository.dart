@@ -37,6 +37,6 @@ abstract interface class CartRepository {
 
 @Riverpod(keepAlive: true)
 CartRepository cartRepository(Ref ref) {
-  final db = ref.watch(driftProvider()).requireValue;
+  final db = ref.watch(driftAppDatabaseProvider);
   return DriftCartRepository(db);
 }

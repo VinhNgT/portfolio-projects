@@ -2318,22 +2318,349 @@ typedef $$ProductTableTableUpdateCompanionBuilder = ProductTableCompanion
   Value<dynamic> images,
 });
 
+final class $$ProductTableTableReferences extends BaseReferences<_$AppDatabase,
+    $ProductTableTable, ProductTableData> {
+  $$ProductTableTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$ProductVariantGroupTableTable,
+      List<ProductVariantGroupTableData>> _productVariantGroupTableRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.productVariantGroupTable,
+          aliasName: $_aliasNameGenerator(
+              db.productTable.id, db.productVariantGroupTable.productId));
+
+  $$ProductVariantGroupTableTableProcessedTableManager
+      get productVariantGroupTableRefs {
+    final manager = $$ProductVariantGroupTableTableTableManager(
+            $_db, $_db.productVariantGroupTable)
+        .filter((f) => f.productId.id($_item.id));
+
+    final cache =
+        $_typedResult.readTableOrNull(_productVariantGroupTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
+
+class $$ProductTableTableFilterComposer
+    extends Composer<_$AppDatabase, $ProductTableTable> {
+  $$ProductTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get price => $composableBuilder(
+      column: $table.price, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get discountPercentage => $composableBuilder(
+      column: $table.discountPercentage,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get rating => $composableBuilder(
+      column: $table.rating, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get stock => $composableBuilder(
+      column: $table.stock, builder: (column) => ColumnFilters(column));
+
+  ColumnWithTypeConverterFilters<dynamic, dynamic, String> get tags =>
+      $composableBuilder(
+          column: $table.tags,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnFilters<String> get brand => $composableBuilder(
+      column: $table.brand, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get sku => $composableBuilder(
+      column: $table.sku, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get weight => $composableBuilder(
+      column: $table.weight, builder: (column) => ColumnFilters(column));
+
+  ColumnWithTypeConverterFilters<dynamic, dynamic, String> get dimensions =>
+      $composableBuilder(
+          column: $table.dimensions,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnFilters<String> get warrantyInformation => $composableBuilder(
+      column: $table.warrantyInformation,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get shippingInformation => $composableBuilder(
+      column: $table.shippingInformation,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get availabilityStatus => $composableBuilder(
+      column: $table.availabilityStatus,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnWithTypeConverterFilters<dynamic, dynamic, String> get reviews =>
+      $composableBuilder(
+          column: $table.reviews,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnFilters<String> get returnPolicy => $composableBuilder(
+      column: $table.returnPolicy, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get minimumOrderQuantity => $composableBuilder(
+      column: $table.minimumOrderQuantity,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnWithTypeConverterFilters<dynamic, dynamic, String> get meta =>
+      $composableBuilder(
+          column: $table.meta,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnFilters<String> get thumbnail => $composableBuilder(
+      column: $table.thumbnail, builder: (column) => ColumnFilters(column));
+
+  ColumnWithTypeConverterFilters<dynamic, dynamic, String> get images =>
+      $composableBuilder(
+          column: $table.images,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  Expression<bool> productVariantGroupTableRefs(
+      Expression<bool> Function($$ProductVariantGroupTableTableFilterComposer f)
+          f) {
+    final $$ProductVariantGroupTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.productVariantGroupTable,
+            getReferencedColumn: (t) => t.productId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ProductVariantGroupTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.productVariantGroupTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+}
+
+class $$ProductTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $ProductTableTable> {
+  $$ProductTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get price => $composableBuilder(
+      column: $table.price, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get discountPercentage => $composableBuilder(
+      column: $table.discountPercentage,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get rating => $composableBuilder(
+      column: $table.rating, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get stock => $composableBuilder(
+      column: $table.stock, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get tags => $composableBuilder(
+      column: $table.tags, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get brand => $composableBuilder(
+      column: $table.brand, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get sku => $composableBuilder(
+      column: $table.sku, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get weight => $composableBuilder(
+      column: $table.weight, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get dimensions => $composableBuilder(
+      column: $table.dimensions, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get warrantyInformation => $composableBuilder(
+      column: $table.warrantyInformation,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get shippingInformation => $composableBuilder(
+      column: $table.shippingInformation,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get availabilityStatus => $composableBuilder(
+      column: $table.availabilityStatus,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get reviews => $composableBuilder(
+      column: $table.reviews, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get returnPolicy => $composableBuilder(
+      column: $table.returnPolicy,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get minimumOrderQuantity => $composableBuilder(
+      column: $table.minimumOrderQuantity,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get meta => $composableBuilder(
+      column: $table.meta, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get thumbnail => $composableBuilder(
+      column: $table.thumbnail, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get images => $composableBuilder(
+      column: $table.images, builder: (column) => ColumnOrderings(column));
+}
+
+class $$ProductTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ProductTableTable> {
+  $$ProductTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+
+  GeneratedColumn<double> get price =>
+      $composableBuilder(column: $table.price, builder: (column) => column);
+
+  GeneratedColumn<double> get discountPercentage => $composableBuilder(
+      column: $table.discountPercentage, builder: (column) => column);
+
+  GeneratedColumn<double> get rating =>
+      $composableBuilder(column: $table.rating, builder: (column) => column);
+
+  GeneratedColumn<int> get stock =>
+      $composableBuilder(column: $table.stock, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<dynamic, String> get tags =>
+      $composableBuilder(column: $table.tags, builder: (column) => column);
+
+  GeneratedColumn<String> get brand =>
+      $composableBuilder(column: $table.brand, builder: (column) => column);
+
+  GeneratedColumn<String> get sku =>
+      $composableBuilder(column: $table.sku, builder: (column) => column);
+
+  GeneratedColumn<int> get weight =>
+      $composableBuilder(column: $table.weight, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<dynamic, String> get dimensions =>
+      $composableBuilder(
+          column: $table.dimensions, builder: (column) => column);
+
+  GeneratedColumn<String> get warrantyInformation => $composableBuilder(
+      column: $table.warrantyInformation, builder: (column) => column);
+
+  GeneratedColumn<String> get shippingInformation => $composableBuilder(
+      column: $table.shippingInformation, builder: (column) => column);
+
+  GeneratedColumn<String> get availabilityStatus => $composableBuilder(
+      column: $table.availabilityStatus, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<dynamic, String> get reviews =>
+      $composableBuilder(column: $table.reviews, builder: (column) => column);
+
+  GeneratedColumn<String> get returnPolicy => $composableBuilder(
+      column: $table.returnPolicy, builder: (column) => column);
+
+  GeneratedColumn<int> get minimumOrderQuantity => $composableBuilder(
+      column: $table.minimumOrderQuantity, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<dynamic, String> get meta =>
+      $composableBuilder(column: $table.meta, builder: (column) => column);
+
+  GeneratedColumn<String> get thumbnail =>
+      $composableBuilder(column: $table.thumbnail, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<dynamic, String> get images =>
+      $composableBuilder(column: $table.images, builder: (column) => column);
+
+  Expression<T> productVariantGroupTableRefs<T extends Object>(
+      Expression<T> Function(
+              $$ProductVariantGroupTableTableAnnotationComposer a)
+          f) {
+    final $$ProductVariantGroupTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.productVariantGroupTable,
+            getReferencedColumn: (t) => t.productId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ProductVariantGroupTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.productVariantGroupTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+}
+
 class $$ProductTableTableTableManager extends RootTableManager<
     _$AppDatabase,
     $ProductTableTable,
     ProductTableData,
     $$ProductTableTableFilterComposer,
     $$ProductTableTableOrderingComposer,
+    $$ProductTableTableAnnotationComposer,
     $$ProductTableTableCreateCompanionBuilder,
-    $$ProductTableTableUpdateCompanionBuilder> {
+    $$ProductTableTableUpdateCompanionBuilder,
+    (ProductTableData, $$ProductTableTableReferences),
+    ProductTableData,
+    PrefetchHooks Function({bool productVariantGroupTableRefs})> {
   $$ProductTableTableTableManager(_$AppDatabase db, $ProductTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$ProductTableTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$ProductTableTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$ProductTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ProductTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ProductTableTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String> title = const Value.absent(),
@@ -2430,265 +2757,52 @@ class $$ProductTableTableTableManager extends RootTableManager<
             thumbnail: thumbnail,
             images: images,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$ProductTableTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: ({productVariantGroupTableRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (productVariantGroupTableRefs) db.productVariantGroupTable
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (productVariantGroupTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$ProductTableTableReferences
+                            ._productVariantGroupTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$ProductTableTableReferences(db, table, p0)
+                                .productVariantGroupTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.productId == item.id),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
         ));
 }
 
-class $$ProductTableTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $ProductTableTable> {
-  $$ProductTableTableFilterComposer(super.$state);
-  ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get title => $state.composableBuilder(
-      column: $state.table.title,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get description => $state.composableBuilder(
-      column: $state.table.description,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get category => $state.composableBuilder(
-      column: $state.table.category,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<double> get price => $state.composableBuilder(
-      column: $state.table.price,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<double> get discountPercentage => $state.composableBuilder(
-      column: $state.table.discountPercentage,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<double> get rating => $state.composableBuilder(
-      column: $state.table.rating,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get stock => $state.composableBuilder(
-      column: $state.table.stock,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnWithTypeConverterFilters<dynamic, dynamic, String> get tags =>
-      $state.composableBuilder(
-          column: $state.table.tags,
-          builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
-              column,
-              joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get brand => $state.composableBuilder(
-      column: $state.table.brand,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get sku => $state.composableBuilder(
-      column: $state.table.sku,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get weight => $state.composableBuilder(
-      column: $state.table.weight,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnWithTypeConverterFilters<dynamic, dynamic, String> get dimensions =>
-      $state.composableBuilder(
-          column: $state.table.dimensions,
-          builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
-              column,
-              joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get warrantyInformation => $state.composableBuilder(
-      column: $state.table.warrantyInformation,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get shippingInformation => $state.composableBuilder(
-      column: $state.table.shippingInformation,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get availabilityStatus => $state.composableBuilder(
-      column: $state.table.availabilityStatus,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnWithTypeConverterFilters<dynamic, dynamic, String> get reviews =>
-      $state.composableBuilder(
-          column: $state.table.reviews,
-          builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
-              column,
-              joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get returnPolicy => $state.composableBuilder(
-      column: $state.table.returnPolicy,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get minimumOrderQuantity => $state.composableBuilder(
-      column: $state.table.minimumOrderQuantity,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnWithTypeConverterFilters<dynamic, dynamic, String> get meta =>
-      $state.composableBuilder(
-          column: $state.table.meta,
-          builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
-              column,
-              joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get thumbnail => $state.composableBuilder(
-      column: $state.table.thumbnail,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnWithTypeConverterFilters<dynamic, dynamic, String> get images =>
-      $state.composableBuilder(
-          column: $state.table.images,
-          builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
-              column,
-              joinBuilders: joinBuilders));
-
-  ComposableFilter productVariantGroupTableRefs(
-      ComposableFilter Function($$ProductVariantGroupTableTableFilterComposer f)
-          f) {
-    final $$ProductVariantGroupTableTableFilterComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.id,
-            referencedTable: $state.db.productVariantGroupTable,
-            getReferencedColumn: (t) => t.productId,
-            builder: (joinBuilder, parentComposers) =>
-                $$ProductVariantGroupTableTableFilterComposer(ComposerState(
-                    $state.db,
-                    $state.db.productVariantGroupTable,
-                    joinBuilder,
-                    parentComposers)));
-    return f(composer);
-  }
-}
-
-class $$ProductTableTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $ProductTableTable> {
-  $$ProductTableTableOrderingComposer(super.$state);
-  ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get title => $state.composableBuilder(
-      column: $state.table.title,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get description => $state.composableBuilder(
-      column: $state.table.description,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get category => $state.composableBuilder(
-      column: $state.table.category,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<double> get price => $state.composableBuilder(
-      column: $state.table.price,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<double> get discountPercentage => $state.composableBuilder(
-      column: $state.table.discountPercentage,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<double> get rating => $state.composableBuilder(
-      column: $state.table.rating,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get stock => $state.composableBuilder(
-      column: $state.table.stock,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get tags => $state.composableBuilder(
-      column: $state.table.tags,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get brand => $state.composableBuilder(
-      column: $state.table.brand,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get sku => $state.composableBuilder(
-      column: $state.table.sku,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get weight => $state.composableBuilder(
-      column: $state.table.weight,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get dimensions => $state.composableBuilder(
-      column: $state.table.dimensions,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get warrantyInformation => $state.composableBuilder(
-      column: $state.table.warrantyInformation,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get shippingInformation => $state.composableBuilder(
-      column: $state.table.shippingInformation,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get availabilityStatus => $state.composableBuilder(
-      column: $state.table.availabilityStatus,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get reviews => $state.composableBuilder(
-      column: $state.table.reviews,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get returnPolicy => $state.composableBuilder(
-      column: $state.table.returnPolicy,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get minimumOrderQuantity => $state.composableBuilder(
-      column: $state.table.minimumOrderQuantity,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get meta => $state.composableBuilder(
-      column: $state.table.meta,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get thumbnail => $state.composableBuilder(
-      column: $state.table.thumbnail,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get images => $state.composableBuilder(
-      column: $state.table.images,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$ProductTableTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $ProductTableTable,
+    ProductTableData,
+    $$ProductTableTableFilterComposer,
+    $$ProductTableTableOrderingComposer,
+    $$ProductTableTableAnnotationComposer,
+    $$ProductTableTableCreateCompanionBuilder,
+    $$ProductTableTableUpdateCompanionBuilder,
+    (ProductTableData, $$ProductTableTableReferences),
+    ProductTableData,
+    PrefetchHooks Function({bool productVariantGroupTableRefs})>;
 typedef $$ProductVariantGroupTableTableCreateCompanionBuilder
     = ProductVariantGroupTableCompanion Function({
   Value<int> id,
@@ -2702,23 +2816,224 @@ typedef $$ProductVariantGroupTableTableUpdateCompanionBuilder
   Value<int> productId,
 });
 
+final class $$ProductVariantGroupTableTableReferences extends BaseReferences<
+    _$AppDatabase,
+    $ProductVariantGroupTableTable,
+    ProductVariantGroupTableData> {
+  $$ProductVariantGroupTableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $ProductTableTable _productIdTable(_$AppDatabase db) =>
+      db.productTable.createAlias($_aliasNameGenerator(
+          db.productVariantGroupTable.productId, db.productTable.id));
+
+  $$ProductTableTableProcessedTableManager? get productId {
+    if ($_item.productId == null) return null;
+    final manager = $$ProductTableTableTableManager($_db, $_db.productTable)
+        .filter((f) => f.id($_item.productId!));
+    final item = $_typedResult.readTableOrNull(_productIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static MultiTypedResultKey<$ProductVariantTableTable,
+      List<ProductVariantTableData>> _productVariantTableRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.productVariantTable,
+          aliasName: $_aliasNameGenerator(
+              db.productVariantGroupTable.id, db.productVariantTable.groupId));
+
+  $$ProductVariantTableTableProcessedTableManager get productVariantTableRefs {
+    final manager =
+        $$ProductVariantTableTableTableManager($_db, $_db.productVariantTable)
+            .filter((f) => f.groupId.id($_item.id));
+
+    final cache =
+        $_typedResult.readTableOrNull(_productVariantTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
+
+class $$ProductVariantGroupTableTableFilterComposer
+    extends Composer<_$AppDatabase, $ProductVariantGroupTableTable> {
+  $$ProductVariantGroupTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get groupName => $composableBuilder(
+      column: $table.groupName, builder: (column) => ColumnFilters(column));
+
+  $$ProductTableTableFilterComposer get productId {
+    final $$ProductTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.productId,
+        referencedTable: $db.productTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ProductTableTableFilterComposer(
+              $db: $db,
+              $table: $db.productTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  Expression<bool> productVariantTableRefs(
+      Expression<bool> Function($$ProductVariantTableTableFilterComposer f) f) {
+    final $$ProductVariantTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.productVariantTable,
+        getReferencedColumn: (t) => t.groupId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ProductVariantTableTableFilterComposer(
+              $db: $db,
+              $table: $db.productVariantTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+}
+
+class $$ProductVariantGroupTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $ProductVariantGroupTableTable> {
+  $$ProductVariantGroupTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get groupName => $composableBuilder(
+      column: $table.groupName, builder: (column) => ColumnOrderings(column));
+
+  $$ProductTableTableOrderingComposer get productId {
+    final $$ProductTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.productId,
+        referencedTable: $db.productTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ProductTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.productTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$ProductVariantGroupTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ProductVariantGroupTableTable> {
+  $$ProductVariantGroupTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get groupName =>
+      $composableBuilder(column: $table.groupName, builder: (column) => column);
+
+  $$ProductTableTableAnnotationComposer get productId {
+    final $$ProductTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.productId,
+        referencedTable: $db.productTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ProductTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.productTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  Expression<T> productVariantTableRefs<T extends Object>(
+      Expression<T> Function($$ProductVariantTableTableAnnotationComposer a)
+          f) {
+    final $$ProductVariantTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.productVariantTable,
+            getReferencedColumn: (t) => t.groupId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ProductVariantTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.productVariantTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+}
+
 class $$ProductVariantGroupTableTableTableManager extends RootTableManager<
     _$AppDatabase,
     $ProductVariantGroupTableTable,
     ProductVariantGroupTableData,
     $$ProductVariantGroupTableTableFilterComposer,
     $$ProductVariantGroupTableTableOrderingComposer,
+    $$ProductVariantGroupTableTableAnnotationComposer,
     $$ProductVariantGroupTableTableCreateCompanionBuilder,
-    $$ProductVariantGroupTableTableUpdateCompanionBuilder> {
+    $$ProductVariantGroupTableTableUpdateCompanionBuilder,
+    (ProductVariantGroupTableData, $$ProductVariantGroupTableTableReferences),
+    ProductVariantGroupTableData,
+    PrefetchHooks Function({bool productId, bool productVariantTableRefs})> {
   $$ProductVariantGroupTableTableTableManager(
       _$AppDatabase db, $ProductVariantGroupTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer: $$ProductVariantGroupTableTableFilterComposer(
-              ComposerState(db, table)),
-          orderingComposer: $$ProductVariantGroupTableTableOrderingComposer(
-              ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$ProductVariantGroupTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ProductVariantGroupTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ProductVariantGroupTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String> groupName = const Value.absent(),
@@ -2739,78 +3054,85 @@ class $$ProductVariantGroupTableTableTableManager extends RootTableManager<
             groupName: groupName,
             productId: productId,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$ProductVariantGroupTableTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: (
+              {productId = false, productVariantTableRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (productVariantTableRefs) db.productVariantTable
+              ],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (productId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.productId,
+                    referencedTable: $$ProductVariantGroupTableTableReferences
+                        ._productIdTable(db),
+                    referencedColumn: $$ProductVariantGroupTableTableReferences
+                        ._productIdTable(db)
+                        .id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (productVariantTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable:
+                            $$ProductVariantGroupTableTableReferences
+                                ._productVariantTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$ProductVariantGroupTableTableReferences(
+                                    db, table, p0)
+                                .productVariantTableRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.groupId == item.id),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
         ));
 }
 
-class $$ProductVariantGroupTableTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $ProductVariantGroupTableTable> {
-  $$ProductVariantGroupTableTableFilterComposer(super.$state);
-  ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get groupName => $state.composableBuilder(
-      column: $state.table.groupName,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  $$ProductTableTableFilterComposer get productId {
-    final $$ProductTableTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.productId,
-        referencedTable: $state.db.productTable,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder, parentComposers) =>
-            $$ProductTableTableFilterComposer(ComposerState($state.db,
-                $state.db.productTable, joinBuilder, parentComposers)));
-    return composer;
-  }
-
-  ComposableFilter productVariantTableRefs(
-      ComposableFilter Function($$ProductVariantTableTableFilterComposer f) f) {
-    final $$ProductVariantTableTableFilterComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.id,
-            referencedTable: $state.db.productVariantTable,
-            getReferencedColumn: (t) => t.groupId,
-            builder: (joinBuilder, parentComposers) =>
-                $$ProductVariantTableTableFilterComposer(ComposerState(
-                    $state.db,
-                    $state.db.productVariantTable,
-                    joinBuilder,
-                    parentComposers)));
-    return f(composer);
-  }
-}
-
-class $$ProductVariantGroupTableTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $ProductVariantGroupTableTable> {
-  $$ProductVariantGroupTableTableOrderingComposer(super.$state);
-  ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get groupName => $state.composableBuilder(
-      column: $state.table.groupName,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  $$ProductTableTableOrderingComposer get productId {
-    final $$ProductTableTableOrderingComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.productId,
-        referencedTable: $state.db.productTable,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder, parentComposers) =>
-            $$ProductTableTableOrderingComposer(ComposerState($state.db,
-                $state.db.productTable, joinBuilder, parentComposers)));
-    return composer;
-  }
-}
-
+typedef $$ProductVariantGroupTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AppDatabase,
+        $ProductVariantGroupTableTable,
+        ProductVariantGroupTableData,
+        $$ProductVariantGroupTableTableFilterComposer,
+        $$ProductVariantGroupTableTableOrderingComposer,
+        $$ProductVariantGroupTableTableAnnotationComposer,
+        $$ProductVariantGroupTableTableCreateCompanionBuilder,
+        $$ProductVariantGroupTableTableUpdateCompanionBuilder,
+        (
+          ProductVariantGroupTableData,
+          $$ProductVariantGroupTableTableReferences
+        ),
+        ProductVariantGroupTableData,
+        PrefetchHooks Function({bool productId, bool productVariantTableRefs})>;
 typedef $$ProductVariantTableTableCreateCompanionBuilder
     = ProductVariantTableCompanion Function({
   Value<int> id,
@@ -2824,23 +3146,231 @@ typedef $$ProductVariantTableTableUpdateCompanionBuilder
   Value<int> groupId,
 });
 
+final class $$ProductVariantTableTableReferences extends BaseReferences<
+    _$AppDatabase, $ProductVariantTableTable, ProductVariantTableData> {
+  $$ProductVariantTableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $ProductVariantGroupTableTable _groupIdTable(_$AppDatabase db) =>
+      db.productVariantGroupTable.createAlias($_aliasNameGenerator(
+          db.productVariantTable.groupId, db.productVariantGroupTable.id));
+
+  $$ProductVariantGroupTableTableProcessedTableManager? get groupId {
+    if ($_item.groupId == null) return null;
+    final manager = $$ProductVariantGroupTableTableTableManager(
+            $_db, $_db.productVariantGroupTable)
+        .filter((f) => f.id($_item.groupId!));
+    final item = $_typedResult.readTableOrNull(_groupIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static MultiTypedResultKey<$OrderItemVariantSelectionTableTable,
+          List<OrderItemVariantSelectionTableData>>
+      _orderItemVariantSelectionTableRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.orderItemVariantSelectionTable,
+              aliasName: $_aliasNameGenerator(db.productVariantTable.id,
+                  db.orderItemVariantSelectionTable.variantId));
+
+  $$OrderItemVariantSelectionTableTableProcessedTableManager
+      get orderItemVariantSelectionTableRefs {
+    final manager = $$OrderItemVariantSelectionTableTableTableManager(
+            $_db, $_db.orderItemVariantSelectionTable)
+        .filter((f) => f.variantId.id($_item.id));
+
+    final cache = $_typedResult
+        .readTableOrNull(_orderItemVariantSelectionTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
+
+class $$ProductVariantTableTableFilterComposer
+    extends Composer<_$AppDatabase, $ProductVariantTableTable> {
+  $$ProductVariantTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  $$ProductVariantGroupTableTableFilterComposer get groupId {
+    final $$ProductVariantGroupTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.groupId,
+            referencedTable: $db.productVariantGroupTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ProductVariantGroupTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.productVariantGroupTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+
+  Expression<bool> orderItemVariantSelectionTableRefs(
+      Expression<bool> Function(
+              $$OrderItemVariantSelectionTableTableFilterComposer f)
+          f) {
+    final $$OrderItemVariantSelectionTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.orderItemVariantSelectionTable,
+            getReferencedColumn: (t) => t.variantId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$OrderItemVariantSelectionTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.orderItemVariantSelectionTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+}
+
+class $$ProductVariantTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $ProductVariantTableTable> {
+  $$ProductVariantTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  $$ProductVariantGroupTableTableOrderingComposer get groupId {
+    final $$ProductVariantGroupTableTableOrderingComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.groupId,
+            referencedTable: $db.productVariantGroupTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ProductVariantGroupTableTableOrderingComposer(
+                  $db: $db,
+                  $table: $db.productVariantGroupTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+}
+
+class $$ProductVariantTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ProductVariantTableTable> {
+  $$ProductVariantTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  $$ProductVariantGroupTableTableAnnotationComposer get groupId {
+    final $$ProductVariantGroupTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.groupId,
+            referencedTable: $db.productVariantGroupTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ProductVariantGroupTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.productVariantGroupTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+
+  Expression<T> orderItemVariantSelectionTableRefs<T extends Object>(
+      Expression<T> Function(
+              $$OrderItemVariantSelectionTableTableAnnotationComposer a)
+          f) {
+    final $$OrderItemVariantSelectionTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.orderItemVariantSelectionTable,
+            getReferencedColumn: (t) => t.variantId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$OrderItemVariantSelectionTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.orderItemVariantSelectionTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+}
+
 class $$ProductVariantTableTableTableManager extends RootTableManager<
     _$AppDatabase,
     $ProductVariantTableTable,
     ProductVariantTableData,
     $$ProductVariantTableTableFilterComposer,
     $$ProductVariantTableTableOrderingComposer,
+    $$ProductVariantTableTableAnnotationComposer,
     $$ProductVariantTableTableCreateCompanionBuilder,
-    $$ProductVariantTableTableUpdateCompanionBuilder> {
+    $$ProductVariantTableTableUpdateCompanionBuilder,
+    (ProductVariantTableData, $$ProductVariantTableTableReferences),
+    ProductVariantTableData,
+    PrefetchHooks Function(
+        {bool groupId, bool orderItemVariantSelectionTableRefs})> {
   $$ProductVariantTableTableTableManager(
       _$AppDatabase db, $ProductVariantTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer: $$ProductVariantTableTableFilterComposer(
-              ComposerState(db, table)),
-          orderingComposer: $$ProductVariantTableTableOrderingComposer(
-              ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$ProductVariantTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ProductVariantTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ProductVariantTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String> name = const Value.absent(),
@@ -2861,89 +3391,81 @@ class $$ProductVariantTableTableTableManager extends RootTableManager<
             name: name,
             groupId: groupId,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$ProductVariantTableTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: (
+              {groupId = false, orderItemVariantSelectionTableRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (orderItemVariantSelectionTableRefs)
+                  db.orderItemVariantSelectionTable
+              ],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (groupId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.groupId,
+                    referencedTable:
+                        $$ProductVariantTableTableReferences._groupIdTable(db),
+                    referencedColumn: $$ProductVariantTableTableReferences
+                        ._groupIdTable(db)
+                        .id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (orderItemVariantSelectionTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$ProductVariantTableTableReferences
+                            ._orderItemVariantSelectionTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$ProductVariantTableTableReferences(db, table, p0)
+                                .orderItemVariantSelectionTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.variantId == item.id),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
         ));
 }
 
-class $$ProductVariantTableTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $ProductVariantTableTable> {
-  $$ProductVariantTableTableFilterComposer(super.$state);
-  ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get name => $state.composableBuilder(
-      column: $state.table.name,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  $$ProductVariantGroupTableTableFilterComposer get groupId {
-    final $$ProductVariantGroupTableTableFilterComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.groupId,
-            referencedTable: $state.db.productVariantGroupTable,
-            getReferencedColumn: (t) => t.id,
-            builder: (joinBuilder, parentComposers) =>
-                $$ProductVariantGroupTableTableFilterComposer(ComposerState(
-                    $state.db,
-                    $state.db.productVariantGroupTable,
-                    joinBuilder,
-                    parentComposers)));
-    return composer;
-  }
-
-  ComposableFilter orderItemVariantSelectionTableRefs(
-      ComposableFilter Function(
-              $$OrderItemVariantSelectionTableTableFilterComposer f)
-          f) {
-    final $$OrderItemVariantSelectionTableTableFilterComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.id,
-            referencedTable: $state.db.orderItemVariantSelectionTable,
-            getReferencedColumn: (t) => t.variantId,
-            builder: (joinBuilder, parentComposers) =>
-                $$OrderItemVariantSelectionTableTableFilterComposer(
-                    ComposerState(
-                        $state.db,
-                        $state.db.orderItemVariantSelectionTable,
-                        joinBuilder,
-                        parentComposers)));
-    return f(composer);
-  }
-}
-
-class $$ProductVariantTableTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $ProductVariantTableTable> {
-  $$ProductVariantTableTableOrderingComposer(super.$state);
-  ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get name => $state.composableBuilder(
-      column: $state.table.name,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  $$ProductVariantGroupTableTableOrderingComposer get groupId {
-    final $$ProductVariantGroupTableTableOrderingComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.groupId,
-            referencedTable: $state.db.productVariantGroupTable,
-            getReferencedColumn: (t) => t.id,
-            builder: (joinBuilder, parentComposers) =>
-                $$ProductVariantGroupTableTableOrderingComposer(ComposerState(
-                    $state.db,
-                    $state.db.productVariantGroupTable,
-                    joinBuilder,
-                    parentComposers)));
-    return composer;
-  }
-}
-
+typedef $$ProductVariantTableTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $ProductVariantTableTable,
+    ProductVariantTableData,
+    $$ProductVariantTableTableFilterComposer,
+    $$ProductVariantTableTableOrderingComposer,
+    $$ProductVariantTableTableAnnotationComposer,
+    $$ProductVariantTableTableCreateCompanionBuilder,
+    $$ProductVariantTableTableUpdateCompanionBuilder,
+    (ProductVariantTableData, $$ProductVariantTableTableReferences),
+    ProductVariantTableData,
+    PrefetchHooks Function(
+        {bool groupId, bool orderItemVariantSelectionTableRefs})>;
 typedef $$CartTableTableCreateCompanionBuilder = CartTableCompanion Function({
   Value<int> id,
 });
@@ -2951,22 +3473,70 @@ typedef $$CartTableTableUpdateCompanionBuilder = CartTableCompanion Function({
   Value<int> id,
 });
 
+class $$CartTableTableFilterComposer
+    extends Composer<_$AppDatabase, $CartTableTable> {
+  $$CartTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+}
+
+class $$CartTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $CartTableTable> {
+  $$CartTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+}
+
+class $$CartTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CartTableTable> {
+  $$CartTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+}
+
 class $$CartTableTableTableManager extends RootTableManager<
     _$AppDatabase,
     $CartTableTable,
     CartTableData,
     $$CartTableTableFilterComposer,
     $$CartTableTableOrderingComposer,
+    $$CartTableTableAnnotationComposer,
     $$CartTableTableCreateCompanionBuilder,
-    $$CartTableTableUpdateCompanionBuilder> {
+    $$CartTableTableUpdateCompanionBuilder,
+    (
+      CartTableData,
+      BaseReferences<_$AppDatabase, $CartTableTable, CartTableData>
+    ),
+    CartTableData,
+    PrefetchHooks Function()> {
   $$CartTableTableTableManager(_$AppDatabase db, $CartTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$CartTableTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$CartTableTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$CartTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CartTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CartTableTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
           }) =>
@@ -2979,27 +3549,28 @@ class $$CartTableTableTableManager extends RootTableManager<
               CartTableCompanion.insert(
             id: id,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$CartTableTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $CartTableTable> {
-  $$CartTableTableFilterComposer(super.$state);
-  ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$CartTableTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $CartTableTable> {
-  $$CartTableTableOrderingComposer(super.$state);
-  ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$CartTableTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $CartTableTable,
+    CartTableData,
+    $$CartTableTableFilterComposer,
+    $$CartTableTableOrderingComposer,
+    $$CartTableTableAnnotationComposer,
+    $$CartTableTableCreateCompanionBuilder,
+    $$CartTableTableUpdateCompanionBuilder,
+    (
+      CartTableData,
+      BaseReferences<_$AppDatabase, $CartTableTable, CartTableData>
+    ),
+    CartTableData,
+    PrefetchHooks Function()>;
 typedef $$OrderItemTableTableCreateCompanionBuilder = OrderItemTableCompanion
     Function({
   Value<int> id,
@@ -3011,23 +3582,208 @@ typedef $$OrderItemTableTableUpdateCompanionBuilder = OrderItemTableCompanion
   Value<int> quantity,
 });
 
+final class $$OrderItemTableTableReferences extends BaseReferences<
+    _$AppDatabase, $OrderItemTableTable, OrderItemTableData> {
+  $$OrderItemTableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$CartItemTableTable, List<CartItemTableData>>
+      _cartItemTableRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.cartItemTable,
+              aliasName: $_aliasNameGenerator(
+                  db.orderItemTable.id, db.cartItemTable.orderItemId));
+
+  $$CartItemTableTableProcessedTableManager get cartItemTableRefs {
+    final manager = $$CartItemTableTableTableManager($_db, $_db.cartItemTable)
+        .filter((f) => f.orderItemId.id($_item.id));
+
+    final cache = $_typedResult.readTableOrNull(_cartItemTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$OrderItemVariantSelectionTableTable,
+          List<OrderItemVariantSelectionTableData>>
+      _orderItemVariantSelectionTableRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.orderItemVariantSelectionTable,
+              aliasName: $_aliasNameGenerator(db.orderItemTable.id,
+                  db.orderItemVariantSelectionTable.orderItemId));
+
+  $$OrderItemVariantSelectionTableTableProcessedTableManager
+      get orderItemVariantSelectionTableRefs {
+    final manager = $$OrderItemVariantSelectionTableTableTableManager(
+            $_db, $_db.orderItemVariantSelectionTable)
+        .filter((f) => f.orderItemId.id($_item.id));
+
+    final cache = $_typedResult
+        .readTableOrNull(_orderItemVariantSelectionTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
+
+class $$OrderItemTableTableFilterComposer
+    extends Composer<_$AppDatabase, $OrderItemTableTable> {
+  $$OrderItemTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get quantity => $composableBuilder(
+      column: $table.quantity, builder: (column) => ColumnFilters(column));
+
+  Expression<bool> cartItemTableRefs(
+      Expression<bool> Function($$CartItemTableTableFilterComposer f) f) {
+    final $$CartItemTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.cartItemTable,
+        getReferencedColumn: (t) => t.orderItemId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$CartItemTableTableFilterComposer(
+              $db: $db,
+              $table: $db.cartItemTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<bool> orderItemVariantSelectionTableRefs(
+      Expression<bool> Function(
+              $$OrderItemVariantSelectionTableTableFilterComposer f)
+          f) {
+    final $$OrderItemVariantSelectionTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.orderItemVariantSelectionTable,
+            getReferencedColumn: (t) => t.orderItemId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$OrderItemVariantSelectionTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.orderItemVariantSelectionTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+}
+
+class $$OrderItemTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $OrderItemTableTable> {
+  $$OrderItemTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get quantity => $composableBuilder(
+      column: $table.quantity, builder: (column) => ColumnOrderings(column));
+}
+
+class $$OrderItemTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $OrderItemTableTable> {
+  $$OrderItemTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get quantity =>
+      $composableBuilder(column: $table.quantity, builder: (column) => column);
+
+  Expression<T> cartItemTableRefs<T extends Object>(
+      Expression<T> Function($$CartItemTableTableAnnotationComposer a) f) {
+    final $$CartItemTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.cartItemTable,
+        getReferencedColumn: (t) => t.orderItemId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$CartItemTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.cartItemTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<T> orderItemVariantSelectionTableRefs<T extends Object>(
+      Expression<T> Function(
+              $$OrderItemVariantSelectionTableTableAnnotationComposer a)
+          f) {
+    final $$OrderItemVariantSelectionTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.orderItemVariantSelectionTable,
+            getReferencedColumn: (t) => t.orderItemId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$OrderItemVariantSelectionTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.orderItemVariantSelectionTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+}
+
 class $$OrderItemTableTableTableManager extends RootTableManager<
     _$AppDatabase,
     $OrderItemTableTable,
     OrderItemTableData,
     $$OrderItemTableTableFilterComposer,
     $$OrderItemTableTableOrderingComposer,
+    $$OrderItemTableTableAnnotationComposer,
     $$OrderItemTableTableCreateCompanionBuilder,
-    $$OrderItemTableTableUpdateCompanionBuilder> {
+    $$OrderItemTableTableUpdateCompanionBuilder,
+    (OrderItemTableData, $$OrderItemTableTableReferences),
+    OrderItemTableData,
+    PrefetchHooks Function(
+        {bool cartItemTableRefs, bool orderItemVariantSelectionTableRefs})> {
   $$OrderItemTableTableTableManager(
       _$AppDatabase db, $OrderItemTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$OrderItemTableTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$OrderItemTableTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$OrderItemTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$OrderItemTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$OrderItemTableTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<int> quantity = const Value.absent(),
@@ -3044,70 +3800,69 @@ class $$OrderItemTableTableTableManager extends RootTableManager<
             id: id,
             quantity: quantity,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$OrderItemTableTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: (
+              {cartItemTableRefs = false,
+              orderItemVariantSelectionTableRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (cartItemTableRefs) db.cartItemTable,
+                if (orderItemVariantSelectionTableRefs)
+                  db.orderItemVariantSelectionTable
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (cartItemTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$OrderItemTableTableReferences
+                            ._cartItemTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$OrderItemTableTableReferences(db, table, p0)
+                                .cartItemTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.orderItemId == item.id),
+                        typedResults: items),
+                  if (orderItemVariantSelectionTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$OrderItemTableTableReferences
+                            ._orderItemVariantSelectionTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$OrderItemTableTableReferences(db, table, p0)
+                                .orderItemVariantSelectionTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.orderItemId == item.id),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
         ));
 }
 
-class $$OrderItemTableTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $OrderItemTableTable> {
-  $$OrderItemTableTableFilterComposer(super.$state);
-  ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<int> get quantity => $state.composableBuilder(
-      column: $state.table.quantity,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ComposableFilter cartItemTableRefs(
-      ComposableFilter Function($$CartItemTableTableFilterComposer f) f) {
-    final $$CartItemTableTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $state.db.cartItemTable,
-        getReferencedColumn: (t) => t.orderItemId,
-        builder: (joinBuilder, parentComposers) =>
-            $$CartItemTableTableFilterComposer(ComposerState($state.db,
-                $state.db.cartItemTable, joinBuilder, parentComposers)));
-    return f(composer);
-  }
-
-  ComposableFilter orderItemVariantSelectionTableRefs(
-      ComposableFilter Function(
-              $$OrderItemVariantSelectionTableTableFilterComposer f)
-          f) {
-    final $$OrderItemVariantSelectionTableTableFilterComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.id,
-            referencedTable: $state.db.orderItemVariantSelectionTable,
-            getReferencedColumn: (t) => t.orderItemId,
-            builder: (joinBuilder, parentComposers) =>
-                $$OrderItemVariantSelectionTableTableFilterComposer(
-                    ComposerState(
-                        $state.db,
-                        $state.db.orderItemVariantSelectionTable,
-                        joinBuilder,
-                        parentComposers)));
-    return f(composer);
-  }
-}
-
-class $$OrderItemTableTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $OrderItemTableTable> {
-  $$OrderItemTableTableOrderingComposer(super.$state);
-  ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<int> get quantity => $state.composableBuilder(
-      column: $state.table.quantity,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$OrderItemTableTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $OrderItemTableTable,
+    OrderItemTableData,
+    $$OrderItemTableTableFilterComposer,
+    $$OrderItemTableTableOrderingComposer,
+    $$OrderItemTableTableAnnotationComposer,
+    $$OrderItemTableTableCreateCompanionBuilder,
+    $$OrderItemTableTableUpdateCompanionBuilder,
+    (OrderItemTableData, $$OrderItemTableTableReferences),
+    OrderItemTableData,
+    PrefetchHooks Function(
+        {bool cartItemTableRefs, bool orderItemVariantSelectionTableRefs})>;
 typedef $$CartItemTableTableCreateCompanionBuilder = CartItemTableCompanion
     Function({
   Value<bool> isIncludeInOrder,
@@ -3119,22 +3874,149 @@ typedef $$CartItemTableTableUpdateCompanionBuilder = CartItemTableCompanion
   Value<int> orderItemId,
 });
 
+final class $$CartItemTableTableReferences extends BaseReferences<_$AppDatabase,
+    $CartItemTableTable, CartItemTableData> {
+  $$CartItemTableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $OrderItemTableTable _orderItemIdTable(_$AppDatabase db) =>
+      db.orderItemTable.createAlias($_aliasNameGenerator(
+          db.cartItemTable.orderItemId, db.orderItemTable.id));
+
+  $$OrderItemTableTableProcessedTableManager? get orderItemId {
+    if ($_item.orderItemId == null) return null;
+    final manager = $$OrderItemTableTableTableManager($_db, $_db.orderItemTable)
+        .filter((f) => f.id($_item.orderItemId!));
+    final item = $_typedResult.readTableOrNull(_orderItemIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$CartItemTableTableFilterComposer
+    extends Composer<_$AppDatabase, $CartItemTableTable> {
+  $$CartItemTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<bool> get isIncludeInOrder => $composableBuilder(
+      column: $table.isIncludeInOrder,
+      builder: (column) => ColumnFilters(column));
+
+  $$OrderItemTableTableFilterComposer get orderItemId {
+    final $$OrderItemTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.orderItemId,
+        referencedTable: $db.orderItemTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$OrderItemTableTableFilterComposer(
+              $db: $db,
+              $table: $db.orderItemTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$CartItemTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $CartItemTableTable> {
+  $$CartItemTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<bool> get isIncludeInOrder => $composableBuilder(
+      column: $table.isIncludeInOrder,
+      builder: (column) => ColumnOrderings(column));
+
+  $$OrderItemTableTableOrderingComposer get orderItemId {
+    final $$OrderItemTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.orderItemId,
+        referencedTable: $db.orderItemTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$OrderItemTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.orderItemTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$CartItemTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CartItemTableTable> {
+  $$CartItemTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<bool> get isIncludeInOrder => $composableBuilder(
+      column: $table.isIncludeInOrder, builder: (column) => column);
+
+  $$OrderItemTableTableAnnotationComposer get orderItemId {
+    final $$OrderItemTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.orderItemId,
+        referencedTable: $db.orderItemTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$OrderItemTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.orderItemTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
 class $$CartItemTableTableTableManager extends RootTableManager<
     _$AppDatabase,
     $CartItemTableTable,
     CartItemTableData,
     $$CartItemTableTableFilterComposer,
     $$CartItemTableTableOrderingComposer,
+    $$CartItemTableTableAnnotationComposer,
     $$CartItemTableTableCreateCompanionBuilder,
-    $$CartItemTableTableUpdateCompanionBuilder> {
+    $$CartItemTableTableUpdateCompanionBuilder,
+    (CartItemTableData, $$CartItemTableTableReferences),
+    CartItemTableData,
+    PrefetchHooks Function({bool orderItemId})> {
   $$CartItemTableTableTableManager(_$AppDatabase db, $CartItemTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$CartItemTableTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$CartItemTableTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$CartItemTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CartItemTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CartItemTableTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<bool> isIncludeInOrder = const Value.absent(),
             Value<int> orderItemId = const Value.absent(),
@@ -3151,52 +4033,62 @@ class $$CartItemTableTableTableManager extends RootTableManager<
             isIncludeInOrder: isIncludeInOrder,
             orderItemId: orderItemId,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$CartItemTableTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: ({orderItemId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (orderItemId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.orderItemId,
+                    referencedTable:
+                        $$CartItemTableTableReferences._orderItemIdTable(db),
+                    referencedColumn:
+                        $$CartItemTableTableReferences._orderItemIdTable(db).id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ));
 }
 
-class $$CartItemTableTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $CartItemTableTable> {
-  $$CartItemTableTableFilterComposer(super.$state);
-  ColumnFilters<bool> get isIncludeInOrder => $state.composableBuilder(
-      column: $state.table.isIncludeInOrder,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  $$OrderItemTableTableFilterComposer get orderItemId {
-    final $$OrderItemTableTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.orderItemId,
-        referencedTable: $state.db.orderItemTable,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder, parentComposers) =>
-            $$OrderItemTableTableFilterComposer(ComposerState($state.db,
-                $state.db.orderItemTable, joinBuilder, parentComposers)));
-    return composer;
-  }
-}
-
-class $$CartItemTableTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $CartItemTableTable> {
-  $$CartItemTableTableOrderingComposer(super.$state);
-  ColumnOrderings<bool> get isIncludeInOrder => $state.composableBuilder(
-      column: $state.table.isIncludeInOrder,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  $$OrderItemTableTableOrderingComposer get orderItemId {
-    final $$OrderItemTableTableOrderingComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.orderItemId,
-            referencedTable: $state.db.orderItemTable,
-            getReferencedColumn: (t) => t.id,
-            builder: (joinBuilder, parentComposers) =>
-                $$OrderItemTableTableOrderingComposer(ComposerState($state.db,
-                    $state.db.orderItemTable, joinBuilder, parentComposers)));
-    return composer;
-  }
-}
-
+typedef $$CartItemTableTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $CartItemTableTable,
+    CartItemTableData,
+    $$CartItemTableTableFilterComposer,
+    $$CartItemTableTableOrderingComposer,
+    $$CartItemTableTableAnnotationComposer,
+    $$CartItemTableTableCreateCompanionBuilder,
+    $$CartItemTableTableUpdateCompanionBuilder,
+    (CartItemTableData, $$CartItemTableTableReferences),
+    CartItemTableData,
+    PrefetchHooks Function({bool orderItemId})>;
 typedef $$OrderItemVariantSelectionTableTableCreateCompanionBuilder
     = OrderItemVariantSelectionTableCompanion Function({
   required int orderItemId,
@@ -3210,6 +4102,195 @@ typedef $$OrderItemVariantSelectionTableTableUpdateCompanionBuilder
   Value<int> rowid,
 });
 
+final class $$OrderItemVariantSelectionTableTableReferences
+    extends BaseReferences<_$AppDatabase, $OrderItemVariantSelectionTableTable,
+        OrderItemVariantSelectionTableData> {
+  $$OrderItemVariantSelectionTableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $OrderItemTableTable _orderItemIdTable(_$AppDatabase db) =>
+      db.orderItemTable.createAlias($_aliasNameGenerator(
+          db.orderItemVariantSelectionTable.orderItemId, db.orderItemTable.id));
+
+  $$OrderItemTableTableProcessedTableManager? get orderItemId {
+    if ($_item.orderItemId == null) return null;
+    final manager = $$OrderItemTableTableTableManager($_db, $_db.orderItemTable)
+        .filter((f) => f.id($_item.orderItemId!));
+    final item = $_typedResult.readTableOrNull(_orderItemIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static $ProductVariantTableTable _variantIdTable(_$AppDatabase db) =>
+      db.productVariantTable.createAlias($_aliasNameGenerator(
+          db.orderItemVariantSelectionTable.variantId,
+          db.productVariantTable.id));
+
+  $$ProductVariantTableTableProcessedTableManager? get variantId {
+    if ($_item.variantId == null) return null;
+    final manager =
+        $$ProductVariantTableTableTableManager($_db, $_db.productVariantTable)
+            .filter((f) => f.id($_item.variantId!));
+    final item = $_typedResult.readTableOrNull(_variantIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$OrderItemVariantSelectionTableTableFilterComposer
+    extends Composer<_$AppDatabase, $OrderItemVariantSelectionTableTable> {
+  $$OrderItemVariantSelectionTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$OrderItemTableTableFilterComposer get orderItemId {
+    final $$OrderItemTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.orderItemId,
+        referencedTable: $db.orderItemTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$OrderItemTableTableFilterComposer(
+              $db: $db,
+              $table: $db.orderItemTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$ProductVariantTableTableFilterComposer get variantId {
+    final $$ProductVariantTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.variantId,
+        referencedTable: $db.productVariantTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ProductVariantTableTableFilterComposer(
+              $db: $db,
+              $table: $db.productVariantTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$OrderItemVariantSelectionTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $OrderItemVariantSelectionTableTable> {
+  $$OrderItemVariantSelectionTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$OrderItemTableTableOrderingComposer get orderItemId {
+    final $$OrderItemTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.orderItemId,
+        referencedTable: $db.orderItemTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$OrderItemTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.orderItemTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$ProductVariantTableTableOrderingComposer get variantId {
+    final $$ProductVariantTableTableOrderingComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.variantId,
+            referencedTable: $db.productVariantTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ProductVariantTableTableOrderingComposer(
+                  $db: $db,
+                  $table: $db.productVariantTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+}
+
+class $$OrderItemVariantSelectionTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $OrderItemVariantSelectionTableTable> {
+  $$OrderItemVariantSelectionTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$OrderItemTableTableAnnotationComposer get orderItemId {
+    final $$OrderItemTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.orderItemId,
+        referencedTable: $db.orderItemTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$OrderItemTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.orderItemTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$ProductVariantTableTableAnnotationComposer get variantId {
+    final $$ProductVariantTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.variantId,
+            referencedTable: $db.productVariantTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ProductVariantTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.productVariantTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+}
+
 class $$OrderItemVariantSelectionTableTableTableManager
     extends RootTableManager<
         _$AppDatabase,
@@ -3217,19 +4298,29 @@ class $$OrderItemVariantSelectionTableTableTableManager
         OrderItemVariantSelectionTableData,
         $$OrderItemVariantSelectionTableTableFilterComposer,
         $$OrderItemVariantSelectionTableTableOrderingComposer,
+        $$OrderItemVariantSelectionTableTableAnnotationComposer,
         $$OrderItemVariantSelectionTableTableCreateCompanionBuilder,
-        $$OrderItemVariantSelectionTableTableUpdateCompanionBuilder> {
+        $$OrderItemVariantSelectionTableTableUpdateCompanionBuilder,
+        (
+          OrderItemVariantSelectionTableData,
+          $$OrderItemVariantSelectionTableTableReferences
+        ),
+        OrderItemVariantSelectionTableData,
+        PrefetchHooks Function({bool orderItemId, bool variantId})> {
   $$OrderItemVariantSelectionTableTableTableManager(
       _$AppDatabase db, $OrderItemVariantSelectionTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
+          createFilteringComposer: () =>
               $$OrderItemVariantSelectionTableTableFilterComposer(
-                  ComposerState(db, table)),
-          orderingComposer:
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
               $$OrderItemVariantSelectionTableTableOrderingComposer(
-                  ComposerState(db, table)),
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$OrderItemVariantSelectionTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> orderItemId = const Value.absent(),
             Value<int> variantId = const Value.absent(),
@@ -3250,75 +4341,83 @@ class $$OrderItemVariantSelectionTableTableTableManager
             variantId: variantId,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$OrderItemVariantSelectionTableTableReferences(
+                        db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: ({orderItemId = false, variantId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (orderItemId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.orderItemId,
+                    referencedTable:
+                        $$OrderItemVariantSelectionTableTableReferences
+                            ._orderItemIdTable(db),
+                    referencedColumn:
+                        $$OrderItemVariantSelectionTableTableReferences
+                            ._orderItemIdTable(db)
+                            .id,
+                  ) as T;
+                }
+                if (variantId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.variantId,
+                    referencedTable:
+                        $$OrderItemVariantSelectionTableTableReferences
+                            ._variantIdTable(db),
+                    referencedColumn:
+                        $$OrderItemVariantSelectionTableTableReferences
+                            ._variantIdTable(db)
+                            .id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ));
 }
 
-class $$OrderItemVariantSelectionTableTableFilterComposer
-    extends FilterComposer<_$AppDatabase,
-        $OrderItemVariantSelectionTableTable> {
-  $$OrderItemVariantSelectionTableTableFilterComposer(super.$state);
-  $$OrderItemTableTableFilterComposer get orderItemId {
-    final $$OrderItemTableTableFilterComposer composer = $state.composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.orderItemId,
-        referencedTable: $state.db.orderItemTable,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder, parentComposers) =>
-            $$OrderItemTableTableFilterComposer(ComposerState($state.db,
-                $state.db.orderItemTable, joinBuilder, parentComposers)));
-    return composer;
-  }
-
-  $$ProductVariantTableTableFilterComposer get variantId {
-    final $$ProductVariantTableTableFilterComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.variantId,
-            referencedTable: $state.db.productVariantTable,
-            getReferencedColumn: (t) => t.id,
-            builder: (joinBuilder, parentComposers) =>
-                $$ProductVariantTableTableFilterComposer(ComposerState(
-                    $state.db,
-                    $state.db.productVariantTable,
-                    joinBuilder,
-                    parentComposers)));
-    return composer;
-  }
-}
-
-class $$OrderItemVariantSelectionTableTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase,
-        $OrderItemVariantSelectionTableTable> {
-  $$OrderItemVariantSelectionTableTableOrderingComposer(super.$state);
-  $$OrderItemTableTableOrderingComposer get orderItemId {
-    final $$OrderItemTableTableOrderingComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.orderItemId,
-            referencedTable: $state.db.orderItemTable,
-            getReferencedColumn: (t) => t.id,
-            builder: (joinBuilder, parentComposers) =>
-                $$OrderItemTableTableOrderingComposer(ComposerState($state.db,
-                    $state.db.orderItemTable, joinBuilder, parentComposers)));
-    return composer;
-  }
-
-  $$ProductVariantTableTableOrderingComposer get variantId {
-    final $$ProductVariantTableTableOrderingComposer composer =
-        $state.composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.variantId,
-            referencedTable: $state.db.productVariantTable,
-            getReferencedColumn: (t) => t.id,
-            builder: (joinBuilder, parentComposers) =>
-                $$ProductVariantTableTableOrderingComposer(ComposerState(
-                    $state.db,
-                    $state.db.productVariantTable,
-                    joinBuilder,
-                    parentComposers)));
-    return composer;
-  }
-}
+typedef $$OrderItemVariantSelectionTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AppDatabase,
+        $OrderItemVariantSelectionTableTable,
+        OrderItemVariantSelectionTableData,
+        $$OrderItemVariantSelectionTableTableFilterComposer,
+        $$OrderItemVariantSelectionTableTableOrderingComposer,
+        $$OrderItemVariantSelectionTableTableAnnotationComposer,
+        $$OrderItemVariantSelectionTableTableCreateCompanionBuilder,
+        $$OrderItemVariantSelectionTableTableUpdateCompanionBuilder,
+        (
+          OrderItemVariantSelectionTableData,
+          $$OrderItemVariantSelectionTableTableReferences
+        ),
+        OrderItemVariantSelectionTableData,
+        PrefetchHooks Function({bool orderItemId, bool variantId})>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -3346,154 +4445,22 @@ class $AppDatabaseManager {
 // RiverpodGenerator
 // **************************************************************************
 
-String _$driftHash() => r'9cef6c38693edc053e164e578a2f62f384244eed';
+String _$driftAppDatabaseHash() => r'14021f154c2044e10338519d3a69e6069779ba73';
 
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-/// See also [drift].
-@ProviderFor(drift)
-const driftProvider = DriftFamily();
-
-/// See also [drift].
-class DriftFamily extends Family<AsyncValue<AppDatabase>> {
-  /// See also [drift].
-  const DriftFamily();
-
-  /// See also [drift].
-  DriftProvider call({
-    String dbName = 'default',
-  }) {
-    return DriftProvider(
-      dbName: dbName,
-    );
-  }
-
-  @override
-  DriftProvider getProviderOverride(
-    covariant DriftProvider provider,
-  ) {
-    return call(
-      dbName: provider.dbName,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'driftProvider';
-}
-
-/// See also [drift].
-class DriftProvider extends FutureProvider<AppDatabase> {
-  /// See also [drift].
-  DriftProvider({
-    String dbName = 'default',
-  }) : this._internal(
-          (ref) => drift(
-            ref as DriftRef,
-            dbName: dbName,
-          ),
-          from: driftProvider,
-          name: r'driftProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$driftHash,
-          dependencies: DriftFamily._dependencies,
-          allTransitiveDependencies: DriftFamily._allTransitiveDependencies,
-          dbName: dbName,
-        );
-
-  DriftProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.dbName,
-  }) : super.internal();
-
-  final String dbName;
-
-  @override
-  Override overrideWith(
-    FutureOr<AppDatabase> Function(DriftRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: DriftProvider._internal(
-        (ref) => create(ref as DriftRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        dbName: dbName,
-      ),
-    );
-  }
-
-  @override
-  FutureProviderElement<AppDatabase> createElement() {
-    return _DriftProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is DriftProvider && other.dbName == dbName;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, dbName.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
+/// See also [driftAppDatabase].
+@ProviderFor(driftAppDatabase)
+final driftAppDatabaseProvider = Provider<AppDatabase>.internal(
+  driftAppDatabase,
+  name: r'driftAppDatabaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$driftAppDatabaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin DriftRef on FutureProviderRef<AppDatabase> {
-  /// The parameter `dbName` of this provider.
-  String get dbName;
-}
-
-class _DriftProviderElement extends FutureProviderElement<AppDatabase>
-    with DriftRef {
-  _DriftProviderElement(super.provider);
-
-  @override
-  String get dbName => (origin as DriftProvider).dbName;
-}
+typedef DriftAppDatabaseRef = ProviderRef<AppDatabase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
