@@ -7,11 +7,19 @@ part 'env_provider.g.dart';
 
 @Riverpod(keepAlive: true)
 EnvData env(EnvRef ref) {
-  final envData = EnvData.fromEnviroment();
+  return EnvData.fromEnviroment();
+}
+
+/// This provider prints the current environment variables to the console.
+///
+/// We must use a separate provider for this because if we use
+/// ref.watch(loggerProvider) from the [envProvider] itself, it will cause a
+/// circular dependency and Riverpod does not allow that.
+@Riverpod(keepAlive: true)
+void envPrintWatcher(EnvPrintWatcherRef ref) {
+  final envData = ref.watch(envProvider);
   final logger = ref.watch(loggerProvider);
 
   debugPrint('Environment variables loaded');
   logger.i(envData.toJson());
-
-  return envData;
 }

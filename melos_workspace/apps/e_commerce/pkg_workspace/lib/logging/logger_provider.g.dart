@@ -25,5 +25,19 @@ final loggerProvider = Provider<Logger>.internal(
 );
 
 typedef LoggerRef = ProviderRef<Logger>;
+String _$errorLoggerHash() => r'b74f6e0b188fa5ffc7282c5d13ffa58613c5c0a9';
+
+/// See also [errorLogger].
+@ProviderFor(errorLogger)
+final errorLoggerProvider = Provider<ErrorLogger>.internal(
+  errorLogger,
+  name: r'errorLoggerProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$errorLoggerHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef ErrorLoggerRef = ProviderRef<ErrorLogger>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

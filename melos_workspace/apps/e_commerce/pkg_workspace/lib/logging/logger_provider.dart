@@ -1,4 +1,5 @@
 import 'package:e_commerce/backend/env/env_provider.dart';
+import 'package:e_commerce/logging/error_loggers/error_logger.dart';
 import 'package:e_commerce/logging/log_outputs/level_console_output.dart';
 import 'package:e_commerce/logging/printers/lower_level_hybird_printer.dart';
 import 'package:logger/logger.dart';
@@ -35,4 +36,9 @@ Logger logger(LoggerRef ref) {
 
   ref.onDispose(logger.close);
   return logger;
+}
+
+@Riverpod(keepAlive: true)
+ErrorLogger errorLogger(ErrorLoggerRef ref) {
+  return ErrorLogger(ref.watch(loggerProvider));
 }
