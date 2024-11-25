@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:e_commerce/features/products/data/product_repository.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'product_providers.g.dart';
@@ -46,10 +47,7 @@ class ProductFuture extends _$ProductFuture {
 /// A provider that fetches a list of products from the repository, and then
 /// returns a product from that list.
 @riverpod
-Future<Product> productFromListFuture(
-  ProductFromListFutureRef ref,
-  int id,
-) async {
+Future<Product> productFromListFuture(Ref ref, int id) async {
   final pageId = ProductRepository.getProductPageIndex(id);
 
   final questionPage = await ref.watch(
@@ -61,10 +59,7 @@ Future<Product> productFromListFuture(
 
 /// A provider that fetches a list of products from the repository.
 @riverpod
-Future<List<Product>> productsListFuture(
-  ProductsListFutureRef ref,
-  int pageId,
-) async {
+Future<List<Product>> productsListFuture(Ref ref, int pageId) async {
   final productRepository = ref.watch(productRepositoryProvider);
 
   final CancelToken cancelToken = CancelToken();

@@ -3,6 +3,7 @@ import 'package:e_commerce/backend/cache/client_cache_manager_provider.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/products.dart';
 import 'package:e_commerce/networking/dio_provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'product_repository.g.dart';
@@ -78,7 +79,7 @@ class ProductRepository {
 }
 
 @riverpod
-ProductRepository productRepository(ProductRepositoryRef ref) {
+ProductRepository productRepository(Ref ref) {
   final dio = ref.watch(dummyJsonDioProvider);
   final cacheManager = ref.watch(clientCacheManagerProvider).requireValue;
 

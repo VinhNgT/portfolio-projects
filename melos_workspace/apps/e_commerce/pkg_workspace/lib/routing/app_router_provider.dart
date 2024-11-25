@@ -2,6 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce/routing/app_router_provider.gr.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_router_provider.g.dart';
@@ -9,7 +10,7 @@ part 'app_router_provider.g.dart';
 @AutoRouterConfig(replaceInRouteName: 'Page|Screen|Sheet,Route')
 class AppRouter extends $AppRouter {
   AppRouter(this.ref) : super();
-  final AppRouterRef ref;
+  final Ref ref;
 
   @override
   List<AutoRoute> get routes => [
@@ -70,6 +71,6 @@ extension _TransitionX on AppRouter {
 }
 
 @Riverpod(keepAlive: true)
-Raw<AppRouter> appRouter(AppRouterRef ref) {
+Raw<AppRouter> appRouter(Ref ref) {
   return AppRouter(ref);
 }

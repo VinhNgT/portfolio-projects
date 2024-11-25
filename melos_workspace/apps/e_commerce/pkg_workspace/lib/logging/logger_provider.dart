@@ -2,6 +2,7 @@ import 'package:e_commerce/backend/env/env_provider.dart';
 import 'package:e_commerce/logging/error_loggers/error_logger.dart';
 import 'package:e_commerce/logging/log_outputs/level_console_output.dart';
 import 'package:e_commerce/logging/printers/lower_level_hybird_printer.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -12,7 +13,7 @@ part 'logger_provider.g.dart';
 /// All errors, exceptions, and events in the app should be logged using this
 /// [Logger] instance.
 @Riverpod(keepAlive: true)
-Logger logger(LoggerRef ref) {
+Logger logger(Ref ref) {
   final logLevel = ref.watch(envProvider).loggerLevel;
 
   final logger = Logger(
@@ -39,6 +40,6 @@ Logger logger(LoggerRef ref) {
 }
 
 @Riverpod(keepAlive: true)
-ErrorLogger errorLogger(ErrorLoggerRef ref) {
+ErrorLogger errorLogger(Ref ref) {
   return ErrorLogger(ref.watch(loggerProvider));
 }

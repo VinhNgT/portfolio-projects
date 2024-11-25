@@ -34,7 +34,7 @@ class ProductImagesCarousel extends HookConsumerWidget {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(kSize_20),
-                  color: context.colorScheme.surfaceVariant
+                  color: context.colorScheme.surfaceContainerHighest
                       .withOpacity(kGoldenRatioDivide_1),
                 ),
                 child: Center(

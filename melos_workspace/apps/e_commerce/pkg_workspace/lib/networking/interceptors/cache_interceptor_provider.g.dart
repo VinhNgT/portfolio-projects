@@ -7,7 +7,7 @@ part of 'cache_interceptor_provider.dart';
 // **************************************************************************
 
 String _$dioCacheInterceptorHash() =>
-    r'650fa7126b29c09ffd319aa1a544806b120cdf12';
+    r'ca7822df9c7230dacc01b6cc2ef33d311e22a4b1';
 
 /// See also [dioCacheInterceptor].
 @ProviderFor(dioCacheInterceptor)
@@ -22,6 +22,8 @@ final dioCacheInterceptorProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef DioCacheInterceptorRef = FutureProviderRef<DioCacheInterceptor>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

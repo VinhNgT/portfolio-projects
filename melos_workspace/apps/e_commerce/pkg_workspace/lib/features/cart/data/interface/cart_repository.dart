@@ -4,6 +4,7 @@ import 'package:e_commerce/features/cart/domain/cart.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:e_commerce/utils/typedefs.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'cart_repository.g.dart';
@@ -35,7 +36,7 @@ abstract interface class CartRepository {
 }
 
 @Riverpod(keepAlive: true)
-CartRepository cartRepository(CartRepositoryRef ref) {
+CartRepository cartRepository(Ref ref) {
   final db = ref.watch(driftProvider()).requireValue;
   return DriftCartRepository(db);
 }

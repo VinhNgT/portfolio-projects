@@ -3346,7 +3346,7 @@ class $AppDatabaseManager {
 // RiverpodGenerator
 // **************************************************************************
 
-String _$driftHash() => r'5a0f768a3dbd203c5b71b64f608e83f29a6e4dc8';
+String _$driftHash() => r'9cef6c38693edc053e164e578a2f62f384244eed';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -3481,6 +3481,8 @@ class DriftProvider extends FutureProvider<AppDatabase> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin DriftRef on FutureProviderRef<AppDatabase> {
   /// The parameter `dbName` of this provider.
   String get dbName;
@@ -3494,4 +3496,4 @@ class _DriftProviderElement extends FutureProviderElement<AppDatabase>
   String get dbName => (origin as DriftProvider).dbName;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

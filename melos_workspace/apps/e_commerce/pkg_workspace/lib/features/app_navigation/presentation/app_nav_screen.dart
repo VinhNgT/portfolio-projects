@@ -52,7 +52,7 @@ class _AutoRouteTabsScaffold extends HookConsumerWidget {
 
     return PopScope(
       canPop: currentTabIndex == popTabIndex,
-      onPopInvoked: (_) {
+      onPopInvokedWithResult: (didPop, result) {
         if (currentTabIndex != popTabIndex) {
           tabsRouter.setActiveIndex(popTabIndex);
         }

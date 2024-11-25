@@ -1,12 +1,13 @@
 import 'package:e_commerce/backend/env/domain/env_data.dart';
 import 'package:e_commerce/logging/logger_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'env_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-EnvData env(EnvRef ref) {
+EnvData env(Ref ref) {
   return EnvData.fromEnviroment();
 }
 
@@ -16,7 +17,7 @@ EnvData env(EnvRef ref) {
 /// ref.watch(loggerProvider) from the [envProvider] itself, it will cause a
 /// circular dependency and Riverpod does not allow that.
 @Riverpod(keepAlive: true)
-void envPrintWatcher(EnvPrintWatcherRef ref) {
+void envPrintWatcher(Ref ref) {
   final envData = ref.watch(envProvider);
   final logger = ref.watch(loggerProvider);
 

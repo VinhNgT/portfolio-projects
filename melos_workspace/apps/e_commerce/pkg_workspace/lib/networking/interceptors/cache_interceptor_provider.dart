@@ -3,15 +3,14 @@ import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_db_store/dio_cache_interceptor_db_store.dart';
 import 'package:e_commerce/backend/cache/domain/app_cache_config.dart';
 import 'package:e_commerce/backend/env/env_provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'cache_interceptor_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-FutureOr<DioCacheInterceptor> dioCacheInterceptor(
-  DioCacheInterceptorRef ref,
-) async {
+FutureOr<DioCacheInterceptor> dioCacheInterceptor(Ref ref) async {
   final appCacheConfig =
       ref.watch(envProvider.select((env) => env.appCacheConfig));
 

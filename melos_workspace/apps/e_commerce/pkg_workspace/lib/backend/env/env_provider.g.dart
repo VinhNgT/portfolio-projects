@@ -6,7 +6,7 @@ part of 'env_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$envHash() => r'5a6950318d433b32e9476d4bea7e0933e1c3d627';
+String _$envHash() => r'08f17969e249405c1682087e6c8868fbcd6e531e';
 
 /// See also [env].
 @ProviderFor(env)
@@ -19,8 +19,10 @@ final envProvider = Provider<EnvData>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef EnvRef = ProviderRef<EnvData>;
-String _$envPrintWatcherHash() => r'008be86fe7187df1ec23d58bee79d39f8676adac';
+String _$envPrintWatcherHash() => r'6e25016a6bf17d580ee11e98c8252671e96ccbd8';
 
 /// This provider prints the current environment variables to the console.
 ///
@@ -40,6 +42,8 @@ final envPrintWatcherProvider = Provider<void>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef EnvPrintWatcherRef = ProviderRef<void>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

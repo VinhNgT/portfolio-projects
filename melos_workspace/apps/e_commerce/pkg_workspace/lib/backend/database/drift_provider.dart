@@ -11,6 +11,7 @@ import 'package:e_commerce/features/products/data/daos/product_table_dao.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'drift_provider.g.dart';
@@ -61,7 +62,7 @@ class AppDatabase extends _$AppDatabase {
 }
 
 @Riverpod(keepAlive: true)
-Future<AppDatabase> drift(DriftRef ref, {String dbName = 'default'}) async {
+Future<AppDatabase> drift(Ref ref, {String dbName = 'default'}) async {
   // final dbPath = (await getApplicationDocumentsDirectory()).path;
   // return AppDatabase(dbfile: File('$dbPath/$dbName.db'));
   return AppDatabase.inMemory();

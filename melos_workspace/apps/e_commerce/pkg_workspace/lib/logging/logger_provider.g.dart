@@ -6,7 +6,7 @@ part of 'logger_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$loggerHash() => r'f0a3aba9b67e3482d2276906415db29e1824d987';
+String _$loggerHash() => r'12291e563db678d77ff2ce513c0f8e3a320c282c';
 
 /// Provides an instance of [Logger].
 ///
@@ -24,8 +24,10 @@ final loggerProvider = Provider<Logger>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef LoggerRef = ProviderRef<Logger>;
-String _$errorLoggerHash() => r'b74f6e0b188fa5ffc7282c5d13ffa58613c5c0a9';
+String _$errorLoggerHash() => r'5832e889e8b607af55da701751b59bf526167ee8';
 
 /// See also [errorLogger].
 @ProviderFor(errorLogger)
@@ -38,6 +40,8 @@ final errorLoggerProvider = Provider<ErrorLogger>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef ErrorLoggerRef = ProviderRef<ErrorLogger>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

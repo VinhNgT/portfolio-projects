@@ -7,7 +7,7 @@ part of 'client_cache_manager_provider.dart';
 // **************************************************************************
 
 String _$clientCacheManagerHash() =>
-    r'af43f9fa18ac3e4cf9c2ee73b5c15c01891b4656';
+    r'de0c1ffd1d1cb2d3f17c5329e1c66cc0266d34f4';
 
 /// Provides a [ClientCacheManager] instance.
 ///
@@ -23,6 +23,8 @@ final clientCacheManagerProvider = FutureProvider<ClientCacheManager>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef ClientCacheManagerRef = FutureProviderRef<ClientCacheManager>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

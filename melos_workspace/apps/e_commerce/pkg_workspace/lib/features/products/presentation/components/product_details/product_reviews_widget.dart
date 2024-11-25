@@ -139,7 +139,7 @@ class _ReviewPictures extends HookConsumerWidget {
             width: imageSize,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kSize_4),
-              color: context.colorScheme.surfaceVariant
+              color: context.colorScheme.surfaceContainerHighest
                   .withOpacity(kGoldenRatioDivide_1),
             ),
             child: Center(
@@ -202,10 +202,7 @@ class _ReviewContentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: (context.theme.cardTheme.shape as RoundedRectangleBorder).copyWith(
-        side: BorderSide(color: context.colorScheme.outlineVariant),
-      ),
+    return Card.outlined(
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: kSize_12,

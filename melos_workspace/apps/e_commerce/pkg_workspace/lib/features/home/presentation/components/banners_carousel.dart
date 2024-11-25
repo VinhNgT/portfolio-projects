@@ -22,11 +22,14 @@ class BannersCarousel extends HookConsumerWidget {
           enableInfiniteScroll: true,
           physics: const FastPageViewScrollPhysics(),
           slideIndicator: CircularSlideIndicator(
-            currentIndicatorColor: context.theme.colorScheme.onSurfaceVariant,
-            indicatorBackgroundColor: context.theme.colorScheme.onSurfaceVariant
-                .withOpacity(kGoldenRatioDivide_3),
-            indicatorRadius: _indicatorRadius,
-            itemSpacing: kSize_12,
+            slideIndicatorOptions: SlideIndicatorOptions(
+              currentIndicatorColor: context.theme.colorScheme.onSurfaceVariant,
+              indicatorBackgroundColor: context
+                  .theme.colorScheme.onSurfaceVariant
+                  .withOpacity(kGoldenRatioDivide_3),
+              indicatorRadius: _indicatorRadius,
+              itemSpacing: kSize_12,
+            ),
           ),
           viewportFraction: 1.0,
           showIndicator: true,

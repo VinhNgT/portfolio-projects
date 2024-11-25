@@ -5,6 +5,7 @@ import 'package:e_commerce/backend/cache/cached_storage.dart';
 import 'package:e_commerce/backend/cache/domain/app_cache_config.dart';
 import 'package:e_commerce/backend/env/env_provider.dart';
 import 'package:e_commerce/backend/utils/object_serializer.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'client_cache_manager_provider.g.dart';
@@ -101,7 +102,7 @@ class ClientCacheManager {
 
 /// Provides a [ClientCacheManager] instance.
 @Riverpod(keepAlive: true)
-Future<ClientCacheManager> clientCacheManager(ClientCacheManagerRef ref) async {
+Future<ClientCacheManager> clientCacheManager(Ref ref) async {
   // Grab the cache configuration from the environment variables.
   final AppCacheConfig cacheConfig = ref.watch(envProvider).appCacheConfig;
 

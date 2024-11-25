@@ -73,7 +73,9 @@ class PrototypeSize extends HookConsumerWidget {
         );
 
         Future.microtask(() {
-          Overlay.of(context).insert(overlaysEntry);
+          if (context.mounted) {
+            Overlay.of(context).insert(overlaysEntry);
+          }
         });
 
         return overlaysEntry.remove;
@@ -104,7 +106,11 @@ class _ReportSizeWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Future.microtask(() => onSizeChangedNotifier.value = context.size);
+    Future.microtask(() {
+      if (context.mounted) {
+        onSizeChangedNotifier.value = context.size;
+      }
+    });
 
     return WidgetResizeObserver(
       onResized: (oldSize, newSize) {

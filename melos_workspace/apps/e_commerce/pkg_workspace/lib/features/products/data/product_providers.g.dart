@@ -7,7 +7,7 @@ part of 'product_providers.dart';
 // **************************************************************************
 
 String _$productFromListFutureHash() =>
-    r'83d32169c01106eecab4547ac2f8473bebad4408';
+    r'0b371a31420e23295c23ac1bc7d012d6f6ef6443';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -161,6 +161,8 @@ class ProductFromListFutureProvider extends AutoDisposeFutureProvider<Product> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin ProductFromListFutureRef on AutoDisposeFutureProviderRef<Product> {
   /// The parameter `id` of this provider.
   int get id;
@@ -176,7 +178,7 @@ class _ProductFromListFutureProviderElement
 }
 
 String _$productsListFutureHash() =>
-    r'556e554785b2fd309615cc1dbd31ece4d2d0ec27';
+    r'baf05d1584138733486f12a6c7948da53abd1d8c';
 
 /// A provider that fetches a list of products from the repository.
 ///
@@ -304,6 +306,8 @@ class ProductsListFutureProvider
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin ProductsListFutureRef on AutoDisposeFutureProviderRef<List<Product>> {
   /// The parameter `pageId` of this provider.
   int get pageId;
@@ -460,6 +464,8 @@ class ProductFutureProvider
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin ProductFutureRef on AutoDisposeAsyncNotifierProviderRef<Product> {
   /// The parameter `id` of this provider.
   int get id;
@@ -474,4 +480,4 @@ class _ProductFutureProviderElement
   int get id => (origin as ProductFutureProvider).id;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

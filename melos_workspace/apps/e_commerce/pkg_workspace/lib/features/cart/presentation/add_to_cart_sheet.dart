@@ -326,7 +326,8 @@ class _QuantitySelectionContainer extends HookConsumerWidget {
                     const Gap(kSize_4),
                     ContainerBadge(
                       labelText: 'Giảm giá 5% khi mua 2 chiếc trở lên',
-                      containerColor: context.colorScheme.surfaceVariant,
+                      containerColor:
+                          context.colorScheme.surfaceContainerHighest,
                       onContainerColor: context.colorScheme.onSurfaceVariant,
                     ),
                   ],

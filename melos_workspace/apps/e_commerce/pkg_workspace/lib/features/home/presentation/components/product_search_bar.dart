@@ -33,13 +33,13 @@ class ProductSearchBar extends HookConsumerWidget {
             final shadowColor = scrollController.hasClients &&
                     scrollController.offset > showShadowOffset
                 ? context.theme.searchBarTheme.shadowColor
-                : const MaterialStatePropertyAll(Colors.transparent);
+                : const WidgetStatePropertyAll(Colors.transparent);
 
             return SearchBar(
               focusNode: searchBarFocusNode,
               controller: controller,
               shadowColor: shadowColor,
-              padding: const MaterialStatePropertyAll<EdgeInsets>(
+              padding: const WidgetStatePropertyAll<EdgeInsets>(
                 EdgeInsets.symmetric(horizontal: kSize_16),
               ),
               onTap: () {
