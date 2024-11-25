@@ -23,67 +23,6 @@ import 'package:e_commerce/features/products/presentation/product_details_screen
     as _i6;
 import 'package:flutter/material.dart' as _i8;
 
-abstract class $AppRouter extends _i7.RootStackRouter {
-  $AppRouter({super.navigatorKey});
-
-  @override
-  final Map<String, _i7.PageFactory> pagesMap = {
-    AddToCartRoute.name: (routeData) {
-      final args = routeData.argsAs<AddToCartRouteArgs>(
-          orElse: () => const AddToCartRouteArgs());
-      return _i7.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: _i1.AddToCartSheet(
-          key: args.key,
-          product: args.product,
-          initialCartItem: args.initialCartItem,
-          onConfirm: args.onConfirm,
-        ),
-      );
-    },
-    AppNavRoute.name: (routeData) {
-      return _i7.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i2.AppNavScreen(),
-      );
-    },
-    CartRoute.name: (routeData) {
-      return _i7.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i3.CartScreen(),
-      );
-    },
-    CartTabNavRoute.name: (routeData) {
-      return _i7.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i4.CartTabNavScreen(),
-      );
-    },
-    HomeRoute.name: (routeData) {
-      return _i7.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i5.HomeScreen(),
-      );
-    },
-    HomeTabNavRoute.name: (routeData) {
-      return _i7.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i4.HomeTabNavScreen(),
-      );
-    },
-    ProductDetailsRoute.name: (routeData) {
-      final args = routeData.argsAs<ProductDetailsRouteArgs>();
-      return _i7.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: _i6.ProductDetailsScreen(
-          key: args.key,
-          productId: args.productId,
-        ),
-      );
-    },
-  };
-}
-
 /// generated route for
 /// [_i1.AddToCartSheet]
 class AddToCartRoute extends _i7.PageRouteInfo<AddToCartRouteArgs> {
@@ -91,7 +30,7 @@ class AddToCartRoute extends _i7.PageRouteInfo<AddToCartRouteArgs> {
     _i8.Key? key,
     _i9.Product? product,
     _i10.CartItem? initialCartItem,
-    void Function(_i10.CartItem)? onConfirm,
+    _i1.AddToCartSheetCallback? onConfirm,
     List<_i7.PageRouteInfo>? children,
   }) : super(
           AddToCartRoute.name,
@@ -106,8 +45,19 @@ class AddToCartRoute extends _i7.PageRouteInfo<AddToCartRouteArgs> {
 
   static const String name = 'AddToCartRoute';
 
-  static const _i7.PageInfo<AddToCartRouteArgs> page =
-      _i7.PageInfo<AddToCartRouteArgs>(name);
+  static _i7.PageInfo page = _i7.PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<AddToCartRouteArgs>(
+          orElse: () => const AddToCartRouteArgs());
+      return _i1.AddToCartSheet(
+        key: args.key,
+        product: args.product,
+        initialCartItem: args.initialCartItem,
+        onConfirm: args.onConfirm,
+      );
+    },
+  );
 }
 
 class AddToCartRouteArgs {
@@ -124,7 +74,7 @@ class AddToCartRouteArgs {
 
   final _i10.CartItem? initialCartItem;
 
-  final void Function(_i10.CartItem)? onConfirm;
+  final _i1.AddToCartSheetCallback? onConfirm;
 
   @override
   String toString() {
@@ -143,7 +93,12 @@ class AppNavRoute extends _i7.PageRouteInfo<void> {
 
   static const String name = 'AppNavRoute';
 
-  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
+  static _i7.PageInfo page = _i7.PageInfo(
+    name,
+    builder: (data) {
+      return const _i2.AppNavScreen();
+    },
+  );
 }
 
 /// generated route for
@@ -157,7 +112,12 @@ class CartRoute extends _i7.PageRouteInfo<void> {
 
   static const String name = 'CartRoute';
 
-  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
+  static _i7.PageInfo page = _i7.PageInfo(
+    name,
+    builder: (data) {
+      return const _i3.CartScreen();
+    },
+  );
 }
 
 /// generated route for
@@ -171,7 +131,12 @@ class CartTabNavRoute extends _i7.PageRouteInfo<void> {
 
   static const String name = 'CartTabNavRoute';
 
-  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
+  static _i7.PageInfo page = _i7.PageInfo(
+    name,
+    builder: (data) {
+      return const _i4.CartTabNavScreen();
+    },
+  );
 }
 
 /// generated route for
@@ -185,7 +150,12 @@ class HomeRoute extends _i7.PageRouteInfo<void> {
 
   static const String name = 'HomeRoute';
 
-  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
+  static _i7.PageInfo page = _i7.PageInfo(
+    name,
+    builder: (data) {
+      return const _i5.HomeScreen();
+    },
+  );
 }
 
 /// generated route for
@@ -199,7 +169,12 @@ class HomeTabNavRoute extends _i7.PageRouteInfo<void> {
 
   static const String name = 'HomeTabNavRoute';
 
-  static const _i7.PageInfo<void> page = _i7.PageInfo<void>(name);
+  static _i7.PageInfo page = _i7.PageInfo(
+    name,
+    builder: (data) {
+      return const _i4.HomeTabNavScreen();
+    },
+  );
 }
 
 /// generated route for
@@ -220,8 +195,16 @@ class ProductDetailsRoute extends _i7.PageRouteInfo<ProductDetailsRouteArgs> {
 
   static const String name = 'ProductDetailsRoute';
 
-  static const _i7.PageInfo<ProductDetailsRouteArgs> page =
-      _i7.PageInfo<ProductDetailsRouteArgs>(name);
+  static _i7.PageInfo page = _i7.PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<ProductDetailsRouteArgs>();
+      return _i6.ProductDetailsScreen(
+        key: args.key,
+        productId: args.productId,
+      );
+    },
+  );
 }
 
 class ProductDetailsRouteArgs {
