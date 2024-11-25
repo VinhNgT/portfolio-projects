@@ -18,7 +18,7 @@ class BannersCarousel extends HookConsumerWidget {
     return LayoutBuilder(
       builder: (context, constraints) => FlutterCarousel.builder(
         itemCount: 12,
-        options: CarouselOptions(
+        options: FlutterCarouselOptions(
           enableInfiniteScroll: true,
           physics: const FastPageViewScrollPhysics(),
           slideIndicator: CircularSlideIndicator(

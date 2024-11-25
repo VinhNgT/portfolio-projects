@@ -21,7 +21,7 @@ class ProductImagesCarousel extends HookConsumerWidget {
       alignment: Alignment.bottomRight,
       children: [
         FlutterCarousel.builder(
-          options: CarouselOptions(
+          options: FlutterCarouselOptions(
             physics: const FastPageViewScrollPhysics(),
             viewportFraction: 1.0,
             showIndicator: false,
