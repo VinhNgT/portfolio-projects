@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 
-class NavigationBarTextStyle extends WidgetStateProperty<TextStyle?> {
-  NavigationBarTextStyle({
-    required this.selectedTextStyle,
-    required this.unselectedTextStyle,
-  });
+class BoldSelectedNavigationBarTextStyle
+    extends WidgetStateProperty<TextStyle?> {
+  BoldSelectedNavigationBarTextStyle(this.theme);
 
-  final TextStyle selectedTextStyle;
-  final TextStyle unselectedTextStyle;
+  final ThemeData theme;
 
   @override
   TextStyle? resolve(Set<WidgetState> states) {
+    final defaultResolved =
+        theme.navigationBarTheme.labelTextStyle?.resolve(states);
+
     if (states.contains(WidgetState.selected)) {
-      return selectedTextStyle;
+      return defaultResolved?.copyWith(fontWeight: FontWeight.w500);
     }
-    return unselectedTextStyle;
+
+    return defaultResolved;
   }
 }
