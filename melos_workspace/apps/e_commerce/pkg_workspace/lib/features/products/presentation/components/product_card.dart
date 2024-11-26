@@ -5,6 +5,7 @@ import 'package:e_commerce/constants/golden_ratios.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/presentation/components/rating_stars.dart';
 import 'package:e_commerce/routing/app_router_provider.gr.dart';
+import 'package:e_commerce/theme/theme_utils.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -26,8 +27,10 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card.outlined(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(kSize_12),
         side: BorderSide(color: context.colorScheme.outlineVariant),
+        borderRadius: BorderRadius.all(
+          Radius.circular(ThemeUtils.getCardBorderRadius(context)),
+        ),
       ),
       child: InkWell(
         onTap: () {

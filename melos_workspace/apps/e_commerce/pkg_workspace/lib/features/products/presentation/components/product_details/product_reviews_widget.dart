@@ -4,6 +4,7 @@ import 'package:e_commerce/constants/golden_ratios.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_review.dart';
 import 'package:e_commerce/features/products/presentation/components/rating_stars.dart';
+import 'package:e_commerce/theme/theme_utils.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:e_commerce/utils/date_formatter.dart';
 import 'package:flutter/material.dart';
@@ -203,6 +204,12 @@ class _ReviewContentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card.outlined(
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: context.colorScheme.outlineVariant),
+        borderRadius: BorderRadius.all(
+          Radius.circular(ThemeUtils.getCardBorderRadius(context)),
+        ),
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: kSize_12,

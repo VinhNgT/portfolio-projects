@@ -7,6 +7,7 @@ import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/routing/app_router_provider.gr.dart';
+import 'package:e_commerce/theme/theme_utils.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:e_commerce/utils/list_extention.dart';
 import 'package:flutter/material.dart';
@@ -30,8 +31,10 @@ class CartItemWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Card.outlined(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(kSize_12),
         side: BorderSide(color: context.colorScheme.outlineVariant),
+        borderRadius: BorderRadius.all(
+          Radius.circular(ThemeUtils.getCardBorderRadius(context)),
+        ),
       ),
       child: Stack(
         alignment: Alignment.topRight,
