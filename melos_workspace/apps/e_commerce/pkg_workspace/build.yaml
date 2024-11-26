@@ -13,6 +13,15 @@ targets:
             fromMap: fromJson
             toMap: toJson
 
+      drift_dev:
+        generate_for:
+          include:
+            - 'lib/backend/database/**.dart'
+            - 'lib/**/domain/**.dart'
+            - 'lib/**/daos/**.dart'
+            - 'lib/**/dtos/**.dart'
+            - 'lib/**/daos.dart'
+
       riverpod_generator:
         generate_for:
           include:
