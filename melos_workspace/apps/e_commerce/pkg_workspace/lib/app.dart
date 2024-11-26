@@ -16,7 +16,7 @@ class MyApp extends HookConsumerWidget {
     return MaterialApp.router(
       title: 'Shopey',
       debugShowCheckedModeBanner: false,
-      theme: FlexColorTheme.light,
+      theme: AppTheme.light,
       builder: (context, child) {
         return AnimatedTheme(
           /// We use CustomAppTheme in this builder instead of calling

@@ -1,0 +1,175 @@
+{
+  "playground_data": "Themes Playground data exported 26.11.2024 17:07:17",
+  "playground_version": "8.0.1",
+  "adaptiveAppBarScrollUnderOffDark": {
+    "dart_type": "enum_adaptive_response",
+    "value": "excludeWebAndroidFuchsia"
+  },
+  "adaptiveAppBarScrollUnderOffLight": {
+    "dart_type": "enum_adaptive_response",
+    "value": "excludeWebAndroidFuchsia"
+  },
+  "adaptiveElevationShadowsBackDark": {
+    "dart_type": "enum_adaptive_response",
+    "value": "all"
+  },
+  "adaptiveElevationShadowsBackLight": {
+    "dart_type": "enum_adaptive_response",
+    "value": "excludeWebAndroidFuchsia"
+  },
+  "adaptiveRadius": {
+    "dart_type": "enum_adaptive_response",
+    "value": "excludeWebAndroidFuchsia"
+  },
+  "appBarElevationDark": 0.0,
+  "appBarElevationLight": 0.0,
+  "appBarScrolledUnderElevationDark": 3.0,
+  "appBarScrolledUnderElevationLight": 1.0,
+  "appBarStyleDark": {
+    "dart_type": "enum_flex_appbar_style",
+    "value": "background"
+  },
+  "appBarStyleLight": {
+    "dart_type": "enum_flex_appbar_style",
+    "value": "background"
+  },
+  "blendLevelDark": 2,
+  "blendLevelLight": 1,
+  "blendOnLevelDark": 8,
+  "blendOnLevelLight": 6,
+  "bottomAppBarElevationDark": 2.0,
+  "bottomAppBarElevationLight": 2.0,
+  "bottomNavigationBarMuteUnselectedItem": false,
+  "bottomSheetBorderRadius": 18.0,
+  "bottomSheetElevation": 2.0,
+  "bottomSheetModalElevation": 4.0,
+  "cardBorderRadius": 14.0,
+  "defaultRadiusAdaptive": 10.0,
+  "dialogBorderRadius": 18.0,
+  "drawerElevation": 1.0,
+  "drawerIndicatorSchemeColor": {
+    "dart_type": "enum_scheme_color",
+    "value": "primary"
+  },
+  "elevatedButtonSchemeColor": {
+    "dart_type": "enum_scheme_color",
+    "value": "onPrimaryContainer"
+  },
+  "elevatedButtonSecondarySchemeColor": {
+    "dart_type": "enum_scheme_color",
+    "value": "primaryContainer"
+  },
+  "floatingActionButtonAlwaysCircular": true,
+  "floatingActionButtonSchemeColor": {
+    "dart_type": "enum_scheme_color",
+    "value": "tertiary"
+  },
+  "floatingActionButtonUseShape": true,
+  "inputDecoratorBackgroundAlphaDark": 22,
+  "inputDecoratorBackgroundAlphaLight": 19,
+  "inputDecoratorFocusedBorderWidth": 2.0,
+  "inputDecoratorIsFilled": false,
+  "inputDecoratorPrefixIconDarkSchemeColor": {
+    "dart_type": "enum_scheme_color",
+    "value": "primary"
+  },
+  "inputDecoratorPrefixIconSchemeColor": {
+    "dart_type": "enum_scheme_color",
+    "value": "primary"
+  },
+  "inputDecoratorSchemeColorDark": {
+    "dart_type": "enum_scheme_color",
+    "value": "primary"
+  },
+  "inputDecoratorSchemeColorLight": {
+    "dart_type": "enum_scheme_color",
+    "value": "primary"
+  },
+  "inputDecoratorUnfocusedHasBorder": true,
+  "keepPrimary": true,
+  "menuBarElevation": 1.0,
+  "menuBarRadius": 0.0,
+  "menuBarShadowColor": {
+    "dart_type": "color",
+    "value": "00000000"
+  },
+  "menuElevation": 3.0,
+  "menuRadius": 6.0,
+  "navigationBarElevation": 1.0,
+  "navigationBarIndicatorOpacity": 1.0,
+  "navigationBarIndicatorSchemeColor": {
+    "dart_type": "enum_scheme_color",
+    "value": "primary"
+  },
+  "navigationBarSelectedIconSchemeColor": {
+    "dart_type": "enum_scheme_color",
+    "value": "onPrimary"
+  },
+  "navigationBarSelectedLabelSchemeColor": {
+    "dart_type": "enum_scheme_color",
+    "value": "primary"
+  },
+  "navigationRailBackgroundSchemeColor": {
+    "dart_type": "enum_scheme_color",
+    "value": "surface"
+  },
+  "navigationRailElevation": 0.0,
+  "navigationRailIndicatorOpacity": 1.0,
+  "navigationRailIndicatorSchemeColor": {
+    "dart_type": "enum_scheme_color",
+    "value": "primary"
+  },
+  "navigationRailSelectedIconSchemeColor": {
+    "dart_type": "enum_scheme_color",
+    "value": "onPrimary"
+  },
+  "navigationRailSelectedLabelSchemeColor": {
+    "dart_type": "enum_scheme_color",
+    "value": "primary"
+  },
+  "outlinedButtonOutlineSchemeColor": {
+    "dart_type": "enum_scheme_color",
+    "value": "primary"
+  },
+  "popupMenuBorderRadius": 6.0,
+  "popupMenuElevation": 3.0,
+  "schemeIndex": 23,
+  "searchElevation": 4.0,
+  "searchUseGlobalShape": true,
+  "segmentedButtonBorderSchemeColor": {
+    "dart_type": "enum_scheme_color",
+    "value": "primary"
+  },
+  "segmentedButtonSchemeColor": {
+    "dart_type": "enum_scheme_color",
+    "value": "primary"
+  },
+  "sliderValueTinted": true,
+  "surfaceModeDark": {
+    "dart_type": "enum_flex_surface_mode",
+    "value": "highBackgroundLowScaffold"
+  },
+  "surfaceModeLight": {
+    "dart_type": "enum_flex_surface_mode",
+    "value": "highBackgroundLowScaffold"
+  },
+  "systemNavBarStyle": {
+    "dart_type": "enum_flex_system_navbar_style",
+    "value": "transparent"
+  },
+  "themeMode": {
+    "dart_type": "enum_theme_mode",
+    "value": "light"
+  },
+  "toggleButtonsBorderSchemeColor": {
+    "dart_type": "enum_scheme_color",
+    "value": "primary"
+  },
+  "topicIndexEndSide": 4,
+  "topicIndexStartSide": 2,
+  "unselectedToggleIsColored": false,
+  "useFlexColorScheme": true,
+  "useSecondary": true,
+  "useTertiary": true,
+  "usedFlexToneSetup": 19
+}
