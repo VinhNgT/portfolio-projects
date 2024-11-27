@@ -7,6 +7,7 @@ import 'package:e_commerce/features/products/data/product_repository.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/presentation/components/product_card.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
+import 'package:e_commerce/utils/riverpod_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -30,12 +31,8 @@ class ProductsList extends HookConsumerWidget {
       firstPageKey: 0,
       pageSize: ProductRepository.productPageSizeLimit,
       fetchPage: (pageKey) async {
-        ref.listenManual(
+        final products = await ref.awaitAsyncProvider(
           productsListFutureProvider(pageKey),
-          (_, __) {},
-        );
-        final products = await ref.read(
-          productsListFutureProvider(pageKey).future,
         );
 
         return products.map((e) => e.id!).toList();
