@@ -15,8 +15,8 @@ class AppNavScreen extends HookConsumerWidget {
       routes: const [
         HomeTabNavRoute(),
         CartTabNavRoute(),
-        HomeRoute(),
-        HomeRoute(),
+        OrderTabNavRoute(),
+        AccountTabNavRoute(),
       ],
       builder: (context, child) {
         return _AutoRouteTabsScaffold(
@@ -74,11 +74,7 @@ class _AutoRouteTabsScaffold extends HookConsumerWidget {
                 maintainBottomViewPadding: true,
                 child: NavigationBar(
                   selectedIndex: currentTabIndex,
-                  onDestinationSelected: (index) {
-                    if (index < 2) {
-                      tabsRouter.setActiveIndex(index);
-                    }
-                  },
+                  onDestinationSelected: tabsRouter.setActiveIndex,
                   destinations: const [
                     NavigationDestination(
                       label: 'Trang chủ',

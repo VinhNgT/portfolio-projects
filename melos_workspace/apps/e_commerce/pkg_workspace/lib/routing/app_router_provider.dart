@@ -32,6 +32,18 @@ class AppRouter extends RootStackRouter {
                 AutoRoute(page: CartRoute.page, initial: true),
               ],
             ),
+            AutoRoute(
+              page: OrderTabNavRoute.page,
+              children: [
+                AutoRoute(page: OrdersRoute.page, initial: true),
+              ],
+            ),
+            AutoRoute(
+              page: AccountTabNavRoute.page,
+              children: [
+                AutoRoute(page: AccountRoute.page, initial: true),
+              ],
+            ),
           ],
         ),
         CustomRoute(
