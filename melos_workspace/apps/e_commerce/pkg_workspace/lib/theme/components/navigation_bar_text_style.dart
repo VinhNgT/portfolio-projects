@@ -12,9 +12,9 @@ class BoldSelectedNavigationBarTextStyle
         theme.navigationBarTheme.labelTextStyle?.resolve(states);
 
     if (states.contains(WidgetState.selected)) {
-      return defaultResolved?.copyWith(fontWeight: FontWeight.w500);
+      return defaultResolved?.copyWith(fontWeight: FontWeight.w700);
     }
 
-    return defaultResolved;
+    return defaultResolved?.copyWith(fontWeight: FontWeight.w500);
   }
 }

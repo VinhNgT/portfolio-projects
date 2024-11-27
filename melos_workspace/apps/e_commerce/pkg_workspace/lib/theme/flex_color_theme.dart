@@ -74,9 +74,7 @@ sealed class AppTheme {
       navigationBarSelectedIconSchemeColor: SchemeColor.onPrimary,
       navigationBarIndicatorSchemeColor: SchemeColor.primary,
       navigationBarElevation: 0.0,
-      navigationBarHeight: 64.0,
-      navigationBarLabelBehavior:
-          NavigationDestinationLabelBehavior.onlyShowSelected,
+      navigationBarHeight: 72.0,
       navigationRailSelectedLabelSchemeColor: SchemeColor.primary,
       navigationRailSelectedIconSchemeColor: SchemeColor.onPrimary,
       navigationRailUseIndicator: true,
@@ -145,9 +143,7 @@ sealed class AppTheme {
       navigationBarSelectedIconSchemeColor: SchemeColor.onPrimary,
       navigationBarIndicatorSchemeColor: SchemeColor.primary,
       navigationBarElevation: 0.0,
-      navigationBarHeight: 64.0,
-      navigationBarLabelBehavior:
-          NavigationDestinationLabelBehavior.onlyShowSelected,
+      navigationBarHeight: 72.0,
       navigationRailSelectedLabelSchemeColor: SchemeColor.primary,
       navigationRailSelectedIconSchemeColor: SchemeColor.onPrimary,
       navigationRailUseIndicator: true,
