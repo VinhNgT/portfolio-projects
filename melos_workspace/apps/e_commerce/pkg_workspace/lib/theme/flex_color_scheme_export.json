@@ -1,5 +1,5 @@
 {
-  "playground_data": "Themes Playground data exported 27.11.2024 14:23:15",
+  "playground_data": "Themes Playground data exported 28.11.2024 01:33:59",
   "playground_version": "8.0.1",
   "adaptiveAppBarScrollUnderOffDark": {
     "dart_type": "enum_adaptive_response",
@@ -7,7 +7,7 @@
   },
   "adaptiveAppBarScrollUnderOffLight": {
     "dart_type": "enum_adaptive_response",
-    "value": "excludeWebAndroidFuchsia"
+    "value": "all"
   },
   "adaptiveElevationShadowsBackDark": {
     "dart_type": "enum_adaptive_response",
@@ -15,7 +15,7 @@
   },
   "adaptiveElevationShadowsBackLight": {
     "dart_type": "enum_adaptive_response",
-    "value": "excludeWebAndroidFuchsia"
+    "value": "all"
   },
   "adaptiveRadius": {
     "dart_type": "enum_adaptive_response",
@@ -31,7 +31,7 @@
   },
   "appBarStyleLight": {
     "dart_type": "enum_flex_appbar_style",
-    "value": "background"
+    "value": "scaffoldBackground"
   },
   "blendLevelDark": 2,
   "blendLevelLight": 1,
@@ -86,6 +86,7 @@
     "value": "primary"
   },
   "inputDecoratorUnfocusedHasBorder": true,
+  "interactionEffects": false,
   "keepPrimary": true,
   "menuBarElevation": 1.0,
   "menuBarRadius": 0.0,
@@ -95,6 +96,10 @@
   },
   "menuElevation": 3.0,
   "menuRadius": 6.0,
+  "navigationBarBackgroundSchemeColor": {
+    "dart_type": "enum_scheme_color",
+    "value": "surface"
+  },
   "navigationBarElevation": 0.0,
   "navigationBarHeight": 72.0,
   "navigationBarIndicatorOpacity": 1.0,
@@ -138,6 +143,10 @@
   },
   "popupMenuBorderRadius": 6.0,
   "popupMenuElevation": 3.0,
+  "scaffoldBackgroundLightBaseColor": {
+    "dart_type": "enum_flex_scaffold_base_color",
+    "value": "surface"
+  },
   "schemeIndex": 23,
   "searchElevation": 4.0,
   "searchUseGlobalShape": true,
@@ -149,6 +158,7 @@
     "dart_type": "enum_scheme_color",
     "value": "primary"
   },
+  "simulatorAppIndex": 4,
   "sliderValueTinted": false,
   "surfaceModeDark": {
     "dart_type": "enum_flex_surface_mode",
@@ -156,7 +166,7 @@
   },
   "surfaceModeLight": {
     "dart_type": "enum_flex_surface_mode",
-    "value": "highBackgroundLowScaffold"
+    "value": "level"
   },
   "systemNavBarStyle": {
     "dart_type": "enum_flex_system_navbar_style",
@@ -166,12 +176,13 @@
     "dart_type": "enum_theme_mode",
     "value": "light"
   },
+  "tintedDisabledControls": false,
   "toggleButtonsBorderSchemeColor": {
     "dart_type": "enum_scheme_color",
     "value": "primary"
   },
-  "topicIndexEndSide": 4,
-  "topicIndexStartSide": 28,
+  "topicIndexEndSide": 10,
+  "topicIndexStartSide": 4,
   "unselectedToggleIsColored": false,
   "useFlexColorScheme": true,
   "useSecondary": true,
