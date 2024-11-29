@@ -21,7 +21,7 @@
     "body": [
       "import 'package:dart_mappable/dart_mappable.dart';",
       "",
-      "part 'product_reviews.mapper.dart';",
+      "part '$TM_FILENAME_BASE.mapper.dart';",
       "",
       "@MappableClass()",
       "class ${TM_FILENAME_BASE/(^|_)(\\w)/${2:/upcase}/g} with ${TM_FILENAME_BASE/(^|_)(\\w)/${2:/upcase}/g}Mappable {",
