@@ -15,8 +15,8 @@ import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
-class CartItemWidget extends HookConsumerWidget {
-  const CartItemWidget({
+class CartItemCard extends HookConsumerWidget {
+  const CartItemCard({
     super.key,
     required this.cartItem,
     required this.isIncludeInOrder,
@@ -138,18 +138,6 @@ class _VariantChip extends HookConsumerWidget {
     return ActionChip(
       avatar: const Icon(Symbols.play_shapes),
       label: Text('Phân loại: ${_buildVariantText(cartItem)}'),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(kSize_8),
-        side: BorderSide(color: context.colorScheme.outlineVariant),
-      ),
-      padding: const EdgeInsets.only(
-        left: kSize_8,
-        right: kSize_16,
-        top: kSize_6,
-        bottom: kSize_6,
-      ),
-      labelPadding: const EdgeInsets.only(left: kSize_8),
-      labelStyle: context.textTheme.labelMedium,
       onPressed: () {
         context.pushRoute(
           AddToCartRoute(

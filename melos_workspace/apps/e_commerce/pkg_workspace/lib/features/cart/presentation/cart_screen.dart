@@ -4,11 +4,10 @@ import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/cart/application/cart_providers.dart';
 import 'package:e_commerce/features/cart/domain/cart.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
-import 'package:e_commerce/features/cart/presentation/components/cart_item_widget.dart';
+import 'package:e_commerce/features/cart/presentation/components/cart_item_card.dart';
 import 'package:e_commerce/features/orders/domain/order.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
-import 'package:e_commerce/utils/ui_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -51,7 +50,7 @@ class CartScreen extends HookConsumerWidget {
               const Gap(kSize_16),
           itemCount: cart.cartItems.length,
           itemBuilder: (context, index) {
-            return CartItemWidget(
+            return CartItemCard(
               key: ValueKey(cart.cartItems[index].id),
               cartItem: cart.cartItems[index],
               isIncludeInOrder:
@@ -64,8 +63,9 @@ class CartScreen extends HookConsumerWidget {
         asyncValue: cartAsync,
         builder: (cart) => Container(
           decoration: BoxDecoration(
-            color: context.colorScheme.surface,
-            boxShadow: UiUtils.reverseBoxShadow(kElevationToShadow[1]!),
+            border: Border(
+              top: BorderSide(color: context.colorScheme.outlineVariant),
+            ),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(

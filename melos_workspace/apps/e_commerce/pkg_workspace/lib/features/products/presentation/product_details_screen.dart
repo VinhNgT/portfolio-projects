@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce/common/async/async_value_widget.dart';
-import 'package:e_commerce/common/hooks/use_init_state.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/cart/data/interface/cart_repository.dart';
 import 'package:e_commerce/features/delivery/presentation/product_delivery_card.dart';
@@ -26,11 +25,6 @@ class ProductDetailsScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productAsync = ref.watch(productFutureProvider(productId));
-    useInitState(() {
-      Future(
-        () => ref.read(productFutureProvider(productId).notifier).refresh(),
-      );
-    });
 
     return Scaffold(
       appBar: AppBar(
@@ -54,7 +48,7 @@ class ProductDetailsScreen extends HookConsumerWidget {
               SliverToBoxAdapter(
                 child: ProductInfoWidget(product: product),
               ),
-              const SliverGap(kSize_20),
+              const SliverGap(kSize_16),
               const SliverToBoxAdapter(
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: kSize_16),

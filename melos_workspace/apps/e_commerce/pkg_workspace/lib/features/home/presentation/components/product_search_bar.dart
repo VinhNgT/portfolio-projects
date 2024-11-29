@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/products/data/product_providers.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
-import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -30,15 +29,15 @@ class ProductSearchBar extends HookConsumerWidget {
         return ListenableBuilder(
           listenable: scrollController,
           builder: (context, _) {
-            final shadowColor = scrollController.hasClients &&
+            final elevation = scrollController.hasClients &&
                     scrollController.offset > showShadowOffset
-                ? context.theme.searchBarTheme.shadowColor
-                : const WidgetStatePropertyAll(Colors.transparent);
+                ? null
+                : const WidgetStatePropertyAll<double>(0);
 
             return SearchBar(
               focusNode: searchBarFocusNode,
               controller: controller,
-              shadowColor: shadowColor,
+              elevation: elevation,
               padding: const WidgetStatePropertyAll<EdgeInsets>(
                 EdgeInsets.symmetric(horizontal: kSize_16),
               ),

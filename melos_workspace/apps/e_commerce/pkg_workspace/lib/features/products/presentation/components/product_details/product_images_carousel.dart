@@ -33,7 +33,7 @@ class ProductImagesCarousel extends HookConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: kSize_12),
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(kSize_20),
+                  borderRadius: BorderRadius.circular(kSize_16),
                   color: context.colorScheme.surfaceContainerHighest
                       .withOpacity(kGoldenRatioDivide_1),
                 ),

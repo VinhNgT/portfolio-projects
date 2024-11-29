@@ -9,48 +9,47 @@ class BenefitsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: kSize_12,
-        horizontal: kSize_16,
-      ),
-      decoration: BoxDecoration(
-        color: context.theme.colorScheme.secondaryContainer,
-        borderRadius: const BorderRadius.all(Radius.circular(kSize_12)),
-      ),
-      child: const Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                Symbols.undo,
-                size: 20,
-              ),
-              Gap(kSize_12),
-              Expanded(
-                child: Text('Trả hàng hoàn tiền miễn phí trong vòng 30 ngày'),
-              ),
-            ],
-          ),
-          Gap(kSize_12),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                Symbols.redeem,
-                size: 20,
-              ),
-              Gap(kSize_12),
-              Expanded(
-                child: Text(
-                  'Tặng mã giảm giá shop 10% (tối đa 60k) sau khi hoàn thành '
-                  'đơn hàng đầu tiên',
+    return Card.filled(
+      color: context.theme.colorScheme.secondaryContainer,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: kSize_12,
+          horizontal: kSize_16,
+        ),
+        child: const Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  Symbols.undo,
+                  size: 20,
                 ),
-              ),
-            ],
-          ),
-        ],
+                Gap(kSize_12),
+                Expanded(
+                  child: Text('Trả hàng hoàn tiền miễn phí trong vòng 30 ngày'),
+                ),
+              ],
+            ),
+            Gap(kSize_12),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  Symbols.redeem,
+                  size: 20,
+                ),
+                Gap(kSize_12),
+                Expanded(
+                  child: Text(
+                    'Tặng mã giảm giá shop 10% (tối đa 60k) sau khi hoàn thành '
+                    'đơn hàng đầu tiên',
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

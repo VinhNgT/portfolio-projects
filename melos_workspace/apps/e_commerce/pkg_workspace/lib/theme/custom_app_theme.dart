@@ -4,8 +4,13 @@ import 'package:flutter/material.dart';
 
 /// Modifies an existing [ThemeData] to create a custom fine tuned theme.
 class CustomAppTheme {
-  CustomAppTheme(this.theme);
+  CustomAppTheme(this.context)
+      : theme = Theme.of(context),
+        textTheme = Theme.of(context).textTheme;
+
+  final BuildContext context;
   final ThemeData theme;
+  final TextTheme textTheme;
 
   ThemeData create() {
     return theme.copyWith(
@@ -23,6 +28,11 @@ class CustomAppTheme {
       ),
       navigationBarTheme: theme.navigationBarTheme.copyWith(
         labelTextStyle: BoldSelectedNavigationBarTextStyle(theme),
+      ),
+      chipTheme: theme.chipTheme.copyWith(
+        labelStyle: textTheme.labelLarge?.copyWith(
+          color: theme.chipTheme.labelStyle?.color,
+        ),
       ),
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       iconButtonTheme: IconButtonThemeData(

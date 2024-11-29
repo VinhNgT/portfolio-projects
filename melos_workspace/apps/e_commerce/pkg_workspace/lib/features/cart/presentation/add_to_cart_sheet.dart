@@ -128,7 +128,7 @@ class _ProductOverview extends HookConsumerWidget {
             width: _imageSize,
             height: _imageSize,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(kSize_8),
+              borderRadius: BorderRadius.circular(kSize_12),
               color: context.colorScheme.tertiaryContainer,
             ),
           ),

@@ -1,5 +1,6 @@
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
+import 'package:e_commerce/theme/theme_utils.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -10,25 +11,26 @@ class SellerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        // color: Colors.white,
-        borderRadius: BorderRadius.circular(kSize_16),
-        border: Border.all(
-          color: context.theme.colorScheme.outlineVariant,
+    return Card.outlined(
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: context.theme.colorScheme.outlineVariant),
+        borderRadius: BorderRadius.all(
+          Radius.circular(ThemeUtils.getCardBorderRadius(context)),
         ),
       ),
-      padding: const EdgeInsets.symmetric(
-        vertical: kSize_12,
-        horizontal: kSize_16,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _SellerInfo(product),
-          const SizedBox(height: kSize_12),
-          const _ContactButtons(),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: kSize_12,
+          horizontal: kSize_12,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _SellerInfo(product),
+            const SizedBox(height: kSize_12),
+            const _ContactButtons(),
+          ],
+        ),
       ),
     );
   }

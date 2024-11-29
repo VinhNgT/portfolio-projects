@@ -1,7 +1,6 @@
 import 'package:e_commerce/routing/app_router_provider.dart';
 import 'package:e_commerce/theme/custom_app_theme.dart';
 import 'package:e_commerce/theme/flex_color_theme.dart';
-import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -26,7 +25,7 @@ class MyApp extends HookConsumerWidget {
           ///
           /// We need it to be available so that CustomAppTheme can create a new
           /// textTheme based on the existing one.
-          data: CustomAppTheme(context.theme).create(),
+          data: CustomAppTheme(context).create(),
           child: AnnotatedRegion(
             value: FlexColorScheme.themedSystemNavigationBar(
               context,

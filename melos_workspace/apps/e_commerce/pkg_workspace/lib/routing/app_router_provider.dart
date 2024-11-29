@@ -52,6 +52,7 @@ class AppRouter extends RootStackRouter {
             return ModalBottomSheetRoute(
               settings: page,
               isScrollControlled: false,
+              useSafeArea: true,
               scrollControlDisabledMaxHeightRatio: 3 / 4,
               builder: (_) => child,
             );

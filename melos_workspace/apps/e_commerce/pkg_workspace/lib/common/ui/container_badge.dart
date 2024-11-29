@@ -1,5 +1,4 @@
 import 'package:e_commerce/constants/app_sizes.dart';
-import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:flutter/material.dart';
 
 class ContainerBadge extends StatelessWidget {
@@ -16,21 +15,14 @@ class ContainerBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Badge(
+      label: Text(labelText),
       padding: const EdgeInsets.symmetric(
         vertical: kSize_2,
         horizontal: kSize_8,
       ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(kSize_20),
-        color: containerColor ?? context.theme.colorScheme.primaryContainer,
-      ),
-      child: Text(
-        labelText,
-        style: context.textTheme.labelSmall!.copyWith(
-          color: onContainerColor ?? context.colorScheme.onPrimaryContainer,
-        ),
-      ),
+      backgroundColor: containerColor,
+      textColor: onContainerColor,
     );
   }
 }
