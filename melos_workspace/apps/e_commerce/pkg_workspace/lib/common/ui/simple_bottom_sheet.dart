@@ -10,10 +10,12 @@ class SimpleBottomSheet extends StatelessWidget {
     super.key,
     required this.child,
     this.mainAxisSize = MainAxisSize.min,
+    this.addSafeArea = true,
   });
 
   final Widget child;
   final MainAxisSize mainAxisSize;
+  final bool addSafeArea;
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +25,18 @@ class SimpleBottomSheet extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          Column(
-            mainAxisSize: mainAxisSize,
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(top: kSize_8),
-                child: _Handle(),
-              ),
-              Flexible(child: child),
-            ],
+          _addSafeArea(
+            isEnable: addSafeArea,
+            child: Column(
+              mainAxisSize: mainAxisSize,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: kSize_8),
+                  child: _Handle(),
+                ),
+                Flexible(child: child),
+              ],
+            ),
           ),
           const Positioned(
             top: kSize_12,
@@ -41,6 +46,10 @@ class SimpleBottomSheet extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _addSafeArea({required Widget child, required bool isEnable}) {
+    return isEnable ? SafeArea(child: child) : child;
   }
 }
 
