@@ -65,7 +65,6 @@ sealed class AppTheme {
       menuBarRadius: 0.0,
       menuBarElevation: 1.0,
       // menuBarShadowColor: Instance of 'Color',
-      menuBarShadowColor: Colors.transparent,
       searchBarElevation: 4.0,
       searchViewElevation: 4.0,
       searchUseGlobalShape: true,
@@ -82,6 +81,10 @@ sealed class AppTheme {
       navigationRailIndicatorOpacity: 1.00,
       navigationRailBackgroundSchemeColor: SchemeColor.surface,
       navigationRailLabelType: NavigationRailLabelType.all,
+
+      // Workaround for bugs in FlexColorScheme v8.0.1
+      menuBarShadowColor: Colors.transparent,
+      inputDecoratorIsFilled: false,
     ),
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
