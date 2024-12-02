@@ -3,6 +3,7 @@ import 'package:e_commerce/common/ui/container_badge.dart';
 import 'package:e_commerce/common/ui/simple_bottom_sheet.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
+import 'package:e_commerce/features/cart/domain/new_cart_item_form.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
@@ -40,9 +41,21 @@ class AddToCartSheet extends HookConsumerWidget {
   /// product.
   final AddToCartSheetCallback? onConfirm;
 
+  /// Get the product for this cart item. If the product is provided, return it.
+  /// Otherwise, return the product from the initial cart item.
+  Product get _cartProduct => product ?? initialCartItem!.orderItem.product;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = useRef(GlobalKey<FormBuilderState>()).value;
+
+    final initialInputForm = useRef(
+      initialCartItem != null
+          ? NewCartItemForm.fromCartItem(initialCartItem!)
+          : NewCartItemForm.initial(product: product!),
+    ).value;
+
+    final inputForm = useValueNotifier(initialInputForm);
 
     return SimpleBottomSheet(
       child: FormBuilder(
@@ -53,18 +66,24 @@ class AddToCartSheet extends HookConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              _ProductOverview(
-                product: product ?? initialCartItem!.orderItem.product,
-              ),
+              _ProductOverview(product: _cartProduct),
               const Gap(kSize_16),
               _VariationGroups(
-                product: product ?? initialCartItem!.orderItem.product,
-                initialVariants:
-                    initialCartItem?.orderItem.variantSelection ?? {},
+                variantGroups: _cartProduct.variantGroups,
+                initialVariants: initialInputForm.variantSelection,
+                onChanged: (variantSelection) {
+                  inputForm.value = inputForm.value.copyWith(
+                    variantSelection: variantSelection,
+                  );
+                },
               ),
               const Gap(kSize_16),
               _QuantitySelectionContainer(
                 initialQuantity: initialCartItem?.orderItem.quantity,
+                onChanged: (newQuantity) {
+                  inputForm.value =
+                      inputForm.value.copyWith(quantity: newQuantity);
+                },
               ),
               const Divider(height: kSize_32),
               Padding(
@@ -79,23 +98,7 @@ class AddToCartSheet extends HookConsumerWidget {
                         return;
                       }
 
-                      final selectedVariant = formKey.currentState
-                          ?.value['variant'] as Map<String, ProductVariantId?>;
-
-                      final cartItem = CartItem.create(
-                        orderItem: OrderItem(
-                          id: initialCartItem?.orderItem.id,
-                          product:
-                              product ?? initialCartItem!.orderItem.product,
-                          quantity: formKey.currentState?.value['quantity'],
-                          variantSelection: {
-                            for (final entry in selectedVariant.entries)
-                              if (entry.value != null)
-                                int.parse(entry.key): entry.value,
-                          },
-                        ),
-                      );
-
+                      final cartItem = _buildCartItem(inputForm.value);
                       onConfirm?.call(cartItem);
                     },
                   ),
@@ -104,6 +107,17 @@ class AddToCartSheet extends HookConsumerWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  CartItem _buildCartItem(NewCartItemForm inputForm) {
+    return CartItem.create(
+      orderItem: OrderItem(
+        id: initialCartItem?.orderItem.id,
+        product: _cartProduct,
+        quantity: inputForm.quantity,
+        variantSelection: inputForm.variantSelection,
       ),
     );
   }
@@ -163,95 +177,108 @@ class _ProductOverview extends HookConsumerWidget {
 
 class _VariationGroups extends HookConsumerWidget {
   const _VariationGroups({
-    required this.product,
+    required this.variantGroups,
     required this.initialVariants,
+    this.onChanged,
   });
 
-  final Product product;
+  final List<ProductVariantGroup> variantGroups;
   final ProductVariantIdsSelection initialVariants;
+  final void Function(ProductVariantIdsSelection variantSelection)? onChanged;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final variationFormKey = useRef(GlobalKey<FormBuilderState>()).value;
+    final variantSelectionFormKey =
+        useRef(GlobalKey<FormBuilderFieldState>()).value;
 
-    return FormBuilderField(
-      name: 'variant',
-      initialValue: <String, ProductVariantId?>{
-        for (final group in product.variantGroups)
-          group.id!.toString(): initialVariants[group.id],
-      },
+    final shouldShowError = useState(false);
+
+    return FormBuilderField<ProductVariantIdsSelection>(
+      key: variantSelectionFormKey,
+      name: 'variantSelection',
+      initialValue: initialVariants,
+      autovalidateMode: AutovalidateMode.always,
       validator: (value) {
-        if (value!.values.any((selectedVariant) => selectedVariant == null)) {
+        if (!shouldShowError.value) {
+          return null;
+        }
+
+        if (variantGroups.any(
+          (variant) => value![variant.id] == null,
+        )) {
           return 'Vui lòng chọn phân loại';
         }
         return null;
       },
-      builder: (field) => FormBuilder(
-        key: variationFormKey,
-        onChanged: () => field.didChange(
-          variationFormKey.currentState?.instantValue
-              .cast<String, ProductVariantId?>(),
-        ),
-        child: Column(
-          children: [
-            const Divider(),
-            Stack(
-              children: [
-                AnimatedSwitcher(
-                  switchInCurve: Curves.easeOutCubic,
-                  switchOutCurve: Curves.easeInCubic,
-                  duration: Durations.short4,
-                  transitionBuilder: (child, animation) {
-                    return SizeTransition(
-                      axisAlignment: 1,
-                      sizeFactor: animation,
-                      child: FadeTransition(
-                        opacity: animation,
-                        child: child,
-                      ),
-                    );
-                  },
-                  child: field.errorText != null
-                      ? Align(
-                          alignment: Alignment.topRight,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: kSize_6,
-                              right: kSize_12,
-                            ),
-                            child: Text(
-                              field.errorText!,
-                              style: context.textTheme.labelLarge!.copyWith(
-                                color: context.colorScheme.error,
-                              ),
+      onSaved: (_) => shouldShowError.value = true,
+      onChanged: (value) {
+        shouldShowError.value = false;
+        onChanged?.call(value!);
+      },
+      builder: (field) => Column(
+        children: [
+          const Divider(),
+          Stack(
+            children: [
+              AnimatedSwitcher(
+                switchInCurve: Curves.easeOutCubic,
+                switchOutCurve: Curves.easeInCubic,
+                duration: Durations.short4,
+                transitionBuilder: (child, animation) {
+                  return SizeTransition(
+                    axisAlignment: 1,
+                    sizeFactor: animation,
+                    child: FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    ),
+                  );
+                },
+                child: field.errorText != null
+                    ? Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: kSize_6,
+                            right: kSize_12,
+                          ),
+                          child: Text(
+                            field.errorText!,
+                            style: context.textTheme.labelLarge!.copyWith(
+                              color: context.colorScheme.error,
                             ),
                           ),
-                        )
-                      : const SizedBox.shrink(),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+              ),
+              ListView.separated(
+                shrinkWrap: true,
+                separatorBuilder: (context, index) => const Gap(kSize_20),
+                padding: const EdgeInsets.only(
+                  top: kSize_12,
+                  bottom: kSize_16,
+                  left: kSize_16,
+                  right: kSize_16,
                 ),
-                ListView.separated(
-                  shrinkWrap: true,
-                  separatorBuilder: (context, index) => const Gap(kSize_20),
-                  padding: const EdgeInsets.only(
-                    top: kSize_12,
-                    bottom: kSize_16,
-                    left: kSize_16,
-                    right: kSize_16,
-                  ),
-                  itemCount: product.variantGroups.length,
-                  itemBuilder: (context, index) {
-                    return _VariationSelection(
-                      group: product.variantGroups[index],
-                      initialVariantId:
-                          initialVariants[product.variantGroups[index].id],
-                    );
-                  },
-                ),
-              ],
-            ),
-            const Divider(),
-          ],
-        ),
+                itemCount: variantGroups.length,
+                itemBuilder: (context, index) {
+                  return _VariationSelection(
+                    group: variantGroups[index],
+                    initialVariantId: initialVariants[variantGroups[index].id],
+                    onChanged: (newValue) {
+                      field.didChange({
+                        ...field.value!,
+                        variantGroups[index].id!: newValue,
+                      });
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+          const Divider(),
+        ],
       ),
     );
   }
@@ -261,10 +288,12 @@ class _VariationSelection extends HookConsumerWidget {
   const _VariationSelection({
     required this.group,
     this.initialVariantId,
+    this.onChanged,
   });
 
   final ProductVariantGroup group;
   final DatabaseKey? initialVariantId;
+  final void Function(DatabaseKey? newValue)? onChanged;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -273,16 +302,20 @@ class _VariationSelection extends HookConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          'Kích thước 1',
+          group.groupName,
           style: context.textTheme.titleMedium,
         ),
-        const Gap(kSize_8),
         FormBuilderChoiceChip<DatabaseKey?>(
-          name: group.id.toString(),
+          name: group.id!.toString(),
+          onChanged: (newValue) {
+            onChanged?.call(newValue);
+          },
+          autovalidateMode: AutovalidateMode.always,
           initialValue: initialVariantId,
-          decoration: const InputDecoration(
-            enabledBorder: InputBorder.none,
-            isCollapsed: true,
+          decoration: const InputDecoration().applyDefaults(
+            context.theme.inputDecorationTheme.copyWith(
+              border: InputBorder.none,
+            ),
           ),
           spacing: kSize_8,
           runSpacing: kSize_8,
@@ -300,12 +333,17 @@ class _VariationSelection extends HookConsumerWidget {
   }
 }
 
-class _QuantitySelectionContainer extends HookConsumerWidget {
-  const _QuantitySelectionContainer({this.initialQuantity});
+class _QuantitySelectionContainer extends StatelessWidget {
+  const _QuantitySelectionContainer({
+    this.initialQuantity,
+    this.onChanged,
+  });
+
   final int? initialQuantity;
+  final void Function(int newQuantity)? onChanged;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: kSize_16),
       child: Row(
@@ -335,7 +373,8 @@ class _QuantitySelectionContainer extends HookConsumerWidget {
               ),
               const Gap(kSize_6),
               _QuantitySelectionButtons(
-                initialQuantity: initialQuantity,
+                initialQuantity: initialQuantity ?? 1,
+                onChanged: onChanged,
               ),
             ],
           ),
@@ -354,21 +393,26 @@ class _QuantitySelectionContainer extends HookConsumerWidget {
   }
 }
 
-class _QuantitySelectionButtons extends HookConsumerWidget {
-  const _QuantitySelectionButtons({required this.initialQuantity});
+class _QuantitySelectionButtons extends HookWidget {
+  const _QuantitySelectionButtons({
+    required this.initialQuantity,
+    this.onChanged,
+  });
+
+  final int initialQuantity;
+  final void Function(int newQuantity)? onChanged;
 
   final int minQuantity = 1;
   final int maxQuantity = 12;
-  final int? initialQuantity;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final evaluatedInitialQuantity = useRef(initialQuantity ?? 1).value;
-    final count = useState(evaluatedInitialQuantity);
-
+  Widget build(BuildContext context) {
     return FormBuilderField<int>(
       name: 'quantity',
-      initialValue: evaluatedInitialQuantity,
+      initialValue: initialQuantity,
+      onChanged: (newValue) {
+        onChanged?.call(newValue!);
+      },
       builder: (field) => Row(
         children: [
           IconButton(
@@ -377,9 +421,8 @@ class _QuantitySelectionButtons extends HookConsumerWidget {
               foregroundColor: context.colorScheme.onPrimaryContainer,
             ),
             onPressed: () {
-              if (count.value > minQuantity) {
-                count.value--;
-                field.didChange(count.value);
+              if (field.value! > minQuantity) {
+                field.didChange(field.value! - 1);
               }
             },
             icon: const Icon(Symbols.remove),
@@ -387,7 +430,7 @@ class _QuantitySelectionButtons extends HookConsumerWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: kSize_4),
             child: Text(
-              '${count.value} chiếc',
+              '${field.value!} chiếc',
               style: context.textTheme.labelLarge,
             ),
           ),
@@ -397,9 +440,8 @@ class _QuantitySelectionButtons extends HookConsumerWidget {
               foregroundColor: context.colorScheme.onPrimaryContainer,
             ),
             onPressed: () {
-              if (count.value < maxQuantity) {
-                count.value++;
-                field.didChange(count.value);
+              if (field.value! < maxQuantity) {
+                field.didChange(field.value! + 1);
               }
             },
             icon: const Icon(Symbols.add),
