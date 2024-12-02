@@ -254,7 +254,7 @@ class _VariationGroups extends HookConsumerWidget {
               ),
               ListView.separated(
                 shrinkWrap: true,
-                separatorBuilder: (context, index) => const Gap(kSize_20),
+                separatorBuilder: (context, index) => const Gap(kSize_12),
                 padding: const EdgeInsets.only(
                   top: kSize_12,
                   bottom: kSize_16,
