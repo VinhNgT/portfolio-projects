@@ -5,7 +5,7 @@ targets:
         generate_for:
           include:
             - 'lib/**/domain/**.dart'
-            - 'lib/**/**_provider.dart'
+            # - 'lib/**/**_provider.dart'
         options:
           renameMethods:
             fromJson: fromJsonString
