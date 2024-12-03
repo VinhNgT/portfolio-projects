@@ -84,7 +84,6 @@ sealed class AppTheme {
 
       // Workaround for bugs in FlexColorScheme v8.0.1
       menuBarShadowColor: Colors.transparent,
-      inputDecoratorIsFilled: false,
     ),
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
