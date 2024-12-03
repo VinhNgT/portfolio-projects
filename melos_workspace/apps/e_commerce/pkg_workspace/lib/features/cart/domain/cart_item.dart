@@ -7,17 +7,6 @@ import 'package:e_commerce/utils/typedefs.dart';
 
 part 'cart_item.mapper.dart';
 
-class CartItemTable extends Table {
-  BoolColumn get isIncludeInOrder =>
-      boolean().withDefault(const Constant(true))();
-
-  IntColumn get orderItemId =>
-      integer().references(OrderItemTable, #id, onDelete: KeyAction.cascade)();
-
-  @override
-  Set<Column> get primaryKey => {orderItemId};
-}
-
 @MappableClass()
 class CartItem with CartItemMappable {
   /// The item that is added to the cart.

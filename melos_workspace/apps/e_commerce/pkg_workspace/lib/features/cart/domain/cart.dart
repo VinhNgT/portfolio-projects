@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:drift/drift.dart';
 import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/orders/domain/order.dart';
@@ -9,10 +8,6 @@ import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:e_commerce/utils/typedefs.dart';
 
 part 'cart.mapper.dart';
-
-class CartTable extends Table {
-  IntColumn get id => integer().autoIncrement()();
-}
 
 @MappableClass()
 class Cart with CartMappable {

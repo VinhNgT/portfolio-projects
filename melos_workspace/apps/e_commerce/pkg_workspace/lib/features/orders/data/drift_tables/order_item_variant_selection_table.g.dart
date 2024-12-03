@@ -1,15 +1,8 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'daos.dart';
+part of 'order_item_variant_selection_table.dart';
 
 // ignore_for_file: type=lint
-mixin _$CartItemTableDaoMixin on DatabaseAccessor<AppDatabase> {
-  $OrderItemTableTable get orderItemTable => attachedDatabase.orderItemTable;
-  $CartItemTableTable get cartItemTable => attachedDatabase.cartItemTable;
-}
-mixin _$OrderItemTableDaoMixin on DatabaseAccessor<AppDatabase> {
-  $OrderItemTableTable get orderItemTable => attachedDatabase.orderItemTable;
-}
 mixin _$OrderItemVariantSelectionTableDaoMixin
     on DatabaseAccessor<AppDatabase> {
   $OrderItemTableTable get orderItemTable => attachedDatabase.orderItemTable;

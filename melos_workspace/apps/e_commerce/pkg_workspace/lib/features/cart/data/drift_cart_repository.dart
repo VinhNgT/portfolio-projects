@@ -1,6 +1,6 @@
 import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/constants/drift_constants.dart';
-import 'package:e_commerce/features/cart/data/interface/cart_repository.dart';
+import 'package:e_commerce/features/cart/data/cart_repository.dart';
 import 'package:e_commerce/features/cart/domain/cart.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';

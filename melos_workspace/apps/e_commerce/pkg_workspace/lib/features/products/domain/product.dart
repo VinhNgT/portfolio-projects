@@ -11,31 +11,6 @@ import 'package:intl/intl.dart';
 
 part 'product.mapper.dart';
 
-class ProductTable extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  TextColumn get title => text()();
-  TextColumn get description => text()();
-  TextColumn get category => text()();
-  RealColumn get price => real()();
-  RealColumn get discountPercentage => real()();
-  RealColumn get rating => real()();
-  IntColumn get stock => integer()();
-  TextColumn get tags => text().map(const DbJsonConverter())();
-  TextColumn get brand => text().nullable()();
-  TextColumn get sku => text()();
-  IntColumn get weight => integer()();
-  TextColumn get dimensions => text().map(const DbJsonConverter())();
-  TextColumn get warrantyInformation => text()();
-  TextColumn get shippingInformation => text()();
-  TextColumn get availabilityStatus => text()();
-  TextColumn get reviews => text().map(const DbJsonConverter())();
-  TextColumn get returnPolicy => text()();
-  IntColumn get minimumOrderQuantity => integer()();
-  TextColumn get meta => text().map(const DbJsonConverter())();
-  TextColumn get thumbnail => text()();
-  TextColumn get images => text().map(const DbJsonConverter())();
-}
-
 extension ProductTableDataConverter on Product {
   static Future<Product> fromDbData(
     AppDatabase db,

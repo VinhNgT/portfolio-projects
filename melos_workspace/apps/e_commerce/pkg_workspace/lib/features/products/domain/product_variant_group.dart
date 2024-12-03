@@ -1,7 +1,6 @@
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:drift/drift.dart';
 import 'package:e_commerce/backend/database/drift_provider.dart';
-import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 
 part 'product_variant_group.mapper.dart';
@@ -10,13 +9,6 @@ typedef ProductVariantGroupId = int;
 typedef ProductVariantId = int;
 typedef ProductVariantIdsSelection
     = Map<ProductVariantGroupId, ProductVariantId?>;
-
-class ProductVariantGroupTable extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  TextColumn get groupName => text()();
-
-  IntColumn get productId => integer().references(ProductTable, #id)();
-}
 
 @MappableClass()
 class ProductVariantGroup with ProductVariantGroupMappable {

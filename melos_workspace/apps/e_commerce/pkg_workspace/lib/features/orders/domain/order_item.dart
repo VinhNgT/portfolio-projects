@@ -8,21 +8,6 @@ import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 
 part 'order_item.mapper.dart';
 
-class OrderItemTable extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  // ignore: recursive_getters
-  IntColumn get quantity => integer().check(quantity.isBiggerOrEqualValue(0))();
-}
-
-class OrderItemVariantSelectionTable extends Table {
-  IntColumn get orderItemId =>
-      integer().references(OrderItemTable, #id, onDelete: KeyAction.cascade)();
-  IntColumn get variantId => integer().references(ProductVariantTable, #id)();
-
-  @override
-  Set<Column> get primaryKey => {orderItemId, variantId};
-}
-
 @MappableClass()
 class OrderItem with OrderItemMappable {
   /// The unique identifier of this order item.

@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce/common/async/async_value_widget.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
-import 'package:e_commerce/features/cart/data/interface/cart_repository.dart';
+import 'package:e_commerce/features/cart/data/cart_repository.dart';
 import 'package:e_commerce/features/delivery/presentation/product_delivery_card.dart';
 import 'package:e_commerce/features/products/data/product_providers.dart';
 import 'package:e_commerce/features/products/presentation/components/product_details/benefits_card.dart';

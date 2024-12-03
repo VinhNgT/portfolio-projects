@@ -2827,8 +2827,7 @@ final class $$ProductVariantGroupTableTableReferences extends BaseReferences<
       db.productTable.createAlias($_aliasNameGenerator(
           db.productVariantGroupTable.productId, db.productTable.id));
 
-  $$ProductTableTableProcessedTableManager? get productId {
-    if ($_item.productId == null) return null;
+  $$ProductTableTableProcessedTableManager get productId {
     final manager = $$ProductTableTableTableManager($_db, $_db.productTable)
         .filter((f) => f.id($_item.productId!));
     final item = $_typedResult.readTableOrNull(_productIdTable($_db));
@@ -3155,8 +3154,7 @@ final class $$ProductVariantTableTableReferences extends BaseReferences<
       db.productVariantGroupTable.createAlias($_aliasNameGenerator(
           db.productVariantTable.groupId, db.productVariantGroupTable.id));
 
-  $$ProductVariantGroupTableTableProcessedTableManager? get groupId {
-    if ($_item.groupId == null) return null;
+  $$ProductVariantGroupTableTableProcessedTableManager get groupId {
     final manager = $$ProductVariantGroupTableTableTableManager(
             $_db, $_db.productVariantGroupTable)
         .filter((f) => f.id($_item.groupId!));
@@ -3883,8 +3881,7 @@ final class $$CartItemTableTableReferences extends BaseReferences<_$AppDatabase,
       db.orderItemTable.createAlias($_aliasNameGenerator(
           db.cartItemTable.orderItemId, db.orderItemTable.id));
 
-  $$OrderItemTableTableProcessedTableManager? get orderItemId {
-    if ($_item.orderItemId == null) return null;
+  $$OrderItemTableTableProcessedTableManager get orderItemId {
     final manager = $$OrderItemTableTableTableManager($_db, $_db.orderItemTable)
         .filter((f) => f.id($_item.orderItemId!));
     final item = $_typedResult.readTableOrNull(_orderItemIdTable($_db));
@@ -4112,8 +4109,7 @@ final class $$OrderItemVariantSelectionTableTableReferences
       db.orderItemTable.createAlias($_aliasNameGenerator(
           db.orderItemVariantSelectionTable.orderItemId, db.orderItemTable.id));
 
-  $$OrderItemTableTableProcessedTableManager? get orderItemId {
-    if ($_item.orderItemId == null) return null;
+  $$OrderItemTableTableProcessedTableManager get orderItemId {
     final manager = $$OrderItemTableTableTableManager($_db, $_db.orderItemTable)
         .filter((f) => f.id($_item.orderItemId!));
     final item = $_typedResult.readTableOrNull(_orderItemIdTable($_db));
@@ -4127,8 +4123,7 @@ final class $$OrderItemVariantSelectionTableTableReferences
           db.orderItemVariantSelectionTable.variantId,
           db.productVariantTable.id));
 
-  $$ProductVariantTableTableProcessedTableManager? get variantId {
-    if ($_item.variantId == null) return null;
+  $$ProductVariantTableTableProcessedTableManager get variantId {
     final manager =
         $$ProductVariantTableTableTableManager($_db, $_db.productVariantTable)
             .filter((f) => f.id($_item.variantId!));
