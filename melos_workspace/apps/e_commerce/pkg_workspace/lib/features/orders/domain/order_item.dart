@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:drift/drift.dart';
-import 'package:e_commerce/backend/database/drift_provider.dart';
+import 'package:e_commerce/features/orders/data/drift_tables/order_item_table.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
@@ -58,81 +57,7 @@ class OrderItem with OrderItemMappable {
     }
   }
 
-  static Future<OrderItem> fromDbData(
-    AppDatabase db,
-    OrderItemTableData data,
-  ) async {
-    final productQuery = db.select(db.productTable, distinct: true).join([
-      innerJoin(
-        db.productVariantGroupTable,
-        db.productVariantGroupTable.productId.equalsExp(db.productTable.id),
-        useColumns: false,
-      ),
-      innerJoin(
-        db.productVariantTable,
-        db.productVariantTable.groupId
-            .equalsExp(db.productVariantGroupTable.id),
-        useColumns: false,
-      ),
-      innerJoin(
-        db.orderItemVariantSelectionTable,
-        db.orderItemVariantSelectionTable.variantId
-            .equalsExp(db.productVariantTable.id),
-        useColumns: false,
-      ),
-      innerJoin(
-        db.orderItemTable,
-        db.orderItemTable.id
-            .equalsExp(db.orderItemVariantSelectionTable.orderItemId),
-        useColumns: false,
-      ),
-    ])
-      ..where(db.orderItemTable.id.equals(data.id));
-
-    final productData =
-        (await productQuery.getSingle()).readTable(db.productTable);
-
-    final variantSelectionQuery = db
-        .select(db.orderItemVariantSelectionTable)
-        .join([
-      innerJoin(
-        db.productVariantTable,
-        db.productVariantTable.id
-            .equalsExp(db.orderItemVariantSelectionTable.variantId),
-      ),
-      innerJoin(
-        db.productVariantGroupTable,
-        db.productVariantGroupTable.id
-            .equalsExp(db.productVariantTable.groupId),
-      ),
-    ])
-      ..where(db.orderItemVariantSelectionTable.orderItemId.equals(data.id));
-
-    final variantSelectionStringMap = (await variantSelectionQuery.get()).fold(
-        <ProductVariantGroupId, ProductVariantId?>{}, (previousValue, element) {
-      final groupId = element.read(db.productVariantGroupTable.id)!;
-      final variantId = element.read(db.productVariantTable.id);
-
-      return {
-        ...previousValue,
-        groupId: variantId,
-      };
-    });
-
-    return OrderItem(
-      id: data.id,
-      product: await Product.fromDbData(db, productData),
-      quantity: data.quantity,
-      variantSelection: variantSelectionStringMap,
-    );
-  }
-
-  OrderItemTableCompanion toDbCompanion() {
-    return OrderItemTableCompanion(
-      id: Value.absentIfNull(id),
-      quantity: Value(quantity),
-    );
-  }
+  static const fromDbData = OrderItemTableDomainExtensionConverter.fromDbData;
 
   static final prototype = _Proto.prototype;
 }

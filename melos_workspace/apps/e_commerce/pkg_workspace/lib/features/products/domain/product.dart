@@ -1,6 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:drift/drift.dart';
-import 'package:e_commerce/backend/database/drift_provider.dart';
+import 'package:e_commerce/features/products/data/drift_tables/product_table.dart';
 import 'package:e_commerce/features/products/domain/product_dimensions.dart';
 import 'package:e_commerce/features/products/domain/product_meta.dart';
 import 'package:e_commerce/features/products/domain/product_review.dart';
@@ -10,75 +9,6 @@ import 'package:e_commerce/utils/typedefs.dart';
 import 'package:intl/intl.dart';
 
 part 'product.mapper.dart';
-
-extension ProductTableDataConverter on Product {
-  static Future<Product> fromDbData(
-    AppDatabase db,
-    ProductTableData data,
-  ) async {
-    final variantGroupsRowData = await (db.select(db.productVariantGroupTable)
-          ..where((tbl) => tbl.productId.equals(data.id)))
-        .get();
-
-    return Product(
-      id: data.id,
-      title: data.title,
-      description: data.description,
-      category: data.category,
-      price: data.price,
-      discountPercentage: data.discountPercentage,
-      rating: data.rating,
-      stock: data.stock,
-      tags: (data.tags as List).cast<String>(),
-      brand: data.brand,
-      sku: data.sku,
-      weight: data.weight,
-      dimensions: ProductDimensions.fromJson(data.dimensions),
-      warrantyInformation: data.warrantyInformation,
-      shippingInformation: data.shippingInformation,
-      availabilityStatus: data.availabilityStatus,
-      reviews: (data.reviews as List)
-          .cast<Map<String, dynamic>>()
-          .map(ProductReview.fromJson)
-          .toList(),
-      returnPolicy: data.returnPolicy,
-      minimumOrderQuantity: data.minimumOrderQuantity,
-      meta: ProductMeta.fromJson(data.meta),
-      thumbnail: data.thumbnail,
-      images: (data.images as List).cast<String>(),
-      variantGroups: await Future.wait(
-        variantGroupsRowData.map((e) => ProductVariantGroup.fromDbData(db, e)),
-      ),
-    );
-  }
-
-  ProductTableCompanion toDbCompanion() {
-    return ProductTableCompanion(
-      id: Value.absentIfNull(id),
-      title: Value(title),
-      description: Value(description),
-      category: Value(category),
-      price: Value(price),
-      discountPercentage: Value(discountPercentage),
-      rating: Value(rating),
-      stock: Value(stock),
-      tags: Value(tags),
-      brand: Value(brand),
-      sku: Value(sku),
-      weight: Value(weight),
-      dimensions: Value(dimensions.toJson()),
-      warrantyInformation: Value(warrantyInformation),
-      shippingInformation: Value(shippingInformation),
-      availabilityStatus: Value(availabilityStatus),
-      reviews: Value(reviews.map((e) => e.toJson()).toList()),
-      returnPolicy: Value(returnPolicy),
-      minimumOrderQuantity: Value(minimumOrderQuantity),
-      meta: Value(meta.toJson()),
-      thumbnail: Value(thumbnail),
-      images: Value(images),
-    );
-  }
-}
 
 @MappableClass()
 class Product with ProductMappable {
@@ -158,10 +88,10 @@ class Product with ProductMappable {
     required this.images,
   }) : variantGroups = prototype.variantGroups;
 
-  static const fromDbData = ProductTableDataConverter.fromDbData;
-
   factory Product.fromJson(Map<String, dynamic> json) =>
       ProductMapper.fromJson(json);
+
+  static const fromDbData = ProductTableDomainConverter.fromDbData;
 
   static Product get prototype => _ProductPrototypeX._prototype;
 }

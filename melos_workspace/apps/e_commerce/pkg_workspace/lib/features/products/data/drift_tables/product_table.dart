@@ -1,6 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
+import 'package:e_commerce/features/products/data/drift_tables/product_variant_group_table.dart';
+import 'package:e_commerce/features/products/data/drift_tables/product_variant_table.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_dimensions.dart';
 import 'package:e_commerce/features/products/domain/product_meta.dart';
@@ -33,7 +35,9 @@ class ProductTable extends Table {
   TextColumn get meta => text().map(const DbJsonConverter())();
   TextColumn get thumbnail => text()();
   TextColumn get images => text().map(const DbJsonConverter())();
+}
 
+extension ProductTableDomainConverter on Product {
   static Future<Product> fromDbData(
     AppDatabase db,
     ProductTableData data,
@@ -71,6 +75,33 @@ class ProductTable extends Table {
       variantGroups: await Future.wait(
         variantGroupsRowData.map((e) => ProductVariantGroup.fromDbData(db, e)),
       ),
+    );
+  }
+
+  ProductTableCompanion toDbCompanion() {
+    return ProductTableCompanion(
+      id: Value.absentIfNull(id),
+      title: Value(title),
+      description: Value(description),
+      category: Value(category),
+      price: Value(price),
+      discountPercentage: Value(discountPercentage),
+      rating: Value(rating),
+      stock: Value(stock),
+      tags: Value(tags),
+      brand: Value(brand),
+      sku: Value(sku),
+      weight: Value(weight),
+      dimensions: Value(dimensions.toJson()),
+      warrantyInformation: Value(warrantyInformation),
+      shippingInformation: Value(shippingInformation),
+      availabilityStatus: Value(availabilityStatus),
+      reviews: Value(reviews.map((e) => e.toJson()).toList()),
+      returnPolicy: Value(returnPolicy),
+      minimumOrderQuantity: Value(minimumOrderQuantity),
+      meta: Value(meta.toJson()),
+      thumbnail: Value(thumbnail),
+      images: Value(images),
     );
   }
 }

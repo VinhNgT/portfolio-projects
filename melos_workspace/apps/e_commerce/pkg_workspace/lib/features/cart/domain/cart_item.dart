@@ -1,6 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:drift/drift.dart';
-import 'package:e_commerce/backend/database/drift_provider.dart';
+import 'package:e_commerce/features/cart/data/drift_tables/cart_item_table.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:e_commerce/utils/typedefs.dart';
@@ -26,28 +25,7 @@ class CartItem with CartItemMappable {
     this.isIncludeInOrder = true,
   });
 
-  CartItemTableCompanion toDbCompanion({
-    DatabaseKey? orderItemId,
-  }) {
-    return CartItemTableCompanion(
-      orderItemId: Value(orderItemId ?? orderItem.id!),
-      isIncludeInOrder: Value(isIncludeInOrder),
-    );
-  }
-
-  static Future<CartItem> fromDbData(
-    AppDatabase db,
-    CartItemTableData data,
-  ) async {
-    final orderItem = await (db.select(db.orderItemTable)
-          ..where((tbl) => tbl.id.equals(data.orderItemId)))
-        .getSingle();
-
-    return CartItem(
-      orderItem: await OrderItem.fromDbData(db, orderItem),
-      isIncludeInOrder: data.isIncludeInOrder,
-    );
-  }
+  static const fromDbData = CartItemTableDomainConverter.fromDbData;
 }
 
 extension CartItemGetters on CartItem {

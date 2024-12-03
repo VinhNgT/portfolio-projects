@@ -1,6 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:drift/drift.dart';
-import 'package:e_commerce/backend/database/drift_provider.dart';
+import 'package:e_commerce/features/products/data/drift_tables/product_variant_table.dart';
 
 part 'product_variant.mapper.dart';
 
@@ -14,19 +13,7 @@ class ProductVariant with ProductVariantMappable {
     required this.name,
   });
 
-  ProductVariant.fromDbData(ProductVariantTableData data)
-      : id = data.id,
-        name = data.name;
-
-  ProductVariantTableCompanion toDbCompanion({
-    required int groupId,
-  }) {
-    return ProductVariantTableCompanion(
-      id: Value.absentIfNull(id),
-      name: Value(name),
-      groupId: Value(groupId),
-    );
-  }
+  static const fromDbData = ProductVariantTableDomainConverter.fromDbData;
 
   factory ProductVariant.fromJson(Map<String, dynamic> json) =>
       ProductVariantMapper.fromJson(json);

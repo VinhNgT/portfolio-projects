@@ -1,8 +1,10 @@
 import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/constants/drift_constants.dart';
 import 'package:e_commerce/features/cart/data/cart_repository.dart';
+import 'package:e_commerce/features/cart/data/drift_tables/cart_item_table.dart';
 import 'package:e_commerce/features/cart/domain/cart.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
+import 'package:e_commerce/features/orders/data/drift_tables/order_item_table.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:e_commerce/utils/typedefs.dart';
 import 'package:rxdart/rxdart.dart';
@@ -40,9 +42,9 @@ class DriftCartRepository implements CartRepository {
         item.orderItem.variantSelection,
       );
 
-      await db
-          .into(db.cartItemTable)
-          .insert(item.toDbCompanion(orderItemId: orderItemDbData.id));
+      await db.into(db.cartItemTable).insert(
+            item.toDbCompanion(orderItemId: orderItemDbData.id, cartId: 1000),
+          );
     });
   }
 
@@ -96,7 +98,7 @@ class DriftCartRepository implements CartRepository {
         final cartItemData = await db.cartItemTableDao.getCartItems();
 
         yield Cart(
-          id: 999,
+          id: 1000,
           cartItems: await Future.wait(
             cartItemData.map((e) => CartItem.fromDbData(db, e)),
           ),
