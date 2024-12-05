@@ -22,6 +22,7 @@ targets:
         generate_for:
           include:
             - 'lib/**/**_repository.dart'
+            - 'lib/**/**_source.dart'
             - 'lib/**/**_service.dart'
             - 'lib/**/**_provider.dart'
             - 'lib/**/**_providers.dart'
