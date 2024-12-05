@@ -29,10 +29,16 @@ part 'drift_provider.g.dart';
     OrderItemVariantSelectionTable,
   ],
   daos: [
+    // Products
+    ProductTableDao,
+    ProductVariantTableDao,
+    ProductVariantGroupTableDao,
+
+    // Orders
+    CartTableDao,
+    CartItemTableDao,
     OrderItemTableDao,
     OrderItemVariantSelectionTableDao,
-    CartItemTableDao,
-    ProductTableDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {

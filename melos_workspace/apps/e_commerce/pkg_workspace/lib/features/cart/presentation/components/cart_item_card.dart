@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce/common/ui/container_badge.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
-import 'package:e_commerce/features/cart/data/cart_repository.dart';
+import 'package:e_commerce/features/cart/data/cart_source.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
@@ -44,8 +44,8 @@ class CartItemCard extends HookConsumerWidget {
             value: isIncludeInOrder,
             onChanged: (value) {
               ref
-                  .read(cartRepositoryProvider)
-                  .setItemOrderInclusionState(cartItem, value!);
+                  .read(localCartSourceProvider)
+                  .setItemOrderInclusionState(cartItem.id!, value!);
             },
           ),
           Column(
@@ -143,7 +143,7 @@ class _VariantChip extends HookConsumerWidget {
           AddToCartRoute(
             initialCartItem: cartItem,
             onConfirm: (cartItem) async {
-              await ref.read(cartRepositoryProvider).updateCartItem(cartItem);
+              await ref.read(localCartSourceProvider).replaceCartItem(cartItem);
               if (context.mounted) {
                 // Pop the AddToCartSheet if it's still on the stack
                 context.router.root.popUntil(
@@ -186,7 +186,7 @@ class _CartItemBottomPart extends HookConsumerWidget {
           // const Gap(kSize_4),
           IconButton(
             onPressed: () {
-              ref.read(cartRepositoryProvider).removeCartItem(cartItem.id!);
+              ref.read(localCartSourceProvider).removeCartItem(cartItem);
             },
             icon: const Icon(Symbols.delete_outline),
           ),
@@ -252,9 +252,10 @@ class _CartItemQuantitySelection extends HookConsumerWidget {
           constraints: BoxConstraints.tight(const Size.square(kSize_36)),
           onPressed: () {
             if (cartItem.orderItem.quantity > minQuantity) {
-              ref
-                  .read(cartRepositoryProvider)
-                  .setItemQuantity(cartItem, cartItem.orderItem.quantity - 1);
+              ref.read(localCartSourceProvider).setItemQuantity(
+                    cartItem.id!,
+                    cartItem.orderItem.quantity - 1,
+                  );
             }
           },
           icon: const Icon(Symbols.remove),
@@ -270,9 +271,10 @@ class _CartItemQuantitySelection extends HookConsumerWidget {
           constraints: BoxConstraints.tight(const Size.square(kSize_36)),
           onPressed: () {
             if (cartItem.orderItem.quantity < maxQuantity) {
-              ref
-                  .read(cartRepositoryProvider)
-                  .setItemQuantity(cartItem, cartItem.orderItem.quantity + 1);
+              ref.read(localCartSourceProvider).setItemQuantity(
+                    cartItem.id!,
+                    cartItem.orderItem.quantity + 1,
+                  );
             }
           },
           icon: const Icon(Symbols.add),

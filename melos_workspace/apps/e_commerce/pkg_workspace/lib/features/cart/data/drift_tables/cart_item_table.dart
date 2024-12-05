@@ -4,6 +4,7 @@ import 'package:e_commerce/features/cart/data/drift_tables/cart_table.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/orders/data/drift_tables/order_item_table.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
+import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:e_commerce/utils/typedefs.dart';
 
 part 'cart_item_table.g.dart';
@@ -37,8 +38,8 @@ extension CartItemTableDomainConverter on CartItem {
   }
 
   CartItemTableCompanion toDbCompanion({
-    DatabaseKey? orderItemId,
-    DatabaseKey? cartId,
+    required DatabaseKey? orderItemId,
+    required DatabaseKey? cartId,
   }) {
     return CartItemTableCompanion(
       orderItemId: Value.absentIfNull(orderItemId ?? orderItem.id),
@@ -48,15 +49,71 @@ extension CartItemTableDomainConverter on CartItem {
   }
 }
 
-@DriftAccessor(tables: [CartItemTable])
-class CartItemTableDao extends DatabaseAccessor<AppDatabase>
-    with _$CartItemTableDaoMixin {
+@DriftAccessor()
+class CartItemTableDao extends DatabaseAccessor<AppDatabase> {
   CartItemTableDao(super.db);
 
-  Future<void> setItemOrderInclusionState(CartItem item, bool isSelected) {
+  Future<CartItem> addCartItem({
+    required CartItem cartItem,
+    required DatabaseKey cartId,
+  }) {
+    return db.transaction(() async {
+      final dbOrderItemId = await db.orderItemTableDao.addOrderItem(
+        orderItem: cartItem.orderItem,
+      );
+
+      final dbCartItem = await into(db.cartItemTable).insertReturning(
+        cartItem.toDbCompanion(
+          orderItemId: dbOrderItemId,
+          cartId: cartId,
+        ),
+      );
+
+      return CartItem.fromDbData(db, dbCartItem);
+    });
+  }
+
+  Future<CartItem?> getCartItemFromVariantSelection({
+    required ProductVariantIdsSelection variantSelection,
+  }) async {
+    final countSelectionExp = db.orderItemVariantSelectionTable.variantId.count(
+      distinct: true,
+    );
+
+    final query = select(db.cartItemTable).join([
+      innerJoin(
+        db.orderItemTable,
+        db.orderItemTable.id.equalsExp(db.cartItemTable.orderItemId),
+      ),
+      innerJoin(
+        db.orderItemVariantSelectionTable,
+        db.orderItemVariantSelectionTable.orderItemId
+            .equalsExp(db.orderItemTable.id),
+        useColumns: false,
+      ),
+    ])
+      ..where(
+        db.orderItemVariantSelectionTable.variantId.isIn(
+          variantSelection.values.map((e) => e!),
+        ),
+      )
+      ..addColumns([countSelectionExp])
+      ..groupBy(
+        [db.orderItemTable.id],
+        having: countSelectionExp.equals(variantSelection.values.length),
+      );
+
+    final result = await query
+        .map((row) => row.readTable(db.cartItemTable))
+        .getSingleOrNull();
+
+    return result != null ? CartItem.fromDbData(db, result) : null;
+  }
+
+  Future<void> setItemOrderInclusionState(DatabaseKey itemId, bool isSelected) {
     return (update(db.cartItemTable)
           ..where(
-            (tbl) => tbl.orderItemId.equals(item.orderItem.id!),
+            (tbl) => tbl.orderItemId.equals(itemId),
           ))
         .write(
       CartItemTableCompanion(
@@ -65,11 +122,23 @@ class CartItemTableDao extends DatabaseAccessor<AppDatabase>
     );
   }
 
-  Stream<List<CartItemTableData>> watchCartItems() {
-    return select(db.cartItemTable).watch();
-  }
+  Stream<List<CartItem>> watchCartItemsAndChilds({
+    required DatabaseKey cartId,
+  }) {
+    final query = select(db.cartItemTable).join([
+      innerJoin(
+        db.orderItemTable,
+        db.orderItemTable.id.equalsExp(db.cartItemTable.orderItemId),
+      ),
+    ])
+      ..where(db.cartItemTable.cartId.equals(cartId));
 
-  Future<List<CartItemTableData>> getCartItems() async {
-    return select(db.cartItemTable).get();
+    return query.watch().asyncMap(
+          (rows) => Future.wait(
+            rows.map(
+              (e) => CartItem.fromDbData(db, e.readTable(db.cartItemTable)),
+            ),
+          ),
+        );
   }
 }

@@ -3,6 +3,4 @@
 part of 'product_table.dart';
 
 // ignore_for_file: type=lint
-mixin _$ProductTableDaoMixin on DatabaseAccessor<AppDatabase> {
-  $ProductTableTable get productTable => attachedDatabase.productTable;
-}
+mixin _$ProductTableDaoMixin on DatabaseAccessor<AppDatabase> {}

@@ -18,16 +18,17 @@ class Bootstrap {
   final BootstrapDelegate delegate;
 
   Future<UncontrolledProviderScope> initApp() async {
-    setupMappers();
+    _setupMappers();
 
-    final container = ProviderContainer();
-    final errorLogger = ErrorLogger(container.read(loggerProvider));
-    setupErrorHandlers(container, errorLogger);
+    final rootContainer = ProviderContainer();
+    rootContainer.listen(envPrintWatcherProvider, (_, __) {});
 
-    container.listen(envPrintWatcherProvider, (_, __) {});
+    final errorLogger = ErrorLogger(rootContainer.read(loggerProvider));
+    _setupErrorHandlers(rootContainer, errorLogger);
 
+    final appContainer = await delegate.makeAppContainer(rootContainer);
     await runZonedGuarded(() async {
-      await delegate.setupServices(container);
+      await delegate.setupServices(appContainer);
     }, (error, stackTrace) {
       errorLogger.log(
         source: ErrorSource.bootstrap,
@@ -37,16 +38,19 @@ class Bootstrap {
     });
 
     return UncontrolledProviderScope(
-      container: container,
-      child: const MyApp(),
+      container: rootContainer,
+      child: UncontrolledProviderScope(
+        container: appContainer,
+        child: const MyApp(),
+      ),
     );
   }
 
-  void setupMappers() {
+  void _setupMappers() {
     MapperContainer.globals.use(const LoggerLevelMapper());
   }
 
-  void setupErrorHandlers(
+  void _setupErrorHandlers(
     ProviderContainer container,
     ErrorLogger errorLogger,
   ) {

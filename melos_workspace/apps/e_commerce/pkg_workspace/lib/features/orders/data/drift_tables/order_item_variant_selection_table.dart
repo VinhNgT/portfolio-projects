@@ -16,38 +16,57 @@ class OrderItemVariantSelectionTable extends Table {
   Set<Column> get primaryKey => {orderItemId, variantId};
 }
 
-@DriftAccessor(tables: [OrderItemVariantSelectionTable])
-class OrderItemVariantSelectionTableDao extends DatabaseAccessor<AppDatabase>
-    with _$OrderItemVariantSelectionTableDaoMixin {
+@DriftAccessor()
+class OrderItemVariantSelectionTableDao extends DatabaseAccessor<AppDatabase> {
   OrderItemVariantSelectionTableDao(super.db);
 
-  Future<void> addOrderItemVariantSelection(
-    DatabaseKey orderId,
-    ProductVariantIdsSelection variantSelection,
-  ) async {
+  Future<ProductVariantIdsSelection> addOrderItemVariantSelection({
+    required ProductVariantIdsSelection variantSelection,
+    required DatabaseKey orderItemId,
+  }) async {
     await db.transaction(() async {
       for (final variantId in variantSelection.values) {
-        await db.into(db.orderItemVariantSelectionTable).insert(
-              OrderItemVariantSelectionTableData(
-                orderItemId: orderId,
-                variantId: variantId!,
-              ),
-            );
+        await into(db.orderItemVariantSelectionTable).insert(
+          OrderItemVariantSelectionTableData(
+            orderItemId: orderItemId,
+            variantId: variantId!,
+          ),
+        );
       }
     });
+
+    return variantSelection;
   }
 
-  Future<List<OrderItemVariantSelectionTableData>> getOrderItemVariantSelection(
+  Future<ProductVariantIdsSelection> getOrderItemVariantSelection(
     DatabaseKey orderId,
   ) async {
-    return (select(db.orderItemVariantSelectionTable)
-          ..where((tbl) => tbl.orderItemId.equals(orderId)))
-        .get();
+    final query = db.select(db.orderItemVariantSelectionTable).join([
+      innerJoin(
+        db.productVariantTable,
+        db.productVariantTable.id
+            .equalsExp(db.orderItemVariantSelectionTable.variantId),
+      ),
+      innerJoin(
+        db.productVariantGroupTable,
+        db.productVariantGroupTable.id
+            .equalsExp(db.productVariantTable.groupId),
+      ),
+    ])
+      ..where(db.orderItemVariantSelectionTable.orderItemId.equals(orderId));
+
+    final dbVariantSelection = await query.get();
+
+    return {
+      for (final dbVariant in dbVariantSelection)
+        dbVariant.read(db.productVariantGroupTable.id)!:
+            dbVariant.read(db.productVariantTable.id),
+    };
   }
 
-  Future<void> removeOrderItemVariantSelection(DatabaseKey orderId) async {
+  Future<void> removeOrderItemVariantSelection(DatabaseKey itemId) async {
     await (delete(db.orderItemVariantSelectionTable)
-          ..where((tbl) => tbl.orderItemId.equals(orderId)))
+          ..where((tbl) => tbl.orderItemId.equals(itemId)))
         .go();
   }
 }

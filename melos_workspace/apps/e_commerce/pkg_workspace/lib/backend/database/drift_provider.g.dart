@@ -1054,8 +1054,8 @@ class $ProductVariantGroupTableTable extends ProductVariantGroupTable
       'product_id', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES product_table (id)'));
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES product_table (id) ON DELETE CASCADE'));
   @override
   List<GeneratedColumn> get $columns => [id, groupName, productId];
   @override
@@ -1280,7 +1280,7 @@ class $ProductVariantTableTable extends ProductVariantTable
       type: DriftSqlType.int,
       requiredDuringInsert: true,
       defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES product_variant_group_table (id)'));
+          'REFERENCES product_variant_group_table (id) ON DELETE CASCADE'));
   @override
   List<GeneratedColumn> get $columns => [id, name, groupId];
   @override
@@ -2263,15 +2263,20 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $OrderItemVariantSelectionTableTable
       orderItemVariantSelectionTable =
       $OrderItemVariantSelectionTableTable(this);
+  late final ProductTableDao productTableDao =
+      ProductTableDao(this as AppDatabase);
+  late final ProductVariantTableDao productVariantTableDao =
+      ProductVariantTableDao(this as AppDatabase);
+  late final ProductVariantGroupTableDao productVariantGroupTableDao =
+      ProductVariantGroupTableDao(this as AppDatabase);
+  late final CartTableDao cartTableDao = CartTableDao(this as AppDatabase);
+  late final CartItemTableDao cartItemTableDao =
+      CartItemTableDao(this as AppDatabase);
   late final OrderItemTableDao orderItemTableDao =
       OrderItemTableDao(this as AppDatabase);
   late final OrderItemVariantSelectionTableDao
       orderItemVariantSelectionTableDao =
       OrderItemVariantSelectionTableDao(this as AppDatabase);
-  late final CartItemTableDao cartItemTableDao =
-      CartItemTableDao(this as AppDatabase);
-  late final ProductTableDao productTableDao =
-      ProductTableDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2288,6 +2293,21 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
         [
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('product_table',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('product_variant_group_table',
+                  kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('product_variant_group_table',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('product_variant_table', kind: UpdateKind.delete),
+            ],
+          ),
           WritePropagation(
             on: TableUpdateQuery.onTableName('order_item_table',
                 limitUpdateKind: UpdateKind.delete),

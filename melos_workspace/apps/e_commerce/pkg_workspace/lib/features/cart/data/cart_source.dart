@@ -1,5 +1,3 @@
-import 'package:e_commerce/backend/database/drift_provider.dart';
-import 'package:e_commerce/features/cart/data/drift_cart_repository.dart';
 import 'package:e_commerce/features/cart/domain/cart.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
@@ -7,36 +5,48 @@ import 'package:e_commerce/utils/typedefs.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'cart_repository.g.dart';
+part 'cart_source.g.dart';
 
-abstract interface class CartRepository {
+const DatabaseKey localCartSourceId = 1000;
+const DatabaseKey localWishlistCartSourceId = 1001;
+
+const DatabaseKey remoteCartSourceId = 2000;
+const DatabaseKey remoteWishlistCartSourceId = 2001;
+
+abstract interface class CartSource {
+  /// The of the cart id of this source.
+  DatabaseKey get cartId;
+
   /// Add a [CartItem] to the cart.
-  Future<void> addCartItem(CartItem item);
+  Future<void> addCartItem(CartItem cartItem);
 
   /// Remove a [CartItem] from the cart.
-  Future<void> removeCartItem(DatabaseKey itemId);
+  Future<void> removeCartItem(CartItem cartItemId);
 
   /// Update a [CartItem] in the cart.
-  Future<void> updateCartItem(CartItem item);
+  Future<void> replaceCartItem(CartItem item);
 
   /// Update the order inclusion state of a [CartItem] in the cart.
-  Future<void> setItemOrderInclusionState(CartItem item, bool isSelected);
+  Future<void> setItemOrderInclusionState(
+    DatabaseKey cartItemId,
+    bool isSelected,
+  );
 
   /// Update the selected variant of a [CartItem] in the cart.
   Future<void> updateItemVariantSelection(
-    CartItem item,
+    DatabaseKey cartItemId,
     ProductVariantIdsSelection variantSelection,
   );
 
   /// Update the quantity of a [CartItem] in the cart.
-  Future<void> setItemQuantity(CartItem item, int quantity);
+  Future<void> setItemQuantity(DatabaseKey cartItemId, int quantity);
 
   /// Watch the cart.
   Stream<Cart> watchCart();
 }
 
 @Riverpod(keepAlive: true)
-CartRepository cartRepository(Ref ref) {
-  final db = ref.watch(driftAppDatabaseProvider);
-  return DriftCartRepository(db);
+CartSource localCartSource(Ref ref) {
+  // Will be replaced in the bootstrapping phase.
+  throw UnimplementedError();
 }

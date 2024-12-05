@@ -1,8 +1,5 @@
 import 'package:drift/drift.dart';
 import 'package:e_commerce/backend/database/drift_provider.dart';
-import 'package:e_commerce/features/orders/domain/order_item.dart';
-import 'package:e_commerce/features/products/data/drift_tables/product_variant_group_table.dart';
-import 'package:e_commerce/features/products/data/drift_tables/product_variant_table.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_dimensions.dart';
 import 'package:e_commerce/features/products/domain/product_meta.dart';
@@ -106,47 +103,57 @@ extension ProductTableDomainConverter on Product {
   }
 }
 
-@DriftAccessor(tables: [ProductTable])
-class ProductTableDao extends DatabaseAccessor<AppDatabase>
-    with _$ProductTableDaoMixin {
+@DriftAccessor()
+class ProductTableDao extends DatabaseAccessor<AppDatabase> {
   ProductTableDao(super.db);
 
-  Future<void> addProductFromOrderItem(
-    OrderItem item, {
-    bool replaceOld = false,
-  }) async {
-    await db.transaction(() async {
-      final productTableData = await db.into(db.productTable).insertReturning(
-            item.product.toDbCompanion(),
-            mode: replaceOld ? InsertMode.insertOrReplace : InsertMode.insert,
-          );
+  Future<DatabaseKey> addProduct({required Product product}) {
+    return db.transaction(() async {
+      final dbProductData =
+          await into(db.productTable).insertReturning(product.toDbCompanion());
 
-      for (final group in item.product.variantGroups) {
-        final groupTableData = await db
-            .into(db.productVariantGroupTable)
-            .insertReturning(
-              group.toDbCompanion(productId: productTableData.id),
-              mode: replaceOld ? InsertMode.insertOrReplace : InsertMode.insert,
-            );
-
-        for (final variant in group.variants) {
-          await db.into(db.productVariantTable).insert(
-                variant.toDbCompanion(groupId: groupTableData.id),
-                mode:
-                    replaceOld ? InsertMode.insertOrReplace : InsertMode.insert,
-              );
-        }
+      for (final group in product.variantGroups) {
+        await db.productVariantGroupTableDao.addProductVariantGroup(
+          productVariantGroup: group,
+          productId: dbProductData.id,
+        );
       }
+
+      return dbProductData.id;
     });
   }
 
-  Future<ProductTableData?> getProduct(int productId) async {
-    return (select(db.productTable)..where((tbl) => tbl.id.equals(productId)))
+  Future<Product?> getProduct(DatabaseKey productId) async {
+    final dbProduct = await (select(db.productTable)
+          ..where((tbl) => tbl.id.equals(productId)))
         .getSingleOrNull();
+
+    return dbProduct != null ? Product.fromDbData(db, dbProduct) : null;
   }
 
-  Future<ProductTableData?> getProductByVariantId(DatabaseKey variantId) async {
-    final query = select(db.productTable).join([
+  Future<void> removeProduct(DatabaseKey productId) async {
+    await db.transaction(() async {
+      await (delete(db.productTable)..where((tbl) => tbl.id.equals(productId)))
+          .go();
+    });
+  }
+
+  Future<bool> checkProductExists({required DatabaseKey productId}) async {
+    final productExistsStm = db.selectOnly(db.productTable)
+      ..addColumns([db.productTable.id])
+      ..where(db.productTable.id.equals(productId));
+
+    final productExists = await productExistsStm.getSingleOrNull() != null;
+    return productExists;
+  }
+
+  Future<bool> checkIfProductIsInCart(
+    DatabaseKey productId,
+    DatabaseKey cartId,
+  ) async {
+    final countExp = db.productTable.id.count(distinct: true);
+
+    final query = selectOnly(db.productTable).join([
       innerJoin(
         db.productVariantGroupTable,
         db.productVariantGroupTable.productId.equalsExp(db.productTable.id),
@@ -156,12 +163,34 @@ class ProductTableDao extends DatabaseAccessor<AppDatabase>
         db.productVariantTable.groupId
             .equalsExp(db.productVariantGroupTable.id),
       ),
+      innerJoin(
+        db.orderItemVariantSelectionTable,
+        db.orderItemVariantSelectionTable.variantId
+            .equalsExp(db.productVariantTable.id),
+      ),
+      innerJoin(
+        db.orderItemTable,
+        db.orderItemTable.id
+            .equalsExp(db.orderItemVariantSelectionTable.orderItemId),
+      ),
+      innerJoin(
+        db.cartItemTable,
+        db.cartItemTable.orderItemId.equalsExp(db.orderItemTable.id),
+      ),
+      innerJoin(
+        db.cartTable,
+        db.cartTable.id.equalsExp(db.cartItemTable.cartId),
+      ),
     ])
       ..where(
-        db.productVariantTable.id.equals(variantId),
-      );
+        db.productTable.id.equals(productId) & db.cartTable.id.equals(cartId),
+      )
+      ..addColumns([countExp])
+      ..groupBy([db.productTable.id]);
 
-    final result = await query.getSingleOrNull();
-    return result?.readTable(db.productTable);
+    // Group by if run on an empty result will return blank instead of 0.
+    final result =
+        await query.map((row) => row.read(countExp)).getSingleOrNull() ?? 0;
+    return result > 0;
   }
 }

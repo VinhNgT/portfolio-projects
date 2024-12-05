@@ -1,4 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/features/cart/data/drift_tables/cart_item_table.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
@@ -25,7 +26,8 @@ class CartItem with CartItemMappable {
     this.isIncludeInOrder = true,
   });
 
-  static const fromDbData = CartItemTableDomainConverter.fromDbData;
+  static Future<CartItem> fromDbData(AppDatabase db, CartItemTableData data) =>
+      CartItemTableDomainConverter.fromDbData(db, data);
 }
 
 extension CartItemGetters on CartItem {

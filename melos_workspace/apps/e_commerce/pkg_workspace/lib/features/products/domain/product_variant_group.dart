@@ -1,4 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/features/products/data/drift_tables/product_variant_group_table.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 
@@ -21,7 +22,11 @@ class ProductVariantGroup with ProductVariantGroupMappable {
     this.variants = const [],
   });
 
-  static const fromDbData = ProductVariantGroupTableDomainConverter.fromDbData;
+  static Future<ProductVariantGroup> fromDbData(
+    AppDatabase db,
+    ProductVariantGroupTableData data,
+  ) =>
+      ProductVariantGroupTableDomainConverter.fromDbData(db, data);
 
   factory ProductVariantGroup.fromJson(Map<String, dynamic> json) =>
       ProductVariantGroupMapper.fromJson(json);
