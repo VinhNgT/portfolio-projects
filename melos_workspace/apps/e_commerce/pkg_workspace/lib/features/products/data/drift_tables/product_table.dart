@@ -4,7 +4,6 @@ import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_dimensions.dart';
 import 'package:e_commerce/features/products/domain/product_meta.dart';
 import 'package:e_commerce/features/products/domain/product_review.dart';
-import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:e_commerce/utils/typedefs.dart';
 
 part 'product_table.g.dart';
@@ -39,9 +38,8 @@ extension ProductTableDomainConverter on Product {
     AppDatabase db,
     ProductTableData data,
   ) async {
-    final variantGroupsRowData = await (db.select(db.productVariantGroupTable)
-          ..where((tbl) => tbl.productId.equals(data.id)))
-        .get();
+    final variantGroups = await db.productVariantGroupTableDao
+        .getProductVariantGroupForProduct(data.id);
 
     return Product(
       id: data.id,
@@ -69,9 +67,7 @@ extension ProductTableDomainConverter on Product {
       meta: ProductMeta.fromJson(data.meta),
       thumbnail: data.thumbnail,
       images: (data.images as List).cast<String>(),
-      variantGroups: await Future.wait(
-        variantGroupsRowData.map((e) => ProductVariantGroup.fromDbData(db, e)),
-      ),
+      variantGroups: variantGroups,
     );
   }
 
@@ -129,6 +125,41 @@ class ProductTableDao extends DatabaseAccessor<AppDatabase> {
         .getSingleOrNull();
 
     return dbProduct != null ? Product.fromDbData(db, dbProduct) : null;
+  }
+
+  Future<Product?> getProductFromOrderItem(DatabaseKey orderItemId) async {
+    final query = db.select(db.productTable, distinct: true).join([
+      innerJoin(
+        db.productVariantGroupTable,
+        db.productVariantGroupTable.productId.equalsExp(db.productTable.id),
+        useColumns: false,
+      ),
+      innerJoin(
+        db.productVariantTable,
+        db.productVariantTable.groupId
+            .equalsExp(db.productVariantGroupTable.id),
+        useColumns: false,
+      ),
+      innerJoin(
+        db.orderItemVariantSelectionTable,
+        db.orderItemVariantSelectionTable.variantId
+            .equalsExp(db.productVariantTable.id),
+        useColumns: false,
+      ),
+      innerJoin(
+        db.orderItemTable,
+        db.orderItemTable.id
+            .equalsExp(db.orderItemVariantSelectionTable.orderItemId),
+        useColumns: false,
+      ),
+    ])
+      ..where(db.orderItemTable.id.equals(orderItemId));
+
+    final result = await query
+        .map((row) => row.readTable(db.productTable))
+        .getSingleOrNull();
+
+    return result != null ? Product.fromDbData(db, result) : null;
   }
 
   Future<void> removeProduct(DatabaseKey productId) async {

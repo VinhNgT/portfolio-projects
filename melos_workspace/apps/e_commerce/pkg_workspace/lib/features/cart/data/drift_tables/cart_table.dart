@@ -1,7 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/features/cart/domain/cart.dart';
-import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/utils/typedefs.dart';
 
 part 'cart_table.g.dart';
@@ -15,14 +14,12 @@ extension CartTableDomainConverter on Cart {
     AppDatabase db,
     CartTableData data,
   ) async {
-    final cartItems = await (db.select(db.cartItemTable)
-          ..where((tbl) => tbl.cartId.equals(data.id)))
-        .get();
+    final cartItems =
+        await db.cartItemTableDao.getCartItemsForCart(cartId: data.id);
 
     return Cart(
       id: data.id,
-      cartItems:
-          await Future.wait(cartItems.map((e) => CartItem.fromDbData(db, e))),
+      cartItems: cartItems,
     );
   }
 

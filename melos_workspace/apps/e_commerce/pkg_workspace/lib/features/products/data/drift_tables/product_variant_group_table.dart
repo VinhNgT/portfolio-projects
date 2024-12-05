@@ -1,7 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/features/products/data/drift_tables/product_table.dart';
-import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:e_commerce/utils/typedefs.dart';
 
@@ -20,14 +19,13 @@ extension ProductVariantGroupTableDomainConverter on ProductVariantGroup {
     AppDatabase db,
     ProductVariantGroupTableData data,
   ) async {
-    final variants = await (db.select(db.productVariantTable)
-          ..where((tbl) => tbl.groupId.equals(data.id)))
-        .get();
+    final variants =
+        await db.productVariantTableDao.getProductVariantsForGroup(data.id);
 
     return ProductVariantGroup(
       id: data.id,
       groupName: data.groupName,
-      variants: variants.map(ProductVariant.fromDbData).toList(),
+      variants: variants,
     );
   }
 
@@ -65,5 +63,18 @@ class ProductVariantGroupTableDao extends DatabaseAccessor<AppDatabase> {
 
       return dbProductVariantGroup.id;
     });
+  }
+
+  Future<List<ProductVariantGroup>> getProductVariantGroupForProduct(
+    DatabaseKey productId,
+  ) async {
+    final dbProductVariantGroups = await (select(db.productVariantGroupTable)
+          ..where((tbl) => tbl.productId.equals(productId)))
+        .get();
+
+    return Future.wait(
+      dbProductVariantGroups
+          .map((group) => ProductVariantGroup.fromDbData(db, group)),
+    );
   }
 }

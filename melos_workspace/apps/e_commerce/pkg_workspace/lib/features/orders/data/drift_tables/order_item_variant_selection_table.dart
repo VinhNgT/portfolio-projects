@@ -41,7 +41,7 @@ class OrderItemVariantSelectionTableDao extends DatabaseAccessor<AppDatabase> {
   Future<ProductVariantIdsSelection> getOrderItemVariantSelection(
     DatabaseKey orderId,
   ) async {
-    final query = db.select(db.orderItemVariantSelectionTable).join([
+    final query = db.selectOnly(db.orderItemVariantSelectionTable).join([
       innerJoin(
         db.productVariantTable,
         db.productVariantTable.id
@@ -53,15 +53,22 @@ class OrderItemVariantSelectionTableDao extends DatabaseAccessor<AppDatabase> {
             .equalsExp(db.productVariantTable.groupId),
       ),
     ])
-      ..where(db.orderItemVariantSelectionTable.orderItemId.equals(orderId));
+      ..where(db.orderItemVariantSelectionTable.orderItemId.equals(orderId))
+      ..addColumns([
+        db.productVariantGroupTable.id,
+        db.productVariantTable.id,
+      ]);
 
-    final dbVariantSelection = await query.get();
+    final dbVariantSelection = await query
+        .map(
+          (row) => MapEntry(
+            row.read(db.productVariantGroupTable.id)!,
+            row.read(db.productVariantTable.id)!,
+          ),
+        )
+        .get();
 
-    return {
-      for (final dbVariant in dbVariantSelection)
-        dbVariant.read(db.productVariantGroupTable.id)!:
-            dbVariant.read(db.productVariantTable.id),
-    };
+    return Map.fromEntries(dbVariantSelection);
   }
 
   Future<void> removeOrderItemVariantSelection(DatabaseKey itemId) async {

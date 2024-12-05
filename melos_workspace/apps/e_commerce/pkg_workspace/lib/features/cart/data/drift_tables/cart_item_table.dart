@@ -3,7 +3,6 @@ import 'package:e_commerce/backend/database/drift_provider.dart';
 import 'package:e_commerce/features/cart/data/drift_tables/cart_table.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/orders/data/drift_tables/order_item_table.dart';
-import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:e_commerce/utils/typedefs.dart';
 
@@ -27,12 +26,10 @@ extension CartItemTableDomainConverter on CartItem {
     AppDatabase db,
     CartItemTableData data,
   ) async {
-    final orderItem = await (db.select(db.orderItemTable)
-          ..where((tbl) => tbl.id.equals(data.orderItemId)))
-        .getSingle();
+    final orderItem = await db.orderItemTableDao.getOrderItem(data.orderItemId);
 
     return CartItem(
-      orderItem: await OrderItem.fromDbData(db, orderItem),
+      orderItem: orderItem!,
       isIncludeInOrder: data.isIncludeInOrder,
     );
   }
@@ -71,6 +68,16 @@ class CartItemTableDao extends DatabaseAccessor<AppDatabase> {
 
       return CartItem.fromDbData(db, dbCartItem);
     });
+  }
+
+  Future<List<CartItem>> getCartItemsForCart({
+    required DatabaseKey cartId,
+  }) async {
+    final cartItems = await (select(db.cartItemTable)
+          ..where((tbl) => tbl.cartId.equals(cartId)))
+        .get();
+
+    return Future.wait(cartItems.map((e) => CartItem.fromDbData(db, e)));
   }
 
   Future<CartItem?> getCartItemFromVariantSelection({

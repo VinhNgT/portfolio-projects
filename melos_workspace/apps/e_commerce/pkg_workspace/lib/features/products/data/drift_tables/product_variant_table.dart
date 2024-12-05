@@ -50,4 +50,12 @@ class ProductVariantTableDao extends DatabaseAccessor<AppDatabase> {
       return dbProductVariant.id;
     });
   }
+
+  Future<List<ProductVariant>> getProductVariantsForGroup(int groupId) async {
+    final data = await (select(db.productVariantTable)
+          ..where((tbl) => tbl.groupId.equals(groupId)))
+        .get();
+
+    return data.map(ProductVariant.fromDbData).toList();
+  }
 }
