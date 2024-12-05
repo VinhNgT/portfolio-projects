@@ -5,5 +5,5 @@
     "PATH": "${workspaceFolder}/../../../.venv/Scripts;${env:PATH}",
     "VIRTUAL_ENV": "${workspaceFolder}/../../../.venv"
   },
-  "dart.flutterSdkPath": ".fvm/versions/3.24.5"
+  "dart.flutterSdkPath": ".fvm/versions/3.27.0-0.2.pre"
 }
