@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:cached_query/cached_query.dart';
-import 'package:e_commerce/backend/cache/cached_storage.dart';
 import 'package:e_commerce/backend/cache/domain/app_cache_config.dart';
+import 'package:e_commerce/backend/cache/drift_cache_database.dart';
 import 'package:e_commerce/backend/env/env_provider.dart';
 import 'package:e_commerce/backend/utils/object_serializer.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -109,7 +109,7 @@ Future<ClientCacheManager> clientCacheManager(Ref ref) async {
   // Configure CachedQuery backend.
   final cachedQuery = CachedQuery.instance;
   cachedQuery.config(
-    storage: await SembastCachedStorage.makeDefault(),
+    storage: DriftCachedStorage(),
 
     // Default configuration for all queries.
     config: QueryConfig(
@@ -119,8 +119,7 @@ Future<ClientCacheManager> clientCacheManager(Ref ref) async {
       // Time to keep the cache in RAM, it will be refreshed every time the data
       // is accessed.
       //
-      // Set to Duration.zero because the underlying database is already having
-      // a cache of its own.
+      // Set to Duration.zero to disable RAM cache.
       cacheDuration: Duration.zero,
 
       // Time to keep the cache in disk. The cache will be deleted after this

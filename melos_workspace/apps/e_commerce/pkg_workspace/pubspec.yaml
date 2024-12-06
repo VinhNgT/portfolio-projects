@@ -62,7 +62,6 @@ dependencies:
   dart_mappable: ^4.2.2
 
   # Database / File System
-  sembast: ^3.6.0
   path: ^1.9.0
   path_provider: ^2.1.2
   drift: ^2.19.1+1

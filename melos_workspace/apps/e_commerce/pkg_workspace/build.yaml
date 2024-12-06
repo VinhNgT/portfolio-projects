@@ -33,6 +33,7 @@ targets:
           include:
             - 'lib/backend/database/**.dart'
             - 'lib/**/drift_tables/**.dart'
+            - 'lib/**/**_database.dart'
 
 global_options:
   riverpod_generator:riverpod_generator:
