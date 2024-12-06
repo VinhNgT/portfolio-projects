@@ -12,11 +12,11 @@ targets:
             fromMap: fromJson
             toMap: toJson
 
-      drift_dev:
+      auto_route_generator:
         generate_for:
           include:
-            - 'lib/backend/database/**.dart'
-            - 'lib/**/drift_tables/**.dart'
+            - 'lib/routing/**.dart'
+            - 'lib/**/presentation/**.dart'
 
       riverpod_generator:
         generate_for:
@@ -28,8 +28,13 @@ targets:
             - 'lib/**/**_providers.dart'
             - 'lib/**/**_controller.dart'
 
-      auto_route_generator:
+      drift_dev:
         generate_for:
           include:
-            - 'lib/routing/**.dart'
-            - 'lib/**/presentation/**.dart'
+            - 'lib/backend/database/**.dart'
+            - 'lib/**/drift_tables/**.dart'
+
+global_options:
+  riverpod_generator:riverpod_generator:
+    runs_before:
+      - drift_dev:drift_dev
