@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:e_commerce/backend/database/drift_provider.dart';
+import 'package:e_commerce/backend/database/drift_database_provider.dart';
 import 'package:e_commerce/features/orders/data/drift_tables/order_item_table.dart';
 import 'package:e_commerce/features/products/data/drift_tables/product_variant_table.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
@@ -17,7 +17,8 @@ class OrderItemVariantSelectionTable extends Table {
 }
 
 @DriftAccessor()
-class OrderItemVariantSelectionTableDao extends DatabaseAccessor<AppDatabase> {
+class OrderItemVariantSelectionTableDao
+    extends DatabaseAccessor<DriftLocalDatabase> {
   OrderItemVariantSelectionTableDao(super.db);
 
   Future<ProductVariantIdsSelection> addOrderItemVariantSelection({

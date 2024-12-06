@@ -3,4 +3,5 @@
 part of 'product_variant_group_table.dart';
 
 // ignore_for_file: type=lint
-mixin _$ProductVariantGroupTableDaoMixin on DatabaseAccessor<AppDatabase> {}
+mixin _$ProductVariantGroupTableDaoMixin
+    on DatabaseAccessor<DriftLocalDatabase> {}

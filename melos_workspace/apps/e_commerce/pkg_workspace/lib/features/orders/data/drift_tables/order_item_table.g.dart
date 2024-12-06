@@ -3,4 +3,4 @@
 part of 'order_item_table.dart';
 
 // ignore_for_file: type=lint
-mixin _$OrderItemTableDaoMixin on DatabaseAccessor<AppDatabase> {}
+mixin _$OrderItemTableDaoMixin on DatabaseAccessor<DriftLocalDatabase> {}

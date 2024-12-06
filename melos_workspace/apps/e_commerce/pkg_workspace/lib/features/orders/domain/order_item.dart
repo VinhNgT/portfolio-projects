@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:e_commerce/backend/database/drift_provider.dart';
+import 'package:e_commerce/backend/database/drift_database_provider.dart';
 import 'package:e_commerce/features/orders/data/drift_tables/order_item_table.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
@@ -58,7 +58,10 @@ class OrderItem with OrderItemMappable {
     }
   }
 
-  static Future<OrderItem> fromDbData(AppDatabase db, OrderItemTableData data) {
+  static Future<OrderItem> fromDbData(
+    DriftLocalDatabase db,
+    OrderItemTableData data,
+  ) {
     return OrderItemTableDomainExtensionConverter.fromDbData(db, data);
   }
 

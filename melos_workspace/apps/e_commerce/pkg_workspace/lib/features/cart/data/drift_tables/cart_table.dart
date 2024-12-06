@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:e_commerce/backend/database/drift_provider.dart';
+import 'package:e_commerce/backend/database/drift_database_provider.dart';
 import 'package:e_commerce/features/cart/domain/cart.dart';
 import 'package:e_commerce/utils/typedefs.dart';
 
@@ -11,7 +11,7 @@ class CartTable extends Table {
 
 extension CartTableDomainConverter on Cart {
   static Future<Cart> fromDbData(
-    AppDatabase db,
+    DriftLocalDatabase db,
     CartTableData data,
   ) async {
     final cartItems =
@@ -31,7 +31,7 @@ extension CartTableDomainConverter on Cart {
 }
 
 @DriftAccessor()
-class CartTableDao extends DatabaseAccessor<AppDatabase> {
+class CartTableDao extends DatabaseAccessor<DriftLocalDatabase> {
   CartTableDao(super.db);
 
   Future<CartTableData> addCart({required Cart cart}) {

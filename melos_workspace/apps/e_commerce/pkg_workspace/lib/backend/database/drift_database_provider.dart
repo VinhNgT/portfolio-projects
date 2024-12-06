@@ -13,7 +13,7 @@ import 'package:e_commerce/features/products/data/drift_tables/product_variant_t
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'drift_provider.g.dart';
+part 'drift_database_provider.g.dart';
 
 @DriftDatabase(
   tables: [
@@ -41,9 +41,9 @@ part 'drift_provider.g.dart';
     OrderItemVariantSelectionTableDao,
   ],
 )
-class AppDatabase extends _$AppDatabase {
-  AppDatabase({required String dbName}) : super(_openConnection(dbName));
-  AppDatabase.inMemory() : super(NativeDatabase.memory());
+class DriftLocalDatabase extends _$DriftLocalDatabase {
+  DriftLocalDatabase({required String dbName}) : super(_openConnection(dbName));
+  DriftLocalDatabase.inMemory() : super(NativeDatabase.memory());
 
   static QueryExecutor _openConnection(String name) {
     return driftDatabase(name: name);
@@ -63,9 +63,19 @@ class AppDatabase extends _$AppDatabase {
 }
 
 @Riverpod(keepAlive: true)
-AppDatabase driftAppDatabase(Ref ref) {
-  // return AppDatabase(dbName: 'default');
-  return AppDatabase.inMemory();
+DriftLocalDatabase driftInMemoryDatabase(Ref ref) {
+  return DriftLocalDatabase.inMemory();
+}
+
+@Riverpod(keepAlive: true)
+DriftLocalDatabase driftLocalDatabase(Ref ref, {required String dbName}) {
+  return DriftLocalDatabase(dbName: dbName);
+}
+
+@Riverpod(keepAlive: true)
+DriftLocalDatabase driftDefaultLocalDatabase(Ref ref) {
+  // return ref.watch(driftInMemoryDatabaseProvider);
+  return ref.watch(driftLocalDatabaseProvider(dbName: 'default'));
 }
 
 class DbJsonConverter extends TypeConverter<dynamic, String> {

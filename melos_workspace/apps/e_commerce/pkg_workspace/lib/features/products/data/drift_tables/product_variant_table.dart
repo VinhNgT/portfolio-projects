@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:e_commerce/backend/database/drift_provider.dart';
+import 'package:e_commerce/backend/database/drift_database_provider.dart';
 import 'package:e_commerce/features/products/data/drift_tables/product_variant_group_table.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:e_commerce/utils/typedefs.dart';
@@ -34,7 +34,7 @@ extension ProductVariantTableDomainConverter on ProductVariant {
 }
 
 @DriftAccessor()
-class ProductVariantTableDao extends DatabaseAccessor<AppDatabase> {
+class ProductVariantTableDao extends DatabaseAccessor<DriftLocalDatabase> {
   ProductVariantTableDao(super.db);
 
   Future<DatabaseKey> addProductVariant({

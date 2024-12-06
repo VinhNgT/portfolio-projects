@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'drift_provider.dart';
+part of 'drift_database_provider.dart';
 
 // ignore_for_file: type=lint
 class $ProductTableTable extends ProductTable
@@ -2249,9 +2249,9 @@ class OrderItemVariantSelectionTableCompanion
   }
 }
 
-abstract class _$AppDatabase extends GeneratedDatabase {
-  _$AppDatabase(QueryExecutor e) : super(e);
-  $AppDatabaseManager get managers => $AppDatabaseManager(this);
+abstract class _$DriftLocalDatabase extends GeneratedDatabase {
+  _$DriftLocalDatabase(QueryExecutor e) : super(e);
+  $DriftLocalDatabaseManager get managers => $DriftLocalDatabaseManager(this);
   late final $ProductTableTable productTable = $ProductTableTable(this);
   late final $ProductVariantGroupTableTable productVariantGroupTable =
       $ProductVariantGroupTableTable(this);
@@ -2264,19 +2264,20 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       orderItemVariantSelectionTable =
       $OrderItemVariantSelectionTableTable(this);
   late final ProductTableDao productTableDao =
-      ProductTableDao(this as AppDatabase);
+      ProductTableDao(this as DriftLocalDatabase);
   late final ProductVariantTableDao productVariantTableDao =
-      ProductVariantTableDao(this as AppDatabase);
+      ProductVariantTableDao(this as DriftLocalDatabase);
   late final ProductVariantGroupTableDao productVariantGroupTableDao =
-      ProductVariantGroupTableDao(this as AppDatabase);
-  late final CartTableDao cartTableDao = CartTableDao(this as AppDatabase);
+      ProductVariantGroupTableDao(this as DriftLocalDatabase);
+  late final CartTableDao cartTableDao =
+      CartTableDao(this as DriftLocalDatabase);
   late final CartItemTableDao cartItemTableDao =
-      CartItemTableDao(this as AppDatabase);
+      CartItemTableDao(this as DriftLocalDatabase);
   late final OrderItemTableDao orderItemTableDao =
-      OrderItemTableDao(this as AppDatabase);
+      OrderItemTableDao(this as DriftLocalDatabase);
   late final OrderItemVariantSelectionTableDao
       orderItemVariantSelectionTableDao =
-      OrderItemVariantSelectionTableDao(this as AppDatabase);
+      OrderItemVariantSelectionTableDao(this as DriftLocalDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2378,13 +2379,13 @@ typedef $$ProductTableTableUpdateCompanionBuilder = ProductTableCompanion
   Value<dynamic> images,
 });
 
-final class $$ProductTableTableReferences extends BaseReferences<_$AppDatabase,
-    $ProductTableTable, ProductTableData> {
+final class $$ProductTableTableReferences extends BaseReferences<
+    _$DriftLocalDatabase, $ProductTableTable, ProductTableData> {
   $$ProductTableTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static MultiTypedResultKey<$ProductVariantGroupTableTable,
       List<ProductVariantGroupTableData>> _productVariantGroupTableRefsTable(
-          _$AppDatabase db) =>
+          _$DriftLocalDatabase db) =>
       MultiTypedResultKey.fromTable(db.productVariantGroupTable,
           aliasName: $_aliasNameGenerator(
               db.productTable.id, db.productVariantGroupTable.productId));
@@ -2403,7 +2404,7 @@ final class $$ProductTableTableReferences extends BaseReferences<_$AppDatabase,
 }
 
 class $$ProductTableTableFilterComposer
-    extends Composer<_$AppDatabase, $ProductTableTable> {
+    extends Composer<_$DriftLocalDatabase, $ProductTableTable> {
   $$ProductTableTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -2517,7 +2518,7 @@ class $$ProductTableTableFilterComposer
 }
 
 class $$ProductTableTableOrderingComposer
-    extends Composer<_$AppDatabase, $ProductTableTable> {
+    extends Composer<_$DriftLocalDatabase, $ProductTableTable> {
   $$ProductTableTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -2599,7 +2600,7 @@ class $$ProductTableTableOrderingComposer
 }
 
 class $$ProductTableTableAnnotationComposer
-    extends Composer<_$AppDatabase, $ProductTableTable> {
+    extends Composer<_$DriftLocalDatabase, $ProductTableTable> {
   $$ProductTableTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -2700,7 +2701,7 @@ class $$ProductTableTableAnnotationComposer
 }
 
 class $$ProductTableTableTableManager extends RootTableManager<
-    _$AppDatabase,
+    _$DriftLocalDatabase,
     $ProductTableTable,
     ProductTableData,
     $$ProductTableTableFilterComposer,
@@ -2711,7 +2712,8 @@ class $$ProductTableTableTableManager extends RootTableManager<
     (ProductTableData, $$ProductTableTableReferences),
     ProductTableData,
     PrefetchHooks Function({bool productVariantGroupTableRefs})> {
-  $$ProductTableTableTableManager(_$AppDatabase db, $ProductTableTable table)
+  $$ProductTableTableTableManager(
+      _$DriftLocalDatabase db, $ProductTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
@@ -2852,7 +2854,7 @@ class $$ProductTableTableTableManager extends RootTableManager<
 }
 
 typedef $$ProductTableTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
+    _$DriftLocalDatabase,
     $ProductTableTable,
     ProductTableData,
     $$ProductTableTableFilterComposer,
@@ -2877,13 +2879,13 @@ typedef $$ProductVariantGroupTableTableUpdateCompanionBuilder
 });
 
 final class $$ProductVariantGroupTableTableReferences extends BaseReferences<
-    _$AppDatabase,
+    _$DriftLocalDatabase,
     $ProductVariantGroupTableTable,
     ProductVariantGroupTableData> {
   $$ProductVariantGroupTableTableReferences(
       super.$_db, super.$_table, super.$_typedResult);
 
-  static $ProductTableTable _productIdTable(_$AppDatabase db) =>
+  static $ProductTableTable _productIdTable(_$DriftLocalDatabase db) =>
       db.productTable.createAlias($_aliasNameGenerator(
           db.productVariantGroupTable.productId, db.productTable.id));
 
@@ -2898,7 +2900,7 @@ final class $$ProductVariantGroupTableTableReferences extends BaseReferences<
 
   static MultiTypedResultKey<$ProductVariantTableTable,
       List<ProductVariantTableData>> _productVariantTableRefsTable(
-          _$AppDatabase db) =>
+          _$DriftLocalDatabase db) =>
       MultiTypedResultKey.fromTable(db.productVariantTable,
           aliasName: $_aliasNameGenerator(
               db.productVariantGroupTable.id, db.productVariantTable.groupId));
@@ -2916,7 +2918,7 @@ final class $$ProductVariantGroupTableTableReferences extends BaseReferences<
 }
 
 class $$ProductVariantGroupTableTableFilterComposer
-    extends Composer<_$AppDatabase, $ProductVariantGroupTableTable> {
+    extends Composer<_$DriftLocalDatabase, $ProductVariantGroupTableTable> {
   $$ProductVariantGroupTableTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -2973,7 +2975,7 @@ class $$ProductVariantGroupTableTableFilterComposer
 }
 
 class $$ProductVariantGroupTableTableOrderingComposer
-    extends Composer<_$AppDatabase, $ProductVariantGroupTableTable> {
+    extends Composer<_$DriftLocalDatabase, $ProductVariantGroupTableTable> {
   $$ProductVariantGroupTableTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -3009,7 +3011,7 @@ class $$ProductVariantGroupTableTableOrderingComposer
 }
 
 class $$ProductVariantGroupTableTableAnnotationComposer
-    extends Composer<_$AppDatabase, $ProductVariantGroupTableTable> {
+    extends Composer<_$DriftLocalDatabase, $ProductVariantGroupTableTable> {
   $$ProductVariantGroupTableTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -3068,7 +3070,7 @@ class $$ProductVariantGroupTableTableAnnotationComposer
 }
 
 class $$ProductVariantGroupTableTableTableManager extends RootTableManager<
-    _$AppDatabase,
+    _$DriftLocalDatabase,
     $ProductVariantGroupTableTable,
     ProductVariantGroupTableData,
     $$ProductVariantGroupTableTableFilterComposer,
@@ -3080,7 +3082,7 @@ class $$ProductVariantGroupTableTableTableManager extends RootTableManager<
     ProductVariantGroupTableData,
     PrefetchHooks Function({bool productId, bool productVariantTableRefs})> {
   $$ProductVariantGroupTableTableTableManager(
-      _$AppDatabase db, $ProductVariantGroupTableTable table)
+      _$DriftLocalDatabase db, $ProductVariantGroupTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
@@ -3178,7 +3180,7 @@ class $$ProductVariantGroupTableTableTableManager extends RootTableManager<
 
 typedef $$ProductVariantGroupTableTableProcessedTableManager
     = ProcessedTableManager<
-        _$AppDatabase,
+        _$DriftLocalDatabase,
         $ProductVariantGroupTableTable,
         ProductVariantGroupTableData,
         $$ProductVariantGroupTableTableFilterComposer,
@@ -3206,11 +3208,12 @@ typedef $$ProductVariantTableTableUpdateCompanionBuilder
 });
 
 final class $$ProductVariantTableTableReferences extends BaseReferences<
-    _$AppDatabase, $ProductVariantTableTable, ProductVariantTableData> {
+    _$DriftLocalDatabase, $ProductVariantTableTable, ProductVariantTableData> {
   $$ProductVariantTableTableReferences(
       super.$_db, super.$_table, super.$_typedResult);
 
-  static $ProductVariantGroupTableTable _groupIdTable(_$AppDatabase db) =>
+  static $ProductVariantGroupTableTable _groupIdTable(
+          _$DriftLocalDatabase db) =>
       db.productVariantGroupTable.createAlias($_aliasNameGenerator(
           db.productVariantTable.groupId, db.productVariantGroupTable.id));
 
@@ -3226,7 +3229,7 @@ final class $$ProductVariantTableTableReferences extends BaseReferences<
 
   static MultiTypedResultKey<$OrderItemVariantSelectionTableTable,
           List<OrderItemVariantSelectionTableData>>
-      _orderItemVariantSelectionTableRefsTable(_$AppDatabase db) =>
+      _orderItemVariantSelectionTableRefsTable(_$DriftLocalDatabase db) =>
           MultiTypedResultKey.fromTable(db.orderItemVariantSelectionTable,
               aliasName: $_aliasNameGenerator(db.productVariantTable.id,
                   db.orderItemVariantSelectionTable.variantId));
@@ -3245,7 +3248,7 @@ final class $$ProductVariantTableTableReferences extends BaseReferences<
 }
 
 class $$ProductVariantTableTableFilterComposer
-    extends Composer<_$AppDatabase, $ProductVariantTableTable> {
+    extends Composer<_$DriftLocalDatabase, $ProductVariantTableTable> {
   $$ProductVariantTableTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -3306,7 +3309,7 @@ class $$ProductVariantTableTableFilterComposer
 }
 
 class $$ProductVariantTableTableOrderingComposer
-    extends Composer<_$AppDatabase, $ProductVariantTableTable> {
+    extends Composer<_$DriftLocalDatabase, $ProductVariantTableTable> {
   $$ProductVariantTableTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -3343,7 +3346,7 @@ class $$ProductVariantTableTableOrderingComposer
 }
 
 class $$ProductVariantTableTableAnnotationComposer
-    extends Composer<_$AppDatabase, $ProductVariantTableTable> {
+    extends Composer<_$DriftLocalDatabase, $ProductVariantTableTable> {
   $$ProductVariantTableTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -3404,7 +3407,7 @@ class $$ProductVariantTableTableAnnotationComposer
 }
 
 class $$ProductVariantTableTableTableManager extends RootTableManager<
-    _$AppDatabase,
+    _$DriftLocalDatabase,
     $ProductVariantTableTable,
     ProductVariantTableData,
     $$ProductVariantTableTableFilterComposer,
@@ -3417,7 +3420,7 @@ class $$ProductVariantTableTableTableManager extends RootTableManager<
     PrefetchHooks Function(
         {bool groupId, bool orderItemVariantSelectionTableRefs})> {
   $$ProductVariantTableTableTableManager(
-      _$AppDatabase db, $ProductVariantTableTable table)
+      _$DriftLocalDatabase db, $ProductVariantTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
@@ -3512,7 +3515,7 @@ class $$ProductVariantTableTableTableManager extends RootTableManager<
 }
 
 typedef $$ProductVariantTableTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
+    _$DriftLocalDatabase,
     $ProductVariantTableTable,
     ProductVariantTableData,
     $$ProductVariantTableTableFilterComposer,
@@ -3531,12 +3534,12 @@ typedef $$CartTableTableUpdateCompanionBuilder = CartTableCompanion Function({
   Value<int> id,
 });
 
-final class $$CartTableTableReferences
-    extends BaseReferences<_$AppDatabase, $CartTableTable, CartTableData> {
+final class $$CartTableTableReferences extends BaseReferences<
+    _$DriftLocalDatabase, $CartTableTable, CartTableData> {
   $$CartTableTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static MultiTypedResultKey<$CartItemTableTable, List<CartItemTableData>>
-      _cartItemTableRefsTable(_$AppDatabase db) =>
+      _cartItemTableRefsTable(_$DriftLocalDatabase db) =>
           MultiTypedResultKey.fromTable(db.cartItemTable,
               aliasName: $_aliasNameGenerator(
                   db.cartTable.id, db.cartItemTable.cartId));
@@ -3552,7 +3555,7 @@ final class $$CartTableTableReferences
 }
 
 class $$CartTableTableFilterComposer
-    extends Composer<_$AppDatabase, $CartTableTable> {
+    extends Composer<_$DriftLocalDatabase, $CartTableTable> {
   $$CartTableTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -3586,7 +3589,7 @@ class $$CartTableTableFilterComposer
 }
 
 class $$CartTableTableOrderingComposer
-    extends Composer<_$AppDatabase, $CartTableTable> {
+    extends Composer<_$DriftLocalDatabase, $CartTableTable> {
   $$CartTableTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -3599,7 +3602,7 @@ class $$CartTableTableOrderingComposer
 }
 
 class $$CartTableTableAnnotationComposer
-    extends Composer<_$AppDatabase, $CartTableTable> {
+    extends Composer<_$DriftLocalDatabase, $CartTableTable> {
   $$CartTableTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -3633,7 +3636,7 @@ class $$CartTableTableAnnotationComposer
 }
 
 class $$CartTableTableTableManager extends RootTableManager<
-    _$AppDatabase,
+    _$DriftLocalDatabase,
     $CartTableTable,
     CartTableData,
     $$CartTableTableFilterComposer,
@@ -3644,7 +3647,7 @@ class $$CartTableTableTableManager extends RootTableManager<
     (CartTableData, $$CartTableTableReferences),
     CartTableData,
     PrefetchHooks Function({bool cartItemTableRefs})> {
-  $$CartTableTableTableManager(_$AppDatabase db, $CartTableTable table)
+  $$CartTableTableTableManager(_$DriftLocalDatabase db, $CartTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
@@ -3701,7 +3704,7 @@ class $$CartTableTableTableManager extends RootTableManager<
 }
 
 typedef $$CartTableTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
+    _$DriftLocalDatabase,
     $CartTableTable,
     CartTableData,
     $$CartTableTableFilterComposer,
@@ -3724,12 +3727,12 @@ typedef $$OrderItemTableTableUpdateCompanionBuilder = OrderItemTableCompanion
 });
 
 final class $$OrderItemTableTableReferences extends BaseReferences<
-    _$AppDatabase, $OrderItemTableTable, OrderItemTableData> {
+    _$DriftLocalDatabase, $OrderItemTableTable, OrderItemTableData> {
   $$OrderItemTableTableReferences(
       super.$_db, super.$_table, super.$_typedResult);
 
   static MultiTypedResultKey<$CartItemTableTable, List<CartItemTableData>>
-      _cartItemTableRefsTable(_$AppDatabase db) =>
+      _cartItemTableRefsTable(_$DriftLocalDatabase db) =>
           MultiTypedResultKey.fromTable(db.cartItemTable,
               aliasName: $_aliasNameGenerator(
                   db.orderItemTable.id, db.cartItemTable.orderItemId));
@@ -3745,7 +3748,7 @@ final class $$OrderItemTableTableReferences extends BaseReferences<
 
   static MultiTypedResultKey<$OrderItemVariantSelectionTableTable,
           List<OrderItemVariantSelectionTableData>>
-      _orderItemVariantSelectionTableRefsTable(_$AppDatabase db) =>
+      _orderItemVariantSelectionTableRefsTable(_$DriftLocalDatabase db) =>
           MultiTypedResultKey.fromTable(db.orderItemVariantSelectionTable,
               aliasName: $_aliasNameGenerator(db.orderItemTable.id,
                   db.orderItemVariantSelectionTable.orderItemId));
@@ -3764,7 +3767,7 @@ final class $$OrderItemTableTableReferences extends BaseReferences<
 }
 
 class $$OrderItemTableTableFilterComposer
-    extends Composer<_$AppDatabase, $OrderItemTableTable> {
+    extends Composer<_$DriftLocalDatabase, $OrderItemTableTable> {
   $$OrderItemTableTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -3825,7 +3828,7 @@ class $$OrderItemTableTableFilterComposer
 }
 
 class $$OrderItemTableTableOrderingComposer
-    extends Composer<_$AppDatabase, $OrderItemTableTable> {
+    extends Composer<_$DriftLocalDatabase, $OrderItemTableTable> {
   $$OrderItemTableTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -3841,7 +3844,7 @@ class $$OrderItemTableTableOrderingComposer
 }
 
 class $$OrderItemTableTableAnnotationComposer
-    extends Composer<_$AppDatabase, $OrderItemTableTable> {
+    extends Composer<_$DriftLocalDatabase, $OrderItemTableTable> {
   $$OrderItemTableTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -3902,7 +3905,7 @@ class $$OrderItemTableTableAnnotationComposer
 }
 
 class $$OrderItemTableTableTableManager extends RootTableManager<
-    _$AppDatabase,
+    _$DriftLocalDatabase,
     $OrderItemTableTable,
     OrderItemTableData,
     $$OrderItemTableTableFilterComposer,
@@ -3915,7 +3918,7 @@ class $$OrderItemTableTableTableManager extends RootTableManager<
     PrefetchHooks Function(
         {bool cartItemTableRefs, bool orderItemVariantSelectionTableRefs})> {
   $$OrderItemTableTableTableManager(
-      _$AppDatabase db, $OrderItemTableTable table)
+      _$DriftLocalDatabase db, $OrderItemTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
@@ -3992,7 +3995,7 @@ class $$OrderItemTableTableTableManager extends RootTableManager<
 }
 
 typedef $$OrderItemTableTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
+    _$DriftLocalDatabase,
     $OrderItemTableTable,
     OrderItemTableData,
     $$OrderItemTableTableFilterComposer,
@@ -4017,12 +4020,12 @@ typedef $$CartItemTableTableUpdateCompanionBuilder = CartItemTableCompanion
   Value<int> cartId,
 });
 
-final class $$CartItemTableTableReferences extends BaseReferences<_$AppDatabase,
-    $CartItemTableTable, CartItemTableData> {
+final class $$CartItemTableTableReferences extends BaseReferences<
+    _$DriftLocalDatabase, $CartItemTableTable, CartItemTableData> {
   $$CartItemTableTableReferences(
       super.$_db, super.$_table, super.$_typedResult);
 
-  static $OrderItemTableTable _orderItemIdTable(_$AppDatabase db) =>
+  static $OrderItemTableTable _orderItemIdTable(_$DriftLocalDatabase db) =>
       db.orderItemTable.createAlias($_aliasNameGenerator(
           db.cartItemTable.orderItemId, db.orderItemTable.id));
 
@@ -4035,7 +4038,7 @@ final class $$CartItemTableTableReferences extends BaseReferences<_$AppDatabase,
         manager.$state.copyWith(prefetchedData: [item]));
   }
 
-  static $CartTableTable _cartIdTable(_$AppDatabase db) =>
+  static $CartTableTable _cartIdTable(_$DriftLocalDatabase db) =>
       db.cartTable.createAlias(
           $_aliasNameGenerator(db.cartItemTable.cartId, db.cartTable.id));
 
@@ -4050,7 +4053,7 @@ final class $$CartItemTableTableReferences extends BaseReferences<_$AppDatabase,
 }
 
 class $$CartItemTableTableFilterComposer
-    extends Composer<_$AppDatabase, $CartItemTableTable> {
+    extends Composer<_$DriftLocalDatabase, $CartItemTableTable> {
   $$CartItemTableTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -4104,7 +4107,7 @@ class $$CartItemTableTableFilterComposer
 }
 
 class $$CartItemTableTableOrderingComposer
-    extends Composer<_$AppDatabase, $CartItemTableTable> {
+    extends Composer<_$DriftLocalDatabase, $CartItemTableTable> {
   $$CartItemTableTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -4158,7 +4161,7 @@ class $$CartItemTableTableOrderingComposer
 }
 
 class $$CartItemTableTableAnnotationComposer
-    extends Composer<_$AppDatabase, $CartItemTableTable> {
+    extends Composer<_$DriftLocalDatabase, $CartItemTableTable> {
   $$CartItemTableTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -4211,7 +4214,7 @@ class $$CartItemTableTableAnnotationComposer
 }
 
 class $$CartItemTableTableTableManager extends RootTableManager<
-    _$AppDatabase,
+    _$DriftLocalDatabase,
     $CartItemTableTable,
     CartItemTableData,
     $$CartItemTableTableFilterComposer,
@@ -4222,7 +4225,8 @@ class $$CartItemTableTableTableManager extends RootTableManager<
     (CartItemTableData, $$CartItemTableTableReferences),
     CartItemTableData,
     PrefetchHooks Function({bool orderItemId, bool cartId})> {
-  $$CartItemTableTableTableManager(_$AppDatabase db, $CartItemTableTable table)
+  $$CartItemTableTableTableManager(
+      _$DriftLocalDatabase db, $CartItemTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
@@ -4307,7 +4311,7 @@ class $$CartItemTableTableTableManager extends RootTableManager<
 }
 
 typedef $$CartItemTableTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
+    _$DriftLocalDatabase,
     $CartItemTableTable,
     CartItemTableData,
     $$CartItemTableTableFilterComposer,
@@ -4332,12 +4336,14 @@ typedef $$OrderItemVariantSelectionTableTableUpdateCompanionBuilder
 });
 
 final class $$OrderItemVariantSelectionTableTableReferences
-    extends BaseReferences<_$AppDatabase, $OrderItemVariantSelectionTableTable,
+    extends BaseReferences<
+        _$DriftLocalDatabase,
+        $OrderItemVariantSelectionTableTable,
         OrderItemVariantSelectionTableData> {
   $$OrderItemVariantSelectionTableTableReferences(
       super.$_db, super.$_table, super.$_typedResult);
 
-  static $OrderItemTableTable _orderItemIdTable(_$AppDatabase db) =>
+  static $OrderItemTableTable _orderItemIdTable(_$DriftLocalDatabase db) =>
       db.orderItemTable.createAlias($_aliasNameGenerator(
           db.orderItemVariantSelectionTable.orderItemId, db.orderItemTable.id));
 
@@ -4350,7 +4356,7 @@ final class $$OrderItemVariantSelectionTableTableReferences
         manager.$state.copyWith(prefetchedData: [item]));
   }
 
-  static $ProductVariantTableTable _variantIdTable(_$AppDatabase db) =>
+  static $ProductVariantTableTable _variantIdTable(_$DriftLocalDatabase db) =>
       db.productVariantTable.createAlias($_aliasNameGenerator(
           db.orderItemVariantSelectionTable.variantId,
           db.productVariantTable.id));
@@ -4366,8 +4372,8 @@ final class $$OrderItemVariantSelectionTableTableReferences
   }
 }
 
-class $$OrderItemVariantSelectionTableTableFilterComposer
-    extends Composer<_$AppDatabase, $OrderItemVariantSelectionTableTable> {
+class $$OrderItemVariantSelectionTableTableFilterComposer extends Composer<
+    _$DriftLocalDatabase, $OrderItemVariantSelectionTableTable> {
   $$OrderItemVariantSelectionTableTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -4416,8 +4422,8 @@ class $$OrderItemVariantSelectionTableTableFilterComposer
   }
 }
 
-class $$OrderItemVariantSelectionTableTableOrderingComposer
-    extends Composer<_$AppDatabase, $OrderItemVariantSelectionTableTable> {
+class $$OrderItemVariantSelectionTableTableOrderingComposer extends Composer<
+    _$DriftLocalDatabase, $OrderItemVariantSelectionTableTable> {
   $$OrderItemVariantSelectionTableTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -4467,8 +4473,8 @@ class $$OrderItemVariantSelectionTableTableOrderingComposer
   }
 }
 
-class $$OrderItemVariantSelectionTableTableAnnotationComposer
-    extends Composer<_$AppDatabase, $OrderItemVariantSelectionTableTable> {
+class $$OrderItemVariantSelectionTableTableAnnotationComposer extends Composer<
+    _$DriftLocalDatabase, $OrderItemVariantSelectionTableTable> {
   $$OrderItemVariantSelectionTableTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -4520,7 +4526,7 @@ class $$OrderItemVariantSelectionTableTableAnnotationComposer
 
 class $$OrderItemVariantSelectionTableTableTableManager
     extends RootTableManager<
-        _$AppDatabase,
+        _$DriftLocalDatabase,
         $OrderItemVariantSelectionTableTable,
         OrderItemVariantSelectionTableData,
         $$OrderItemVariantSelectionTableTableFilterComposer,
@@ -4535,7 +4541,7 @@ class $$OrderItemVariantSelectionTableTableTableManager
         OrderItemVariantSelectionTableData,
         PrefetchHooks Function({bool orderItemId, bool variantId})> {
   $$OrderItemVariantSelectionTableTableTableManager(
-      _$AppDatabase db, $OrderItemVariantSelectionTableTable table)
+      _$DriftLocalDatabase db, $OrderItemVariantSelectionTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
@@ -4631,7 +4637,7 @@ class $$OrderItemVariantSelectionTableTableTableManager
 
 typedef $$OrderItemVariantSelectionTableTableProcessedTableManager
     = ProcessedTableManager<
-        _$AppDatabase,
+        _$DriftLocalDatabase,
         $OrderItemVariantSelectionTableTable,
         OrderItemVariantSelectionTableData,
         $$OrderItemVariantSelectionTableTableFilterComposer,
@@ -4646,9 +4652,9 @@ typedef $$OrderItemVariantSelectionTableTableProcessedTableManager
         OrderItemVariantSelectionTableData,
         PrefetchHooks Function({bool orderItemId, bool variantId})>;
 
-class $AppDatabaseManager {
-  final _$AppDatabase _db;
-  $AppDatabaseManager(this._db);
+class $DriftLocalDatabaseManager {
+  final _$DriftLocalDatabase _db;
+  $DriftLocalDatabaseManager(this._db);
   $$ProductTableTableTableManager get productTable =>
       $$ProductTableTableTableManager(_db, _db.productTable);
   $$ProductVariantGroupTableTableTableManager get productVariantGroupTable =>
@@ -4672,22 +4678,193 @@ class $AppDatabaseManager {
 // RiverpodGenerator
 // **************************************************************************
 
-String _$driftAppDatabaseHash() => r'14021f154c2044e10338519d3a69e6069779ba73';
+String _$driftInMemoryDatabaseHash() =>
+    r'bd374505effbdc372944b7aa599e72180c7a2fdb';
 
-/// See also [driftAppDatabase].
-@ProviderFor(driftAppDatabase)
-final driftAppDatabaseProvider = Provider<AppDatabase>.internal(
-  driftAppDatabase,
-  name: r'driftAppDatabaseProvider',
+/// See also [driftInMemoryDatabase].
+@ProviderFor(driftInMemoryDatabase)
+final driftInMemoryDatabaseProvider = Provider<DriftLocalDatabase>.internal(
+  driftInMemoryDatabase,
+  name: r'driftInMemoryDatabaseProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$driftAppDatabaseHash,
+      : _$driftInMemoryDatabaseHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef DriftAppDatabaseRef = ProviderRef<AppDatabase>;
+typedef DriftInMemoryDatabaseRef = ProviderRef<DriftLocalDatabase>;
+String _$driftLocalDatabaseHash() =>
+    r'39c87848f133121b4672017041e609a2a79c7586';
+
+/// Copied from Dart SDK
+class _SystemHash {
+  _SystemHash._();
+
+  static int combine(int hash, int value) {
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + value);
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
+    return hash ^ (hash >> 6);
+  }
+
+  static int finish(int hash) {
+    // ignore: parameter_assignments
+    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
+    // ignore: parameter_assignments
+    hash = hash ^ (hash >> 11);
+    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
+  }
+}
+
+/// See also [driftLocalDatabase].
+@ProviderFor(driftLocalDatabase)
+const driftLocalDatabaseProvider = DriftLocalDatabaseFamily();
+
+/// See also [driftLocalDatabase].
+class DriftLocalDatabaseFamily extends Family<DriftLocalDatabase> {
+  /// See also [driftLocalDatabase].
+  const DriftLocalDatabaseFamily();
+
+  /// See also [driftLocalDatabase].
+  DriftLocalDatabaseProvider call({
+    required String dbName,
+  }) {
+    return DriftLocalDatabaseProvider(
+      dbName: dbName,
+    );
+  }
+
+  @override
+  DriftLocalDatabaseProvider getProviderOverride(
+    covariant DriftLocalDatabaseProvider provider,
+  ) {
+    return call(
+      dbName: provider.dbName,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'driftLocalDatabaseProvider';
+}
+
+/// See also [driftLocalDatabase].
+class DriftLocalDatabaseProvider extends Provider<DriftLocalDatabase> {
+  /// See also [driftLocalDatabase].
+  DriftLocalDatabaseProvider({
+    required String dbName,
+  }) : this._internal(
+          (ref) => driftLocalDatabase(
+            ref as DriftLocalDatabaseRef,
+            dbName: dbName,
+          ),
+          from: driftLocalDatabaseProvider,
+          name: r'driftLocalDatabaseProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$driftLocalDatabaseHash,
+          dependencies: DriftLocalDatabaseFamily._dependencies,
+          allTransitiveDependencies:
+              DriftLocalDatabaseFamily._allTransitiveDependencies,
+          dbName: dbName,
+        );
+
+  DriftLocalDatabaseProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.dbName,
+  }) : super.internal();
+
+  final String dbName;
+
+  @override
+  Override overrideWith(
+    DriftLocalDatabase Function(DriftLocalDatabaseRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: DriftLocalDatabaseProvider._internal(
+        (ref) => create(ref as DriftLocalDatabaseRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        dbName: dbName,
+      ),
+    );
+  }
+
+  @override
+  ProviderElement<DriftLocalDatabase> createElement() {
+    return _DriftLocalDatabaseProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is DriftLocalDatabaseProvider && other.dbName == dbName;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, dbName.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin DriftLocalDatabaseRef on ProviderRef<DriftLocalDatabase> {
+  /// The parameter `dbName` of this provider.
+  String get dbName;
+}
+
+class _DriftLocalDatabaseProviderElement
+    extends ProviderElement<DriftLocalDatabase> with DriftLocalDatabaseRef {
+  _DriftLocalDatabaseProviderElement(super.provider);
+
+  @override
+  String get dbName => (origin as DriftLocalDatabaseProvider).dbName;
+}
+
+String _$driftDefaultLocalDatabaseHash() =>
+    r'261fab8d207602316b029d7ef02f84f102e4c113';
+
+/// See also [driftDefaultLocalDatabase].
+@ProviderFor(driftDefaultLocalDatabase)
+final driftDefaultLocalDatabaseProvider = Provider<DriftLocalDatabase>.internal(
+  driftDefaultLocalDatabase,
+  name: r'driftDefaultLocalDatabaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$driftDefaultLocalDatabaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef DriftDefaultLocalDatabaseRef = ProviderRef<DriftLocalDatabase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

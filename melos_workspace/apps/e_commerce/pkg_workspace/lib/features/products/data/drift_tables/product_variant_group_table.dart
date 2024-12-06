@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:e_commerce/backend/database/drift_provider.dart';
+import 'package:e_commerce/backend/database/drift_database_provider.dart';
 import 'package:e_commerce/features/products/data/drift_tables/product_table.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:e_commerce/utils/typedefs.dart';
@@ -16,7 +16,7 @@ class ProductVariantGroupTable extends Table {
 
 extension ProductVariantGroupTableDomainConverter on ProductVariantGroup {
   static Future<ProductVariantGroup> fromDbData(
-    AppDatabase db,
+    DriftLocalDatabase db,
     ProductVariantGroupTableData data,
   ) async {
     final variants =
@@ -41,7 +41,7 @@ extension ProductVariantGroupTableDomainConverter on ProductVariantGroup {
 }
 
 @DriftAccessor()
-class ProductVariantGroupTableDao extends DatabaseAccessor<AppDatabase> {
+class ProductVariantGroupTableDao extends DatabaseAccessor<DriftLocalDatabase> {
   ProductVariantGroupTableDao(super.db);
 
   Future<DatabaseKey> addProductVariantGroup({

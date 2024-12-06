@@ -1,16 +1,16 @@
-import 'package:e_commerce/backend/database/drift_provider.dart';
+import 'package:e_commerce/backend/database/drift_database_provider.dart';
 import 'package:e_commerce/features/cart/data/cart_source.dart';
 import 'package:e_commerce/features/cart/domain/cart.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:e_commerce/utils/typedefs.dart';
 
-class DriftCartSource implements CartSource {
-  DriftCartSource(this.db, this.cartId);
-  final AppDatabase db;
+class LocalCartSource implements CartSource {
+  LocalCartSource(this.db, this.cartId);
+  final DriftLocalDatabase db;
 
-  static Future<DriftCartSource> makeDefault(
-    AppDatabase db,
+  static Future<LocalCartSource> makeDefault(
+    DriftLocalDatabase db,
     DatabaseKey cartId,
   ) async {
     final cartExists = await db.cartTableDao.checkCartExists(cartId: cartId);
@@ -18,7 +18,7 @@ class DriftCartSource implements CartSource {
       await db.cartTableDao.addCart(cart: Cart(id: cartId, cartItems: []));
     }
 
-    return DriftCartSource(db, cartId);
+    return LocalCartSource(db, cartId);
   }
 
   @override

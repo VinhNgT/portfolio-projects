@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:e_commerce/backend/database/drift_provider.dart';
+import 'package:e_commerce/backend/database/drift_database_provider.dart';
 import 'package:e_commerce/features/cart/data/drift_tables/cart_table.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/orders/domain/order.dart';
@@ -20,7 +20,7 @@ class Cart with CartMappable {
     required this.cartItems,
   });
 
-  static Future<Cart> fromDb(AppDatabase db, CartTableData data) =>
+  static Future<Cart> fromDb(DriftLocalDatabase db, CartTableData data) =>
       CartTableDomainConverter.fromDbData(db, data);
 }
 

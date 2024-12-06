@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:e_commerce/backend/database/drift_provider.dart';
+import 'package:e_commerce/backend/database/drift_database_provider.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/utils/typedefs.dart';
 
@@ -13,7 +13,7 @@ class OrderItemTable extends Table {
 
 extension OrderItemTableDomainExtensionConverter on OrderItem {
   static Future<OrderItem> fromDbData(
-    AppDatabase db,
+    DriftLocalDatabase db,
     OrderItemTableData data,
   ) async {
     final product = await db.productTableDao.getProductFromOrderItem(data.id);
@@ -37,7 +37,7 @@ extension OrderItemTableDomainExtensionConverter on OrderItem {
 }
 
 @DriftAccessor()
-class OrderItemTableDao extends DatabaseAccessor<AppDatabase> {
+class OrderItemTableDao extends DatabaseAccessor<DriftLocalDatabase> {
   OrderItemTableDao(super.db);
 
   Future<DatabaseKey> addOrderItem({required OrderItem orderItem}) {

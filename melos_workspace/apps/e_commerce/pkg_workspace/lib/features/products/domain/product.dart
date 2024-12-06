@@ -1,5 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:e_commerce/backend/database/drift_provider.dart';
+import 'package:e_commerce/backend/database/drift_database_provider.dart';
 import 'package:e_commerce/features/products/data/drift_tables/product_table.dart';
 import 'package:e_commerce/features/products/domain/product_dimensions.dart';
 import 'package:e_commerce/features/products/domain/product_meta.dart';
@@ -92,7 +92,10 @@ class Product with ProductMappable {
   factory Product.fromJson(Map<String, dynamic> json) =>
       ProductMapper.fromJson(json);
 
-  static Future<Product> fromDbData(AppDatabase db, ProductTableData data) {
+  static Future<Product> fromDbData(
+    DriftLocalDatabase db,
+    ProductTableData data,
+  ) {
     return ProductTableDomainConverter.fromDbData(db, data);
   }
 
