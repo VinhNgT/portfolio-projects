@@ -21,7 +21,7 @@ class ProductVariantMapper extends ClassMapperBase<ProductVariant> {
   final String id = 'ProductVariant';
 
   static int? _$id(ProductVariant v) => v.id;
-  static const Field<ProductVariant, int> _f$id = Field('id', _$id);
+  static const Field<ProductVariant, int> _f$id = Field('id', _$id, opt: true);
   static String _$name(ProductVariant v) => v.name;
   static const Field<ProductVariant, String> _f$name = Field('name', _$name);
 

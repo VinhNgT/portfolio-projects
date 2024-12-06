@@ -87,7 +87,7 @@ class Product with ProductMappable {
     required this.meta,
     required this.thumbnail,
     required this.images,
-  }) : variantGroups = prototype.variantGroups;
+  }) : variantGroups = _ProductPrototypeX.mockVariantGroup(id!);
 
   factory Product.fromJson(Map<String, dynamic> json) =>
       ProductMapper.fromJson(json);
@@ -99,7 +99,7 @@ class Product with ProductMappable {
     return ProductTableDomainConverter.fromDbData(db, data);
   }
 
-  static Product get prototype => _ProductPrototypeX._prototype;
+  static Product get prototype => _ProductPrototypeX.prototype;
 }
 
 extension ProductMethods on Product {
@@ -144,7 +144,7 @@ extension MockProductPropertiesX on Product {
 }
 
 extension _ProductPrototypeX on Product {
-  static final _prototype = Product(
+  static final prototype = Product(
     id: 1,
     title: 'Prototype Product\nPrototype Product',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
@@ -216,4 +216,48 @@ extension _ProductPrototypeX on Product {
       ),
     ],
   );
+
+  static List<ProductVariantGroup> mockVariantGroup(DatabaseKey productId) {
+    // Because the mocking api does not support product variants, we have to
+    // mock it manually.
+    //
+    // Each product variant group and variants will be prepended with the
+    // product id to ensure uniqueness.
+    final paddedProductId = productId.toString().padRight(4, '0');
+
+    return [
+      ProductVariantGroup(
+        id: int.parse('${paddedProductId}1'),
+        groupName: 'Color',
+        variants: [
+          ProductVariant(
+            id: int.parse('${paddedProductId}1'),
+            name: 'Black',
+          ),
+          ProductVariant(
+            id: int.parse('${paddedProductId}2'),
+            name: 'Brown',
+          ),
+        ],
+      ),
+      ProductVariantGroup(
+        id: int.parse('${paddedProductId}2'),
+        groupName: 'Size',
+        variants: [
+          ProductVariant(
+            id: int.parse('${paddedProductId}3'),
+            name: 'S',
+          ),
+          ProductVariant(
+            id: int.parse('${paddedProductId}4'),
+            name: 'M',
+          ),
+          ProductVariant(
+            id: int.parse('${paddedProductId}5'),
+            name: 'L',
+          ),
+        ],
+      ),
+    ];
+  }
 }

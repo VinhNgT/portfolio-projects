@@ -10,7 +10,7 @@ class ProductVariant with ProductVariantMappable {
   final String name;
 
   const ProductVariant({
-    required this.id,
+    this.id,
     required this.name,
   });
 
