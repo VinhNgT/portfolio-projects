@@ -15,7 +15,8 @@ class CustomAppTheme {
   ThemeData create() {
     return theme.copyWith(
       dividerTheme: theme.dividerTheme.copyWith(
-        space: 0,
+        space: kSize_1,
+        thickness: kSize_1,
       ),
       iconTheme: theme.iconTheme.copyWith(
         opticalSize: kSize_24,
