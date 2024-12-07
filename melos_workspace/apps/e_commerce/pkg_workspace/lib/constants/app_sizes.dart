@@ -2,6 +2,7 @@
 library;
 
 const kSize_0 = 0.0;
+const kSize_1 = 1.0;
 const kSize_2 = 2.0;
 const kSize_4 = 4.0;
 const kSize_6 = 6.0;
