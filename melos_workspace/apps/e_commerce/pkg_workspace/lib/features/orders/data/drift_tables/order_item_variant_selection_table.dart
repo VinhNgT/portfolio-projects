@@ -21,7 +21,7 @@ class OrderItemVariantSelectionTableDao
     extends DatabaseAccessor<DriftLocalDatabase> {
   OrderItemVariantSelectionTableDao(super.db);
 
-  Future<ProductVariantIdsSelection> addOrderItemVariantSelection({
+  Future<void> addOrderItemVariantSelection({
     required ProductVariantIdsSelection variantSelection,
     required DatabaseKey orderItemId,
   }) async {
@@ -35,8 +35,6 @@ class OrderItemVariantSelectionTableDao
         );
       }
     });
-
-    return variantSelection;
   }
 
   Future<ProductVariantIdsSelection> getOrderItemVariantSelection(

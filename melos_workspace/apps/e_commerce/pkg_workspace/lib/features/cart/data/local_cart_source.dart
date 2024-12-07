@@ -25,8 +25,8 @@ class LocalCartSource implements CartSource {
   final DatabaseKey cartId;
 
   @override
-  Future<void> addCartItem(CartItem item) {
-    return db.transaction(() async {
+  Future<void> addCartItem(CartItem item) async {
+    await db.transaction(() async {
       final existingCartItem =
           await db.cartItemTableDao.getCartItemFromVariantSelection(
         variantSelection: item.orderItem.variantSelection,

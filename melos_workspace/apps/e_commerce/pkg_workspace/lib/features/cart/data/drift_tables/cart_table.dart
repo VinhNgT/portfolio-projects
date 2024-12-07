@@ -34,7 +34,7 @@ extension CartTableDomainConverter on Cart {
 class CartTableDao extends DatabaseAccessor<DriftLocalDatabase> {
   CartTableDao(super.db);
 
-  Future<CartTableData> addCart({required Cart cart}) {
+  Future<DatabaseKey> addCart({required Cart cart}) async {
     return db.transaction(() async {
       final dbCart =
           await into(db.cartTable).insertReturning(cart.toDbCompanion());
@@ -46,7 +46,7 @@ class CartTableDao extends DatabaseAccessor<DriftLocalDatabase> {
         );
       }
 
-      return dbCart;
+      return dbCart.id;
     });
   }
 

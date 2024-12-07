@@ -50,7 +50,7 @@ extension CartItemTableDomainConverter on CartItem {
 class CartItemTableDao extends DatabaseAccessor<DriftLocalDatabase> {
   CartItemTableDao(super.db);
 
-  Future<CartItem> addCartItem({
+  Future<DatabaseKey> addCartItem({
     required CartItem cartItem,
     required DatabaseKey cartId,
   }) {
@@ -59,14 +59,14 @@ class CartItemTableDao extends DatabaseAccessor<DriftLocalDatabase> {
         orderItem: cartItem.orderItem,
       );
 
-      final dbCartItem = await into(db.cartItemTable).insertReturning(
+      final dbData = await into(db.cartItemTable).insertReturning(
         cartItem.toDbCompanion(
           orderItemId: dbOrderItemId,
           cartId: cartId,
         ),
       );
 
-      return CartItem.fromDbData(db, dbCartItem);
+      return dbData.cartId;
     });
   }
 
