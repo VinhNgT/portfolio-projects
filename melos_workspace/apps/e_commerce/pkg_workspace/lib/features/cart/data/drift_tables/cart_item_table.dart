@@ -136,6 +136,7 @@ class CartItemTableDao extends DatabaseAccessor<DriftLocalDatabase> {
       innerJoin(
         db.orderItemTable,
         db.orderItemTable.id.equalsExp(db.cartItemTable.orderItemId),
+        useColumns: false,
       ),
     ])
       ..where(db.cartItemTable.cartId.equals(cartId));
