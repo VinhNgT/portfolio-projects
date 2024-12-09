@@ -7,7 +7,6 @@ import 'package:e_commerce/features/products/domain/product_review.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:e_commerce/utils/typedefs.dart';
-import 'package:intl/intl.dart';
 
 part 'product.mapper.dart';
 
@@ -123,13 +122,6 @@ extension ProductMethods on Product {
 }
 
 extension ProductPriceX on Product {
-  NumberFormat get vndPriceFormatter => NumberFormat.currency(
-        locale: 'vi_VN',
-        symbol: '₫',
-        decimalDigits: 0,
-        customPattern: '¤#,###',
-      );
-
   // Estimated price in VND.
   int get vndPrice => (price * 23000 / 1000).round() * 1000;
 

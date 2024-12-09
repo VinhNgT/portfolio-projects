@@ -1,6 +1,7 @@
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
+import 'package:e_commerce/utils/pricing_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
@@ -12,8 +13,9 @@ class ProductDeliveryCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final vndPrice =
-        useRef(product.vndPriceFormatter.format(product.mockShippingFee));
+    final vndPrice = useMemoized(
+      () => PricingUtils.vndPriceFormatter.format(product.mockShippingFee),
+    );
 
     return Card.filled(
       child: Padding(
@@ -31,7 +33,7 @@ class ProductDeliveryCard extends HookConsumerWidget {
                 children: [
                   Text(
                     'Phí vận chuyển: '
-                    '${vndPrice.value}',
+                    '$vndPrice',
                     style: context.textTheme.titleSmall,
                   ),
                   const Gap(kSize_2),

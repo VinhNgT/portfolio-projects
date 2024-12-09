@@ -4,8 +4,8 @@ import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/orders/domain/order.dart';
 import 'package:e_commerce/features/orders/presentation/components/order_products_list.dart';
 import 'package:e_commerce/features/orders/presentation/components/order_total_action_bar.dart';
-import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
+import 'package:e_commerce/utils/pricing_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
@@ -164,9 +164,7 @@ class _FinalTotal extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vndPriceFormatter = useMemoized(
-      () => order.items[0].product.vndPriceFormatter,
-    );
+    final pricingFormatter = PricingUtils.vndPriceFormatter;
 
     return Column(
       children: <Widget>[
@@ -176,7 +174,7 @@ class _FinalTotal extends HookWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Tổng tiền hàng:'),
-              Text(vndPriceFormatter.format(order.itemsPrice)),
+              Text(pricingFormatter.format(order.itemsPrice)),
             ],
           ),
         ),
@@ -187,7 +185,7 @@ class _FinalTotal extends HookWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Tổng phí vận chuyển:'),
-              Text(vndPriceFormatter.format(order.shippingFee)),
+              Text(pricingFormatter.format(order.shippingFee)),
             ],
           ),
         ),
@@ -198,7 +196,7 @@ class _FinalTotal extends HookWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Tổng thanh toán:'),
-              Text(vndPriceFormatter.format(order.totalPrice)),
+              Text(pricingFormatter.format(order.totalPrice)),
             ],
           ),
         ),

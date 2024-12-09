@@ -1,7 +1,7 @@
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/orders/domain/order.dart';
-import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
+import 'package:e_commerce/utils/pricing_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -21,9 +21,7 @@ class OrderTotalActionBar extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vndPriceFormatter = useMemoized(
-      () => order.items[0].product.vndPriceFormatter,
-    );
+    final pricingFormatter = PricingUtils.vndPriceFormatter;
 
     return Container(
       decoration: BoxDecoration(
@@ -44,12 +42,12 @@ class OrderTotalActionBar extends HookWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  vndPriceFormatter.format(order.itemsPrice),
+                  pricingFormatter.format(order.itemsPrice),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 Text(
                   'Phí vận chuyển: '
-                  '${vndPriceFormatter.format(order.shippingFee)}',
+                  '${pricingFormatter.format(order.shippingFee)}',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],

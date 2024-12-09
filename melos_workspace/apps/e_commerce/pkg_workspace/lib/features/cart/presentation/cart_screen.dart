@@ -6,7 +6,6 @@ import 'package:e_commerce/features/cart/domain/cart.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/cart/presentation/components/cart_item_card.dart';
 import 'package:e_commerce/features/orders/presentation/components/order_total_action_bar.dart';
-import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/routing/app_router_provider.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -19,8 +18,6 @@ class CartScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final vndPriceFormatter = Product.prototype.vndPriceFormatter;
-
     final cartAsync = ref.watch(cartProvider);
 
     return Scaffold(

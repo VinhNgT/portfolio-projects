@@ -10,6 +10,7 @@ import 'package:e_commerce/routing/app_router_provider.gr.dart';
 import 'package:e_commerce/theme/theme_utils.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:e_commerce/utils/list_extention.dart';
+import 'package:e_commerce/utils/pricing_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
@@ -90,7 +91,7 @@ class _CartItemTopPart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vndPriceFormat = cartItem.orderItem.product.vndPriceFormatter;
+    final pricingFormatter = PricingUtils.vndPriceFormatter;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,7 +117,7 @@ class _CartItemTopPart extends StatelessWidget {
 
           //
           Text(
-            vndPriceFormat.format(
+            pricingFormatter.format(
               cartItem.orderItem.product.vndDiscountedPrice *
                   cartItem.orderItem.quantity,
             ),
@@ -205,7 +206,7 @@ class _ShippingCost extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vndPriceFormat = cartItem.orderItem.product.vndPriceFormatter;
+    final pricingFormatter = PricingUtils.vndPriceFormatter;
 
     return Padding(
       padding: const EdgeInsets.only(
@@ -225,7 +226,7 @@ class _ShippingCost extends StatelessWidget {
           Expanded(
             child: Text(
               'Phí VC: '
-              '${vndPriceFormat.format(13000 * cartItem.orderItem.quantity)}',
+              '${pricingFormatter.format(13000 * cartItem.orderItem.quantity)}',
               // vndPriceFormat.format(103000),
               style: context.textTheme.bodySmall!.copyWith(
                 color: context.colorScheme.onSurfaceVariant,

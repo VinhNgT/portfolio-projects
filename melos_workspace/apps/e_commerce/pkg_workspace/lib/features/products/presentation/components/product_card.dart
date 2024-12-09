@@ -7,8 +7,8 @@ import 'package:e_commerce/features/products/presentation/components/rating_star
 import 'package:e_commerce/routing/app_router_provider.gr.dart';
 import 'package:e_commerce/theme/theme_utils.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
+import 'package:e_commerce/utils/pricing_formatter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
@@ -50,7 +50,7 @@ class _ProductCardColumn extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final vndPriceFormat = useRef(product.vndPriceFormatter);
+    final pricingFormatter = PricingUtils.vndPriceFormatter;
 
     return LayoutBuilder(
       builder: (context, constraints) => IntrinsicHeight(
@@ -84,13 +84,13 @@ class _ProductCardColumn extends HookConsumerWidget {
 
                     // Pricing
                     Text(
-                      vndPriceFormat.value.format(product.vndDiscountedPrice),
+                      pricingFormatter.format(product.vndDiscountedPrice),
                       style: context.textTheme.titleMedium!.copyWith(
                         color: context.theme.colorScheme.primary,
                       ),
                     ),
                     Text(
-                      vndPriceFormat.value.format(product.vndPrice),
+                      pricingFormatter.format(product.vndPrice),
                       style: context.textTheme.labelMedium!.copyWith(
                         decoration: TextDecoration.lineThrough,
                         color: context.theme.colorScheme.onSurfaceVariant
@@ -142,7 +142,7 @@ class _ProductCardCompactColumn extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final vndPriceFormat = useRef(product.vndPriceFormatter);
+    final pricingFormatter = PricingUtils.vndPriceFormatter;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -166,7 +166,7 @@ class _ProductCardCompactColumn extends HookConsumerWidget {
               children: <Widget>[
                 // Pricing
                 Text(
-                  vndPriceFormat.value.format(product.vndPrice),
+                  pricingFormatter.format(product.vndPrice),
                   style: context.textTheme.labelMedium!.copyWith(
                     decoration: TextDecoration.lineThrough,
                     color: context.theme.colorScheme.onSurfaceVariant
@@ -174,7 +174,7 @@ class _ProductCardCompactColumn extends HookConsumerWidget {
                   ),
                 ),
                 Text(
-                  vndPriceFormat.value.format(product.vndDiscountedPrice),
+                  pricingFormatter.format(product.vndDiscountedPrice),
                   style: context.textTheme.titleMedium!
                       .copyWith(color: context.theme.colorScheme.primary),
                 ),

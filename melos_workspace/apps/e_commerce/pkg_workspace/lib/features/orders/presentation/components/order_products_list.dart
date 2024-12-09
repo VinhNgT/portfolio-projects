@@ -3,9 +3,9 @@ import 'package:e_commerce/common/ui/sliver_divider.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/orders/domain/order.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
-import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:e_commerce/utils/list_extention.dart';
+import 'package:e_commerce/utils/pricing_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
@@ -18,7 +18,7 @@ class OrderPricingsSliver extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final vndPrice = useMemoized(
-      () => order.items[0].product.vndPriceFormatter.format(order.totalPrice),
+      () => PricingUtils.vndPriceFormatter.format(order.totalPrice),
     );
 
     return SliverMainAxisGroup(
@@ -141,7 +141,7 @@ class _OrderItemListEntry extends HookWidget {
           Align(
             alignment: Alignment.bottomRight,
             child: Text(
-              orderItem.product.vndPriceFormatter.format(orderItem.price),
+              PricingUtils.vndPriceFormatter.format(orderItem.price),
               style: context.textTheme.labelLarge,
             ),
           ),
@@ -158,7 +158,7 @@ class _DeliveryOptions extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final vndPrice = useMemoized(
-      () => order.items[0].product.vndPriceFormatter.format(order.shippingFee),
+      () => PricingUtils.vndPriceFormatter.format(order.shippingFee),
     );
 
     return Container(
