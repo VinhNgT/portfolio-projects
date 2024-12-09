@@ -72,7 +72,7 @@ extension OrderItemGetters on OrderItem {
   double get price => product.vndDiscountedPrice.toDouble() * quantity;
   double get shippingFee => 13000.0 * quantity;
 
-  List<ProductVariant> get productVariantSelection => product.variantGroups
+  List<ProductVariant> getProductVariant() => product.variantGroups
       .where((groupId) => variantSelection.containsKey(groupId.id))
       .map(
         (e) => e.variants

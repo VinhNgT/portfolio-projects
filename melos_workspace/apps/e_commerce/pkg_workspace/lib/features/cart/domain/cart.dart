@@ -31,11 +31,12 @@ extension CartGetters on Cart {
           ?.isIncludeInOrder ??
       false;
 
-  Order get order => Order.create(
+  Order createOrder({required String receiveAddress}) => Order(
         items: cartItems
             .where((e) => e.isIncludeInOrder)
             .map((e) => e.orderItem)
             .toList(),
+        receiveAddress: receiveAddress,
       );
 }
 
