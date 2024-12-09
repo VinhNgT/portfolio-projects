@@ -29,13 +29,21 @@ targets:
             - 'lib/**/**_controller.dart'
 
       drift_dev:
-        generate_for:
+        enabled: false
+
+      drift_dev:analyzer:
+        enabled: true
+        generate_for: &drift_dev_modular_generate_for
           include:
             - 'lib/backend/database/**.dart'
             - 'lib/**/drift_tables/**.dart'
             - 'lib/**/**_database.dart'
 
-global_options:
-  drift_dev:drift_dev:
-    runs_before:
-      - riverpod_generator:riverpod_generator
+      drift_dev:modular:
+        enabled: true
+        generate_for: *drift_dev_modular_generate_for
+#
+# global_options:
+#   drift_dev:
+#     runs_before:
+#       - riverpod_generator:riverpod_generator

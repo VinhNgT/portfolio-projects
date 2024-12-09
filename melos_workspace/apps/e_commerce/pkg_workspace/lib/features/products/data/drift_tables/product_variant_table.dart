@@ -1,10 +1,9 @@
 import 'package:drift/drift.dart';
 import 'package:e_commerce/backend/database/drift_database_provider.dart';
 import 'package:e_commerce/features/products/data/drift_tables/product_variant_group_table.dart';
+import 'package:e_commerce/features/products/data/drift_tables/product_variant_table.drift.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:e_commerce/utils/typedefs.dart';
-
-part 'product_variant_table.g.dart';
 
 class ProductVariantTable extends Table {
   IntColumn get id => integer().autoIncrement()();

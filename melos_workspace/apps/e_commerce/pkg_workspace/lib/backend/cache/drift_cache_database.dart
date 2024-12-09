@@ -4,8 +4,7 @@ import 'dart:convert';
 import 'package:cached_query/cached_query.dart';
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
-
-part 'drift_cache_database.g.dart';
+import 'package:e_commerce/backend/cache/drift_cache_database.drift.dart';
 
 class CacheEntryTable extends Table {
   TextColumn get queryKey => text()();
@@ -18,7 +17,7 @@ class CacheEntryTable extends Table {
 }
 
 @DriftDatabase(tables: [CacheEntryTable])
-class _DriftCachedQueryDatabase extends _$_DriftCachedQueryDatabase {
+class _DriftCachedQueryDatabase extends $_DriftCachedQueryDatabase {
   _DriftCachedQueryDatabase() : super(_openConnection());
 
   static QueryExecutor _openConnection() {

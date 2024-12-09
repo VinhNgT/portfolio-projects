@@ -1,6 +1,7 @@
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:e_commerce/backend/database/drift_database_provider.dart';
 import 'package:e_commerce/features/products/data/drift_tables/product_table.dart';
+import 'package:e_commerce/features/products/data/drift_tables/product_table.drift.dart';
 import 'package:e_commerce/features/products/domain/product_dimensions.dart';
 import 'package:e_commerce/features/products/domain/product_meta.dart';
 import 'package:e_commerce/features/products/domain/product_review.dart';

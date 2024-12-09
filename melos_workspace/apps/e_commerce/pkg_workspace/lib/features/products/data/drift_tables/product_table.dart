@@ -1,12 +1,11 @@
 import 'package:drift/drift.dart';
 import 'package:e_commerce/backend/database/drift_database_provider.dart';
+import 'package:e_commerce/features/products/data/drift_tables/product_table.drift.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/features/products/domain/product_dimensions.dart';
 import 'package:e_commerce/features/products/domain/product_meta.dart';
 import 'package:e_commerce/features/products/domain/product_review.dart';
 import 'package:e_commerce/utils/typedefs.dart';
-
-part 'product_table.g.dart';
 
 class ProductTable extends Table {
   IntColumn get id => integer().autoIncrement()();

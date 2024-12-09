@@ -1,11 +1,10 @@
 import 'package:drift/drift.dart';
 import 'package:e_commerce/backend/database/drift_database_provider.dart';
 import 'package:e_commerce/features/orders/data/drift_tables/order_item_table.dart';
+import 'package:e_commerce/features/orders/data/drift_tables/order_item_variant_selection_table.drift.dart';
 import 'package:e_commerce/features/products/data/drift_tables/product_variant_table.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
 import 'package:e_commerce/utils/typedefs.dart';
-
-part 'order_item_variant_selection_table.g.dart';
 
 class OrderItemVariantSelectionTable extends Table {
   IntColumn get orderItemId =>

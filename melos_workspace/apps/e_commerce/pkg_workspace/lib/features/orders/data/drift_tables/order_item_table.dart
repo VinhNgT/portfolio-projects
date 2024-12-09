@@ -1,9 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:e_commerce/backend/database/drift_database_provider.dart';
+import 'package:e_commerce/features/orders/data/drift_tables/order_item_table.drift.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/utils/typedefs.dart';
-
-part 'order_item_table.g.dart';
 
 class OrderItemTable extends Table {
   IntColumn get id => integer().autoIncrement()();

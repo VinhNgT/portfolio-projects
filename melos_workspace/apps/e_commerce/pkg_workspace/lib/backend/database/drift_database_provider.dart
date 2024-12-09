@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:drift_flutter/drift_flutter.dart';
+import 'package:e_commerce/backend/database/drift_database_provider.drift.dart';
 import 'package:e_commerce/features/cart/data/drift_tables/cart_item_table.dart';
 import 'package:e_commerce/features/cart/data/drift_tables/cart_table.dart';
 import 'package:e_commerce/features/orders/data/drift_tables/order_item_table.dart';
@@ -43,7 +44,7 @@ part 'drift_database_provider.g.dart';
     OrderItemVariantSelectionTableDao,
   ],
 )
-class DriftLocalDatabase extends _$DriftLocalDatabase {
+class DriftLocalDatabase extends $DriftLocalDatabase {
   DriftLocalDatabase({
     required String dbName,
     required this.logger,
