@@ -94,7 +94,7 @@ class _ProductCardColumn extends HookConsumerWidget {
                       style: context.textTheme.labelMedium!.copyWith(
                         decoration: TextDecoration.lineThrough,
                         color: context.theme.colorScheme.onSurfaceVariant
-                            .withOpacity(kGoldenRatioDivide_1),
+                            .withValues(alpha: kGoldenRatioDivide_1),
                       ),
                     ),
                     const Gap(kSize_6),
@@ -114,7 +114,7 @@ class _ProductCardColumn extends HookConsumerWidget {
                               Symbols.location_on,
                               size: 16,
                               color: context.theme.colorScheme.onSurfaceVariant
-                                  .withOpacity(kGoldenRatioDivide_1),
+                                  .withValues(alpha: kGoldenRatioDivide_1),
                             ),
                             const Gap(kSize_2),
                             Text(
@@ -170,7 +170,7 @@ class _ProductCardCompactColumn extends HookConsumerWidget {
                   style: context.textTheme.labelMedium!.copyWith(
                     decoration: TextDecoration.lineThrough,
                     color: context.theme.colorScheme.onSurfaceVariant
-                        .withOpacity(kGoldenRatioDivide_1),
+                        .withValues(alpha: kGoldenRatioDivide_1),
                   ),
                 ),
                 Text(

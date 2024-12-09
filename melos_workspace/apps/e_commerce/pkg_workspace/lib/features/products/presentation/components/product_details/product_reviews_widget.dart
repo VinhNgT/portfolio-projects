@@ -141,7 +141,7 @@ class _ReviewPictures extends HookConsumerWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kSize_4),
               color: context.colorScheme.surfaceContainerHighest
-                  .withOpacity(kGoldenRatioDivide_1),
+                  .withValues(alpha: kGoldenRatioDivide_1),
             ),
             child: Center(
               child: CachedNetworkImage(

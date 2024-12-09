@@ -26,7 +26,7 @@ class BannersCarousel extends HookConsumerWidget {
               currentIndicatorColor: context.theme.colorScheme.onSurfaceVariant,
               indicatorBackgroundColor: context
                   .theme.colorScheme.onSurfaceVariant
-                  .withOpacity(kGoldenRatioDivide_3),
+                  .withValues(alpha: kGoldenRatioDivide_3),
               indicatorRadius: _indicatorRadius,
               itemSpacing: kSize_12,
             ),
