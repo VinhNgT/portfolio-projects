@@ -36,6 +36,6 @@ targets:
             - 'lib/**/**_database.dart'
 
 global_options:
-  riverpod_generator:riverpod_generator:
+  drift_dev:drift_dev:
     runs_before:
-      - drift_dev:drift_dev
+      - riverpod_generator:riverpod_generator
