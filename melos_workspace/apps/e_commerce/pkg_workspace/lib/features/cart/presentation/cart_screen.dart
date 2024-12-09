@@ -5,9 +5,9 @@ import 'package:e_commerce/features/cart/application/cart_providers.dart';
 import 'package:e_commerce/features/cart/domain/cart.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/cart/presentation/components/cart_item_card.dart';
-import 'package:e_commerce/features/orders/domain/order.dart';
+import 'package:e_commerce/features/orders/presentation/components/order_total_action_bar.dart';
 import 'package:e_commerce/features/products/domain/product.dart';
-import 'package:e_commerce/utils/context_extensions.dart';
+import 'package:e_commerce/routing/app_router_provider.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -61,44 +61,24 @@ class CartScreen extends HookConsumerWidget {
       ),
       bottomNavigationBar: AsyncValueWidget(
         asyncValue: cartAsync,
-        builder: (cart) => Container(
-          decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide(color: context.colorScheme.outlineVariant),
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: kSize_16,
-              vertical: kSize_12,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      vndPriceFormatter.format(cart.order.itemsPrice),
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    Text(
-                      'Phí vận chuyển: '
-                      '${vndPriceFormatter.format(cart.order.shippingFee)}',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ],
-                ),
-                FilledButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Symbols.shopping_cart_checkout),
-                  label: const Text('Đặt hàng'),
-                ),
-              ],
-            ),
-          ),
-        ),
+        builder: (cart) {
+          final order = cart.createOrder(
+            receiveAddress:
+                'Nhà abc, Phố Hoàng Dậu, Phường Tân Mai, Thị xã Quảng Yên, '
+                'Tỉnh Quảng Ninh',
+          );
+
+          return OrderTotalActionBar(
+            order: order,
+            actionButtonIcon: const Icon(Symbols.shopping_cart_checkout),
+            actionButtonLabel: 'Đặt hàng',
+            onActionButtonPressed: () {
+              context.pushRoute(
+                CheckoutRoute(order: order),
+              );
+            },
+          );
+        },
       ),
     );
   }

@@ -5,18 +5,22 @@ part 'order.mapper.dart';
 
 @MappableClass()
 class Order with OrderMappable {
+  final int? id;
   final List<OrderItem> items;
-  final double orderDiscount;
+  final String receiveAddress;
+  // final double orderDiscount;
 
   const Order({
+    this.id,
     required this.items,
-    required this.orderDiscount,
+    required this.receiveAddress,
+    // required this.orderDiscount,
   });
 
-  Order.create({
-    required List<OrderItem> items,
-    double orderDiscount = 0,
-  }) : this(items: items, orderDiscount: orderDiscount);
+  // Order.create({
+  //   required List<OrderItem> items,
+  //   double orderDiscount = 0,
+  // }) : this(items: items);
 }
 
 extension OrderMethods on Order {
@@ -30,10 +34,10 @@ extension OrderMethods on Order {
         (previousValue, element) => previousValue + element.shippingFee,
       );
 
-  double get totalPrice => itemsPrice + shippingFee - orderDiscount;
+  double get totalPrice => itemsPrice + shippingFee;
 }
 
 extension OrderMutation on Order {
-  Order addDiscount(double discount) =>
-      copyWith(orderDiscount: orderDiscount + discount);
+  // Order addDiscount(double discount) =>
+  //     copyWith(orderDiscount: orderDiscount + discount);
 }

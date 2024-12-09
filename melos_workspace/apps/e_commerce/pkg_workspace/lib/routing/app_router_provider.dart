@@ -58,6 +58,7 @@ class AppRouter extends RootStackRouter {
             );
           },
         ),
+        AutoRoute(page: CheckoutRoute.page),
       ];
 
   @override

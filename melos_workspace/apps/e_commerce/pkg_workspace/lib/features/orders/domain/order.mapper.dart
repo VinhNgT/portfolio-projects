@@ -21,21 +21,26 @@ class OrderMapper extends ClassMapperBase<Order> {
   @override
   final String id = 'Order';
 
+  static int? _$id(Order v) => v.id;
+  static const Field<Order, int> _f$id = Field('id', _$id, opt: true);
   static List<OrderItem> _$items(Order v) => v.items;
   static const Field<Order, List<OrderItem>> _f$items = Field('items', _$items);
-  static double _$orderDiscount(Order v) => v.orderDiscount;
-  static const Field<Order, double> _f$orderDiscount =
-      Field('orderDiscount', _$orderDiscount);
+  static String _$receiveAddress(Order v) => v.receiveAddress;
+  static const Field<Order, String> _f$receiveAddress =
+      Field('receiveAddress', _$receiveAddress);
 
   @override
   final MappableFields<Order> fields = const {
+    #id: _f$id,
     #items: _f$items,
-    #orderDiscount: _f$orderDiscount,
+    #receiveAddress: _f$receiveAddress,
   };
 
   static Order _instantiate(DecodingData data) {
     return Order(
-        items: data.dec(_f$items), orderDiscount: data.dec(_f$orderDiscount));
+        id: data.dec(_f$id),
+        items: data.dec(_f$items),
+        receiveAddress: data.dec(_f$receiveAddress));
   }
 
   @override
@@ -86,7 +91,7 @@ abstract class OrderCopyWith<$R, $In extends Order, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, OrderItem, OrderItemCopyWith<$R, OrderItem, OrderItem>>
       get items;
-  $R call({List<OrderItem>? items, double? orderDiscount});
+  $R call({int? id, List<OrderItem>? items, String? receiveAddress});
   OrderCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -101,15 +106,20 @@ class _OrderCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Order, $Out>
       get items => ListCopyWith(
           $value.items, (v, t) => v.copyWith.$chain(t), (v) => call(items: v));
   @override
-  $R call({List<OrderItem>? items, double? orderDiscount}) =>
+  $R call(
+          {Object? id = $none,
+          List<OrderItem>? items,
+          String? receiveAddress}) =>
       $apply(FieldCopyWithData({
+        if (id != $none) #id: id,
         if (items != null) #items: items,
-        if (orderDiscount != null) #orderDiscount: orderDiscount
+        if (receiveAddress != null) #receiveAddress: receiveAddress
       }));
   @override
   Order $make(CopyWithData data) => Order(
+      id: data.get(#id, or: $value.id),
       items: data.get(#items, or: $value.items),
-      orderDiscount: data.get(#orderDiscount, or: $value.orderDiscount));
+      receiveAddress: data.get(#receiveAddress, or: $value.receiveAddress));
 
   @override
   OrderCopyWith<$R2, Order, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>

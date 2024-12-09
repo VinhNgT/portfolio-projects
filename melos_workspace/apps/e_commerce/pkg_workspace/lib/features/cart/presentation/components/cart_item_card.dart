@@ -11,6 +11,7 @@ import 'package:e_commerce/theme/theme_utils.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
 import 'package:e_commerce/utils/list_extention.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -135,9 +136,17 @@ class _VariantChip extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final productVariantsText = useMemoized(
+      () => cartItem.orderItem
+          .getProductVariant()
+          .map((variant) => variant.name)
+          .join('/'),
+      [cartItem.orderItem],
+    );
+
     return ActionChip(
       avatar: const Icon(Symbols.play_shapes),
-      label: Text('Phân loại: ${_buildVariantText(cartItem)}'),
+      label: Text('Phân loại: $productVariantsText'),
       onPressed: () {
         context.pushRoute(
           AddToCartRoute(
@@ -155,12 +164,6 @@ class _VariantChip extends HookConsumerWidget {
         );
       },
     );
-  }
-
-  String _buildVariantText(CartItem cartItem) {
-    final variantTexts =
-        cartItem.orderItem.productVariantSelection.map((e) => e.name).toList();
-    return variantTexts.join('/');
   }
 }
 
