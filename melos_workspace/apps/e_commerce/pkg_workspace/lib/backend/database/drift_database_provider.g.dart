@@ -4679,7 +4679,7 @@ class $DriftLocalDatabaseManager {
 // **************************************************************************
 
 String _$driftInMemoryDatabaseHash() =>
-    r'bd374505effbdc372944b7aa599e72180c7a2fdb';
+    r'a9c84734e5b0c13f84978d891b621d484ae86a02';
 
 /// See also [driftInMemoryDatabase].
 @ProviderFor(driftInMemoryDatabase)
@@ -4697,7 +4697,7 @@ final driftInMemoryDatabaseProvider = Provider<DriftLocalDatabase>.internal(
 // ignore: unused_element
 typedef DriftInMemoryDatabaseRef = ProviderRef<DriftLocalDatabase>;
 String _$driftLocalDatabaseHash() =>
-    r'39c87848f133121b4672017041e609a2a79c7586';
+    r'b82f64779218d7bf6ad402c4bbbd40f94c397bea';
 
 /// Copied from Dart SDK
 class _SystemHash {

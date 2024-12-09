@@ -10,7 +10,9 @@ import 'package:e_commerce/features/orders/data/drift_tables/order_item_variant_
 import 'package:e_commerce/features/products/data/drift_tables/product_table.dart';
 import 'package:e_commerce/features/products/data/drift_tables/product_variant_group_table.dart';
 import 'package:e_commerce/features/products/data/drift_tables/product_variant_table.dart';
+import 'package:e_commerce/logging/logger_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'drift_database_provider.g.dart';
@@ -42,8 +44,15 @@ part 'drift_database_provider.g.dart';
   ],
 )
 class DriftLocalDatabase extends _$DriftLocalDatabase {
-  DriftLocalDatabase({required String dbName}) : super(_openConnection(dbName));
-  DriftLocalDatabase.inMemory() : super(NativeDatabase.memory());
+  DriftLocalDatabase({
+    required String dbName,
+    required this.logger,
+  }) : super(_openConnection(dbName));
+
+  DriftLocalDatabase.inMemory({required this.logger})
+      : super(NativeDatabase.memory());
+
+  final Logger logger;
 
   static QueryExecutor _openConnection(String name) {
     return driftDatabase(name: name);
@@ -58,18 +67,32 @@ class DriftLocalDatabase extends _$DriftLocalDatabase {
       beforeOpen: (details) async {
         await customStatement('PRAGMA foreign_keys = ON');
       },
+      onUpgrade: (m, from, to) async {
+        if (to != schemaVersion) {
+          return;
+        }
+
+        // Remove this in production.
+        logger.w('New schema version detected, drop all tables');
+        for (final table in allTables) {
+          await m.deleteTable(table.actualTableName);
+          await m.createTable(table);
+        }
+      },
     );
   }
 }
 
 @Riverpod(keepAlive: true)
 DriftLocalDatabase driftInMemoryDatabase(Ref ref) {
-  return DriftLocalDatabase.inMemory();
+  final logger = ref.watch(loggerProvider);
+  return DriftLocalDatabase.inMemory(logger: logger);
 }
 
 @Riverpod(keepAlive: true)
 DriftLocalDatabase driftLocalDatabase(Ref ref, {required String dbName}) {
-  return DriftLocalDatabase(dbName: dbName);
+  final logger = ref.watch(loggerProvider);
+  return DriftLocalDatabase(dbName: dbName, logger: logger);
 }
 
 @Riverpod(keepAlive: true)
