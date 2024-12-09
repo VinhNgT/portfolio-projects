@@ -31,7 +31,7 @@ extension CartGetters on Cart {
           ?.isIncludeInOrder ??
       false;
 
-  Order createOrder({required String receiveAddress}) => Order(
+  Order createOrder({required String receiveAddress}) => Order.create(
         items: cartItems
             .where((e) => e.isIncludeInOrder)
             .map((e) => e.orderItem)

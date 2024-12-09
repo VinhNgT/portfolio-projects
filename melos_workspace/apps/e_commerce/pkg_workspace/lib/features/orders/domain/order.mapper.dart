@@ -28,19 +28,23 @@ class OrderMapper extends ClassMapperBase<Order> {
   static String _$receiveAddress(Order v) => v.receiveAddress;
   static const Field<Order, String> _f$receiveAddress =
       Field('receiveAddress', _$receiveAddress);
+  static OrderStatus _$status(Order v) => v.status;
+  static const Field<Order, OrderStatus> _f$status = Field('status', _$status);
 
   @override
   final MappableFields<Order> fields = const {
     #id: _f$id,
     #items: _f$items,
     #receiveAddress: _f$receiveAddress,
+    #status: _f$status,
   };
 
   static Order _instantiate(DecodingData data) {
     return Order(
         id: data.dec(_f$id),
         items: data.dec(_f$items),
-        receiveAddress: data.dec(_f$receiveAddress));
+        receiveAddress: data.dec(_f$receiveAddress),
+        status: data.dec(_f$status));
   }
 
   @override
@@ -91,7 +95,11 @@ abstract class OrderCopyWith<$R, $In extends Order, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, OrderItem, OrderItemCopyWith<$R, OrderItem, OrderItem>>
       get items;
-  $R call({int? id, List<OrderItem>? items, String? receiveAddress});
+  $R call(
+      {int? id,
+      List<OrderItem>? items,
+      String? receiveAddress,
+      OrderStatus? status});
   OrderCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -109,17 +117,20 @@ class _OrderCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Order, $Out>
   $R call(
           {Object? id = $none,
           List<OrderItem>? items,
-          String? receiveAddress}) =>
+          String? receiveAddress,
+          OrderStatus? status}) =>
       $apply(FieldCopyWithData({
         if (id != $none) #id: id,
         if (items != null) #items: items,
-        if (receiveAddress != null) #receiveAddress: receiveAddress
+        if (receiveAddress != null) #receiveAddress: receiveAddress,
+        if (status != null) #status: status
       }));
   @override
   Order $make(CopyWithData data) => Order(
       id: data.get(#id, or: $value.id),
       items: data.get(#items, or: $value.items),
-      receiveAddress: data.get(#receiveAddress, or: $value.receiveAddress));
+      receiveAddress: data.get(#receiveAddress, or: $value.receiveAddress),
+      status: data.get(#status, or: $value.status));
 
   @override
   OrderCopyWith<$R2, Order, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
