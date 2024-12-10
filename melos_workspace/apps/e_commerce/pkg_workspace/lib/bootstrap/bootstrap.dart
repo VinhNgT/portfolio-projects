@@ -20,15 +20,15 @@ class Bootstrap {
   Future<UncontrolledProviderScope> initApp() async {
     _setupMappers();
 
-    final rootContainer = ProviderContainer();
-    rootContainer.listen(envPrintWatcherProvider, (_, __) {});
+    final container = ProviderContainer();
+    final errorLogger = container.read(errorLoggerProvider);
+    _setupErrorHandlers(container, errorLogger);
 
-    final errorLogger = ErrorLogger(rootContainer.read(loggerProvider));
-    _setupErrorHandlers(rootContainer, errorLogger);
+    // Print environment variables
+    container.read(envPrintWatcherProvider);
 
-    final appContainer = await delegate.makeAppContainer(rootContainer);
     await runZonedGuarded(() async {
-      await delegate.setupServices(appContainer);
+      await delegate.setupServices(container);
     }, (error, stackTrace) {
       errorLogger.log(
         source: ErrorSource.bootstrap,
@@ -38,14 +38,12 @@ class Bootstrap {
     });
 
     return UncontrolledProviderScope(
-      container: rootContainer,
-      child: UncontrolledProviderScope(
-        container: appContainer,
-        child: const MyApp(),
-      ),
+      container: container,
+      child: const MyApp(),
     );
   }
 
+  /// Setup dart mappable.
   void _setupMappers() {
     MapperContainer.globals.use(const LoggerLevelMapper());
   }
@@ -57,9 +55,7 @@ class Bootstrap {
     final showDetailedError = container.read(envProvider).showDetailedError;
 
     // Log all Riverpod asynchronous errors
-    container.observers.addAll([
-      AsyncErrorLogger(errorLogger),
-    ]);
+    container.observers.add(RiverpodProviderErrorLogger(errorLogger));
 
     // Show some error UI if any uncaught exception happens
     FlutterError.onError = (FlutterErrorDetails details) {

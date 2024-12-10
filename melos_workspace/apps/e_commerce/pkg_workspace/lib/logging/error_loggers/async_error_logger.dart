@@ -6,8 +6,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 ///
 /// Should be added to [ProviderContainer.observers] via [Bootstrap] when app
 /// starts.
-class AsyncErrorLogger extends ProviderObserver {
-  AsyncErrorLogger(this.errorLogger);
+class RiverpodProviderErrorLogger extends ProviderObserver {
+  RiverpodProviderErrorLogger(this.errorLogger);
   ErrorLogger errorLogger;
 
   // @override

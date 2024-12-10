@@ -6,7 +6,26 @@ part of 'cart_source.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$localCartSourceHash() => r'57ccc74d12a3738f1481065a95ea481e9efefdc7';
+String _$makeDefaultLocalCartSourceFutureHash() =>
+    r'ad8c0941060077270d57aef2b6529101f693d18f';
+
+/// See also [makeDefaultLocalCartSourceFuture].
+@ProviderFor(makeDefaultLocalCartSourceFuture)
+final makeDefaultLocalCartSourceFutureProvider =
+    FutureProvider<CartSource>.internal(
+  makeDefaultLocalCartSourceFuture,
+  name: r'makeDefaultLocalCartSourceFutureProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$makeDefaultLocalCartSourceFutureHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef MakeDefaultLocalCartSourceFutureRef = FutureProviderRef<CartSource>;
+String _$localCartSourceHash() => r'94bc8484f4ae6a16821f84469e6e8e3d385ca9ce';
 
 /// See also [localCartSource].
 @ProviderFor(localCartSource)

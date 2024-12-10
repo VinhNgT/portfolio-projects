@@ -107,6 +107,7 @@ class LocalCartSource implements CartSource {
   Stream<Cart> watchCart() async* {
     final cartItemStream =
         db.cartItemTableDao.watchCartItemsAndChilds(cartId: cartId);
+
     await for (final cartItems in cartItemStream) {
       try {
         yield Cart(

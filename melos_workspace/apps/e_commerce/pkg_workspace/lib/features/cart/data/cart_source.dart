@@ -1,3 +1,5 @@
+import 'package:e_commerce/backend/database/drift_database_provider.dart';
+import 'package:e_commerce/features/cart/data/local_cart_source.dart';
 import 'package:e_commerce/features/cart/domain/cart.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
@@ -46,7 +48,12 @@ abstract interface class CartSource {
 }
 
 @Riverpod(keepAlive: true)
+FutureOr<CartSource> makeDefaultLocalCartSourceFuture(Ref ref) {
+  final db = ref.watch(driftDefaultLocalDatabaseProvider);
+  return LocalCartSource.makeDefault(db, localCartSourceId);
+}
+
+@Riverpod(keepAlive: true)
 CartSource localCartSource(Ref ref) {
-  // Will be replaced in the bootstrapping phase.
-  throw UnimplementedError();
+  return ref.watch(makeDefaultLocalCartSourceFutureProvider).requireValue;
 }
