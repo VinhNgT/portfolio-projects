@@ -16,7 +16,7 @@ EnvData env(Ref ref) {
 /// We must use a separate provider for this because if we use
 /// ref.watch(loggerProvider) from the [envProvider] itself, it will cause a
 /// circular dependency and Riverpod does not allow that.
-@Riverpod(keepAlive: true)
+@riverpod
 void envPrintWatcher(Ref ref) {
   final envData = ref.watch(envProvider);
   final logger = ref.watch(loggerProvider);

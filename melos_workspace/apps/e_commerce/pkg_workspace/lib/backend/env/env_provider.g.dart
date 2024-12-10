@@ -22,7 +22,7 @@ final envProvider = Provider<EnvData>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef EnvRef = ProviderRef<EnvData>;
-String _$envPrintWatcherHash() => r'6e25016a6bf17d580ee11e98c8252671e96ccbd8';
+String _$envPrintWatcherHash() => r'4320505d653154025bceef579ed261b8df2737be';
 
 /// This provider prints the current environment variables to the console.
 ///
@@ -32,7 +32,7 @@ String _$envPrintWatcherHash() => r'6e25016a6bf17d580ee11e98c8252671e96ccbd8';
 ///
 /// Copied from [envPrintWatcher].
 @ProviderFor(envPrintWatcher)
-final envPrintWatcherProvider = Provider<void>.internal(
+final envPrintWatcherProvider = AutoDisposeProvider<void>.internal(
   envPrintWatcher,
   name: r'envPrintWatcherProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -44,6 +44,6 @@ final envPrintWatcherProvider = Provider<void>.internal(
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef EnvPrintWatcherRef = ProviderRef<void>;
+typedef EnvPrintWatcherRef = AutoDisposeProviderRef<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
