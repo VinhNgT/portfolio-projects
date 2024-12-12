@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:e_commerce/backend/database/drift_database_provider.dart';
 import 'package:e_commerce/features/cart/data/drift_tables/cart_table.dart';
@@ -26,11 +25,11 @@ class Cart with CartMappable {
 }
 
 extension CartGetters on Cart {
-  bool isItemIncludeInOrder(CartItem cartItem) =>
-      cartItems
-          .firstWhereOrNull((e) => e.orderItem.id == cartItem.orderItem.id)
-          ?.isIncludeInOrder ??
-      false;
+  // bool isItemIncludeInOrder(CartItem cartItem) =>
+  //     cartItems
+  //         .firstWhereOrNull((e) => e.orderItem.id == cartItem.orderItem.id)
+  //         ?.isIncludeInOrder ??
+  //     false;
 
   Order createOrder({required String receiveAddress}) => Order.create(
         items: cartItems

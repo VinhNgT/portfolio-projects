@@ -9,7 +9,7 @@ import 'package:e_commerce/features/products/domain/product.dart';
 import 'package:e_commerce/routing/app_router_provider.gr.dart';
 import 'package:e_commerce/theme/theme_utils.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
-import 'package:e_commerce/utils/list_extention.dart';
+import 'package:e_commerce/utils/list_utils.dart';
 import 'package:e_commerce/utils/pricing_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -21,11 +21,9 @@ class CartItemCard extends HookConsumerWidget {
   const CartItemCard({
     super.key,
     required this.cartItem,
-    required this.isIncludeInOrder,
   });
 
   final CartItem cartItem;
-  final bool isIncludeInOrder;
 
   final double imageSize = 80;
 
@@ -43,7 +41,7 @@ class CartItemCard extends HookConsumerWidget {
         children: [
           Checkbox(
             materialTapTargetSize: MaterialTapTargetSize.padded,
-            value: isIncludeInOrder,
+            value: cartItem.isIncludeInOrder,
             onChanged: (value) {
               ref
                   .read(localCartSourceProvider)

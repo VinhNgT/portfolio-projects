@@ -33,3 +33,34 @@ extension RiverpodWidgetRefHelpers on WidgetRef {
     }
   }
 }
+
+extension ProviderListenableX<T> on ProviderListenable<AsyncValue<T>> {
+  /// An implementation of [ProviderListenable.select] for [AsyncValue]. Unlike
+  /// [AsyncSelector.selectAsync], this method preserves the original
+  /// [AsyncValue] instead of turning it into a [Future].
+  ///
+  ProviderListenable<AsyncValue<V>> selectAsyncMap<V>(
+    V Function(T value) selector,
+  ) {
+    return select(
+      (value) => switch (value) {
+        //
+        AsyncData<T>(:final value) => AsyncData<V>(selector(value)),
+
+        //
+        AsyncLoading<T>() => AsyncLoading<V>(),
+
+        //
+        AsyncError<T>(:final error, :final stackTrace) =>
+          AsyncError<V>(error, stackTrace),
+
+        //
+        _ => throw ArgumentError.value(
+            value,
+            'value',
+            'Unsupported AsyncValue type',
+          ),
+      },
+    );
+  }
+}

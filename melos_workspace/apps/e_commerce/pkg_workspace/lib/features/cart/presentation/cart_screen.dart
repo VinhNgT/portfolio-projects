@@ -7,6 +7,8 @@ import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/cart/presentation/components/cart_item_card.dart';
 import 'package:e_commerce/features/orders/presentation/components/order_total_action_bar.dart';
 import 'package:e_commerce/routing/app_router_provider.gr.dart';
+import 'package:e_commerce/utils/list_utils.dart';
+import 'package:e_commerce/utils/riverpod_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -18,7 +20,11 @@ class CartScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cartAsync = ref.watch(cartProvider);
+    final cartItemIds = ref.watch(
+      cartProvider.selectAsyncMap(
+        (cart) => EqualityList.from(cart.cartItems.map((e) => e.id!)),
+      ),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -37,27 +43,42 @@ class CartScreen extends HookConsumerWidget {
         ],
       ),
       body: AsyncValueWidget(
-        asyncValue: cartAsync,
-        builder: (cart) => ListView.separated(
+        asyncValue: cartItemIds,
+        builder: (itemIds) => ListView.separated(
           padding: const EdgeInsets.symmetric(
             horizontal: kSize_16,
             vertical: kSize_16,
           ),
           separatorBuilder: (BuildContext context, int index) =>
               const Gap(kSize_16),
-          itemCount: cart.cartItems.length,
+          itemCount: itemIds.length,
           itemBuilder: (context, index) {
-            return CartItemCard(
-              key: ValueKey(cart.cartItems[index].id),
-              cartItem: cart.cartItems[index],
-              isIncludeInOrder:
-                  cart.isItemIncludeInOrder(cart.cartItems[index]),
+            return _CartItemCartProviderListIndex(
+              key: ValueKey(itemIds[index]),
+              index: index,
             );
           },
         ),
       ),
       bottomNavigationBar: _ActionBar(),
     );
+  }
+}
+
+class _CartItemCartProviderListIndex extends HookConsumerWidget {
+  const _CartItemCartProviderListIndex({super.key, required this.index});
+  final int index;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartItem = ref
+        .watch(
+          cartProvider
+              .selectAsyncMap((cart) => cart.cartItems.elementAtOrNull(index)),
+        )
+        .requireValue!;
+
+    return CartItemCard(cartItem: cartItem);
   }
 }
 

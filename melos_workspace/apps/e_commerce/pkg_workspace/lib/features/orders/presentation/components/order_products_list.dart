@@ -4,7 +4,7 @@ import 'package:e_commerce/constants/app_sizes.dart';
 import 'package:e_commerce/features/orders/domain/order.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/utils/context_extensions.dart';
-import 'package:e_commerce/utils/list_extention.dart';
+import 'package:e_commerce/utils/list_utils.dart';
 import 'package:e_commerce/utils/pricing_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
