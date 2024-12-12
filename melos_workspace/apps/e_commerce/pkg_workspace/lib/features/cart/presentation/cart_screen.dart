@@ -56,27 +56,40 @@ class CartScreen extends HookConsumerWidget {
           },
         ),
       ),
-      bottomNavigationBar: AsyncValueWidget(
-        asyncValue: cartAsync,
-        builder: (cart) {
-          final order = cart.createOrder(
-            receiveAddress:
-                'Nhà abc, Phố Hoàng Dậu, Phường Tân Mai, Thị xã Quảng Yên, '
-                'Tỉnh Quảng Ninh',
-          );
+      bottomNavigationBar: _ActionBar(),
+    );
+  }
+}
 
-          return OrderTotalActionBar(
-            order: order,
-            actionButtonIcon: const Icon(Symbols.shopping_cart_checkout),
-            actionButtonLabel: 'Đặt hàng',
-            onActionButtonPressed: () {
-              context.pushRoute(
-                CheckoutRoute(order: order),
-              );
-            },
-          );
-        },
+class _ActionBar extends HookConsumerWidget {
+  const _ActionBar();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartOrderAsync = ref.watch(
+      cartProvider.selectAsyncMap(
+        (cart) => cart.createOrder(
+          receiveAddress:
+              'Nhà abc, Phố Hoàng Dậu, Phường Tân Mai, Thị xã Quảng Yên, '
+              'Tỉnh Quảng Ninh',
+        ),
       ),
+    );
+
+    return AsyncValueWidget(
+      asyncValue: cartOrderAsync,
+      builder: (order) {
+        return OrderTotalActionBar(
+          order: order,
+          actionButtonIcon: const Icon(Symbols.shopping_cart_checkout),
+          actionButtonLabel: 'Đặt hàng',
+          onActionButtonPressed: () {
+            context.pushRoute(
+              CheckoutRoute(order: order),
+            );
+          },
+        );
+      },
     );
   }
 }
