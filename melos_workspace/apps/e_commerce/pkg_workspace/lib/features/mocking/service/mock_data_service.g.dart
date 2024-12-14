@@ -6,7 +6,7 @@ part of 'mock_data_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$mockDataServiceHash() => r'a63f864ad37c1f642fe339bc00dd8288fd026ac2';
+String _$mockDataServiceHash() => r'9a44523ae432633ba55b1e14ab9558fa895e95a4';
 
 /// See also [mockDataService].
 @ProviderFor(mockDataService)

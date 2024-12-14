@@ -30,19 +30,35 @@ class EnvDataMapper extends ClassMapperBase<EnvData> {
   static bool _$showDetailedError(EnvData v) => v.showDetailedError;
   static const Field<EnvData, bool> _f$showDetailedError =
       Field('showDetailedError', _$showDetailedError);
+  static bool _$rebuildLocalDatabaseOnStartup(EnvData v) =>
+      v.rebuildLocalDatabaseOnStartup;
+  static const Field<EnvData, bool> _f$rebuildLocalDatabaseOnStartup =
+      Field('rebuildLocalDatabaseOnStartup', _$rebuildLocalDatabaseOnStartup);
+  static bool _$fillLocalDatabaseWithTestDataOnStartup(EnvData v) =>
+      v.fillLocalDatabaseWithTestDataOnStartup;
+  static const Field<EnvData, bool> _f$fillLocalDatabaseWithTestDataOnStartup =
+      Field('fillLocalDatabaseWithTestDataOnStartup',
+          _$fillLocalDatabaseWithTestDataOnStartup);
 
   @override
   final MappableFields<EnvData> fields = const {
     #appCacheConfig: _f$appCacheConfig,
     #loggerLevel: _f$loggerLevel,
     #showDetailedError: _f$showDetailedError,
+    #rebuildLocalDatabaseOnStartup: _f$rebuildLocalDatabaseOnStartup,
+    #fillLocalDatabaseWithTestDataOnStartup:
+        _f$fillLocalDatabaseWithTestDataOnStartup,
   };
 
   static EnvData _instantiate(DecodingData data) {
     return EnvData(
         appCacheConfig: data.dec(_f$appCacheConfig),
         loggerLevel: data.dec(_f$loggerLevel),
-        showDetailedError: data.dec(_f$showDetailedError));
+        showDetailedError: data.dec(_f$showDetailedError),
+        rebuildLocalDatabaseOnStartup:
+            data.dec(_f$rebuildLocalDatabaseOnStartup),
+        fillLocalDatabaseWithTestDataOnStartup:
+            data.dec(_f$fillLocalDatabaseWithTestDataOnStartup));
   }
 
   @override
@@ -98,7 +114,9 @@ abstract class EnvDataCopyWith<$R, $In extends EnvData, $Out>
   $R call(
       {AppCacheConfig? appCacheConfig,
       Level? loggerLevel,
-      bool? showDetailedError});
+      bool? showDetailedError,
+      bool? rebuildLocalDatabaseOnStartup,
+      bool? fillLocalDatabaseWithTestDataOnStartup});
   EnvDataCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -118,18 +136,30 @@ class _EnvDataCopyWithImpl<$R, $Out>
   $R call(
           {AppCacheConfig? appCacheConfig,
           Level? loggerLevel,
-          bool? showDetailedError}) =>
+          bool? showDetailedError,
+          bool? rebuildLocalDatabaseOnStartup,
+          bool? fillLocalDatabaseWithTestDataOnStartup}) =>
       $apply(FieldCopyWithData({
         if (appCacheConfig != null) #appCacheConfig: appCacheConfig,
         if (loggerLevel != null) #loggerLevel: loggerLevel,
-        if (showDetailedError != null) #showDetailedError: showDetailedError
+        if (showDetailedError != null) #showDetailedError: showDetailedError,
+        if (rebuildLocalDatabaseOnStartup != null)
+          #rebuildLocalDatabaseOnStartup: rebuildLocalDatabaseOnStartup,
+        if (fillLocalDatabaseWithTestDataOnStartup != null)
+          #fillLocalDatabaseWithTestDataOnStartup:
+              fillLocalDatabaseWithTestDataOnStartup
       }));
   @override
   EnvData $make(CopyWithData data) => EnvData(
       appCacheConfig: data.get(#appCacheConfig, or: $value.appCacheConfig),
       loggerLevel: data.get(#loggerLevel, or: $value.loggerLevel),
       showDetailedError:
-          data.get(#showDetailedError, or: $value.showDetailedError));
+          data.get(#showDetailedError, or: $value.showDetailedError),
+      rebuildLocalDatabaseOnStartup: data.get(#rebuildLocalDatabaseOnStartup,
+          or: $value.rebuildLocalDatabaseOnStartup),
+      fillLocalDatabaseWithTestDataOnStartup: data.get(
+          #fillLocalDatabaseWithTestDataOnStartup,
+          or: $value.fillLocalDatabaseWithTestDataOnStartup));
 
   @override
   EnvDataCopyWith<$R2, EnvData, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>

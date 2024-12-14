@@ -16,10 +16,19 @@ class EnvData with EnvDataMappable {
   /// Whether to show detailed error messages to the user.
   final bool showDetailedError;
 
+  /// Whether to rebuild the local database on app startup. All data will be
+  /// lost.
+  final bool rebuildLocalDatabaseOnStartup;
+
+  /// Whether to fill the local database with test data on startup.
+  final bool fillLocalDatabaseWithTestDataOnStartup;
+
   const EnvData({
     required this.appCacheConfig,
     required this.loggerLevel,
     required this.showDetailedError,
+    required this.rebuildLocalDatabaseOnStartup,
+    required this.fillLocalDatabaseWithTestDataOnStartup,
   });
 
   factory EnvData.fromEnviroment() {
@@ -37,6 +46,14 @@ class EnvData with EnvDataMappable {
       ),
       showDetailedError:
           const bool.fromEnvironment('SHOW_DETAILED_ERROR', defaultValue: true),
+      rebuildLocalDatabaseOnStartup: const bool.fromEnvironment(
+        'REBUILD_LOCAL_DATABASE_ON_STARTUP',
+        defaultValue: false,
+      ),
+      fillLocalDatabaseWithTestDataOnStartup: const bool.fromEnvironment(
+        'FILL_LOCAL_DATABASE_WITH_TEST_DATA_ON_STARTUP',
+        defaultValue: false,
+      ),
     );
   }
 }

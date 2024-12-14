@@ -4,6 +4,7 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:e_commerce/backend/database/drift_database_provider.drift.dart';
+import 'package:e_commerce/backend/env/env_provider.dart';
 import 'package:e_commerce/features/cart/data/drift_tables/cart_item_table.dart';
 import 'package:e_commerce/features/cart/data/drift_tables/cart_table.dart';
 import 'package:e_commerce/features/orders/data/drift_tables/order_item_table.dart';
@@ -51,37 +52,44 @@ class DriftLocalDatabase extends $DriftLocalDatabase {
   DriftLocalDatabase({
     required String dbName,
     required this.logger,
+    this.rebuildLocalDatabaseOnStartup = false,
   }) : super(_openConnection(dbName));
 
-  DriftLocalDatabase.inMemory({required this.logger})
-      : super(NativeDatabase.memory());
+  DriftLocalDatabase.inMemory({
+    required this.logger,
+    this.rebuildLocalDatabaseOnStartup = false,
+  }) : super(NativeDatabase.memory());
 
   final Logger logger;
+  final bool rebuildLocalDatabaseOnStartup;
 
   static QueryExecutor _openConnection(String name) {
     return driftDatabase(name: name);
   }
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 1;
 
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(
       beforeOpen: (details) async {
+        if (rebuildLocalDatabaseOnStartup) {
+          logger.w('Rebuild local database, all existing data will be lost');
+
+          await customStatement('PRAGMA foreign_keys = OFF');
+          await transaction(() async {
+            for (final table in allTables) {
+              await delete(table).go();
+            }
+          });
+        }
+
+        // Do not remove this line. It enables foreign key constraints.
         await customStatement('PRAGMA foreign_keys = ON');
       },
       onUpgrade: (m, from, to) async {
-        if (to != schemaVersion) {
-          return;
-        }
-
-        // Remove this in production.
-        logger.w('New schema version detected, drop all tables');
-        for (final table in allTables) {
-          await m.deleteTable(table.actualTableName);
-          await m.createTable(table);
-        }
+        logger.w('New schema version detected');
       },
     );
   }
@@ -90,13 +98,26 @@ class DriftLocalDatabase extends $DriftLocalDatabase {
 @Riverpod(keepAlive: true)
 DriftLocalDatabase driftInMemoryDatabase(Ref ref) {
   final logger = ref.watch(loggerProvider);
-  return DriftLocalDatabase.inMemory(logger: logger);
+  final rebuildLocalDatabaseOnStartup =
+      ref.watch(envProvider.select((env) => env.rebuildLocalDatabaseOnStartup));
+
+  return DriftLocalDatabase.inMemory(
+    logger: logger,
+    rebuildLocalDatabaseOnStartup: rebuildLocalDatabaseOnStartup,
+  );
 }
 
 @Riverpod(keepAlive: true)
 DriftLocalDatabase driftLocalDatabase(Ref ref, {required String dbName}) {
   final logger = ref.watch(loggerProvider);
-  return DriftLocalDatabase(dbName: dbName, logger: logger);
+  final rebuildLocalDatabaseOnStartup =
+      ref.watch(envProvider.select((env) => env.rebuildLocalDatabaseOnStartup));
+
+  return DriftLocalDatabase(
+    dbName: dbName,
+    logger: logger,
+    rebuildLocalDatabaseOnStartup: rebuildLocalDatabaseOnStartup,
+  );
 }
 
 @Riverpod(keepAlive: true)
