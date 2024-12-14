@@ -69,6 +69,13 @@ class CartItemTableDao extends DatabaseAccessor<DriftLocalDatabase> {
     });
   }
 
+  Future<void> clearAllItemInCart({required DatabaseKey cartId}) {
+    final query = delete(db.cartItemTable)
+      ..where((tbl) => tbl.cartId.equals(cartId));
+
+    return query.go();
+  }
+
   Future<List<CartItem>> getCartItemsForCart({
     required DatabaseKey cartId,
   }) async {
@@ -147,5 +154,12 @@ class CartItemTableDao extends DatabaseAccessor<DriftLocalDatabase> {
             ),
           ),
         );
+  }
+
+  Future<int> getCartItemsCountInCart(DatabaseKey cartId) {
+    final countExp = db.cartItemTable.orderItemId.count();
+    final query = selectOnly(db.cartItemTable)..addColumns([countExp]);
+
+    return query.map((row) => row.read(countExp)!).getSingle();
   }
 }

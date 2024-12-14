@@ -22,8 +22,14 @@ abstract interface class CartSource {
   /// Add a [CartItem] to the cart.
   Future<void> addCartItem(CartItem cartItem);
 
+  /// Add all [CartItem] to the cart.
+  Future<void> addAllCartItems(Iterable<CartItem> cartItem);
+
   /// Remove a [CartItem] from the cart.
   Future<void> removeCartItem(CartItem cartItemId);
+
+  /// Clear the cart (remove all items).
+  Future<void> clearCart();
 
   /// Update a [CartItem] in the cart.
   Future<void> replaceCartItem(CartItem item);
@@ -45,6 +51,9 @@ abstract interface class CartSource {
 
   /// Watch the cart.
   Stream<Cart> watchCart();
+
+  /// Get cart items count.
+  Future<int> getCartItemsCount();
 }
 
 @Riverpod(keepAlive: true)

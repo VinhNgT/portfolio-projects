@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce/common/async/async_value_widget.dart';
 import 'package:e_commerce/constants/app_sizes.dart';
@@ -5,6 +7,7 @@ import 'package:e_commerce/features/cart/application/cart_providers.dart';
 import 'package:e_commerce/features/cart/domain/cart.dart';
 import 'package:e_commerce/features/cart/domain/cart_item.dart';
 import 'package:e_commerce/features/cart/presentation/components/cart_item_card.dart';
+import 'package:e_commerce/features/mocking/service/mock_data_service.dart';
 import 'package:e_commerce/features/orders/presentation/components/order_total_action_bar.dart';
 import 'package:e_commerce/routing/app_router_provider.gr.dart';
 import 'package:e_commerce/utils/list_utils.dart';
@@ -39,7 +42,13 @@ class CartScreen extends HookConsumerWidget {
             onPressed: () {},
             icon: const Icon(Symbols.flip_to_front),
           ),
-          IconButton(onPressed: () {}, icon: const Icon(Symbols.more_vert)),
+          IconButton(
+            onPressed: () {
+              final mockDataService = ref.read(mockDataServiceProvider);
+              unawaited(mockDataService.fillCart());
+            },
+            icon: const Icon(Symbols.more_vert),
+          ),
         ],
       ),
       body: AsyncValueWidget(

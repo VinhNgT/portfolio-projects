@@ -55,6 +55,15 @@ class LocalCartSource implements CartSource {
   }
 
   @override
+  Future<void> addAllCartItems(Iterable<CartItem> items) async {
+    await db.transaction(() async {
+      for (final item in items) {
+        await addCartItem(item);
+      }
+    });
+  }
+
+  @override
   Future<void> removeCartItem(CartItem item) async {
     await db.transaction(() async {
       await db.orderItemTableDao.removeOrderItem(item.id!);
@@ -65,6 +74,13 @@ class LocalCartSource implements CartSource {
       if (!isProductExist) {
         await db.productTableDao.removeProduct(item.orderItem.product.id!);
       }
+    });
+  }
+
+  @override
+  Future<void> clearCart() async {
+    await db.transaction(() async {
+      await db.cartItemTableDao.clearAllItemInCart(cartId: cartId);
     });
   }
 
@@ -95,12 +111,14 @@ class LocalCartSource implements CartSource {
     DatabaseKey cartItemId,
     ProductVariantIdsSelection variantSelection,
   ) async {
-    await db.orderItemVariantSelectionTableDao
-        .removeOrderItemVariantSelection(cartItemId);
-    await db.orderItemVariantSelectionTableDao.addOrderItemVariantSelection(
-      orderItemId: cartItemId,
-      variantSelection: variantSelection,
-    );
+    return db.transaction(() async {
+      await db.orderItemVariantSelectionTableDao
+          .removeOrderItemVariantSelection(cartItemId);
+      await db.orderItemVariantSelectionTableDao.addOrderItemVariantSelection(
+        orderItemId: cartItemId,
+        variantSelection: variantSelection,
+      );
+    });
   }
 
   @override
@@ -118,5 +136,10 @@ class LocalCartSource implements CartSource {
         yield* Stream.error(e, st);
       }
     }
+  }
+
+  @override
+  Future<int> getCartItemsCount() {
+    return db.cartItemTableDao.getCartItemsCountInCart(cartId);
   }
 }
