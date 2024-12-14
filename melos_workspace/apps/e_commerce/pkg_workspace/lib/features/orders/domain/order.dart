@@ -1,4 +1,7 @@
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:e_commerce/backend/database/drift_database_provider.dart';
+import 'package:e_commerce/features/orders/data/drift_tables/order_table.dart';
+import 'package:e_commerce/features/orders/data/drift_tables/order_table.drift.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 
 part 'order.mapper.dart';
@@ -32,6 +35,13 @@ class Order with OrderMappable {
     required this.receiveAddress,
   })  : id = null,
         status = OrderStatus.duringCheckout;
+
+  static Future<Order> fromDbData(
+    DriftLocalDatabase db,
+    OrderTableData data,
+  ) async {
+    return OrderTableDomainExtensionConverter.fromDbData(db, data);
+  }
 }
 
 extension OrderMethods on Order {

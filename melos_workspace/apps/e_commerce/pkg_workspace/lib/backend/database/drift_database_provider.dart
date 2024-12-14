@@ -8,6 +8,7 @@ import 'package:e_commerce/features/cart/data/drift_tables/cart_item_table.dart'
 import 'package:e_commerce/features/cart/data/drift_tables/cart_table.dart';
 import 'package:e_commerce/features/orders/data/drift_tables/order_item_table.dart';
 import 'package:e_commerce/features/orders/data/drift_tables/order_item_variant_selection_table.dart';
+import 'package:e_commerce/features/orders/data/drift_tables/order_table.dart';
 import 'package:e_commerce/features/products/data/drift_tables/product_table.dart';
 import 'package:e_commerce/features/products/data/drift_tables/product_variant_group_table.dart';
 import 'package:e_commerce/features/products/data/drift_tables/product_variant_table.dart';
@@ -30,6 +31,7 @@ part 'drift_database_provider.g.dart';
     CartItemTable,
     OrderItemTable,
     OrderItemVariantSelectionTable,
+    OrderTable,
   ],
   daos: [
     // Products
@@ -42,6 +44,7 @@ part 'drift_database_provider.g.dart';
     CartItemTableDao,
     OrderItemTableDao,
     OrderItemVariantSelectionTableDao,
+    OrderTableDao,
   ],
 )
 class DriftLocalDatabase extends $DriftLocalDatabase {
@@ -60,7 +63,7 @@ class DriftLocalDatabase extends $DriftLocalDatabase {
   }
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration {

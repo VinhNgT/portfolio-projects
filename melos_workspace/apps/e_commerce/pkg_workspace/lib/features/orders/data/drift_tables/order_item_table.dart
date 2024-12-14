@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:e_commerce/backend/database/drift_database_provider.dart';
 import 'package:e_commerce/features/orders/data/drift_tables/order_item_table.drift.dart';
+import 'package:e_commerce/features/orders/data/drift_tables/order_table.dart';
 import 'package:e_commerce/features/orders/domain/order_item.dart';
 import 'package:e_commerce/utils/typedefs.dart';
 
@@ -8,6 +9,10 @@ class OrderItemTable extends Table {
   IntColumn get id => integer().autoIncrement()();
   // ignore: recursive_getters
   IntColumn get quantity => integer().check(quantity.isBiggerOrEqualValue(0))();
+
+  IntColumn get orderId => integer()
+      .nullable()
+      .references(OrderTable, #id, onDelete: KeyAction.cascade)();
 }
 
 extension OrderItemTableDomainExtensionConverter on OrderItem {
@@ -27,10 +32,13 @@ extension OrderItemTableDomainExtensionConverter on OrderItem {
     );
   }
 
-  OrderItemTableCompanion toDbCompanion() {
+  OrderItemTableCompanion toDbCompanion({
+    required DatabaseKey? orderId,
+  }) {
     return OrderItemTableCompanion(
       id: Value.absentIfNull(id),
       quantity: Value(quantity),
+      orderId: Value(orderId),
     );
   }
 }
@@ -42,7 +50,7 @@ class OrderItemTableDao extends DatabaseAccessor<DriftLocalDatabase> {
   Future<DatabaseKey> addOrderItem({required OrderItem orderItem}) {
     return db.transaction(() async {
       final dbOrderItem = await into(db.orderItemTable)
-          .insertReturning(orderItem.toDbCompanion());
+          .insertReturning(orderItem.toDbCompanion(orderId: null));
 
       await db.orderItemVariantSelectionTableDao.addOrderItemVariantSelection(
         variantSelection: orderItem.variantSelection,
@@ -59,6 +67,16 @@ class OrderItemTableDao extends DatabaseAccessor<DriftLocalDatabase> {
         .getSingleOrNull();
 
     return orderItem == null ? null : OrderItem.fromDbData(db, orderItem);
+  }
+
+  Future<List<OrderItem>> getOrderItemsForOrder(DatabaseKey orderId) async {
+    final orderItems = await (select(db.orderItemTable)
+          ..where((tbl) => tbl.orderId.equals(orderId)))
+        .get();
+
+    return Future.wait(
+      orderItems.map((e) => OrderItem.fromDbData(db, e)).toList(),
+    );
   }
 
   Future<void> removeOrderItem(DatabaseKey itemId) async {
