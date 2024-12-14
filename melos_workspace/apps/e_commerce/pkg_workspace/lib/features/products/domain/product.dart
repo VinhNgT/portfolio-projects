@@ -7,6 +7,7 @@ import 'package:e_commerce/features/products/domain/product_meta.dart';
 import 'package:e_commerce/features/products/domain/product_review.dart';
 import 'package:e_commerce/features/products/domain/product_variant.dart';
 import 'package:e_commerce/features/products/domain/product_variant_group.dart';
+import 'package:e_commerce/utils/mock_ids_generator.dart';
 import 'package:e_commerce/utils/typedefs.dart';
 
 part 'product.mapper.dart';
@@ -212,41 +213,45 @@ extension _ProductPrototypeX on Product {
 
   static List<ProductVariantGroup> mockVariantGroup(DatabaseKey productId) {
     // Because the mocking api does not support product variants, we have to
-    // mock it manually.
+    // generate it manually.
     //
     // Each product variant group and variants will be prepended with the
     // product id to ensure uniqueness.
-    final paddedProductId = productId.toString().padRight(4, '0');
+    //
+    // These two generators will generate unique IDs for each variant group and
+    // its variants.
+    final variantGroupIdGenerator = MockIdsGenerator(baseId: productId);
+    final variantIdGenerator = MockIdsGenerator(baseId: productId);
 
     return [
       ProductVariantGroup(
-        id: int.parse('${paddedProductId}1'),
+        id: variantGroupIdGenerator.moveNextAndGet(),
         groupName: 'Color',
         variants: [
           ProductVariant(
-            id: int.parse('${paddedProductId}1'),
+            id: variantIdGenerator.moveNextAndGet(),
             name: 'Black',
           ),
           ProductVariant(
-            id: int.parse('${paddedProductId}2'),
+            id: variantIdGenerator.moveNextAndGet(),
             name: 'Brown',
           ),
         ],
       ),
       ProductVariantGroup(
-        id: int.parse('${paddedProductId}2'),
+        id: variantGroupIdGenerator.moveNextAndGet(),
         groupName: 'Size',
         variants: [
           ProductVariant(
-            id: int.parse('${paddedProductId}3'),
+            id: variantIdGenerator.moveNextAndGet(),
             name: 'S',
           ),
           ProductVariant(
-            id: int.parse('${paddedProductId}4'),
+            id: variantIdGenerator.moveNextAndGet(),
             name: 'M',
           ),
           ProductVariant(
-            id: int.parse('${paddedProductId}5'),
+            id: variantIdGenerator.moveNextAndGet(),
             name: 'L',
           ),
         ],
